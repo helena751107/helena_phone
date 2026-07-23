@@ -42,6 +42,18 @@
     .section-card p { color: #8b949e; line-height: 1.6; }
     .section-card a { color: #58a6ff; text-decoration: none; }
     .section-card a:hover { text-decoration: underline; }
+    .btn {
+      display: inline-block;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin: 0.25rem;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.85; text-decoration: none !important; }
+    .btn-discord { background: #5865f2; color: #fff !important; }
+    .btn-github { background: #21262d; color: #58a6ff !important; border: 1px solid #30363d; }
     .badge {
       display: inline-block;
       background: #21262d;
@@ -95,7 +107,7 @@
   </header>
 
   <div class="main-content">
-    <!-- 프로젝트 링크 -->
+    <!-- 레포지토리 링크 -->
     <div class="section-card">
       <h2><span>📂</span> 레포지토리</h2>
       <div class="link-grid">
@@ -108,19 +120,25 @@
           <span class="label">학습 기록 / 문제 해결</span>
         </a>
       </div>
-      <div style="margin-top:1rem;">
-        <span class="badge"><a href="https://helena751107.github.io/helana_log/">📝 helana_log 바로가기</a></span>
-        <span class="badge">🔧 Claude Code + DeepSeek</span>
-        <span class="badge">📄 GitHub Pages</span>
-      </div>
+      <p style="margin-top:1rem;">
+        <a href="https://helena751107.github.io/helana_log/" class="btn btn-github">📝 helana_log 바로가기</a>
+      </p>
     </div>
 
     <!-- 디스코드 채팅 -->
     <div class="section-card">
-      <h2><span>💬</span> 실시간 채팅</h2>
+      <h2><span>💬</span> 실시간 채팅 — Discord</h2>
       <p>디스코드 서버에 접속해서 실시간으로 소통하세요.</p>
+      <p style="margin-top:1rem;">
+        <a href="https://discord.gg/JTYSZv2WQE" target="_blank" class="btn btn-discord">
+          🎮 Discord 서버 입장
+        </a>
+        <a href="https://discord.gg/JTYSZv2WQE" target="_blank" class="btn btn-discord">
+          💬 #로비 채널
+        </a>
+      </p>
       <p style="font-size:0.85rem; color:#484f58; margin-top:0.5rem;">
-        ⚡ 우하단 버튼을 클릭하면 디스코드 채널로 바로 연결됩니다.
+        서버 ID: 1529785842560794684 · 채널 ID: 1529785982818193469
       </p>
     </div>
 
@@ -138,9 +156,7 @@
     <p>S21 Phone Workstation · Built with Claude Code + DeepSeek Radar</p>
   </footer>
 
-  <!-- ============================================================ -->
-  <!-- Giscus — GitHub Discussions 기반 댓글 (완전 활성)              -->
-  <!-- ============================================================ -->
+  <!-- Giscus — GitHub Discussions 기반 댓글 -->
   <script src="https://giscus.app/client.js"
     data-repo="helena751107/helena_phone"
     data-repo-id="R_kgDOTg3jPQ"
@@ -157,15 +173,11 @@
     async>
   </script>
 
-  <!-- ============================================================ -->
-  <!-- WidgetBot Crate v3 — 디스코드 채팅 임베드                      -->
-  <!-- 활성화하려면: 서버 설정 → 위젯 → 서버ID, 채널ID 복사 후 입력   -->
-  <!-- ============================================================ -->
-  <!--
+  <!-- WidgetBot Crate v3 — 우하단 디스코드 채팅 플로팅 버튼 -->
   <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
     new Crate({
-      server: 'YOUR_SERVER_ID',
-      channel: 'YOUR_CHANNEL_ID',
+      server: '1529785842560794684',
+      channel: '1529785982818193469',
       shard: 'https://disweb.defla.dev',
       css: `
         --crate-background: #5865f2;
@@ -175,6 +187,5 @@
       `
     })
   </script>
-  -->
 </body>
 </html>

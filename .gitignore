@@ -1,3 +1,4 @@
 .aider*
 .secrets.env
 .env
+bot_token.txt
