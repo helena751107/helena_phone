@@ -11,7 +11,7 @@
 | 🗃️ **helana_log** | 박식캡처 리버싱 저장소 | APK→로그수집→파인튜닝→MCP 도구화 | ✅ | Helena Tech Log | mynote11605 |
 | ✝️ **helana-faith** | 가족 신앙사 + 비교 종교학 | 카톨릭→개신교 가족 신앙 여정 + 학문적 분석 | ✅ | Helana Faith | helana-christianity |
 | 🎹 **helena-piano** | 피아노 종합 + 음원 생성 | MIDI/악보/REAPER/AI/GAN + GitHub Actions + PC 연동 | ✅ | Helena Piano | helena-piano |
-| 🧠 **helena-psycare** | 뷰티풀 마인드 정신분석 | 정신의학/정신치료/정신분석 + MCP 자체 모델 개발 | ✅ | Helena Metal Craft | helena-metalcare |
+| 🧠 **helena-psycare** | 뷰티풀 마인드 정신분석 | 정신의학/정신치료/정신분석 + MCP 자체 모델 개발 | ✅ | Helena Metal Craft | helena-psycare |
 
 ## 특수 플랫폼
 
@@ -61,7 +61,7 @@ helena-psycare      ✅ 정신분석/뷰티풀마인드 (구 metalcare)
 | `mynote11605` | **Helena Tech Log** | `helana_log` | 개발 / 기술 튜토리얼 |
 | `helana-christianity` | **Helana Faith** | _(helana-faith)_ | 말씀 / 신앙 / 묵상 |
 | `helena-piano` | **Helena Piano** | _(helena-piano)_ | 연주 커버 / 피아노 레슨 / 음악 |
-| `helena-metalcare` | **Helena Metal Craft** | _(helena-metalcare)_ | 금속 공예 / 메이킹 필름 / 제작 |
+| `helena-psycare` | **Helena Metal Craft** | _(helena-psycare)_ | 금속 공예 / 메이킹 필름 / 제작 |
 
 ## 플랫폼별 성격 요약
 

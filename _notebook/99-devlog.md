@@ -66,10 +66,10 @@ ANTHROPIC_MODEL=deepseek-chat
 |------|-------------|---------|
 | `helana-faith` | helana-christianity | Helana Faith |
 | `helena-piano` | helena-piano | Helena Piano |
-| `helena-metalcare` | helena-metalcare | Metal Craft |
+| `helena-psycare` | helena-psycare | Metal Craft |
 
 - 각 레포: index.html + Pages + Discussions + Giscus + WidgetBot 전부 활성
-- 현재 총 5개 레포: `helena_phone`, `helana_log`, `helana-faith`, `helena-piano`, `helena-metalcare`
+- 현재 총 5개 레포: `helena_phone`, `helana_log`, `helana-faith`, `helena-piano`, `helena-psycare`
 
 ### 10. 포털 사이트 전면 개편 (`helena_phone` index.html)
 - 레포지토리 생태계 5종 테이블
@@ -181,7 +181,7 @@ _notebook/ = History + Making film + 로고 아카이브
 │   ├── mynote11605
 │   ├── helana-christianity
 │   ├── helena-piano
-│   └── helena-metalcare
+│   └── helena-psycare
 │
 ├── 🌐 네이버 (helena1975) — 관저탑/그림첩
 ├── 📺 YouTube (@HelenaPark-e7c) — 5채널 설계 완료
@@ -207,7 +207,7 @@ _notebook/ = History + Making film + 로고 아카이브
 | `helana_log` | 기술노트 | 🗃️ **박식캡처 리버싱 저장소** | apk/schema/logs/mcp-server/scripts |
 | `helana-faith` | 신앙 | ✝️ **가족 신앙사 + 비교 종교학** | theology/comparative/family/liturgy |
 | `helena-piano` | 피아노 | 🎹 **피아노 종합 + 음원 생성** | MIDI/REAPER/AI/GAN/PC-Actions |
-| `helena-metalcare` | 금속케어 | 🧠 **뷰티풀마인드 정신분석** | 분석/병리/치료/MCP-모델/가족사 |
+| `helena-psycare` | 금속케어 | 🧠 **뷰티풀마인드 정신분석** | 분석/병리/치료/MCP-모델/가족사 |
 
 - 총 50개 이상의 디렉토리/README 생성
 - 각 레포 Pages 유지

@@ -8,7 +8,7 @@
 | _(미정)_ | `mynote11605` | 기술 튜토리얼 / 개발 vlog |
 | _(미정)_ | `helana-christianity` | 말씀 / 신앙 콘텐츠 |
 | _(미정)_ | `helena-piano` | 연주 커버 / 피아노 레슨 |
-| _(미정)_ | `helena-metalcare` | 금속 공예 / 메이킹 필름 |
+| _(미정)_ | `helena-psycare` | 금속 공예 / 메이킹 필름 |
 
 ## 채널 구조
 
