@@ -13,6 +13,7 @@
 | `02-discord.md` | 디스코드 서버/봇/위젯/채팅 구축 |
 | `03-telegram.md` | 텔레그램 봇/회의실 구축 |
 | `04-github-pages.md` | GitHub Pages + Giscus + WidgetBot |
-| `05-youtube.md` | YouTube Data API (예정) |
-| `06-cli-reference.md` | 자주 쓰는 명령어 모음 |
-| `07-secrets.md` | 비밀 관리 정책 |
+| `05-tistory.md` | 티스토리 블로그 5종 세트 |
+| `06-youtube.md` | YouTube Data API (예정) |
+| `07-cli-reference.md` | 자주 쓰는 명령어 모음 |
+| `08-secrets.md` | 비밀 관리 정책 |

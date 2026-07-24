@@ -22,6 +22,13 @@
 ├── GitHub → helena751107/helena_phone
 │              helena751107/helana_log
 │
+├── Tistory → 5개 블로그 세트
+│   ├── mynote11605.tistory.com
+│   ├── helana-christianity.tistory.com
+│   ├── helena-piano.tistory.com
+│   ├── galaxys21-pwuser.tistory.com
+│   └── helena-metalcare.tistory.com
+│
 ├── Discord 서버: S21 Phone (ID: 1529785842560794684)
 │   ├── #로비 (채팅)
 │   └── #ai-보고 (웹훅/보고)
