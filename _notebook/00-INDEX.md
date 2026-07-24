@@ -19,3 +19,4 @@
 | `08-secrets.md` | 비밀 관리 정책 |
 | `09-ecosystem.md` | 전체 생태계 브릿지 테이블 |
 | `10-phone-mcp.md` | phone-mcp-server 핸드폰 통제 |
+| `99-devlog.md` | 📋 전체 개발일지 (DAY 1~2) |

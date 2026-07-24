@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>📋 전체 개발일지 — S21 Phone</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#e6edf3;line-height:1.7;}
+.container{max-width:860px;margin:0 auto;padding:2rem 1.5rem;}
+h1{font-size:1.8rem;color:#f0f6fc;margin-bottom:1.5rem;}
+h2{font-size:1.3rem;color:#f0f6fc;margin-top:2rem;margin-bottom:1rem;padding-bottom:0.3rem;border-bottom:1px solid #21262d;}
+h3{font-size:1.1rem;color:#f0f6fc;margin-top:1.5rem;margin-bottom:0.5rem;}
+h4{font-size:1rem;color:#f0f6fc;margin-top:1rem;margin-bottom:0.5rem;}
+p{margin-bottom:1rem;color:#c9d1d9;}
+a{color:#58a6ff;text-decoration:none;}
+a:hover{text-decoration:underline;}
+code{background:#161b22;padding:0.15rem 0.4rem;border-radius:4px;font-size:0.9em;}
+pre{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1rem;overflow-x:auto;margin:1rem 0;}
+pre code{background:transparent;padding:0;}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;}
+th,td{padding:0.5rem 0.75rem;border-bottom:1px solid #21262d;text-align:left;}
+th{color:#8b949e;font-weight:600;}
+td{color:#c9d1d9;}
+li{color:#c9d1d9;margin-bottom:0.25rem;margin-left:1.5rem;}
+strong{color:#f0f6fc;}
+.nav{display:flex;justify-content:space-between;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid #21262d;}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #21262d;text-align:center;color:#484f58;font-size:0.85rem;}
+</style></head><body>
+<div class="container">
+<div class="nav"><a href="../">← S21 Phone 포털</a><a href="00-INDEX.html">📋 목차</a></div>
+<h1>📋 S21 Phone — 전체 개발일지</h1>
+
+<p>> 구축 기간: 2026-07-23 ~ 2026-07-24</p>
+<p>> 환경: Termux → proot Ubuntu → Claude Code (DeepSeek Radar)</p>
+
+<p>---</p>
+
+<h2>DAY 1 — 2026-07-23</h2>
+
+<h3>1. 기반 구축</h3>
+<li><code>gugudan.py</code> 생성 (테스트 파일)</li>
+<li>Git 저장소 초기화 (<code>/root/work/</code>)</li>
+<li>GitHub 레포 <code>s21-work</code> 생성 → <code>helena751107/s21-work</code></li>
+<li>GitHub 연결 + push 파이프 개통</li>
+
+<h3>2. Claude Code + DeepSeek Radar (Anthropic 과금 바이패스)</h3>
+<pre><code>ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
+ANTHROPIC_MODEL=deepseek-chat
+</code></pre>
+<li>Claude Code UI/도구는 그대로, LLM 엔진만 DeepSeek V3로 교체</li>
+<li>비용 약 10~50배 절감</li>
+
+<h3>3. GitHub Pages 개통</h3>
+<li>API로 Pages 활성화: <code>POST /repos/{owner}/{repo}/pages</code></li>
+<li><code>index.html</code> — "S21 Workstation Live" 발행</li>
+<li>Pages URL: <code>helena751107.github.io/helena_phone/</code></li>
+<li>검증: HTTP 200 + 내용 정상</li>
+
+<h3>4. 레포 개명 `s21-work` → `helena_phone`</h3>
+<li>API: <code>PATCH /repos/{owner}/{repo}</code> <code>{"name":"helena_phone"}</code></li>
+<li>로컬 remote 업데이트 + git push 검증</li>
+<li>Pages 새 URL 자동 리다이렉트 확인</li>
+
+<h3>5. Discussions + Giscus 댓글 활성화</h3>
+<li><code>PATCH /repos/{owner}/{repo}</code> <code>{"has_discussions":true}</code></li>
+<li>Giscus: repo-id + Announcements 카테고리 연결</li>
+<li>양쪽 레포(<code>helena_phone</code>, <code>helana_log</code>)에 적용</li>
+
+<h3>6. 디스코드 서버 구축</h3>
+<li>API 로그인: <code>POST /api/v9/auth/login</code></li>
+<li>서버 생성: <code>POST /api/v9/guilds</code> → <strong>S21 Phone</strong> (ID: 1529785842560794684)</li>
+<li>채널 생성: <strong>#로비</strong> (1529785982818193469), <strong>#ai-보고</strong> (1529785985993408723)</li>
+<li>위젯 활성화: <code>PATCH /api/v9/guilds/{id}/widget</code> <code>{"enabled":true}</code></li>
+<li>초대링크: <code>discord.gg/JTYSZv2WQE</code></li>
+<li>WidgetBot Crate v3: index.html에 임베드 (우하단 플로팅 버튼)</li>
+
+<h3>7. 텔레그램 봇 구축</h3>
+<li><code>@BotFather</code> → <code>/newbot</code> → <strong>@S21Phone_Bot</strong></li>
+<li><code>tg.sh</code> — 텔레그램 보고 스크립트 (sendMessage API)</li>
+<li><code>TG_TOKEN</code>, <code>TG_CHAT</code> 환경변수 등록</li>
+<li><code>post-commit</code> hook → 커밋 시 자동 보고 (후에 제거)</li>
+<li><code>CLAUDE.md</code> → 에이전트 보고 의무 규칙</li>
+
+<h3>8. Git hooks + 알림 제거</h3>
+<li><code>post-commit</code>, <code>post-merge</code> hook 삭제</li>
+<li><code>CLAUDE.md</code> 간소화 (핵심만)</li>
+<li>알림/자동보고 전부 OFF → 수동 보고 체계로 전환</li>
+
+<p>---</p>
+
+<h2>DAY 2 — 2026-07-24</h2>
+
+<h3>9. GitHub 레포 3개 추가 생성</h3>
+<table><td>레포</td><td>매칭 티스토리</td><td>YouTube</td>
+<td>`helana-faith`</td><td>helana-christianity</td><td>Helana Faith</td>
+<td>`helena-piano`</td><td>helena-piano</td><td>Helena Piano</td>
+<td>`helena-metalcare`</td><td>helena-metalcare</td><td>Metal Craft</td>
+
+<li>각 레포: index.html + Pages + Discussions + Giscus + WidgetBot 전부 활성</li>
+<li>현재 총 5개 레포: <code>helena_phone</code>, <code>helana_log</code>, <code>helana-faith</code>, <code>helena-piano</code>, <code>helena-metalcare</code></li>
+
+<h3>10. 포털 사이트 전면 개편 (`helena_phone` index.html)</h3>
+<li>레포지토리 생태계 5종 테이블</li>
+<li>개발일지 타임라인</li>
+<li>통신망 현황 (GitHub / Discord / Telegram)</li>
+<li>업무 수첩 10개 링크 카드</li>
+<li>Giscus 게시판 + WidgetBot 채팅</li>
+
+<h3>11. 업무 수첩 노트북 구축 (`_notebook/ → notebook/`)</h3>
+<table><td>#</td><td>파일</td><td>내용</td>
+<td>00</td><td>INDEX</td><td>목차</td>
+<td>01</td><td>arch</td><td>전체 시스템 아키텍처</td>
+<td>02</td><td>discord</td><td>디스코드 서버/봇/위젯</td>
+<td>03</td><td>telegram</td><td>텔레그램 봇/회의실</td>
+<td>04</td><td>github-pages</td><td>Pages + Giscus + WidgetBot</td>
+<td>05</td><td>tistory</td><td>블로그 6종 + Playwright 자동화 전략</td>
+<td>06</td><td>youtube</td><td>YouTube 채널 5종 설계 + OAuth 대기</td>
+<td>07</td><td>cli-reference</td><td>CLI 명령어 모음</td>
+<td>08</td><td>secrets</td><td>비밀 관리 정책</td>
+<td>09</td><td>ecosystem</td><td>전체 생태계 브릿지 테이블</td>
+<td>10</td><td>phone-mcp</td><td>폰 통제 MCP 서버</td>
+
+<li>모든 md를 HTML로 변환하여 <code>notebook/</code>에 저장</li>
+<li>포털에서 10개 전체 링크</li>
+
+<h3>12. 전체 생태계 브릿지 테이블 (09-ecosystem)</h3>
+<pre><code>5개 티스토리 = 5개 YouTube 채널 = 5개 GitHub 레포 = 1:1:1 매칭
+네이버(helena1975) = 관저탑/그림첩 — 전체 교차 홍보
+_notebook/ = History + Making film + 로고 아카이브
+</code></pre>
+
+<h3>13. 블로그 자동화 리서치</h3>
+<li>티스토리 Open API: <strong>2024년 2월 완전 종료</strong> ❌</li>
+<li>네이버 포스팅 API: <strong>원래 없음</strong> ❌</li>
+<li>유일한 방법: <strong>Playwright Headless Chromium</strong> 브라우저 자동화</li>
+<li>세션 쿠키 재사용(<code>storage_state</code>)이 업계 표준</li>
+
+<h3>14. YouTube 채널 아키텍처 설계</h3>
+<li>5개 채널 = 티스토리 1:1 매칭</li>
+<li>GCP 프로젝트 + gcloud CLI 준비 완료</li>
+<li>OAuth 동의 화면 + TV 클라이언트 ID만 수동 대기 중</li>
+<li>쿼터 보호: <code>search.list</code>(100유닛) 사용 금지, <code>playlistItems.list</code>(1유닛) 사용</li>
+
+<h3>15. phone-mcp-server 설치 (폰 통제)</h3>
+<li><strong>htekdev/phone-mcp-server</strong> — 순수 Termux:API 기반</li>
+<li>루트/ADB/Shizuku 전혀 없음 ✅</li>
+<li>18개 도구: SMS, 배터리, WiFi, 카메라, GPS, 클립보드, 플래시, 진동, 알림, 볼륨, 통화...</li>
+<li><code>settings.json</code>에 MCP 등록 (<code>localhost:3456/mcp</code>)</li>
+<li><code>.bashrc</code> 자동시작 등록</li>
+<li>서비스 포트: 3456</li>
+
+<p>---</p>
+
+<h2>현재 인프라 전체 구성</h2>
+
+<pre><code>📱 폰 (Android + Termux)
+├── proot Ubuntu 컨테이너
+│   ├── Claude Code (DeepSeek Radar) ← 현재 너
+│   ├── Aider v0.86.2
+│   ├── phone-mcp-server (18 도구) ← 📲 폰 통제 가능
+│   └── Git → GitHub
+│
+├── 🌐 GitHub
+│   ├── helena_phone (메인 포털)       ✅ Pages + Giscus
+│   ├── helana_log (기술노트)           ✅ Pages + Giscus
+│   ├── helana-faith (신앙)             ✅ Pages + Giscus
+│   ├── helena-piano (피아노)           ✅ Pages + Giscus
+│   └── helena-metalcare (금속케어)     ✅ Pages + Giscus
+│
+├── 💬 Discord (S21 Phone 서버)
+│   ├── #로비 (채팅, 위젯 활성)
+│   └── #ai-보고 (웹훅 준비)
+│
+├── 🤖 Telegram (@S21Phone_Bot)
+│   └── TG_CHAT=8579179811 (회의실)
+│
+├── 📝 티스토리 5종
+│   ├── galaxys21-pwuser
+│   ├── mynote11605
+│   ├── helana-christianity
+│   ├── helena-piano
+│   └── helena-metalcare
+│
+├── 🌐 네이버 (helena1975) — 관저탑/그림첩
+├── 📺 YouTube (@HelenaPark-e7c) — 5채널 설계 완료
+└── 📓 _notebook/ — History + Making film + 로고
+</code></pre>
+
+<h2>남은 작업</h2>
+
+<table><td>우선순위</td><td>작업</td><td>상태</td>
+<td>⏳ 1</td><td>YouTube OAuth TV 클라이언트 ID 발급 (콘솔 수동)</td><td>대기</td>
+<td>⏳ 2</td><td>YouTube 업로드 스크립트 생성</td><td>클라이언트 ID 후</td>
+<td>⏳ 3</td><td>티스토리 자동 포스팅 (Playwright)</td><td>대기</td>
+<td>⏳ 4</td><td>네이버 자동 포스팅 (Playwright + 쿠키 세션)</td><td>대기</td>
+<td>⏳ 5</td><td>phone-mcp-server UI 자동화 (tap_screen)</td><td>루트/ADB 필요로 보류</td>
+<td>⏳ 6</td><td>5개 YouTube 채널 실제 생성</td><td>설계 완료</td>
+
+<h2>비상 연락망</h2>
+
+<table><td>채널</td><td>주소</td>
+<td>Discord</td><td>`discord.gg/JTYSZv2WQE`</td>
+<td>Telegram</td><td>`t.me/S21Phone_Bot`</td>
+<td>GitHub</td><td>`github.com/helena751107/helena_phone`</td>
+<td>Pages</td><td>`helena751107.github.io/helena_phone/`</td>
+<td>YouTube</td><td>`youtube.com/@HelenaPark-e7c`</td>
+<td>Naver</td><td>`m.blog.naver.com/helena1975`</td>
+
+<footer><p><a href="../">S21 Phone Workstation</a> · <a href="https://github.com/helena751107/helena_phone">GitHub</a></p></footer>
+</div></body></html>
