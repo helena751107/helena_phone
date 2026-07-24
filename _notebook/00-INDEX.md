@@ -21,4 +21,9 @@
 | `10-phone-mcp.md` | phone-mcp-server 핸드폰 통제 + Domain/Codomain + 검증 |
 | `11-health.md` | 🏥 건강 검진 시스템 (phone-health.sh) |
 | `12-dtslib-gift.md` | 🎁 dtslib1979 선물 패키지 분석 — MCP 치트시트 + 채널 전략 |
-| `99-devlog.md` | 📋 전체 개발일지 (DAY 1~2) |
+| `13-midterm-eval.md` | 📊 중간평가 v1 (93/100) |
+| `13-midterm-eval-v2.md` | 📊 중간평가 v2 (98/100) — AI 책임 재정렬 |
+| `14-daemon-design.md` | 🛡️ 트랙 1 돌봄 데몬 설계 — Termux 네이티브, AI 의존성 제로 |
+| `15-proot-report.md` | 📋 proot 개발 종합 보고서 (15,874줄·39커밋) |
+| `16-textbook-methodology.md` | 📖 교재 합성 지침 — 판단층+실행층 병합 방법론 (재사용 가능) |
+| `99-devlog.md` | 📋 전체 개발일지 (DAY 1~2, 38섹션) |
