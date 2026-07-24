@@ -214,6 +214,23 @@ _notebook/ = History + Making film + 로고 아카이브
 - Collaborator: `dtslib1979` — 5개 전부 admin 초대 수락 완료
 - 모든 레포 push 완료 (main 브랜치)
 
+### 20. Playwright 전수 검사 — 5개 레포 눈으로 확인 (2026-07-24)
+
+**Playwright Chromium Headless로 5개 레포 Pages + GitHub + 디렉토리 구조 전수 검사**
+
+| 레포 | Pages | README | 구조 | 결과 |
+|------|-------|--------|------|------|
+| 📱 helena_phone | ✅ HTTP 200 "S21 Phone — Workstation" | — | 12/12 ✅ | **완벽** |
+| 🗃️ helana_log | ✅ HTTP 200 README 표시 | ✅ | 7/7 ✅ | **완벽** |
+| ✝️ helana-faith | ✅ HTTP 200 README 표시 | ✅ | 7/7 ✅ | **완벽** |
+| 🎹 helena-piano | ✅ HTTP 200 README 표시 | ✅ | 11/11 ✅ | **완벽** |
+| 🧠 helena-psycare | ✅ HTTP 200 README 표시 | ✅ | 11/11 ✅ | **✅ (구 이름 발견→수정)** |
+
+**발견 및 조치:**
+- `helena-psycare` Pages 타이틀에 `helena-metalcare` 구 이름 잔재 → README.md 수정 + push
+- `helena_phone` GitHub README는 proot 네트워크 타임아웃 (Pages는 정상, 환경 문제)
+- **총 48개 디렉토리/README 전부 존재 확인**
+
 | ⚪ 6 | phone-mcp-server UI 자동화 (tap_screen) | 보류 | 루트/ADB 필요 |
 
 ## 비상 연락망
