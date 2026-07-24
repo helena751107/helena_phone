@@ -26,4 +26,5 @@
 | `14-daemon-design.md` | 🛡️ 트랙 1 돌봄 데몬 설계 — Termux 네이티브, AI 의존성 제로 |
 | `15-proot-report.md` | 📋 proot 개발 종합 보고서 (15,874줄·39커밋) |
 | `16-textbook-methodology.md` | 📖 교재 합성 지침 — 판단층+실행층 병합 방법론 (재사용 가능) |
-| `99-devlog.md` | 📋 전체 개발일지 (DAY 1~2, 38섹션) |
+| `17-merged-chronicle.md` | 📖 판단층+실행층 병합 연대기 — 10개 피벗×38섹션×39커밋 (install.sh 청사진) |
+| `99-devlog.md` | 📋 전체 개발일지 (DAY 1~2, 40섹션) |
