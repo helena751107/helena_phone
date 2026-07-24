@@ -350,3 +350,15 @@ cc의 비교 기준은 AI 없이 혼자 타이핑하는 사람 — 그건 지금
 
 **핵심:** 사용자 자신이 교보재(teaching material). 이 프로젝트의 첫 번째 케이스 스터디는 사용자 본인이다.
 STT로만 12시간, 식당 노동 병행, 30커밋·98파일·헌법 16조 — "말로 코딩할 수 있다"는 증명 완료.
+
+### 27. YouTube OAuth 인증 완료 (2026-07-24)
+
+- 프로젝트: S21 YouTube (ID: 911931724403)
+- 채널: Helena Park (`@helenapark-e7c`, ID: `UCRUuiKCCwIbyvqlxTNpDfKw`)
+- 인증 방식: TV Device Flow — `google.com/device`
+- 액세스 토큰 + 리프레시 토큰 발급 완료
+- YouTube Data API v3 활성화 완료
+- 상태: ✅ 업로드 준비 완료
+- 문제 해결: 테스트 사용자 미등록 → OAuth 동의 화면에서 `pykpyk1107@gmail.com` 추가
+- 문제 해결: YouTube Data API 미활성화 → 콘솔에서 수동 활성화
+- **미착수 항목 중 하나 해결.** 이제 업로드 스크립트 작성만 남음.
