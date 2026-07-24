@@ -123,6 +123,33 @@ _notebook/ = History + Making film + 로고 아카이브
 - `.bashrc` 자동시작 등록
 - 서비스 포트: 3456
 
+### 16. phone-mcp-server 검증 + termux-api 설치
+- 발견: `termux-api` 패키지가 설치되어 있지 않아 모든 18개 도구 ENOENT
+- 조치: `pkg install termux-api` 실행 → CLI 바이너리 설치 완료
+- 검증: `get_battery` → 63%/34.1°C 정상 조회 ✅
+- 검증: `flashlight on/off` → 하드웨어 제어 정상 ✅
+- 교훈: 문서 상태 ≠ 실제 동작, 직접 찔러봐야 앎
+
+### 17. phone-health.sh 건강 검진 시스템
+- **phone-health.sh** — 27개 항목 자동 진단 스크립트
+- 10개 카테고리: 시스템/배터리/WiFi/센서/GPS/카메라/클립보드/통신/네트워크/직접검증
+- 등급 시스템 (S/A/B/C), 최초 검진 **A등급** (27통과/0실패/3경고)
+- `_notebook/health/`에 JSON 시계열 보관
+- 발견: MCP SDK StreamableHTTP는 **단일 session만 허용** (cc 연결 중엔 curl 테스트 불가)
+- CLAUDE.md에 건강 검진 의무 규칙 추가
+
+### 18. 작업 중단 판단 — 우선순위 재확인
+
+```
+2026-07-24 오후 — 피로 누적 + 컨디션 저하
+```
+
+- **YouTube OAuth TV 클라이언트 ID 발급은 컨디션 좋은 날로 보류**
+- 이유: 콘솔 UI 조작은 순서 실수 시 되돌리기 어렵고, 피곤한 상태에서 하면 3분 작업이 30분으로 늘어남
+- 실제 순서: **티스토리/네이버 Playwright 자동화 → YouTube OAuth (컨디션 좋은 날)**
+- 스캐폴드 단계 기준 충분히 달성: 레포 5개 체계 ✅ / 통신망 3종 ✅ / 에이전트 스킨 ✅ / 건강 검진 ✅
+- **오늘은 여기서 접는다.** 내일 컨디션 회복 후 Playwright 발주부터.
+
 ---
 
 ## 현재 인프라 전체 구성
@@ -163,14 +190,14 @@ _notebook/ = History + Making film + 로고 아카이브
 
 ## 남은 작업
 
-| 우선순위 | 작업 | 상태 |
-|---------|------|------|
-| ⏳ 1 | YouTube OAuth TV 클라이언트 ID 발급 (콘솔 수동) | 대기 |
-| ⏳ 2 | YouTube 업로드 스크립트 생성 | 클라이언트 ID 후 |
-| ⏳ 3 | 티스토리 자동 포스팅 (Playwright) | 대기 |
-| ⏳ 4 | 네이버 자동 포스팅 (Playwright + 쿠키 세션) | 대기 |
-| ⏳ 5 | phone-mcp-server UI 자동화 (tap_screen) | 루트/ADB 필요로 보류 |
-| ⏳ 6 | 5개 YouTube 채널 실제 생성 | 설계 완료 |
+| 우선순위 | 작업 | 상태 | 비고 |
+|---------|------|------|------|
+| 🔴 1 | 티스토리 자동 포스팅 (Playwright) | 대기 | 컨디션 회복 후 발주 |
+| 🔴 2 | 네이버 자동 포스팅 (Playwright + 쿠키 세션) | 대기 | 티스토리 다음 |
+| 🟡 3 | YouTube OAuth TV 클라이언트 ID 발급 | 대기 | **컨디션 좋은 날만** |
+| 🟡 4 | YouTube 업로드 스크립트 생성 | OAuth 후 | |
+| 🟡 5 | 5개 YouTube 채널 실제 생성 | 설계 완료 | OAuth 후 |
+| ⚪ 6 | phone-mcp-server UI 자동화 (tap_screen) | 보류 | 루트/ADB 필요 |
 
 ## 비상 연락망
 
