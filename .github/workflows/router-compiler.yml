@@ -1,0 +1,244 @@
+name: Router Compiler
+on:
+  workflow_dispatch:
+    inputs:
+      event_file:
+        required: true
+        type: string
+      auto_merge:
+        required: false
+        type: boolean
+        default: false
+      ref:
+        required: false
+        type: string
+        default: 'main'
+
+jobs:
+  route:
+    runs-on: ubuntu-latest
+    outputs:
+      targets: ${{ steps.route.outputs.targets }}
+      sensitivity: ${{ steps.load.outputs.sensitivity }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+          fetch-depth: 0
+
+      - name: Pull latest
+        run: git pull origin main || true
+
+      - name: Install dependencies
+        run: sudo apt-get install -y jq
+
+      - name: Load event
+        id: load
+        run: |
+          if [ ! -f "${{ inputs.event_file }}" ]; then
+            echo "Event file not found, waiting 5s and retrying..."
+            sleep 5
+            git pull origin main
+          fi
+          EVENT=$(cat ${{ inputs.event_file }})
+
+          LANE=$(echo $EVENT | jq -r '.lane')
+          SENS=$(echo $EVENT | jq -r '.sensitivity')
+          CONF=$(echo $EVENT | jq -r '.interpreter.confidence')
+          INTENT=$(echo $EVENT | jq -r '.intent')
+          EVENT_ID=$(echo $EVENT | jq -r '.id')
+
+          echo "========== DEBUG: Event Loaded =========="
+          echo "EVENT_ID: $EVENT_ID"
+          echo "LANE: $LANE"
+          echo "SENSITIVITY: $SENS"
+          echo "CONFIDENCE: $CONF"
+          echo "INTENT: $INTENT"
+          echo "========================================="
+
+          echo "lane=$LANE" >> $GITHUB_OUTPUT
+          echo "sensitivity=$SENS" >> $GITHUB_OUTPUT
+          echo "event_id=$EVENT_ID" >> $GITHUB_OUTPUT
+          echo "confidence=$CONF" >> $GITHUB_OUTPUT
+
+      - name: Route
+        id: route
+        run: |
+          LANE="${{ steps.load.outputs.lane }}"
+          SENS="${{ steps.load.outputs.sensitivity }}"
+          CONF="${{ steps.load.outputs.confidence }}"
+          LANES=$(cat maps/lanes.json)
+          DEFAULT_USED="no"
+
+          echo "========== DEBUG: Routing Start =========="
+          echo "Input LANE: $LANE"
+          echo "Input SENSITIVITY: $SENS"
+          echo "Input CONFIDENCE: $CONF"
+
+          if [ "$LANE" = "both" ]; then
+            TARGETS=$(echo $LANES | jq -c '.lanes.both.targets')
+            echo "MATCHED_RULE: both -> expanded to targets"
+          else
+            TARGETS="[\"$LANE\"]"
+            echo "MATCHED_RULE: direct lane -> $LANE"
+          fi
+
+          echo "Initial targets: $TARGETS"
+
+          # Check sensitivity policy
+          FILTERED="[]"
+          for TARGET in $(echo $TARGETS | jq -r '.[]'); do
+            POLICY=$(echo $LANES | jq -r ".lanes[\"$TARGET\"].sensitivity_policy[\"$SENS\"]")
+            echo "Target: $TARGET, Sensitivity: $SENS, Policy: $POLICY"
+            if [ "$POLICY" != "blocked" ] && [ "$POLICY" != "null" ]; then
+              FILTERED=$(echo $FILTERED | jq -c ". + [\"$TARGET\"]")
+              echo "  -> ALLOWED"
+            else
+              echo "  -> BLOCKED"
+            fi
+          done
+
+          # If all blocked, use archive as fallback
+          if [ "$FILTERED" = "[]" ]; then
+            echo "All targets blocked! Falling back to archive."
+            FILTERED='["archive"]'
+            DEFAULT_USED="yes"
+          fi
+
+          echo "========== DEBUG: Routing Result =========="
+          echo "FINAL_TARGETS: $FILTERED"
+          echo "DEFAULT_USED: $DEFAULT_USED"
+          echo "==========================================="
+
+          echo "targets=$FILTERED" >> $GITHUB_OUTPUT
+          echo "default_used=$DEFAULT_USED" >> $GITHUB_OUTPUT
+
+  compile:
+    needs: route
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: ${{ fromJson(needs.route.outputs.targets) }}
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get install -y jq
+
+      - name: Load event and lanes
+        id: load
+        run: |
+          EVENT=$(cat ${{ inputs.event_file }})
+          LANES=$(cat maps/lanes.json)
+          TARGET="${{ matrix.target }}"
+
+          echo "repo=$(echo $LANES | jq -r ".lanes[\"$TARGET\"].repo")" >> $GITHUB_OUTPUT
+          echo "path=$(echo $LANES | jq -r ".lanes[\"$TARGET\"].path")" >> $GITHUB_OUTPUT
+          echo "prefix=$(echo $LANES | jq -r ".lanes[\"$TARGET\"].prefix")" >> $GITHUB_OUTPUT
+          echo "event_id=$(echo $EVENT | jq -r '.id')" >> $GITHUB_OUTPUT
+
+      - name: Compile Atom
+        id: compile
+        run: |
+          EVENT=$(cat ${{ inputs.event_file }})
+          PREFIX="${{ steps.load.outputs.prefix }}"
+          EVENT_ID="${{ steps.load.outputs.event_id }}"
+
+          ATOM_NAME="${PREFIX}-${EVENT_ID#evt-}.json"
+          echo "atom_name=$ATOM_NAME" >> $GITHUB_OUTPUT
+
+          echo $EVENT | jq '{
+            id: .id,
+            ts: .ts,
+            title: .title,
+            body: .body,
+            tags: .tags,
+            owner: .owner,
+            source_event: .id
+          }' > atom.json
+
+      - name: Create PR (Stage 1)
+        id: pr
+        continue-on-error: true
+        run: |
+          REPO="${{ steps.load.outputs.repo }}"
+          ATOM_PATH="${{ steps.load.outputs.path }}"
+          ATOM_NAME="${{ steps.compile.outputs.atom_name }}"
+          RUN_TS=$(date +%H%M%S)
+          BRANCH="auto/${ATOM_NAME%.json}-${RUN_TS}"
+
+          echo "BRANCH: $BRANCH"
+
+          # Clone with token for push access
+          git clone "https://x-access-token:${GH_TOKEN}@github.com/${REPO}.git" _target
+          cd _target
+
+          git checkout -b "$BRANCH"
+          mkdir -p "$ATOM_PATH"
+          cp ../atom.json "$ATOM_PATH/$ATOM_NAME"
+
+          git config user.name "Repo-OS Bot"
+          git config user.email "bot@dtslib.com"
+          git add .
+          git commit -m "Add $ATOM_NAME from Repo-OS v6.0"
+          git push -u origin "$BRANCH"
+
+          PR_URL=$(gh pr create \
+            --title "[${{ steps.load.outputs.prefix }}] ${{ steps.load.outputs.event_id }}" \
+            --body "Auto-generated by Repo-OS v6.0")
+
+          echo "pr_url=$PR_URL" >> $GITHUB_OUTPUT
+          echo "success=true" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.DUAL_LANE_TOKEN }}
+
+      - name: Auto-merge PR
+        if: steps.pr.outputs.success == 'true' && inputs.auto_merge == true
+        run: |
+          cd _target
+          PR_NUM=$(gh pr list --head "auto/${{ steps.compile.outputs.atom_name }}" --json number -q '.[0].number')
+          if [ -n "$PR_NUM" ]; then
+            gh pr merge "$PR_NUM" --auto --squash || echo "Auto-merge enabled"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.DUAL_LANE_TOKEN }}
+
+      - name: Create Issue (Stage 2)
+        if: steps.pr.outcome == 'failure'
+        id: issue
+        continue-on-error: true
+        run: |
+          gh issue create \
+            --repo dtslib1979/dtslib-papyrus \
+            --title "[FAIL] PR to ${{ matrix.target }} failed" \
+            --label "auto-fail" \
+            --body "Event: ${{ steps.load.outputs.event_id }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Save Report (Stage 3)
+        if: steps.pr.outcome == 'failure'
+        run: |
+          mkdir -p reports/failures
+          cat > "reports/failures/fail-$(date +%Y%m%d-%H%M%S).json" << EOF
+          {
+            "timestamp": "$(date -Iseconds)",
+            "target": "${{ matrix.target }}",
+            "event_id": "${{ steps.load.outputs.event_id }}",
+            "stage": 2,
+            "issue_created": ${{ steps.issue.outcome == 'success' }}
+          }
+          EOF
+
+          git config user.name "Repo-OS Bot"
+          git config user.email "bot@dtslib.com"
+          git add reports/
+          git commit -m "Add failure report" || true
+          git push || true
+
+      - name: Fail hard
+        if: steps.pr.outcome == 'failure'
+        run: exit 1

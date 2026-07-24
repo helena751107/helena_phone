@@ -1,0 +1,180 @@
+name: Design Library Guard
+
+on:
+  pull_request:
+    paths:
+      - '**.css'
+      - '**.html'
+      - 'design-library/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'design-library/**'
+
+jobs:
+  guard:
+    name: Validate Design Library Rules
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check CSS location (PR only)
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "🔍 CSS 파일 위치 검사 중..."
+
+          # Get changed CSS files
+          CHANGED_CSS=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '\.css$' || true)
+
+          if [ -z "$CHANGED_CSS" ]; then
+            echo "✅ CSS 변경 없음"
+            exit 0
+          fi
+
+          echo "변경된 CSS 파일:"
+          echo "$CHANGED_CSS"
+          echo ""
+
+          # Check if CSS is outside design-library
+          INVALID=$(echo "$CHANGED_CSS" | grep -v '^design-library/' || true)
+
+          if [ -n "$INVALID" ]; then
+            echo ""
+            echo "❌ Design Library 규칙 위반!"
+            echo ""
+            echo "다음 CSS 파일이 design-library/ 외부에 있습니다:"
+            echo "$INVALID"
+            echo ""
+            echo "해결 방법:"
+            echo "  CSS는 design-library/themes/<id>/theme.css 에만 생성하세요."
+            echo ""
+            exit 1
+          fi
+
+          echo "✅ 모든 CSS가 design-library 내부에 있습니다"
+
+      - name: Validate theme.meta.json fields
+        run: |
+          echo "🔍 테마 메타데이터 검사 중..."
+
+          # Check each theme's meta.json
+          for meta in design-library/themes/*/theme.meta.json; do
+            if [ -f "$meta" ]; then
+              THEME_ID=$(basename $(dirname "$meta"))
+              echo "검사: $THEME_ID"
+
+              # Count fields
+              FIELDS=$(cat "$meta" | jq 'keys | length')
+              if [ "$FIELDS" -gt 8 ]; then
+                echo "❌ $THEME_ID: 필드 수 초과 ($FIELDS > 8)"
+                exit 1
+              fi
+
+              # Check required fields
+              REQUIRED=("id" "title" "tone" "use_case" "bg" "typography" "layout" "tags")
+              for field in "${REQUIRED[@]}"; do
+                EXISTS=$(cat "$meta" | jq --arg f "$field" 'has($f)')
+                if [ "$EXISTS" != "true" ]; then
+                  echo "❌ $THEME_ID: 필수 필드 누락 - $field"
+                  exit 1
+                fi
+              done
+
+              # Check tone array length (max 3)
+              TONE_LEN=$(cat "$meta" | jq '.tone | length')
+              if [ "$TONE_LEN" -gt 3 ]; then
+                echo "❌ $THEME_ID: tone 배열 초과 ($TONE_LEN > 3)"
+                exit 1
+              fi
+
+              # Check use_case array length (max 3)
+              USE_CASE_LEN=$(cat "$meta" | jq '.use_case | length')
+              if [ "$USE_CASE_LEN" -gt 3 ]; then
+                echo "❌ $THEME_ID: use_case 배열 초과 ($USE_CASE_LEN > 3)"
+                exit 1
+              fi
+
+              # Check tags array length (max 5)
+              TAGS_LEN=$(cat "$meta" | jq '.tags | length')
+              if [ "$TAGS_LEN" -gt 5 ]; then
+                echo "❌ $THEME_ID: tags 배열 초과 ($TAGS_LEN > 5)"
+                exit 1
+              fi
+
+              echo "  ✓ 필드 수: $FIELDS/8"
+              echo "  ✓ tone: $TONE_LEN/3"
+              echo "  ✓ use_case: $USE_CASE_LEN/3"
+              echo "  ✓ tags: $TAGS_LEN/5"
+            fi
+          done
+
+          echo ""
+          echo "✅ 모든 테마 메타데이터 검사 통과"
+
+      - name: Check theme count
+        run: |
+          echo "🔍 테마 개수 검사 중..."
+
+          THEME_COUNT=$(ls -d design-library/themes/*/ 2>/dev/null | wc -l)
+          MAX_THEMES=5
+
+          echo "현재 테마 수: $THEME_COUNT / $MAX_THEMES"
+
+          if [ "$THEME_COUNT" -gt "$MAX_THEMES" ]; then
+            echo ""
+            echo "❌ 테마 개수 초과!"
+            echo "최대 $MAX_THEMES개까지만 허용됩니다."
+            echo ""
+            echo "현재 테마 목록:"
+            ls -d design-library/themes/*/
+            exit 1
+          fi
+
+          echo "✅ 테마 개수 규칙 준수"
+
+      - name: Validate storyboard schema
+        run: |
+          echo "🔍 Storyboard 스키마 검사 중..."
+
+          SCHEMA="storyboard/schemas/storyboard.schema.json"
+
+          if [ -f "$SCHEMA" ]; then
+            # Check version
+            VERSION=$(cat "$SCHEMA" | jq -r '.version')
+            echo "스키마 버전: $VERSION"
+
+            # Check required theme enum
+            THEMES=$(cat "$SCHEMA" | jq -r '.properties.theme.enum | @csv')
+            echo "허용된 테마: $THEMES"
+
+            # Verify enum matches design-library
+            for theme_dir in design-library/themes/*/; do
+              THEME_ID=$(basename "$theme_dir")
+              if ! echo "$THEMES" | grep -q "$THEME_ID"; then
+                echo "⚠️ 경고: $THEME_ID가 스키마 enum에 없습니다"
+              fi
+            done
+
+            echo "✅ Storyboard 스키마 검사 완료"
+          else
+            echo "⚠️ 스키마 파일 없음 (건너뜀)"
+          fi
+
+      - name: Summary
+        run: |
+          echo ""
+          echo "╔═══════════════════════════════════════════════════════════╗"
+          echo "║                                                           ║"
+          echo "║   ✅ DESIGN LIBRARY GUARD: PASSED                         ║"
+          echo "║                                                           ║"
+          echo "║   • CSS 위치 규칙 준수                                    ║"
+          echo "║   • 테마 메타데이터 유효                                  ║"
+          echo "║   • 테마 개수 규칙 준수 (≤5)                              ║"
+          echo "║   • Storyboard 스키마 유효                                ║"
+          echo "║                                                           ║"
+          echo "╚═══════════════════════════════════════════════════════════╝"

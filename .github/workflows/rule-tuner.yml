@@ -1,0 +1,75 @@
+name: Rule Tuner
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # 매주 일요일 00:00 UTC
+  workflow_dispatch:
+
+jobs:
+  tune:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: sudo apt-get install -y jq bc
+
+      - name: Check feedback data
+        id: check
+        run: |
+          TOTAL=$(cat feedback/feedback.json | jq '.stats.total_events')
+          RATE=$(cat feedback/feedback.json | jq '.stats.correction_rate')
+
+          echo "total=$TOTAL" >> $GITHUB_OUTPUT
+          echo "rate=$RATE" >> $GITHUB_OUTPUT
+
+          if [ "$TOTAL" -lt 10 ]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+            echo "Not enough data for tuning (need 10+, have $TOTAL)"
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run Rule Tuner
+        if: steps.check.outputs.skip != 'true'
+        run: |
+          node scripts/rule-tuner.js
+
+      - name: Generate tuning report
+        if: steps.check.outputs.skip != 'true'
+        run: |
+          mkdir -p reports/tuning
+
+          cat > "reports/tuning/tune-$(date +%Y%m%d).json" << EOF
+          {
+            "timestamp": "$(date -Iseconds)",
+            "feedback_stats": {
+              "total_events": ${{ steps.check.outputs.total }},
+              "correction_rate": ${{ steps.check.outputs.rate }}
+            },
+            "actions_taken": $(cat output/tuning-actions.json 2>/dev/null || echo "[]"),
+            "rules_modified": $(cat output/rules-modified.json 2>/dev/null || echo "[]")
+          }
+          EOF
+
+      - name: Update last_tuned
+        if: steps.check.outputs.skip != 'true'
+        run: |
+          FEEDBACK=$(cat feedback/feedback.json)
+          echo "$FEEDBACK" | jq ".last_tuned = \"$(date -Iseconds)\"" > feedback/feedback.json
+
+      - name: Commit changes
+        if: steps.check.outputs.skip != 'true'
+        run: |
+          git config user.name "Repo-OS Bot"
+          git config user.email "bot@dtslib.com"
+          git add rules/ feedback/ reports/
+          git commit -m "Weekly rule tuning $(date +%Y-%m-%d)" || echo "No changes"
+          git push || echo "Nothing to push"

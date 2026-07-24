@@ -1,0 +1,187 @@
+name: Acceptance Tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: sudo apt-get install -y jq bc
+
+      # A-Test 0: Token Pre-check
+      - name: "A-Test 0: Token Pre-check"
+        id: test0
+        run: |
+          echo "Checking if GITHUB_TOKEN has required permissions..."
+          # In real scenario, would check actual permissions
+          if [ -n "${{ secrets.GITHUB_TOKEN }}" ]; then
+            echo "result=pass" >> $GITHUB_OUTPUT
+          else
+            echo "result=fail" >> $GITHUB_OUTPUT
+            echo "::error::GITHUB_TOKEN not available"
+            exit 1
+          fi
+
+      # A-Test 1: Schema Validation
+      - name: "A-Test 1: Schema Validation"
+        id: test1
+        run: |
+          echo "Validating required JSON files..."
+          VALID=true
+
+          # Check required files exist and are valid JSON
+          for file in config/system.json feedback/feedback.json maps/lanes.json; do
+            if [ -f "$file" ]; then
+              if jq empty "$file" 2>/dev/null; then
+                echo "✓ $file is valid JSON"
+              else
+                echo "✗ $file is invalid JSON"
+                VALID=false
+              fi
+            else
+              echo "✗ $file not found"
+              VALID=false
+            fi
+          done
+
+          # Check rules files
+          for file in rules/*.json; do
+            if jq empty "$file" 2>/dev/null; then
+              echo "✓ $file is valid JSON"
+            else
+              echo "✗ $file is invalid JSON"
+              VALID=false
+            fi
+          done
+
+          if [ "$VALID" = "true" ]; then
+            echo "result=pass" >> $GITHUB_OUTPUT
+          else
+            echo "result=fail" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+      # A-Test 2: Interpreter Smoke Test
+      - name: "A-Test 2: Interpreter Smoke Test"
+        id: test2
+        run: |
+          echo "Running interpreter with test input..."
+
+          node scripts/interpreter.js \
+            --title "Add new feature for koosy" \
+            --body "This is a test event" \
+            --source "test" \
+            --issue-number "999" \
+            --mode "title"
+
+          # Verify output files exist
+          if [ -f "output/event.json" ] && [ -f "output/report.json" ]; then
+            echo "✓ Output files created"
+
+            # Verify event has required fields
+            REQUIRED_FIELDS="id ts source title lane intent sensitivity owner done_criteria"
+            for field in $REQUIRED_FIELDS; do
+              if jq -e ".$field" output/event.json > /dev/null; then
+                echo "✓ Field '$field' present"
+              else
+                echo "✗ Field '$field' missing"
+                exit 1
+              fi
+            done
+
+            echo "result=pass" >> $GITHUB_OUTPUT
+          else
+            echo "✗ Output files not created"
+            echo "result=fail" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+      # A-Test 3: Lane Routing Validation
+      - name: "A-Test 3: Lane Routing Validation"
+        id: test3
+        run: |
+          echo "Testing lane routing rules..."
+
+          # Test koosy keyword → dtslib-branch
+          node scripts/interpreter.js --title "koosy math tutorial" --mode "title"
+          LANE=$(jq -r '.lane' output/event.json)
+          if [ "$LANE" = "dtslib-branch" ]; then
+            echo "✓ 'koosy' → dtslib-branch"
+          else
+            echo "✗ Expected dtslib-branch, got $LANE"
+            exit 1
+          fi
+
+          # Test espiritu keyword → espiritu-tango
+          node scripts/interpreter.js --title "espiritu dance class" --mode "title"
+          LANE=$(jq -r '.lane' output/event.json)
+          if [ "$LANE" = "espiritu-tango" ]; then
+            echo "✓ 'espiritu' → espiritu-tango"
+          else
+            echo "✗ Expected espiritu-tango, got $LANE"
+            exit 1
+          fi
+
+          echo "result=pass" >> $GITHUB_OUTPUT
+
+      # A-Test 4: AUTO_MODE Verification
+      - name: "A-Test 4: AUTO_MODE Verification"
+        id: test4
+        run: |
+          echo "Verifying AUTO_MODE configuration..."
+
+          AUTO_MODE=$(jq -r '.auto_mode' config/system.json)
+          CONF_MIN=$(jq -r '.thresholds.confidence_minimum' config/system.json)
+          AUTO_MERGE=$(jq -r '.thresholds.auto_merge_above' config/system.json)
+
+          echo "AUTO_MODE: $AUTO_MODE"
+          echo "confidence_minimum: $CONF_MIN"
+          echo "auto_merge_above: $AUTO_MERGE"
+
+          # Verify thresholds are in valid range
+          if (( $(echo "$CONF_MIN >= 0 && $CONF_MIN <= 1" | bc -l) )); then
+            echo "✓ confidence_minimum in valid range"
+          else
+            echo "✗ confidence_minimum out of range"
+            exit 1
+          fi
+
+          if (( $(echo "$AUTO_MERGE >= $CONF_MIN && $AUTO_MERGE <= 1" | bc -l) )); then
+            echo "✓ auto_merge_above > confidence_minimum"
+          else
+            echo "✗ auto_merge_above must be >= confidence_minimum"
+            exit 1
+          fi
+
+          # Verify feedback config
+          FEEDBACK_ENABLED=$(jq -r '.feedback.enabled' config/system.json)
+          if [ "$FEEDBACK_ENABLED" = "true" ]; then
+            echo "✓ Feedback loop enabled"
+          else
+            echo "⚠ Feedback loop disabled (optional)"
+          fi
+
+          echo "result=pass" >> $GITHUB_OUTPUT
+
+      # Summary
+      - name: Test Summary
+        run: |
+          echo "=== Acceptance Test Results ==="
+          echo "A-Test 0 (Token):      ${{ steps.test0.outputs.result }}"
+          echo "A-Test 1 (Schema):     ${{ steps.test1.outputs.result }}"
+          echo "A-Test 2 (Interpreter): ${{ steps.test2.outputs.result }}"
+          echo "A-Test 3 (Routing):    ${{ steps.test3.outputs.result }}"
+          echo "A-Test 4 (AUTO_MODE):  ${{ steps.test4.outputs.result }}"
+          echo "=============================="

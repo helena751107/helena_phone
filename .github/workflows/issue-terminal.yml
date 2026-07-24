@@ -1,0 +1,188 @@
+name: Issue Terminal v2
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+  actions: write
+
+jobs:
+  interpret:
+    if: "!contains(github.event.issue.labels.*.name, 'processed')"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq bc
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Load config
+        id: config
+        run: |
+          AUTO_MODE=$(cat config/system.json | jq -r '.auto_mode')
+          CONF_MIN=$(cat config/system.json | jq -r '.thresholds.confidence_minimum')
+          AUTO_MERGE=$(cat config/system.json | jq -r '.thresholds.auto_merge_above')
+          REVIEW_BELOW=$(cat config/system.json | jq -r '.thresholds.review_below')
+
+          echo "auto_mode=$AUTO_MODE" >> $GITHUB_OUTPUT
+          echo "conf_min=$CONF_MIN" >> $GITHUB_OUTPUT
+          echo "auto_merge=$AUTO_MERGE" >> $GITHUB_OUTPUT
+          echo "review_below=$REVIEW_BELOW" >> $GITHUB_OUTPUT
+
+      - name: Extract input
+        id: extract
+        run: |
+          TITLE='${{ github.event.issue.title }}'
+          BODY='${{ github.event.issue.body }}'
+
+          echo "title<<EOF" >> $GITHUB_OUTPUT
+          echo "$TITLE" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          echo "$BODY" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          BODY_LEN=$(echo "$BODY" | wc -c)
+          echo "body_length=$BODY_LEN" >> $GITHUB_OUTPUT
+
+          if [ "$BODY_LEN" -gt 50 ]; then
+            echo "mode=body" >> $GITHUB_OUTPUT
+          else
+            echo "mode=title" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run Interpreter
+        id: interpret
+        run: |
+          mkdir -p output
+          node scripts/interpreter.js \
+            --title "${{ steps.extract.outputs.title }}" \
+            --body "${{ steps.extract.outputs.body }}" \
+            --source "issue" \
+            --issue-number "${{ github.event.issue.number }}" \
+            --mode "${{ steps.extract.outputs.mode }}"
+
+      - name: Validate and decide action
+        id: decide
+        run: |
+          CONFIDENCE=$(cat output/event.json | jq -r '.interpreter.confidence')
+          AUTO_MODE=${{ steps.config.outputs.auto_mode }}
+          CONF_MIN=${{ steps.config.outputs.conf_min }}
+          AUTO_MERGE=${{ steps.config.outputs.auto_merge }}
+          REVIEW_BELOW=${{ steps.config.outputs.review_below }}
+
+          echo "confidence=$CONFIDENCE" >> $GITHUB_OUTPUT
+
+          if [ "$AUTO_MODE" = "true" ]; then
+            if (( $(echo "$CONFIDENCE < $CONF_MIN" | bc -l) )); then
+              echo "action=archive" >> $GITHUB_OUTPUT
+            elif (( $(echo "$CONFIDENCE > $AUTO_MERGE" | bc -l) )); then
+              echo "action=auto_merge" >> $GITHUB_OUTPUT
+            else
+              echo "action=pr" >> $GITHUB_OUTPUT
+            fi
+          else
+            if (( $(echo "$CONFIDENCE < $REVIEW_BELOW" | bc -l) )); then
+              echo "action=review" >> $GITHUB_OUTPUT
+            else
+              echo "action=pr" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+          echo "Confidence: $CONFIDENCE, Action: $(cat $GITHUB_OUTPUT | grep action | cut -d= -f2)"
+
+      - name: Emit event and report
+        id: emit
+        run: |
+          EVENT_ID=$(cat output/event.json | jq -r '.id')
+
+          mkdir -p events reports/interpreter
+          cp output/event.json "events/${EVENT_ID}.json"
+          cp output/report.json "reports/interpreter/interp-${EVENT_ID#evt-}.json"
+
+          echo "event_file=events/${EVENT_ID}.json" >> $GITHUB_OUTPUT
+          echo "event_id=$EVENT_ID" >> $GITHUB_OUTPUT
+
+      - name: Archive low confidence
+        if: steps.decide.outputs.action == 'archive'
+        run: |
+          EVENT_ID=${{ steps.emit.outputs.event_id }}
+          mkdir -p archive/low-confidence
+          mv "events/${EVENT_ID}.json" "archive/low-confidence/${EVENT_ID}.json"
+          echo "Archived low confidence event: $EVENT_ID"
+
+      - name: Commit
+        run: |
+          git config user.name "Repo-OS Bot"
+          git config user.email "bot@dtslib.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+
+          # Debug: show what files exist
+          echo "=== Files to commit ==="
+          ls -la events/ || echo "No events dir"
+          ls -la reports/ || echo "No reports dir"
+
+          # Add files explicitly
+          git add -A events/ reports/ 2>/dev/null || true
+          git status
+
+          # Commit and push
+          git commit -m "Interpret issue #${{ github.event.issue.number }}" || echo "No changes to commit"
+          git push origin main 2>&1 || echo "Push failed or nothing to push"
+
+      - name: Label Issue
+        continue-on-error: true
+        run: |
+          LANE=$(cat output/event.json | jq -r '.lane')
+          CONF=${{ steps.decide.outputs.confidence }}
+          ACTION=${{ steps.decide.outputs.action }}
+
+          gh issue edit ${{ github.event.issue.number }} \
+            --repo ${{ github.repository }} \
+            --add-label "processed" \
+            --add-label "lane:${LANE}" \
+            --add-label "action:${ACTION}" || echo "Label failed, continuing..."
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Trigger Router (pr or auto_merge)
+        if: steps.decide.outputs.action == 'pr' || steps.decide.outputs.action == 'auto_merge'
+        run: |
+          # Wait for GitHub to sync the push
+          echo "Waiting 10s for push to sync..."
+          sleep 10
+
+          AUTO_MERGE=${{ steps.decide.outputs.action == 'auto_merge' }}
+          CURRENT_SHA=$(git rev-parse HEAD)
+          echo "Triggering router with ref=$CURRENT_SHA"
+
+          gh workflow run router-compiler.yml \
+            --repo ${{ github.repository }} \
+            --ref main \
+            -f event_file=${{ steps.emit.outputs.event_file }} \
+            -f auto_merge=$AUTO_MERGE \
+            -f ref=$CURRENT_SHA
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Review Issue
+        if: steps.decide.outputs.action == 'review'
+        run: |
+          gh issue create \
+            --repo ${{ github.repository }} \
+            --title "[REVIEW] Issue #${{ github.event.issue.number }} (conf: ${{ steps.decide.outputs.confidence }})" \
+            --body "Low confidence interpretation. Please review." \
+            --label "needs-review"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

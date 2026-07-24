@@ -1,0 +1,86 @@
+name: Feedback Collector
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  collect:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Install dependencies
+        run: sudo apt-get install -y jq
+
+      - name: Check if Repo-OS PR
+        id: check
+        run: |
+          PR_BODY="${{ github.event.pull_request.body }}"
+          PR_TITLE="${{ github.event.pull_request.title }}"
+
+          if [[ "$PR_BODY" == *"Repo-OS"* ]] || [[ "$PR_TITLE" == *"evt-"* ]]; then
+            echo "is_repo_os=true" >> $GITHUB_OUTPUT
+            EVENT_ID=$(echo "$PR_TITLE" | grep -oE 'evt-[0-9-a-z]+' || echo "")
+            echo "event_id=$EVENT_ID" >> $GITHUB_OUTPUT
+          else
+            echo "is_repo_os=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Record feedback
+        if: steps.check.outputs.is_repo_os == 'true' && steps.check.outputs.event_id != ''
+        run: |
+          EVENT_ID="${{ steps.check.outputs.event_id }}"
+          COMMITS=${{ github.event.pull_request.commits }}
+
+          # 수정 여부 판단: 커밋이 1개 초과면 수정됨
+          if [ "$COMMITS" -gt 1 ]; then
+            CORRECTED="true"
+          else
+            CORRECTED="false"
+          fi
+
+          # feedback.json 업데이트
+          FEEDBACK=$(cat feedback/feedback.json)
+
+          NEW_ENTRY=$(cat << EOF
+          {
+            "event_id": "$EVENT_ID",
+            "timestamp": "$(date -Iseconds)",
+            "pr_number": ${{ github.event.pull_request.number }},
+            "pr_merged": true,
+            "manual_correction": $CORRECTED,
+            "commits": $COMMITS
+          }
+          EOF
+          )
+
+          # entries에 추가
+          UPDATED=$(echo $FEEDBACK | jq ".entries += [$NEW_ENTRY]")
+
+          # stats 업데이트
+          TOTAL=$(echo $UPDATED | jq '.entries | length')
+          CORRECTIONS=$(echo $UPDATED | jq '[.entries[] | select(.manual_correction == true)] | length')
+          SUCCESS=$(echo $UPDATED | jq '[.entries[] | select(.manual_correction == false)] | length')
+
+          if [ "$TOTAL" -gt 0 ]; then
+            RATE=$(echo "scale=3; $CORRECTIONS / $TOTAL" | bc)
+          else
+            RATE=0
+          fi
+
+          FINAL=$(echo $UPDATED | jq ".stats.total_events = $TOTAL | .stats.manual_corrections = $CORRECTIONS | .stats.auto_success = $SUCCESS | .stats.correction_rate = $RATE")
+
+          echo "$FINAL" > feedback/feedback.json
+
+      - name: Commit feedback
+        if: steps.check.outputs.is_repo_os == 'true'
+        run: |
+          git config user.name "Repo-OS Bot"
+          git config user.email "bot@dtslib.com"
+          git add feedback/
+          git commit -m "Record feedback for ${{ steps.check.outputs.event_id }}" || echo "No changes"
+          git push || echo "Nothing to push"
