@@ -1,4 +1,23 @@
-.aider*
+# 🔐 비밀/토큰 (절대 올리지 마세요)
 .secrets.env
 .env
 bot_token.txt
+
+# AI 보조 기록
+.aider*
+
+# Node.js
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# 로그
+*.log
+tmp/
+
+# OS
+.DS_Store
+Thumbs.db
