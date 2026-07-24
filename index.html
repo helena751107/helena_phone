@@ -3,189 +3,260 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>S21 Phone — Workstation Live</title>
+  <title>S21 Phone — 통합 포털</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #0d1117;
-      color: #e6edf3;
+      background: #0d1117; color: #e6edf3;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
+    .container { max-width:960px; margin:0 auto; padding:0 1.5rem; }
     header {
-      width: 100%;
-      max-width: 800px;
-      padding: 3rem 1.5rem 1.5rem;
-      text-align: center;
+      text-align:center; padding:4rem 0 2rem;
+      border-bottom: 1px solid #21262d; margin-bottom: 2rem;
     }
     header h1 {
-      font-size: 2.2rem;
+      font-size:2.5rem;
       background: linear-gradient(135deg, #58a6ff, #bc8cff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-    header p { color: #8b949e; margin-top: 0.5rem; font-size: 1rem; }
-    .main-content { width: 100%; max-width: 800px; padding: 1.5rem; flex: 1; }
-    .section-card {
-      background: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
+    header .subtitle { color:#8b949e; margin-top:0.5rem; font-size:1.1rem; }
+    header .caption { color:#484f58; margin-top:0.3rem; font-size:0.85rem; }
+    section { margin-bottom:3rem; }
+    section h2 {
+      font-size:1.4rem; color:#f0f6fc; margin-bottom:1.5rem;
+      padding-bottom:0.5rem; border-bottom:1px solid #21262d;
     }
-    .section-card h2 { font-size: 1.2rem; margin-bottom: 1rem; color: #f0f6fc; }
-    .section-card h2 span { margin-right: 0.5rem; }
-    .section-card p { color: #8b949e; line-height: 1.6; }
-    .section-card a { color: #58a6ff; text-decoration: none; }
-    .section-card a:hover { text-decoration: underline; }
-    .btn {
-      display: inline-block;
-      padding: 0.6rem 1.2rem;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      margin: 0.25rem;
-      transition: opacity 0.2s;
-    }
-    .btn:hover { opacity: 0.85; text-decoration: none !important; }
-    .btn-discord { background: #5865f2; color: #fff !important; }
-    .btn-github { background: #21262d; color: #58a6ff !important; border: 1px solid #30363d; }
-    .badge {
-      display: inline-block;
-      background: #21262d;
-      color: #58a6ff;
-      padding: 0.25rem 0.75rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      margin: 0.25rem;
-    }
-    .link-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin: 1rem 0;
-    }
-    .link-grid a {
-      display: block;
-      background: #1c2128;
-      border: 1px solid #30363d;
-      border-radius: 8px;
-      padding: 1rem;
-      text-align: center;
+    section h2 span { margin-right:0.5rem; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:1rem; }
+    .card {
+      background:#161b22; border:1px solid #30363d; border-radius:12px; padding:1.25rem;
       transition: border-color 0.2s;
     }
-    .link-grid a:hover { border-color: #58a6ff; }
-    .link-grid a .label { font-size: 0.8rem; color: #8b949e; display: block; margin-top: 0.25rem; }
-    .giscus { width: 100%; min-height: 200px; }
-    footer {
-      width: 100%;
-      max-width: 800px;
-      padding: 1.5rem;
-      text-align: center;
-      color: #484f58;
-      font-size: 0.85rem;
-      border-top: 1px solid #21262d;
+    .card:hover { border-color:#58a6ff; }
+    .card h3 { font-size:1.05rem; color:#f0f6fc; margin-bottom:0.5rem; }
+    .card h3 a { color:#f0f6fc; text-decoration:none; }
+    .card h3 a:hover { color:#58a6ff; }
+    .card p { color:#8b949e; font-size:0.9rem; line-height:1.5; }
+    .card .meta { margin-top:0.5rem; font-size:0.8rem; color:#484f58; }
+    .card .badge { display:inline-block; padding:0.15rem 0.5rem; border-radius:10px; font-size:0.75rem; margin-right:0.25rem; }
+    .badge-blue { background:#1f6feb33; color:#58a6ff; }
+    .badge-green { background:#23863633; color:#3fb950; }
+    .badge-yellow { background:#d2992233; color:#d29922; }
+    .badge-purple { background:#8957e533; color:#bc8cff; }
+    .eco-table { width:100%; border-collapse:collapse; margin:1rem 0; }
+    .eco-table th, .eco-table td {
+      padding:0.75rem 1rem; text-align:left;
+      border-bottom:1px solid #21262d;
     }
-    @media (max-width: 600px) {
-      header h1 { font-size: 1.6rem; }
-      .section-card { padding: 1rem; }
-      .link-grid { grid-template-columns: 1fr; }
+    .eco-table th { color:#8b949e; font-size:0.85rem; font-weight:600; }
+    .eco-table td { color:#e6edf3; font-size:0.9rem; }
+    .eco-table a { color:#58a6ff; text-decoration:none; }
+    .eco-table a:hover { text-decoration:underline; }
+    .status { font-size:0.8rem; padding:0.15rem 0.5rem; border-radius:10px; }
+    .status-done { background:#23863633; color:#3fb950; }
+    .timeline { position:relative; padding-left:2rem; }
+    .timeline::before {
+      content:''; position:absolute; left:0; top:0; bottom:0;
+      width:2px; background:#30363d;
+    }
+    .entry { position:relative; margin-bottom:1.5rem; }
+    .entry::before {
+      content:''; position:absolute; left:-2rem; top:0.4rem;
+      width:12px; height:12px; border-radius:50%;
+      background:#58a6ff; border:2px solid #0d1117;
+    }
+    .entry h3 { font-size:1rem; color:#f0f6fc; }
+    .entry h3 a { color:#f0f6fc; text-decoration:none; }
+    .entry h3 a:hover { color:#58a6ff; }
+    .entry .date { font-size:0.8rem; color:#484f58; }
+    .entry p { font-size:0.9rem; color:#8b949e; margin-top:0.25rem; }
+    .giscus { width:100%; min-height:200px; }
+    footer {
+      text-align:center; padding:2rem 0; margin-top:2rem;
+      border-top:1px solid #21262d; color:#484f58; font-size:0.85rem;
+    }
+    footer a { color:#484f58; }
+    @media (max-width:600px) {
+      header h1 { font-size:1.8rem; }
+      .grid { grid-template-columns:1fr; }
+      .eco-table th, .eco-table td { padding:0.5rem; font-size:0.8rem; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>📱 S21 Phone</h1>
-    <p>안드로이드 폰 하나로 돌아가는 풀스택 워크스테이션</p>
-    <p style="font-size:0.85rem; color:#484f58; margin-top:0.3rem;">
-      Termux → Ubuntu → Claude Code(DeepSeek Radar) → GitHub Pages
-    </p>
-  </header>
+  <div class="container">
 
-  <div class="main-content">
-    <!-- 레포지토리 링크 -->
-    <div class="section-card">
-      <h2><span>📂</span> 레포지토리</h2>
-      <div class="link-grid">
-        <a href="https://github.com/helena751107/helena_phone">
-          <strong>helena_phone</strong>
-          <span class="label">메인 워크스테이션</span>
-        </a>
-        <a href="https://github.com/helena751107/helana_log">
-          <strong>helana_log</strong>
-          <span class="label">학습 기록 / 문제 해결</span>
-        </a>
+    <header>
+      <h1>📱 S21 Phone</h1>
+      <p class="subtitle">안드로이드 폰 하나로 돌아가는 풀스택 워크스테이션</p>
+      <p class="caption">Termux → Ubuntu → Claude Code(DeepSeek Radar) → GitHub Pages</p>
+    </header>
+
+    <!-- 1. 레포지토리 생태계 -->
+    <section>
+      <h2><span>📂</span> 레포지토리 생태계 — 5종 세트</h2>
+      <p style="color:#8b949e; font-size:0.9rem; margin-bottom:1rem;">
+        각 티스토리 블로그 = 1개의 YouTube 채널 = 1개의 GitHub 레포
+      </p>
+      <table class="eco-table">
+        <thead><tr><th>영역</th><th>티스토리</th><th>GitHub 레포</th><th>Pages</th><th>상태</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>📱 S21 테크</td>
+            <td><a href="https://galaxys21-pwuser.tistory.com">galaxys21-pwuser</a></td>
+            <td><a href="https://github.com/helena751107/helena_phone">helena_phone</a></td>
+            <td><a href="https://helena751107.github.io/helena_phone/">🔗</a></td>
+            <td><span class="status status-done">완료</span></td>
+          </tr>
+          <tr>
+            <td>📝 기술노트</td>
+            <td><a href="https://mynote11605.tistory.com">mynote11605</a></td>
+            <td><a href="https://github.com/helena751107/helana_log">helana_log</a></td>
+            <td><a href="https://helena751107.github.io/helana_log/">🔗</a></td>
+            <td><span class="status status-done">완료</span></td>
+          </tr>
+          <tr>
+            <td>✝️ 신앙</td>
+            <td><a href="https://helana-christianity.tistory.com">helana-christianity</a></td>
+            <td><a href="https://github.com/helena751107/helana-faith">helana-faith</a></td>
+            <td><a href="https://helena751107.github.io/helana-faith/">🔗</a></td>
+            <td><span class="status status-done">생성</span></td>
+          </tr>
+          <tr>
+            <td>🎹 피아노</td>
+            <td><a href="https://helena-piano.tistory.com">helena-piano</a></td>
+            <td><a href="https://github.com/helena751107/helena-piano">helena-piano</a></td>
+            <td><a href="https://helena751107.github.io/helena-piano/">🔗</a></td>
+            <td><span class="status status-done">생성</span></td>
+          </tr>
+          <tr>
+            <td>🔧 금속케어</td>
+            <td><a href="https://helena-metalcare.tistory.com">helena-metalcare</a></td>
+            <td><a href="https://github.com/helena751107/helena-metalcare">helena-metalcare</a></td>
+            <td><a href="https://helena751107.github.io/helena-metalcare/">🔗</a></td>
+            <td><span class="status status-done">생성</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="margin-top:1rem;">
+        <span class="badge badge-purple">🏛️ 네이버 관저탑: <a href="https://m.blog.naver.com/helena1975" style="color:#bc8cff;">m.blog.naver.com/helena1975</a></span>
+        <span class="badge badge-yellow">📺 YouTube: <a href="https://www.youtube.com/@HelenaPark-e7c" style="color:#d29922;">@HelenaPark-e7c</a></span>
       </div>
-      <p style="margin-top:1rem;">
-        <a href="https://helena751107.github.io/helana_log/" class="btn btn-github">📝 helana_log 바로가기</a>
-      </p>
-    </div>
+    </section>
 
-    <!-- 디스코드 채팅 -->
-    <div class="section-card">
-      <h2><span>💬</span> 실시간 채팅 — Discord</h2>
-      <p>디스코드 서버에 접속해서 실시간으로 소통하세요.</p>
-      <p style="margin-top:1rem;">
-        <a href="https://discord.gg/JTYSZv2WQE" target="_blank" class="btn btn-discord">
-          🎮 Discord 서버 입장
-        </a>
-        <a href="https://discord.gg/JTYSZv2WQE" target="_blank" class="btn btn-discord">
-          💬 #로비 채널
-        </a>
-      </p>
-      <p style="font-size:0.85rem; color:#484f58; margin-top:0.5rem;">
-        서버 ID: 1529785842560794684 · 채널 ID: 1529785982818193469
-      </p>
-    </div>
+    <!-- 2. 개발일지 -->
+    <section>
+      <h2><span>📋</span> 개발일지 — 구축 타임라인</h2>
+      <div class="timeline">
+        <div class="entry">
+          <h3><a href="notebook/01-arch.html">🏗️ 전체 시스템 아키텍처</a></h3>
+          <span class="date">2026-07-23</span>
+          <p>Termux → Ubuntu → Claude Code(DeepSeek Radar) → GitHub Pages 풀체인 설계</p>
+        </div>
+        <div class="entry">
+          <h3><a href="notebook/02-discord.html">💬 디스코드 서버/채팅 구축</a></h3>
+          <span class="date">2026-07-23</span>
+          <p>서버 생성, 채널(#로비/#ai-보고), 위젯 활성화, WidgetBot 임베드</p>
+        </div>
+        <div class="entry">
+          <h3><a href="notebook/03-telegram.html">🤖 텔레그램 봇/회의실 구축</a></h3>
+          <span class="date">2026-07-23</span>
+          <p>@BotFather → /newbot → tg.sh 보고 스크립트 → CLAUDE.md 자동 상속</p>
+        </div>
+        <div class="entry">
+          <h3><a href="notebook/04-github-pages.html">📄 GitHub Pages + Giscus + WidgetBot</a></h3>
+          <span class="date">2026-07-23</span>
+          <p>Pages 활성화 API, Discussions + Giscus 댓글, WidgetBot 디스코드 채팅 활성화</p>
+        </div>
+        <div class="entry">
+          <h3><a href="notebook/05-blog.html">📝 블로그 6종 + 자동화 전략</a></h3>
+          <span class="date">2026-07-24</span>
+          <p>티스토리 5종 세트 + 네이버 관저탑. Playwright Headless 자동화 전략</p>
+        </div>
+        <div class="entry">
+          <h3><a href="notebook/06-youtube.html">📺 YouTube 채널 아키텍처</a></h3>
+          <span class="date">2026-07-24</span>
+          <p>5개 채널 티스토리 1:1 매칭 설계, OAuth 클라이언트 생성 대기</p>
+        </div>
+        <div class="entry">
+          <h3><a href="notebook/09-ecosystem.html">🌐 전체 생태계 브릿지 테이블</a></h3>
+          <span class="date">2026-07-24</span>
+          <p>5×5×5 매칭 (티스토리×YouTube×GitHub), 네이버 관저탑, History 구조</p>
+        </div>
+      </div>
+    </section>
 
-    <!-- 게시판 / 댓글 (Giscus) -->
-    <div class="section-card">
+    <!-- 3. 통신망 현황 -->
+    <section>
+      <h2><span>🔗</span> 통신망 현황</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>📧 GitHub</h3>
+          <p>5개 레포 + Pages + Giscus + Discussions. 모든 레포에서 댓글/게시판 활성.</p>
+          <div class="meta"><span class="badge badge-blue">● 정상</span></div>
+        </div>
+        <div class="card">
+          <h3>💬 Discord</h3>
+          <p>S21 Phone 서버. WidgetBot 채팅 + 초대링크. #로비/#ai-보고 채널 운영.</p>
+          <div class="meta"><span class="badge badge-blue">● 정상</span></div>
+        </div>
+        <div class="card">
+          <h3>🤖 Telegram</h3>
+          <p>@S21Phone_Bot. tg.sh → 텔레그램 보고 자동화. CLAUDE.md 규칙 상속.</p>
+          <div class="meta"><span class="badge badge-blue">● 정상</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 업무 수첩 -->
+    <section>
+      <h2><span>📓</span> 업무 수첩 전체 목록</h2>
+      <div class="grid">
+        <div class="card"><h3><a href="notebook/00-INDEX.html">📋 목차</a></h3><p>전체 문서 인덱스</p></div>
+        <div class="card"><h3><a href="notebook/01-arch.html">🏗️ 아키텍처</a></h3><p>전체 시스템 구조</p></div>
+        <div class="card"><h3><a href="notebook/02-discord.html">💬 디스코드</a></h3><p>서버/봇/위젯 구축</p></div>
+        <div class="card"><h3><a href="notebook/03-telegram.html">🤖 텔레그램</a></h3><p>봇/회의실 구축</p></div>
+        <div class="card"><h3><a href="notebook/04-github-pages.html">📄 GitHub Pages</a></h3><p>Pages/Giscus/WidgetBot</p></div>
+        <div class="card"><h3><a href="notebook/05-blog.html">📝 블로그</a></h3><p>티스토리+네이버+자동화</p></div>
+        <div class="card"><h3><a href="notebook/06-youtube.html">📺 YouTube</a></h3><p>채널 설계/API 구성</p></div>
+        <div class="card"><h3><a href="notebook/07-cli-reference.html">⚡ CLI</a></h3><p>명령어 레퍼런스</p></div>
+        <div class="card"><h3><a href="notebook/08-secrets.html">🔐 비밀 관리</a></h3><p>토큰 정책</p></div>
+        <div class="card"><h3><a href="notebook/09-ecosystem.html">🌐 생태계</a></h3><p>전체 브릿지 테이블</p></div>
+      </div>
+    </section>
+
+    <!-- 5. 게시판 -->
+    <section>
       <h2><span>🗣</span> 게시판 / 댓글</h2>
-      <p style="font-size:0.9rem; margin-bottom:1rem;">
-        GitHub 계정으로 로그인 후 댓글을 남겨주세요.
-      </p>
+      <p style="color:#8b949e; font-size:0.9rem; margin-bottom:1rem;">GitHub 계정으로 로그인 후 댓글을 남겨주세요.</p>
       <div class="giscus"></div>
-    </div>
+    </section>
+
   </div>
 
   <footer>
-    <p>S21 Phone Workstation · Built with Claude Code + DeepSeek Radar</p>
+    <p>S21 Phone Workstation · Built with Claude Code + DeepSeek Radar · 2026</p>
+    <p style="margin-top:0.3rem;">
+      <a href="https://github.com/helena751107/helena_phone">GitHub</a> ·
+      <a href="https://discord.gg/JTYSZv2WQE">Discord</a> ·
+      <a href="https://t.me/S21Phone_Bot">Telegram</a>
+    </p>
   </footer>
 
-  <!-- Giscus — GitHub Discussions 기반 댓글 -->
   <script src="https://giscus.app/client.js"
     data-repo="helena751107/helena_phone"
     data-repo-id="R_kgDOTg3jPQ"
     data-category="Announcements"
     data-category-id="DIC_kwDOTg3jPc4DByff"
     data-mapping="pathname"
-    data-strict="0"
-    data-reactions-enabled="1"
-    data-emit-metadata="0"
-    data-input-position="bottom"
-    data-theme="dark"
-    data-lang="ko"
-    crossorigin="anonymous"
-    async>
+    data-strict="0" data-reactions-enabled="1" data-emit-metadata="0"
+    data-input-position="bottom" data-theme="dark" data-lang="ko"
+    crossorigin="anonymous" async>
   </script>
-
-  <!-- WidgetBot Crate v3 — 우하단 디스코드 채팅 플로팅 버튼 -->
   <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
-    new Crate({
-      server: '1529785842560794684',
-      channel: '1529785982818193469',
-      shard: 'https://disweb.defla.dev',
-      css: `
-        --crate-background: #5865f2;
-        --crate-color: #ffffff;
-        --crate-right: 20px;
-        --crate-bottom: 20px;
-      `
-    })
+    new Crate({ server:'1529785842560794684', channel:'1529785982818193469', shard:'https://disweb.defla.dev' })
   </script>
 </body>
 </html>

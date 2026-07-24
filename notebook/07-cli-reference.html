@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLI 명령어 레퍼런스 — S21 Phone</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0d1117; color: #e6edf3; line-height: 1.7;
+    }
+    .container { max-width:860px; margin:0 auto; padding:2rem 1.5rem; }
+    h1 { font-size:1.8rem; color:#f0f6fc; margin-bottom:1.5rem; }
+    h2 { font-size:1.3rem; color:#f0f6fc; margin-top:2rem; margin-bottom:1rem; padding-bottom:0.3rem; border-bottom:1px solid #21262d; }
+    h3 { font-size:1.1rem; color:#f0f6fc; margin-top:1.5rem; margin-bottom:0.5rem; }
+    h4 { font-size:1rem; color:#f0f6fc; margin-top:1rem; margin-bottom:0.5rem; }
+    p { margin-bottom:1rem; color:#c9d1d9; }
+    a { color:#58a6ff; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.9rem; display:block; overflow-x:auto; }
+    th, td { padding:0.5rem 0.75rem; border-bottom:1px solid #21262d; text-align:left; white-space:nowrap; }
+    th { color:#8b949e; font-weight:600; }
+    td { color:#c9d1d9; }
+    code { background:#161b22; padding:0.15rem 0.4rem; border-radius:4px; font-size:0.9em; }
+    pre { background:#161b22; border:1px solid #30363d; border-radius:8px; padding:1rem; overflow-x:auto; margin:1rem 0; }
+    pre code { background:transparent; padding:0; }
+    blockquote { border-left:3px solid #30363d; padding:0.5rem 1rem; margin:1rem 0; color:#8b949e; background:#161b22; border-radius:0 8px 8px 0; }
+    ul, ol { margin-bottom:1rem; padding-left:1.5rem; }
+    li { color:#c9d1d9; margin-bottom:0.25rem; }
+    hr { border:none; border-top:1px solid #21262d; margin:2rem 0; }
+    strong { color:#f0f6fc; }
+    .nav { display:flex; justify-content:space-between; margin-bottom:2rem; padding-bottom:1rem; border-bottom:1px solid #21262d; }
+    .nav a { color:#58a6ff; font-size:0.9rem; }
+    footer { margin-top:3rem; padding-top:1.5rem; border-top:1px solid #21262d; text-align:center; color:#484f58; font-size:0.85rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <a href="../">← S21 Phone 포털</a>
+      <a href="00-INDEX.html">📋 목차</a>
+    </div>
+    <h1>CLI 명령어 레퍼런스</h1>
+    
+<h2>Git (ubi shell)</h2>
+
+<pre><code># 현재 상태
+git status
+git log --oneline -5
+
+# push
+git push
+
+# remote 확인
+git remote -v
+
+# remote 변경 (레포 이름 바뀌었을 때)
+git remote set-url origin https://helena751107:TOKEN@github.com/helena751107/새레포명.git
+</code></pre>
+
+<h2>GitHub API</h2>
+
+<pre><code># Pages 활성화
+TOKEN="ghp_..."
+curl -X POST -H "Authorization: token $TOKEN" \
+  https://api.github.com/repos/helena751107/helena_phone/pages \
+  -d '{"source":{"branch":"main","path":"/"}}'
+
+# 레포 정보 조회
+curl -s -H "Authorization: token $TOKEN" \
+  https://api.github.com/repos/helena751107/helena_phone | jq .name
+
+# Discussions 활성화
+curl -X PATCH -H "Authorization: token $TOKEN" \
+  https://api.github.com/repos/helena751107/helena_phone \
+  -d '{"has_discussions":true}'
+</code></pre>
+
+<h2>디스코드 API</h2>
+
+<pre><code># 로그인
+DCT=$(curl -s -X POST https://discord.com/api/v9/auth/login \
+  -d '{"login":"EMAIL","password":"PASS"}' | jq -r '.token')
+
+# 서버 생성
+curl -X POST -H "Authorization: $DCT" \
+  https://discord.com/api/v9/guilds -d '{"name":"S21 Phone"}'
+
+# 위젯 켜기
+curl -X PATCH -H "Authorization: $DCT" \
+  https://discord.com/api/v9/guilds/ID/widget \
+  -d '{"enabled":true,"channel_id":"CID"}'
+
+# 초대링크 생성
+curl -X POST -H "Authorization: $DCT" \
+  https://discord.com/api/v9/channels/CID/invites \
+  -d '{"max_age":0,"max_uses":0}'
+</code></pre>
+
+<h2>텔레그램 API</h2>
+
+<pre><code># 메시지 보내기
+bash ~/work/tg.sh "✅ 작업 완료"
+
+# 또는 직접 curl
+curl -s -X POST "https://api.telegram.org/bot$TG_TOKEN/sendMessage" \
+  -d chat_id=$TG_CHAT -d text="메시지"
+
+# 업데이트 확인
+curl -s "https://api.telegram.org/bot$TG_TOKEN/getUpdates"
+</code></pre>
+
+<h2>다양한 용도</h2>
+
+<pre><code># Pages 배포 확인
+curl -s -o /dev/null -w "%{http_code}" https://helena751107.github.io/helena_phone/
+
+# 전체 레포 목록
+curl -s -H "Authorization: token $TOKEN" \
+  https://api.github.com/users/helena751107/repos | jq -r '.[].name'
+</code></pre>
+
+    <footer><p><a href="../">S21 Phone Workstation</a> · <a href="https://github.com/helena751107/helena_phone">GitHub</a></p></footer>
+  </div>
+</body>
+</html>

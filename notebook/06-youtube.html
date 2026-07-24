@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube 채널 아키텍처 — S21 Phone</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0d1117; color: #e6edf3; line-height: 1.7;
+    }
+    .container { max-width:860px; margin:0 auto; padding:2rem 1.5rem; }
+    h1 { font-size:1.8rem; color:#f0f6fc; margin-bottom:1.5rem; }
+    h2 { font-size:1.3rem; color:#f0f6fc; margin-top:2rem; margin-bottom:1rem; padding-bottom:0.3rem; border-bottom:1px solid #21262d; }
+    h3 { font-size:1.1rem; color:#f0f6fc; margin-top:1.5rem; margin-bottom:0.5rem; }
+    h4 { font-size:1rem; color:#f0f6fc; margin-top:1rem; margin-bottom:0.5rem; }
+    p { margin-bottom:1rem; color:#c9d1d9; }
+    a { color:#58a6ff; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.9rem; display:block; overflow-x:auto; }
+    th, td { padding:0.5rem 0.75rem; border-bottom:1px solid #21262d; text-align:left; white-space:nowrap; }
+    th { color:#8b949e; font-weight:600; }
+    td { color:#c9d1d9; }
+    code { background:#161b22; padding:0.15rem 0.4rem; border-radius:4px; font-size:0.9em; }
+    pre { background:#161b22; border:1px solid #30363d; border-radius:8px; padding:1rem; overflow-x:auto; margin:1rem 0; }
+    pre code { background:transparent; padding:0; }
+    blockquote { border-left:3px solid #30363d; padding:0.5rem 1rem; margin:1rem 0; color:#8b949e; background:#161b22; border-radius:0 8px 8px 0; }
+    ul, ol { margin-bottom:1rem; padding-left:1.5rem; }
+    li { color:#c9d1d9; margin-bottom:0.25rem; }
+    hr { border:none; border-top:1px solid #21262d; margin:2rem 0; }
+    strong { color:#f0f6fc; }
+    .nav { display:flex; justify-content:space-between; margin-bottom:2rem; padding-bottom:1rem; border-bottom:1px solid #21262d; }
+    .nav a { color:#58a6ff; font-size:0.9rem; }
+    footer { margin-top:3rem; padding-top:1.5rem; border-top:1px solid #21262d; text-align:center; color:#484f58; font-size:0.85rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <a href="../">← S21 Phone 포털</a>
+      <a href="00-INDEX.html">📋 목차</a>
+    </div>
+    <h1>YouTube 채널 아키텍처</h1>
+    
+<h2>채널 구성 (티스토리 1:1 매칭)</h2>
+
+<table>
+<thead><tr><th>채널명</th><th>매칭 티스토리</th><th>콘텐츠</th></tr></thead>
+<tbody>
+<tr><td>_(미정)_</td><td>`galaxys21-pwuser`</td><td>S21 폰 워크스테이션 셋업/코딩</td></tr>
+<tr><td>_(미정)_</td><td>`mynote11605`</td><td>기술 튜토리얼 / 개발 vlog</td></tr>
+<tr><td>_(미정)_</td><td>`helana-christianity`</td><td>말씀 / 신앙 콘텐츠</td></tr>
+<tr><td>_(미정)_</td><td>`helena-piano`</td><td>연주 커버 / 피아노 레슨</td></tr>
+<tr><td>_(미정)_</td><td>`helena-metalcare`</td><td>금속 공예 / 메이킹 필름</td></tr>
+
+<h2>채널 구조</h2>
+
+<li>각 티스토리 블로그 = 1개의 YouTube 채널과 1:1 매칭</li>
+<li>YouTube 채널명은 티스토리와 동일하거나 유사하게 구성</li>
+<li>네이버 블로그(관저탑)는 모든 채널의 교차 홍보 게이트웨이</li>
+
+<h2>루트 채널</h2>
+
+<pre><code>https://www.youtube.com/@HelenaPark-e7c
+</code></pre>
+
+<h2>구축 상태</h2>
+
+<table>
+<thead><tr><th>단계</th><th>상태</th></tr></thead>
+<tbody>
+<tr><td>GCP 프로젝트 생성</td><td>📌 준비 완료 (gcloud CLI 설치됨)</td></tr>
+<tr><td>YouTube Data API v3 활성화</td><td>📌 준비 완료</td></tr>
+<tr><td>OAuth 동의 화면</td><td>⏳ 수동 필요 (console.cloud.google.com)</td></tr>
+<tr><td>TV 클라이언트 ID 생성</td><td>⏳ 수동 필요</td></tr>
+<tr><td>Device code 인증</td><td>📌 자동화 준비</td></tr>
+<tr><td>업로드 스크립트</td><td>⏳ 미작성</td></tr>
+<tr><td>쿼터 보호(playlistItems)</td><td>📌 설계 반영 예정</td></tr>
+
+<h2>수동 작업 (폰 브라우저)</h2>
+
+<pre><code>1. console.cloud.google.com → 새 프로젝트 "S21 YouTube"
+2. OAuth 동의 화면 → 외부 → 앱이름 "S21 Phone" → 테스트 사용자 추가
+3. 사용자 인증 정보 → OAuth 클라이언트 ID → "TV 및 제한된 입력 장치"
+4. 클라이언트 ID + 시크릿 복사
+</code></pre>
+
+<h2>쿼터 참고</h2>
+
+<table>
+<thead><tr><th>작업</th><th>유닛</th><th>비고</th></tr></thead>
+<tbody>
+<tr><td>업로드 (videos.insert)</td><td>1,600</td><td>하루 약 6개 가능</td></tr>
+<tr><td>메타데이터 수정</td><td>50</td><td></td></tr>
+<tr><td>목록 조회 (search.list)</td><td>100</td><td>❌ 사용 금지</td></tr>
+<tr><td>playlistItems.list</td><td>1</td><td>✅ 이걸로 대체</td></tr>
+<tr><td>채널 정보</td><td>1</td><td></td></tr>
+
+<p><strong>절대 <code>search.list</code>를 루프에 넣지 말 것. playlistItems.list (1유닛) 사용.</strong></p>
+
+    <footer><p><a href="../">S21 Phone Workstation</a> · <a href="https://github.com/helena751107/helena_phone">GitHub</a></p></footer>
+  </div>
+</body>
+</html>

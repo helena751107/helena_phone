@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>전체 시스템 아키텍처 — S21 Phone</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0d1117; color: #e6edf3; line-height: 1.7;
+    }
+    .container { max-width:860px; margin:0 auto; padding:2rem 1.5rem; }
+    h1 { font-size:1.8rem; color:#f0f6fc; margin-bottom:1.5rem; }
+    h2 { font-size:1.3rem; color:#f0f6fc; margin-top:2rem; margin-bottom:1rem; padding-bottom:0.3rem; border-bottom:1px solid #21262d; }
+    h3 { font-size:1.1rem; color:#f0f6fc; margin-top:1.5rem; margin-bottom:0.5rem; }
+    h4 { font-size:1rem; color:#f0f6fc; margin-top:1rem; margin-bottom:0.5rem; }
+    p { margin-bottom:1rem; color:#c9d1d9; }
+    a { color:#58a6ff; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.9rem; display:block; overflow-x:auto; }
+    th, td { padding:0.5rem 0.75rem; border-bottom:1px solid #21262d; text-align:left; white-space:nowrap; }
+    th { color:#8b949e; font-weight:600; }
+    td { color:#c9d1d9; }
+    code { background:#161b22; padding:0.15rem 0.4rem; border-radius:4px; font-size:0.9em; }
+    pre { background:#161b22; border:1px solid #30363d; border-radius:8px; padding:1rem; overflow-x:auto; margin:1rem 0; }
+    pre code { background:transparent; padding:0; }
+    blockquote { border-left:3px solid #30363d; padding:0.5rem 1rem; margin:1rem 0; color:#8b949e; background:#161b22; border-radius:0 8px 8px 0; }
+    ul, ol { margin-bottom:1rem; padding-left:1.5rem; }
+    li { color:#c9d1d9; margin-bottom:0.25rem; }
+    hr { border:none; border-top:1px solid #21262d; margin:2rem 0; }
+    strong { color:#f0f6fc; }
+    .nav { display:flex; justify-content:space-between; margin-bottom:2rem; padding-bottom:1rem; border-bottom:1px solid #21262d; }
+    .nav a { color:#58a6ff; font-size:0.9rem; }
+    footer { margin-top:3rem; padding-top:1.5rem; border-top:1px solid #21262d; text-align:center; color:#484f58; font-size:0.85rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <a href="../">← S21 Phone 포털</a>
+      <a href="00-INDEX.html">📋 목차</a>
+    </div>
+    <h1>전체 시스템 아키텍처</h1>
+    
+<h2>스택 구조</h2>
+
+<pre><code>폰 (Android + Termux)
+├── proot-distro Ubuntu 컨테이너 (ubi)
+│   ├── /root/work/ ← Git 저장소
+│   │   ├── index.html        ← GitHub Pages 랜딩 페이지
+│   │   ├── gugudan.py        ← 구구단 (테스트)
+│   │   ├── tg.sh             ← 텔레그램 보고 스크립트
+│   │   ├── tg_discord_bridge.py ← TG-디스코드 브릿지 봇
+│   │   ├── CLAUDE.md         ← AI 에이전트 규칙
+│   │   ├── .secrets.env      ← 로컬 비밀 (git 제외)
+│   │   └── _notebook/        ← 이 업무 수첩
+│   │
+│   ├── Claude Code (현재 엔진) ← AI 코딩 에이전트
+│   │   └── DeepSeek Radar 바이패스 ← Anthropic 과금 회피
+│   │
+│   └── Aider v0.86.2         ← 보조 AI 코딩 도구
+│
+├── GitHub → helena751107/helena_phone
+│              helena751107/helana_log
+│
+├── Tistory → 5개 블로그 세트
+│   ├── mynote11605.tistory.com
+│   ├── helana-christianity.tistory.com
+│   ├── helena-piano.tistory.com
+│   ├── galaxys21-pwuser.tistory.com
+│   └── helena-metalcare.tistory.com
+│
+├── Discord 서버: S21 Phone (ID: 1529785842560794684)
+│   ├── #로비 (채팅)
+│   └── #ai-보고 (웹훅/보고)
+│
+└── Telegram 봇: @S21Phone_Bot
+    └── TG_CHAT: 8579179811
+</code></pre>
+
+<h2>DeepSeek Radar (Anthropic 과금 바이패스)</h2>
+
+<p>Claude Code가 DeepSeek API 위에서 돌도록 우회:</p>
+
+<pre><code>ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
+ANTHROPIC_MODEL=deepseek-chat
+ANTHROPIC_AUTH_TOKEN=sk-xxxxx
+DEEPSEEK_API_KEY=sk-xxxxx
+</code></pre>
+
+<p>→ Claude Code UI/도구는 그대로, LLM 엔진만 DeepSeek V3로 교체</p>
+<p>→ 비용 약 10~50배 절감</p>
+
+<h2>통신망 3종</h2>
+
+<table>
+<thead><tr><th>채널</th><th>용도</th><th>방식</th></tr></thead>
+<tbody>
+<tr><td>GitHub Pages</td><td>정적 페이지</td><td>git push 자동 발행</td></tr>
+<tr><td>Discord</td><td>실시간 채팅/로비</td><td>WidgetBot + 초대링크</td></tr>
+<tr><td>Telegram</td><td>AI 보고/알림</td><td>tg.sh → sendMessage API</td></tr>
+
+<h2>전체 생태계</h2>
+
+<pre><code>YouTube (5채널) ← 1:1 → Tistory (5블로그) ← 1:1 → GitHub (5레포)
+                                                       ↓
+                                                  _notebook (히스토리/로고)
+                                                       ↓
+                                                  Naver 관저탑 (그림첩/홍보)
+</code></pre>
+
+<p>자세한 내용: <code>_notebook/09-ecosystem.md</code></p>
+
+    <footer><p><a href="../">S21 Phone Workstation</a> · <a href="https://github.com/helena751107/helena_phone">GitHub</a></p></footer>
+  </div>
+</body>
+</html>

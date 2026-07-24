@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>블로그 포트폴리오 — S21 Phone</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0d1117; color: #e6edf3; line-height: 1.7;
+    }
+    .container { max-width:860px; margin:0 auto; padding:2rem 1.5rem; }
+    h1 { font-size:1.8rem; color:#f0f6fc; margin-bottom:1.5rem; }
+    h2 { font-size:1.3rem; color:#f0f6fc; margin-top:2rem; margin-bottom:1rem; padding-bottom:0.3rem; border-bottom:1px solid #21262d; }
+    h3 { font-size:1.1rem; color:#f0f6fc; margin-top:1.5rem; margin-bottom:0.5rem; }
+    h4 { font-size:1rem; color:#f0f6fc; margin-top:1rem; margin-bottom:0.5rem; }
+    p { margin-bottom:1rem; color:#c9d1d9; }
+    a { color:#58a6ff; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.9rem; display:block; overflow-x:auto; }
+    th, td { padding:0.5rem 0.75rem; border-bottom:1px solid #21262d; text-align:left; white-space:nowrap; }
+    th { color:#8b949e; font-weight:600; }
+    td { color:#c9d1d9; }
+    code { background:#161b22; padding:0.15rem 0.4rem; border-radius:4px; font-size:0.9em; }
+    pre { background:#161b22; border:1px solid #30363d; border-radius:8px; padding:1rem; overflow-x:auto; margin:1rem 0; }
+    pre code { background:transparent; padding:0; }
+    blockquote { border-left:3px solid #30363d; padding:0.5rem 1rem; margin:1rem 0; color:#8b949e; background:#161b22; border-radius:0 8px 8px 0; }
+    ul, ol { margin-bottom:1rem; padding-left:1.5rem; }
+    li { color:#c9d1d9; margin-bottom:0.25rem; }
+    hr { border:none; border-top:1px solid #21262d; margin:2rem 0; }
+    strong { color:#f0f6fc; }
+    .nav { display:flex; justify-content:space-between; margin-bottom:2rem; padding-bottom:1rem; border-bottom:1px solid #21262d; }
+    .nav a { color:#58a6ff; font-size:0.9rem; }
+    footer { margin-top:3rem; padding-top:1.5rem; border-top:1px solid #21262d; text-align:center; color:#484f58; font-size:0.85rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <a href="../">← S21 Phone 포털</a>
+      <a href="00-INDEX.html">📋 목차</a>
+    </div>
+    <h1>블로그 포트폴리오</h1>
+    
+<h2>블로그 목록</h2>
+
+<h3>티스토리 5종 세트</h3>
+
+<table>
+<thead><tr><th>번호</th><th>이름</th><th>URL</th><th>주제</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>My Note</td><td>`mynote11605.tistory.com`</td><td>개인 메모/기술 노트</td></tr>
+<tr><td>2</td><td>Helana Christianity</td><td>`helana-christianity.tistory.com`</td><td>기독교/신앙</td></tr>
+<tr><td>3</td><td>Helena Piano</td><td>`helena-piano.tistory.com`</td><td>피아노/음악</td></tr>
+<tr><td>4</td><td>Galaxy S21 PWUser</td><td>`galaxys21-pwuser.tistory.com`</td><td>S21 폰 활용/사용자 가이드</td></tr>
+<tr><td>5</td><td>Helena Metal Care</td><td>`helena-metalcare.tistory.com`</td><td>금속 케어/공예</td></tr>
+
+<h3>네이버 블로그</h3>
+
+<table>
+<thead><tr><th>이름</th><th>URL</th><th>성격</th></tr></thead>
+<tbody>
+<tr><td>Helena Park / YK Park</td><td>`m.blog.naver.com/helena1975`</td><td>🏛️ **관저탑** — 대중 홍보용 그림첩</td></tr>
+
+<h2>생성 일자</h2>
+
+<li>2026-07-24: 티스토리 5개 + 네이버 1개 계정 정리 완료</li>
+
+<hr>
+
+<h2>자동화 전략 (리서치 기반)</h2>
+
+<h3>티스토리 — 공식 API ❌</h3>
+
+<table>
+<thead><tr><th>항목</th><th>내용</th></tr></thead>
+<tbody>
+<tr><td>**공식 Open API**</td><td>**2024년 2월부로 완전 종료** (notice.tistory.com/2664)</td></tr>
+<tr><td>종료 사유</td><td>API 기반 자동 등록 스팸이 과도하게 발생</td></tr>
+<tr><td>**현재 자동화 방법**</td><td>Playwright/Selenium **Headless 브라우저**로 글쓰기 페이지 DOM 직접 조작</td></tr>
+
+<h3>네이버 블로그 — 공식 API ❌</h3>
+
+<table>
+<thead><tr><th>항목</th><th>내용</th></tr></thead>
+<tbody>
+<tr><td>**공식 포스팅 API**</td><td>**원래부터 존재한 적 없음**</td></tr>
+<tr><td>**현재 자동화 방법**</td><td>Playwright Headless 브라우저 + **storage_state(쿠키) 재사용** 방식이 표준</td></tr>
+<tr><td>참고 도구</td><td>`@oddeye/naver-blog-mcp` — MCP 기반 네이버 블로그 자동화 (Playwright 내장)</td></tr>
+
+<h3>공통 자동화 방식: Headless Browser (Playwright)</h3>
+
+<p>두 플랫폼 모두 공식 API가 없으므로, 유일한 방법은 <strong>Headless Chromium + Playwright</strong>를 통한 브라우저 자동화</p>
+
+<pre><code>proot Ubuntu (CLI only, no display)
+       ↓
+Playwright + Chromium headless (화면 없이 DOM 조작)
+       ↓
+  ① 세션 저장: 수동 1회 로그인 → storage_state 저장
+  ② 세션 복원: 저장된 쿠키로 로그인 생략 → 글쓰기 자동화
+  ③ 발행 완료: tg.sh 로 텔레그램 보고
+</code></pre>
+
+<h3>Playwright 설치</h3>
+
+<pre><code>apt install -y python3-venv fonts-nanum
+python3 -m venv ~/browser-env
+~/browser-env/bin/pip install playwright
+~/browser-env/bin/playwright install --with-deps chromium
+</code></pre>
+
+<h3>세션 저장/재사용 구조</h3>
+
+<pre><code># ① 최초 1회: 수동 로그인 후 세션 저장 (headful 필요시 로컬에서 실행)
+context.storage_state(path=".naver_session.json")
+
+# ② 이후: headless로 세션만 복원하여 자동화
+context = await browser.new_context(storage_state=".naver_session.json")
+</code></pre>
+
+<h3>네이버 주의사항</h3>
+
+<li>ID/PW 자동 로그인은 캡차/2FA 차단 위험 높음</li>
+<li><strong>세션 쿠키 재사용이 정석</strong> (1~3개월 유효)</li>
+<li>해외 IP 차단 가능성 → 국내 IP 권장</li>
+<li>일일 발행 제한: 안전하게 5개 이하 권장</li>
+
+<h2>참고 링크</h2>
+
+<li>티스토리 종료 공지: <code>notice.tistory.com/2664</code></li>
+<li>네이버 블로그 MCP: <code>npmjs.com/package/@oddeye/naver-blog-mcp</code></li>
+<li>Playwright 쿠키 재사용: <code>dev.to/junhee916</code> (2026)</li>
+
+    <footer><p><a href="../">S21 Phone Workstation</a> · <a href="https://github.com/helena751107/helena_phone">GitHub</a></p></footer>
+  </div>
+</body>
+</html>

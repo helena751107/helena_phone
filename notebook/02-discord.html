@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>디스코드 서버/봇/위젯 — S21 Phone</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0d1117; color: #e6edf3; line-height: 1.7;
+    }
+    .container { max-width:860px; margin:0 auto; padding:2rem 1.5rem; }
+    h1 { font-size:1.8rem; color:#f0f6fc; margin-bottom:1.5rem; }
+    h2 { font-size:1.3rem; color:#f0f6fc; margin-top:2rem; margin-bottom:1rem; padding-bottom:0.3rem; border-bottom:1px solid #21262d; }
+    h3 { font-size:1.1rem; color:#f0f6fc; margin-top:1.5rem; margin-bottom:0.5rem; }
+    h4 { font-size:1rem; color:#f0f6fc; margin-top:1rem; margin-bottom:0.5rem; }
+    p { margin-bottom:1rem; color:#c9d1d9; }
+    a { color:#58a6ff; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.9rem; display:block; overflow-x:auto; }
+    th, td { padding:0.5rem 0.75rem; border-bottom:1px solid #21262d; text-align:left; white-space:nowrap; }
+    th { color:#8b949e; font-weight:600; }
+    td { color:#c9d1d9; }
+    code { background:#161b22; padding:0.15rem 0.4rem; border-radius:4px; font-size:0.9em; }
+    pre { background:#161b22; border:1px solid #30363d; border-radius:8px; padding:1rem; overflow-x:auto; margin:1rem 0; }
+    pre code { background:transparent; padding:0; }
+    blockquote { border-left:3px solid #30363d; padding:0.5rem 1rem; margin:1rem 0; color:#8b949e; background:#161b22; border-radius:0 8px 8px 0; }
+    ul, ol { margin-bottom:1rem; padding-left:1.5rem; }
+    li { color:#c9d1d9; margin-bottom:0.25rem; }
+    hr { border:none; border-top:1px solid #21262d; margin:2rem 0; }
+    strong { color:#f0f6fc; }
+    .nav { display:flex; justify-content:space-between; margin-bottom:2rem; padding-bottom:1rem; border-bottom:1px solid #21262d; }
+    .nav a { color:#58a6ff; font-size:0.9rem; }
+    footer { margin-top:3rem; padding-top:1.5rem; border-top:1px solid #21262d; text-align:center; color:#484f58; font-size:0.85rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <a href="../">← S21 Phone 포털</a>
+      <a href="00-INDEX.html">📋 목차</a>
+    </div>
+    <h1>디스코드 서버/봇/위젯</h1>
+    
+<h2>서버 정보</h2>
+
+<table>
+<thead><tr><th>항목</th><th>값</th></tr></thead>
+<tbody>
+<tr><td>서버명</td><td>S21 Phone</td></tr>
+<tr><td>서버 ID</td><td>`1529785842560794684`</td></tr>
+<tr><td>개설일</td><td>2026-07-23</td></tr>
+<tr><td>소유자</td><td>helena19751107 (ID: 1529766339441328178)</td></tr>
+
+<h2>채널 목록</h2>
+
+<table>
+<thead><tr><th>ID</th><th>이름</th><th>용도</th></tr></thead>
+<tbody>
+<tr><td>`1529785982818193469`</td><td>#로비</td><td>일반 채팅</td></tr>
+<tr><td>`1529785985993408723`</td><td>#ai-보고</td><td>AI 웹훅 보고</td></tr>
+
+<h2>초대링크</h2>
+
+<pre><code>https://discord.gg/JTYSZv2WQE
+</code></pre>
+
+<h2>위젯 활성화 (API)</h2>
+
+<pre><code>curl -s -X PATCH "https://discord.com/api/v9/guilds/1529785842560794684/widget" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: $DCT" \
+  -d '{"enabled":true,"channel_id":"1529785982818193469"}'
+</code></pre>
+
+<h2>WidgetBot (랜딩 페이지 임베드)</h2>
+
+<pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer&gt;
+  new Crate({
+    server: '1529785842560794684',
+    channel: '1529785982818193469',
+    shard: 'https://disweb.defla.dev'
+  })
+&lt;/script&gt;
+</code></pre>
+
+<h2>디스코드 API 자동화 키포인트</h2>
+
+<li>로그인: <code>POST /api/v9/auth/login</code> → user token</li>
+<li>서버 생성: <code>POST /api/v9/guilds</code> → <code>{"name":"..."}</code></li>
+<li>채널 생성: <code>POST /api/v9/guilds/{id}/channels</code></li>
+<li>위젯: <code>PATCH /api/v9/guilds/{id}/widget</code></li>
+<li>앱(봇) 생성: <code>POST /api/v9/applications</code> → hCaptcha 필요 (수동)</li>
+<li>초대링크: <code>POST /api/v9/channels/{id}/invites</code></li>
+
+    <footer><p><a href="../">S21 Phone Workstation</a> · <a href="https://github.com/helena751107/helena_phone">GitHub</a></p></footer>
+  </div>
+</body>
+</html>
