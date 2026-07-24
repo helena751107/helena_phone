@@ -1,17 +1,17 @@
 # 전체 생태계 브릿지 테이블
 
 > 2026-07-24 기준 전체 채널/레포/플랫폼 매칭
-> "YouTube 채널 = 티스토리와 1:1 매칭. 네이버 = 관저탑/그림첩. _notebook = History/Making film/로고 아카이브"
+> **최종 업데이트:** 2026-07-24 — 5개 레포 전면 재정의 완료
 
-## 마스터 브릿지
+## 마스터 브릿지 (5대5)
 
-| 도메인 | 티스토리 | YouTube 채널 | GitHub 레포 | 역할 | 레포 상태 |
-|--------|---------|-------------|------------|------|----------|
-| 📱 **테크/S21** | `galaxys21-pwuser` | S21 Phone Tech | `helena_phone` | 메인 워크스테이션 | ✅ 있음 |
-| 📝 **기술노트** | `mynote11605` | Helena Tech Log | `helana_log` | 학습/기록 | ✅ 있음 |
-| ✝️ **신앙** | `helana-christianity` | Helana Faith | _(helana-faith)_ | 영성 콘텐츠 | ⏳ 필요 |
-| 🎹 **피아노** | `helena-piano` | Helena Piano | _(helena-piano)_ | 음악/연주 | ⏳ 필요 |
-| 🔧 **금속케어** | `helena-metalcare` | Helena Metal Craft | _(helena-metalcare)_ | 공예/메이킹 필름 | ⏳ 필요 |
+| GitHub 레포 | 정체성 | 성격 | Pages | YouTube | 티스토리 |
+|------------|--------|------|-------|---------|---------|
+| 📱 **helena_phone** | S21 폰 최적화 바이블 | 0원으로 폰→서버/방송/AI 에이전트 | ✅ | S21 Phone | galaxys21-pwuser |
+| 🗃️ **helana_log** | 박식캡처 리버싱 저장소 | APK→로그수집→파인튜닝→MCP 도구화 | ✅ | Helena Tech Log | mynote11605 |
+| ✝️ **helana-faith** | 가족 신앙사 + 비교 종교학 | 카톨릭→개신교 가족 신앙 여정 + 학문적 분석 | ✅ | Helana Faith | helana-christianity |
+| 🎹 **helena-piano** | 피아노 종합 + 음원 생성 | MIDI/악보/REAPER/AI/GAN + GitHub Actions + PC 연동 | ✅ | Helena Piano | helena-piano |
+| 🧠 **helena-psycare** | 뷰티풀 마인드 정신분석 | 정신의학/정신치료/정신분석 + MCP 자체 모델 개발 | ✅ | Helena Metal Craft | helena-metalcare |
 
 ## 특수 플랫폼
 
@@ -24,8 +24,11 @@
 ## 레포 현황 및 필요량
 
 ```
-현재:  helena_phone + helana_log = 2개
-필요:  helena-faith + helena-piano + helena-metalcare = 3개 추가
+helena_phone        ✅ S21 폰 최적화 바이블
+helana_log          ✅ 박식캡처 리버싱
+helana-faith        ✅ 가족 신앙사/비교종교학
+helena-piano        ✅ 피아노 종합 + 음원 생성
+helena-psycare      ✅ 정신분석/뷰티풀마인드 (구 metalcare)
 합계:  5개 (티스토리 5종과 1:1 매칭)
 ```
 
@@ -37,16 +40,17 @@
                           ↑
     ┌──────────┬──────────┬┴──────────┬──────────┬──────────┐
     │          │          │           │          │          │
- S21 테크   기술노트    신앙       피아노     금속케어
+ S21 폰빌   박식캡처    신앙사     피아노    정신분석
+   최적화    리버싱     비교종교    음원생성  뷰티풀마인드
     │          │          │           │          │
-    ├ YouTube  ├ YouTube  ├ YouTube   ├ YouTube  ├ YouTube  ─┐
-    ├ GitHub   ├ GitHub   ├ GitHub    ├ GitHub   ├ GitHub   ─┤
-    └ Tistory  └ Tistory  └ Tistory   └ Tistory  └ Tistory  ─┤
-         │          │          │           │          │       │
-         └──────────┴──────────┴───────────┴──────────┘       │
-                              │                               │
-                      🎬 _notebook/                        로고
-                     (History/Making film)                아카이브
+    ├ YouTube  ├ YouTube  ├ YouTube   ├ YouTube  ├ YouTube
+    ├ GitHub   ├ GitHub   ├ GitHub    ├ GitHub   ├ GitHub
+    └ Tistory  └ Tistory  └ Tistory   └ Tistory  └ Tistory
+         │          │          │           │          │
+         └──────────┴──────────┴───────────┴──────────┘
+                              │
+                      🎬 _notebook/
+                     (History/Making film)
 ```
 
 ## YouTube 채널 — 티스토리 1:1 매칭

@@ -162,12 +162,12 @@ _notebook/ = History + Making film + 로고 아카이브
 │   ├── phone-mcp-server (18 도구) ← 📲 폰 통제 가능
 │   └── Git → GitHub
 │
-├── 🌐 GitHub
-│   ├── helena_phone (메인 포털)       ✅ Pages + Giscus
-│   ├── helana_log (기술노트)           ✅ Pages + Giscus
-│   ├── helana-faith (신앙)             ✅ Pages + Giscus
-│   ├── helena-piano (피아노)           ✅ Pages + Giscus
-│   └── helena-metalcare (금속케어)     ✅ Pages + Giscus
+├── 🌐 GitHub (5개 레포 전면 재정의)
+│   ├── helena_phone     📱 S21 폰 최적화 바이블        ✅
+│   ├── helana_log       🗃️ 박식캡처 리버싱 → MCP      ✅
+│   ├── helana-faith     ✝️ 가족 신앙사/비교종교학      ✅
+│   ├── helena-piano     🎹 피아노 종합 + 음원 생성     ✅
+│   └── helena-psycare   🧠 뷰티풀마인드 정신분석       ✅
 │
 ├── 💬 Discord (S21 Phone 서버)
 │   ├── #로비 (채팅, 위젯 활성)
@@ -197,6 +197,23 @@ _notebook/ = History + Making film + 로고 아카이브
 | 🟡 3 | YouTube OAuth TV 클라이언트 ID 발급 | 대기 | **컨디션 좋은 날만** |
 | 🟡 4 | YouTube 업로드 스크립트 생성 | OAuth 후 | |
 | 🟡 5 | 5개 YouTube 채널 실제 생성 | 설계 완료 | OAuth 후 |
+### 19. 5개 레포 전면 재정의 (2026-07-24 오후)
+
+**모든 레포의 정체성을 확립하고 디렉토리 구조까지 완성.**
+
+| 레포 | 기존 | 변경 | 구조 |
+|------|------|------|------|
+| `helena_phone` | (메인 포털) | 📱 **S21 폰 최적화 바이블** | 5단계 GUIDE + CHRONICLE + configs/scripts |
+| `helana_log` | 기술노트 | 🗃️ **박식캡처 리버싱 저장소** | apk/schema/logs/mcp-server/scripts |
+| `helana-faith` | 신앙 | ✝️ **가족 신앙사 + 비교 종교학** | theology/comparative/family/liturgy |
+| `helena-piano` | 피아노 | 🎹 **피아노 종합 + 음원 생성** | MIDI/REAPER/AI/GAN/PC-Actions |
+| `helena-metalcare` | 금속케어 | 🧠 **뷰티풀마인드 정신분석** | 분석/병리/치료/MCP-모델/가족사 |
+
+- 총 50개 이상의 디렉토리/README 생성
+- 각 레포 Pages 유지
+- Collaborator: `dtslib1979` — 5개 전부 admin 초대 수락 완료
+- 모든 레포 push 완료 (main 브랜치)
+
 | ⚪ 6 | phone-mcp-server UI 자동화 (tap_screen) | 보류 | 루트/ADB 필요 |
 
 ## 비상 연락망
