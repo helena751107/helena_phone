@@ -1,6 +1,28 @@
-# YouTube Data API (구축 예정)
+# YouTube 채널 아키텍처
 
-## 상태
+## 채널 구성 (티스토리 1:1 매칭)
+
+| 채널명 | 매칭 티스토리 | 콘텐츠 |
+|--------|-------------|--------|
+| _(미정)_ | `galaxys21-pwuser` | S21 폰 워크스테이션 셋업/코딩 |
+| _(미정)_ | `mynote11605` | 기술 튜토리얼 / 개발 vlog |
+| _(미정)_ | `helana-christianity` | 말씀 / 신앙 콘텐츠 |
+| _(미정)_ | `helena-piano` | 연주 커버 / 피아노 레슨 |
+| _(미정)_ | `helena-metalcare` | 금속 공예 / 메이킹 필름 |
+
+## 채널 구조
+
+- 각 티스토리 블로그 = 1개의 YouTube 채널과 1:1 매칭
+- YouTube 채널명은 티스토리와 동일하거나 유사하게 구성
+- 네이버 블로그(관저탑)는 모든 채널의 교차 홍보 게이트웨이
+
+## 루트 채널
+
+```
+https://www.youtube.com/@HelenaPark-e7c
+```
+
+## 구축 상태
 
 | 단계 | 상태 |
 |------|------|
@@ -21,16 +43,6 @@
 4. 클라이언트 ID + 시크릿 복사
 ```
 
-## GCP 프로젝트 생성 (API)
-
-```bash
-export PATH="/tmp/google-cloud-sdk/bin:$PATH"
-gcloud auth login
-gcloud projects create s21-youtube --name="S21 YouTube"
-gcloud config set project s21-youtube
-gcloud services enable youtube.googleapis.com
-```
-
 ## 쿼터 참고
 
 | 작업 | 유닛 | 비고 |
@@ -42,9 +54,3 @@ gcloud services enable youtube.googleapis.com
 | 채널 정보 | 1 | |
 
 **절대 `search.list`를 루프에 넣지 말 것. playlistItems.list (1유닛) 사용.**
-
-## 채널 정보
-
-```
-https://www.youtube.com/@HelenaPark-e7c
-```

@@ -58,3 +58,15 @@ DEEPSEEK_API_KEY=sk-xxxxx
 | GitHub Pages | 정적 페이지 | git push 자동 발행 |
 | Discord | 실시간 채팅/로비 | WidgetBot + 초대링크 |
 | Telegram | AI 보고/알림 | tg.sh → sendMessage API |
+
+## 전체 생태계
+
+```
+YouTube (5채널) ← 1:1 → Tistory (5블로그) ← 1:1 → GitHub (5레포)
+                                                       ↓
+                                                  _notebook (히스토리/로고)
+                                                       ↓
+                                                  Naver 관저탑 (그림첩/홍보)
+```
+
+자세한 내용: `_notebook/09-ecosystem.md`
