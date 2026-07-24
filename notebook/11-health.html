@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>🏥 건강 검진 — S21 Phone</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#e6edf3;line-height:1.7;}
+.container{max-width:860px;margin:0 auto;padding:2rem 1.5rem;}
+h1{font-size:1.8rem;color:#f0f6fc;margin-bottom:1.5rem;}
+h2{font-size:1.3rem;color:#f0f6fc;margin-top:2rem;margin-bottom:1rem;padding-bottom:0.3rem;border-bottom:1px solid #21262d;}
+h3{font-size:1.1rem;color:#f0f6fc;margin-top:1.5rem;margin-bottom:0.5rem;}
+p{margin-bottom:1rem;color:#c9d1d9;}
+a{color:#58a6ff;text-decoration:none;}
+a:hover{text-decoration:underline;}
+code{background:#161b22;padding:0.15rem 0.4rem;border-radius:4px;font-size:0.9em;}
+pre{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1rem;overflow-x:auto;margin:1rem 0;}
+pre code{background:transparent;padding:0;}
+li{color:#c9d1d9;margin-bottom:0.25rem;margin-left:1.5rem;}
+strong{color:#f0f6fc;}
+.nav{display:flex;justify-content:space-between;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid #21262d;}
+blockquote{border-left:3px solid #30363d;padding-left:1rem;margin:1rem 0;color:#8b949e;}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #21262d;text-align:center;color:#484f58;font-size:0.85rem;}
+</style></head><body>
+<div class="container">
+<div class="nav"><a href="../">← S21 Phone 포털</a><a href="00-INDEX.html">📋 목차</a></div>
+<h1>S21 Phone 건강 검진 시스템</h1>
+<blockquote><p>역할: 주기적인 하드웨어/소프트웨어 헬스체크</p></blockquote>
+<blockquote><p>최초 구축: 2026-07-24</p></blockquote>
+<blockquote><p>스크립트: `~/work/phone-health.sh`</p></blockquote>
+<h2>개요</h2>
+<p>phone-health.sh는 S21 Phone의 모든 하드웨어와 소프트웨어 상태를 진단하는 자동화 스크립트다.</p>
+<p>MCP 서버(phone-mcp-server)에 의존하지 않고 Termux:API를 직접 호출하여 각 센서와 기능을 검증한다.</p>
+<h2>검사 항목 (10개 카테고리)</h2>
+<h2>사용법</h2>
+<pre><code>
+# 기본 검진 (27개 항목, 비파괴)
+bash ~/work/phone-health.sh
+
+# 전체 검진 (사진 촬영 포함)
+bash ~/work/phone-health.sh --full
+
+# 검진 + 텔레그램 보고
+bash ~/work/phone-health.sh --telegram
+</pre>
+<h2>보고서 보관</h2>
+<p>모든 검진 결과는 타임스탬프 JSON으로 <code>_notebook/health/</code>에 저장된다.</p>
+<pre><code>
+_notebook/health/
+├── 2026-07-24_1212.json    ← 첫 검진
+├── 2026-07-24_1217.json    ← 두 번째
+├── 2026-07-24_1223.json    ← 현재 최신
+└── ...
+</pre>
+<h2>JSON 보고서 구조</h2>
+<pre><code>
+{
+  &quot;timestamp&quot;: &quot;2026-07-24 12:23:10 UTC&quot;,
+  &quot;grade&quot;: &quot;A&quot;,
+  &quot;battery&quot;: {
+    &quot;percentage&quot;: 63,
+    &quot;temperature&quot;: 37.2,
+    &quot;status&quot;: &quot;CHARGING&quot;,
+    &quot;health&quot;: &quot;GOOD&quot;,
+    &quot;plugged&quot;: &quot;PLUGGED_AC&quot;
+  },
+  &quot;wifi&quot;: {
+    &quot;ssid&quot;: &quot;U+NetFA1B&quot;,
+    &quot;ip&quot;: &quot;192.168.219.131&quot;,
+    &quot;rssi&quot;: -43,
+    &quot;link_speed&quot;: 130
+  },
+  &quot;results&quot;: {
+    &quot;pass&quot;: 27, &quot;warn&quot;: 3, &quot;fail&quot;: 0,
+    &quot;total&quot;: 31
+  },
+  &quot;mcp&quot;: {
+    &quot;port&quot;: 3456,
+    &quot;http_status&quot;: 200,
+    &quot;tools&quot;: 18
+  }
+}
+</pre>
+<h2>종합 등급 기준</h2>
+<h2>시계열 비교</h2>
+<p>같은 디렉토리의 JSON 파일들을 비교하여 시점별 건강 추이를 볼 수 있다:</p>
+<pre><code>
+# 최근 5개 요약
+ls -t _notebook/health/*.json | head -5 | while read f; do
+  echo &quot;$(basename $f .json): $(sed -n &#x27;s/.*&quot;grade&quot;:&quot;\{0,1\}\([^&quot;,]*\)&quot;\{0,1\}.*/\1/p&#x27; $f)&quot;
+done
+</pre>
+<h2>경고 신호 (자동 감지)</h2>
+<h2>설계 원칙</h2>
+<li>**MCP 불필요** — MCP 서버는 단일 session만 허용하므로(cc 사용 중이면 curl session 불가), 모든 검사는 Termux:API를 직접 호출</li>
+<li>**비파괴** — SMS 발송, 전화걸기, 파일삭제 등 변경을 가하는 도구는 테스트하지 않음</li>
+<li>**타임스탬프 보관** — 모든 검진은 JSON 파일로 남겨 시계열 비교 가능</li>
+<li>**텔레그램 보고** — <code>--telegram</code> 플래그로 채팅방에 자동 보고</li>
+<footer>S21 Phone — health check system v1 · auto-generated from notebook</footer>
+</div></body></html>

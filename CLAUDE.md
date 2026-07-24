@@ -13,3 +13,9 @@
 ```bash
 bash ~/work/tg.sh '✅ 작업명 — 결과'
 ```
+
+## 건강 검진 의무
+- 세션 시작 시 또는 하드웨어 관련 작업 전후 `bash ~/work/phone-health.sh` 실행
+- 결과는 자동으로 `_notebook/health/`에 타임스탬프 저장
+- --telegram 플래그로 채팅 보고 가능
+- 등급 A 이하(Grade B/C)면 점검 항목 확인 후 조치

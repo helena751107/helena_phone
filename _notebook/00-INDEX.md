@@ -18,5 +18,6 @@
 | `07-cli-reference.md` | 자주 쓰는 명령어 모음 |
 | `08-secrets.md` | 비밀 관리 정책 |
 | `09-ecosystem.md` | 전체 생태계 브릿지 테이블 |
-| `10-phone-mcp.md` | phone-mcp-server 핸드폰 통제 |
+| `10-phone-mcp.md` | phone-mcp-server 핸드폰 통제 + Domain/Codomain + 검증 |
+| `11-health.md` | 🏥 건강 검진 시스템 (phone-health.sh) |
 | `99-devlog.md` | 📋 전체 개발일지 (DAY 1~2) |
