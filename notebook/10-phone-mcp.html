@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>📱 폰 MCP — S21 Phone</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#e6edf3;line-height:1.7;}
+.container{max-width:860px;margin:0 auto;padding:2rem 1.5rem;}
+h1{font-size:1.8rem;color:#f0f6fc;margin-bottom:1.5rem;}
+h2{font-size:1.3rem;color:#f0f6fc;margin-top:2rem;margin-bottom:1rem;padding-bottom:0.3rem;border-bottom:1px solid #21262d;}
+h3{font-size:1.1rem;color:#f0f6fc;margin-top:1.5rem;margin-bottom:0.5rem;}
+p{margin-bottom:1rem;color:#c9d1d9;}
+a{color:#58a6ff;text-decoration:none;}
+a:hover{text-decoration:underline;}
+code{background:#161b22;padding:0.15rem 0.4rem;border-radius:4px;font-size:0.9em;}
+pre{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1rem;overflow-x:auto;margin:1rem 0;}
+pre code{background:transparent;padding:0;}
+li{color:#c9d1d9;margin-bottom:0.25rem;margin-left:1.5rem;}
+strong{color:#f0f6fc;}
+.nav{display:flex;justify-content:space-between;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid #21262d;}
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #21262d;text-align:center;color:#484f58;font-size:0.85rem;}
+</style></head><body>
+<div class="container">
+<div class="nav"><a href="../">← S21 Phone 포털</a><a href="00-INDEX.html">📋 목차</a></div>
+<h1>📱 phone-mcp-server — 핸드폰 통제 MCP</h1>
+<p># phone-mcp-server — 핸드폰 통제 MCP</p>
+
+<p>> 순수 Termux:API 기반. 루트/ADB/Shizuku 불필요.</p>
+<p>> 설치일: 2026-07-24</p>
+
+<h2>상태</h2>
+
+
+<h2>설치 위치</h2>
+
+
+<h2>사용 가능한 도구</h2>
+
+
+<h2>시작 방법</h2>
+
+<pre><code># 수동 시작
+bash ~/work/phone-mcp.sh --port 3456
+
+# 자동 시작 (.bashrc에 등록됨)
+# proot Ubuntu 로그인 시 자동 실행
+</code></pre>
+
+<h2>주의사항</h2>
+
+<li>최초 각 API 사용 시 폰에서 권한 팝업 허용 필요</li>
+<li>SMS/RCS는 읽을 수 없음 (SMS/MMS만)</li>
+<li>같은 WiFi 네트워크 필요</li>
+<li>settings.json 수정 후 cc 재시작해야 MCP 도구 활성화됨</li>
+
+<h2>참고</h2>
+
+<li>UI 화면 클릭(tap_screen)은 이 서버에서 지원 안 함</li>
+<li>화면 자동화 필요 시 xlisp/termux-mcp-server 필요 (ADB 권한 요구)</li>
+<li>루팅 금지 조건으로 인해 xlisp 계열은 설치 보류</li>
+
+<footer><p><a href="../">S21 Phone Workstation</a> · <a href="https://github.com/helena751107/helena_phone">GitHub</a></p></footer>
+</div></body></html>

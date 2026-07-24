@@ -18,3 +18,4 @@
 | `07-cli-reference.md` | 자주 쓰는 명령어 모음 |
 | `08-secrets.md` | 비밀 관리 정책 |
 | `09-ecosystem.md` | 전체 생태계 브릿지 테이블 |
+| `10-phone-mcp.md` | phone-mcp-server 핸드폰 통제 |
