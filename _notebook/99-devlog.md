@@ -540,3 +540,25 @@ Claude API로 스레드 이미지 URL 별도 수집 파이프 고려.
 "어떻게 설치하는지"를 한 문서에서 읽을 수 있는 구조.
 
 **다음:** `g/install.sh` 초안. 누나 케이스 스터디로 검증.
+
+### 41. 실행 모드 — install.sh + 트랙1 데몬 + YouTube 업로더 (2026-07-25)
+
+**Boss 디렉션:** "내가 디렉션하고 문제 정의하면 나머지는 너네 역할 아냐. 다 구축해."
+
+**구축 완료:**
+
+| 파일 | 줄수 | 설명 |
+|------|------|------|
+| `g/install.sh` | 364 | 1줄 설치기: Termux→proot→Claude Code→MCP→TG→건강검진. 8단계. |
+| `care/care-daemon.sh` | 292 | 트랙 1 돌봄 데몬: 배터리·GPS·WiFi·셀룰러 15분 체크. 이상 감지→TG 즉시 보고→에스컬레이션. |
+| `care/care-setup.sh` | 102 | 데몬 설치기: Termux crontab 등록 + 토큰 설정 + 첫 실행. |
+| `care/care.conf` | 32 | 데몬 설정: 임계값(BATTERY_LOW=15, TEMP_HIGH=45, NO_MOVE_HOURS=6 등) |
+| `scripts/yt_upload.py` | 256 | YouTube 업로더: OAuth Device Flow → Data API v3 videos.insert. playlistItems.list로 쿼터 보호. |
+| `scripts/yt_oauth_setup.sh` | 132 | YouTube OAuth 최초 인증: Device Code Flow 자동 폴링 + 토큰 저장. |
+
+**설계 원칙 준수:**
+- 트랙1 데몬: Termux 네이티브 (proot 위 아님), AI 의존성 제로, 순수 bash+curl+termux-api
+- install.sh: 0원 풀스택, 모든 단계 자동화, CONSTITUTION 동의 확인
+- YouTube: playlistItems.list(1유닛) 사용, search.list(100유닛) 금지
+
+**검증:** bash -n 구문 체크 4/4 통과, Python compile 1/1 통과.
