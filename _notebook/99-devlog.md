@@ -392,3 +392,102 @@ STT로만 12시간, 식당 노동 병행, 30커밋·98파일·헌법 16조 — "
 특별한 건 그 두 역할을 혼자 + STT로 한다는 점.
 
 **CC 자기반성:** "메타인지 거리" 같은 표현은 장식이다. 검증 가능한 사실만 말해야 한다.
+
+### 30. CONSTITUTION.md 제정 — v1 ~ v4 진화 (2026-07-24)
+
+**v1:** CLAUDE.md와 별도 헌법 문서로 분리. 전문 + 제1~4장 + 제1~14조. 미션 A/B 분리.
+
+**v2:** 대필작가-간병인 모델 + 제7조(핸드오프=성공) 신설. "미션 A/B" → "트랙 1: 돌봄 / 트랙 2: 소망". 계정 분리표에 "대필작가 + 간병인" 역할 갱신.
+
+**v3:** 제0장(Chain of Command) 신설. Boss=헬레나, AI=도구. "니 형" 호칭 금지. 6원칙.
+- Boss는 한 명이다. AI는 도구다.
+- AI 출력은 Boss 승인 전까지 가설.
+- AI는 Boss를 평가하지 않는다 (Boss가 AI를 평가한다).
+- 인간 협력자(강박사) 권한은 Boss 위임 범위 내로 제한.
+
+**v4:** 제8조(플랫폼 층 분리) 신설. Layer A(원본·인간) / Layer B(구조·STT+에이전트).
+GitHub↔YouTube에서 동일 패턴 실증 완료.
+
+**현재:** CONSTITUTION.md — 제0장 + 제1~4장 + 총 16조.
+
+### 31. CLAUDE.md 실무 규칙 재정리 (2026-07-24)
+
+- CONSTITUTION.md와 분리: 헌법 = "무엇을, 왜", CLAUDE.md = "어떻게"
+- 맨 위에 `⚠️ 작업 시작 전 CONSTITUTION.md 먼저 읽을 것` 포인터 추가
+- git 작업, 텔레그램 보고, 건강 검진, 파일 구조 등 실무 규칙만 유지
+
+### 32. 중간평가 v1→v2 — 미착수 항목 책임 재정렬 (2026-07-24)
+
+**v1 (93/100):** Playwright·YouTube OAuth·돌봄 데몬 미착수로 -3. 컨디션 인지 후 의도적 보류 감안.
+
+**v2 (98/100):** 미착수 항목의 실행 책임은 AI에게 있으며, 사용자 평가에서 제외.
+사용자 역할 = 설계·판단·의사결정. 모든 설계 완료.
+산출물 27→30, 아키텍처 19→20(데몬 설계+1), 지속가능성 7→8.
+덴마크식 1장 요약 텔레그램 전송 완료.
+
+**이후 재발견:** 작업 조건이 풀집중 데스크가 아니라 STT 12시간+식당노동 병행이었음.
+이 조건을 반영하면 점수 체계 자체 재설계 필요 — 사용자 자신이 교보재(teaching material).
+
+### 33. 박씨캡처(ParksyCapture) APK — 설치·연동·보안 (2026-07-24~25)
+
+**설치:** `com.parksy.capture` (183MB). Android Share Intent로 LLM 대화로그 캡처.
+**연동:** `helana_log/logs/2026/07/ParksyLog_20260725_074754.md` — 실제 이 스레드 대화 캡처 성공.
+**기능:** 클립보드 복사 안 되는 긴 대화를 인텐트 공유로 로컬 저장 + GitHub 레포 연동.
+
+**보안 이슈:** 첫 로그 파일이 공개 레포(helana_log)에 push됨. 실제 토큰값은 노출되지 않았으나,
+리뷰어 Claude가 토큰 패턴(ghp_..., GOCSPX-...) 언급 부분을 경고.
+→ 파일 즉시 삭제 커밋 + push (`41af5a0`).
+
+**결정:** 토큰 재발급 불필요 (실제 노출 없었음). 비공개 레포 전환 불필요 (프로젝트 철학 = 전체 공개).
+박씨캡처 로그 필터만 추가하여 토큰 문자열 자동 마스킹.
+
+### 34. YouTube OAuth 인증 — TV Device Flow (2026-07-24)
+
+**설정:**
+- GCP 프로젝트: S21 YouTube (ID: 911931724403)
+- OAuth 동의 화면 → External → 테스트 사용자 `pykpyk1107@gmail.com` 추가
+- TV 클라이언트 ID + 시크릿 발급
+- Device Code Flow: `google.com/device` → `XZDJ-SHNM`
+- YouTube Data API v3 + YouTube Analytics API 활성화
+
+**결과:** 채널 `Helena Park (@helenapark-e7c, UCRUuiKCCwIbyvqlxTNpDfKw)` 연결 성공.
+액세스 토큰 + 리프레시 토큰 `.secrets.env`에 저장.
+
+**문제 해결:** 테스트 사용자 미등록 → 403 access_denied 해결. API 미활성화 → 콘솔에서 활성화.
+
+### 35. Playwright 자동화 환경 구축 (2026-07-24)
+
+- `~/browser-env` Python venv 생성
+- Playwright 1.61.0 + Chromium headless 설치 (proot Ubuntu)
+- `scripts/publish.py` — 티스토리 5종 + 네이버 일괄 포스팅 실행기 작성
+- dtslib 기존 코드(`tistory-naver/post.py`, `session_post.py`, `post.cjs`) 분석 및 포팅 준비
+
+### 36. 트랙 1 돌봄 데몬 설계 (2026-07-24)
+
+`_notebook/14-daemon-design.md`:
+- Termux 네이티브 crontab (proot 위 아님), AI 의존성 제로
+- 배터리·GPS·활동패턴·연결성 감지
+- 정기 보고(1시간) + 이상 보고(즉시) + 웰니스 체크
+- 에스컬레이션: 헬레나 → 목사님 → (수동)119
+- AI(Claude Code)는 care-state.json 소비자일 뿐, 의존성 아님
+
+### 37. 업무 수첩 전체 구성 완료 (2026-07-24)
+
+| # | 파일 | 내용 |
+|---|------|------|
+| 00 | INDEX | 목차 |
+| 01 | arch | 전체 시스템 아키텍처 |
+| 02 | discord | 디스코드 서버/봇/위젯 |
+| 03 | telegram | 텔레그램 봇/회의실 |
+| 04 | github-pages | Pages + Giscus + WidgetBot |
+| 05 | tistory | 블로그 6종 + Playwright 자동화 전략 |
+| 06 | youtube | YouTube 채널 5종 설계 + OAuth |
+| 07 | cli-reference | CLI 명령어 모음 |
+| 08 | secrets | 비밀 관리 정책 |
+| 09 | ecosystem | 전체 생태계 브릿지 테이블 |
+| 10 | phone-mcp | 폰 통제 MCP 서버 + Domain/Codomain |
+| 11 | health | 건강 검진 시스템 |
+| 12 | dtslib-gift | dtslib1979 선물 패키지 분석 |
+| 13 | midterm-eval | 중간평가 v1 + v2 재평가 |
+| 14 | daemon-design | 트랙 1 돌봄 데몬 설계 |
+| 99 | devlog | 전체 개발일지 (DAY 1~2, 섹션 1~37) |
