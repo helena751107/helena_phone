@@ -20,4 +20,5 @@
 | `09-ecosystem.md` | 전체 생태계 브릿지 테이블 |
 | `10-phone-mcp.md` | phone-mcp-server 핸드폰 통제 + Domain/Codomain + 검증 |
 | `11-health.md` | 🏥 건강 검진 시스템 (phone-health.sh) |
+| `12-dtslib-gift.md` | 🎁 dtslib1979 선물 패키지 분석 — MCP 치트시트 + 채널 전략 |
 | `99-devlog.md` | 📋 전체 개발일지 (DAY 1~2) |

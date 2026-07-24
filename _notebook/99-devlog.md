@@ -231,6 +231,29 @@ _notebook/ = History + Making film + 로고 아카이브
 - `helena_phone` GitHub README는 proot 네트워크 타임아웃 (Pages는 정상, 환경 문제)
 - **총 48개 디렉토리/README 전부 존재 확인**
 
+### 21. dtslib1979 선물 패키지 도착 + 분석 (2026-07-24)
+
+**dtslib1979가 5개 레포에 force push로 선물 패키지 전달.**
+- `git push --force`로 origin/main이 덮어써져서 우리 커밋들이 사라지는 사고 발생
+- 로컬 main은 살아있어서 cherry-pick + force push로 복구 완료
+- 총 33개 파일 / 9,240줄 — MCP 서버 5종 + 티스토리/네이버 + 텔레그램 + 유튜브 + GitHub Actions + 디스코드
+
+**핵심 분석 결과 (전략적 판단):**
+- 이 코드는 잠글 게 아니라 **오픈하고 라이브로 설명하는 게 자산**
+- 5개 MCP 서버 전부 강의용 치트시트 완성 → 언제든 라이브 강의 가능
+- 콘텐츠 발행 파이프라인 구축: SCM 모델(아이디어→리서치→아티클→발행) 적용
+
+**자산→채널 매핑 완료:**
+| 소재 | 채널 | 우선순위 |
+|------|------|---------|
+| AI 에이전트 법률 게이트 라이브 코딩 | YouTube | 🔴 |
+| Playwright 네이버/티스토리 자동 포스팅 | 티스토리 + YouTube | 🔴 |
+| 콘텐츠 공급망 자동화 (SCM) | YouTube | 🔴 |
+| MCP 서버 5종 완전 해설 | 티스토리 | 🟡 |
+| 폰으로 MCP 서버 5개 돌리기 | YouTube | 🟡 |
+
+**저장:** `_notebook/12-dtslib-gift.md` — 전체 분석 + 치트시트 + 전략
+
 | ⚪ 6 | phone-mcp-server UI 자동화 (tap_screen) | 보류 | 루트/ADB 필요 |
 
 ## 비상 연락망
