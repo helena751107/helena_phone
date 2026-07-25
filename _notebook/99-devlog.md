@@ -635,3 +635,25 @@ Claude API로 스레드 이미지 URL 별도 수집 파이프 고려.
 - 자동화는 GitHub·Pages·YouTube·Telegram·건강검진·돌봄데몬에 집중
 
 **저장:** `_notebook/19-final-strategy.md`
+
+### 45. Grok — 스캐폴드 시각 프로토타입 도구로 확정 (2026-07-25)
+
+**발견:** 네이버 블로그 파싱 테스트 결과 ChatGPT❌ Gemini❌ Claude❌ Grok✅.
+Grok만 모바일 버전(m.blog.naver.com) 파싱에 성공.
+
+**Boss 판단:** "컴피UI GPU 부담 있을 때 80% 수준 스캐폴드 드래프트 만들 때 Grok이 괜찮다. 에이전트·LLM·이미지·동영상 다 되니까."
+
+**Claude-Grok 분업:**
+- Claude Code ($0): 텍스트 원고·코드·터미널·API·문서화
+- Grok (45,000원/월): 네이버 파싱·이미지 생성·짧은 클립·시각 프로토타입
+- 사람: 연결고리 (발행·Grok 프롬프트 전달·최종 편집)
+
+**적용 타이밍:**
+- 지금: Paste Pipeline으로 텍스트-only 웹진 시작
+- 2~3주 후: 웹진 안정화 → Grok 도입하여 시각 요소 추가
+- Grok은 ComfyUI/Stable Diffusion의 GPU 부담을 덜어주는 스캐폴드
+
+**재반증:** proot curl로도 네이버 파싱 가능 확인. Grok의 진짜 가치는
+파싱이 아니라 **이미지·클립 생성 + 에이전트 + LLM 통합**에 있다.
+
+**저장:** `_notebook/25-multi-ai-strategy.md`, `_notebook/26-naver-parsing-solution.md`, `_notebook/27-claude-grok-pipeline.md`
