@@ -658,6 +658,21 @@ Grok만 모바일 버전(m.blog.naver.com) 파싱에 성공.
 
 **저장:** `_notebook/25-multi-ai-strategy.md`, `_notebook/26-naver-parsing-solution.md`, `_notebook/27-claude-grok-pipeline.md`
 
+### 46b. Termux 호출명 `gr` → `grok` 변경 (2026-07-25)
+
+**요청:** 호출 별칭을 직관적으로 `grok`으로 통일.
+
+**변경:**
+| 예전 | 지금 |
+|------|------|
+| `gr` | `grok` |
+| `grlogin` | `groklogin` |
+| `grc` | `grokc` |
+
+- Termux `~/.bashrc`, `configs/bashrc-example.sh`, `CLAUDE.md`, `07-cli-reference.md` 반영
+- 예전 `gr`/`grlogin`/`grc`는 호환용으로 남겨 둠
+- Termux 새 세션 또는 `source ~/.bashrc` 후 `grok` 입력
+
 ### 46. Grok CLI 설치 + gr alias — 세 번째 AI 에이전트 (2026-07-25)
 
 **설치:**

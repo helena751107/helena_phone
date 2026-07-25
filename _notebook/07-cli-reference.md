@@ -85,10 +85,15 @@ curl -s -H "Authorization: token $TOKEN" \
 
 ---
 
-## Grok CLI (2026-07-25 추가)
+## AI 단축 명령 (Termux)
 ```bash
-gr          # grok 실행 (proot Ubuntu)
-grlogin     # device-auth 로그인
-grc         # 이전 세션 이어가기
+cc          # Claude Code (DeepSeek 라우팅)
+ds          # Aider + DeepSeek-V4-Pro (래퍼: scripts/ds.sh)
+dsflash     # Aider + DeepSeek-V4-Flash (가벼운 루프)
+grok        # Grok CLI (Termux → proot Ubuntu)
+groklogin   # device-auth 로그인
+grokc       # 이전 세션 이어가기
 agent       # 헤드리스 에이전트
+
+# 예전 이름도 동작: gr / grlogin / grc
 ```

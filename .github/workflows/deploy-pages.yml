@@ -1,0 +1,66 @@
+# Static site deploy — no Jekyll, no service worker
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build static site bundle
+        run: |
+          set -euo pipefail
+          mkdir -p _site
+          # Copy tracked static content; skip secrets, git, workflows, caches
+          rsync -a \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='node_modules/' \
+            --exclude='.secrets.env' \
+            --exclude='.env' \
+            --exclude='_site/' \
+            --exclude='helana_log/' \
+            --exclude='browser-env/' \
+            --exclude='.aider*' \
+            --exclude='**/__pycache__/' \
+            --exclude='*.pyc' \
+            ./ _site/
+          # Guarantees
+          test -f _site/index.html
+          test -f _site/site.webmanifest
+          test -f _site/icons/icon-192.png
+          test -f _site/icons/icon-512.png
+          touch _site/.nojekyll
+          # Sanity: manifest JSON
+          python3 -c "import json; json.load(open('_site/site.webmanifest'))"
+          echo "Bundle ready:" && du -sh _site && ls _site/icons | head
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

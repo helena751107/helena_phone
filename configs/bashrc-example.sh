@@ -22,8 +22,16 @@ alias hct='bash /root/work/phone-health.sh --telegram'
 alias tg='bash /root/work/tg.sh'
 alias mcp-restart='pkill -f "node server" 2>/dev/null; sleep 1; bash /root/work/phone-mcp.sh --port 3456 &'
 
-# ── Grok CLI (proot Ubuntu 내부) ──
-alias gr='proot-distro login ubuntu -- bash -c "export PATH=\$HOME/.grok/bin:\$PATH; grok"'
-alias grlogin='proot-distro login ubuntu -- bash -c "export PATH=\$HOME/.grok/bin:\$PATH; grok login --device-auth"'
-alias grc='proot-distro login ubuntu -- bash -c "export PATH=\$HOME/.grok/bin:\$PATH; grok -c"'
-alias agent='proot-distro login ubuntu -- bash -c "export PATH=\$HOME/.grok/bin:\$PATH; agent"'
+# ── DeepSeek Aider (래퍼: 오염 히스토리 정리 + diff + 정체성 프롬프트) ──
+alias ds='proot-distro login ubuntu -- bash -lc "bash /root/work/scripts/ds.sh"'
+alias dsflash='proot-distro login ubuntu -- bash -lc "AIDER_MODEL=deepseek/deepseek-v4-flash bash /root/work/scripts/ds.sh"'
+
+# ── Grok CLI (Termux → proot Ubuntu) — 직관적 이름 ──
+alias grok='proot-distro login ubuntu -- bash -lc "export PATH=\$HOME/.grok/bin:\$PATH; cd ~/work; grok"'
+alias groklogin='proot-distro login ubuntu -- bash -lc "export PATH=\$HOME/.grok/bin:\$PATH; grok login --device-auth"'
+alias grokc='proot-distro login ubuntu -- bash -lc "export PATH=\$HOME/.grok/bin:\$PATH; cd ~/work; grok -c"'
+alias agent='proot-distro login ubuntu -- bash -lc "export PATH=\$HOME/.grok/bin:\$PATH; agent"'
+# 예전 이름 호환
+alias gr='grok'
+alias grlogin='groklogin'
+alias grc='grokc'

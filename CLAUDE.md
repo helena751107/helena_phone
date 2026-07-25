@@ -22,9 +22,11 @@
 | 호출 | 에이전트 | 역할 | 비용 |
 |------|---------|------|------|
 | `cc` | Claude Code (DeepSeek) | 코드·문서·자동화·GitHub·TG | $0 |
-| `gr` | Grok CLI (xAI SuperGrok) | 시각·Naver·이미지·클립·채팅검색 | 45,000원/월 |
-| `aider` | Aider (DeepSeek) | 보조 코딩·자동화 루프 | 포함 |
+| `grok` | Grok CLI (xAI SuperGrok) | 시각·Naver·이미지·클립·채팅검색 | 45,000원/월 |
+| `ds` / `dsflash` | Aider (DeepSeek Pro/Flash) | 보조 코딩·자동화 루프 | 포함 |
 
+> Termux: `grok` / `groklogin` / `grokc` / `agent` · `ds`는 `scripts/ds.sh` 래퍼 사용.  
+> 예전 `gr`/`grlogin`/`grc` 호환 유지.
 ## AI 에이전트 규칙
 - 세션 시작 시 CONSTITUTION.md → CLAUDE.md 순으로 참고할 것
 - AI 출력은 전부 1차 가설 — 검증 없이 수용하지 말 것
