@@ -1,0 +1,10 @@
+{
+  "theme": "dark",
+  "skipDangerousModePermissionPrompt": true,
+  "mcpServers": {
+    "phone": {
+      "url": "http://localhost:3456/mcp",
+      "transport": "streamable-http"
+    }
+  }
+}

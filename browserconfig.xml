@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+  <msapplication>
+    <tile>
+      <square150x150logo src="/helena_phone/icons/icon-192.png"/>
+      <square310x310logo src="/helena_phone/icons/icon-512.png"/>
+      <TileColor>#0a0908</TileColor>
+    </tile>
+  </msapplication>
+</browserconfig>

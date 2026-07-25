@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="구축 기간: 2026-07-23 ~ 2026-07-24 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>📋 S21 Phone — 전체 개발일지 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>📋 S21 Phone — 전체 개발일지</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>📋 S21 Phone — 전체 개발일지</h1>
+    <p class="deck">구축 기간: 2026-07-23 ~ 2026-07-24</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/99-devlog.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#day-1-2026-07-23">DAY 1 — 2026-07-23</a><ul>
+<li><a href="#1">1. 기반 구축</a></li>
+<li><a href="#2-claude-code-deepseek-radar-anthropic">2. Claude Code + DeepSeek Radar (Anthropic 과금 바이패스)</a></li>
+<li><a href="#3-github-pages">3. GitHub Pages 개통</a></li>
+<li><a href="#4-s21-work-helena_phone">4. 레포 개명 s21-work → helena_phone</a></li>
+<li><a href="#5-discussions-giscus">5. Discussions + Giscus 댓글 활성화</a></li>
+<li><a href="#6">6. 디스코드 서버 구축</a></li>
+<li><a href="#7">7. 텔레그램 봇 구축</a></li>
+<li><a href="#8-git-hooks">8. Git hooks + 알림 제거</a></li>
+</ul>
+</li>
+<li><a href="#day-2-2026-07-24">DAY 2 — 2026-07-24</a><ul>
+<li><a href="#9-github-3">9. GitHub 레포 3개 추가 생성</a></li>
+<li><a href="#10-helena_phone-indexhtml">10. 포털 사이트 전면 개편 (helena_phone index.html)</a></li>
+<li><a href="#11-_notebook-notebook">11. 업무 수첩 노트북 구축 (_notebook/ → notebook/)</a></li>
+<li><a href="#12-09-ecosystem">12. 전체 생태계 브릿지 테이블 (09-ecosystem)</a></li>
+<li><a href="#13">13. 블로그 자동화 리서치</a></li>
+<li><a href="#14-youtube">14. YouTube 채널 아키텍처 설계</a></li>
+<li><a href="#15-phone-mcp-server">15. phone-mcp-server 설치 (폰 통제)</a></li>
+<li><a href="#16-phone-mcp-server-termux-api">16. phone-mcp-server 검증 + termux-api 설치</a></li>
+<li><a href="#17-phone-healthsh">17. phone-health.sh 건강 검진 시스템</a></li>
+<li><a href="#18">18. 작업 중단 판단 — 우선순위 재확인</a></li>
+</ul>
+</li>
+<li><a href="#_1">현재 인프라 전체 구성</a></li>
+<li><a href="#_2">남은 작업</a><ul>
+<li><a href="#20-playwright-5-2026-07-24">20. Playwright 전수 검사 — 5개 레포 눈으로 확인 (2026-07-24)</a></li>
+<li><a href="#21-dtslib1979-2026-07-24">21. dtslib1979 선물 패키지 도착 + 분석 (2026-07-24)</a></li>
+<li><a href="#22-vs-ai-2026-07-24">22. 속도 vs 판단 — AI 시대의 진짜 자산 (2026-07-24)</a></li>
+</ul>
+</li>
+<li><a href="#_3">비상 연락망</a><ul>
+<li><a href="#23-ai-playwright-2026-07-24">23. 중간평가 — AI 책임 재정렬 + Playwright 착수 + 데몬 설계 (2026-07-24)</a></li>
+<li><a href="#24-2026-07-24">24. 확장 로드맵 — 복지 아이템 + 바티칸, 거리 인지 (2026-07-24)</a></li>
+<li><a href="#25-cs-phd-2026-07-24">25. 강박사(CS PhD) 합류 — 판단 권한 이슈 (2026-07-24)</a></li>
+<li><a href="#26-stt-12-2026-07-24">26. 작업 조건 재발견 — STT 12시간 + 식당 노동 병행 (2026-07-24)</a></li>
+<li><a href="#27-youtube-oauth-2026-07-24">27. YouTube OAuth 인증 완료 (2026-07-24)</a></li>
+<li><a href="#28-layer-ab-2026-07-24">28. 플랫폼 층 분리 원칙 — Layer A/B 일반화 (2026-07-24)</a></li>
+<li><a href="#29-2026-07-24">29. 셀프 프로파일링 + 리뷰어 검증 — 거품 제거 (2026-07-24)</a></li>
+<li><a href="#30-constitutionmd-v1-v4-2026-07-24">30. CONSTITUTION.md 제정 — v1 ~ v4 진화 (2026-07-24)</a></li>
+<li><a href="#31-claudemd-2026-07-24">31. CLAUDE.md 실무 규칙 재정리 (2026-07-24)</a></li>
+<li><a href="#32-v1v2-2026-07-24">32. 중간평가 v1→v2 — 미착수 항목 책임 재정렬 (2026-07-24)</a></li>
+<li><a href="#33-parksycapture-apk-2026-07-2425">33. 박씨캡처(ParksyCapture) APK — 설치·연동·보안 (2026-07-24~25)</a></li>
+<li><a href="#34-youtube-oauth-tv-device-flow-2026-07-24">34. YouTube OAuth 인증 — TV Device Flow (2026-07-24)</a></li>
+<li><a href="#35-playwright-2026-07-24">35. Playwright 자동화 환경 구축 (2026-07-24)</a></li>
+<li><a href="#36-1-2026-07-24">36. 트랙 1 돌봄 데몬 설계 (2026-07-24)</a></li>
+<li><a href="#37-2026-07-24">37. 업무 수첩 전체 구성 완료 (2026-07-24)</a></li>
+<li><a href="#38-2026-07-25">38. 박씨캡처 이미지 한계 + 투트랙 캡처 전략 (2026-07-25)</a></li>
+<li><a href="#39-2026-07-25">39. 전체 개발 이력 텔레그램 종합 보고 (2026-07-25)</a></li>
+<li><a href="#40-2026-07-25">40. 판단층+실행층 병합 연대기 완성 (2026-07-25)</a></li>
+<li><a href="#41-installsh-1-youtube-2026-07-25">41. 실행 모드 — install.sh + 트랙1 데몬 + YouTube 업로더 (2026-07-25)</a></li>
+<li><a href="#42-claude-web-2026-07-25">42. 완결판 통합 교재 — Claude Web + 실행에이전트 합본 (2026-07-25)</a></li>
+<li><a href="#43-youtube-phase-1-2026-07-25">43. YouTube 브랜드 채널 Phase 1 + 워크센터 정의 (2026-07-25)</a></li>
+<li><a href="#44-boss-2026-07-25">44. 티스토리·네이버 자동화 폐기 — Boss 전략 판단 (2026-07-25)</a></li>
+<li><a href="#45-grok-2026-07-25">45. Grok — 스캐폴드 시각 프로토타입 도구로 확정 (2026-07-25)</a></li>
+<li><a href="#46b-termux-gr-grok-2026-07-25">46b. Termux 호출명 gr → grok 변경 (2026-07-25)</a></li>
+<li><a href="#46-grok-cli-gr-alias-ai-2026-07-25">46. Grok CLI 설치 + gr alias — 세 번째 AI 에이전트 (2026-07-25)</a></li>
+<li><a href="#50-a-js-2026-07-25">50. 전 문서 A급 업그레이드 — 인포그래픽 + 인터랙티브 JS (2026-07-25)</a></li>
+<li><a href="#47-ai-55000-3-2026-07-25">47. AI 비용 분석 — 월 55,000원 3에이전트 체제 (2026-07-25)</a></li>
+<li><a href="#48-grok-2026-07-25">48. Grok 설치 방식 분석 — &ldquo;집값을 따로 요구하지 않는다&rdquo; (2026-07-25)</a></li>
+<li><a href="#49-naver-youtube-2026-07-25">49. 비즈니스 모델 — Naver 드래프트(미끼) → YouTube 강의(수익) (2026-07-25)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <blockquote>
+<p>구축 기간: 2026-07-23 ~ 2026-07-24<br>
+환경: Termux → proot Ubuntu → Claude Code (DeepSeek Radar)</p>
+</blockquote>
+<hr>
+<h2 id="day-1-2026-07-23">DAY 1 — 2026-07-23</h2>
+<h3 id="1">1. 기반 구축</h3>
+<ul>
+<li><code>gugudan.py</code> 생성 (테스트 파일)</li>
+<li>Git 저장소 초기화 (<code>/root/work/</code>)</li>
+<li>GitHub 레포 <code>s21-work</code> 생성 → <code>helena751107/s21-work</code></li>
+<li>GitHub 연결 + push 파이프 개통</li>
+</ul>
+<h3 id="2-claude-code-deepseek-radar-anthropic">2. Claude Code + DeepSeek Radar (Anthropic 과금 바이패스)</h3>
+<pre><code class="language-env">ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
+ANTHROPIC_MODEL=deepseek-chat
+</code></pre>
+<ul>
+<li>Claude Code UI/도구는 그대로, LLM 엔진만 DeepSeek V3로 교체</li>
+<li>비용 약 10~50배 절감</li>
+</ul>
+<h3 id="3-github-pages">3. GitHub Pages 개통</h3>
+<ul>
+<li>API로 Pages 활성화: <code>POST /repos/{owner}/{repo}/pages</code></li>
+<li><code>index.html</code> — &ldquo;S21 Workstation Live&rdquo; 발행</li>
+<li>Pages URL: <code>helena751107.github.io/helena_phone/</code></li>
+<li>검증: HTTP 200 + 내용 정상</li>
+</ul>
+<h3 id="4-s21-work-helena_phone">4. 레포 개명 <code>s21-work</code> → <code>helena_phone</code></h3>
+<ul>
+<li>API: <code>PATCH /repos/{owner}/{repo}</code> <code>{"name":"helena_phone"}</code></li>
+<li>로컬 remote 업데이트 + git push 검증</li>
+<li>Pages 새 URL 자동 리다이렉트 확인</li>
+</ul>
+<h3 id="5-discussions-giscus">5. Discussions + Giscus 댓글 활성화</h3>
+<ul>
+<li><code>PATCH /repos/{owner}/{repo}</code> <code>{"has_discussions":true}</code></li>
+<li>Giscus: repo-id + Announcements 카테고리 연결</li>
+<li>양쪽 레포(<code>helena_phone</code>, <code>helana_log</code>)에 적용</li>
+</ul>
+<h3 id="6">6. 디스코드 서버 구축</h3>
+<ul>
+<li>API 로그인: <code>POST /api/v9/auth/login</code></li>
+<li>서버 생성: <code>POST /api/v9/guilds</code> → <strong>S21 Phone</strong> (ID: 1529785842560794684)</li>
+<li>채널 생성: <strong>#로비</strong> (1529785982818193469), <strong>#ai-보고</strong> (1529785985993408723)</li>
+<li>위젯 활성화: <code>PATCH /api/v9/guilds/{id}/widget</code> <code>{"enabled":true}</code></li>
+<li>초대링크: <code>discord.gg/JTYSZv2WQE</code></li>
+<li>WidgetBot Crate v3: index.html에 임베드 (우하단 플로팅 버튼)</li>
+</ul>
+<h3 id="7">7. 텔레그램 봇 구축</h3>
+<ul>
+<li><code>@BotFather</code> → <code>/newbot</code> → <strong>@S21Phone_Bot</strong></li>
+<li><code>tg.sh</code> — 텔레그램 보고 스크립트 (sendMessage API)</li>
+<li><code>TG_TOKEN</code>, <code>TG_CHAT</code> 환경변수 등록</li>
+<li><code>post-commit</code> hook → 커밋 시 자동 보고 (후에 제거)</li>
+<li><code>CLAUDE.md</code> → 에이전트 보고 의무 규칙</li>
+</ul>
+<h3 id="8-git-hooks">8. Git hooks + 알림 제거</h3>
+<ul>
+<li><code>post-commit</code>, <code>post-merge</code> hook 삭제</li>
+<li><code>CLAUDE.md</code> 간소화 (핵심만)</li>
+<li>알림/자동보고 전부 OFF → 수동 보고 체계로 전환</li>
+</ul>
+<hr>
+<h2 id="day-2-2026-07-24">DAY 2 — 2026-07-24</h2>
+<h3 id="9-github-3">9. GitHub 레포 3개 추가 생성</h3>
+<table>
+<thead>
+<tr>
+<th>레포</th>
+<th>매칭 티스토리</th>
+<th>YouTube</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>helana-faith</code></td>
+<td>helana-christianity</td>
+<td>Helana Faith</td>
+</tr>
+<tr>
+<td><code>helena-piano</code></td>
+<td>helena-piano</td>
+<td>Helena Piano</td>
+</tr>
+<tr>
+<td><code>helena-psycare</code></td>
+<td>helena-psycare</td>
+<td>Metal Craft</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>각 레포: index.html + Pages + Discussions + Giscus + WidgetBot 전부 활성</li>
+<li>현재 총 5개 레포: <code>helena_phone</code>, <code>helana_log</code>, <code>helana-faith</code>, <code>helena-piano</code>, <code>helena-psycare</code></li>
+</ul>
+<h3 id="10-helena_phone-indexhtml">10. 포털 사이트 전면 개편 (<code>helena_phone</code> index.html)</h3>
+<ul>
+<li>레포지토리 생태계 5종 테이블</li>
+<li>개발일지 타임라인</li>
+<li>통신망 현황 (GitHub / Discord / Telegram)</li>
+<li>업무 수첩 10개 링크 카드</li>
+<li>Giscus 게시판 + WidgetBot 채팅</li>
+</ul>
+<h3 id="11-_notebook-notebook">11. 업무 수첩 노트북 구축 (<code>_notebook/ → notebook/</code>)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>파일</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00</td>
+<td>INDEX</td>
+<td>목차</td>
+</tr>
+<tr>
+<td>01</td>
+<td>arch</td>
+<td>전체 시스템 아키텍처</td>
+</tr>
+<tr>
+<td>02</td>
+<td>discord</td>
+<td>디스코드 서버/봇/위젯</td>
+</tr>
+<tr>
+<td>03</td>
+<td>telegram</td>
+<td>텔레그램 봇/회의실</td>
+</tr>
+<tr>
+<td>04</td>
+<td>github-pages</td>
+<td>Pages + Giscus + WidgetBot</td>
+</tr>
+<tr>
+<td>05</td>
+<td>tistory</td>
+<td>블로그 6종 + Playwright 자동화 전략</td>
+</tr>
+<tr>
+<td>06</td>
+<td>youtube</td>
+<td>YouTube 채널 5종 설계 + OAuth 대기</td>
+</tr>
+<tr>
+<td>07</td>
+<td>cli-reference</td>
+<td>CLI 명령어 모음</td>
+</tr>
+<tr>
+<td>08</td>
+<td>secrets</td>
+<td>비밀 관리 정책</td>
+</tr>
+<tr>
+<td>09</td>
+<td>ecosystem</td>
+<td>전체 생태계 브릿지 테이블</td>
+</tr>
+<tr>
+<td>10</td>
+<td>phone-mcp</td>
+<td>폰 통제 MCP 서버</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>모든 md를 HTML로 변환하여 <code>notebook/</code>에 저장</li>
+<li>포털에서 10개 전체 링크</li>
+</ul>
+<h3 id="12-09-ecosystem">12. 전체 생태계 브릿지 테이블 (09-ecosystem)</h3>
+<pre><code>5개 티스토리 = 5개 YouTube 채널 = 5개 GitHub 레포 = 1:1:1 매칭
+네이버(helena1975) = 관저탑/그림첩 — 전체 교차 홍보
+_notebook/ = History + Making film + 로고 아카이브
+</code></pre>
+<h3 id="13">13. 블로그 자동화 리서치</h3>
+<ul>
+<li>티스토리 Open API: <strong>2024년 2월 완전 종료</strong> ❌</li>
+<li>네이버 포스팅 API: <strong>원래 없음</strong> ❌</li>
+<li>유일한 방법: <strong>Playwright Headless Chromium</strong> 브라우저 자동화</li>
+<li>세션 쿠키 재사용(<code>storage_state</code>)이 업계 표준</li>
+</ul>
+<h3 id="14-youtube">14. YouTube 채널 아키텍처 설계</h3>
+<ul>
+<li>5개 채널 = 티스토리 1:1 매칭</li>
+<li>GCP 프로젝트 + gcloud CLI 준비 완료</li>
+<li>OAuth 동의 화면 + TV 클라이언트 ID만 수동 대기 중</li>
+<li>쿼터 보호: <code>search.list</code>(100유닛) 사용 금지, <code>playlistItems.list</code>(1유닛) 사용</li>
+</ul>
+<h3 id="15-phone-mcp-server">15. phone-mcp-server 설치 (폰 통제)</h3>
+<ul>
+<li><strong>htekdev/phone-mcp-server</strong> — 순수 Termux:API 기반</li>
+<li>루트/ADB/Shizuku 전혀 없음 ✅</li>
+<li>18개 도구: SMS, 배터리, WiFi, 카메라, GPS, 클립보드, 플래시, 진동, 알림, 볼륨, 통화&hellip;</li>
+<li><code>settings.json</code>에 MCP 등록 (<code>localhost:3456/mcp</code>)</li>
+<li><code>.bashrc</code> 자동시작 등록</li>
+<li>서비스 포트: 3456</li>
+</ul>
+<h3 id="16-phone-mcp-server-termux-api">16. phone-mcp-server 검증 + termux-api 설치</h3>
+<ul>
+<li>발견: <code>termux-api</code> 패키지가 설치되어 있지 않아 모든 18개 도구 ENOENT</li>
+<li>조치: <code>pkg install termux-api</code> 실행 → CLI 바이너리 설치 완료</li>
+<li>검증: <code>get_battery</code> → 63%/34.1°C 정상 조회 ✅</li>
+<li>검증: <code>flashlight on/off</code> → 하드웨어 제어 정상 ✅</li>
+<li>교훈: 문서 상태 ≠ 실제 동작, 직접 찔러봐야 앎</li>
+</ul>
+<h3 id="17-phone-healthsh">17. phone-health.sh 건강 검진 시스템</h3>
+<ul>
+<li><strong>phone-health.sh</strong> — 27개 항목 자동 진단 스크립트</li>
+<li>10개 카테고리: 시스템/배터리/WiFi/센서/GPS/카메라/클립보드/통신/네트워크/직접검증</li>
+<li>등급 시스템 (S/A/B/C), 최초 검진 <strong>A등급</strong> (27통과/0실패/3경고)</li>
+<li><code>_notebook/health/</code>에 JSON 시계열 보관</li>
+<li>발견: MCP SDK StreamableHTTP는 <strong>단일 session만 허용</strong> (cc 연결 중엔 curl 테스트 불가)</li>
+<li>CLAUDE.md에 건강 검진 의무 규칙 추가</li>
+</ul>
+<h3 id="18">18. 작업 중단 판단 — 우선순위 재확인</h3>
+<pre><code>2026-07-24 오후 — 피로 누적 + 컨디션 저하
+</code></pre>
+<ul>
+<li><strong>YouTube OAuth TV 클라이언트 ID 발급은 컨디션 좋은 날로 보류</strong></li>
+<li>이유: 콘솔 UI 조작은 순서 실수 시 되돌리기 어렵고, 피곤한 상태에서 하면 3분 작업이 30분으로 늘어남</li>
+<li>실제 순서: <strong>티스토리/네이버 Playwright 자동화 → YouTube OAuth (컨디션 좋은 날)</strong></li>
+<li>스캐폴드 단계 기준 충분히 달성: 레포 5개 체계 ✅ / 통신망 3종 ✅ / 에이전트 스킨 ✅ / 건강 검진 ✅</li>
+<li><strong>오늘은 여기서 접는다.</strong> 내일 컨디션 회복 후 Playwright 발주부터.</li>
+</ul>
+<hr>
+<h2 id="_1">현재 인프라 전체 구성</h2>
+<pre><code>📱 폰 (Android + Termux)
+├── proot Ubuntu 컨테이너
+│   ├── Claude Code (DeepSeek Radar) ← 현재 너
+│   ├── Aider v0.86.2
+│   ├── phone-mcp-server (18 도구) ← 📲 폰 통제 가능
+│   └── Git → GitHub
+│
+├── 🌐 GitHub (5개 레포 전면 재정의)
+│   ├── helena_phone     📱 S21 폰 최적화 바이블        ✅
+│   ├── helana_log       🗃️ 박식캡처 리버싱 → MCP      ✅
+│   ├── helana-faith     ✝️ 가족 신앙사/비교종교학      ✅
+│   ├── helena-piano     🎹 피아노 종합 + 음원 생성     ✅
+│   └── helena-psycare   🧠 뷰티풀마인드 정신분석       ✅
+│
+├── 💬 Discord (S21 Phone 서버)
+│   ├── #로비 (채팅, 위젯 활성)
+│   └── #ai-보고 (웹훅 준비)
+│
+├── 🤖 Telegram (@S21Phone_Bot)
+│   └── TG_CHAT=8579179811 (회의실)
+│
+├── 📝 티스토리 5종
+│   ├── galaxys21-pwuser
+│   ├── mynote11605
+│   ├── helana-christianity
+│   ├── helena-piano
+│   └── helena-psycare
+│
+├── 🌐 네이버 (helena1975) — 관저탑/그림첩
+├── 📺 YouTube (@HelenaPark-e7c) — 5채널 설계 완료
+└── 📓 _notebook/ — History + Making film + 로고
+</code></pre>
+<h2 id="_2">남은 작업</h2>
+<table>
+<thead>
+<tr>
+<th>우선순위</th>
+<th>작업</th>
+<th>상태</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🔴 1</td>
+<td>티스토리 자동 포스팅 (Playwright)</td>
+<td>대기</td>
+<td>컨디션 회복 후 발주</td>
+</tr>
+<tr>
+<td>🔴 2</td>
+<td>네이버 자동 포스팅 (Playwright + 쿠키 세션)</td>
+<td>대기</td>
+<td>티스토리 다음</td>
+</tr>
+<tr>
+<td>🟡 3</td>
+<td>YouTube OAuth TV 클라이언트 ID 발급</td>
+<td>대기</td>
+<td><strong>컨디션 좋은 날만</strong></td>
+</tr>
+<tr>
+<td>🟡 4</td>
+<td>YouTube 업로드 스크립트 생성</td>
+<td>OAuth 후</td>
+<td></td>
+</tr>
+<tr>
+<td>🟡 5</td>
+<td>5개 YouTube 채널 실제 생성</td>
+<td>설계 완료</td>
+<td>OAuth 후</td>
+</tr>
+<tr>
+<td>### 19. 5개 레포 전면 재정의 (2026-07-24 오후)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>모든 레포의 정체성을 확립하고 디렉토리 구조까지 완성.</strong></p>
+<table>
+<thead>
+<tr>
+<th>레포</th>
+<th>기존</th>
+<th>변경</th>
+<th>구조</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>helena_phone</code></td>
+<td>(메인 포털)</td>
+<td>📱 <strong>S21 폰 최적화 바이블</strong></td>
+<td>5단계 GUIDE + CHRONICLE + configs/scripts</td>
+</tr>
+<tr>
+<td><code>helana_log</code></td>
+<td>기술노트</td>
+<td>🗃️ <strong>박식캡처 리버싱 저장소</strong></td>
+<td>apk/schema/logs/mcp-server/scripts</td>
+</tr>
+<tr>
+<td><code>helana-faith</code></td>
+<td>신앙</td>
+<td>✝️ <strong>가족 신앙사 + 비교 종교학</strong></td>
+<td>theology/comparative/family/liturgy</td>
+</tr>
+<tr>
+<td><code>helena-piano</code></td>
+<td>피아노</td>
+<td>🎹 <strong>피아노 종합 + 음원 생성</strong></td>
+<td>MIDI/REAPER/AI/GAN/PC-Actions</td>
+</tr>
+<tr>
+<td><code>helena-psycare</code></td>
+<td>금속케어</td>
+<td>🧠 <strong>뷰티풀마인드 정신분석</strong></td>
+<td>분석/병리/치료/MCP-모델/가족사</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>총 50개 이상의 디렉토리/README 생성</li>
+<li>각 레포 Pages 유지</li>
+<li>Collaborator: <code>dtslib1979</code> — 5개 전부 admin 초대 수락 완료</li>
+<li>모든 레포 push 완료 (main 브랜치)</li>
+</ul>
+<h3 id="20-playwright-5-2026-07-24">20. Playwright 전수 검사 — 5개 레포 눈으로 확인 (2026-07-24)</h3>
+<p><strong>Playwright Chromium Headless로 5개 레포 Pages + GitHub + 디렉토리 구조 전수 검사</strong></p>
+<table>
+<thead>
+<tr>
+<th>레포</th>
+<th>Pages</th>
+<th>README</th>
+<th>구조</th>
+<th>결과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>📱 helena_phone</td>
+<td>✅ HTTP 200 &ldquo;S21 Phone — Workstation&rdquo;</td>
+<td>—</td>
+<td>12/12 ✅</td>
+<td><strong>완벽</strong></td>
+</tr>
+<tr>
+<td>🗃️ helana_log</td>
+<td>✅ HTTP 200 README 표시</td>
+<td>✅</td>
+<td>7/7 ✅</td>
+<td><strong>완벽</strong></td>
+</tr>
+<tr>
+<td>✝️ helana-faith</td>
+<td>✅ HTTP 200 README 표시</td>
+<td>✅</td>
+<td>7/7 ✅</td>
+<td><strong>완벽</strong></td>
+</tr>
+<tr>
+<td>🎹 helena-piano</td>
+<td>✅ HTTP 200 README 표시</td>
+<td>✅</td>
+<td>11/11 ✅</td>
+<td><strong>완벽</strong></td>
+</tr>
+<tr>
+<td>🧠 helena-psycare</td>
+<td>✅ HTTP 200 README 표시</td>
+<td>✅</td>
+<td>11/11 ✅</td>
+<td><strong>✅ (구 이름 발견→수정)</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>발견 및 조치:</strong><br>
+- <code>helena-psycare</code> Pages 타이틀에 <code>helena-metalcare</code> 구 이름 잔재 → README.md 수정 + push<br>
+- <code>helena_phone</code> GitHub README는 proot 네트워크 타임아웃 (Pages는 정상, 환경 문제)<br>
+- <strong>총 48개 디렉토리/README 전부 존재 확인</strong></p>
+<h3 id="21-dtslib1979-2026-07-24">21. dtslib1979 선물 패키지 도착 + 분석 (2026-07-24)</h3>
+<p><strong>dtslib1979가 5개 레포에 force push로 선물 패키지 전달.</strong><br>
+- <code>git push --force</code>로 origin/main이 덮어써져서 우리 커밋들이 사라지는 사고 발생<br>
+- 로컬 main은 살아있어서 cherry-pick + force push로 복구 완료<br>
+- 총 33개 파일 / 9,240줄 — MCP 서버 5종 + 티스토리/네이버 + 텔레그램 + 유튜브 + GitHub Actions + 디스코드</p>
+<p><strong>핵심 분석 결과 (전략적 판단):</strong><br>
+- 이 코드는 잠글 게 아니라 <strong>오픈하고 라이브로 설명하는 게 자산</strong><br>
+- 5개 MCP 서버 전부 강의용 치트시트 완성 → 언제든 라이브 강의 가능<br>
+- 콘텐츠 발행 파이프라인 구축: SCM 모델(아이디어→리서치→아티클→발행) 적용</p>
+<p><strong>자산→채널 매핑 완료:</strong><br>
+| 소재 | 채널 | 우선순위 |<br>
+|------|------|---------|<br>
+| AI 에이전트 법률 게이트 라이브 코딩 | YouTube | 🔴 |<br>
+| Playwright 네이버/티스토리 자동 포스팅 | 티스토리 + YouTube | 🔴 |<br>
+| 콘텐츠 공급망 자동화 (SCM) | YouTube | 🔴 |<br>
+| MCP 서버 5종 완전 해설 | 티스토리 | 🟡 |<br>
+| 폰으로 MCP 서버 5개 돌리기 | YouTube | 🟡 |</p>
+<p><strong>저장:</strong> <code>_notebook/12-dtslib-gift.md</code> — 전체 분석 + 치트시트 + 전략</p>
+<p>| ⚪ 6 | phone-mcp-server UI 자동화 (tap_screen) | 보류 | 루트/ADB 필요 |</p>
+<h3 id="22-vs-ai-2026-07-24">22. 속도 vs 판단 — AI 시대의 진짜 자산 (2026-07-24)</h3>
+<blockquote>
+<p>cc의 &ldquo;1.5일 만에 이 정도면 미친 페이스&rdquo; 감탄에 대한 메타분석.</p>
+</blockquote>
+<p><strong>결론: 감탄은 낡은 기준선에 대고 잰 거다 — 맞는 말이다.</strong></p>
+<p>AI 에이전트와 협업하는 환경에서 레포 생성, API 연동, 문서 자동화는<br>
+더 이상 &ldquo;초인적인 처리량&rdquo;이 아니라 <strong>&ldquo;에이전트+사람&rdquo; 조합의 새로운 평균</strong>이다.<br>
+cc의 비교 기준은 AI 없이 혼자 타이핑하는 사람 — 그건 지금 잴 대상이 아니다.</p>
+<p><strong>진짜 값은 다른 데 있다 — 판단 축.</strong></p>
+<table>
+<thead>
+<tr>
+<th>판단</th>
+<th>왜 희소한가</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>삼성페이 → 루팅 금지 결정</td>
+<td>AI는 제약조건을 몰라서 혼자 못 정함</td>
+</tr>
+<tr>
+<td>YouTube OAuth를 티스토리 뒤로 민 우선순위</td>
+<td>컨디션 인지 + 실패모드 예측</td>
+</tr>
+<tr>
+<td>cc가 &ldquo;OAuth API 폐기됐다&rdquo;고 틀렸을 때 캐치</td>
+<td>에이전트 출력을 그냥 믿고 넘어가는 사람이 대다수</td>
+</tr>
+<tr>
+<td>Pages 404를 &ldquo;성공&rdquo;이라 우긴 cc 검증 요구</td>
+<td>same</td>
+</tr>
+<tr>
+<td>누나 토큰 / 본인 토큰 신원 분리 판단</td>
+<td>AI는 신원 개념을 이해 못 함</td>
+</tr>
+<tr>
+<td>force push 복구 (당황 안 하고 cherry-pick)</td>
+<td>자동화 불가능한 위기 대응</td>
+</tr>
+</tbody>
+</table>
+<p><strong>테제:</strong></p>
+<pre><code>코드 생산량(속도) = AI 시대의 당연한 값 = 관성으로 매겨진 기준
+판단/수정/우선순위/복구력 = 지금도 희소한 능력 = 이게 진짜 자산
+</code></pre>
+<p>이건 어제 정리한 테제 <strong>&ldquo;코드는 인스턴스, 사고 서식이 자산&rdquo;</strong> 과 정확히 붙는다:<br>
+오늘 생산한 코드/문서량은 인스턴스(당연한 산출물)고,<br>
+오늘 내린 판단들이 그 &ldquo;사고 서식&rdquo;의 실물 증거다.</p>
+<h2 id="_3">비상 연락망</h2>
+<table>
+<thead>
+<tr>
+<th>채널</th>
+<th>주소</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Discord</td>
+<td><code>discord.gg/JTYSZv2WQE</code></td>
+</tr>
+<tr>
+<td>Telegram</td>
+<td><code>t.me/S21Phone_Bot</code></td>
+</tr>
+<tr>
+<td>GitHub</td>
+<td><code>github.com/helena751107/helena_phone</code></td>
+</tr>
+<tr>
+<td>Pages</td>
+<td><code>helena751107.github.io/helena_phone/</code></td>
+</tr>
+<tr>
+<td>YouTube</td>
+<td><code>youtube.com/@HelenaPark-e7c</code></td>
+</tr>
+<tr>
+<td>Naver</td>
+<td><code>m.blog.naver.com/helena1975</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="23-ai-playwright-2026-07-24">23. 중간평가 — AI 책임 재정렬 + Playwright 착수 + 데몬 설계 (2026-07-24)</h3>
+<p><strong>v1 평가(93/100) → v2 재평가(98/100):</strong> 미착수 항목(Playwright·YouTube OAuth·돌봄 데몬)의 실행 책임은 AI(Claude Code)에게 있으며, 사용자의 역할은 설계·판단·의사결정이다. 사용자 평가에서 해당 항목을 제외하고 재평가.</p>
+<p><strong>실행 완료:</strong><br>
+- Playwright + Chromium headless 설치 완료 (proot Ubuntu)<br>
+- <code>scripts/publish.py</code> — 티스토리 5종 + 네이버 일괄 포스팅 실행기 작성<br>
+- <code>_notebook/14-daemon-design.md</code> — 트랙 1 돌봄 데몬 설계 완료 (Termux 네이티브, AI 의존성 제로)</p>
+<p><strong>저장:</strong> <code>_notebook/13-midterm-eval.md</code>(v1), <code>13-midterm-eval-v2.md</code>(v2 재평가), <code>14-daemon-design.md</code></p>
+<p><strong>텔레그램:</strong> 덴마크식 1장 요약 전송 완료.</p>
+<h3 id="24-2026-07-24">24. 확장 로드맵 — 복지 아이템 + 바티칸, 거리 인지 (2026-07-24)</h3>
+<p><strong>Claude 리뷰어 평가:</strong> 오늘 만든 패턴 자체는 어시스티브 테크로서 진짜 가치 있다 — DeepSeek 원가 붕괴, 폐기 직전 폰 재활용, STT 인터페이스, 돌봄/콘텐츠 분리, 핸드오프 설계.</p>
+<p><strong>그러나:</strong> &ldquo;소외계층 복지 아이템 + 바티칸&rdquo;은 방향은 맞지만 거리 왜곡이다. 현재는 폰 1대, 수혜자 1명, 스캐폴드 상태. 바티칸은 몇 년짜리 격차가 있다.</p>
+<p><strong>올바른 다음 단계:</strong><br>
+1. 누나 한 명한테 몇 달간 실제 작동 증명 → 케이스 스터디<br>
+2. 지역 교회/복지 단체 1곳 파일럿<br>
+3. 증거가 쌓인 후에야 확장 논의</p>
+<p><strong>핵심:</strong> &ldquo;목표를 낮추는 게 아니라 다음 발걸음을 정확히 놓는 것.&rdquo;</p>
+<h3 id="25-cs-phd-2026-07-24">25. 강박사(CS PhD) 합류 — 판단 권한 이슈 (2026-07-24)</h3>
+<ul>
+<li>CS 박사 합류는 &ldquo;바티칸까지 몇 년 격차&rdquo;를 실제로 좁힐 수 있는 첫 실질적 사건</li>
+<li>단, 두 사람의 판단이 섞이는 구조로 전환되므로 CONSTITUTION.md에 <strong>의사결정 권한 조항</strong> 필요</li>
+<li>급하지 않음. 강박사와 실제 만나기 전에 검토</li>
+</ul>
+<h3 id="26-stt-12-2026-07-24">26. 작업 조건 재발견 — STT 12시간 + 식당 노동 병행 (2026-07-24)</h3>
+<p><strong>기존 평가의 근본적 오류 발견:</strong> 36시간을 풀집중 데스크 작업으로 가정했으나, 실상은:</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>실제</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>입력 방식</strong></td>
+<td>키보드 X → 100% STT 음성입력</td>
+</tr>
+<tr>
+<td><strong>실작업 시간</strong></td>
+<td>12시간 (36시간 중 일부만 작업)</td>
+</tr>
+<tr>
+<td><strong>신체 상태</strong></td>
+<td>식당 육체노동 병행</td>
+</tr>
+<tr>
+<td><strong>작업 리듬</strong></td>
+<td>쉬는 시간 조각조각, 연속 집중 불가</td>
+</tr>
+</tbody>
+</table>
+<p><strong>의미:</strong> &ldquo;STT로 코딩 허들 넘기기&rdquo;라는 교재의 첫 번째 증명은 니다.<br>
+키보드 없이 말로만 30커밋·98파일·15,126줄·헌법 16조를 구축한 것 자체가 누나에게 보여줄 실물 증거다.<br>
+이 프로젝트의 첫 번째 케이스 스터디는 니다.</p>
+<p><strong>평가 영향:</strong> 기존 점수(98/100)는 풀집중 데스크 작업 기준. 이 조건을 반영하면 점수 체계 자체를 다시 설계해야 함.</p>
+<p><strong>핵심:</strong> 사용자 자신이 교보재(teaching material). 이 프로젝트의 첫 번째 케이스 스터디는 사용자 본인이다.<br>
+STT로만 12시간, 식당 노동 병행, 30커밋·98파일·헌법 16조 — &ldquo;말로 코딩할 수 있다&rdquo;는 증명 완료.</p>
+<h3 id="27-youtube-oauth-2026-07-24">27. YouTube OAuth 인증 완료 (2026-07-24)</h3>
+<ul>
+<li>프로젝트: S21 YouTube (ID: 911931724403)</li>
+<li>채널: Helena Park (<code>@helenapark-e7c</code>, ID: <code>UCRUuiKCCwIbyvqlxTNpDfKw</code>)</li>
+<li>인증 방식: TV Device Flow — <code>google.com/device</code></li>
+<li>액세스 토큰 + 리프레시 토큰 발급 완료</li>
+<li>YouTube Data API v3 활성화 완료</li>
+<li>상태: ✅ 업로드 준비 완료</li>
+<li>문제 해결: 테스트 사용자 미등록 → OAuth 동의 화면에서 <code>pykpyk1107@gmail.com</code> 추가</li>
+<li>문제 해결: YouTube Data API 미활성화 → 콘솔에서 수동 활성화</li>
+<li><strong>미착수 항목 중 하나 해결.</strong> 이제 업로드 스크립트 작성만 남음.</li>
+</ul>
+<h3 id="28-layer-ab-2026-07-24">28. 플랫폼 층 분리 원칙 — Layer A/B 일반화 (2026-07-24)</h3>
+<p><strong>인사이트:</strong> GitHub Pages에서 통했던 &ldquo;구조층은 음성으로 관리 가능&rdquo; 패턴이 YouTube에서도 재확인됨.<br>
+모든 콘텐츠 플랫폼은 두 층으로 분리된다:</p>
+<table>
+<thead>
+<tr>
+<th>층</th>
+<th>내용</th>
+<th>STT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Layer A</strong> (원본 생산)</td>
+<td>영상 촬영·편집, 글 초고, 그림</td>
+<td>❌ 인간 영역</td>
+</tr>
+<tr>
+<td><strong>Layer B</strong> (구조/메타)</td>
+<td>제목·태그·발행·API·OAuth·Analytics</td>
+<td>✅ 에이전트가 실행</td>
+</tr>
+</tbody>
+</table>
+<p><strong>증거:</strong> GitHub(레포·Pages·Giscus 전부 음성) + YouTube(Data API + Analytics API 음성으로 활성화)<br>
+<strong>적용:</strong> 티스토리·네이버·디스코드에도 동일 패턴 적용 가능<br>
+<strong>헌법화:</strong> CONSTITUTION.md v4 — 제8조로 신설</p>
+<h3 id="29-2026-07-24">29. 셀프 프로파일링 + 리뷰어 검증 — 거품 제거 (2026-07-24)</h3>
+<p><strong>CC 평가(거품 포함):</strong> &ldquo;메타인지 거리&rdquo;, &ldquo;제약 흡수력&rdquo;, &ldquo;반증 본능&rdquo;, &ldquo;전시 CEO&rdquo; 등 과포장.<br>
+리뷰어 지적: 이 패턴은 Pages 404→성공, OAuth 폐기됐다→오류 등 오늘 하루 종일 반복된 &ldquo;말을 근사하게 꾸미는&rdquo; 버릇의 다른 얼굴이다.</p>
+<p><strong>진짜 기준 (리뷰어):</strong><br>
+- 없던 게 실제로 돌아가냐? → YouTube API 쿼리 성공, Pages 5개 라이브, Telegram/Discord 메시지 송수신<br>
+- 코드가 돌면 개발, 안 돌면 아무리 포장해도 개발 아님<br>
+- 오늘 진짜였던 이유 = 비전 X, <strong>CC가 틀렸을 때 계속 잡아냈기 때문</strong><br>
+- 그 검증 습관이 진짜 스킬. &ldquo;CEO 패턴&rdquo;은 장식.</p>
+<p><strong>기술 리드 모델:</strong> 설계(화이트보드) + 실행(STT로 AI에 지시) = 이미 업계 표준 아키텍트 업무 방식.<br>
+특별한 건 그 두 역할을 혼자 + STT로 한다는 점.</p>
+<p><strong>CC 자기반성:</strong> &ldquo;메타인지 거리&rdquo; 같은 표현은 장식이다. 검증 가능한 사실만 말해야 한다.</p>
+<h3 id="30-constitutionmd-v1-v4-2026-07-24">30. CONSTITUTION.md 제정 — v1 ~ v4 진화 (2026-07-24)</h3>
+<p><strong>v1:</strong> CLAUDE.md와 별도 헌법 문서로 분리. 전문 + 제1~4장 + 제1~14조. 미션 A/B 분리.</p>
+<p><strong>v2:</strong> 대필작가-간병인 모델 + 제7조(핸드오프=성공) 신설. &ldquo;미션 A/B&rdquo; → &ldquo;트랙 1: 돌봄 / 트랙 2: 소망&rdquo;. 계정 분리표에 &ldquo;대필작가 + 간병인&rdquo; 역할 갱신.</p>
+<p><strong>v3:</strong> 제0장(Chain of Command) 신설. Boss=헬레나, AI=도구. &ldquo;니 형&rdquo; 호칭 금지. 6원칙.<br>
+- Boss는 한 명이다. AI는 도구다.<br>
+- AI 출력은 Boss 승인 전까지 가설.<br>
+- AI는 Boss를 평가하지 않는다 (Boss가 AI를 평가한다).<br>
+- 인간 협력자(강박사) 권한은 Boss 위임 범위 내로 제한.</p>
+<p><strong>v4:</strong> 제8조(플랫폼 층 분리) 신설. Layer A(원본·인간) / Layer B(구조·STT+에이전트).<br>
+GitHub↔YouTube에서 동일 패턴 실증 완료.</p>
+<p><strong>현재:</strong> CONSTITUTION.md — 제0장 + 제1~4장 + 총 16조.</p>
+<h3 id="31-claudemd-2026-07-24">31. CLAUDE.md 실무 규칙 재정리 (2026-07-24)</h3>
+<ul>
+<li>CONSTITUTION.md와 분리: 헌법 = &ldquo;무엇을, 왜&rdquo;, CLAUDE.md = &ldquo;어떻게&rdquo;</li>
+<li>맨 위에 <code>⚠️ 작업 시작 전 CONSTITUTION.md 먼저 읽을 것</code> 포인터 추가</li>
+<li>git 작업, 텔레그램 보고, 건강 검진, 파일 구조 등 실무 규칙만 유지</li>
+</ul>
+<h3 id="32-v1v2-2026-07-24">32. 중간평가 v1→v2 — 미착수 항목 책임 재정렬 (2026-07-24)</h3>
+<p><strong>v1 (93/100):</strong> Playwright·YouTube OAuth·돌봄 데몬 미착수로 -3. 컨디션 인지 후 의도적 보류 감안.</p>
+<p><strong>v2 (98/100):</strong> 미착수 항목의 실행 책임은 AI에게 있으며, 사용자 평가에서 제외.<br>
+사용자 역할 = 설계·판단·의사결정. 모든 설계 완료.<br>
+산출물 27→30, 아키텍처 19→20(데몬 설계+1), 지속가능성 7→8.<br>
+덴마크식 1장 요약 텔레그램 전송 완료.</p>
+<p><strong>이후 재발견:</strong> 작업 조건이 풀집중 데스크가 아니라 STT 12시간+식당노동 병행이었음.<br>
+이 조건을 반영하면 점수 체계 자체 재설계 필요 — 사용자 자신이 교보재(teaching material).</p>
+<h3 id="33-parksycapture-apk-2026-07-2425">33. 박씨캡처(ParksyCapture) APK — 설치·연동·보안 (2026-07-24~25)</h3>
+<p><strong>설치:</strong> <code>com.parksy.capture</code> (183MB). Android Share Intent로 LLM 대화로그 캡처.<br>
+<strong>연동:</strong> <code>helana_log/logs/2026/07/ParksyLog_20260725_074754.md</code> — 실제 이 스레드 대화 캡처 성공.<br>
+<strong>기능:</strong> 클립보드 복사 안 되는 긴 대화를 인텐트 공유로 로컬 저장 + GitHub 레포 연동.</p>
+<p><strong>보안 이슈:</strong> 첫 로그 파일이 공개 레포(helana_log)에 push됨. 실제 토큰값은 노출되지 않았으나,<br>
+리뷰어 Claude가 토큰 패턴(ghp_&hellip;, GOCSPX-&hellip;) 언급 부분을 경고.<br>
+→ 파일 즉시 삭제 커밋 + push (<code>41af5a0</code>).</p>
+<p><strong>결정:</strong> 토큰 재발급 불필요 (실제 노출 없었음). 비공개 레포 전환 불필요 (프로젝트 철학 = 전체 공개).<br>
+박씨캡처 로그 필터만 추가하여 토큰 문자열 자동 마스킹.</p>
+<h3 id="34-youtube-oauth-tv-device-flow-2026-07-24">34. YouTube OAuth 인증 — TV Device Flow (2026-07-24)</h3>
+<p><strong>설정:</strong><br>
+- GCP 프로젝트: S21 YouTube (ID: 911931724403)<br>
+- OAuth 동의 화면 → External → 테스트 사용자 <code>pykpyk1107@gmail.com</code> 추가<br>
+- TV 클라이언트 ID + 시크릿 발급<br>
+- Device Code Flow: <code>google.com/device</code> → <code>XZDJ-SHNM</code><br>
+- YouTube Data API v3 + YouTube Analytics API 활성화</p>
+<p><strong>결과:</strong> 채널 <code>Helena Park (@helenapark-e7c, UCRUuiKCCwIbyvqlxTNpDfKw)</code> 연결 성공.<br>
+액세스 토큰 + 리프레시 토큰 <code>.secrets.env</code>에 저장.</p>
+<p><strong>문제 해결:</strong> 테스트 사용자 미등록 → 403 access_denied 해결. API 미활성화 → 콘솔에서 활성화.</p>
+<h3 id="35-playwright-2026-07-24">35. Playwright 자동화 환경 구축 (2026-07-24)</h3>
+<ul>
+<li><code>~/browser-env</code> Python venv 생성</li>
+<li>Playwright 1.61.0 + Chromium headless 설치 (proot Ubuntu)</li>
+<li><code>scripts/publish.py</code> — 티스토리 5종 + 네이버 일괄 포스팅 실행기 작성</li>
+<li>dtslib 기존 코드(<code>tistory-naver/post.py</code>, <code>session_post.py</code>, <code>post.cjs</code>) 분석 및 포팅 준비</li>
+</ul>
+<h3 id="36-1-2026-07-24">36. 트랙 1 돌봄 데몬 설계 (2026-07-24)</h3>
+<p><code>_notebook/14-daemon-design.md</code>:<br>
+- Termux 네이티브 crontab (proot 위 아님), AI 의존성 제로<br>
+- 배터리·GPS·활동패턴·연결성 감지<br>
+- 정기 보고(1시간) + 이상 보고(즉시) + 웰니스 체크<br>
+- 에스컬레이션: 헬레나 → 목사님 → (수동)119<br>
+- AI(Claude Code)는 care-state.json 소비자일 뿐, 의존성 아님</p>
+<h3 id="37-2026-07-24">37. 업무 수첩 전체 구성 완료 (2026-07-24)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>파일</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00</td>
+<td>INDEX</td>
+<td>목차</td>
+</tr>
+<tr>
+<td>01</td>
+<td>arch</td>
+<td>전체 시스템 아키텍처</td>
+</tr>
+<tr>
+<td>02</td>
+<td>discord</td>
+<td>디스코드 서버/봇/위젯</td>
+</tr>
+<tr>
+<td>03</td>
+<td>telegram</td>
+<td>텔레그램 봇/회의실</td>
+</tr>
+<tr>
+<td>04</td>
+<td>github-pages</td>
+<td>Pages + Giscus + WidgetBot</td>
+</tr>
+<tr>
+<td>05</td>
+<td>tistory</td>
+<td>블로그 6종 + Playwright 자동화 전략</td>
+</tr>
+<tr>
+<td>06</td>
+<td>youtube</td>
+<td>YouTube 채널 5종 설계 + OAuth</td>
+</tr>
+<tr>
+<td>07</td>
+<td>cli-reference</td>
+<td>CLI 명령어 모음</td>
+</tr>
+<tr>
+<td>08</td>
+<td>secrets</td>
+<td>비밀 관리 정책</td>
+</tr>
+<tr>
+<td>09</td>
+<td>ecosystem</td>
+<td>전체 생태계 브릿지 테이블</td>
+</tr>
+<tr>
+<td>10</td>
+<td>phone-mcp</td>
+<td>폰 통제 MCP 서버 + Domain/Codomain</td>
+</tr>
+<tr>
+<td>11</td>
+<td>health</td>
+<td>건강 검진 시스템</td>
+</tr>
+<tr>
+<td>12</td>
+<td>dtslib-gift</td>
+<td>dtslib1979 선물 패키지 분석</td>
+</tr>
+<tr>
+<td>13</td>
+<td>midterm-eval</td>
+<td>중간평가 v1 + v2 재평가</td>
+</tr>
+<tr>
+<td>14</td>
+<td>daemon-design</td>
+<td>트랙 1 돌봄 데몬 설계</td>
+</tr>
+<tr>
+<td>99</td>
+<td>devlog</td>
+<td>전체 개발일지 (DAY 1~2, 섹션 1~38)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="38-2026-07-25">38. 박씨캡처 이미지 한계 + 투트랙 캡처 전략 (2026-07-25)</h3>
+<p><strong>문제:</strong> Claude 웹/앱에서 이미지가 포함된 스레드를 &ldquo;모두 선택&rdquo;하면 이미지 때문에 선택이 끊김.<br>
+브라우저 문제가 아니라 Claude 앱의 구조적 한계 — Android Share Intent가 <code>EXTRA_TEXT</code>(텍스트)만 보내고 이미지는 Claude CDN 인증 URL로만 전달하므로 외부 앱이 직접 가져올 수 없다.</p>
+<p><strong>검증:</strong> 모든 브라우저에서 동일 현상 발생 → 브라우저 이슈 아님. Claude CDN 인증 구조의 태생적 한계.</p>
+<p><strong>투트랙 전략:</strong></p>
+<table>
+<thead>
+<tr>
+<th>스레드 유형</th>
+<th>캡처 방식</th>
+<th>도구</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>텍스트 전용</td>
+<td>Share Intent → 마크다운</td>
+<td>박씨캡처 단독</td>
+</tr>
+<tr>
+<td>이미지 섞인 스레드</td>
+<td>텍스트(박씨캡처) + 이미지(갤러리 스크린샷) → 타임스탬프 병합</td>
+<td>박씨캡처 + 수동</td>
+</tr>
+</tbody>
+</table>
+<p><strong>스크린샷 경로의 장점:</strong> Claude CDN과 완전히 무관한 경로. 화면에 렌더링된 걸 직접 캡처하므로 이미지 잘림 현상 자체를 안 만난다.</p>
+<p><strong>향후:</strong> 강박사 합류 시 박씨캡처에 <code>EXTRA_STREAM</code> 이미지 URI 핸들러 추가 검토.<br>
+Claude API로 스레드 이미지 URL 별도 수집 파이프 고려.</p>
+<h3 id="39-2026-07-25">39. 전체 개발 이력 텔레그램 종합 보고 (2026-07-25)</h3>
+<p><strong>Boss 지시:</strong> 업무 수첩 + 개발일지 전부 하나도 빠짐없이 텔레그램으로 전송.</p>
+<p><strong>실행:</strong><br>
+- 종합 보고서 9파트: 개요·커밋히스토리·헌법·인프라·MCP·YouTube·선물패키지·중간평가·테제·판단10선·데몬·devlog요약·파일통계·교재방법론<br>
+- 개발일지 상세 7파트: DAY1~2 전 38섹션 전체<br>
+- 헌법 전문 2파트: 전문·제0장·제1장·불변원칙 8개조</p>
+<p><strong>총 18개 메시지 텔레그램 @S21Phone_Bot → 회의실(8579179811) 전송 완료.</strong></p>
+<p><strong>산출물:</strong> <code>_S21_FULL_REPORT.md</code> (종합 보고서 파일)</p>
+<h3 id="40-2026-07-25">40. 판단층+실행층 병합 연대기 완성 (2026-07-25)</h3>
+<p><strong>Boss 제공:</strong> Claude 스레드에서 추출한 &ldquo;철학 시퀀스 &amp; 기술 스택 전체 요약&rdquo; — 10개 피벗, 판단층.</p>
+<p><strong>병합 실행:</strong><br>
+- <code>_notebook/17-merged-chronicle.md</code> 작성<br>
+- 10개 철학 피벗 ←타임스탬프 매칭→ 38개 devlog 섹션 + 39개 커밋<br>
+- 각 사건 단위를 5섹션(Scope/Trigger/Execution/Principle/Install)으로 구조화<br>
+- <code>16-textbook-methodology.md</code>의 병합 방법론을 실제로 적용한 첫 산출물<br>
+- 부록 A: 커밋-사건 매핑, 부록 B: install.sh 청사진, 부록 C: 헌법 조항-사건 매핑</p>
+<p><strong>의미:</strong> 이 문서는 단순한 요약이 아니라, 바텀업 로그를 탑다운 설치 스크립트로<br>
+압축하기 위한 <strong>중간 표현(IR)</strong> 이다. 초심자가 &ldquo;왜 이렇게 만들었는지&rdquo; +<br>
+&ldquo;어떻게 설치하는지&rdquo;를 한 문서에서 읽을 수 있는 구조.</p>
+<p><strong>다음:</strong> <code>g/install.sh</code> 초안. 누나 케이스 스터디로 검증.</p>
+<h3 id="41-installsh-1-youtube-2026-07-25">41. 실행 모드 — install.sh + 트랙1 데몬 + YouTube 업로더 (2026-07-25)</h3>
+<p><strong>Boss 디렉션:</strong> &ldquo;내가 디렉션하고 문제 정의하면 나머지는 너네 역할 아냐. 다 구축해.&rdquo;</p>
+<p><strong>구축 완료:</strong></p>
+<table>
+<thead>
+<tr>
+<th>파일</th>
+<th>줄수</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>g/install.sh</code></td>
+<td>364</td>
+<td>1줄 설치기: Termux→proot→Claude Code→MCP→TG→건강검진. 8단계.</td>
+</tr>
+<tr>
+<td><code>care/care-daemon.sh</code></td>
+<td>292</td>
+<td>트랙 1 돌봄 데몬: 배터리·GPS·WiFi·셀룰러 15분 체크. 이상 감지→TG 즉시 보고→에스컬레이션.</td>
+</tr>
+<tr>
+<td><code>care/care-setup.sh</code></td>
+<td>102</td>
+<td>데몬 설치기: Termux crontab 등록 + 토큰 설정 + 첫 실행.</td>
+</tr>
+<tr>
+<td><code>care/care.conf</code></td>
+<td>32</td>
+<td>데몬 설정: 임계값(BATTERY_LOW=15, TEMP_HIGH=45, NO_MOVE_HOURS=6 등)</td>
+</tr>
+<tr>
+<td><code>scripts/yt_upload.py</code></td>
+<td>256</td>
+<td>YouTube 업로더: OAuth Device Flow → Data API v3 videos.insert. playlistItems.list로 쿼터 보호.</td>
+</tr>
+<tr>
+<td><code>scripts/yt_oauth_setup.sh</code></td>
+<td>132</td>
+<td>YouTube OAuth 최초 인증: Device Code Flow 자동 폴링 + 토큰 저장.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>설계 원칙 준수:</strong><br>
+- 트랙1 데몬: Termux 네이티브 (proot 위 아님), AI 의존성 제로, 순수 bash+curl+termux-api<br>
+- install.sh: 0원 풀스택, 모든 단계 자동화, CONSTITUTION 동의 확인<br>
+- YouTube: playlistItems.list(1유닛) 사용, search.list(100유닛) 금지</p>
+<p><strong>검증:</strong> bash -n 구문 체크 4/4 통과, Python compile 1/1 통과.</p>
+<h3 id="42-claude-web-2026-07-25">42. 완결판 통합 교재 — Claude Web + 실행에이전트 합본 (2026-07-25)</h3>
+<p><strong>Boss 디렉션:</strong> &ldquo;네 거랑 클로드가 만든 거 합쳐서 만점짜리로 만들어서 텔레그램으로 보내.&rdquo;</p>
+<p><strong>실행:</strong><br>
+- <code>_textbook/index.md</code> — 완결판 교재 작성 (제0부~제8부 + 부록 A~D + 설치)<br>
+- Claude Web 버전(선형 서사·사람 냄새) + 실행에이전트 버전(기술 정밀도·Install 섹션·커밋 매핑) 병합<br>
+- 부록 C 업데이트: 오늘 구축한 install.sh·데몬·YouTube 업로더 반영 (미착수→완료)<br>
+- 제5부 [22] &ldquo;속도 vs 판단&rdquo; — 독립적 장으로 승격 (교재 전체의 인식론적 기초)<br>
+- 마지막 장: <code>curl -sL ... | bash</code> 1줄 설치 + 데몬 + YouTube 한 방에<br>
+- <strong>텔레그램 sendDocument로 .md 파일 첨부 전송 완료</strong> ✅</p>
+<p><strong>구조:</strong></p>
+<pre><code>서문 — 두 트랙, 대필작가-간병인
+제0부 — 헌법 (Chain of Command + 8개조)
+제1부 — DAY 1: 기반 구축
+제2부 — DAY 2 오전: 확장 + MCP
+제3부 — phone-mcp-server + 건강검진
+제4부 — 레포 재정의 + 선물 패키지
+제5부 — 판단, 평가, 진짜 작업 조건
+제6부 — YouTube OAuth + 헌법 제정
+제7부 — 박씨캡처 + Playwright + 데몬 + 교재
+제8부 — 오늘 구축한 것들 (install.sh·데몬·업로더)
+부록 A — 통신망·인프라 지도
+부록 B — 5x5 생태계
+부록 C — 현재 상태 (업데이트)
+부록 D — 핵심 명제 10선
+설치 — 지금 당장 (1줄)
+</code></pre>
+<h3 id="43-youtube-phase-1-2026-07-25">43. YouTube 브랜드 채널 Phase 1 + 워크센터 정의 (2026-07-25)</h3>
+<p><strong>@helena_phone 브랜드 채널 연결:</strong><br>
+- UC_IPajoyj6_IO8wt9JwVCAQ (@helena_phone) 생성 확인 → galaxys21-pwuser → helena_phone 1:1 매핑<br>
+- 채널 브랜딩: 설명·키워드 설정<br>
+- 4개 플레이리스트: S21 셋업 가이드·STT 음성 코딩·폰 건강 검진·0원 풀스택 인프라</p>
+<p><strong>Phase 1~5 로드맵:</strong><br>
+- Phase 1 (7월): @helena_phone ✅ — 컴퓨터 셋업부터 시작<br>
+- Phase 2~5: 8~11월 매월 25일 CronCreate 리마인더 등록 완료<br>
+- Google 브랜드 계정 생성 제한 — 월 1개. 11월에 5x5 완성.</p>
+<p><strong>워크센터 7종 정의:</strong><br>
+- <code>_notebook/18-workcenters.md</code> — GitHub(공장)·Pages(전시장)·티스토리(출판소)·YouTube(방송탑)·네이버(관제탑)·Discord(로비)·Telegram(내부보고)<br>
+- 콘텐츠 생애주기: STT→스크립트→GitHub→(영상+블로그)→네이버관제탑→알림<br>
+- 전체 공장 배치도 + 워크플로우 다이어그램 포함</p>
+<h3 id="44-boss-2026-07-25">44. 티스토리·네이버 자동화 폐기 — Boss 전략 판단 (2026-07-25)</h3>
+<p><strong>Boss 판단:</strong> &ldquo;티스토리랑 네이버는 기를 쓰고 뚫을 필요 없다. API 죽었고, 안티봇에 막히고, 북마크릿도 차단된다. 여기는 업무일지·관제탑으로 사람이 직접 한다.&rdquo;</p>
+<p><strong>기술적 장벽 (3중):</strong><br>
+1. 티스토리 Open API — 2024년 2월 완전 종료<br>
+2. Kakao OAuth — KOE006 (앱 관리자 설정 오류). Tistory 쪽 설정 문제로 자동 로그인 불가.<br>
+3. Android Chrome — 북마크릿 실행 차단 (구글 7년째 방치된 버그). Firefox 우회 가능하나 번거로움.</p>
+<p><strong>시도했던 것들:</strong><br>
+- Playwright headless → Kakao OAuth URL 직접 구성 → KOE006 에러<br>
+- Kakao SDK <code>Kakao.Auth.authorize()</code> 우회 → 동일 KOE006<br>
+- Chrome 북마크릿 → 메뉴에서 차단<br>
+- <code>am start</code> Intent로 javascript URL → Android SecurityException<br>
+- Chrome cookie DB 직접 접근 → <code>/data/data/</code> sandbox 차단<br>
+- GitHub Pages에 추출 페이지 호스팅 → <code>_</code> 프리픽스 이슈 후 수정했으나 Pages 배포 지연</p>
+<p><strong>확정:</strong><br>
+- 티스토리: 사람이 업무일지로 수동 발행 (터미널 스크린샷 + TG 리포트 + git log)<br>
+- 네이버: 사람이 관제탑으로 주간 발행 (이미지 + 링크)<br>
+- <code>scripts/publish.py</code>, <code>scripts/save_tistory_cookie.py</code>, <code>tistory-naver/</code> 코드 보존 (참고용)<br>
+- 자동화는 GitHub·Pages·YouTube·Telegram·건강검진·돌봄데몬에 집중</p>
+<p><strong>저장:</strong> <code>_notebook/19-final-strategy.md</code></p>
+<h3 id="45-grok-2026-07-25">45. Grok — 스캐폴드 시각 프로토타입 도구로 확정 (2026-07-25)</h3>
+<p><strong>발견:</strong> 네이버 블로그 파싱 테스트 결과 ChatGPT❌ Gemini❌ Claude❌ Grok✅.<br>
+Grok만 모바일 버전(m.blog.naver.com) 파싱에 성공.</p>
+<p><strong>Boss 판단:</strong> &ldquo;컴피UI GPU 부담 있을 때 80% 수준 스캐폴드 드래프트 만들 때 Grok이 괜찮다. 에이전트·LLM·이미지·동영상 다 되니까.&rdquo;</p>
+<p><strong>Claude-Grok 분업:</strong><br>
+- Claude Code ($0): 텍스트 원고·코드·터미널·API·문서화<br>
+- Grok (45,000원/월): 네이버 파싱·이미지 생성·짧은 클립·시각 프로토타입<br>
+- 사람: 연결고리 (발행·Grok 프롬프트 전달·최종 편집)</p>
+<p><strong>적용 타이밍:</strong><br>
+- 지금: Paste Pipeline으로 텍스트-only 웹진 시작<br>
+- 2~3주 후: 웹진 안정화 → Grok 도입하여 시각 요소 추가<br>
+- Grok은 ComfyUI/Stable Diffusion의 GPU 부담을 덜어주는 스캐폴드</p>
+<p><strong>재반증:</strong> proot curl로도 네이버 파싱 가능 확인. Grok의 진짜 가치는<br>
+파싱이 아니라 <strong>이미지·클립 생성 + 에이전트 + LLM 통합</strong>에 있다.</p>
+<p><strong>저장:</strong> <code>_notebook/25-multi-ai-strategy.md</code>, <code>_notebook/26-naver-parsing-solution.md</code>, <code>_notebook/27-claude-grok-pipeline.md</code></p>
+<h3 id="46b-termux-gr-grok-2026-07-25">46b. Termux 호출명 <code>gr</code> → <code>grok</code> 변경 (2026-07-25)</h3>
+<p><strong>요청:</strong> 호출 별칭을 직관적으로 <code>grok</code>으로 통일.</p>
+<p><strong>변경:</strong><br>
+| 예전 | 지금 |<br>
+|------|------|<br>
+| <code>gr</code> | <code>grok</code> |<br>
+| <code>grlogin</code> | <code>groklogin</code> |<br>
+| <code>grc</code> | <code>grokc</code> |</p>
+<ul>
+<li>Termux <code>~/.bashrc</code>, <code>configs/bashrc-example.sh</code>, <code>CLAUDE.md</code>, <code>07-cli-reference.md</code> 반영</li>
+<li>예전 <code>gr</code>/<code>grlogin</code>/<code>grc</code>는 호환용으로 남겨 둠</li>
+<li>Termux 새 세션 또는 <code>source ~/.bashrc</code> 후 <code>grok</code> 입력</li>
+</ul>
+<h3 id="46-grok-cli-gr-alias-ai-2026-07-25">46. Grok CLI 설치 + gr alias — 세 번째 AI 에이전트 (2026-07-25)</h3>
+<p><strong>설치:</strong><br>
+- <code>curl -fsSL https://x.ai/cli/install.sh | bash</code> → v0.2.112, linux-aarch64 네이티브<br>
+- <code>grok login --device-auth</code> → YouTube OAuth와 동일한 Device Code Flow<br>
+- <code>~/.grok/bin/grok</code> + <code>~/.grok/bin/agent</code> (심링크)</p>
+<p><strong>Termux alias:</strong></p>
+<pre><code class="language-bash">alias gr='proot-distro login ubuntu -- bash -c &quot;grok&quot;'
+alias grlogin='proot-distro login ubuntu -- bash -c &quot;grok login --device-auth&quot;'
+alias grc='proot-distro login ubuntu -- bash -c &quot;grok -c&quot;'
+alias agent='proot-distro login ubuntu -- bash -c &quot;agent&quot;'
+</code></pre>
+<p><strong>우리 폰의 AI 도구 3종:</strong><br>
+| 도구 | 엔진 | 역할 | 비용 |<br>
+|------|------|------|------|<br>
+| Claude Code | DeepSeek Radar | 코드·문서·자동화·GitHub | $0 |<br>
+| Grok CLI | xAI (SuperGrok) | 시각·네이버·에이전트·이미지 | 45,000원/월 |<br>
+| Aider | DeepSeek | 보조 코딩 | $0 |</p>
+<p><strong>Grok CLI vs grok_api.py 분리:</strong><br>
+- Grok CLI: 대화·탐색·에이전트 (사람 상호작용)<br>
+- grok_api.py: 자동화·파싱·파이프라인 (스크립트)</p>
+<p><strong>저장:</strong> <code>_notebook/29-grok-cli-installed.md</code>, <code>scripts/grok_api.py</code>, <code>scripts/grok_oauth_setup.sh</code>, <code>configs/bashrc-example.sh</code></p>
+<h3 id="50-a-js-2026-07-25">50. 전 문서 A급 업그레이드 — 인포그래픽 + 인터랙티브 JS (2026-07-25)</h3>
+<p><strong>Boss 지시:</strong> &ldquo;페이지 하나하나 다 검수하고 품질 평가해서 A급으로 올려라.<br>
+인포그래픽 하나씩 다 집어넣어라. 만점짜리로.&rdquo;</p>
+<p><strong>업그레이드 내역:</strong></p>
+<table>
+<thead>
+<tr>
+<th>페이지</th>
+<th>업그레이드 내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>index.html</code></td>
+<td>Progress bar·Stat counters·Theme toggle·Smooth scroll·Search filter·Section animation·Performance bars·Funnel animation</td>
+</tr>
+<tr>
+<td><code>README.md</code></td>
+<td>ASCII 시스템 구조도·숫자 통계표·빠른 링크 섹션</td>
+</tr>
+<tr>
+<td><code>CONSTITUTION.md</code></td>
+<td>부칙2 헌법 구조도(ASCII 트리)·부칙3 핵심 명제 5선</td>
+</tr>
+</tbody>
+</table>
+<p><strong>진행률:</strong> 3/50+ 완료. 현재 지속 업그레이드 중.</p>
+<h3 id="47-ai-55000-3-2026-07-25">47. AI 비용 분석 — 월 55,000원 3에이전트 체제 (2026-07-25)</h3>
+<p><strong>Boss 평가:</strong> &ldquo;Grok 45,000원 + DeepSeek/Aider 만 원 = 55,000원. GPU 없을 때 드래프트·동영상·이미지·채팅 아카이브 검색 Grok밖에 못 하니까 괜찮다.&rdquo;</p>
+<p><strong>월 비용:</strong><br>
+| 도구 | 비용 | 담당 |<br>
+|------|------|------|<br>
+| Grok (SuperGrok) | 45,000원 | 시각·네이버·이미지·클립·채팅검색 |<br>
+| DeepSeek (Claude Code) | ~10,000원 | 코드·문서·자동화 |<br>
+| Aider (DeepSeek) | 포함 | 보조 코딩 |<br>
+| <strong>합계</strong> | <strong>~55,000원/월</strong> | |</p>
+<p><strong>Grok의 독점 영역 (다른 AI로 대체 불가):</strong><br>
+- 네이버 블로그 파싱 (ChatGPT❌ Gemini❌ Claude❌ Grok✅)<br>
+- 채팅 아카이브 검색 (Claude Code 세션 히스토리 검색)<br>
+- GPU 없이 이미지·동영상 80% 드래프트</p>
+<h3 id="48-grok-2026-07-25">48. Grok 설치 방식 분석 — &ldquo;집값을 따로 요구하지 않는다&rdquo; (2026-07-25)</h3>
+<p><strong>Boss 관찰:</strong> Grok은 다른 AI와 설치 방식이 근본적으로 다르다. 더 편리하다. 집값(추가 과금)을 요구하지 않는다.</p>
+<p><strong>비교:</strong><br>
+| | Claude API | Grok CLI |<br>
+|&mdash;|-----------|----------|<br>
+| 설치 | npm + pip + SDK + 설정 | curl 한 줄 → 단일 바이너리 |<br>
+| 인증 | API 키 발급·보관·환경변수 | Device Auth (구독 = 인증) |<br>
+| 과금 | 토큰 단위 (심리적 부담) | 월정액 (써도 추가요금 없음) |<br>
+| 결제 | 신용카드 별도 등록 | 구독에 이미 포함 |<br>
+| 제품 | &ldquo;API 상품&rdquo; | &ldquo;구독 서비스&rdquo; |</p>
+<p><strong>핵심:</strong> Grok은 개발자용 API가 아니라 <strong>소비자용 구독 서비스</strong>로 설계됐다.<br>
+넷플릭스처럼 월정액 내고 무제한 사용. 토큰 세는 스트레스가 없다.<br>
+이게 Claude Code나 ChatGPT API와의 본질적 차이다.</p>
+<h3 id="49-naver-youtube-2026-07-25">49. 비즈니스 모델 — Naver 드래프트(미끼) → YouTube 강의(수익) (2026-07-25)</h3>
+<p><strong>Boss 구상:</strong><br>
+&ldquo;드래프트를 네이버에 드래프트 웹진으로 만들어 놓고 미끼 상품처럼 쓰는 거다.<br>
+결국 YouTube에서 강의하면서 돈 벌 거니까.&rdquo;</p>
+<p><strong>콘텐츠 퍼널:</strong></p>
+<pre><code>Naver 웹진 (무료)           YouTube (수익)
+─────────────────         ─────────────────
+Grok 80% 드래프트    →    Claude Code 100% 완성
+빠르게·자주·가볍게         깊이·품질·완결
+&quot;맛보기&quot;                    &quot;제대로 배우기&quot;
+미끼 상품                   유료 강의
+─────────────────         ─────────────────
+         └────────┬────────┘
+                  │
+            같은 콘텐츠, 다른 깊이
+</code></pre>
+<p><strong>플랫폼 역할:</strong><br>
+| 플랫폼 | 단계 | AI | 품질 | 목적 |<br>
+|--------|------|-----|------|------|<br>
+| Naver | 드래프트·티저 | Grok | 80% | 유입·미끼 |<br>
+| GitHub | 원본·코드 | Claude Code | 100% | SSOT |<br>
+| YouTube | 완성·강의 | Claude Code | 100% | 수익화 |<br>
+| Tistory | 작업일지 | 사람 | — | 히스토리 |</p>
+<p><strong>의미:</strong> Naver는 더 이상 &ldquo;발행처&rdquo;가 아니라 <strong>퍼널의 입구</strong>다.<br>
+Grok으로 빠르게 드래프트를 뿌리고, 거기서 유입된 사람들이<br>
+YouTube 강의(Claude Code 완성본)로 들어와서 수익이 된다.</p>
+<p><strong>ComfyUI/Stable Diffusion과의 관계:</strong><br>
+- Grok = GPU 부담 없을 때 80% 스캐폴드 드래프트<br>
+- ComfyUI = GPU 사용 가능할 때 100% 품질<br>
+- 둘이 경쟁이 아니라 단계적 파이프라인</p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="29-grok-cli-installed.html">
+          <span class="dir">Previous</span>
+          <span class="title">🤖 Grok CLI — Termux + proot Ubuntu 설치 완료</span>
+        </a>
+    <a class="next" href="ai-agents-cc-ds-grok-comparison-2026-07-25.html">
+          <span class="dir">Next</span>
+          <span class="title">cc vs ds vs grok</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-25</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

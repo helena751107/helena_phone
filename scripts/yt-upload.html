@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Source viewer · scripts/yt_upload.py — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>yt_upload.py — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Scripts</span><span class="sep">/</span>
+    <span>yt_upload.py</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Scripts · Vol.01</div>
+    <h1>yt_upload.py</h1>
+    <p class="deck">Source viewer · scripts/yt_upload.py</p>
+    <div class="wz-meta">
+      <span>Source · scripts/yt_upload.py</span>
+      <span>Kind · code</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  
+  <article class="wz-prose">
+    
+<div class="wz-code-head">
+  <span class="path">scripts/yt_upload.py</span>
+  <button type="button" data-copy="#codeBody">Copy</button>
+</div>
+<pre id="codeBody"><code class="language-py">#!/usr/bin/env python3
+&quot;&quot;&quot;
+S21 Phone — YouTube 업로드 스크립트 v1
+OAuth Device Code Flow → Data API v3 → 영상 업로드
+
+사용법:
+  ~/browser-env/bin/python3 scripts/yt_upload.py --title &quot;제목&quot; --file video.mp4
+  ~/browser-env/bin/python3 scripts/yt_upload.py --channel @HelenaPark-e7c --list
+
+환경: proot Ubuntu
+의존성: google-auth-oauthlib, google-api-python-client
+전제: OAuth 토큰이 .secrets.env 또는 yt_tokens.json에 존재할 것
+&quot;&quot;&quot;
+
+import os, sys, json, subprocess, argparse, datetime
+from pathlib import Path
+
+BASE = Path(__file__).resolve().parent.parent
+SECRETS = BASE / &quot;.secrets.env&quot;
+TOKEN_FILE = BASE / &quot;configs&quot; / &quot;yt_tokens.json&quot;
+
+# ── 설정 ────────────────────────────────────────────────────────────────────
+
+CLIENT_ID = os.environ.get(&quot;YT_CLIENT_ID&quot;, &quot;&quot;)
+CLIENT_SECRET = os.environ.get(&quot;YT_CLIENT_SECRET&quot;, &quot;&quot;)
+PROJECT_ID = &quot;911931724403&quot;  # S21 YouTube
+
+CHANNELS = {
+    &quot;main&quot;:     {&quot;id&quot;: &quot;UCRUuiKCCwIbyvqlxTNpDfKw&quot;, &quot;handle&quot;: &quot;@HelenaPark-e7c&quot;,   &quot;topic&quot;: &quot;루트 채널&quot;},
+    &quot;phone&quot;:    {&quot;id&quot;: &quot;&quot;, &quot;handle&quot;: &quot;@S21Phone&quot;,           &quot;topic&quot;: &quot;S21 폰 최적화&quot;},
+    &quot;tech&quot;:     {&quot;id&quot;: &quot;&quot;, &quot;handle&quot;: &quot;@HelenaTechLog&quot;,      &quot;topic&quot;: &quot;기술 튜토리얼&quot;},
+    &quot;faith&quot;:    {&quot;id&quot;: &quot;&quot;, &quot;handle&quot;: &quot;@HelanaFaith&quot;,        &quot;topic&quot;: &quot;신앙 콘텐츠&quot;},
+    &quot;piano&quot;:    {&quot;id&quot;: &quot;&quot;, &quot;handle&quot;: &quot;@HelenaPiano&quot;,        &quot;topic&quot;: &quot;피아노 연주&quot;},
+    &quot;psycare&quot;:  {&quot;id&quot;: &quot;&quot;, &quot;handle&quot;: &quot;@HelenaPsycare&quot;,      &quot;topic&quot;: &quot;정신분석&quot;},
+}
+
+SCOPES = [
+    &quot;https://www.googleapis.com/auth/youtube.upload&quot;,
+    &quot;https://www.googleapis.com/auth/youtube&quot;,
+    &quot;https://www.googleapis.com/auth/yt-analytics.readonly&quot;,
+]
+
+# ── 인증 ────────────────────────────────────────────────────────────────────
+
+def get_authenticated_service():
+    &quot;&quot;&quot;Device Code Flow로 인증 → YouTube API 클라이언트 반환&quot;&quot;&quot;
+    try:
+        from google_auth_oauthlib.flow import InstalledAppFlow
+        from google.auth.transport.requests import Request
+        from googleapiclient.discovery import build
+        import pickle
+    except ImportError:
+        print(&quot;❌ 필요 패키지 설치:&quot;)
+        print(&quot;   ~/browser-env/bin/pip install google-auth-oauthlib google-api-python-client&quot;)
+        sys.exit(1)
+
+    credentials = None
+
+    # 토큰 로드
+    if TOKEN_FILE.exists():
+        with open(TOKEN_FILE, &#x27;r&#x27;) as f:
+            data = json.load(f)
+            from google.oauth2.credentials import Credentials
+            credentials = Credentials(
+                token=data.get(&#x27;access_token&#x27;),
+                refresh_token=data.get(&#x27;refresh_token&#x27;),
+                token_uri=&quot;https://oauth2.googleapis.com/token&quot;,
+                client_id=CLIENT_ID,
+                client_secret=CLIENT_SECRET,
+                scopes=SCOPES,
+            )
+
+    # 만료 시 리프레시
+    if credentials and credentials.expired and credentials.refresh_token:
+        credentials.refresh(Request())
+        _save_tokens(credentials)
+        print(&quot;🔄 토큰 리프레시 완료&quot;)
+
+    if not credentials or not credentials.valid:
+        print(&quot;❌ 유효한 토큰 없음. OAuth 재인증 필요:&quot;)
+        print(&quot;   bash scripts/yt_oauth_setup.sh&quot;)
+        sys.exit(1)
+
+    return build(&#x27;youtube&#x27;, &#x27;v3&#x27;, credentials=credentials)
+
+def _save_tokens(credentials):
+    TOKEN_FILE.parent.mkdir(parents=True, exist_ok=True)
+    data = {
+        &#x27;access_token&#x27;: credentials.token,
+        &#x27;refresh_token&#x27;: credentials.refresh_token,
+        &#x27;token_uri&#x27;: credentials.token_uri,
+        &#x27;client_id&#x27;: credentials.client_id,
+        &#x27;client_secret&#x27;: credentials.client_secret,
+        &#x27;scopes&#x27;: credentials.scopes,
+    }
+    with open(TOKEN_FILE, &#x27;w&#x27;) as f:
+        json.dump(data, f, indent=2)
+    os.chmod(TOKEN_FILE, 0o600)
+
+# ── 업로드 ───────────────────────────────────────────────────────────────────
+
+def upload_video(youtube, file_path, title, description, tags, category_id, privacy_status):
+    &quot;&quot;&quot;YouTube Data API v3 — videos.insert (1,600유닛)&quot;&quot;&quot;
+
+    from googleapiclient.http import MediaFileUpload
+
+    body = {
+        &#x27;snippet&#x27;: {
+            &#x27;title&#x27;: title,
+            &#x27;description&#x27;: description,
+            &#x27;tags&#x27;: tags or [],
+            &#x27;categoryId&#x27;: category_id or &#x27;22&#x27;,  # 22=People &amp; Blogs
+        },
+        &#x27;status&#x27;: {
+            &#x27;privacyStatus&#x27;: privacy_status or &#x27;private&#x27;,  # private/unlisted/public
+            &#x27;selfDeclaredMadeForKids&#x27;: False,
+        },
+    }
+
+    media = MediaFileUpload(file_path, mimetype=&#x27;video/*&#x27;, resumable=True)
+
+    print(f&quot;📤 업로드 시작: {title}&quot;)
+    print(f&quot;   파일: {file_path}&quot;)
+    print(f&quot;   상태: {privacy_status or &#x27;private&#x27;}&quot;)
+
+    request = youtube.videos().insert(part=&#x27;snippet,status&#x27;, body=body, media_body=media)
+    response = None
+
+    while response is None:
+        status, response = request.next_chunk()
+        if status:
+            print(f&quot;   진행률: {int(status.progress() * 100)}%&quot;)
+
+    video_id = response[&#x27;id&#x27;]
+    url = f&quot;https://youtu.be/{video_id}&quot;
+    print(f&quot;✅ 업로드 완료: {url}&quot;)
+    return video_id, url
+
+# ── 채널 정보 ────────────────────────────────────────────────────────────────
+
+def list_channel_videos(youtube, channel_id, max_results=10):
+    &quot;&quot;&quot;채널 동영상 목록 (playlistItems.list = 1유닛) ⚡️&quot;&quot;&quot;
+    # 채널의 uploads 플레이리스트 ID 조회
+    resp = youtube.channels().list(part=&#x27;contentDetails&#x27;, id=channel_id).execute()
+    uploads_id = resp[&#x27;items&#x27;][0][&#x27;contentDetails&#x27;][&#x27;relatedPlaylists&#x27;][&#x27;uploads&#x27;]
+
+    # playlistItems.list 사용 (search.list 대비 100배 저렴)
+    results = youtube.playlistItems().list(
+        part=&#x27;snippet&#x27;,
+        playlistId=uploads_id,
+        maxResults=min(max_results, 50),
+    ).execute()
+
+    print(f&quot;\n📺 채널 동영상 ({len(results.get(&#x27;items&#x27;, []))}개):&quot;)
+    for item in results.get(&#x27;items&#x27;, []):
+        title = item[&#x27;snippet&#x27;][&#x27;title&#x27;]
+        video_id = item[&#x27;snippet&#x27;][&#x27;resourceId&#x27;][&#x27;videoId&#x27;]
+        published = item[&#x27;snippet&#x27;][&#x27;publishedAt&#x27;][:10]
+        print(f&quot;   [{published}] {title}&quot;)
+        print(f&quot;   https://youtu.be/{video_id}&quot;)
+
+    return results
+
+def get_channel_stats(youtube, channel_id):
+    &quot;&quot;&quot;채널 통계 (Analytics API 없이 기본 통계)&quot;&quot;&quot;
+    resp = youtube.channels().list(
+        part=&#x27;statistics,snippet&#x27;,
+        id=channel_id,
+    ).execute()
+
+    if not resp.get(&#x27;items&#x27;):
+        print(&quot;❌ 채널 없음&quot;)
+        return None
+
+    item = resp[&#x27;items&#x27;][0]
+    stats = item[&#x27;statistics&#x27;]
+    print(f&quot;\n📊 채널 통계:&quot;)
+    print(f&quot;   이름: {item[&#x27;snippet&#x27;][&#x27;title&#x27;]}&quot;)
+    print(f&quot;   구독자: {stats.get(&#x27;subscriberCount&#x27;, &#x27;?&#x27;)}&quot;)
+    print(f&quot;   동영상: {stats.get(&#x27;videoCount&#x27;, &#x27;?&#x27;)}&quot;)
+    print(f&quot;   조회수: {stats.get(&#x27;viewCount&#x27;, &#x27;?&#x27;)}&quot;)
+    return resp
+
+# ── CLI ──────────────────────────────────────────────────────────────────────
+
+def main():
+    parser = argparse.ArgumentParser(description=&#x27;S21 YouTube 업로더 v1&#x27;)
+    parser.add_argument(&#x27;--title&#x27;, help=&#x27;영상 제목&#x27;)
+    parser.add_argument(&#x27;--description&#x27;, help=&#x27;영상 설명&#x27;, default=&#x27;&#x27;)
+    parser.add_argument(&#x27;--file&#x27;, help=&#x27;영상 파일 경로&#x27;)
+    parser.add_argument(&#x27;--tags&#x27;, nargs=&#x27;*&#x27;, help=&#x27;태그 (공백 구분)&#x27;)
+    parser.add_argument(&#x27;--category&#x27;, default=&#x27;22&#x27;, help=&#x27;카테고리 ID (기본: 22=People)&#x27;)
+    parser.add_argument(&#x27;--privacy&#x27;, default=&#x27;private&#x27;, choices=[&#x27;private&#x27;, &#x27;unlisted&#x27;, &#x27;public&#x27;])
+    parser.add_argument(&#x27;--channel&#x27;, default=&#x27;main&#x27;, help=f&#x27;채널 키: {&quot;, &quot;.join(CHANNELS.keys())}&#x27;)
+    parser.add_argument(&#x27;--list&#x27;, action=&#x27;store_true&#x27;, help=&#x27;채널 동영상 목록&#x27;)
+    parser.add_argument(&#x27;--stats&#x27;, action=&#x27;store_true&#x27;, help=&#x27;채널 통계&#x27;)
+    args = parser.parse_args()
+
+    # OAuth 토큰 로드
+    _load_secrets()
+
+    youtube = get_authenticated_service()
+    channel = CHANNELS.get(args.channel, CHANNELS[&#x27;main&#x27;])
+
+    if not channel[&#x27;id&#x27;]:
+        print(f&quot;❌ 채널 &#x27;{args.channel}&#x27;의 ID가 설정되지 않았습니다.&quot;)
+        print(&quot;   configs/yt_tokens.json 또는 yt_upload.py의 CHANNELS 딕셔너리 확인&quot;)
+        sys.exit(1)
+
+    if args.list:
+        list_channel_videos(youtube, channel[&#x27;id&#x27;])
+        return
+
+    if args.stats:
+        get_channel_stats(youtube, channel[&#x27;id&#x27;])
+        return
+
+    if not args.title or not args.file:
+        parser.error(&quot;--title과 --file은 필수입니다&quot;)
+        return
+
+    if not os.path.exists(args.file):
+        print(f&quot;❌ 파일 없음: {args.file}&quot;)
+        sys.exit(1)
+
+    desc = args.description or f&quot;{channel[&#x27;topic&#x27;]}\n\n🤖 @S21Phone_Bot 자동 업로드&quot;
+
+    video_id, url = upload_video(
+        youtube, args.file, args.title, desc,
+        args.tags, args.category, args.privacy,
+    )
+
+    # tg.sh로 보고
+    tg = BASE / &quot;tg.sh&quot;
+    if tg.exists():
+        msg = f&quot;📺 YouTube 업로드 완료\n제목: {args.title}\n{url}&quot;
+        subprocess.run([&quot;bash&quot;, str(tg), msg], check=False)
+
+def _load_secrets():
+    &quot;&quot;&quot;환경변수에서 OAuth 정보 로드&quot;&quot;&quot;
+    global CLIENT_ID, CLIENT_SECRET
+
+    if SECRETS.exists():
+        with open(SECRETS) as f:
+            for line in f:
+                line = line.strip()
+                if line.startswith(&#x27;YT_CLIENT_ID=&#x27;):
+                    CLIENT_ID = line.split(&#x27;=&#x27;, 1)[1].strip(&#x27;&quot;\&#x27;&#x27;)
+                elif line.startswith(&#x27;YT_CLIENT_SECRET=&#x27;):
+                    CLIENT_SECRET = line.split(&#x27;=&#x27;, 1)[1].strip(&#x27;&quot;\&#x27;&#x27;)
+
+    CLIENT_ID = os.environ.get(&#x27;YT_CLIENT_ID&#x27;, CLIENT_ID)
+    CLIENT_SECRET = os.environ.get(&#x27;YT_CLIENT_SECRET&#x27;, CLIENT_SECRET)
+
+if __name__ == &#x27;__main__&#x27;:
+    main()
+</code></pre>
+<p style="margin-top:1.5em;color:var(--ink-mute);font-size:.9rem">원본 파일: <code>scripts/yt_upload.py</code> · Webzine code viewer (no execution)</p>
+
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="ds.html">
+          <span class="dir">Previous</span>
+          <span class="title">ds.sh · Aider wrapper</span>
+        </a>
+    <a class="next" href="grok-api.html">
+          <span class="dir">Next</span>
+          <span class="title">grok_api.py</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="../g/install.html"><strong>install.sh · 1줄 설치기</strong>Scripts</a><a href="../care/care-daemon.html"><strong>care-daemon.sh</strong>Scripts</a><a href="../care/care-setup.html"><strong>care-setup.sh</strong>Scripts</a><a href="../care/care-conf.html"><strong>care.conf</strong>Scripts</a><a href="../phone-health.html"><strong>phone-health.sh</strong>Scripts</a><a href="tg.html"><strong>tg.sh · Telegram</strong>Scripts</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

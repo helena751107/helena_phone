@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="전체 시스템 아키텍처 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>전체 시스템 아키텍처 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>전체 시스템 아키텍처</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>전체 시스템 아키텍처</h1>
+    
+    <div class="wz-meta">
+      <span>Source · _notebook/01-arch.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#_2">스택 구조</a></li>
+<li><a href="#deepseek-radar-anthropic">DeepSeek Radar (Anthropic 과금 바이패스)</a></li>
+<li><a href="#3">통신망 3종</a></li>
+<li><a href="#_3">전체 생태계</a></li>
+<li><a href="#2026-07-25">현재 아키텍처 (2026-07-25 업데이트)</a></li>
+<li><a href="#ai">AI 도구</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <h2 id="_2">스택 구조</h2>
+<pre><code>폰 (Android + Termux)
+├── proot-distro Ubuntu 컨테이너 (ubi)
+│   ├── /root/work/ ← Git 저장소
+│   │   ├── index.html        ← GitHub Pages 랜딩 페이지
+│   │   ├── gugudan.py        ← 구구단 (테스트)
+│   │   ├── tg.sh             ← 텔레그램 보고 스크립트
+│   │   ├── tg_discord_bridge.py ← TG-디스코드 브릿지 봇
+│   │   ├── CLAUDE.md         ← AI 에이전트 규칙
+│   │   ├── .secrets.env      ← 로컬 비밀 (git 제외)
+│   │   └── _notebook/        ← 이 업무 수첩
+│   │
+│   ├── Claude Code (현재 엔진) ← AI 코딩 에이전트
+│   │   └── DeepSeek Radar 바이패스 ← Anthropic 과금 회피
+│   │
+│   └── Aider v0.86.2         ← 보조 AI 코딩 도구
+│
+├── GitHub → helena751107/helena_phone
+│              helena751107/helana_log
+│
+├── Tistory → 5개 블로그 세트
+│   ├── mynote11605.tistory.com
+│   ├── helana-christianity.tistory.com
+│   ├── helena-piano.tistory.com
+│   ├── galaxys21-pwuser.tistory.com
+│   └── helena-metalcare.tistory.com
+│
+├── Discord 서버: S21 Phone (ID: 1529785842560794684)
+│   ├── #로비 (채팅)
+│   └── #ai-보고 (웹훅/보고)
+│
+└── Telegram 봇: @S21Phone_Bot
+    └── TG_CHAT: 8579179811
+</code></pre>
+<h2 id="deepseek-radar-anthropic">DeepSeek Radar (Anthropic 과금 바이패스)</h2>
+<p>Claude Code가 DeepSeek API 위에서 돌도록 우회:</p>
+<pre><code class="language-bash">ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
+ANTHROPIC_MODEL=deepseek-chat
+ANTHROPIC_AUTH_TOKEN=sk-xxxxx
+DEEPSEEK_API_KEY=sk-xxxxx
+</code></pre>
+<p>→ Claude Code UI/도구는 그대로, LLM 엔진만 DeepSeek V3로 교체<br>
+→ 비용 약 10~50배 절감</p>
+<h2 id="3">통신망 3종</h2>
+<table>
+<thead>
+<tr>
+<th>채널</th>
+<th>용도</th>
+<th>방식</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GitHub Pages</td>
+<td>정적 페이지</td>
+<td>git push 자동 발행</td>
+</tr>
+<tr>
+<td>Discord</td>
+<td>실시간 채팅/로비</td>
+<td>WidgetBot + 초대링크</td>
+</tr>
+<tr>
+<td>Telegram</td>
+<td>AI 보고/알림</td>
+<td>tg.sh → sendMessage API</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_3">전체 생태계</h2>
+<pre><code>YouTube (5채널) ← 1:1 → Tistory (5블로그) ← 1:1 → GitHub (5레포)
+                                                       ↓
+                                                  _notebook (히스토리/로고)
+                                                       ↓
+                                                  Naver 관저탑 (그림첩/홍보)
+</code></pre>
+<p>자세한 내용: <code>_notebook/09-ecosystem.md</code></p>
+<hr>
+<h2 id="2026-07-25">현재 아키텍처 (2026-07-25 업데이트)</h2>
+<pre><code>📱 Galaxy S21 5G (SM-G991N)
+│  Android 15 · 8GB RAM · 256GB · Exynos 2100
+│
+├── Termux (Android 네이티브)
+│   ├── termux-api (18개 CLI 도구)
+│   ├── crontab → care-daemon.sh (돌봄)
+│   └── proot-distro → Ubuntu 26.04 LTS
+│
+├── proot Ubuntu 컨테이너
+│   ├── Claude Code (DeepSeek Radar) — 메인
+│   ├── Grok CLI (xAI SuperGrok) — 시각·Naver
+│   ├── Aider (DeepSeek) — 보조 코딩
+│   ├── phone-mcp-server (18도구·3456포트)
+│   ├── Playwright + Chromium headless
+│   ├── Python 3.14 + Node.js
+│   └── Git → GitHub (5레포)
+│
+├── 🌐 출력 채널
+│   ├── GitHub Pages (5사이트·자동배포)
+│   ├── YouTube @helena_phone (OAuth)
+│   ├── Discord (2채널·WidgetBot)
+│   ├── Telegram @S21Phone_Bot
+│   ├── 티스토리 5종 (수동)
+│   └── 네이버 웹진 (수동+Grok)
+│
+└── 🛡️ 트랙1 독립 (Termux 네이티브)
+    └── care-daemon.sh (AI 의존성 제로)
+</code></pre>
+<h2 id="ai">AI 도구</h2>
+<table>
+<thead>
+<tr>
+<th>도구</th>
+<th>엔진</th>
+<th>비용</th>
+<th>용도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude Code</td>
+<td>DeepSeek Radar</td>
+<td>$0</td>
+<td>코드·문서·자동화</td>
+</tr>
+<tr>
+<td>Grok CLI</td>
+<td>xAI SuperGrok</td>
+<td>45,000원/월</td>
+<td>시각·Naver·이미지</td>
+</tr>
+<tr>
+<td>Aider</td>
+<td>DeepSeek</td>
+<td>$0</td>
+<td>보조 코딩</td>
+</tr>
+</tbody>
+</table>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="00-INDEX.html">
+          <span class="dir">Previous</span>
+          <span class="title">📖 S21 Phone 업무 수첩</span>
+        </a>
+    <a class="next" href="02-discord.html">
+          <span class="dir">Next</span>
+          <span class="title">Discord</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-25</a><a href="02-discord.html"><strong>Discord</strong>Notebook</a><a href="03-telegram.html"><strong>Telegram</strong>Notebook</a><a href="04-github-pages.html"><strong>Pages · Giscus</strong>Notebook</a><a href="05-tistory.html"><strong>티스토리</strong>Notebook</a><a href="06-youtube.html"><strong>YouTube</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

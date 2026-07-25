@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="버전: 1.0 | 제정: 2026-07-25 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>교재 합성 지침 (Textbook Synthesis Instruction) — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>교재 합성 지침 (Textbook Synthesis Instruction)</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>교재 합성 지침 (Textbook Synthesis Instruction)</h1>
+    <p class="deck">버전: 1.0 | 제정: 2026-07-25</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/16-textbook-methodology.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#_1">원칙: 왜 이 순서인가</a></li>
+<li><a href="#_2">소스 우선순위</a></li>
+<li><a href="#_3">병합 방법</a></li>
+<li><a href="#_4">챕터 구조 (사건 단위 하나당)</a></li>
+<li><a href="#_5">필수 검열 규칙</a></li>
+<li><a href="#_6">이미지 처리</a></li>
+<li><a href="#_7">산출물 형식</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <blockquote>
+<p>버전: 1.0 | 제정: 2026-07-25<br>
+이 문서는 재사용 가능한 방법론이다. 특정 소재(helena_phone)뿐 아니라<br>
+앞으로 다른 프로젝트, 다른 협업자(강박사 등)한테도 그대로 적용한다.<br>
+완성된 책 한 권이 아니라 &ldquo;책을 만드는 절차&rdquo;가 진짜 자산이다.</p>
+</blockquote>
+<hr>
+<h2 id="_1">원칙: 왜 이 순서인가</h2>
+<p>작업은 두 개의 서로 다른 층에서 동시에 일어났다:</p>
+<ul>
+<li><strong>판단 층(Claude 스레드)</strong> — 왜 이렇게 하기로 했는지, 뭐가 틀렸을 때 어떻게 잡았는지</li>
+<li><strong>실행 층(에이전트 devlog)</strong> — 실제로 뭘 실행했는지, 어떤 에러가 났는지, 커밋 로그</li>
+</ul>
+<p>한쪽만 쓰면 반쪽짜리다. 판단만 있으면 실체 없는 자기계발서가 되고,<br>
+실행만 있으면 왜 그런지 모르는 명령어 나열집이 된다.</p>
+<hr>
+<h2 id="_2">소스 우선순위</h2>
+<ol>
+<li><strong>CONSTITUTION.md</strong> — 모든 합성의 최상위 기준. 여기 조항과 충돌하는<br>
+   서술은 만들지 않는다.</li>
+<li><strong>Claude 스레드 원본</strong> — 서사의 축(spine). 시간순 뼈대는 여기서 가져온다.</li>
+<li><strong>에이전트 devlog(99-devlog.md 등)</strong> — 각 판단 지점에 실제 실행 세부를<br>
+   덧대는 용도. 판단 없이 devlog만 있는 구간은 &ldquo;실행 로그&rdquo;로만 표시하고<br>
+   서사로 승격하지 않는다.</li>
+</ol>
+<hr>
+<h2 id="_3">병합 방법</h2>
+<ol>
+<li>두 소스에서 <strong>타임스탬프</strong>를 뽑는다 (스레드의 스크린샷 시간, devlog의<br>
+   커밋/명령 시간).</li>
+<li>같은 시간대(±10분 이내)의 판단-실행 쌍을 찾아 하나의 &ldquo;사건 단위&rdquo;로<br>
+   묶는다.</li>
+<li>시간 순서대로 배열한다. 순서를 재구성하거나 미화하지 않는다 — 삽질과<br>
+   정정이 실제로 일어난 순서 그대로 보존한다. 이게 교재의 가치다.</li>
+</ol>
+<hr>
+<h2 id="_4">챕터 구조 (사건 단위 하나당)</h2>
+<p>이미 이 프로젝트에서 계속 써온 포맷을 그대로 쓴다:</p>
+<ul>
+<li><strong>Scope</strong> — 그 순간 뭘 하려고 했는가</li>
+<li><strong>뭐가 틀렸는가</strong> — 에러, 오판, 되돌린 것 (있으면)</li>
+<li><strong>판단</strong> — 왜 그 방향으로 정했는가 (트레이드오프 포함)</li>
+<li><strong>실행</strong> — 실제로 돌아간 명령/코드 (devlog에서)</li>
+<li><strong>원칙 추출</strong> — 이 사건에서 뽑아낼 재사용 가능한 규칙 한 줄</li>
+</ul>
+<hr>
+<h2 id="_5">필수 검열 규칙</h2>
+<p>최종 출력 전에 반드시:<br>
+- 토큰/시크릿 패턴(<code>ghp_</code>, <code>GOCSPX-</code>, <code>sk-</code>, 봇 토큰 형식 등) 문자열 검색 후 전부 <code>[REDACTED]</code>로 치환<br>
+- 3자 개인정보(건강 상태 등 민감정보) 포함 여부 재확인 — 원칙(콘텐츠 공개 vs 돌봄데이터 비공개) 문서와 대조</p>
+<hr>
+<h2 id="_6">이미지 처리</h2>
+<ul>
+<li>Claude 스레드를 직접 읽는 에이전트(=사람이 판단해서 요약)라면 이미지는<br>
+  이미 봤으므로 별도 처리 불필요.</li>
+<li>텍스트 로그만 가진 에이전트(cc/aider)라면 폰 스크린샷 갤러리를<br>
+  타임스탬프로 매칭해서 별도 첨부.</li>
+</ul>
+<hr>
+<h2 id="_7">산출물 형식</h2>
+<p>1권짜리 완제품을 한 번에 뽑지 않는다. 위 챕터 구조로 사건 단위를 하나씩<br>
+쌓아가고, 일정 분량 모이면 그때 서문/목차를 얹는다. 이게 &ldquo;핸드오프<br>
+가능한&rdquo; 교재 제작 방식이다 — 중간에 누가 이어받아도 다음 사건 단위부터<br>
+계속 쓸 수 있다.</p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="15-proot-report.html">
+          <span class="dir">Previous</span>
+          <span class="title">📋 S21 Phone — proot Ubuntu 개발일지 종합 보고서</span>
+        </a>
+    <a class="next" href="17-merged-chronicle.html">
+          <span class="dir">Next</span>
+          <span class="title">병합 연대기</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-25</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

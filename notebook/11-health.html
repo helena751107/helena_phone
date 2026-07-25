@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="역할: 주기적인 하드웨어/소프트웨어 헬스체크 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>S21 Phone 건강 검진 시스템 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>S21 Phone 건강 검진 시스템</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>S21 Phone 건강 검진 시스템</h1>
+    <p class="deck">역할: 주기적인 하드웨어/소프트웨어 헬스체크</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/11-health.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#_1">개요</a></li>
+<li><a href="#10">검사 항목 (10개 카테고리)</a></li>
+<li><a href="#_2">사용법</a></li>
+<li><a href="#_3">보고서 보관</a></li>
+<li><a href="#json">JSON 보고서 구조</a></li>
+<li><a href="#_4">종합 등급 기준</a></li>
+<li><a href="#_5">시계열 비교</a></li>
+<li><a href="#_6">경고 신호 (자동 감지)</a></li>
+<li><a href="#_7">설계 원칙</a></li>
+<li><a href="#2026-07-25">최근 검진 (2026-07-25)</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <blockquote>
+<p>역할: 주기적인 하드웨어/소프트웨어 헬스체크<br>
+최초 구축: 2026-07-24<br>
+스크립트: <code>~/work/phone-health.sh</code></p>
+</blockquote>
+<h2 id="_1">개요</h2>
+<p>phone-health.sh는 S21 Phone의 모든 하드웨어와 소프트웨어 상태를 진단하는 자동화 스크립트다.<br>
+MCP 서버(phone-mcp-server)에 의존하지 않고 Termux:API를 직접 호출하여 각 센서와 기능을 검증한다.</p>
+<h2 id="10">검사 항목 (10개 카테고리)</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>카테고리</th>
+<th>검사 내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>시스템 기본</td>
+<td>Kernel, hostname, MCP 서버 상태, 디스크, GitHub Pages</td>
+</tr>
+<tr>
+<td>2</td>
+<td>전원/배터리</td>
+<td>잔량(%), 온도(°C), 충전상태, 건강도, 전압, 전류</td>
+</tr>
+<tr>
+<td>3</td>
+<td>WiFi/네트워크</td>
+<td>SSID, IP, RSSI(dBm), 링크속도, 외부 연결성</td>
+</tr>
+<tr>
+<td>4</td>
+<td>하드웨어 센서</td>
+<td>Flashlight, Vibrate, Volume, Audio info, Sensor list</td>
+</tr>
+<tr>
+<td>5</td>
+<td>위치/GPS</td>
+<td>GPS fix (GPS + Network fallback)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>카메라/미디어</td>
+<td>Camera info, Microphone, TTS</td>
+</tr>
+<tr>
+<td>7</td>
+<td>클립보드</td>
+<td>Write + Read 검증</td>
+</tr>
+<tr>
+<td>8</td>
+<td>커뮤니케이션</td>
+<td>SMS, Contacts, Call log, Telephony, Cellular, Notification</td>
+</tr>
+<tr>
+<td>9</td>
+<td>네트워크 서비스</td>
+<td>GitHub Pages 5개, Discord widget, Telegram API</td>
+</tr>
+<tr>
+<td>10</td>
+<td>핵심 직접 검증</td>
+<td>termux-battery-status, device_info, camera_info 재확인</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">사용법</h2>
+<pre><code class="language-bash"># 기본 검진 (27개 항목, 비파괴)
+bash ~/work/phone-health.sh
+
+# 전체 검진 (사진 촬영 포함)
+bash ~/work/phone-health.sh --full
+
+# 검진 + 텔레그램 보고
+bash ~/work/phone-health.sh --telegram
+</code></pre>
+<h2 id="_3">보고서 보관</h2>
+<p>모든 검진 결과는 타임스탬프 JSON으로 <code>_notebook/health/</code>에 저장된다.</p>
+<pre><code>_notebook/health/
+├── 2026-07-24_1212.json    ← 첫 검진
+├── 2026-07-24_1217.json    ← 두 번째
+├── 2026-07-24_1223.json    ← 현재 최신
+└── ...
+</code></pre>
+<h2 id="json">JSON 보고서 구조</h2>
+<pre><code class="language-json">{
+  &quot;timestamp&quot;: &quot;2026-07-24 12:23:10 UTC&quot;,
+  &quot;grade&quot;: &quot;A&quot;,
+  &quot;battery&quot;: {
+    &quot;percentage&quot;: 63,
+    &quot;temperature&quot;: 37.2,
+    &quot;status&quot;: &quot;CHARGING&quot;,
+    &quot;health&quot;: &quot;GOOD&quot;,
+    &quot;plugged&quot;: &quot;PLUGGED_AC&quot;
+  },
+  &quot;wifi&quot;: {
+    &quot;ssid&quot;: &quot;U+NetFA1B&quot;,
+    &quot;ip&quot;: &quot;192.168.219.131&quot;,
+    &quot;rssi&quot;: -43,
+    &quot;link_speed&quot;: 130
+  },
+  &quot;results&quot;: {
+    &quot;pass&quot;: 27, &quot;warn&quot;: 3, &quot;fail&quot;: 0,
+    &quot;total&quot;: 31
+  },
+  &quot;mcp&quot;: {
+    &quot;port&quot;: 3456,
+    &quot;http_status&quot;: 200,
+    &quot;tools&quot;: 18
+  }
+}
+</code></pre>
+<h2 id="_4">종합 등급 기준</h2>
+<table>
+<thead>
+<tr>
+<th>등급</th>
+<th>조건</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>S</strong></td>
+<td>fail=0, warn≤2</td>
+<td>모든 항목 완벽 정상</td>
+</tr>
+<tr>
+<td><strong>A</strong></td>
+<td>fail=0</td>
+<td>경고 있으나 핵심 기능 정상</td>
+</tr>
+<tr>
+<td><strong>B</strong></td>
+<td>fail≤3</td>
+<td>소수 기능 불량 — 점검 권장</td>
+</tr>
+<tr>
+<td><strong>C</strong></td>
+<td>fail&gt;3</td>
+<td>다수 기능 불량 — 즉시 점검</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_5">시계열 비교</h2>
+<p>같은 디렉토리의 JSON 파일들을 비교하여 시점별 건강 추이를 볼 수 있다:</p>
+<pre><code class="language-bash"># 최근 5개 요약
+ls -t _notebook/health/*.json | head -5 | while read f; do
+  echo &quot;$(basename $f .json): $(sed -n 's/.*&quot;grade&quot;:&quot;\{0,1\}\([^&quot;,]*\)&quot;\{0,1\}.*/\1/p' $f)&quot;
+done
+</code></pre>
+<h2 id="_6">경고 신호 (자동 감지)</h2>
+<table>
+<thead>
+<tr>
+<th>조건</th>
+<th>조치</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>배터리 &lt; 15%</td>
+<td>충전 필요</td>
+</tr>
+<tr>
+<td>온도 &gt; 45°C</td>
+<td>사용 중지, 냉각</td>
+</tr>
+<tr>
+<td>RSSI &lt; -80dBm</td>
+<td>WiFi 근처로 이동</td>
+</tr>
+<tr>
+<td>MCP HTTP ≠ 200</td>
+<td>서버 재시작: <code>bash ~/work/phone-mcp.sh --port 3456</code></td>
+</tr>
+<tr>
+<td>GPS fail 지속</td>
+<td>위치 권한 확인, 실외에서 재시도</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_7">설계 원칙</h2>
+<ol>
+<li><strong>MCP 불필요</strong> — MCP 서버는 단일 session만 허용하므로(cc 사용 중이면 curl session 불가), 모든 검사는 Termux:API를 직접 호출</li>
+<li><strong>비파괴</strong> — SMS 발송, 전화걸기, 파일삭제 등 변경을 가하는 도구는 테스트하지 않음</li>
+<li><strong>타임스탬프 보관</strong> — 모든 검진은 JSON 파일로 남겨 시계열 비교 가능</li>
+<li><strong>텔레그램 보고</strong> — <code>--telegram</code> 플래그로 채팅방에 자동 보고</li>
+</ol>
+<hr>
+<h2 id="2026-07-25">최근 검진 (2026-07-25)</h2>
+<ul>
+<li>배터리: 85% · 38.5°C · GOOD</li>
+<li>저장: 226GB (172GB free)</li>
+<li>WiFi: RSSI -49dBm</li>
+<li>MCP: 18도구 정상</li>
+<li>등급: A</li>
+</ul>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="10-phone-mcp.html">
+          <span class="dir">Previous</span>
+          <span class="title">phone-mcp-server — 핸드폰 통제 MCP</span>
+        </a>
+    <a class="next" href="12-dtslib-gift.html">
+          <span class="dir">Next</span>
+          <span class="title">dtslib 선물 분석</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-25</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

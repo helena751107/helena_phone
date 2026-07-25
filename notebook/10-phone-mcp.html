@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="순수 Termux:API 기반. 루트/ADB/Shizuku 불필요. — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>phone-mcp-server — 핸드폰 통제 MCP — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>phone-mcp-server — 핸드폰 통제 MCP</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>phone-mcp-server — 핸드폰 통제 MCP</h1>
+    <p class="deck">순수 Termux:API 기반. 루트/ADB/Shizuku 불필요.</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/10-phone-mcp.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#_1">상태</a></li>
+<li><a href="#_2">설치 위치</a></li>
+<li><a href="#_3">사용 가능한 도구</a></li>
+<li><a href="#_4">시작 방법</a></li>
+<li><a href="#_5">주의사항</a></li>
+<li><a href="#_6">참고</a></li>
+<li><a href="#domain-vs-codomain">Domain vs Codomain — 폰 통제 경계선 분석</a><ul>
+<li><a href="#domain-termuxapi">Domain ✅ (가능 — Termux:API가 공식 허용)</a></li>
+<li><a href="#codomain-os">Codomain ❌ (절대 불가능 — OS가 차단)</a></li>
+<li><a href="#_7">경계선의 본질</a></li>
+<li><a href="#accessibility-service">유일한 합법 경로: Accessibility Service</a></li>
+<li><a href="#_8">현재 결론</a></li>
+</ul>
+</li>
+<li><a href="#2026-07-25">현재 검증 상태 (2026-07-25)</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <blockquote>
+<p>순수 Termux:API 기반. 루트/ADB/Shizuku 불필요.<br>
+설치일: 2026-07-24</p>
+</blockquote>
+<h2 id="_1">상태</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>서버</td>
+<td><code>http://localhost:3456/mcp</code></td>
+</tr>
+<tr>
+<td>상태</td>
+<td>✅ <strong>검증 완료</strong> (2026-07-24)</td>
+</tr>
+<tr>
+<td>도구</td>
+<td>18개</td>
+</tr>
+<tr>
+<td>소스</td>
+<td><code>github.com/htekdev/phone-mcp-server</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">설치 위치</h2>
+<table>
+<thead>
+<tr>
+<th>파일</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/tmp/phone-mcp-server/</code></td>
+<td>소스 코드 (clone)</td>
+</tr>
+<tr>
+<td><code>/root/work/phone-mcp.sh</code></td>
+<td>실행 스크립트</td>
+</tr>
+<tr>
+<td><code>/root/.claude/settings.json</code></td>
+<td>MCP 등록 (Streamable HTTP)</td>
+</tr>
+<tr>
+<td><code>~/.bashrc</code></td>
+<td>세션 자동 시작</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_3">사용 가능한 도구</h2>
+<table>
+<thead>
+<tr>
+<th>도구</th>
+<th>설명</th>
+<th>권한 필요</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>send_sms</code></td>
+<td>SMS 발송</td>
+<td>SMS</td>
+</tr>
+<tr>
+<td><code>read_sms</code></td>
+<td>SMS 수신함 조회</td>
+<td>SMS</td>
+</tr>
+<tr>
+<td><code>get_contacts</code></td>
+<td>연락처 목록</td>
+<td>연락처</td>
+</tr>
+<tr>
+<td><code>get_location</code></td>
+<td>GPS 위치</td>
+<td>위치</td>
+</tr>
+<tr>
+<td><code>get_battery</code></td>
+<td>배터리 잔량/온도</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>get_clipboard</code></td>
+<td>클립보드 읽기</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>set_clipboard</code></td>
+<td>클립보드 쓰기</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>take_photo</code></td>
+<td>사진 촬영</td>
+<td>카메라</td>
+</tr>
+<tr>
+<td><code>get_call_log</code></td>
+<td>통화 기록</td>
+<td>통화기록</td>
+</tr>
+<tr>
+<td><code>make_call</code></td>
+<td>전화 걸기</td>
+<td>전화</td>
+</tr>
+<tr>
+<td><code>get_wifi_info</code></td>
+<td>WiFi 정보</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>flashlight</code></td>
+<td>플래시 ON/OFF</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>vibrate</code></td>
+<td>진동</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>send_notification</code></td>
+<td>알림 표시</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>get_volume</code></td>
+<td>볼륨 확인</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>set_volume</code></td>
+<td>볼륨 조절</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>record_audio</code></td>
+<td>음성 녹음</td>
+<td>마이크</td>
+</tr>
+<tr>
+<td><code>device_info</code></td>
+<td>종합 디바이스 정보</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>shell</code></td>
+<td>셸 명령 (보안 필터)</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_4">시작 방법</h2>
+<pre><code class="language-bash"># 수동 시작
+bash ~/work/phone-mcp.sh --port 3456
+
+# 자동 시작 (.bashrc에 등록됨)
+# proot Ubuntu 로그인 시 자동 실행
+</code></pre>
+<h2 id="_5">주의사항</h2>
+<ul>
+<li>최초 각 API 사용 시 폰에서 권한 팝업 허용 필요</li>
+<li>SMS/RCS는 읽을 수 없음 (SMS/MMS만)</li>
+<li>같은 WiFi 네트워크 필요</li>
+<li>settings.json 수정 후 cc 재시작해야 MCP 도구 활성화됨</li>
+<li><strong>⭐ 필수: <code>termux-api</code> 패키지 설치</strong> — <code>pkg install termux-api</code>를 Termux에서 실행해야 termux-battery-status 등 CLI 도구가 설치됨</li>
+<li>MCP 서버는 <code>phone-mcp.sh</code> wrapper로 실행해야 PATH에 Termux 바이너리가 포함됨</li>
+<li>Termux:API 안드로이드 앱 (APK)은 F-Droid 또는 GitHub Releases에서 별도 설치 필요</li>
+</ul>
+<h2 id="_6">참고</h2>
+<ul>
+<li>UI 화면 클릭(tap_screen)은 이 서버에서 지원 안 함</li>
+<li>화면 자동화 필요 시 xlisp/termux-mcp-server 필요 (ADB 권한 요구)</li>
+<li>루팅 금지 조건으로 인해 xlisp 계열은 설치 보류</li>
+</ul>
+<h2 id="domain-vs-codomain">Domain vs Codomain — 폰 통제 경계선 분석</h2>
+<blockquote>
+<p>분석일: 2026-07-24 | 근거: 실제 도구 목록 + Android SELinux 권한 모델</p>
+</blockquote>
+<h3 id="domain-termuxapi">Domain ✅ (가능 — Termux:API가 공식 허용)</h3>
+<pre><code>백그라운드 API 통제 (18개 도구)
+
+📡 Read-only 센서
+  • 배터리(잔량/온도)  • WiFi 정보
+  • GPS 위치            • 디바이스 정보
+  • 볼륨 상태
+
+📨 메시징
+  • SMS 발송/수신함 조회  • 연락처 목록
+  • 통화 기록 조회         • 전화 걸기
+
+🛠️ 단순 시스템 액션
+  • 플래시 ON/OFF     • 진동 울리기
+  • 볼륨 조절          • 알림 표시
+  • 클립보드 읽기/쓰기  • 사진 촬영 / 음성 녹음
+  • 셸 명령 (필터링됨)
+</code></pre>
+<h3 id="codomain-os">Codomain ❌ (절대 불가능 — OS가 차단)</h3>
+<pre><code>GUI 조작 = 완전히 닫힘 (0%)
+
+✗ 화면 터치 주입 (input tap)
+✗ 앱 내부 탐색/조작
+✗ 스크린샷 획득 + 분석 → 행동
+✗ 시스템 설정 변경
+
+원인: Android SELinux + 권한 모델
+→ input tap = root/ADB only
+→ root = 삼성페이/뱅킹앱 보안 깨짐
+</code></pre>
+<h3 id="_7">경계선의 본질</h3>
+<pre><code>백그라운드 API (Termux:API)
+    ─── 완전 통제 가능 ───
+    SMS · 센서 · 클립보드 · 알림 · 촬영
+    ↑ 앱 수준에서 OS가 공개한 API
+    ↑ 뱅킹앱과 충돌 없음
+
+        ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+            ▲ 이 선은 절대 못 넘음 ▲
+        ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+GUI 조작 (터치 주입)
+    ─── 완전히 닫힘 ───
+    tap_screen · swipe · 앱 내 탐색
+    ↑ root 또는 ADB 필요
+    ↑ 또는 Accessibility Service (앱 제작 필요)
+    ↑ 뱅킹앱 안전과 공존 불가 (root)
+</code></pre>
+<h3 id="accessibility-service">유일한 합법 경로: Accessibility Service</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>현재(root/ADB)</th>
+<th>Accessibility Service</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>삼성페이 안전</td>
+<td>❌ (root)</td>
+<td>✅ (이론상)</td>
+</tr>
+<tr>
+<td>tap/swipe 가능</td>
+<td>✅ (ADB)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>별도 APK 필요</td>
+<td>❌</td>
+<td>✅ (앱 제작 필요)</td>
+</tr>
+<tr>
+<td>공사 규모</td>
+<td>0줄</td>
+<td>수천 줄 + 플레이스토어 배포</td>
+</tr>
+<tr>
+<td>지금 단계 적합성</td>
+<td>❌ (루팅=금지)</td>
+<td>❌ (오버엔지니어링)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_8">현재 결론</h3>
+<blockquote>
+<p><strong>지금 폰 = 완벽한 &ldquo;센서+메신저 노드&rdquo;</strong><br>
+백그라운드 API 통제는 거의 100% 열렸고,<br>
+GUI 화면 조작은 0%로 완전히 닫혀 있다.<br>
+GUI 통제가 진짜 필요해지면 그때 Accessibility Service 트랙 별도 검토.</p>
+</blockquote>
+<hr>
+<h2 id="2026-07-25">현재 검증 상태 (2026-07-25)</h2>
+<table>
+<thead>
+<tr>
+<th>카테고리</th>
+<th>도구</th>
+<th>검증</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>배터리</td>
+<td>get_battery</td>
+<td>✅ 85%·38.5°C·GOOD</td>
+</tr>
+<tr>
+<td>WiFi</td>
+<td>get_wifi_info</td>
+<td>✅ RSSI -49dBm</td>
+</tr>
+<tr>
+<td>카메라</td>
+<td>take_photo</td>
+<td>✅ 4대 인식</td>
+</tr>
+<tr>
+<td>플래시</td>
+<td>flashlight on/off</td>
+<td>✅ 하드웨어 제어</td>
+</tr>
+<tr>
+<td>SMS</td>
+<td>send_sms·read_sms</td>
+<td>⚠️ 미검증</td>
+</tr>
+<tr>
+<td>GPS</td>
+<td>get_location</td>
+<td>⚠️ 실내 제한</td>
+</tr>
+<tr>
+<td>클립보드</td>
+<td>get/set_clipboard</td>
+<td>✅ 읽기·쓰기</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>핵심:</strong> 백그라운드 API 100% 통제 가능. GUI 조작(tap_screen)은 0%.<br>
+그래서 티스토리·네이버 자동화는 Playwright(브라우저 레벨)로, MCP는 폰 하드웨어만.</p>
+</blockquote>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="09-ecosystem.html">
+          <span class="dir">Previous</span>
+          <span class="title">전체 생태계 브릿지 테이블</span>
+        </a>
+    <a class="next" href="11-health.html">
+          <span class="dir">Next</span>
+          <span class="title">건강 검진</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-25</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

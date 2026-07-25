@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="구축: 2026-07-23 ~ 2026-07-25 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>📖 S21 Phone 업무 수첩 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>📖 S21 Phone 업무 수첩</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>📖 S21 Phone 업무 수첩</h1>
+    <p class="deck">구축: 2026-07-23 ~ 2026-07-25</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/00-INDEX.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#_1">인프라·아키텍처</a></li>
+<li><a href="#_2">플랫폼·연동</a></li>
+<li><a href="#_3">운영·설정</a></li>
+<li><a href="#_4">분석·평가</a></li>
+<li><a href="#_5">전략·방법론</a></li>
+<li><a href="#ai">AI·에이전트</a></li>
+<li><a href="#_6">기타</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <blockquote>
+<p>구축: 2026-07-23 ~ 2026-07-25<br>
+환경: Galaxy S21 → Termux → proot Ubuntu → Claude Code (DeepSeek Radar) + Grok CLI (xAI SuperGrok) + Aider</p>
+</blockquote>
+<hr>
+<h2 id="_1">인프라·아키텍처</h2>
+<table>
+<thead>
+<tr>
+<th>파일</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>01-arch.md</code></td>
+<td>전체 시스템 아키텍처</td>
+</tr>
+<tr>
+<td><code>09-ecosystem.md</code></td>
+<td>5x5 생태계 브릿지 테이블</td>
+</tr>
+<tr>
+<td><code>10-phone-mcp.md</code></td>
+<td>phone-mcp-server 18도구 + Domain/Codomain</td>
+</tr>
+<tr>
+<td><code>18-workcenters.md</code></td>
+<td>워크센터 7종 초안</td>
+</tr>
+<tr>
+<td><code>20-workcenters-final.md</code></td>
+<td>워크센터 7종 최종 (자동/수동 분리)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">플랫폼·연동</h2>
+<table>
+<thead>
+<tr>
+<th>파일</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>02-discord.md</code></td>
+<td>Discord 서버·봇·위젯</td>
+</tr>
+<tr>
+<td><code>03-telegram.md</code></td>
+<td>Telegram 봇·회의실</td>
+</tr>
+<tr>
+<td><code>04-github-pages.md</code></td>
+<td>GitHub Pages + Giscus + WidgetBot</td>
+</tr>
+<tr>
+<td><code>05-tistory.md</code></td>
+<td>티스토리 5종 + Playwright 전략</td>
+</tr>
+<tr>
+<td><code>06-youtube.md</code></td>
+<td>YouTube 5채널 + OAuth</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_3">운영·설정</h2>
+<table>
+<thead>
+<tr>
+<th>파일</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>07-cli-reference.md</code></td>
+<td>CLI 명령어 모음</td>
+</tr>
+<tr>
+<td><code>08-secrets.md</code></td>
+<td>비밀 관리 정책</td>
+</tr>
+<tr>
+<td><code>11-health.md</code></td>
+<td>건강 검진 시스템</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_4">분석·평가</h2>
+<table>
+<thead>
+<tr>
+<th>파일</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>12-dtslib-gift.md</code></td>
+<td>dtslib1979 선물 패키지 분석</td>
+</tr>
+<tr>
+<td><code>13-midterm-eval.md</code></td>
+<td>중간평가 v1 (93/100)</td>
+</tr>
+<tr>
+<td><code>13-midterm-eval-v2.md</code></td>
+<td>중간평가 v2 (98/100)</td>
+</tr>
+<tr>
+<td><code>14-daemon-design.md</code></td>
+<td>트랙1 돌봄 데몬 설계</td>
+</tr>
+<tr>
+<td><code>15-proot-report.md</code></td>
+<td>proot 개발 종합 보고서</td>
+</tr>
+<tr>
+<td><code>22-s21-benchmark.md</code></td>
+<td>S21 디바이스 실측 벤치마크</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_5">전략·방법론</h2>
+<table>
+<thead>
+<tr>
+<th>파일</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>16-textbook-methodology.md</code></td>
+<td>교재 합성 지침 (판단층+실행층 병합)</td>
+</tr>
+<tr>
+<td><code>17-merged-chronicle.md</code></td>
+<td>판단층+실행층 병합 연대기</td>
+</tr>
+<tr>
+<td><code>19-final-strategy.md</code></td>
+<td>최종 전략 — 자동/수동 분리</td>
+</tr>
+<tr>
+<td><code>21-integrated-dev-plan.md</code></td>
+<td>통합 개발 계획서</td>
+</tr>
+<tr>
+<td><code>23-naver-webzine-solution.md</code></td>
+<td>네이버 웹진 최종 솔루션</td>
+</tr>
+<tr>
+<td><code>24-paste-pipeline.md</code></td>
+<td>Paste Pipeline 방법론</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ai">AI·에이전트</h2>
+<table>
+<thead>
+<tr>
+<th>파일</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>25-multi-ai-strategy.md</code></td>
+<td>멀티 AI 전략 (Claude·Grok·Aider)</td>
+</tr>
+<tr>
+<td><code>26-naver-parsing-solution.md</code></td>
+<td>네이버 파싱 — proot curl 직접 해결</td>
+</tr>
+<tr>
+<td><code>27-claude-grok-pipeline.md</code></td>
+<td>Claude-Grok 협업 파이프라인</td>
+</tr>
+<tr>
+<td><code>28-grok-github-bridge.md</code></td>
+<td>Grok — GitHub↔Naver 인터프리터</td>
+</tr>
+<tr>
+<td><code>29-grok-cli-installed.md</code></td>
+<td>Grok CLI 설치 완료 (v0.2.112)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_6">기타</h2>
+<table>
+<thead>
+<tr>
+<th>파일</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>naver-intro-article.md</code></td>
+<td>네이버 첫 글 소개 아티클</td>
+</tr>
+<tr>
+<td><code>99-devlog.md</code></td>
+<td>전체 개발일지 (49섹션)</td>
+</tr>
+</tbody>
+</table>
+  </article>
+  <nav class="wz-pager">
+    <div></div>
+    <a class="next" href="01-arch.html">
+          <span class="dir">Next</span>
+          <span class="title">시스템 아키텍처</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="01-arch.html"><strong>시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>Discord</strong>Notebook</a><a href="03-telegram.html"><strong>Telegram</strong>Notebook</a><a href="04-github-pages.html"><strong>Pages · Giscus</strong>Notebook</a><a href="05-tistory.html"><strong>티스토리</strong>Notebook</a><a href="06-youtube.html"><strong>YouTube</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

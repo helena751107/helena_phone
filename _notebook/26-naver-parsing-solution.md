@@ -1,0 +1,95 @@
+# 🔍 네이버 블로그 파싱 — 직접 해결
+
+> 발견: 2026-07-25 | Grok만 된다는 건 틀렸다
+
+---
+
+## 1. 재검증 결과
+
+| 방식 | Naver 파싱 | 이유 |
+|------|----------|------|
+| Claude Code WebFetch | ❌ | 내장 페처가 네이버 차단 |
+| ChatGPT 브라우징 | ❌ | 보수적 차단 |
+| Gemini | ❌ | 동일 |
+| Grok open_page | ✅ | 모바일 UA 사용 |
+| **proot curl + 모바일 UA** | **✅** | **우리 폰에서 직접 파싱 가능!** |
+
+---
+
+## 2. 되는 방법 (우리 폰)
+
+```bash
+curl -sL "https://m.blog.naver.com/helena1975/224357424597" \
+  -H "User-Agent: Mozilla/5.0 (Linux; Android 13; SM-G991N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36" \
+  -H "Accept-Language: ko-KR,ko;q=0.9"
+```
+
+**핵심:**
+- `m.blog.naver.com` (모바일 버전)
+- 한국어 User-Agent (Android + Chrome Mobile)
+- Accept-Language: ko-KR
+- proot Ubuntu에서 직접 curl 호출
+
+---
+
+## 3. 왜 되는가
+
+| 요소 | 설명 |
+|------|------|
+| 모바일 버전 | 데스크탑보다 봇 차단이 약함. JS 렌더링 없이 텍스트 제공 |
+| 한국 UA | 해외 IP/UA를 더 강하게 차단. 국내 모바일 UA는 통과 |
+| proot 환경 | S21 실기기 IP. VPN·프록시 아님 |
+| 직접 curl | WebFetch 같은 중간 프록시 없음 |
+
+---
+
+## 4. Grok이 틀린 부분
+
+> Grok: "나는 open_page라는 전용 툴이 있어서 되는 거다."
+
+**실제로는:** 모바일 버전 + 적절한 User-Agent면 어떤 HTTP 클라이언트로도 파싱 가능. Grok의 `open_page`가 특별한 게 아니라, 그냥 curl과 동일한 원리.
+
+> Grok: "다른 모델들은 네이버 같은 국내 서비스에 보수적으로 막혀 있다."
+
+**실제로는:** Claude Code의 WebFetch 툴이 중간 프록시 경유라서 막히는 것. 프로트 환경에서 직접 curl 돌리면 우회됨.
+
+---
+
+## 5. 적용: Paste Pipeline에 네이버 파싱 추가
+
+```python
+# scripts/naver_parser.py (추가 예정)
+import subprocess, sys
+
+def parse_naver_post(url):
+    """네이버 블로그 포스트 파싱"""
+    html = subprocess.run([
+        "curl", "-sL", url,
+        "-H", "User-Agent: Mozilla/5.0 (Linux; Android 13; SM-G991N) ...",
+        "-H", "Accept-Language: ko-KR,ko;q=0.9"
+    ], capture_output=True, text=True).stdout
+    # 텍스트 추출 로직...
+    return extracted_text
+```
+
+---
+
+## 6. 결론
+
+**Grok은 필요 없다.** 네이버 파싱은 우리 폰에서 직접 가능.
+
+| 항목 | Grok | proot curl |
+|------|------|-----------|
+| 네이버 파싱 | ✅ | ✅ |
+| 비용 | 45,000원/월 | $0 |
+| 이미지 생성 | ✅ | ❌ (YouTube 클립으로 대체) |
+| 인프라 통합 | 별도 서비스 | 같은 폰 |
+
+Grok을 고려할 유일한 이유는 **이미지 생성**인데, 그것도 YouTube 짧은 클립으로 대체하기로 이미 결정했다.
+
+**월 45,000원 절약. 더 중요한 건: 모든 게 한 폰 안에서 돈다.**
+
+---
+
+> ⚠️ 주의: 네이버가 차단 정책을 변경하면 언제든 막힐 수 있음.
+> 그땐 Grok도 같이 막힐 가능성이 높다 (Grok도 HTTP 기반이므로).

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="블로그 포트폴리오 + 자동화 전략 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>블로그 포트폴리오 + 자동화 전략 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>블로그 포트폴리오 + 자동화 전략</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>블로그 포트폴리오 + 자동화 전략</h1>
+    
+    <div class="wz-meta">
+      <span>Source · _notebook/05-tistory.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#_2">블로그 목록</a><ul>
+<li><a href="#5">티스토리 5종 세트</a></li>
+<li><a href="#_3">네이버 블로그</a></li>
+</ul>
+</li>
+<li><a href="#_4">생성 일자</a></li>
+<li><a href="#_5">자동화 전략 (리서치 기반)</a><ul>
+<li><a href="#api">티스토리 — 공식 API ❌</a></li>
+<li><a href="#api_1">네이버 블로그 — 공식 API ❌</a></li>
+<li><a href="#headless-browser-playwright">공통 자동화 방식: Headless Browser (Playwright)</a></li>
+<li><a href="#playwright">Playwright 설치</a></li>
+<li><a href="#_6">세션 저장/재사용 구조</a></li>
+<li><a href="#_7">네이버 주의사항</a></li>
+</ul>
+</li>
+<li><a href="#_8">참고 링크</a></li>
+<li><a href="#2026-07-25">최종 전략 (2026-07-25)</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <h2 id="_2">블로그 목록</h2>
+<h3 id="5">티스토리 5종 세트</h3>
+<table>
+<thead>
+<tr>
+<th>번호</th>
+<th>이름</th>
+<th>URL</th>
+<th>주제</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>My Note</td>
+<td><code>mynote11605.tistory.com</code></td>
+<td>개인 메모/기술 노트</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Helana Christianity</td>
+<td><code>helana-christianity.tistory.com</code></td>
+<td>기독교/신앙</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Helena Piano</td>
+<td><code>helena-piano.tistory.com</code></td>
+<td>피아노/음악</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Galaxy S21 PWUser</td>
+<td><code>galaxys21-pwuser.tistory.com</code></td>
+<td>S21 폰 활용/사용자 가이드</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Helena Metal Care</td>
+<td><code>helena-metalcare.tistory.com</code></td>
+<td>금속 케어/공예</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_3">네이버 블로그</h3>
+<table>
+<thead>
+<tr>
+<th>이름</th>
+<th>URL</th>
+<th>성격</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Helena Park / YK Park</td>
+<td><code>m.blog.naver.com/helena1975</code></td>
+<td>🏛️ <strong>관저탑</strong> — 대중 홍보용 그림첩</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_4">생성 일자</h2>
+<ul>
+<li>2026-07-24: 티스토리 5개 + 네이버 1개 계정 정리 완료</li>
+</ul>
+<hr>
+<h2 id="_5">자동화 전략 (리서치 기반)</h2>
+<h3 id="api">티스토리 — 공식 API ❌</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>공식 Open API</strong></td>
+<td><strong>2024년 2월부로 완전 종료</strong> (notice.tistory.com/2664)</td>
+</tr>
+<tr>
+<td>종료 사유</td>
+<td>API 기반 자동 등록 스팸이 과도하게 발생</td>
+</tr>
+<tr>
+<td><strong>현재 자동화 방법</strong></td>
+<td>Playwright/Selenium <strong>Headless 브라우저</strong>로 글쓰기 페이지 DOM 직접 조작</td>
+</tr>
+</tbody>
+</table>
+<h3 id="api_1">네이버 블로그 — 공식 API ❌</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>공식 포스팅 API</strong></td>
+<td><strong>원래부터 존재한 적 없음</strong></td>
+</tr>
+<tr>
+<td><strong>현재 자동화 방법</strong></td>
+<td>Playwright Headless 브라우저 + <strong>storage_state(쿠키) 재사용</strong> 방식이 표준</td>
+</tr>
+<tr>
+<td>참고 도구</td>
+<td><code>@oddeye/naver-blog-mcp</code> — MCP 기반 네이버 블로그 자동화 (Playwright 내장)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="headless-browser-playwright">공통 자동화 방식: Headless Browser (Playwright)</h3>
+<p>두 플랫폼 모두 공식 API가 없으므로, 유일한 방법은 <strong>Headless Chromium + Playwright</strong>를 통한 브라우저 자동화</p>
+<pre><code>proot Ubuntu (CLI only, no display)
+       ↓
+Playwright + Chromium headless (화면 없이 DOM 조작)
+       ↓
+  ① 세션 저장: 수동 1회 로그인 → storage_state 저장
+  ② 세션 복원: 저장된 쿠키로 로그인 생략 → 글쓰기 자동화
+  ③ 발행 완료: tg.sh 로 텔레그램 보고
+</code></pre>
+<h3 id="playwright">Playwright 설치</h3>
+<pre><code class="language-bash">apt install -y python3-venv fonts-nanum
+python3 -m venv ~/browser-env
+~/browser-env/bin/pip install playwright
+~/browser-env/bin/playwright install --with-deps chromium
+</code></pre>
+<h3 id="_6">세션 저장/재사용 구조</h3>
+<pre><code class="language-python"># ① 최초 1회: 수동 로그인 후 세션 저장 (headful 필요시 로컬에서 실행)
+context.storage_state(path=&quot;.naver_session.json&quot;)
+
+# ② 이후: headless로 세션만 복원하여 자동화
+context = await browser.new_context(storage_state=&quot;.naver_session.json&quot;)
+</code></pre>
+<h3 id="_7">네이버 주의사항</h3>
+<ul>
+<li>ID/PW 자동 로그인은 캡차/2FA 차단 위험 높음</li>
+<li><strong>세션 쿠키 재사용이 정석</strong> (1~3개월 유효)</li>
+<li>해외 IP 차단 가능성 → 국내 IP 권장</li>
+<li>일일 발행 제한: 안전하게 5개 이하 권장</li>
+</ul>
+<h2 id="_8">참고 링크</h2>
+<ul>
+<li>티스토리 종료 공지: <code>notice.tistory.com/2664</code></li>
+<li>네이버 블로그 MCP: <code>npmjs.com/package/@oddeye/naver-blog-mcp</code></li>
+<li>Playwright 쿠키 재사용: <code>dev.to/junhee916</code> (2026)</li>
+</ul>
+<hr>
+<h2 id="2026-07-25">최종 전략 (2026-07-25)</h2>
+<p><strong>자동화 포기. 수동 업무일지로 전환.</strong></p>
+<table>
+<thead>
+<tr>
+<th>이유</th>
+<th>상세</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API 종료</td>
+<td>2024년 2월 Open API 완전 폐쇄</td>
+</tr>
+<tr>
+<td>Kakao OAuth</td>
+<td>KOE006 앱 설정 오류 (Tistory 측 문제)</td>
+</tr>
+<tr>
+<td>Chrome 북마크릿</td>
+<td>Android Chrome 차단 (구글 7년 버그)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>현재 방식:</strong> Paste Pipeline — TG 리포트 + git log + 스크린샷 → 사람이 직접 발행</p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="04-github-pages.html">
+          <span class="dir">Previous</span>
+          <span class="title">GitHub Pages + Giscus + WidgetBot</span>
+        </a>
+    <a class="next" href="06-youtube.html">
+          <span class="dir">Next</span>
+          <span class="title">YouTube</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-25</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="06-youtube.html"><strong>YouTube</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

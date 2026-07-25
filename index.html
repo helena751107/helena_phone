@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="S21 Phone Webzine — 갤럭시 한 대로 돌봄과 소망을 돌리는 AI 워크스테이션. Vol.1 Editorial.">
+<meta name="theme-color" content="#0a0908" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f7f1e6" media="(prefers-color-scheme: light)">
+<meta name="color-scheme" content="dark light">
+<!-- App shortcut / install (manifest only · no service worker) -->
+<meta name="application-name" content="S21 Phone">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="S21 Phone">
+<meta name="msapplication-TileColor" content="#0a0908">
+<meta name="msapplication-TileImage" content="https://helena751107.github.io/helena_phone/icons/icon-192.png">
+<meta name="msapplication-config" content="browserconfig.xml">
+<meta property="og:title" content="S21 PHONE — Webzine Vol.1">
+<meta property="og:description" content="돌봄 × 소망 · 3 Agents · 7 Workcenters · Built on a Galaxy S21">
+<meta property="og:image" content="https://helena751107.github.io/helena_phone/icons/icon-512.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="S21 PHONE — Webzine Vol.01">
+<meta name="twitter:image" content="https://helena751107.github.io/helena_phone/icons/icon-512.png">
+<title>S21 PHONE — Webzine Vol.01</title>
+<link rel="manifest" href="site-webmanifest.html">
+<link rel="icon" href="icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="icons/favicon-16.png" type="image/png" sizes="16x16">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" sizes="180x180">
+<link rel="mask-icon" href="icons/icon.svg" color="#d4a84b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════
+   S21 PHONE WEBZINE — A-grade editorial system
+   ═══════════════════════════════════════════════════ */
+:root {
+  --ink: #f4efe6;
+  --ink-dim: #b5a999;
+  --ink-mute: #7a7064;
+  --paper: #0a0908;
+  --paper-2: #12100e;
+  --paper-3: #1a1714;
+  --rule: rgba(244,239,230,0.1);
+  --rule-strong: rgba(244,239,230,0.18);
+  --gold: #d4a84b;
+  --gold-bright: #f0c75e;
+  --crimson: #e85d4c;
+  --teal: #3db8a8;
+  --indigo: #8b7cf0;
+  --cream: #f7f1e6;
+  --serif: 'Cormorant Garamond', 'Times New Roman', serif;
+  --sans: 'DM Sans', 'Noto Sans KR', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --max: 1180px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --cursor-x: 50%;
+  --cursor-y: 50%;
+}
+[data-theme="light"] {
+  --ink: #1a1510; --ink-dim: #5c5348; --ink-mute: #8a8074;
+  --paper: #f7f1e6; --paper-2: #efe8db; --paper-3: #fffdf8;
+  --rule: rgba(26,21,16,0.1); --rule-strong: rgba(26,21,16,0.18);
+  --cream: #0a0908;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  cursor: none;
+}
+@media (pointer: coarse) { body { cursor: auto; } .cursor, .cursor-dot { display: none !important; } }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: none; cursor: none; }
+@media (pointer: coarse) { button { cursor: pointer; } }
+::selection { background: var(--gold); color: #1a1508; }
+
+/* Custom cursor */
+.cursor, .cursor-dot {
+  position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
+  border-radius: 50%; transform: translate(-50%, -50%);
+  transition: width .25s var(--ease), height .25s var(--ease), background .25s, border-color .25s, opacity .3s;
+  mix-blend-mode: difference;
+}
+.cursor {
+  width: 36px; height: 36px; border: 1px solid rgba(244,239,230,.55);
+  opacity: .85;
+}
+.cursor.hover { width: 56px; height: 56px; border-color: var(--gold-bright); }
+.cursor-dot {
+  width: 5px; height: 5px; background: var(--gold-bright);
+  mix-blend-mode: normal;
+}
+
+/* Reading progress — magazine spine */
+.spine {
+  position: fixed; left: 0; top: 0; bottom: 0; width: 3px; z-index: 200;
+  background: var(--rule);
+}
+.spine-fill {
+  width: 100%; height: 0%; background: linear-gradient(180deg, var(--gold), var(--crimson), var(--teal));
+  transition: height .1s linear;
+}
+
+/* Masthead nav */
+.masthead {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 150;
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; gap: 12px;
+  padding: 12px clamp(14px, 3vw, 36px);
+  padding-top: max(12px, env(safe-area-inset-top));
+  padding-left: max(14px, env(safe-area-inset-left));
+  padding-right: max(14px, env(safe-area-inset-right));
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border-bottom: 1px solid transparent;
+  transition: border-color .3s, background .3s;
+  min-height: 56px;
+}
+.masthead.scrolled { border-bottom-color: var(--rule); }
+.mast-left { display: flex; align-items: center; gap: 14px; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-mute); font-weight: 500; }
+.mast-left .issue { color: var(--gold); }
+.mast-brand {
+  justify-self: center; font-family: var(--serif);
+  font-size: 1.15rem; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.mast-brand em { font-style: italic; color: var(--gold); font-weight: 400; }
+.mast-right { justify-self: end; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+.mast-right a, .mast-right button {
+  font-size: .75rem; letter-spacing: .06em; text-transform: uppercase;
+  padding: 10px 12px; color: var(--ink-dim); transition: color .2s; font-weight: 500;
+  min-height: 44px; display: inline-flex; align-items: center; justify-content: center;
+  background: none; border: none; font-family: inherit; cursor: pointer;
+}
+.mast-right a:hover, .mast-right button:hover { color: var(--gold); }
+.mast-cta {
+  background: var(--gold) !important; color: #1a1508 !important;
+  border-radius: 2px; font-weight: 600 !important;
+  padding: 10px 14px !important;
+}
+.mast-actions { justify-self: end; display: flex; align-items: center; gap: 8px; }
+.menu-btn {
+  display: none; font-size: 1.25rem; padding: 0 !important;
+  width: 44px; height: 44px; min-height: 44px; border: 1px solid var(--rule-strong) !important;
+  border-radius: 8px; flex-shrink: 0; z-index: 160; position: relative;
+  color: var(--ink); background: var(--paper-2);
+}
+.nav-backdrop {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5);
+  z-index: 145; opacity: 0; transition: opacity .25s; border: none;
+}
+.nav-backdrop.show { display: block; opacity: 1; }
+
+/* Chapter rail */
+.chapter-rail {
+  position: fixed; right: 18px; top: 50%; transform: translateY(-50%);
+  z-index: 140; display: flex; flex-direction: column; gap: 14px;
+}
+.chapter-rail a {
+  width: 8px; height: 8px; border-radius: 50%;
+  border: 1px solid var(--ink-mute); background: transparent;
+  position: relative; transition: .3s var(--ease);
+}
+.chapter-rail a.on { background: var(--gold); border-color: var(--gold); transform: scale(1.3); }
+.chapter-rail a span {
+  position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
+  white-space: nowrap; font-size: .65rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-mute); opacity: 0; transition: .25s; pointer-events: none;
+}
+.chapter-rail a:hover span, .chapter-rail a.on span { opacity: 1; color: var(--ink-dim); }
+
+/* Layout */
+.shell { max-width: var(--max); margin: 0 auto; padding: 0 clamp(18px, 4vw, 32px); position: relative; z-index: 1; }
+.chapter { padding: clamp(72px, 12vw, 120px) 0; border-top: 1px solid var(--rule); }
+.chapter:first-of-type { border-top: none; }
+.ch-label {
+  display: flex; align-items: baseline; gap: 16px; margin-bottom: 28px;
+  font-size: .7rem; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); font-weight: 600;
+}
+.ch-label .num { font-family: var(--mono); font-size: .75rem; }
+.ch-label .line { flex: 1; height: 1px; background: var(--rule); }
+.ch-title {
+  font-family: var(--serif); font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 600; line-height: 1.1; letter-spacing: -.02em; margin-bottom: 16px;
+}
+.ch-title em { font-style: italic; color: var(--gold-bright); }
+.ch-deck { max-width: 540px; color: var(--ink-dim); font-size: 1.05rem; font-weight: 300; margin-bottom: 40px; }
+
+/* Cover */
+.cover {
+  min-height: 100vh; display: grid; place-items: center;
+  position: relative; padding: 100px 0 60px; overflow: hidden;
+}
+.cover-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 20%, rgba(212,168,75,0.12), transparent 55%),
+    radial-gradient(ellipse 50% 50% at 20% 80%, rgba(61,184,168,0.08), transparent 50%),
+    radial-gradient(ellipse 40% 40% at 90% 90%, rgba(232,93,76,0.06), transparent 50%);
+}
+.cover-noise {
+  position: absolute; inset: 0; opacity: .04; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.cover-inner { position: relative; z-index: 1; width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 clamp(18px, 4vw, 32px); }
+.cover-kicker {
+  display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center;
+  font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 28px;
+}
+.cover-kicker .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 12px var(--teal); animation: blink 2s infinite; }
+@keyframes blink { 50% { opacity: .35; } }
+.cover h1 {
+  font-family: var(--serif); font-weight: 700;
+  font-size: clamp(3.5rem, 12vw, 8.5rem); line-height: .92;
+  letter-spacing: -.03em; margin-bottom: 24px;
+}
+.cover h1 .thin { font-weight: 400; font-style: italic; color: var(--gold-bright); display: block; }
+.cover-sub {
+  max-width: 480px; font-size: clamp(1rem, 2vw, 1.2rem); color: var(--ink-dim);
+  font-weight: 300; margin-bottom: 36px; border-left: 2px solid var(--gold); padding-left: 18px;
+}
+.cover-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 48px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 22px; font-size: .8rem; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase;
+  border: 1px solid var(--rule-strong); transition: .35s var(--ease);
+  background: transparent; color: var(--ink);
+}
+.btn-solid { background: var(--gold); color: #1a1508; border-color: var(--gold); }
+.btn-solid:hover { background: var(--gold-bright); transform: translateY(-2px); }
+.btn-line:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+/* Cover stats strip */
+.cover-stats {
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px;
+  background: var(--rule); border: 1px solid var(--rule);
+}
+.cover-stats .s {
+  background: var(--paper-2); padding: 20px 12px; text-align: center;
+  transition: background .3s;
+}
+.cover-stats .s:hover { background: var(--paper-3); }
+.cover-stats .v {
+  font-family: var(--serif); font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700;
+  color: var(--gold-bright); line-height: 1;
+}
+.cover-stats .l { font-size: .65rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-mute); margin-top: 8px; }
+
+/* Marquee */
+.marquee-wrap {
+  overflow: hidden; border-block: 1px solid var(--rule);
+  background: var(--paper-2); padding: 14px 0; margin: 0;
+}
+.marquee {
+  display: flex; gap: 0; width: max-content;
+  animation: marquee 40s linear infinite;
+  font-size: .75rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-mute); font-weight: 500;
+}
+.marquee span { padding: 0 28px; white-space: nowrap; }
+.marquee span::after { content: '◆'; margin-left: 28px; color: var(--gold); font-size: .55rem; vertical-align: middle; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* Grid helpers */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+
+/* Editorial cards */
+.ed-card {
+  background: var(--paper-2); border: 1px solid var(--rule);
+  padding: 28px; position: relative; overflow: hidden;
+  transition: border-color .35s, transform .4s var(--ease), box-shadow .4s;
+}
+.ed-card:hover {
+  border-color: var(--rule-strong); transform: translateY(-4px);
+  box-shadow: 0 24px 60px rgba(0,0,0,.35);
+}
+.ed-card .eyebrow {
+  font-size: .65rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 12px; font-weight: 600;
+}
+.ed-card h3 {
+  font-family: var(--serif); font-size: 1.65rem; font-weight: 600;
+  line-height: 1.15; margin-bottom: 12px;
+}
+.ed-card p { color: var(--ink-dim); font-size: .95rem; font-weight: 300; }
+.ed-card .foot { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  font-size: .65rem; letter-spacing: .06em; text-transform: uppercase;
+  padding: 4px 10px; border: 1px solid var(--rule); color: var(--ink-mute); font-weight: 500;
+}
+.tag.hot { border-color: rgba(232,93,76,.4); color: var(--crimson); }
+.tag.ok { border-color: rgba(61,184,168,.4); color: var(--teal); }
+.tag.gold { border-color: rgba(212,168,75,.45); color: var(--gold); }
+
+/* Bars infographic */
+.ibar { margin-top: 18px; display: flex; flex-direction: column; gap: 10px; }
+.ibar-row { display: grid; grid-template-columns: 72px 1fr 48px; gap: 10px; align-items: center; font-size: .75rem; }
+.ibar-row .n { color: var(--ink-mute); text-align: right; }
+.ibar-row .t { height: 4px; background: var(--rule); overflow: hidden; }
+.ibar-row .f { height: 100%; width: 0; transition: width 1.4s var(--ease); }
+.ibar-row .p { font-family: var(--mono); font-size: .7rem; color: var(--ink-dim); }
+
+/* Interactive architecture SVG */
+.infograph-box {
+  background: var(--paper-2); border: 1px solid var(--rule);
+  padding: clamp(20px, 4vw, 36px); position: relative;
+}
+.infograph-box .hint {
+  position: absolute; top: 14px; right: 16px;
+  font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-mute);
+}
+.svg-arch { width: 100%; height: auto; display: block; max-height: 420px; }
+.svg-arch .node {
+  cursor: none; transition: opacity .25s;
+}
+.svg-arch .node rect, .svg-arch .node circle {
+  transition: fill .3s, stroke .3s, filter .3s;
+}
+.svg-arch .node:hover rect, .svg-arch .node.active rect {
+  fill: rgba(212,168,75,0.15); stroke: var(--gold);
+  filter: drop-shadow(0 0 8px rgba(212,168,75,.35));
+}
+.svg-arch .node:hover text, .svg-arch .node.active text { fill: var(--gold-bright); }
+.svg-arch .flow { stroke-dasharray: 6 6; animation: dash 18s linear infinite; }
+@keyframes dash { to { stroke-dashoffset: -120; } }
+.tooltip {
+  position: absolute; pointer-events: none; z-index: 10;
+  background: var(--paper-3); border: 1px solid var(--gold);
+  padding: 12px 14px; max-width: 240px; opacity: 0; transform: translateY(6px);
+  transition: opacity .2s, transform .2s; font-size: .82rem;
+  box-shadow: 0 12px 40px rgba(0,0,0,.4);
+}
+.tooltip.show { opacity: 1; transform: none; }
+.tooltip strong { display: block; font-family: var(--serif); font-size: 1.05rem; margin-bottom: 4px; color: var(--gold-bright); }
+.tooltip span { color: var(--ink-dim); font-weight: 300; line-height: 1.45; }
+
+/* Agent cards + radar */
+.agent-card {
+  background: var(--paper-2); border: 1px solid var(--rule);
+  padding: 24px; display: flex; flex-direction: column; gap: 14px;
+  transition: .4s var(--ease); cursor: none;
+}
+.agent-card:hover, .agent-card.active {
+  border-color: var(--gold); transform: translateY(-6px);
+  box-shadow: 0 28px 50px rgba(0,0,0,.35);
+}
+.agent-card .role {
+  font-size: .65rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); font-weight: 600;
+}
+.agent-card h3 { font-family: var(--serif); font-size: 1.8rem; font-weight: 600; line-height: 1; }
+.agent-card .cmd {
+  font-family: var(--mono); font-size: .78rem; color: var(--teal);
+  background: var(--paper); padding: 6px 10px; border: 1px solid var(--rule); display: inline-block; width: fit-content;
+}
+.agent-card p { color: var(--ink-dim); font-size: .9rem; font-weight: 300; flex: 1; }
+.radar-wrap { width: 100%; aspect-ratio: 1; max-width: 180px; margin: 0 auto; }
+.agent-price { font-family: var(--mono); font-size: .75rem; color: var(--gold-bright); }
+
+/* Workcenter interactive map */
+.wc-map {
+  display: grid; grid-template-columns: 1.1fr .9fr; gap: 24px; align-items: start;
+}
+.wc-list { display: flex; flex-direction: column; gap: 6px; }
+.wc-item {
+  display: grid; grid-template-columns: 36px 1fr auto; gap: 12px; align-items: center;
+  padding: 14px 16px; border: 1px solid var(--rule); background: var(--paper-2);
+  transition: .3s var(--ease); text-align: left; width: 100%;
+}
+.wc-item:hover, .wc-item.on {
+  border-color: var(--gold); background: var(--paper-3);
+}
+.wc-item .idx { font-family: var(--mono); font-size: .75rem; color: var(--gold); }
+.wc-item .name { font-weight: 600; font-size: .95rem; }
+.wc-item .meta { font-size: .72rem; color: var(--ink-mute); }
+.wc-item .status {
+  font-size: .65rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 600;
+  padding: 4px 8px; border: 1px solid var(--rule);
+}
+.wc-item .status.go { color: var(--teal); border-color: rgba(61,184,168,.4); }
+.wc-item .status.wait { color: var(--gold); border-color: rgba(212,168,75,.4); }
+.wc-item .status.hand { color: var(--crimson); border-color: rgba(232,93,76,.4); }
+.wc-detail {
+  background: var(--paper-2); border: 1px solid var(--rule); padding: 28px;
+  min-height: 320px; position: sticky; top: 80px;
+}
+.wc-detail .big {
+  font-family: var(--serif); font-size: 3rem; font-weight: 600; line-height: 1;
+  color: var(--gold-bright); margin-bottom: 8px;
+}
+.wc-detail h3 { font-family: var(--serif); font-size: 1.8rem; margin-bottom: 12px; }
+.wc-detail p { color: var(--ink-dim); font-weight: 300; margin-bottom: 16px; }
+.wc-detail dl { display: grid; gap: 10px; }
+.wc-detail dt { font-size: .65rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-mute); }
+.wc-detail dd { font-size: .95rem; margin-bottom: 6px; }
+.ring-chart { width: 120px; height: 120px; margin: 16px 0; }
+
+/* Funnel interactive */
+.funnel-stage {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+  position: relative;
+}
+.f-col {
+  border: 1px solid var(--rule); background: var(--paper-2);
+  padding: 32px 22px; text-align: center; position: relative;
+  transition: .4s var(--ease); cursor: none;
+}
+.f-col:not(:last-child) { border-right: none; }
+.f-col:hover, .f-col.on {
+  background: var(--paper-3); z-index: 2;
+  box-shadow: 0 0 0 1px var(--gold);
+}
+.f-col .step { font-family: var(--mono); font-size: .7rem; color: var(--gold); letter-spacing: .14em; margin-bottom: 16px; }
+.f-col h3 { font-family: var(--serif); font-size: 1.6rem; margin-bottom: 10px; }
+.f-col p { color: var(--ink-dim); font-size: .88rem; font-weight: 300; }
+.f-col .pct-ring { margin: 18px auto 8px; width: 88px; height: 88px; }
+.f-col .note { font-size: .72rem; color: var(--ink-mute); margin-top: 8px; }
+
+/* Cost pie + legend */
+.split-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+.canvas-box {
+  background: var(--paper-2); border: 1px solid var(--rule);
+  padding: 24px; display: grid; place-items: center; min-height: 300px;
+}
+.legend { display: flex; flex-direction: column; gap: 12px; }
+.legend-item {
+  display: grid; grid-template-columns: 14px 1fr auto; gap: 12px; align-items: center;
+  padding: 12px 14px; border: 1px solid var(--rule); background: var(--paper-2);
+  transition: border-color .25s;
+}
+.legend-item:hover { border-color: var(--gold); }
+.legend-item i { width: 14px; height: 14px; display: block; }
+.legend-item strong { font-size: .9rem; display: block; }
+.legend-item small { color: var(--ink-mute); font-size: .75rem; }
+.legend-item .amt { font-family: var(--mono); font-size: .85rem; color: var(--gold-bright); }
+
+/* Install terminal */
+.terminal {
+  background: #0d0c0b; border: 1px solid var(--rule); overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,.45);
+}
+.terminal-bar {
+  display: flex; align-items: center; gap: 8px; padding: 12px 16px;
+  background: #161412; border-bottom: 1px solid var(--rule);
+}
+.terminal-bar .dot { width: 10px; height: 10px; border-radius: 50%; }
+.terminal-bar .dot.r { background: #ff5f57; }
+.terminal-bar .dot.y { background: #febc2e; }
+.terminal-bar .dot.g { background: #28c840; }
+.terminal-bar .title { margin-left: 10px; font-size: .72rem; color: var(--ink-mute); letter-spacing: .06em; }
+.terminal-body {
+  padding: 22px 20px; font-family: var(--mono); font-size: .85rem; line-height: 1.7;
+  min-height: 140px; color: #c8c0b4;
+}
+.terminal-body .p { color: var(--teal); }
+.terminal-body .c { color: var(--gold-bright); }
+.terminal-body .cursor-blink {
+  display: inline-block; width: 8px; height: 1em; background: var(--gold);
+  vertical-align: text-bottom; margin-left: 2px; animation: blink 1s step-end infinite;
+}
+.terminal-actions { display: flex; gap: 10px; padding: 0 16px 16px; }
+.terminal-actions button {
+  font-size: .72rem; letter-spacing: .08em; text-transform: uppercase;
+  padding: 10px 16px; border: 1px solid var(--rule); color: var(--ink-dim);
+  transition: .25s; font-weight: 600;
+}
+.terminal-actions button:hover { border-color: var(--gold); color: var(--gold); }
+.terminal-actions button.primary { background: var(--gold); color: #1a1508; border-color: var(--gold); }
+
+/* Library */
+.lib-search {
+  width: 100%; padding: 16px 18px; margin-bottom: 28px;
+  background: var(--paper-2); border: 1px solid var(--rule);
+  color: var(--ink); font: inherit; font-size: 1rem;
+  transition: border-color .25s, box-shadow .25s;
+}
+.lib-search:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212,168,75,.15); }
+.lib-search::placeholder { color: var(--ink-mute); }
+.lib-section { margin-bottom: 36px; }
+.lib-section h3 {
+  font-family: var(--serif); font-size: 1.4rem; font-weight: 600;
+  margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--rule);
+}
+.lib-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+.lib-card {
+  display: block; padding: 18px; border: 1px solid var(--rule); background: var(--paper-2);
+  transition: .3s var(--ease); min-height: 110px;
+}
+.lib-card:hover {
+  border-color: var(--gold); transform: translateY(-3px);
+  background: var(--paper-3);
+}
+.lib-card .t { font-weight: 600; font-size: .92rem; margin-bottom: 6px; }
+.lib-card .d { font-size: .78rem; color: var(--ink-mute); font-weight: 300; line-height: 1.45; }
+.lib-card .vol {
+  font-family: var(--mono); font-size: .62rem; letter-spacing: .1em;
+  color: var(--gold); margin-bottom: 8px; text-transform: uppercase;
+}
+
+/* Channels */
+.ch-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.ch-card {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px; padding: 28px 12px; border: 1px solid var(--rule); background: var(--paper-2);
+  text-align: center; transition: .35s var(--ease); min-height: 140px;
+}
+.ch-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+.ch-card .ico { font-size: 1.6rem; }
+.ch-card .n { font-weight: 600; font-size: .9rem; }
+.ch-card .u { font-size: .7rem; color: var(--ink-mute); }
+
+/* Quote / manifesto */
+.manifesto {
+  text-align: center; padding: clamp(40px, 8vw, 80px) 20px;
+  border: 1px solid var(--rule); background:
+    linear-gradient(180deg, transparent, rgba(212,168,75,0.04), transparent),
+    var(--paper-2);
+}
+.manifesto blockquote {
+  font-family: var(--serif); font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-style: italic; font-weight: 400; line-height: 1.35; max-width: 720px; margin: 0 auto 20px;
+}
+.manifesto cite { font-style: normal; font-size: .75rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-mute); }
+
+/* Footer */
+.site-foot {
+  border-top: 1px solid var(--rule); padding: 48px 0 60px; margin-top: 20px;
+  display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px;
+}
+.site-foot .brand {
+  font-family: var(--serif); font-size: 1.5rem; font-weight: 700; letter-spacing: .06em;
+}
+.site-foot p { color: var(--ink-mute); font-size: .85rem; margin-top: 10px; font-weight: 300; }
+.site-foot .goldline { color: var(--gold); font-weight: 500; margin-top: 14px; }
+.site-foot .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: .82rem; }
+.site-foot .cols strong {
+  display: block; font-size: .65rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink-mute); margin-bottom: 10px;
+}
+.site-foot .cols a { display: block; color: var(--ink-dim); padding: 3px 0; transition: color .2s; }
+.site-foot .cols a:hover { color: var(--gold); }
+
+/* Float tools */
+.float-tools {
+  position: fixed; bottom: 22px; right: 22px; z-index: 160;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.float-tools button {
+  width: 44px; height: 44px; border: 1px solid var(--rule-strong);
+  background: color-mix(in srgb, var(--paper-2) 90%, transparent);
+  backdrop-filter: blur(10px); display: grid; place-items: center;
+  font-size: .95rem; transition: .25s; color: var(--ink-dim);
+}
+.float-tools button:hover { border-color: var(--gold); color: var(--gold); }
+#toTop { opacity: 0; pointer-events: none; transition: opacity .3s; }
+#toTop.show { opacity: 1; pointer-events: all; }
+
+/* Reveal */
+.reveal { opacity: 0; transform: translateY(36px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+.reveal.on { opacity: 1; transform: none; }
+.reveal-d1 { transition-delay: .08s; }
+.reveal-d2 { transition-delay: .16s; }
+.reveal-d3 { transition-delay: .24s; }
+
+/* Accordion chapters */
+.chapter.acc { border-top: 1px solid var(--rule); padding: 0; }
+.chapter.acc + .chapter.acc { margin-top: 0; }
+.acc-head {
+  width: 100%; text-align: left; cursor: pointer;
+  background: transparent; border: none; color: inherit;
+  padding: 22px 0; display: grid;
+  grid-template-columns: 1fr auto; gap: 8px 16px; align-items: start;
+  font: inherit;
+}
+.acc-head:hover .ch-title { color: var(--gold-bright); }
+.acc-head .ch-label { grid-column: 1 / -1; margin-bottom: 0; pointer-events: none; }
+.acc-head .ch-title { margin: 0; pointer-events: none; grid-column: 1; }
+.acc-head .acc-ico {
+  grid-column: 2; grid-row: 2; align-self: center;
+  width: 36px; height: 36px; border: 1px solid var(--rule-strong);
+  display: grid; place-items: center; font-size: 1.2rem; color: var(--gold);
+  transition: transform .3s var(--ease), background .2s; flex-shrink: 0;
+  font-family: var(--mono); line-height: 1;
+}
+.acc-head[aria-expanded="true"] .acc-ico {
+  transform: rotate(45deg); background: rgba(212,168,75,.12);
+}
+.acc-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .35s var(--ease);
+}
+.acc-panel > .acc-inner {
+  overflow: hidden; min-height: 0; padding-bottom: 0;
+  opacity: 0; transition: opacity .25s ease, padding .35s ease;
+}
+.acc-panel.open { grid-template-rows: 1fr; }
+.acc-panel.open > .acc-inner { padding-bottom: 28px; opacity: 1; }
+.acc-panel .ch-deck { margin-top: 0; }
+/* library nested accordion */
+.lib-section.acc-lib { border: 1px solid var(--rule); background: var(--paper-2); margin-bottom: 12px; }
+.lib-section.acc-lib > h3 {
+  margin: 0; padding: 14px 16px; cursor: pointer; user-select: none;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--serif); font-size: 1.15rem; border-bottom: 1px solid transparent;
+}
+.lib-section.acc-lib > h3::after {
+  content: '+'; font-family: var(--mono); color: var(--gold); font-size: 1.1rem;
+  transition: transform .25s;
+}
+.lib-section.acc-lib.open > h3::after { transform: rotate(45deg); }
+.lib-section.acc-lib.open > h3 { border-bottom-color: var(--rule); }
+.lib-section.acc-lib .lib-grid {
+  display: none; padding: 12px; margin: 0;
+}
+.lib-section.acc-lib.open .lib-grid { display: grid; }
+.acc-toolbar {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end;
+  margin: 8px 0 4px; position: sticky; top: 64px; z-index: 20;
+}
+.acc-toolbar button {
+  font-size: .72rem; letter-spacing: .08em; text-transform: uppercase;
+  padding: 8px 12px; min-height: 40px; border: 1px solid var(--rule);
+  background: var(--paper-2); color: var(--ink-dim); cursor: pointer; font-family: var(--sans);
+}
+.acc-toolbar button:hover { border-color: var(--gold); color: var(--gold); }
+
+/* Mobile */
+@media (max-width: 900px) {
+  body { cursor: auto; }
+  .cursor, .cursor-dot { display: none !important; }
+  .g2, .g3, .wc-map, .split-panel, .site-foot, .ch-grid { grid-template-columns: 1fr; }
+  .funnel-stage { grid-template-columns: 1fr; }
+  .f-col:not(:last-child) { border-right: 1px solid var(--rule); border-bottom: none; }
+  .cover-stats { grid-template-columns: repeat(3, 1fr); }
+  .chapter-rail { display: none !important; }
+  .spine { width: 2px; }
+
+  /* Compact sticky bar: brand + burger only */
+  .masthead {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 10px; min-height: 56px;
+  }
+  .mast-left { display: none; }
+  .mast-brand { justify-self: auto; font-size: 1.05rem; }
+  .mast-actions { margin-left: auto; }
+  .menu-btn { display: inline-flex !important; align-items: center; justify-content: center; }
+  .mast-right {
+    position: fixed; top: 0; right: 0; bottom: 0; width: min(86vw, 320px);
+    background: var(--paper-2); border-left: 1px solid var(--rule);
+    display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start;
+    padding: calc(72px + env(safe-area-inset-top)) 12px max(24px, env(safe-area-inset-bottom));
+    gap: 2px; z-index: 155;
+    transform: translateX(105%); transition: transform .3s var(--ease);
+    box-shadow: none; overflow-y: auto;
+  }
+  .mast-right.open {
+    transform: translateX(0);
+    box-shadow: -16px 0 48px rgba(0,0,0,.4);
+  }
+  .mast-right .hide-m,
+  .mast-right a,
+  .mast-right button {
+    display: flex !important; width: 100%; text-align: left;
+    min-height: 48px; padding: 14px 16px !important; font-size: .9rem;
+    border-bottom: 1px solid var(--rule); border-radius: 0; justify-content: flex-start;
+  }
+  .mast-right .mast-cta {
+    justify-content: center; margin-top: 14px; border: none !important;
+    background: var(--gold) !important; color: #1a1508 !important;
+  }
+
+  .cover { min-height: auto; padding: 88px 0 40px; place-items: start center; }
+  .cover h1 { font-size: clamp(2.4rem, 12vw, 3.6rem); }
+  .cover-sub { font-size: .98rem; }
+  .cover-cta { flex-direction: column; align-items: stretch; }
+  .cover-cta .btn { justify-content: center; width: 100%; min-height: 48px; }
+  .cover-stats { grid-template-columns: repeat(3, 1fr); }
+  .cover-stats .s { padding: 14px 8px; }
+  .cover-stats .v { font-size: 1.35rem; }
+  .cover-stats .l { font-size: .62rem; letter-spacing: .08em; }
+  .ch-title { font-size: clamp(1.7rem, 7vw, 2.2rem); }
+  .ch-deck { font-size: .98rem; }
+  .ch-label { font-size: .68rem; letter-spacing: .14em; }
+  .infograph-box { padding: 12px 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .svg-arch { min-width: 640px; height: auto; }
+  .tooltip { max-width: min(240px, 70vw); font-size: .8rem; }
+  .agent-card h3 { font-size: 1.5rem; }
+  .wc-item { grid-template-columns: 32px 1fr auto; padding: 12px; gap: 8px; min-height: 52px; }
+  .wc-detail { position: static; min-height: 0; padding: 20px; }
+  .wc-detail .big { font-size: 2.2rem; }
+  .table-shell, .table-wrap { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { min-width: 520px; }
+  .terminal-body { font-size: .78rem; padding: 16px 12px; word-break: break-all; }
+  .terminal-actions { flex-wrap: wrap; }
+  .terminal-actions button, .terminal-actions .btn { min-height: 44px; flex: 1 1 auto; }
+  .lib-search { font-size: 16px; padding: 14px; } /* prevent iOS zoom */
+  .lib-grid { grid-template-columns: 1fr; }
+  .lib-card { min-height: 0; }
+  .ch-grid { grid-template-columns: repeat(2, 1fr); }
+  .site-foot { grid-template-columns: 1fr; gap: 20px; text-align: left; }
+  .site-foot .cols { grid-template-columns: 1fr 1fr; }
+  .float-tools {
+    bottom: max(16px, env(safe-area-inset-bottom));
+    right: max(12px, env(safe-area-inset-right));
+  }
+  .float-tools button { width: 48px; height: 48px; }
+  .manifesto blockquote { font-size: clamp(1.25rem, 5.5vw, 1.7rem); }
+  .btn { min-height: 48px; }
+  .marquee { font-size: .68rem; }
+  .ed-card, .agent-card, .f-col { padding: 20px 16px; }
+  .canvas-box { min-height: 260px; padding: 12px; }
+  #costPie { width: min(280px, 85vw) !important; height: auto !important; max-width: 100%; }
+  .shell { padding-left: max(14px, env(safe-area-inset-left)); padding-right: max(14px, env(safe-area-inset-right)); }
+  .chapter { padding: 48px 0; }
+}
+@media (max-width: 520px) {
+  .cover-stats { grid-template-columns: repeat(2, 1fr); }
+  .ch-grid { grid-template-columns: 1fr 1fr; }
+  .metrics, .hero-metrics { grid-template-columns: repeat(2, 1fr) !important; }
+}
+@media (max-width: 380px) {
+  .ch-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<header class="masthead" id="masthead">
+  <div class="mast-left">
+    <span class="issue">Vol. 01</span>
+    <span>2026 · July</span>
+    <span class="hide-m">Editorial</span>
+  </div>
+  <a class="mast-brand" href="#cover">S21 <em>Phone</em></a>
+  <div class="mast-actions">
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="메뉴" aria-expanded="false" aria-controls="mastRight">☰</button>
+    <div class="mast-right" id="mastRight">
+      <a class="hide-m" href="#tracks">Tracks</a>
+      <a class="hide-m" href="#system">System</a>
+      <a class="hide-m" href="#agents">Agents</a>
+      <a class="hide-m" href="#centers">Centers</a>
+      <a class="hide-m" href="#library">Library</a>
+      <a class="hide-m" href="archive.html">All pages</a>
+      <button type="button" id="themeBtn" aria-label="테마">Theme</button>
+      <a class="mast-cta" href="https://github.com/helena751107/helena_phone">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<nav class="chapter-rail" aria-label="챕터">
+  <a href="#cover" data-ch="cover"><span>Cover</span></a>
+  <a href="#tracks" data-ch="tracks"><span>Tracks</span></a>
+  <a href="#system" data-ch="system"><span>System</span></a>
+  <a href="#agents" data-ch="agents"><span>Agents</span></a>
+  <a href="#centers" data-ch="centers"><span>Centers</span></a>
+  <a href="#funnel" data-ch="funnel"><span>Funnel</span></a>
+  <a href="#economics" data-ch="economics"><span>Cost</span></a>
+  <a href="#install" data-ch="install"><span>Install</span></a>
+  <a href="#library" data-ch="library"><span>Library</span></a>
+  <a href="#channels" data-ch="channels"><span>Channels</span></a>
+</nav>
+
+<!-- ════ COVER ════ -->
+<section class="cover" id="cover">
+  <div class="cover-bg"></div>
+  <div class="cover-noise"></div>
+  <div class="cover-inner">
+    <div class="cover-kicker">
+      <span class="dot"></span>
+      <span>Live on Galaxy S21</span>
+      <span>Termux · proot Ubuntu</span>
+      <span>Webzine Vol.01</span>
+    </div>
+    <h1>
+      ONE PHONE.
+      <span class="thin">Two tracks.</span>
+      Full stack.
+    </h1>
+    <p class="cover-sub">
+      돌봄은 깨지지 않게. 소망은 세상에 닿게.
+      대필작가-간병인이 갤럭시 한 대로 굴리는 AI 워크스테이션 — 웹진 에디션.
+    </p>
+    <div class="cover-cta">
+      <a class="btn btn-solid" href="#install" data-cursor>Install in one line</a>
+      <a class="btn btn-line" href="#system" data-cursor>Explore the system</a>
+      <a class="btn btn-line" href="constitution.html" data-cursor>Read the constitution</a>
+    </div>
+    <div class="cover-stats" id="coverStats">
+      <div class="s"><div class="v" data-count="99">0</div><div class="l">Commits</div></div>
+      <div class="s"><div class="v" data-count="173">0</div><div class="l">Files</div></div>
+      <div class="s"><div class="v" data-count="18908">0</div><div class="l">Lines</div></div>
+      <div class="s"><div class="v" data-count="3">0</div><div class="l">Agents</div></div>
+      <div class="s"><div class="v" data-count="7">0</div><div class="l">Centers</div></div>
+      <div class="s"><div class="v" data-count="58">0</div><div class="l">Docs</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee" id="marquee">
+    <span>Galaxy S21</span><span>Termux</span><span>proot Ubuntu</span><span>Claude Code</span><span>DeepSeek</span><span>Grok SuperGrok</span><span>Aider</span><span>GitHub Pages</span><span>YouTube</span><span>Telegram</span><span>Discord</span><span>Naver</span><span>Tistory</span><span>phone-MCP</span><span>Care Daemon</span>
+    <span>Galaxy S21</span><span>Termux</span><span>proot Ubuntu</span><span>Claude Code</span><span>DeepSeek</span><span>Grok SuperGrok</span><span>Aider</span><span>GitHub Pages</span><span>YouTube</span><span>Telegram</span><span>Discord</span><span>Naver</span><span>Tistory</span><span>phone-MCP</span><span>Care Daemon</span>
+  </div>
+</div>
+
+<div class="shell">
+
+  <!-- MANIFESTO -->
+  <div class="manifesto reveal" style="margin-top: 48px;">
+    <blockquote>“핸드오프가 곧 성공이다. 모든 계정은 큰누나 명의.”</blockquote>
+    <cite>— CONSTITUTION · S21 Phone</cite>
+  </div>
+
+  <!-- TRACKS -->
+  <section class="chapter" id="tracks">
+    <div class="ch-label"><span class="num">01</span> Dual Track <span class="line"></span></div>
+    <h2 class="ch-title">돌봄과 소망을 <em>동시에</em></h2>
+    <p class="ch-deck">하나의 폰, 두 개의 목적. 트랙 1은 절대 안 깨지는 안전망. 트랙 2는 목소리를 세상에 세우는 스튜디오.</p>
+    <div class="g2">
+      <article class="ed-card reveal">
+        <div class="eyebrow">Track 01 · Care</div>
+        <h3>돌봄 — 절대 비공개 안전망</h3>
+        <p>위치·배터리·이상 감지·에스컬레이션. 콘텐츠 스트림과 물리 분리. 대상은 큰누나, 그리고 같은 구조가 필요한 모든 이.</p>
+        <div class="ibar" data-animate>
+          <div class="ibar-row"><span class="n">안정성</span><div class="t"><div class="f" data-w="100" style="background:var(--teal)"></div></div><span class="p">100%</span></div>
+          <div class="ibar-row"><span class="n">자동화</span><div class="t"><div class="f" data-w="100" style="background:var(--teal)"></div></div><span class="p">FULL</span></div>
+          <div class="ibar-row"><span class="n">AI 의존</span><div class="t"><div class="f" data-w="4" style="background:var(--ink-mute)"></div></div><span class="p">ZERO</span></div>
+        </div>
+        <div class="foot">
+          <span class="tag ok">care-daemon</span>
+          <span class="tag ok">crontab</span>
+          <span class="tag hot">must not break</span>
+        </div>
+      </article>
+      <article class="ed-card reveal reveal-d1">
+        <div class="eyebrow">Track 02 · Aspiration</div>
+        <h3>소망 — 대필작가 스튜디오</h3>
+        <p>누나가 건강했다면 살았을 삶을 미러링. GitHub 공장, YouTube 방송탑, Naver 웹진, Discord 로비까지 한 흐름으로.</p>
+        <div class="ibar" data-animate>
+          <div class="ibar-row"><span class="n">GitHub</span><div class="t"><div class="f" data-w="100" style="background:var(--teal)"></div></div><span class="p">AUTO</span></div>
+          <div class="ibar-row"><span class="n">YouTube</span><div class="t"><div class="f" data-w="85" style="background:var(--indigo)"></div></div><span class="p">85%</span></div>
+          <div class="ibar-row"><span class="n">Naver</span><div class="t"><div class="f" data-w="30" style="background:var(--gold)"></div></div><span class="p">HAND</span></div>
+        </div>
+        <div class="foot">
+          <span class="tag ok">auto deploy</span>
+          <span class="tag gold">paste pipeline</span>
+          <span class="tag">handoff</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- SYSTEM INFOGRAPHIC -->
+  <section class="chapter" id="system">
+    <div class="ch-label"><span class="num">02</span> System Map <span class="line"></span></div>
+    <h2 class="ch-title">인포그래픽 · <em>아키텍처</em></h2>
+    <p class="ch-deck">노드에 마우스를 올리면 역할이 펼쳐집니다. 데이터가 폰에서 세상으로 흐르는 길.</p>
+    <div class="infograph-box reveal" id="archBox">
+      <span class="hint">Hover nodes · Interactive</span>
+      <div class="tooltip" id="archTip"></div>
+      <svg class="svg-arch" viewBox="0 0 1000 420" role="img" aria-label="S21 Phone architecture diagram">
+        <defs>
+          <linearGradient id="gGold" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#d4a84b"/><stop offset="100%" stop-color="#3db8a8"/>
+          </linearGradient>
+          <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <!-- flows -->
+        <path class="flow" d="M120 210 H280" stroke="url(#gGold)" stroke-width="1.5" fill="none" opacity=".6"/>
+        <path class="flow" d="M400 210 H520" stroke="url(#gGold)" stroke-width="1.5" fill="none" opacity=".6"/>
+        <path class="flow" d="M680 120 H780" stroke="#8b7cf0" stroke-width="1.2" fill="none" opacity=".5"/>
+        <path class="flow" d="M680 210 H780" stroke="#d4a84b" stroke-width="1.2" fill="none" opacity=".5"/>
+        <path class="flow" d="M680 300 H780" stroke="#3db8a8" stroke-width="1.2" fill="none" opacity=".5"/>
+        <path class="flow" d="M900 120 C960 120 960 210 900 210" stroke="rgba(244,239,230,.2)" stroke-width="1" fill="none"/>
+        <path class="flow" d="M900 210 C960 210 960 300 900 300" stroke="rgba(244,239,230,.2)" stroke-width="1" fill="none"/>
+
+        <!-- Device -->
+        <g class="node" data-tip="Galaxy S21|루팅 없는 호스트. Termux:API로 배터리·센서·카메라 접근." transform="translate(40,150)">
+          <rect width="160" height="120" rx="4" fill="#12100e" stroke="rgba(244,239,230,.18)" stroke-width="1.5"/>
+          <text x="80" y="52" text-anchor="middle" fill="#f4efe6" font-family="Cormorant Garamond, serif" font-size="22" font-weight="600">S21</text>
+          <text x="80" y="78" text-anchor="middle" fill="#7a7064" font-size="11" letter-spacing="2">DEVICE</text>
+        </g>
+        <!-- Runtime -->
+        <g class="node" data-tip="Termux + proot Ubuntu|안드로이드 위 리눅스. 개발·데몬·에이전트 런타임." transform="translate(280,150)">
+          <rect width="160" height="120" rx="4" fill="#12100e" stroke="rgba(244,239,230,.18)" stroke-width="1.5"/>
+          <text x="80" y="48" text-anchor="middle" fill="#f4efe6" font-family="Cormorant Garamond, serif" font-size="18" font-weight="600">Termux</text>
+          <text x="80" y="72" text-anchor="middle" fill="#d4a84b" font-size="12">proot Ubuntu</text>
+          <text x="80" y="94" text-anchor="middle" fill="#7a7064" font-size="10" letter-spacing="1">RUNTIME</text>
+        </g>
+        <!-- Agents cluster -->
+        <g class="node" data-tip="cc · Claude Code|오케스트레이션 메인. DeepSeek 라우팅. 코드·문서·MCP·TG." transform="translate(520,60)">
+          <rect width="160" height="70" rx="4" fill="#12100e" stroke="rgba(61,184,168,.45)" stroke-width="1.5"/>
+          <text x="80" y="32" text-anchor="middle" fill="#3db8a8" font-family="JetBrains Mono" font-size="13">cc</text>
+          <text x="80" y="52" text-anchor="middle" fill="#f4efe6" font-size="12">Claude Code</text>
+        </g>
+        <g class="node" data-tip="ds · Aider|코드 전용 외과 루프. 비전 없음. SuperGrok 풀 보호." transform="translate(520,155)">
+          <rect width="160" height="70" rx="4" fill="#12100e" stroke="rgba(139,124,240,.45)" stroke-width="1.5"/>
+          <text x="80" y="32" text-anchor="middle" fill="#8b7cf0" font-family="JetBrains Mono" font-size="13">ds</text>
+          <text x="80" y="52" text-anchor="middle" fill="#f4efe6" font-size="12">Aider + DeepSeek</text>
+        </g>
+        <g class="node" data-tip="grok · SuperGrok|이미지·UI·영상·리서치·에이전트. 주간 사용량 풀." transform="translate(520,250)">
+          <rect width="160" height="70" rx="4" fill="#12100e" stroke="rgba(212,168,75,.5)" stroke-width="1.5"/>
+          <text x="80" y="32" text-anchor="middle" fill="#d4a84b" font-family="JetBrains Mono" font-size="13">grok</text>
+          <text x="80" y="52" text-anchor="middle" fill="#f4efe6" font-size="12">Grok CLI</text>
+        </g>
+        <!-- Outputs -->
+        <g class="node" data-tip="GitHub / Pages|공장 + 전시장. 코드·문서·자동 배포." transform="translate(780,80)">
+          <rect width="140" height="60" rx="4" fill="#12100e" stroke="rgba(244,239,230,.15)" stroke-width="1.2"/>
+          <text x="70" y="36" text-anchor="middle" fill="#f4efe6" font-size="13">GitHub · Pages</text>
+        </g>
+        <g class="node" data-tip="Broadcast|YouTube · Naver · Tistory 콘텐츠 퍼널." transform="translate(780,170)">
+          <rect width="140" height="60" rx="4" fill="#12100e" stroke="rgba(244,239,230,.15)" stroke-width="1.2"/>
+          <text x="70" y="36" text-anchor="middle" fill="#f4efe6" font-size="13">Broadcast</text>
+        </g>
+        <g class="node" data-tip="Comms|Telegram 인터컴 · Discord 로비." transform="translate(780,260)">
+          <rect width="140" height="60" rx="4" fill="#12100e" stroke="rgba(244,239,230,.15)" stroke-width="1.2"/>
+          <text x="70" y="36" text-anchor="middle" fill="#f4efe6" font-size="13">TG · Discord</text>
+        </g>
+        <!-- Care branch -->
+        <path class="flow" d="M120 270 Q120 360 280 360" stroke="#e85d4c" stroke-width="1.2" fill="none" opacity=".5"/>
+        <g class="node" data-tip="Care Daemon|트랙1. AI 없이 돌아가는 돌봄 안전망." transform="translate(280,330)">
+          <rect width="160" height="50" rx="4" fill="#12100e" stroke="rgba(232,93,76,.5)" stroke-width="1.2"/>
+          <text x="80" y="30" text-anchor="middle" fill="#e85d4c" font-size="12">Care Daemon (Track 1)</text>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <!-- AGENTS -->
+  <section class="chapter" id="agents">
+    <div class="ch-label"><span class="num">03</span> Three Agents <span class="line"></span></div>
+    <h2 class="ch-title">역할이 다른 <em>세 동료</em></h2>
+    <p class="ch-deck">카드를 클릭하면 레이더 차트와 강점이 바뀝니다. 만능 하나보다 분업.</p>
+    <div class="g3" id="agentGrid">
+      <article class="agent-card active reveal" data-agent="0" data-cursor tabindex="0">
+        <div class="role">Conductor</div>
+        <h3>cc</h3>
+        <code class="cmd">$ cc</code>
+        <p>Claude Code + DeepSeek. 코드·문서·git·MCP·Telegram 다단계 오케스트레이션. 메인 엔진.</p>
+        <div class="radar-wrap"><canvas class="radar" width="200" height="200" data-scores="95,88,70,90,40"></canvas></div>
+        <div class="agent-price">~$0 / mo · 지휘자</div>
+        <div class="foot"><span class="tag ok">Main</span><span class="tag">MCP</span></div>
+      </article>
+      <article class="agent-card reveal reveal-d1" data-agent="1" data-cursor tabindex="0">
+        <div class="role">Surgeon</div>
+        <h3>ds</h3>
+        <code class="cmd">$ ds</code>
+        <p>Aider + DeepSeek-V4-Pro. 비전 없음. 싸게 짧게 코드만. Grok 풀을 지키는 외과의.</p>
+        <div class="radar-wrap"><canvas class="radar" width="200" height="200" data-scores="88,40,30,55,20"></canvas></div>
+        <div class="agent-price">~$0 / mo · 외과의</div>
+        <div class="foot"><span class="tag gold">Code loop</span><span class="tag">dsflash</span></div>
+      </article>
+      <article class="agent-card reveal reveal-d2" data-agent="2" data-cursor tabindex="0">
+        <div class="role">Media Scout</div>
+        <h3>grok</h3>
+        <code class="cmd">$ grok</code>
+        <p>SuperGrok. 이미지·UI·영상·리서치·병렬 에이전트. GPU 없이 멀티모달. 주간 풀 주의.</p>
+        <div class="radar-wrap"><canvas class="radar" width="200" height="200" data-scores="75,95,92,80,90"></canvas></div>
+        <div class="agent-price">~₩45,000 / mo · 미디어</div>
+        <div class="foot"><span class="tag hot">Imagine</span><span class="tag gold">Build</span></div>
+      </article>
+    </div>
+    <p style="margin-top:18px;font-size:.78rem;color:var(--ink-mute);letter-spacing:.06em;text-transform:uppercase;text-align:center">
+      Radar axes · Coding · Multimodal · Research · Autonomy · Speed
+    </p>
+  </section>
+
+  <!-- WORKCENTERS -->
+  <section class="chapter" id="centers">
+    <div class="ch-label"><span class="num">04</span> Seven Centers <span class="line"></span></div>
+    <h2 class="ch-title">워크센터 <em>맵</em></h2>
+    <p class="ch-deck">왼쪽 목록을 고르면 오른쪽에 가동률 링과 상세가 열립니다.</p>
+    <div class="wc-map reveal">
+      <div class="wc-list" id="wcList" role="listbox" aria-label="워크센터"></div>
+      <div class="wc-detail" id="wcDetail">
+        <div class="big" id="wcBig">①</div>
+        <h3 id="wcTitle">공장</h3>
+        <p id="wcDesc">—</p>
+        <canvas class="ring-chart" id="wcRing" width="120" height="120"></canvas>
+        <dl>
+          <div><dt>Platform</dt><dd id="wcPlat">—</dd></div>
+          <div><dt>Operator</dt><dd id="wcOp">—</dd></div>
+          <div><dt>Metaphor</dt><dd id="wcMeta">—</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- FUNNEL -->
+  <section class="chapter" id="funnel">
+    <div class="ch-label"><span class="num">05</span> Content Funnel <span class="line"></span></div>
+    <h2 class="ch-title">콘텐츠가 <em>흐르는</em> 방식</h2>
+    <p class="ch-deck">단계를 클릭하면 완성도가 채워집니다. Grok 드래프트에서 독립까지.</p>
+    <div class="funnel-stage reveal" id="funnelStage">
+      <div class="f-col on" data-pct="80" data-cursor>
+        <div class="step">01 · BAIT</div>
+        <h3>Naver 웹진</h3>
+        <p>Grok 80% 드래프트<br>무료 · 미끼 · 티저</p>
+        <canvas class="pct-ring" width="88" height="88" data-pct="80" data-color="#d4a84b"></canvas>
+        <div class="note">Draft quality target</div>
+      </div>
+      <div class="f-col" data-pct="100" data-cursor>
+        <div class="step">02 · CRAFT</div>
+        <h3>YouTube 강의</h3>
+        <p>Claude Code 완성<br>강의 · 수익화</p>
+        <canvas class="pct-ring" width="88" height="88" data-pct="100" data-color="#3db8a8"></canvas>
+        <div class="note">Production grade</div>
+      </div>
+      <div class="f-col" data-pct="100" data-cursor>
+        <div class="step">03 · HANDOFF</div>
+        <h3>누나의 독립</h3>
+        <p>수익 · 계정 · 운영<br>전부 큰누나 명의</p>
+        <canvas class="pct-ring" width="88" height="88" data-pct="100" data-color="#e85d4c"></canvas>
+        <div class="note">Success = handoff</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ECONOMICS -->
+  <section class="chapter" id="economics">
+    <div class="ch-label"><span class="num">06</span> Economics <span class="line"></span></div>
+    <h2 class="ch-title">월 비용 <em>인포그래픽</em></h2>
+    <p class="ch-deck">코어는 0원에 가깝고, 시각·에이전트 풀은 SuperGrok이 담당.</p>
+    <div class="split-panel reveal">
+      <div class="canvas-box">
+        <canvas id="costPie" width="280" height="280" aria-label="월 비용 파이 차트"></canvas>
+      </div>
+      <div class="legend" id="costLegend"></div>
+    </div>
+  </section>
+
+  <!-- INSTALL -->
+  <section class="chapter" id="install">
+    <div class="ch-label"><span class="num">07</span> Install <span class="line"></span></div>
+    <h2 class="ch-title">한 줄로 <em>부팅</em></h2>
+    <p class="ch-deck">타이핑 애니메이션이 끝난 뒤 복사하세요. F-Droid Termux + termux-api 전제.</p>
+    <div class="terminal reveal" id="terminal">
+      <div class="terminal-bar">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span class="title">s21@termux — install</span>
+      </div>
+      <div class="terminal-body" id="termBody">
+        <span class="p">$</span> <span class="c" id="termCmd"></span><span class="cursor-blink" id="termCursor"></span>
+      </div>
+      <div class="terminal-actions">
+        <button type="button" class="primary" id="copyInstall" data-cursor>Copy command</button>
+        <button type="button" id="replayType" data-cursor>Replay</button>
+        <a class="btn btn-line" style="padding:10px 16px;font-size:.72rem" href="guide.html" data-cursor>Full guide</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIBRARY -->
+  <section class="chapter" id="library">
+    <div class="ch-label"><span class="num">08</span> Archive <span class="line"></span></div>
+    <h2 class="ch-title">웹진 <em>아카이브</em></h2>
+    <p class="ch-deck">레포 문서를 매거진 선반처럼. 검색으로 바로 점프.</p>
+    <input class="lib-search" id="libSearch" type="search" placeholder="Search archive… constitution, telegram, grok, workcenter" autocomplete="off">
+
+    <div class="lib-section reveal" data-lib>
+      <h3>Core Issues</h3>
+      <div class="lib-grid">
+        <a class="lib-card" href="constitution.html" data-cursor><div class="vol">Issue · Law</div><div class="t">헌법 CONSTITUTION</div><div class="d">16조·4장 · Chain of Command</div></a>
+        <a class="lib-card" href="claude.html" data-cursor><div class="vol">Issue · Ops</div><div class="t">실무 규칙</div><div class="d">AI 3종 · Paste Pipeline</div></a>
+        <a class="lib-card" href="readme.html" data-cursor><div class="vol">Issue · Intro</div><div class="t">README</div><div class="d">숫자 · 구조 · 링크</div></a>
+        <a class="lib-card" href="guide.html" data-cursor><div class="vol">Issue · Path</div><div class="t">5단계 GUIDE</div><div class="d">설치부터 방송까지</div></a>
+        <a class="lib-card" href="chronicle.html" data-cursor><div class="vol">Issue · Time</div><div class="t">CHRONICLE</div><div class="d">DAY 1–2 연대기</div></a>
+        <a class="lib-card" href="gift.html" data-cursor><div class="vol">Issue · Gift</div><div class="t">GIFT · dtslib</div><div class="d">선물 패키지 분석</div></a>
+        <a class="lib-card" href="textbook.html" data-cursor><div class="vol">Issue · Book</div><div class="t">완결판 교재</div><div class="d">판단층+실행층</div></a>
+        <a class="lib-card" href="notebook/99-devlog.html" data-cursor><div class="vol">Issue · Log</div><div class="t">개발일지 99</div><div class="d">전체 히스토리</div></a>
+      </div>
+    </div>
+
+    <div class="lib-section reveal" data-lib>
+      <h3>Infrastructure</h3>
+      <div class="lib-grid">
+        <a class="lib-card" href="notebook/01-arch.html" data-cursor><div class="vol">01</div><div class="t">시스템 아키텍처</div><div class="d">전체 구조</div></a>
+        <a class="lib-card" href="notebook/09-ecosystem.html" data-cursor><div class="vol">09</div><div class="t">생태계 브릿지</div><div class="d">5×5 테이블</div></a>
+        <a class="lib-card" href="notebook/10-phone-mcp.html" data-cursor><div class="vol">10</div><div class="t">phone-MCP</div><div class="d">18 tools</div></a>
+        <a class="lib-card" href="notebook/20-workcenters-final.html" data-cursor><div class="vol">20</div><div class="t">워크센터 최종</div><div class="d">자동/수동</div></a>
+        <a class="lib-card" href="notebook/14-daemon-design.html" data-cursor><div class="vol">14</div><div class="t">돌봄 데몬</div><div class="d">트랙1 설계</div></a>
+        <a class="lib-card" href="notebook/22-s21-benchmark.html" data-cursor><div class="vol">22</div><div class="t">S21 벤치</div><div class="d">실측</div></a>
+      </div>
+    </div>
+
+    <div class="lib-section reveal" data-lib>
+      <h3>Platforms & Agents</h3>
+      <div class="lib-grid">
+        <a class="lib-card" href="notebook/02-discord.html" data-cursor><div class="vol">02</div><div class="t">Discord</div><div class="d">로비</div></a>
+        <a class="lib-card" href="notebook/03-telegram.html" data-cursor><div class="vol">03</div><div class="t">Telegram</div><div class="d">인터컴</div></a>
+        <a class="lib-card" href="notebook/06-youtube.html" data-cursor><div class="vol">06</div><div class="t">YouTube</div><div class="d">방송탑</div></a>
+        <a class="lib-card" href="notebook/07-cli-reference.html" data-cursor><div class="vol">07</div><div class="t">CLI</div><div class="d">cc · ds · grok</div></a>
+        <a class="lib-card" href="notebook/25-multi-ai-strategy.html" data-cursor><div class="vol">25</div><div class="t">멀티 AI</div><div class="d">전략</div></a>
+        <a class="lib-card" href="notebook/ai-agents-cc-ds-grok-comparison-2026-07-25.html" data-cursor><div class="vol">Essay</div><div class="t">cc vs ds vs grok</div><div class="d">비교 노트</div></a>
+        <a class="lib-card" href="notebook/supergrok-community-research-2026-07-25.html" data-cursor><div class="vol">Essay</div><div class="t">SuperGrok 리서치</div><div class="d">커뮤니티</div></a>
+        <a class="lib-card" href="notebook/29-grok-cli-installed.html" data-cursor><div class="vol">29</div><div class="t">Grok CLI</div><div class="d">설치 기록</div></a>
+      </div>
+    </div>
+
+    <div class="lib-section reveal" data-lib>
+      <h3>Platform Ops</h3>
+      <div class="lib-grid">
+        <a class="lib-card" href="notebook/04-github-pages.html" data-cursor><div class="vol">04</div><div class="t">GitHub Pages</div><div class="d">Giscus · WidgetBot</div></a>
+        <a class="lib-card" href="notebook/05-tistory.html" data-cursor><div class="vol">05</div><div class="t">티스토리</div><div class="d">업무일지</div></a>
+        <a class="lib-card" href="notebook/08-secrets.html" data-cursor><div class="vol">08</div><div class="t">비밀 관리</div><div class="d">토큰 · 인증</div></a>
+        <a class="lib-card" href="notebook/11-health.html" data-cursor><div class="vol">11</div><div class="t">건강 검진</div><div class="d">phone-health</div></a>
+        <a class="lib-card" href="notebook/15-proot-report.html" data-cursor><div class="vol">15</div><div class="t">proot 보고서</div><div class="d">종합</div></a>
+        <a class="lib-card" href="configs/ecosystem-map.html" data-cursor><div class="vol">Config</div><div class="t">ecosystem-map</div><div class="d">5×5 JSON</div></a>
+      </div>
+    </div>
+
+    <div class="lib-section reveal" data-lib>
+      <h3>Analysis & Strategy</h3>
+      <div class="lib-grid">
+        <a class="lib-card" href="notebook/12-dtslib-gift.html" data-cursor><div class="vol">12</div><div class="t">dtslib 선물</div><div class="d">분석</div></a>
+        <a class="lib-card" href="notebook/13-midterm-eval-v2.html" data-cursor><div class="vol">13</div><div class="t">중간평가 v2</div><div class="d">98/100</div></a>
+        <a class="lib-card" href="notebook/16-textbook-methodology.html" data-cursor><div class="vol">16</div><div class="t">교재 방법론</div><div class="d">판단+실행</div></a>
+        <a class="lib-card" href="notebook/17-merged-chronicle.html" data-cursor><div class="vol">17</div><div class="t">병합 연대기</div><div class="d">10피벗×38섹션</div></a>
+        <a class="lib-card" href="notebook/18-workcenters.html" data-cursor><div class="vol">18</div><div class="t">워크센터 초안</div><div class="d">설계</div></a>
+        <a class="lib-card" href="notebook/19-final-strategy.html" data-cursor><div class="vol">19</div><div class="t">최종 전략</div><div class="d">자동/수동</div></a>
+      </div>
+    </div>
+
+    <div class="lib-section reveal" data-lib>
+      <h3>Methodology & Pipeline</h3>
+      <div class="lib-grid">
+        <a class="lib-card" href="notebook/21-integrated-dev-plan.html" data-cursor><div class="vol">21</div><div class="t">통합 계획서</div><div class="d">개발</div></a>
+        <a class="lib-card" href="notebook/23-naver-webzine-solution.html" data-cursor><div class="vol">23</div><div class="t">네이버 웹진</div><div class="d">솔루션</div></a>
+        <a class="lib-card" href="notebook/24-paste-pipeline.html" data-cursor><div class="vol">24</div><div class="t">Paste Pipeline</div><div class="d">방법론</div></a>
+        <a class="lib-card" href="notebook/26-naver-parsing-solution.html" data-cursor><div class="vol">26</div><div class="t">Naver 파싱</div><div class="d">해결</div></a>
+        <a class="lib-card" href="notebook/27-claude-grok-pipeline.html" data-cursor><div class="vol">27</div><div class="t">Claude+Grok</div><div class="d">파이프</div></a>
+        <a class="lib-card" href="notebook/28-grok-github-bridge.html" data-cursor><div class="vol">28</div><div class="t">Grok 브릿지</div><div class="d">인터프리터</div></a>
+      </div>
+    </div>
+
+    <div class="lib-section reveal" data-lib>
+      <h3>Scripts & Configs</h3>
+      <div class="lib-grid">
+        <a class="lib-card" href="g/install.html" data-cursor><div class="vol">g/</div><div class="t">install.sh</div><div class="d">1줄 설치 (364줄)</div></a>
+        <a class="lib-card" href="care/care-daemon.html" data-cursor><div class="vol">care/</div><div class="t">care-daemon.sh</div><div class="d">돌봄 (292줄)</div></a>
+        <a class="lib-card" href="care/care-setup.html" data-cursor><div class="vol">care/</div><div class="t">care-setup.sh</div><div class="d">crontab 등록</div></a>
+        <a class="lib-card" href="care/care-conf.html" data-cursor><div class="vol">care/</div><div class="t">care.conf</div><div class="d">임계값</div></a>
+        <a class="lib-card" href="phone-health.html" data-cursor><div class="vol">root</div><div class="t">phone-health.sh</div><div class="d">27항목 (383줄)</div></a>
+        <a class="lib-card" href="scripts/tg.html" data-cursor><div class="vol">scripts/</div><div class="t">tg.sh</div><div class="d">TG 보고</div></a>
+        <a class="lib-card" href="scripts/yt-upload.html" data-cursor><div class="vol">scripts/</div><div class="t">yt_upload.py</div><div class="d">YT 업로드 (256줄)</div></a>
+        <a class="lib-card" href="scripts/grok-api.html" data-cursor><div class="vol">scripts/</div><div class="t">grok_api.py</div><div class="d">Grok API (174줄)</div></a>
+        <a class="lib-card" href="configs/bashrc-example.html" data-cursor><div class="vol">configs/</div><div class="t">bashrc</div><div class="d">gr·grok alias</div></a>
+        <a class="lib-card" href="configs/settings.html" data-cursor><div class="vol">configs/</div><div class="t">settings.json</div><div class="d">MCP</div></a>
+        <a class="lib-card" href="foundation/termux-setup.html" data-cursor><div class="vol">F1</div><div class="t">Termux 설치</div><div class="d">F-Droid</div></a>
+        <a class="lib-card" href="foundation/proot-ubuntu.html" data-cursor><div class="vol">F2</div><div class="t">proot Ubuntu</div><div class="d">컨테이너</div></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHANNELS -->
+  <section class="chapter" id="channels">
+    <div class="ch-label"><span class="num">09</span> Channels <span class="line"></span></div>
+    <h2 class="ch-title">외부 <em>채널</em></h2>
+    <p class="ch-deck">모든 계정은 큰누나 명의.</p>
+    <div class="ch-grid reveal">
+      <a class="ch-card" href="https://github.com/helena751107/helena_phone" data-cursor><span class="ico">⌘</span><span class="n">GitHub</span><span class="u">helena_phone</span></a>
+      <a class="ch-card" href="https://www.youtube.com/@helena_phone" data-cursor><span class="ico">▶</span><span class="n">YouTube</span><span class="u">@helena_phone</span></a>
+      <a class="ch-card" href="https://m.blog.naver.com/helena1975" data-cursor><span class="ico">◎</span><span class="n">Naver</span><span class="u">helena1975</span></a>
+      <a class="ch-card" href="https://galaxys21-pwuser.tistory.com" data-cursor><span class="ico">✎</span><span class="n">Tistory</span><span class="u">업무일지</span></a>
+      <a class="ch-card" href="https://discord.gg/JTYSZv2WQE" data-cursor><span class="ico">◈</span><span class="n">Discord</span><span class="u">Lobby</span></a>
+    </div>
+  </section>
+
+  <footer class="site-foot reveal">
+    <div>
+      <div class="brand">S21 PHONE</div>
+      <p>Webzine Vol.01 · AI Workstation Editorial<br>Galaxy S21 · Termux · proot Ubuntu · cc · ds · grok</p>
+      <p class="goldline">모든 계정은 큰누나 명의입니다.</p>
+      <p style="margin-top:16px;font-size:.75rem">© 2026 Helena Park · 대필작가-간병인 · 99 commits · 173 files</p>
+    </div>
+    <div class="cols">
+      <div>
+        <strong>Read</strong>
+        <a href="constitution.html">Constitution</a>
+        <a href="guide.html">Guide</a>
+        <a href="notebook/99-devlog.html">Devlog</a>
+        <a href="textbook.html">Textbook</a>
+      </div>
+      <div>
+        <strong>Build</strong>
+        <a href="#install">Install</a>
+        <a href="https://github.com/helena751107/helena_phone">Repository</a>
+        <a href="g/install.html">install.sh</a>
+        <a href="#agents">Agents</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<div class="float-tools">
+  <button type="button" id="toTop" aria-label="맨 위">↑</button>
+  <button type="button" id="themeBtn2" aria-label="테마">◐</button>
+</div>
+
+<script>
+/* ════════════════════════════════════════════
+   S21 Webzine — interactive engine
+   ════════════════════════════════════════════ */
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const coarse = matchMedia('(pointer: coarse)').matches;
+
+  /* —— Custom cursor —— */
+  const cur = $('#cursor'), dot = $('#cursorDot');
+  let mx = innerWidth / 2, my = innerHeight / 2, cx = mx, cy = my;
+  if (!coarse) {
+    addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px';
+      dot.style.top = my + 'px';
+    }, { passive: true });
+    (function loop() {
+      cx += (mx - cx) * 0.18;
+      cy += (my - cy) * 0.18;
+      cur.style.left = cx + 'px';
+      cur.style.top = cy + 'px';
+      requestAnimationFrame(loop);
+    })();
+    const setHover = on => cur.classList.toggle('hover', on);
+    $$('a, button, [data-cursor], .agent-card, .wc-item, .f-col, .node').forEach(el => {
+      el.addEventListener('mouseenter', () => setHover(true));
+      el.addEventListener('mouseleave', () => setHover(false));
+    });
+  }
+
+  /* —— Spine + masthead —— */
+  const spine = $('#spineFill');
+  const mast = $('#masthead');
+  const toTop = $('#toTop');
+  addEventListener('scroll', () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    const p = max > 0 ? (scrollY / max) * 100 : 0;
+    spine.style.height = p + '%';
+    mast.classList.toggle('scrolled', scrollY > 40);
+    toTop.classList.toggle('show', scrollY > 600);
+    // chapter rail
+    let curId = 'cover';
+    $$('section[id]').forEach(s => {
+      if (s.getBoundingClientRect().top < innerHeight * 0.35) curId = s.id;
+    });
+    $$('.chapter-rail a').forEach(a => a.classList.toggle('on', a.dataset.ch === curId));
+  }, { passive: true });
+  toTop.onclick = () => scrollTo({ top: 0, behavior: 'smooth' });
+
+  /* —— Theme —— */
+  const root = document.documentElement;
+  const saved = localStorage.getItem('s21-webzine-theme');
+  if (saved) root.setAttribute('data-theme', saved);
+  const toggleTheme = () => {
+    const n = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', n);
+    localStorage.setItem('s21-webzine-theme', n);
+    // redraw canvases for theme
+    drawAllRadars();
+    drawCostPie();
+    drawWcRing(WORKCENTERS[wcIndex].pct, WORKCENTERS[wcIndex].color);
+    $$('.pct-ring').forEach(drawPctRing);
+  };
+  $('#themeBtn').onclick = toggleTheme;
+  $('#themeBtn2').onclick = toggleTheme;
+
+  /* —— Mobile menu —— */
+  // Mobile drawer
+  const drawer = $('#mastRight');
+  const burger = $('#menuBtn');
+  let backdrop = document.querySelector('.nav-backdrop');
+  if (!backdrop) {
+    backdrop = document.createElement('div');
+    backdrop.className = 'nav-backdrop';
+    document.body.appendChild(backdrop);
+  }
+  const closeNav = () => {
+    drawer.classList.remove('open');
+    backdrop.classList.remove('show');
+    document.body.style.overflow = '';
+  };
+  const openNav = () => {
+    drawer.classList.add('open');
+    backdrop.classList.add('show');
+    document.body.style.overflow = 'hidden';
+  };
+  if (burger) burger.onclick = (e) => {
+    e.stopPropagation();
+    if (drawer.classList.contains('open')) { closeNav(); burger.setAttribute('aria-expanded','false'); }
+    else { openNav(); burger.setAttribute('aria-expanded','true'); }
+  };
+  backdrop.onclick = closeNav;
+
+  /* —— Smooth anchors —— */
+  $$('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+    const id = a.getAttribute('href');
+    if (!id || id === '#') return;
+    const t = $(id);
+    if (!t) return;
+    e.preventDefault();
+    t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    try { closeNav(); } catch (_) { $('#mastRight')?.classList.remove('open'); }
+  }));
+
+  /* —— Accordion chapters —— */
+  const OPEN_DEFAULT = new Set(['install']); // keep install open; rest folded
+  const accChapters = $$('section.chapter');
+  // toolbar
+  const shell = document.querySelector('.shell');
+  if (shell && accChapters.length) {
+    const bar = document.createElement('div');
+    bar.className = 'acc-toolbar';
+    bar.innerHTML = '<button type="button" id="accExpand">Expand all</button><button type="button" id="accCollapse">Collapse all</button>';
+    const firstCh = accChapters[0];
+    firstCh.parentNode.insertBefore(bar, firstCh);
+  }
+
+  function setChapterOpen(sec, open, scrollInto) {
+    const head = sec.querySelector('.acc-head');
+    const panel = sec.querySelector('.acc-panel');
+    if (!head || !panel) return;
+    head.setAttribute('aria-expanded', open ? 'true' : 'false');
+    panel.classList.toggle('open', open);
+    if (open) {
+      // animate bars / reveal when opening
+      sec.querySelectorAll('.f[data-w]').forEach(f => { f.style.width = f.dataset.w + '%'; });
+      sec.querySelectorAll('.reveal').forEach(el => el.classList.add('on'));
+      if (sec.id === 'agents') try { drawAllRadars(); } catch(_){}
+      if (sec.id === 'economics') try { drawCostPie(); } catch(_){}
+      if (sec.id === 'funnel') try { $$('.pct-ring').forEach(drawPctRing); } catch(_){}
+      if (sec.id === 'centers') try { selectWc(wcIndex); } catch(_){}
+      if (sec.id === 'install') try { typeCmd(); } catch(_){}
+      if (scrollInto) setTimeout(() => sec.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+    }
+  }
+
+  accChapters.forEach((sec, i) => {
+    sec.classList.add('acc');
+    const label = sec.querySelector('.ch-label');
+    const title = sec.querySelector('.ch-title');
+    if (!label || !title) return;
+    const kids = [...sec.childNodes];
+    // build head button
+    const head = document.createElement('button');
+    head.type = 'button';
+    head.className = 'acc-head';
+    head.id = (sec.id || 'ch' + i) + '-head';
+    const ico = document.createElement('span');
+    ico.className = 'acc-ico';
+    ico.setAttribute('aria-hidden', 'true');
+    ico.textContent = '+';
+    head.appendChild(label);
+    head.appendChild(title);
+    head.appendChild(ico);
+    // panel
+    const panel = document.createElement('div');
+    panel.className = 'acc-panel';
+    panel.id = (sec.id || 'ch' + i) + '-panel';
+    const inner = document.createElement('div');
+    inner.className = 'acc-inner';
+    // move remaining elements into panel
+    kids.forEach(n => {
+      if (n === label || n === title) return;
+      if (n.nodeType === 1 || (n.nodeType === 3 && n.textContent.trim())) inner.appendChild(n);
+    });
+    panel.appendChild(inner);
+    sec.innerHTML = '';
+    sec.appendChild(head);
+    sec.appendChild(panel);
+    head.setAttribute('aria-controls', panel.id);
+    const shouldOpen = OPEN_DEFAULT.has(sec.id);
+    setChapterOpen(sec, shouldOpen, false);
+    head.addEventListener('click', () => {
+      const open = head.getAttribute('aria-expanded') !== 'true';
+      setChapterOpen(sec, open, open);
+    });
+  });
+
+  $('#accExpand')?.addEventListener('click', () => accChapters.forEach(s => setChapterOpen(s, true, false)));
+  $('#accCollapse')?.addEventListener('click', () => accChapters.forEach(s => setChapterOpen(s, false, false)));
+
+  // deep link #section → open that accordion
+  const hashOpen = () => {
+    const id = location.hash.replace('#', '');
+    if (!id) return;
+    const sec = document.getElementById(id);
+    if (sec && sec.classList.contains('chapter')) {
+      setChapterOpen(sec, true, true);
+    }
+  };
+  hashOpen();
+  addEventListener('hashchange', hashOpen);
+
+  // library group accordions
+  $$('.lib-section').forEach((sec, i) => {
+    const h = sec.querySelector('h3');
+    if (!h) return;
+    sec.classList.add('acc-lib');
+    // first lib group open
+    if (i === 0) sec.classList.add('open');
+    h.tabIndex = 0;
+    h.setAttribute('role', 'button');
+    h.setAttribute('aria-expanded', i === 0 ? 'true' : 'false');
+    const toggle = () => {
+      const on = !sec.classList.contains('open');
+      sec.classList.toggle('open', on);
+      h.setAttribute('aria-expanded', on ? 'true' : 'false');
+    };
+    h.addEventListener('click', toggle);
+    h.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+    });
+  });
+
+  // nav anchors open target accordion first
+  $$('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', () => {
+      const id = a.getAttribute('href')?.slice(1);
+      const sec = id && document.getElementById(id);
+      if (sec && sec.classList.contains('chapter')) setChapterOpen(sec, true, false);
+    });
+  });
+
+  /* —— Reveal + bars —— */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      en.target.classList.add('on');
+      en.target.querySelectorAll('.f[data-w]').forEach(f => {
+        f.style.width = f.dataset.w + '%';
+      });
+      io.unobserve(en.target);
+    });
+  }, { threshold: 0.12 });
+  $$('.reveal').forEach(el => io.observe(el));
+
+  /* —— Count up —— */
+  const countIo = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      const el = en.target;
+      const target = +el.dataset.count;
+      if (reduce) { el.textContent = target.toLocaleString(); countIo.unobserve(el); return; }
+      const t0 = performance.now(), dur = 1400;
+      const tick = now => {
+        const p = Math.min(1, (now - t0) / dur);
+        const e = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(target * e).toLocaleString();
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+      countIo.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  $$('[data-count]').forEach(el => countIo.observe(el));
+
+  /* —— Architecture tooltip —— */
+  const tip = $('#archTip'), box = $('#archBox');
+  $$('.svg-arch .node').forEach(node => {
+    node.addEventListener('mouseenter', e => {
+      const [title, body] = (node.dataset.tip || '|').split('|');
+      tip.innerHTML = `<strong>${title}</strong><span>${body || ''}</span>`;
+      tip.classList.add('show');
+      node.classList.add('active');
+    });
+    node.addEventListener('mousemove', e => {
+      const r = box.getBoundingClientRect();
+      tip.style.left = Math.min(e.clientX - r.left + 16, r.width - 220) + 'px';
+      tip.style.top = Math.min(e.clientY - r.top + 16, r.height - 80) + 'px';
+    });
+    node.addEventListener('mouseleave', () => {
+      tip.classList.remove('show');
+      node.classList.remove('active');
+    });
+  });
+
+  /* —— Radar charts —— */
+  const LABELS = ['Coding', 'Multi', 'Research', 'Autonomy', 'Speed'];
+  function drawRadar(canvas, scores, active) {
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width, h = canvas.height, cx = w / 2, cy = h / 2, R = w * 0.36;
+    const light = root.getAttribute('data-theme') === 'light';
+    const ink = light ? 'rgba(26,21,16,0.15)' : 'rgba(244,239,230,0.12)';
+    const gold = '#d4a84b';
+    ctx.clearRect(0, 0, w, h);
+    // grid
+    for (let ring = 1; ring <= 4; ring++) {
+      ctx.beginPath();
+      for (let i = 0; i < 5; i++) {
+        const a = -Math.PI / 2 + (i * 2 * Math.PI) / 5;
+        const r = (R * ring) / 4;
+        const x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r;
+        i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+      }
+      ctx.closePath();
+      ctx.strokeStyle = ink;
+      ctx.stroke();
+    }
+    // axes
+    for (let i = 0; i < 5; i++) {
+      const a = -Math.PI / 2 + (i * 2 * Math.PI) / 5;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + Math.cos(a) * R, cy + Math.sin(a) * R);
+      ctx.strokeStyle = ink;
+      ctx.stroke();
+    }
+    // polygon
+    ctx.beginPath();
+    scores.forEach((s, i) => {
+      const a = -Math.PI / 2 + (i * 2 * Math.PI) / 5;
+      const r = (R * s) / 100;
+      const x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r;
+      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+    });
+    ctx.closePath();
+    ctx.fillStyle = active ? 'rgba(212,168,75,0.28)' : 'rgba(61,184,168,0.18)';
+    ctx.strokeStyle = active ? gold : '#3db8a8';
+    ctx.lineWidth = 2;
+    ctx.fill();
+    ctx.stroke();
+  }
+  function drawAllRadars() {
+    $$('.agent-card').forEach(card => {
+      const c = card.querySelector('.radar');
+      const scores = c.dataset.scores.split(',').map(Number);
+      drawRadar(c, scores, card.classList.contains('active'));
+    });
+  }
+  drawAllRadars();
+  $$('.agent-card').forEach(card => {
+    const act = () => {
+      $$('.agent-card').forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      drawAllRadars();
+    };
+    card.addEventListener('click', act);
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); act(); } });
+  });
+
+  /* —— Workcenters —— */
+  const WORKCENTERS = [
+    { idx: '①', name: '공장', meta: '생산라인', plat: 'GitHub', op: 'Claude Code', pct: 100, color: '#3db8a8', status: 'go', statusLabel: '가동',
+      desc: '코드·문서·스크립트가 생산되는 메인 공장. 커밋과 PR이 원료다.' },
+    { idx: '②', name: '전시장', meta: '쇼룸', plat: 'GitHub Pages', op: '자동배포', pct: 100, color: '#3db8a8', status: 'go', statusLabel: '가동',
+      desc: '이 웹진이 서 있는 자리. 레포가 곧 갤러리다.' },
+    { idx: '③', name: '방송탑', meta: '송신탑', plat: 'YouTube', op: 'Claude Code', pct: 80, color: '#8b7cf0', status: 'wait', statusLabel: '준비',
+      desc: '완성 강의와 수익화가 나가는 송신 인프라.' },
+    { idx: '④', name: '인터컴', meta: '내부통신', plat: 'Telegram', op: 'tg.sh / Bot', pct: 100, color: '#3db8a8', status: 'go', statusLabel: '가동',
+      desc: '에이전트 보고, 파일 배달, 회의실. 폰과 사람 사이 무전.' },
+    { idx: '⑤', name: '업무일지', meta: '기록창고', plat: 'Tistory', op: '사람', pct: 30, color: '#d4a84b', status: 'hand', statusLabel: '수동',
+      desc: '운영 기록과 회고. 자동화보다 손맛이 남는 창고.' },
+    { idx: '⑥', name: '웹진', meta: '미끼·티저', plat: 'Naver Blog', op: '사람 + Grok', pct: 25, color: '#e85d4c', status: 'hand', statusLabel: '수동',
+      desc: '퍼널의 입구. Grok 80% 드래프트로 트래픽을 끌어온다.' },
+    { idx: '⑦', name: '로비', meta: '응접실', plat: 'Discord', op: 'WidgetBot', pct: 100, color: '#3db8a8', status: 'go', statusLabel: '가동',
+      desc: '실시간 소통 로비. 커뮤니티가 들어오는 현관.' },
+  ];
+  let wcIndex = 0;
+  const wcList = $('#wcList');
+  WORKCENTERS.forEach((w, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'wc-item' + (i === 0 ? ' on' : '');
+    b.dataset.i = i;
+    b.innerHTML = `<span class="idx">${w.idx}</span><span><div class="name">${w.name}</div><div class="meta">${w.meta} · ${w.plat}</div></span><span class="status ${w.status}">${w.statusLabel}</span>`;
+    b.onclick = () => selectWc(i);
+    wcList.appendChild(b);
+  });
+  function drawWcRing(pct, color) {
+    const c = $('#wcRing');
+    const ctx = c.getContext('2d');
+    const w = c.width, cx = w / 2, r = 48;
+    const light = root.getAttribute('data-theme') === 'light';
+    ctx.clearRect(0, 0, w, w);
+    ctx.beginPath();
+    ctx.arc(cx, cx, r, 0, Math.PI * 2);
+    ctx.strokeStyle = light ? 'rgba(26,21,16,0.1)' : 'rgba(244,239,230,0.1)';
+    ctx.lineWidth = 8;
+    ctx.stroke();
+    const start = -Math.PI / 2;
+    const end = start + (Math.PI * 2 * pct) / 100;
+    ctx.beginPath();
+    ctx.arc(cx, cx, r, start, end);
+    ctx.strokeStyle = color;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+    ctx.fillStyle = light ? '#1a1510' : '#f4efe6';
+    ctx.font = '600 22px Cormorant Garamond, serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(pct + '%', cx, cx);
+  }
+  function selectWc(i) {
+    wcIndex = i;
+    const w = WORKCENTERS[i];
+    $$('.wc-item').forEach((el, j) => el.classList.toggle('on', j === i));
+    $('#wcBig').textContent = w.idx;
+    $('#wcTitle').textContent = w.name;
+    $('#wcDesc').textContent = w.desc;
+    $('#wcPlat').textContent = w.plat;
+    $('#wcOp').textContent = w.op;
+    $('#wcMeta').textContent = w.meta;
+    // animate ring
+    let cur = 0;
+    const target = w.pct;
+    const step = () => {
+      cur += (target - cur) * 0.12;
+      if (Math.abs(target - cur) < 0.5) cur = target;
+      drawWcRing(Math.round(cur), w.color);
+      if (cur !== target) requestAnimationFrame(step);
+    };
+    if (reduce) drawWcRing(target, w.color); else requestAnimationFrame(step);
+  }
+  selectWc(0);
+
+  /* —— Funnel rings —— */
+  function drawPctRing(canvas) {
+    const pct = +canvas.dataset.pct;
+    const color = canvas.dataset.color || '#d4a84b';
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width, cx = w / 2, r = 34;
+    const light = root.getAttribute('data-theme') === 'light';
+    ctx.clearRect(0, 0, w, w);
+    ctx.beginPath();
+    ctx.arc(cx, cx, r, 0, Math.PI * 2);
+    ctx.strokeStyle = light ? 'rgba(26,21,16,0.1)' : 'rgba(244,239,230,0.1)';
+    ctx.lineWidth = 6;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(cx, cx, r, -Math.PI / 2, -Math.PI / 2 + (Math.PI * 2 * pct) / 100);
+    ctx.strokeStyle = color;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+    ctx.fillStyle = light ? '#1a1510' : '#f4efe6';
+    ctx.font = '600 16px Cormorant Garamond, serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(pct + '%', cx, cx);
+  }
+  $$('.pct-ring').forEach(drawPctRing);
+  $$('.f-col').forEach(col => {
+    col.addEventListener('click', () => {
+      $$('.f-col').forEach(c => c.classList.remove('on'));
+      col.classList.add('on');
+    });
+  });
+
+  /* —— Cost pie —— */
+  const COSTS = [
+    { name: 'SuperGrok', desc: '시각 · 에이전트 · 리서치', amt: 45000, color: '#d4a84b' },
+    { name: 'DeepSeek', desc: 'cc + ds 코딩 루프', amt: 10000, color: '#3db8a8' },
+    { name: 'Core stack', desc: 'Termux · GitHub · 폰', amt: 0, color: '#8b7cf0' },
+  ];
+  function drawCostPie() {
+    const canvas = $('#costPie');
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width, cx = w / 2, r = 100;
+    const total = COSTS.reduce((s, c) => s + Math.max(c.amt, 1), 0);
+    // treat 0 as small slice for visibility? Core is free - show as thin teal ring note
+    ctx.clearRect(0, 0, w, w);
+    let ang = -Math.PI / 2;
+    const paid = COSTS.filter(c => c.amt > 0);
+    const paidTotal = paid.reduce((s, c) => s + c.amt, 0);
+    paid.forEach(c => {
+      const slice = (c.amt / paidTotal) * Math.PI * 2;
+      ctx.beginPath();
+      ctx.moveTo(cx, cx);
+      ctx.arc(cx, cx, r, ang, ang + slice);
+      ctx.closePath();
+      ctx.fillStyle = c.color;
+      ctx.fill();
+      ang += slice;
+    });
+    // hole
+    const light = root.getAttribute('data-theme') === 'light';
+    ctx.beginPath();
+    ctx.arc(cx, cx, 58, 0, Math.PI * 2);
+    ctx.fillStyle = light ? '#efe8db' : '#12100e';
+    ctx.fill();
+    ctx.fillStyle = light ? '#1a1510' : '#f4efe6';
+    ctx.font = '600 28px Cormorant Garamond, serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('₩55k', cx, cx - 8);
+    ctx.font = '12px DM Sans, sans-serif';
+    ctx.fillStyle = light ? '#8a8074' : '#7a7064';
+    ctx.fillText('/ month', cx, cx + 16);
+  }
+  const legend = $('#costLegend');
+  COSTS.forEach(c => {
+    const el = document.createElement('div');
+    el.className = 'legend-item';
+    el.innerHTML = `<i style="background:${c.color}"></i><div><strong>${c.name}</strong><small>${c.desc}</small></div><span class="amt">${c.amt ? '₩' + c.amt.toLocaleString() : '₩0'}</span>`;
+    legend.appendChild(el);
+  });
+  drawCostPie();
+
+  /* —— Terminal typewriter —— */
+  const CMD = 'curl -sL https://raw.github.com/helena751107/helena_phone/main/g/install.sh | bash';
+  const termCmd = $('#termCmd');
+  const termCursor = $('#termCursor');
+  let typeTimer;
+  function typeCmd() {
+    clearInterval(typeTimer);
+    termCmd.textContent = '';
+    termCursor.style.display = '';
+    if (reduce) { termCmd.textContent = CMD; termCursor.style.display = 'none'; return; }
+    let i = 0;
+    typeTimer = setInterval(() => {
+      termCmd.textContent = CMD.slice(0, ++i);
+      if (i >= CMD.length) {
+        clearInterval(typeTimer);
+        termCursor.style.display = 'none';
+      }
+    }, 28);
+  }
+  const termIo = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) { typeCmd(); termIo.disconnect(); }
+  }, { threshold: 0.4 });
+  termIo.observe($('#terminal'));
+  $('#replayType').onclick = typeCmd;
+  $('#copyInstall').onclick = async () => {
+    try { await navigator.clipboard.writeText(CMD); }
+    catch {
+      const ta = document.createElement('textarea');
+      ta.value = CMD; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); ta.remove();
+    }
+    const b = $('#copyInstall');
+    b.textContent = 'Copied ✓';
+    setTimeout(() => { b.textContent = 'Copy command'; }, 1600);
+  };
+
+  /* —— Library search —— */
+  $('#libSearch')?.addEventListener('input', e => {
+    const q = e.target.value.trim().toLowerCase();
+    $$('[data-lib]').forEach(sec => {
+      let any = false;
+      sec.querySelectorAll('.lib-card').forEach(card => {
+        const show = !q || card.textContent.toLowerCase().includes(q);
+        card.style.display = show ? '' : 'none';
+        if (show) any = true;
+      });
+      sec.style.display = any ? '' : 'none';
+      if (q && any) {
+        sec.classList.add('open');
+        const h = sec.querySelector('h3');
+        if (h) h.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  /* —— Parallax cover (subtle) —— */
+  if (!reduce && !coarse) {
+    addEventListener('scroll', () => {
+      const c = $('#cover');
+      if (!c) return;
+      const y = Math.min(scrollY, innerHeight);
+      c.querySelector('.cover-bg').style.transform = `translateY(${y * 0.25}px)`;
+    }, { passive: true });
+  }
+
+  /* —— Keyboard: j/k chapter nav —— */
+  const chapterIds = ['cover','tracks','system','agents','centers','funnel','economics','install','library','channels'];
+  addEventListener('keydown', e => {
+    if (e.target.matches('input, textarea')) return;
+    const id = chapterIds.find(ch => {
+      const el = document.getElementById(ch);
+      return el && el.getBoundingClientRect().top >= -80 && el.getBoundingClientRect().top < innerHeight * 0.45;
+    }) || chapterIds[0];
+    const i = chapterIds.indexOf(id);
+    if (e.key === 'j' && i < chapterIds.length - 1) {
+      const next = document.getElementById(chapterIds[i + 1]);
+      if (next?.classList.contains('chapter')) setChapterOpen(next, true, false);
+      next?.scrollIntoView({ behavior: 'smooth' });
+    }
+    if (e.key === 'k' && i > 0) {
+      const prev = document.getElementById(chapterIds[i - 1]);
+      if (prev?.classList.contains('chapter')) setChapterOpen(prev, true, false);
+      prev?.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+})();
+</script>
+</body>
+</html>

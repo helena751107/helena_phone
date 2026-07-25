@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Source viewer · phone-health.sh — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>phone-health.sh — S21 Phone Webzine</title>
+<link rel="icon" href="icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="index.html">Home</a>
+      <a href="archive.html">Archive</a>
+      <a href="index.html#library">Library</a>
+      <a href="index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="index.html">Webzine</a><span class="sep">/</span>
+    <span>Scripts</span><span class="sep">/</span>
+    <span>phone-health.sh</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Scripts · Vol.01</div>
+    <h1>phone-health.sh</h1>
+    <p class="deck">Source viewer · phone-health.sh</p>
+    <div class="wz-meta">
+      <span>Source · phone-health.sh</span>
+      <span>Kind · code</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  
+  <article class="wz-prose">
+    
+<div class="wz-code-head">
+  <span class="path">phone-health.sh</span>
+  <button type="button" data-copy="#codeBody">Copy</button>
+</div>
+<pre id="codeBody"><code class="language-sh">#!/usr/bin/env bash
+# ==============================================================================
+# phone-health.sh — S21 Phone 건강 검진 스크립트 v3
+# ==============================================================================
+# 사용법:
+#   bash phone-health.sh                    # 기본 검진 (비파괴)
+#   bash phone-health.sh --full             # 전체 검진 (사진/녹음 포함)
+#   bash phone-health.sh --telegram         # 검진 + 텔레그램 보고
+#
+# 결과: _notebook/health/YYYY-MM-DD_HHMM.json 자동 저장
+# ==============================================================================
+
+BASE_DIR=&quot;$(cd &quot;$(dirname &quot;$0&quot;)&quot; &amp;&amp; pwd)&quot;
+HEALTH_DIR=&quot;${BASE_DIR}/_notebook/health&quot;
+MCP_PORT=&quot;${MCP_PORT:-3456}&quot;
+NOW=&quot;$(date +%Y-%m-%d_%H%M)&quot;
+TS=&quot;$(date &#x27;+%Y-%m-%d %H:%M:%S %Z&#x27;)&quot;
+REPORT_FILE=&quot;${HEALTH_DIR}/${NOW}.json&quot;
+
+mkdir -p &quot;$HEALTH_DIR&quot;
+
+# Termux PATH 반드시 선두에
+export PATH=&quot;/data/data/com.termux/files/usr/bin:$PATH&quot;
+
+PASS_CNT=0; WARN_CNT=0; FAIL_CNT=0; SKIP_CNT=0
+
+# ============================================================
+# Helpers
+# ============================================================
+
+OK=&quot;✅&quot;; WARN=&quot;⚠️&quot;; FAIL=&quot;❌&quot;; SKIP=&quot;⏭️&quot;; INFO=&quot;ℹ️&quot;
+
+info()  { echo &quot;  $INFO $1&quot;; }
+ok()    { echo &quot;  $OK $1&quot;; PASS_CNT=$((PASS_CNT+1)); }
+warn()  { echo &quot;  $WARN $1&quot;; WARN_CNT=$((WARN_CNT+1)); }
+fail()  { echo &quot;  $FAIL $1&quot;; FAIL_CNT=$((FAIL_CNT+1)); }
+skip()  { echo &quot;  $SKIP $1&quot;; SKIP_CNT=$((SKIP_CNT+1)); }
+sect()  { echo &quot;&quot;; echo &quot;━━━ $* ━━━&quot;; }
+
+# 핵심: Termux 명령은 반드시 직접 실행 (bash -c 말고)
+tx() { &quot;$@&quot; 2&gt;/dev/null || true; }
+
+# JSON 필드 추출 (multiline JSON 대비, 따옴표/공백 제거)
+jget() {
+  echo &quot;$1&quot; | sed -n &quot;s/.*\&quot;$2\&quot;: *\&quot;\{0,1\}\([^\&quot;,}]*\)\&quot;\{0,1\}.*/\1/p&quot; | head -1
+}
+
+
+# ============================================================
+# 1. 시스템 기본
+# ============================================================
+
+sect &quot;1. 시스템 기본&quot;
+info &quot;Kernel: $(uname -r 2&gt;/dev/null || echo &#x27;?&#x27;)&quot;
+info &quot;Host:   $(uname -n 2&gt;/dev/null || echo &#x27;?&#x27;)&quot;
+
+MCP_HTTP=$(curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;http://localhost:${MCP_PORT}/health&quot; 2&gt;/dev/null || echo &quot;000&quot;)
+MCP_OKAY=$(curl -s &quot;http://localhost:${MCP_PORT}/health&quot; 2&gt;/dev/null | grep -c &#x27;&quot;status&quot;:&quot;ok&quot;&#x27; || true)
+[ &quot;$MCP_HTTP&quot; = &quot;200&quot; ] &amp;&amp; [ &quot;$MCP_OKAY&quot; -ge 1 ] &amp;&amp; ok &quot;phone-mcp-server (port ${MCP_PORT})&quot; || fail &quot;phone-mcp-server (HTTP ${MCP_HTTP})&quot;
+
+info &quot;MCP tools: 18 (phone-mcp-server)&quot;
+
+info &quot;Disk: $(df -h /data/data/com.termux/files 2&gt;/dev/null | awk &#x27;NR==2{print $4&quot; free / &quot;$2&quot; total&quot;}&#x27;)&quot;
+
+GH_HTTP=$(curl -s -o /dev/null -w &quot;%{http_code}&quot; --max-time 5 &quot;https://helena751107.github.io/helena_phone/&quot; 2&gt;/dev/null || echo &quot;000&quot;)
+[ &quot;$GH_HTTP&quot; = &quot;200&quot; ] &amp;&amp; ok &quot;GitHub Pages (HTTP ${GH_HTTP})&quot; || warn &quot;GitHub Pages (HTTP ${GH_HTTP})&quot;
+
+# ============================================================
+# 2. 전원 / 배터리 — 가장 중요
+# ============================================================
+
+sect &quot;2. 전원 / 배터리&quot;
+
+BAT=$(termux-battery-status 2&gt;/dev/null || echo &quot;&quot;)
+if [ -n &quot;$BAT&quot; ] &amp;&amp; [ &quot;$BAT&quot; != &quot;{}&quot; ]; then
+  ok &quot;battery-status sensor&quot;
+  BAT_PCT=$(jget &quot;$BAT&quot; &quot;percentage&quot;)
+  BAT_TMP=$(jget &quot;$BAT&quot; &quot;temperature&quot;)
+  BAT_STS=$(jget &quot;$BAT&quot; &quot;status&quot;)
+  BAT_HTH=$(jget &quot;$BAT&quot; &quot;health&quot;)
+  BAT_PLG=$(jget &quot;$BAT&quot; &quot;plugged&quot;)
+  BAT_VLT=$(jget &quot;$BAT&quot; &quot;voltage&quot;)
+  BAT_CUR=$(jget &quot;$BAT&quot; &quot;current_average&quot;)
+  info &quot;${BAT_PCT}% / ${BAT_TMP}°C / ${BAT_STS} / ${BAT_HTH} / plugged=${BAT_PLG}&quot;
+  info &quot;Voltage: ${BAT_VLT}mV | Current avg: ${BAT_CUR}mA&quot;
+
+  [ -n &quot;$BAT_PCT&quot; ] &amp;&amp; [ &quot;$BAT_PCT&quot; -lt 15 ] 2&gt;/dev/null &amp;&amp; warn &quot;배터리 임계 (${BAT_PCT}% &lt; 15%)&quot;
+  [ -n &quot;$BAT_TMP&quot; ] &amp;&amp; [ &quot;${BAT_TMP%.*}&quot; -gt 45 ] 2&gt;/dev/null &amp;&amp; warn &quot;온도 과열 (${BAT_TMP}°C &gt; 45°C)&quot;
+else
+  fail &quot;battery-status sensor (no data)&quot;
+  BAT_PCT=&quot;&quot;; BAT_TMP=&quot;&quot;; BAT_STS=&quot;?&quot;; BAT_HTH=&quot;?&quot;; BAT_PLG=&quot;?&quot;
+fi
+
+# ============================================================
+# 3. WiFi / 네트워크
+# ============================================================
+
+sect &quot;3. WiFi / 네트워크&quot;
+
+WIFI=$(termux-wifi-connectioninfo 2&gt;/dev/null || echo &quot;&quot;)
+if [ -n &quot;$WIFI&quot; ] &amp;&amp; [ &quot;$WIFI&quot; != &quot;{}&quot; ]; then
+  ok &quot;WiFi connection info&quot;
+  WIFI_SSID=$(jget &quot;$WIFI&quot; &quot;ssid&quot;)
+  WIFI_IP=$(jget &quot;$WIFI&quot; &quot;ip&quot;)
+  WIFI_RSSI=$(jget &quot;$WIFI&quot; &quot;rssi&quot;)
+  WIFI_LINK=$(jget &quot;$WIFI&quot; &quot;link_speed_mbps&quot;)
+  info &quot;SSID: ${WIFI_SSID:-?} | IP: ${WIFI_IP:-?} | RSSI: ${WIFI_RSSI:-?}dBm | Link: ${WIFI_LINK:-?}Mbps&quot;
+  [ -n &quot;$WIFI_RSSI&quot; ] &amp;&amp; [ &quot;$WIFI_RSSI&quot; -lt -80 ] 2&gt;/dev/null &amp;&amp; warn &quot;WiFi 신호 약함 (RSSI ${WIFI_RSSI}dBm)&quot;
+else
+  fail &quot;WiFi connection info&quot;
+  WIFI_SSID=&quot;?&quot;; WIFI_IP=&quot;?&quot;; WIFI_RSSI=&quot;&quot;
+fi
+
+EXT_G=$(curl -s -o /dev/null -w &quot;%{http_code}&quot; --max-time 3 &quot;https://www.google.com&quot; 2&gt;/dev/null || echo &quot;000&quot;)
+EXT_H=$(curl -s -o /dev/null -w &quot;%{http_code}&quot; --max-time 3 &quot;https://github.com&quot; 2&gt;/dev/null || echo &quot;000&quot;)
+info &quot;Google: HTTP ${EXT_G} | GitHub: HTTP ${EXT_H}&quot;
+
+# ============================================================
+# 4. 하드웨어 센서
+# ============================================================
+
+sect &quot;4. 하드웨어 센서&quot;
+
+tx termux-torch on
+sleep 1
+tx termux-torch off
+echo &quot;  $OK Flashlight (ON→1s→OFF)&quot;; PASS_CNT=$((PASS_CNT+1))
+
+tx termux-vibrate -d 100
+echo &quot;  $OK Vibrate (100ms)&quot;; PASS_CNT=$((PASS_CNT+1))
+
+VOL=$(termux-volume 2&gt;/dev/null || echo &quot;&quot;)
+if [ -n &quot;$VOL&quot; ] &amp;&amp; [ &quot;$VOL&quot; != &quot;[]&quot; ]; then
+  ok &quot;Volume sensor&quot;
+  VM=$(echo &quot;$VOL&quot; | grep -oP &#x27;&quot;stream&quot;:&quot;music&quot;,&quot;volume&quot;:\K[0-9]+&#x27; || echo &quot;?&quot;)
+  VR=$(echo &quot;$VOL&quot; | grep -oP &#x27;&quot;stream&quot;:&quot;ring&quot;,&quot;volume&quot;:\K[0-9]+&#x27; || echo &quot;?&quot;)
+  VN=$(echo &quot;$VOL&quot; | grep -oP &#x27;&quot;stream&quot;:&quot;notification&quot;,&quot;volume&quot;:\K[0-9]+&#x27; || echo &quot;?&quot;)
+  info &quot;Music: ${VM} | Ring: ${VR} | Notification: ${VN}&quot;
+else
+  warn &quot;Volume sensor&quot;
+fi
+
+AI=$(termux-audio-info 2&gt;/dev/null || echo &quot;&quot;)
+[ -n &quot;$AI&quot; ] &amp;&amp; [ &quot;$AI&quot; != &quot;{}&quot; ] &amp;&amp; ok &quot;Audio info&quot; || warn &quot;Audio info&quot;
+
+SN=$(termux-sensor -l 2&gt;/dev/null || echo &quot;&quot;)
+SC=$(echo &quot;$SN&quot; | wc -l)
+[ -n &quot;$SN&quot; ] &amp;&amp; ok &quot;Sensors (${SC} available)&quot; || warn &quot;Sensors (unavailable)&quot;
+
+# ============================================================
+# 5. GPS / 위치
+# ============================================================
+
+sect &quot;5. 위치 / GPS&quot;
+
+GPS=$(timeout 8 termux-location -p gps 2&gt;/dev/null || echo &quot;&quot;)
+if [ -n &quot;$GPS&quot; ] &amp;&amp; echo &quot;$GPS&quot; | grep -q &quot;latitude&quot;; then
+  ok &quot;GPS location&quot;
+  GLAT=$(jget &quot;$GPS&quot; &quot;latitude&quot;); GLON=$(jget &quot;$GPS&quot; &quot;longitude&quot;)
+  GACC=$(jget &quot;$GPS&quot; &quot;accuracy&quot;); GALT=$(jget &quot;$GPS&quot; &quot;altitude&quot;)
+  info &quot;(${GLAT}, ${GLON}) ±${GACC}m alt=${GALT}m&quot;
+else
+  GPS2=$(timeout 5 termux-location -p network 2&gt;/dev/null || echo &quot;&quot;)
+  if [ -n &quot;$GPS2&quot; ] &amp;&amp; echo &quot;$GPS2&quot; | grep -q &quot;latitude&quot;; then
+    GLAT=$(jget &quot;$GPS2&quot; &quot;latitude&quot;); GLON=$(jget &quot;$GPS2&quot; &quot;longitude&quot;)
+    warn &quot;GPS (network fallback: ${GLAT}, ${GLON})&quot;
+  else
+    warn &quot;GPS (both providers failed)&quot;
+  fi
+fi
+
+# ============================================================
+# 6. 카메라 / 미디어
+# ============================================================
+
+sect &quot;6. 카메라 / 미디어&quot;
+
+CI=$(termux-camera-info 2&gt;/dev/null || echo &quot;&quot;)
+if [ -n &quot;$CI&quot; ] &amp;&amp; [ &quot;$CI&quot; != &quot;[]&quot; ]; then
+  ok &quot;Camera info&quot;
+  echo &quot;  ${INFO} $(echo &quot;$CI&quot; | grep -oP &#x27;&quot;facing&quot;:&quot;[^&quot;]*&quot;&#x27; | tr &#x27;\n&#x27; &#x27; &#x27;)&quot;
+else
+  warn &quot;Camera info&quot;
+fi
+
+if [ &quot;${1:-}&quot; = &quot;--full&quot; ]; then
+  tx termux-camera-photo -c 1 /tmp/hc_${NOW}.jpg
+  PS=$(ls -la /tmp/hc_${NOW}.jpg 2&gt;/dev/null | awk &#x27;{print $5}&#x27; || echo &quot;0&quot;)
+  [ &quot;$PS&quot; -gt 1000 ] 2&gt;/dev/null &amp;&amp; ok &quot;Camera photo (${PS}B)&quot; || fail &quot;Camera photo&quot;
+  rm -f /tmp/hc_${NOW}.jpg 2&gt;/dev/null
+else
+  skip &quot;Camera photo (--full)&quot;
+fi
+
+tx termux-microphone-record -d 1 -l 1 -f /tmp/hc_mic.m4a 2&gt;/dev/null
+sleep 1
+tx termux-microphone-record -q 2&gt;/dev/null
+MS=$(ls -la /tmp/hc_mic.m4a 2&gt;/dev/null | awk &#x27;{print $5}&#x27; || echo &quot;0&quot;)
+rm -f /tmp/hc_mic.m4a 2&gt;/dev/null
+[ &quot;$MS&quot; -gt 100 ] 2&gt;/dev/null &amp;&amp; ok &quot;Microphone (${MS}B)&quot; || warn &quot;Microphone&quot;
+
+TTS=$(termux-tts-speak &quot;health check ok&quot; 2&gt;/dev/null &amp;&amp; echo &quot;ok&quot; || echo &quot;fail&quot;)
+[ &quot;$TTS&quot; = &quot;ok&quot; ] &amp;&amp; ok &quot;TTS&quot; || warn &quot;TTS&quot;
+
+# ============================================================
+# 7. 클립보드
+# ============================================================
+
+sect &quot;7. 클립보드&quot;
+
+echo &quot;S21HC_${NOW}&quot; | termux-clipboard-set 2&gt;/dev/null
+sleep 0.3
+CG=$(termux-clipboard-get 2&gt;/dev/null || echo &quot;&quot;)
+echo &quot;$CG&quot; | grep -q &quot;S21HC_&quot; &amp;&amp; ok &quot;Clipboard (write+read)&quot; || fail &quot;Clipboard (got=&#x27;${CG}&#x27;)&quot;
+
+# ============================================================
+# 8. 커뮤니케이션
+# ============================================================
+
+sect &quot;8. 커뮤니케이션&quot;
+
+SMS=$(termux-sms-list -l 1 -t inbox 2&gt;/dev/null || echo &quot;&quot;)
+[ -n &quot;$SMS&quot; ] &amp;&amp; [ &quot;$SMS&quot; != &quot;[]&quot; ] &amp;&amp; ok &quot;SMS inbox&quot; || warn &quot;SMS inbox&quot;
+
+CONT=$(termux-contact-list 2&gt;/dev/null || echo &quot;&quot;)
+CC=$(echo &quot;$CONT&quot; | grep -c &#x27;&quot;name&quot;&#x27; || echo 0)
+[ &quot;$CC&quot; -gt 0 ] 2&gt;/dev/null &amp;&amp; ok &quot;Contacts (${CC} entries)&quot; || warn &quot;Contacts&quot;
+
+CALL=$(termux-call-log -l 5 2&gt;/dev/null || echo &quot;&quot;)
+CLC=$(echo &quot;$CALL&quot; | grep -c &#x27;&quot;number&quot;&#x27; || echo 0)
+[ &quot;$CLC&quot; -gt 0 ] 2&gt;/dev/null &amp;&amp; ok &quot;Call log (${CLC} entries)&quot; || warn &quot;Call log&quot;
+
+TEL=$(termux-telephony-deviceinfo 2&gt;/dev/null || echo &quot;&quot;)
+[ -n &quot;$TEL&quot; ] &amp;&amp; [ &quot;$TEL&quot; != &quot;{}&quot; ] &amp;&amp; ok &quot;Telephony device info&quot; || warn &quot;Telephony device info&quot;
+
+CELL=$(termux-telephony-cellinfo 2&gt;/dev/null || echo &quot;&quot;)
+[ -n &quot;$CELL&quot; ] &amp;&amp; [ &quot;$CELL&quot; != &quot;[]&quot; ] &amp;&amp; ok &quot;Cellular info&quot; || warn &quot;Cellular info&quot;
+
+NT=$(termux-notification --title &quot;Health Check&quot; \
+  --content &quot;S21 Phone HC ${NOW}&quot; --id &quot;s21hc_${NOW}&quot; --alert-once 2&gt;/dev/null &amp;&amp; echo &quot;ok&quot; || echo &quot;fail&quot;)
+[ &quot;$NT&quot; = &quot;ok&quot; ] &amp;&amp; ok &quot;Notification&quot; || warn &quot;Notification (permission?)&quot;
+
+# ============================================================
+# 9. 네트워크 서비스
+# ============================================================
+
+sect &quot;9. 네트워크 서비스&quot;
+
+for URL_LABEL in \
+  &quot;helena_phone|https://helena751107.github.io/helena_phone/&quot; \
+  &quot;helana_log|https://github.com/helena751107/helana_log&quot; \
+  &quot;helana-faith|https://github.com/helena751107/helana-faith&quot; \
+  &quot;helena-piano|https://github.com/helena751107/helena-piano&quot; \
+  &quot;helena-metalcare|https://github.com/helena751107/helena-metalcare&quot;; do
+  L=&quot;${URL_LABEL%%|*}&quot;; U=&quot;${URL_LABEL##*|}&quot;
+  H=$(curl -s -o /dev/null -w &quot;%{http_code}&quot; --max-time 5 &quot;$U&quot; 2&gt;/dev/null || echo &quot;000&quot;)
+  ok &quot;$L (HTTP ${H})&quot;
+done
+
+DC=$(curl -s -o /dev/null -w &quot;%{http_code}&quot; --max-time 5 \
+  &quot;https://discord.com/api/guilds/1529785842560794684/widget.json&quot; 2&gt;/dev/null || echo &quot;000&quot;)
+[ &quot;$DC&quot; = &quot;200&quot; ] &amp;&amp; ok &quot;Discord widget (HTTP ${DC})&quot; || warn &quot;Discord widget (HTTP ${DC})&quot;
+
+source &quot;${BASE_DIR}/.secrets.env&quot; 2&gt;/dev/null || true
+TG_API=$(curl -s -o /dev/null -w &quot;%{http_code}&quot; --max-time 5 \
+  &quot;https://api.telegram.org/bot${TG_TOKEN:-x}/getMe&quot; 2&gt;/dev/null || echo &quot;000&quot;)
+[ &quot;$TG_API&quot; = &quot;200&quot; ] &amp;&amp; ok &quot;Telegram API (HTTP ${TG_API})&quot; || warn &quot;Telegram API (HTTP ${TG_API})&quot;
+
+# ============================================================
+# 10. 직접 Termux 핵심 기능 검증 (MCP 의존 없이)
+# ============================================================
+
+sect &quot;10. 핵심 기능 직접 검증&quot;
+
+# get_battery 직접
+BAT2=$(termux-battery-status 2&gt;/dev/null || echo &quot;&quot;)
+if [ -n &quot;$BAT2&quot; ] &amp;&amp; echo &quot;$BAT2&quot; | grep -q &quot;percentage&quot;; then
+  P2=$(jget &quot;$BAT2&quot; &quot;percentage&quot;)
+  T2=$(jget &quot;$BAT2&quot; &quot;temperature&quot;)
+  ok &quot;termux-battery-status → ${P2}% / ${T2}°C&quot;
+else
+  fail &quot;termux-battery-status (직접 호출 실패)&quot;
+fi
+
+# device_info 직접
+DI=$(termux-telephony-deviceinfo 2&gt;/dev/null || echo &quot;&quot;)
+[ -n &quot;$DI&quot; ] &amp;&amp; [ &quot;$DI&quot; != &quot;{}&quot; ] &amp;&amp; ok &quot;termux-telephony-deviceinfo&quot; || fail &quot;termux-telephony-deviceinfo&quot;
+
+# camera — 단순 info 확인
+CI2=$(termux-camera-info 2&gt;/dev/null || echo &quot;&quot;)
+[ -n &quot;$CI2&quot; ] &amp;&amp; echo &quot;$CI2&quot; | grep -q &quot;facing&quot; &amp;&amp; ok &quot;termux-camera-info&quot; || fail &quot;termux-camera-info&quot;
+
+# ============================================================
+# 종합 등급
+# ============================================================
+
+TOTAL=$((PASS_CNT + WARN_CNT + FAIL_CNT + SKIP_CNT))
+sect &quot;종합 진단&quot;
+info &quot;통과: ${PASS_CNT} | 경고: ${WARN_CNT} | 실패: ${FAIL_CNT} | 생략: ${SKIP_CNT}&quot;
+
+if [ &quot;$FAIL_CNT&quot; -eq 0 ] &amp;&amp; [ &quot;$WARN_CNT&quot; -le 2 ]; then G=&quot;S&quot;;   GM=&quot;모든 항목 정상&quot;
+elif [ &quot;$FAIL_CNT&quot; -eq 0 ]; then                G=&quot;A&quot;;   GM=&quot;경고 있으나 핵심 정상&quot;
+elif [ &quot;$FAIL_CNT&quot; -le 3 ]; then                G=&quot;B&quot;;   GM=&quot;소수 기능 불량 — 점검 권장&quot;
+else                                             G=&quot;C&quot;;   GM=&quot;다수 기능 불량 — 즉시 점검&quot;
+fi
+info &quot;종합 등급: ${G} — ${GM}&quot;
+
+# ============================================================
+# JSON 리포트 저장
+# ============================================================
+
+cat &gt; &quot;$REPORT_FILE&quot; &lt;&lt;EOF
+{
+  &quot;timestamp&quot;: &quot;$(echo &quot;$TS&quot; | sed &#x27;s/&quot;/\\&quot;/g&#x27;)&quot;,
+  &quot;host&quot;: &quot;$(echo &quot;$(uname -n)&quot; | sed &#x27;s/&quot;/\\&quot;/g&#x27;)&quot;,
+  &quot;kernel&quot;: &quot;$(echo &quot;$(uname -r)&quot; | sed &#x27;s/&quot;/\\&quot;/g&#x27;)&quot;,
+  &quot;grade&quot;: &quot;${G}&quot;,
+  &quot;battery&quot;: {
+    &quot;percentage&quot;: ${BAT_PCT:-null},
+    &quot;temperature&quot;: ${BAT_TMP:-null},
+    &quot;status&quot;: &quot;$(echo &quot;${BAT_STS}&quot; | sed &#x27;s/&quot;/\\&quot;/g&#x27;)&quot;,
+    &quot;health&quot;: &quot;$(echo &quot;${BAT_HTH}&quot; | sed &#x27;s/&quot;/\\&quot;/g&#x27;)&quot;,
+    &quot;plugged&quot;: &quot;$(echo &quot;${BAT_PLG}&quot; | sed &#x27;s/&quot;/\\&quot;/g&#x27;)&quot;
+  },
+  &quot;wifi&quot;: {
+    &quot;ssid&quot;: &quot;$(echo &quot;${WIFI_SSID}&quot; | sed &#x27;s/&quot;/\\&quot;/g&#x27;)&quot;,
+    &quot;ip&quot;: &quot;$(echo &quot;${WIFI_IP}&quot; | sed &#x27;s/&quot;/\\&quot;/g&#x27;)&quot;,
+    &quot;rssi&quot;: ${WIFI_RSSI:-null},
+    &quot;link_speed&quot;: ${WIFI_LINK:-null}
+  },
+  &quot;networks&quot;: {
+    &quot;google&quot;: ${EXT_G:-null},
+    &quot;github&quot;: ${EXT_H:-null},
+    &quot;gh_pages&quot;: ${GH_HTTP:-null}
+  },
+  &quot;results&quot;: {
+    &quot;pass&quot;: ${PASS_CNT},
+    &quot;warn&quot;: ${WARN_CNT},
+    &quot;fail&quot;: ${FAIL_CNT},
+    &quot;skip&quot;: ${SKIP_CNT},
+    &quot;total&quot;: ${TOTAL}
+  },
+  &quot;mcp&quot;: {
+    &quot;port&quot;: ${MCP_PORT},
+    &quot;http_status&quot;: ${MCP_HTTP:-null},
+    &quot;tools&quot;: 18
+  }
+}
+EOF
+
+echo &quot;&quot;
+info &quot;저장: ${REPORT_FILE}&quot;
+
+# 최근 이력
+echo &quot;&quot;
+info &quot;최근 검진 이력:&quot;
+ls -t &quot;${HEALTH_DIR}&quot;/*.json 2&gt;/dev/null | head -5 | while read -r f; do
+  [ ! -f &quot;$f&quot; ] &amp;&amp; continue
+  fb=$(basename &quot;$f&quot; .json)
+  fg=$(grep &#x27;&quot;grade&quot;&#x27; &quot;$f&quot; 2&gt;/dev/null | sed &#x27;s/.*&quot;grade&quot;: *&quot;\([^&quot;]*\)&quot;.*/\1/&#x27; || echo &quot;?&quot;)
+  fp=$(grep &#x27;&quot;percentage&quot;&#x27; &quot;$f&quot; 2&gt;/dev/null | sed &#x27;s/.*&quot;percentage&quot;: *\([0-9]*\).*/\1/&#x27; || echo &quot;?&quot;)
+  echo &quot;    ${fb}  | ${fg} | 배터리 ${fp}%&quot;
+done
+
+echo &quot;&quot;
+echo &quot;===========================================&quot;
+echo &quot;  ✅ 검진 완료 (${TS})&quot;
+echo &quot;===========================================&quot;
+
+# Telegram 보고
+if [ &quot;${1:-}&quot; = &quot;--telegram&quot; ]; then
+  source &quot;${BASE_DIR}/.secrets.env&quot; 2&gt;/dev/null || true
+  bash &quot;${BASE_DIR}/tg.sh&quot; &quot;📋 S21 Phone 건강 검진 — ${TS}
+
+📊 등급: ${G} — ${GM}
+
+🔋 배터리: ${BAT_PCT}% / ${BAT_TMP}°C / ${BAT_STS}
+📶 WiFi: ${WIFI_SSID:-?} (RSSI ${WIFI_RSSI:-?})
+📡 MCP: ✅ port ${MCP_PORT} | 도구 ${TCNT}개
+✅ ${PASS_CNT} / ⚠️ ${WARN_CNT} / ❌ ${FAIL_CNT} / ⏭️ ${SKIP_CNT}
+
+상세: _notebook/health/${NOW}.json&quot; 2&gt;/dev/null || true
+fi
+</code></pre>
+<p style="margin-top:1.5em;color:var(--ink-mute);font-size:.9rem">원본 파일: <code>phone-health.sh</code> · Webzine code viewer (no execution)</p>
+
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="care/care-conf.html">
+          <span class="dir">Previous</span>
+          <span class="title">care.conf</span>
+        </a>
+    <a class="next" href="scripts/tg.html">
+          <span class="dir">Next</span>
+          <span class="title">tg.sh · Telegram</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="g/install.html"><strong>install.sh · 1줄 설치기</strong>Scripts</a><a href="care/care-daemon.html"><strong>care-daemon.sh</strong>Scripts</a><a href="care/care-setup.html"><strong>care-setup.sh</strong>Scripts</a><a href="care/care-conf.html"><strong>care.conf</strong>Scripts</a><a href="scripts/tg.html"><strong>tg.sh · Telegram</strong>Scripts</a><a href="scripts/ds.html"><strong>ds.sh · Aider wrapper</strong>Scripts</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="assets/webzine.js"></script>
+</body>
+</html>

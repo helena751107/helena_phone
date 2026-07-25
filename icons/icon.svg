@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#12100e"/>
+      <stop offset="100%" stop-color="#0a0908"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0c75e"/>
+      <stop offset="55%" stop-color="#d4a84b"/>
+      <stop offset="100%" stop-color="#3db8a8"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="42%" r="55%">
+      <stop offset="0%" stop-color="#d4a84b" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#d4a84b" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <circle cx="256" cy="230" r="180" fill="url(#glow)"/>
+  <!-- thin gold ring -->
+  <circle cx="256" cy="256" r="168" fill="none" stroke="url(#gold)" stroke-width="3" opacity="0.85"/>
+  <circle cx="256" cy="256" r="156" fill="none" stroke="#3db8a8" stroke-width="1" opacity="0.35"/>
+  <!-- S monogram -->
+  <text x="256" y="292" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="220" font-weight="700" fill="url(#gold)" letter-spacing="-8">S</text>
+  <!-- small accent dot -->
+  <circle cx="340" cy="168" r="10" fill="#f0c75e"/>
+  <!-- micro label -->
+  <text x="256" y="420" text-anchor="middle" font-family="system-ui,sans-serif" font-size="22" font-weight="600" fill="#7a7064" letter-spacing="10">S21</text>
+</svg>

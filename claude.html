@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="AI 3종 · Paste Pipeline · 인프라 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>S21 Phone — 실무 규칙 — S21 Phone Webzine</title>
+<link rel="icon" href="icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="index.html">Home</a>
+      <a href="archive.html">Archive</a>
+      <a href="index.html#library">Library</a>
+      <a href="index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="index.html">Webzine</a><span class="sep">/</span>
+    <span>Core</span><span class="sep">/</span>
+    <span>S21 Phone — 실무 규칙</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Core · Vol.01</div>
+    <h1>S21 Phone — 실무 규칙</h1>
+    <p class="deck">AI 3종 · Paste Pipeline · 인프라</p>
+    <div class="wz-meta">
+      <span>Source · CLAUDE.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#_1">작업 원칙</a></li>
+<li><a href="#git">Git 작업</a></li>
+<li><a href="#ai-3">AI 에이전트 3종</a></li>
+<li><a href="#ai">AI 에이전트 규칙</a></li>
+<li><a href="#_2">텔레그램 보고 의무</a></li>
+<li><a href="#_3">건강 검진 의무</a></li>
+<li><a href="#_4">업무일지</a></li>
+<li><a href="#paste-pipeline">Paste Pipeline (네이버·티스토리 수동 발행)</a></li>
+<li><a href="#_5">파일 구조</a></li>
+<li><a href="#_6">현재 인프라</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <blockquote>
+<p>⚠️ <strong>작업 시작 전 반드시 <code>CONSTITUTION.md</code>를 먼저 읽을 것.</strong><br>
+이 문서는 CONSTITUTION.md 아래에서 실제 작업에 적용되는 실무 규칙이다.<br>
+목적·불변 원칙·신원 규칙은 CONSTITUTION.md에, 작업 방법은 여기에.</p>
+</blockquote>
+<hr>
+<h2 id="_1">작업 원칙</h2>
+<ul>
+<li><strong>커밋 자주, 작게</strong>: 기능 단위로 쪼개서 커밋</li>
+<li><strong>설명 남겨라</strong>: &ldquo;왜&rdquo;를 커밋 메시지에 포함</li>
+<li><strong>깨져도 괜찮다</strong>: 트랙 2(소망)에 한함. 트랙 1(돌봄)은 절대 안 깨지는 게 유일한 기준.</li>
+<li><strong>스캐폴드 우선</strong>: 일단 작동, 나중에 개선. Grok 80% 드래프트 → Claude Code 100% 완성.</li>
+</ul>
+<h2 id="git">Git 작업</h2>
+<ul>
+<li>작업 전 <code>git pull</code>로 최신 상태 확인</li>
+<li>커밋 메시지는 한글/영문 혼용 가능, 간결하게</li>
+<li><code>git push --force</code>는 원격이 로컬보다 뒤처진 게 확실할 때만. 함부로 쓰지 말 것.</li>
+<li>완료 후 <code>git push</code> 자동 실행</li>
+</ul>
+<h2 id="ai-3">AI 에이전트 3종</h2>
+<table>
+<thead>
+<tr>
+<th>호출</th>
+<th>에이전트</th>
+<th>역할</th>
+<th>비용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cc</code></td>
+<td>Claude Code (DeepSeek)</td>
+<td>코드·문서·자동화·GitHub·TG</td>
+<td>$0</td>
+</tr>
+<tr>
+<td><code>grok</code></td>
+<td>Grok CLI (xAI SuperGrok)</td>
+<td>시각·Naver·이미지·클립·채팅검색</td>
+<td>45,000원/월</td>
+</tr>
+<tr>
+<td><code>ds</code> / <code>dsflash</code></td>
+<td>Aider (DeepSeek Pro/Flash)</td>
+<td>보조 코딩·자동화 루프</td>
+<td>포함</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Termux: <code>grok</code> / <code>groklogin</code> / <code>grokc</code> / <code>agent</code> · <code>ds</code>는 <code>scripts/ds.sh</code> 래퍼 사용.<br>
+예전 <code>gr</code>/<code>grlogin</code>/<code>grc</code> 호환 유지.</p>
+</blockquote>
+<h2 id="ai">AI 에이전트 규칙</h2>
+<ul>
+<li>세션 시작 시 CONSTITUTION.md → CLAUDE.md 순으로 참고할 것</li>
+<li>AI 출력은 전부 1차 가설 — 검증 없이 수용하지 말 것</li>
+<li>모든 설정 변경 전후로 기록을 남길 것</li>
+</ul>
+<h2 id="_2">텔레그램 보고 의무</h2>
+<p>작업 완료 후 보고가 필요하면:</p>
+<pre><code class="language-bash">bash ~/work/tg.sh '✅ 작업명 — 결과'
+</code></pre>
+<h2 id="_3">건강 검진 의무</h2>
+<ul>
+<li>세션 시작 시 또는 하드웨어 관련 작업 전후 <code>bash ~/work/phone-health.sh</code> 실행</li>
+<li>결과는 자동으로 <code>_notebook/health/</code>에 타임스탬프 저장</li>
+<li>&ndash;telegram 플래그로 채팅 보고 가능</li>
+<li>등급 A 이하(Grade B/C)면 점검 항목 확인 후 조치</li>
+</ul>
+<h2 id="_4">업무일지</h2>
+<ul>
+<li>주요 작업, 판단, 전환점은 <code>_notebook/99-devlog.md</code>에 바텀업으로 기록</li>
+<li>AI와의 주요 대화 중 결정적 전환이 있었으면 요지 함께 기록</li>
+<li>추후 <code>g/zero.sh</code>로 압축·정제 예정</li>
+</ul>
+<h2 id="paste-pipeline">Paste Pipeline (네이버·티스토리 수동 발행)</h2>
+<ul>
+<li>API 없는 플랫폼은 Paste Pipeline으로 대응:<br>
+<code>Claude Code → TG 원고 배달 → 사람 복사붙여넣기 → 발행 (5분)</code></li>
+<li>티스토리 = 업무일지 (TG리포트 + git log + 스크린샷)</li>
+<li>네이버 = 웹진·미끼 (Grok 80% 드래프트 → 주간 발행)</li>
+</ul>
+<h2 id="_5">파일 구조</h2>
+<pre><code>helena_phone/
+├── CONSTITUTION.md  ← 헌법 (무엇을, 왜)
+├── CLAUDE.md        ← 실무 규칙 (어떻게)
+├── index.html       ← 랜딩 포털
+├── _notebook/       ← 업무 수첩 (34종)
+├── _textbook/       ← 완결판 교재
+├── g/               ← install.sh
+├── care/            ← 트랙1 돌봄 데몬
+├── scripts/         ← 자동화 스크립트
+├── configs/         ← 설정 파일
+├── 01~05/           ← GUIDE.md 챕터
+├── mcp-servers/     ← dtslib MCP
+└── tistory-naver/   ← dtslib 블로그코드(보존)
+</code></pre>
+<h2 id="_6">현재 인프라</h2>
+<pre><code>📱 S21 (Android + Termux + proot Ubuntu)
+├── Claude Code (DeepSeek Radar) — 메인 코딩
+├── Grok CLI (xAI SuperGrok) — 시각·Naver
+├── Aider (DeepSeek) — 보조 코딩
+├── phone-mcp-server (18 도구, 포트 3456)
+├── 5개 GitHub 레포 → Pages + Giscus + WidgetBot
+├── Discord S21 Phone 서버 (#로비, #ai-보고)
+├── Telegram @S21Phone_Bot (tg.sh 보고)
+├── 티스토리 5종 (수동 업무일지)
+├── YouTube @helena_phone (OAuth 완료)
+└── 네이버 helena1975 (웹진·미끼)
+</code></pre>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="constitution.html">
+          <span class="dir">Previous</span>
+          <span class="title">CONSTITUTION.md — S21 Phone 헌법</span>
+        </a>
+    <a class="next" href="readme.html">
+          <span class="dir">Next</span>
+          <span class="title">README · 프로젝트 소개</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="constitution.html"><strong>CONSTITUTION.md — S21 Phone 헌법</strong>불변 원칙 · Chain of Command</a><a href="readme.html"><strong>README · 프로젝트 소개</strong>숫자 · 구조 · 빠른 링크</a><a href="guide.html"><strong>5단계 GUIDE</strong>Termux부터 방송까지</a><a href="chronicle.html"><strong>CHRONICLE · 연대기</strong>DAY 1–2 개발 기록</a><a href="gift.html"><strong>GIFT · dtslib 선물</strong>선물 패키지 분석</a><a href="textbook.html"><strong>완결판 교재</strong>판단층 + 실행층</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="assets/webzine.js"></script>
+</body>
+</html>

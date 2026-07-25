@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Claude Code가 폰의 배터리를 읽고, 플래시를 켜고, 문자를 보낸다 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>4단계: 폰 원격 제어 — PC에서 폰 조종 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Guides</span><span class="sep">/</span>
+    <span>4단계: 폰 원격 제어 — PC에서 폰 조종</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Guides · Vol.01</div>
+    <h1>4단계: 폰 원격 제어 — PC에서 폰 조종</h1>
+    <p class="deck">Claude Code가 폰의 배터리를 읽고, 플래시를 켜고, 문자를 보낸다</p>
+    <div class="wz-meta">
+      <span>Source · 04-phone-control/README.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#_1">시스템 구조</a></li>
+<li><a href="#domain">가능한 것 (Domain ✅)</a></li>
+<li><a href="#codomain">불가능한 것 (Codomain ❌)</a></li>
+<li><a href="#_2">문서</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <blockquote>
+<p>Claude Code가 폰의 배터리를 읽고, 플래시를 켜고, 문자를 보낸다</p>
+</blockquote>
+<h2 id="_1">시스템 구조</h2>
+<pre><code>Claude Code (AI 에이전트)
+    ↓ MCP 프로토콜 (Streamable HTTP)
+phone-mcp-server (localhost:3456)
+    ↓ termux-* 명령어
+Termux:API (80여개 하드웨어 API)
+    ↓
+📱 실제 폰 하드웨어
+</code></pre>
+<h2 id="domain">가능한 것 (Domain ✅)</h2>
+<pre><code>📡 센서:    배터리, WiFi, GPS, 볼륨, 디바이스 정보
+📨 통신:    SMS 발송/수신, 연락처, 통화기록, 전화걸기
+🛠️ 제어:   플래시, 진동, 볼륨조절, 알림, 클립보드
+📸 미디어:  사진촬영, 음성녹음
+</code></pre>
+<h2 id="codomain">불가능한 것 (Codomain ❌)</h2>
+<pre><code>✗ 화면 터치 주입 (input tap) — Android OS가 원천 차단
+✗ 앱 내부 탐색/조작
+✗ 시스템 설정 변경
+</code></pre>
+<blockquote>
+<p><strong>이유:</strong> <code>input tap</code>은 root/ADB 권한이 필요함. 루팅하면 삼성페이/뱅킹앱 깨짐.<br>
+<strong>대안:</strong> Accessibility Service (별도 APK 제작 필요, 지금 단계에선 오버)</p>
+</blockquote>
+<h2 id="_2">문서</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>내용</th>
+<th>바로가기</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4.1</td>
+<td>phone-mcp-server 설치/운영</td>
+<td><a href="phone-mcp.html">phone-mcp.md</a></td>
+</tr>
+<tr>
+<td>4.2</td>
+<td>건강 검진 시스템</td>
+<td><a href="health-check.html">health-check.md</a></td>
+</tr>
+</tbody>
+</table>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="../broadcast/README.html">
+          <span class="dir">Previous</span>
+          <span class="title">3단계: 방송/발행 — 폰으로 콘텐츠 만들기</span>
+        </a>
+    <a class="next" href="../optimization/README.html">
+          <span class="dir">Next</span>
+          <span class="title">Optimization README</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="../foundation/README.html"><strong>1단계: 기반 설치 — 폰을 리눅스 서버로</strong>놀고 있는 갤럭시 폰을 Ubuntu 서버로 만드는 과정</a><a href="../network/README.html"><strong>2단계: 통신망 구축 — 폰을 세상과 연결</strong>폰 안에서만 돌아가던 서비스를 외부와 연결하는 채널 3종</a><a href="../broadcast/README.html"><strong>3단계: 방송/발행 — 폰으로 콘텐츠 만들기</strong>유튜브 방송, 블로그 포스팅을 폰에서 자동화</a><a href="../optimization/README.html"><strong>Optimization README</strong>Guides</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

@@ -1,0 +1,548 @@
+[
+  {
+    "page": "archive.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "broadcast/README.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "broadcast/naver-auto.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "broadcast/tistory-auto.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "broadcast/youtube.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "care/care-conf.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "care/care-daemon.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "care/care-setup.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "chronicle.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "claude.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "configs/bashrc-example.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "configs/ecosystem-map.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "configs/settings.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "constitution.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "foundation/README.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "foundation/claude-code.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "foundation/git-github.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "foundation/proot-ubuntu.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "foundation/termux-setup.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "g/install.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "gift.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "guide.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "index.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "network/README.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "network/discord.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "network/github-pages.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "network/telegram.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/00-INDEX.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/01-arch.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/02-discord.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/03-telegram.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/04-github-pages.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/05-tistory.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/06-youtube.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/07-cli-reference.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/08-secrets.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/09-ecosystem.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/10-phone-mcp.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/11-health.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/12-dtslib-gift.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/13-midterm-eval-v2.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/13-midterm-eval.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/14-daemon-design.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/15-proot-report.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/16-textbook-methodology.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/17-merged-chronicle.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/18-workcenters.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/19-final-strategy.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/20-workcenters-final.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/21-integrated-dev-plan.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/22-s21-benchmark.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/23-naver-webzine-solution.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/24-paste-pipeline.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/25-multi-ai-strategy.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/26-naver-parsing-solution.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/27-claude-grok-pipeline.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/28-grok-github-bridge.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/29-grok-cli-installed.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/99-devlog.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/ai-agents-cc-ds-grok-comparison-2026-07-25.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/naver-intro-article.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "notebook/supergrok-community-research-2026-07-25.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "optimization/README.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "optimization/battery-saving.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "optimization/performance.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "optimization/storage.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "phone-control/README.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "phone-control/health-check.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "phone-control/phone-mcp.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "phone-control/termux-api.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "phone-health.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "readme.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "scripts/ds.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "scripts/grok-api.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "scripts/tg.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "scripts/yt-upload.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "site-webmanifest.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  },
+  {
+    "page": "textbook.html",
+    "status": 200,
+    "hasCss": true,
+    "hasMast": true,
+    "broken_n": 0
+  }
+]

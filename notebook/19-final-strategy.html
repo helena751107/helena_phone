@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Boss 판단: &quot;기를 쓰고 뚫을 필요 없다. 자동화할 건 자동화하고, 사람 손 탈 건 사람 손 탄다.&quot; — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>🏭 S21 Phone — 최종 전략 (2026-07-25) — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>🏭 S21 Phone — 최종 전략 (2026-07-25)</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>🏭 S21 Phone — 최종 전략 (2026-07-25)</h1>
+    <p class="deck">Boss 판단: &quot;기를 쓰고 뚫을 필요 없다. 자동화할 건 자동화하고, 사람 손 탈 건 사람 손 탄다.&quot;</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/19-final-strategy.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#_1">투트랙 자동화 원칙</a></li>
+<li><a href="#phase-1">Phase 1 워크플로우 (수정)</a><ul>
+<li><a href="#claude-code">자동 파이프 (Claude Code가 함)</a></li>
+<li><a href="#_2">수동 파이프 (사람이 함)</a></li>
+</ul>
+</li>
+<li><a href="#_3">티스토리 업무일지 템플릿</a></li>
+<li><a href="#playwright">폐기: Playwright 티스토리/네이버 자동화</a></li>
+<li><a href="#_4">여전히 자동화되는 것</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <blockquote>
+<p>Boss 판단: &ldquo;기를 쓰고 뚫을 필요 없다. 자동화할 건 자동화하고, 사람 손 탈 건 사람 손 탄다.&rdquo;</p>
+</blockquote>
+<hr>
+<h2 id="_1">투트랙 자동화 원칙</h2>
+<pre><code>자동화 (Claude Code)          │  수동 (사람)
+─────────────────────────────┼─────────────────────
+GitHub: 코드·문서·커밋        │ 티스토리: 업무일지
+GitHub Pages: 자동배포        │ 네이버: 관제탑 그림첩
+YouTube: 영상 업로드          │ 영상 녹화·편집
+Telegram: 작업 보고           │ 스크린샷 촬영
+건강검진: phone-health.sh     │ 최종 콘텐츠 기획
+돌봄데몬: care-daemon.sh      │
+</code></pre>
+<hr>
+<h2 id="phase-1">Phase 1 워크플로우 (수정)</h2>
+<h3 id="claude-code">자동 파이프 (Claude Code가 함)</h3>
+<pre><code>1. 작업 → git commit → GitHub
+2. git push → GitHub Pages 자동배포
+3. tg.sh → Telegram &quot;✅ 작업명 — 결과&quot; 보고
+4. YouTube 영상 필요 시 → scripts/yt_upload.py
+</code></pre>
+<h3 id="_2">수동 파이프 (사람이 함)</h3>
+<pre><code>1. 폰 화면 캡처 (터미널 작업 장면)
+2. 텔레그램 보고 스크린샷
+3. 티스토리 galaxys21-pwuser에 &quot;업무일지&quot;로 발행
+   - 스크린샷 + 텔레그램 리포트 요약 + GitHub 링크
+4. 네이버 helena1975에 주간 &quot;관제탑&quot; 발행
+   - 이번 주 주요 작업 이미지 + 링크
+</code></pre>
+<hr>
+<h2 id="_3">티스토리 업무일지 템플릿</h2>
+<pre><code># [날짜] S21 Phone 작업일지
+
+## 오늘 한 일
+- (텔레그램 리포트에서 복붙)
+
+## 터미널 작업
+(스크린샷 2~3장)
+
+## GitHub 커밋
+- (git log --oneline --since=&quot;00:00&quot; 붙여넣기)
+
+## 다음 할 일
+- (우선순위)
+</code></pre>
+<hr>
+<h2 id="playwright">폐기: Playwright 티스토리/네이버 자동화</h2>
+<ul>
+<li><code>scripts/publish.py</code> — 보존 (참고용)</li>
+<li><code>scripts/save_tistory_cookie.py</code> — 보존 (참고용)</li>
+<li><code>.tistory_session_galaxys21.json</code> — 폐기 가능</li>
+<li><code>tistory-naver/</code> (dtslib 코드) — 보존 (참고용)</li>
+</ul>
+<p><strong>이유:</strong> 티스토리 Open API 2024년 2월 종료, Kakao OAuth KOE006 오류, Android Chrome 북마크릿 차단. 3중 장벽. 뚫는 데 드는 시간 &gt; 수동 발행 시간.</p>
+<hr>
+<h2 id="_4">여전히 자동화되는 것</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>스크립트</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>git commit/push</td>
+<td>Claude Code</td>
+<td>🟢 가동 중</td>
+</tr>
+<tr>
+<td>GitHub Pages 배포</td>
+<td>git push → deploy</td>
+<td>🟢 자동</td>
+</tr>
+<tr>
+<td>TG 작업 보고</td>
+<td>tg.sh</td>
+<td>🟢 가동 중</td>
+</tr>
+<tr>
+<td>YouTube 업로드</td>
+<td>scripts/yt_upload.py</td>
+<td>🟢 준비 완료</td>
+</tr>
+<tr>
+<td>YouTube OAuth</td>
+<td>scripts/yt_oauth_setup.sh</td>
+<td>🟢 토큰 발급 완료</td>
+</tr>
+<tr>
+<td>건강 검진</td>
+<td>phone-health.sh</td>
+<td>🟢 자동</td>
+</tr>
+<tr>
+<td>돌봄 데몬</td>
+<td>care/care-daemon.sh</td>
+<td>🟢 crontab</td>
+</tr>
+<tr>
+<td>1줄 설치</td>
+<td>g/install.sh</td>
+<td>🟢 완료</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<blockquote>
+<p><strong>핵심:</strong> 티스토리·네이버는 막아놓은 걸 뚫는 게 목표가 아니다.<br>
+거기는 업무일지·관제탑이라는 <strong>사람 영역</strong>으로 두고,<br>
+GitHub·YouTube·Telegram이라는 <strong>기계 영역</strong>에 집중한다.<br>
+이게 Layer A/B 원칙의 확장이다 — 플랫폼마다 Layer B가 열린 정도가 다르다.</p>
+</blockquote>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="18-workcenters.html">
+          <span class="dir">Previous</span>
+          <span class="title">🏭 S21 Phone — 워크센터 정의</span>
+        </a>
+    <a class="next" href="20-workcenters-final.html">
+          <span class="dir">Next</span>
+          <span class="title">워크센터 최종</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-25</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>
