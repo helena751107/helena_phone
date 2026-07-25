@@ -321,13 +321,17 @@ def page_shell(
 <div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
 <header class="wz-mast">
   <a class="brand" href="{home}">S21 <em>Phone</em></a>
-  <nav>
-    <a class="hide-m" href="{home}">Home</a>
-    <a class="hide-m" href="{home}#library">Archive</a>
-    <a class="hide-m" href="{home}#agents">Agents</a>
-    <button type="button" data-theme-toggle>Theme</button>
-    <a class="pill gold" href="{home}#install">Install</a>
-  </nav>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="{home}">Home</a>
+      <a href="{prefix}archive.html">Archive</a>
+      <a href="{home}#library">Library</a>
+      <a href="{home}#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="{home}#install">Install</a>
+    </nav>
+  </div>
 </header>
 <main class="wz-shell">
   <div class="wz-crumb">

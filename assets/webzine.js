@@ -1,4 +1,4 @@
-/* S21 Phone Webzine — shared article chrome */
+/* S21 Phone Webzine — shared chrome + mobile drawer */
 (() => {
   const root = document.documentElement;
   const saved = localStorage.getItem('s21-webzine-theme');
@@ -15,7 +15,6 @@
   };
   addEventListener('scroll', onScroll, { passive: true });
   onScroll();
-
   if (topBtn) topBtn.onclick = () => scrollTo({ top: 0, behavior: 'smooth' });
 
   const toggleTheme = () => {
@@ -24,6 +23,39 @@
     localStorage.setItem('s21-webzine-theme', n);
   };
   themeBtns.forEach(b => b.addEventListener('click', toggleTheme));
+
+  // Mobile nav drawer
+  const nav = document.querySelector('.wz-nav');
+  const burger = document.querySelector('.wz-burger, [data-nav-toggle]');
+  let backdrop = document.querySelector('.wz-nav-backdrop');
+  if (nav && burger) {
+    if (!backdrop) {
+      backdrop = document.createElement('button');
+      backdrop.type = 'button';
+      backdrop.className = 'wz-nav-backdrop';
+      backdrop.setAttribute('aria-label', 'Close menu');
+      document.body.appendChild(backdrop);
+    }
+    const close = () => {
+      nav.classList.remove('open');
+      backdrop.classList.remove('show');
+      burger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    };
+    const open = () => {
+      nav.classList.add('open');
+      backdrop.classList.add('show');
+      burger.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    };
+    burger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      nav.classList.contains('open') ? close() : open();
+    });
+    backdrop.addEventListener('click', close);
+    nav.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+    addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+  }
 
   // copy buttons
   document.querySelectorAll('[data-copy]').forEach(btn => {

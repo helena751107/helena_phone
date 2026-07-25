@@ -1,0 +1,94 @@
+[
+  {
+    "page": "index.html",
+    "vw": 390,
+    "scrollW": 390,
+    "overflow": false,
+    "smallTaps": 1,
+    "mastH": 69,
+    "burgerOk": true,
+    "issues": []
+  },
+  {
+    "page": "archive.html",
+    "vw": 726,
+    "scrollW": 726,
+    "overflow": false,
+    "smallTaps": 14,
+    "mastH": 65,
+    "burgerOk": true,
+    "issues": [
+      "small-taps:14"
+    ]
+  },
+  {
+    "page": "constitution.html",
+    "vw": 726,
+    "scrollW": 726,
+    "overflow": false,
+    "smallTaps": 4,
+    "mastH": 65,
+    "burgerOk": true,
+    "issues": []
+  },
+  {
+    "page": "guide.html",
+    "vw": 726,
+    "scrollW": 726,
+    "overflow": false,
+    "smallTaps": 2,
+    "mastH": 65,
+    "burgerOk": true,
+    "issues": []
+  },
+  {
+    "page": "notebook/01-arch.html",
+    "vw": 726,
+    "scrollW": 726,
+    "overflow": false,
+    "smallTaps": 2,
+    "mastH": 65,
+    "burgerOk": true,
+    "issues": []
+  },
+  {
+    "page": "notebook/20-workcenters-final.html",
+    "vw": 726,
+    "scrollW": 726,
+    "overflow": false,
+    "smallTaps": 2,
+    "mastH": 65,
+    "burgerOk": true,
+    "issues": []
+  },
+  {
+    "page": "g/install.html",
+    "vw": 726,
+    "scrollW": 726,
+    "overflow": false,
+    "smallTaps": 2,
+    "mastH": 65,
+    "burgerOk": true,
+    "issues": []
+  },
+  {
+    "page": "foundation/termux-setup.html",
+    "vw": 726,
+    "scrollW": 726,
+    "overflow": false,
+    "smallTaps": 3,
+    "mastH": 65,
+    "burgerOk": true,
+    "issues": []
+  },
+  {
+    "page": "broadcast/youtube.html",
+    "vw": 726,
+    "scrollW": 726,
+    "overflow": false,
+    "smallTaps": 8,
+    "mastH": 65,
+    "burgerOk": true,
+    "issues": []
+  }
+]
