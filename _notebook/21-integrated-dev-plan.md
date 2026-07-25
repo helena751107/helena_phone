@@ -1,0 +1,232 @@
+# 🏭 S21 Phone — 통합 개발 계획서 v1
+
+> 2026-07-25 | Phase 1
+> GitHub → Pages(영문) → YouTube API → 네이버 웹진 → 티스토리 업무일지
+
+---
+
+## 1. 레포지토리 폴더 구조 (확정)
+
+```
+helena_phone/                  ← 📱 메인 레포 (SSOT)
+│
+├── CONSTITUTION.md            ← 헌법 (한글)
+├── CLAUDE.md                  ← 실무 규칙 (한글)
+├── README.md                  ← 개요 (한글)
+├── index.html                 ← 🇰🇷 포털 랜딩페이지
+│
+├── en/                        ← 🇬🇧 영문 미러
+│   ├── index.html             ← 영문 랜딩페이지
+│   └── README.md              ← 영문 개요
+│
+├── _notebook/                 ← 업무 수첩 (개발 아카이브)
+│   ├── 00-INDEX.md
+│   ├── 01~20-*.md             ← 주제별 노트
+│   └── 99-devlog.md           ← 개발일지
+│
+├── _textbook/                 ← 교재·출판물
+│   └── index.md               ← 완결판 교재
+│
+├── g/                         ← 설치
+│   └── install.sh             ← 1줄 설치기
+│
+├── care/                      ← 트랙1 돌봄 데몬
+│   ├── care-daemon.sh
+│   ├── care-setup.sh
+│   └── care.conf
+│
+├── scripts/                   ← 자동화
+│   ├── phone-health.sh        ← 건강 검진
+│   ├── tg.sh                  ← 텔레그램 보고
+│   ├── yt_upload.py           ← YouTube 업로더
+│   ├── yt_oauth_setup.sh      ← YouTube OAuth
+│   └── publish.py             ← (보존) 티스토리 자동화
+│
+├── configs/                   ← 설정
+│   ├── settings.json          ← Claude Code MCP
+│   ├── ecosystem-map.json     ← 5x5 매트릭스
+│   ├── secrets-template.env   ← 비밀 템플릿
+│   └── bashrc-example.sh
+│
+├── 01-foundation/             ← GUIDE.md 챕터 (작성 예정)
+├── 02-network/
+├── 03-broadcast/
+├── 04-phone-control/
+└── 05-optimization/
+```
+
+---
+
+## 2. GitHub Issues — 오픈 태스크
+
+아래 이슈들을 생성하고 우선순위 태그를 붙인다.
+
+### 🔴 Phase 1 (현재)
+
+| # | 이슈 | 담당 | 라벨 |
+|---|------|------|------|
+| 1 | YouTube @helena_phone 첫 영상 업로드 | Claude Code(스크립트) + 사람(녹화) | `phase-1` `youtube` |
+| 2 | g/install.sh 실제 폰에서 설치 테스트 | Claude Code | `phase-1` `install` |
+| 3 | care-daemon.sh 실제 crontab 구동 확인 | Claude Code | `phase-1` `care` |
+| 4 | GitHub Issues 템플릿·라벨·마일스톤 설정 | Claude Code | `phase-1` `meta` |
+
+### 🟡 Phase 2 (8월, @HelenaTechLog)
+
+| # | 이슈 | 라벨 |
+|---|------|------|
+| 5 | @HelenaTechLog 브랜드 채널 생성 (수동) | `phase-2` `youtube` |
+| 6 | helana_log 레포 문서화·Pages 정비 | `phase-2` `github` |
+| 7 | mynote11605 티스토리 업무일지 템플릿 | `phase-2` `tistory` |
+
+### 🟡 Phase 3~5 (9~11월)
+
+| # | 이슈 | 라벨 |
+|---|------|------|
+| 8 | @HelenaFaith 브랜드 채널 | `phase-3` |
+| 9 | @HelenaPiano 브랜드 채널 | `phase-4` |
+| 10 | @HelenaPsycare 브랜드 채널 | `phase-5` |
+
+### ⬜ 유지보수
+
+| # | 이슈 | 라벨 |
+|---|------|------|
+| 11 | en/ 영문 번역 자동화 (한글 커밋 → 영문 싱크) | `maintenance` `translation` |
+| 12 | Discord dc.sh 웹훅 알림 스크립트 | `maintenance` `discord` |
+| 13 | phone-health.sh → GitHub Actions 연동 | `maintenance` `health` |
+
+---
+
+## 3. 웹페이지 랜딩 구조 (영문)
+
+```
+helena751107.github.io/helena_phone/
+│
+├── /                          ← 🇰🇷 한글 포털 (index.html)
+│   ├── Hero: "S21 Phone — Workstation"
+│   ├── 5레포 생태계 테이블
+│   ├── 개발일지 타임라인
+│   ├── 통신망 현황 (Discord·TG·YouTube)
+│   ├── 업무 수첩 링크 카드
+│   ├── Giscus 댓글
+│   └── WidgetBot 채팅
+│
+├── /en/                       ← 🇬🇧 English mirror
+│   ├── Hero: "S21 Phone — AI Workstation"
+│   ├── Two Tracks (Caregiving & Aspiration)
+│   ├── Tech Stack diagram
+│   ├── 5×5 Ecosystem table
+│   ├── Core Principles
+│   ├── Quick Install
+│   └── Links (KR portal·YouTube·Discord·Tistory)
+│
+├── /en/install/               ← (예정) 영문 설치 가이드
+├── /en/docs/                  ← (예정) 영문 기술 문서
+└── /en/chronicle/             ← (예정) 영문 연대기
+```
+
+**번역 파이프라인:**
+```
+한글 원본 변경 → Claude Code가 영문 번역 → 같은 커밋에 포함 → Pages 자동 배포
+```
+
+---
+
+## 4. YouTube API 통합 개발 계획
+
+### 현재 상태
+
+| 항목 | 값 |
+|------|-----|
+| 채널 | @helena_phone (UC_IPajoyj6_IO8wt9JwVCAQ) |
+| 인증 | OAuth TV Device Flow — 리프레시 토큰 보유 |
+| 업로더 | `scripts/yt_upload.py` (256줄) — videos.insert |
+| 플레이리스트 | 4개 (셋업·STT코딩·건강검진·0원인프라) |
+| 동영상 | 0개 |
+
+### 콘텐츠 파이프라인
+
+```
+1. 사람이 폰 화면 녹화 → .mp4 파일
+2. Claude Code에게 "이 영상 업로드해, 제목은 ~"
+3. yt_upload.py 실행
+   ├── OAuth 토큰 리프레시
+   ├── videos.insert (제목·설명·태그·카테고리)
+   ├── playlistItems.insert (플레이리스트에 추가)
+   └── tg.sh → Telegram 보고 ("✅ 업로드 완료: youtu.be/xxxxx")
+4. GitHub에 업로드 로그 커밋
+```
+
+### 영상 아이디어 (Phase 1)
+
+| # | 제목 | 플레이리스트 | 분량 |
+|---|------|------------|------|
+| 1 | S21에 Termux + proot Ubuntu 설치하기 | S21 셋업 가이드 | 10분 |
+| 2 | Claude Code 첫 실행 — 말로 코딩 | STT 음성 코딩 | 10분 |
+| 3 | phone-mcp-server — 폰 18개 도구 제어 | S21 셋업 가이드 | 15분 |
+| 4 | phone-health.sh — 27항목 건강검진 | 폰 건강 검진 | 10분 |
+| 5 | g/install.sh — 1줄로 풀스택 설치 | 0원 풀스택 인프라 | 5분 |
+
+### API 쿼터 관리
+
+| 호출 | 유닛 | 빈도 |
+|------|------|------|
+| `videos.insert` | 1,600 | 영상당 1회 (하루 최대 6개) |
+| `playlistItems.insert` | 50 | 영상당 1회 |
+| `playlistItems.list` | 1 | 확인용 |
+| `channels.list` | 1 | 통계 확인 |
+| ❌ `search.list` | 100 | **사용 금지** |
+
+---
+
+## 5. 네이버 웹진 — 카테고리 설계
+
+### 블로그: helena1975 (Helena Park)
+
+**웹진 이름:** "S21 워크스테이션 — 폰 하나로 짓는 AI 공장"
+
+| 카테고리 | 내용 | 빈도 |
+|----------|------|------|
+| 📱 **셋업 & 설치** | g/install.sh 설치 후기·신규 버전·환경 설정 가이드 | 월 1~2회 |
+| 🎤 **STT 음성 코딩** | 말로 코딩하는 팁·음성명령 예시·생산성 후기 | 주 1회 |
+| 🏭 **워크센터 리포트** | 이번 주 GitHub 커밋·YouTube 영상·TG 리포트 요약 | **주 1회 (메인)** |
+| 🛡️ **돌봄 인프라** | care-daemon 작동 로그·건강검진 결과·안전 모니터링 (민감정보 제외) | 월 1~2회 |
+| 📖 **비하인드 & 에세이** | 개발 과정에서의 판단·실패·깨달음·사람 이야기 | 월 1~2회 |
+
+### 발행 템플릿
+
+```
+[주간 워크센터 리포트] 2026-07-25
+
+📱 이번 주 GitHub: 5커밋 (install.sh·영문판·워크센터)
+📺 이번 주 YouTube: @helena_phone 셋업 영상
+📝 업무일지: galaxys21-pwuser.tistory.com/123
+
+📌 이번 주 판단: 티스토리·네이버 자동화 포기 —
+   API 없는 GUI 자동화는 치킨게임이다. 되는 것만 한다.
+
+🔗 GitHub(en): helena751107.github.io/helena_phone/en/
+🔗 YouTube: youtube.com/@helena_phone
+```
+
+---
+
+## 6. 수동 작업 루틴 (사람)
+
+### 매일
+- [ ] Claude Code와 작업 → 자동 git commit + TG 보고
+- [ ] TG 리포트 + 터미널 스크린샷 → 티스토리 업무일지
+
+### 매주
+- [ ] 주간 TG 리포트 모아서 → 네이버 웹진 "워크센터 리포트" 발행
+- [ ] YouTube 영상 1개 녹화·업로드
+
+### 매월 (25일)
+- [ ] 새 YouTube 브랜드 채널 생성 (8~11월)
+- [ ] en/ 영문판 동기화 상태 확인
+
+---
+
+> 📱 helena751107.github.io/helena_phone
+> 📺 youtube.com/@helena_phone
+> 📝 galaxys21-pwuser.tistory.com
+> 🌐 m.blog.naver.com/helena1975
