@@ -49,3 +49,17 @@ curl -X PATCH -H "Authorization: token $TOKEN" \
   }
 }
 ```
+
+---
+
+## 현재 상태 (2026-07-25)
+
+| 레포 | Pages URL | Giscus | WidgetBot |
+|------|----------|--------|-----------|
+| helena_phone | ✅ Live | ✅ | ✅ |
+| helana_log | ✅ Live | ✅ | ✅ |
+| helena-faith | ✅ Live | ✅ | ✅ |
+| helena-piano | ✅ Live | ✅ | ✅ |
+| helena-psycare | ✅ Live | ✅ | ✅ |
+
+**참고:** GitHub Pages 빌드가 stuck 상태가 되면 Settings → Pages → None → Save → Deploy from branch로 리셋.

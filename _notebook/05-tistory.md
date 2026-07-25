@@ -87,3 +87,17 @@ context = await browser.new_context(storage_state=".naver_session.json")
 - 티스토리 종료 공지: `notice.tistory.com/2664`
 - 네이버 블로그 MCP: `npmjs.com/package/@oddeye/naver-blog-mcp`
 - Playwright 쿠키 재사용: `dev.to/junhee916` (2026)
+
+---
+
+## 최종 전략 (2026-07-25)
+
+**자동화 포기. 수동 업무일지로 전환.**
+
+| 이유 | 상세 |
+|------|------|
+| API 종료 | 2024년 2월 Open API 완전 폐쇄 |
+| Kakao OAuth | KOE006 앱 설정 오류 (Tistory 측 문제) |
+| Chrome 북마크릿 | Android Chrome 차단 (구글 7년 버그) |
+
+**현재 방식:** Paste Pipeline — TG 리포트 + git log + 스크린샷 → 사람이 직접 발행

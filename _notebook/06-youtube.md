@@ -54,3 +54,18 @@ https://www.youtube.com/@HelenaPark-e7c
 | 채널 정보 | 1 | |
 
 **절대 `search.list`를 루프에 넣지 말 것. playlistItems.list (1유닛) 사용.**
+
+---
+
+## 현재 상태 (2026-07-25)
+
+| 항목 | 값 |
+|------|-----|
+| Phase 1 채널 | @helena_phone ✅ (UC_IPajoyj6_IO8wt9JwVCAQ) |
+| OAuth | TV Device Flow ✅ |
+| API | Data v3 ✅ · Analytics ✅ · Reporting ⚠️ |
+| 플레이리스트 | 5개 카테고리 (디바이스·AI·퍼블리싱·오피스·노트) |
+| 업로더 | scripts/yt_upload.py (256줄) |
+| 동영상 | 0개 (첫 업로드 대기) |
+
+**Phase 2~5:** 8~11월 매월 25일 브랜드 채널 생성 (CronCreate 등록 완료)
