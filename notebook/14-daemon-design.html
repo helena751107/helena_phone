@@ -1,22 +1,89 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><title>14-daemon-design</title></head><body><pre>
-# 🛡️ 트랙 1 — 돌봄 데몬 설계서
-
-> 작성: 2026-07-24
-> 상태: 설계 완료, 구현 대기
-> 원칙: "절대 안 깨질 것" — 현 proot/DeepSeek 스택과 물리적으로 분리
-
----
-
-## 설계 목표
-
-트랙 1은 **AI 의존성 없이** 작동하는 경량 데몬이다. Claude Code 세션이 죽어도, DeepSeek API가 다운돼도, proot Ubuntu가 깨져도 **위치·배터리·이상 신호 보고는 절대 멈추지 않아야 한다.**
-
----
-
-## 아키텍처
-
-```
-Termux (Android 네이티브, proot 위가 아님)
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="작성: 2026-07-24 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>🛡️ 트랙 1 — 돌봄 데몬 설계서 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <nav>
+    <a class="hide-m" href="../index.html">Home</a>
+    <a class="hide-m" href="../index.html#library">Archive</a>
+    <a class="hide-m" href="../index.html#agents">Agents</a>
+    <button type="button" data-theme-toggle>Theme</button>
+    <a class="pill gold" href="../index.html#install">Install</a>
+  </nav>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>🛡️ 트랙 1 — 돌봄 데몬 설계서</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>🛡️ 트랙 1 — 돌봄 데몬 설계서</h1>
+    <p class="deck">작성: 2026-07-24</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/14-daemon-design.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#_1">설계 목표</a></li>
+<li><a href="#_2">아키텍처</a><ul>
+<li><a href="#proot-ubuntu">왜 proot Ubuntu 위가 아닌가</a></li>
+</ul>
+</li>
+<li><a href="#_3">감지 항목</a><ul>
+<li><a href="#1_1">1. 배터리 이상</a></li>
+<li><a href="#2">2. 위치 이상</a></li>
+<li><a href="#3">3. 활동 패턴</a></li>
+<li><a href="#4">4. 연결성</a></li>
+</ul>
+</li>
+<li><a href="#_4">보고 체계</a><ul>
+<li><a href="#1_2">정기 보고 (매 1시간)</a></li>
+<li><a href="#_5">이상 보고 (즉시)</a></li>
+<li><a href="#_6">웰니스 체크 (미응답 시 에스컬레이션)</a></li>
+</ul>
+</li>
+<li><a href="#_7">에스컬레이션 경로</a></li>
+<li><a href="#_8">설치 위치</a></li>
+<li><a href="#ai">AI 통합 지점 (선택적, 분리된 채널)</a></li>
+<li><a href="#_9">구현 우선순위</a></li>
+<li><a href="#_10">주의사항</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <blockquote>
+<p>작성: 2026-07-24<br>
+상태: 설계 완료, 구현 대기<br>
+원칙: &ldquo;절대 안 깨질 것&rdquo; — 현 proot/DeepSeek 스택과 물리적으로 분리</p>
+</blockquote>
+<hr>
+<h2 id="_1">설계 목표</h2>
+<p>트랙 1은 <strong>AI 의존성 없이</strong> 작동하는 경량 데몬이다. Claude Code 세션이 죽어도, DeepSeek API가 다운돼도, proot Ubuntu가 깨져도 <strong>위치·배터리·이상 신호 보고는 절대 멈추지 않아야 한다.</strong></p>
+<hr>
+<h2 id="_2">아키텍처</h2>
+<pre><code>Termux (Android 네이티브, proot 위가 아님)
 │
 ├── care-daemon.sh        ← 크론으로 매 N분 실행 (순수 bash)
 │   ├── termux-battery-status    → 배터리 잔량/온도/충전상태
@@ -34,139 +101,266 @@ Termux (Android 네이티브, proot 위가 아님)
     ├── last_location
     ├── last_report_time
     └── anomaly_flags
-```
-
-### 왜 proot Ubuntu 위가 아닌가
-
-| proot Ubuntu | Termux 네이티브 |
-|-------------|-----------------|
-| DeepSeek/CC 세션이 죽으면 같이 멈춤 | CC와 무관하게 독립 실행 |
-| Python venv, node 등 의존성 무거움 | 순수 bash + curl + termux-api |
-| pip 빌드 실패 등 변수 많음 | 의존성 거의 없음 |
-| 실험적 — 깨지도록 설계됨 | 보수적 — 안 깨지도록 설계됨 |
-
----
-
-## 감지 항목
-
-### 1. 배터리 이상
-| 조건 | 액션 |
-|------|------|
-| 잔량 < 15% (방전 중) | 즉시 보고 + "충전 필요" 알림 |
-| 잔량 급감 (1시간 내 30% 이상 하락) | 이상 보고 |
-| 온도 > 45°C | 즉시 보고 + "폰 과열" 경고 |
-| 충전 중 → 비충전 전환 (외출 감지) | 정기 보고에 포함 |
-
-### 2. 위치 이상
-| 조건 | 액션 |
-|------|------|
-| GPS 2시간 이상 무응답 | 이상 보고 |
-| 위치가 평소 반경 500m 밖 (집 이탈) | 선택적 보고 (외출 정상일 수 있음) |
-| 6시간 이상 위치 변동 없음 | 웰니스 체크 ("움직임 없음") |
-
-### 3. 활동 패턴
-| 조건 | 액션 |
-|------|------|
-| N시간 이상 화면 ON 이벤트 없음 | 웰니스 체크 |
-| N시간 이상 통화/문자 없음 | 참고 정보 (정상일 수 있음) |
-| 새벽 시간대 비정상 활동 | 이상 보고 |
-
-### 4. 연결성
-| 조건 | 액션 |
-|------|------|
-| WiFi RSSI 급감 (연결 끊김) | 경고 |
-| 셀룰러 신호 0 | 경고 (통화 불가 상태) |
-| 인터넷 연결 끊김 (ping 실패) | 로컬 알림 + 복구 시 재보고 |
-
----
-
-## 보고 체계
-
-### 정기 보고 (매 1시간)
-```
-🟢 [정기] 14:00
+</code></pre>
+<h3 id="proot-ubuntu">왜 proot Ubuntu 위가 아닌가</h3>
+<table>
+<thead>
+<tr>
+<th>proot Ubuntu</th>
+<th>Termux 네이티브</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DeepSeek/CC 세션이 죽으면 같이 멈춤</td>
+<td>CC와 무관하게 독립 실행</td>
+</tr>
+<tr>
+<td>Python venv, node 등 의존성 무거움</td>
+<td>순수 bash + curl + termux-api</td>
+</tr>
+<tr>
+<td>pip 빌드 실패 등 변수 많음</td>
+<td>의존성 거의 없음</td>
+</tr>
+<tr>
+<td>실험적 — 깨지도록 설계됨</td>
+<td>보수적 — 안 깨지도록 설계됨</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="_3">감지 항목</h2>
+<h3 id="1_1">1. 배터리 이상</h3>
+<table>
+<thead>
+<tr>
+<th>조건</th>
+<th>액션</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>잔량 &lt; 15% (방전 중)</td>
+<td>즉시 보고 + &ldquo;충전 필요&rdquo; 알림</td>
+</tr>
+<tr>
+<td>잔량 급감 (1시간 내 30% 이상 하락)</td>
+<td>이상 보고</td>
+</tr>
+<tr>
+<td>온도 &gt; 45°C</td>
+<td>즉시 보고 + &ldquo;폰 과열&rdquo; 경고</td>
+</tr>
+<tr>
+<td>충전 중 → 비충전 전환 (외출 감지)</td>
+<td>정기 보고에 포함</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2">2. 위치 이상</h3>
+<table>
+<thead>
+<tr>
+<th>조건</th>
+<th>액션</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPS 2시간 이상 무응답</td>
+<td>이상 보고</td>
+</tr>
+<tr>
+<td>위치가 평소 반경 500m 밖 (집 이탈)</td>
+<td>선택적 보고 (외출 정상일 수 있음)</td>
+</tr>
+<tr>
+<td>6시간 이상 위치 변동 없음</td>
+<td>웰니스 체크 (&ldquo;움직임 없음&rdquo;)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3">3. 활동 패턴</h3>
+<table>
+<thead>
+<tr>
+<th>조건</th>
+<th>액션</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N시간 이상 화면 ON 이벤트 없음</td>
+<td>웰니스 체크</td>
+</tr>
+<tr>
+<td>N시간 이상 통화/문자 없음</td>
+<td>참고 정보 (정상일 수 있음)</td>
+</tr>
+<tr>
+<td>새벽 시간대 비정상 활동</td>
+<td>이상 보고</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4">4. 연결성</h3>
+<table>
+<thead>
+<tr>
+<th>조건</th>
+<th>액션</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WiFi RSSI 급감 (연결 끊김)</td>
+<td>경고</td>
+</tr>
+<tr>
+<td>셀룰러 신호 0</td>
+<td>경고 (통화 불가 상태)</td>
+</tr>
+<tr>
+<td>인터넷 연결 끊김 (ping 실패)</td>
+<td>로컬 알림 + 복구 시 재보고</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="_4">보고 체계</h2>
+<h3 id="1_2">정기 보고 (매 1시간)</h3>
+<pre><code>🟢 [정기] 14:00
 배터리: 68% / 37.6°C / 충전중
 위치: 서울시 ○○구 (GPS)
 WiFi: U+NetFA1B (-47dBm)
 상태: 정상
-```
-
-### 이상 보고 (즉시)
-```
-🔴 [이상] 15:23
+</code></pre>
+<h3 id="_5">이상 보고 (즉시)</h3>
+<pre><code>🔴 [이상] 15:23
 배터리 급감: 45% → 18% (40분)
 현재 위치: 서울시 ○○구
 마지막 활동: 14:05
 즉시 확인 필요!
-```
-
-### 웰니스 체크 (미응답 시 에스컬레이션)
-```
-🟡 [웰니스] 16:00
+</code></pre>
+<h3 id="_6">웰니스 체크 (미응답 시 에스컬레이션)</h3>
+<pre><code>🟡 [웰니스] 16:00
 6시간 동안 위치 변동 없음.
 배터리 정상(72%).
 → 누나에게 확인 연락 권장.
-```
-
----
-
-## 에스컬레이션 경로
-
-```
-1차: 텔레그램 DM → 헬레나
+</code></pre>
+<hr>
+<h2 id="_7">에스컬레이션 경로</h2>
+<pre><code>1차: 텔레그램 DM → 헬레나
     ↓ (15분 무응답)
 2차: 텔레그램 DM → 목사님
     ↓ (30분 무응답 + 위급 상황)
 3차: 119 신고 (수동 — 자동 신고는 법적 검토 필요)
-```
-
----
-
-## 설치 위치
-
-```
-/data/data/com.termux/files/home/
+</code></pre>
+<hr>
+<h2 id="_8">설치 위치</h2>
+<pre><code>/data/data/com.termux/files/home/
 ├── care/
 │   ├── care-daemon.sh      ← 메인 데몬
 │   ├── care-reporter.sh    ← 보고 모듈
 │   ├── care-state.json     ← 상태 저장
 │   └── care.conf           ← 설정 (토큰, 임계값, chat_id)
-```
-
-crontab:
-```
-# 매 15분 정기 체크
+</code></pre>
+<p>crontab:</p>
+<pre><code># 매 15분 정기 체크
 */15 * * * * bash ~/care/care-daemon.sh
-```
-
----
-
-## AI 통합 지점 (선택적, 분리된 채널)
-
-- Claude Code는 `care-state.json`을 읽어서 대시보드 표시 가능
-- CC 세션은 `care-daemon.sh`에 의존하지 않음 (단방향 읽기)
-- CC가 죽어도 데몬은 독립적으로 계속 실행
-- CC가 care-state.json을 통해 이상 패턴 학습 가능 (장기)
-
----
-
-## 구현 우선순위
-
-| # | 기능 | 난이도 | 상태 |
-|---|------|--------|------|
-| 1 | 배터리 모니터링 + 보고 | 하 | 설계 완료 |
-| 2 | GPS 위치 수집 + 보고 | 하 | 설계 완료 |
-| 3 | 정기 보고 (1시간) | 하 | 설계 완료 |
-| 4 | 이상 감지 (임계값) | 중 | 설계 완료 |
-| 5 | 에스컬레이션 경로 | 중 | 설계 완료 |
-| 6 | 활동 패턴 학습 | 상 | 장기 과제 |
-
----
-
-## 주의사항
-
-- **절대 proot Ubuntu 안에서 실행하지 않는다.** Termux 네이티브 crontab만 사용.
-- **AI(Claude Code)는 소비자일 뿐, 의존성이 아니다.**
-- 위치 데이터는 텔레그램 DM으로만 전송. 공개 채널, GitHub, Discord 공개방으로 새지 않게.
-- 119 자동 신고는 오탐 위험이 있으므로 1차/2차 사람 확인 후 수동 실행.
-</pre></body></html>
+</code></pre>
+<hr>
+<h2 id="ai">AI 통합 지점 (선택적, 분리된 채널)</h2>
+<ul>
+<li>Claude Code는 <code>care-state.json</code>을 읽어서 대시보드 표시 가능</li>
+<li>CC 세션은 <code>care-daemon.sh</code>에 의존하지 않음 (단방향 읽기)</li>
+<li>CC가 죽어도 데몬은 독립적으로 계속 실행</li>
+<li>CC가 care-state.json을 통해 이상 패턴 학습 가능 (장기)</li>
+</ul>
+<hr>
+<h2 id="_9">구현 우선순위</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>기능</th>
+<th>난이도</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>배터리 모니터링 + 보고</td>
+<td>하</td>
+<td>설계 완료</td>
+</tr>
+<tr>
+<td>2</td>
+<td>GPS 위치 수집 + 보고</td>
+<td>하</td>
+<td>설계 완료</td>
+</tr>
+<tr>
+<td>3</td>
+<td>정기 보고 (1시간)</td>
+<td>하</td>
+<td>설계 완료</td>
+</tr>
+<tr>
+<td>4</td>
+<td>이상 감지 (임계값)</td>
+<td>중</td>
+<td>설계 완료</td>
+</tr>
+<tr>
+<td>5</td>
+<td>에스컬레이션 경로</td>
+<td>중</td>
+<td>설계 완료</td>
+</tr>
+<tr>
+<td>6</td>
+<td>활동 패턴 학습</td>
+<td>상</td>
+<td>장기 과제</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="_10">주의사항</h2>
+<ul>
+<li><strong>절대 proot Ubuntu 안에서 실행하지 않는다.</strong> Termux 네이티브 crontab만 사용.</li>
+<li><strong>AI(Claude Code)는 소비자일 뿐, 의존성이 아니다.</strong></li>
+<li>위치 데이터는 텔레그램 DM으로만 전송. 공개 채널, GitHub, Discord 공개방으로 새지 않게.</li>
+<li>119 자동 신고는 오탐 위험이 있으므로 1차/2차 사람 확인 후 수동 실행.</li>
+</ul>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="13-midterm-eval-v2.html">
+          <span class="dir">Previous</span>
+          <span class="title">📊 S21 Phone — 중간평가 보고서 (v2 재평가)</span>
+        </a>
+    <a class="next" href="15-proot-report.html">
+          <span class="dir">Next</span>
+          <span class="title">proot 종합 보고서</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-25</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

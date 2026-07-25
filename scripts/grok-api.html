@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Source viewer · scripts/grok_api.py — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>grok_api.py — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <nav>
+    <a class="hide-m" href="../index.html">Home</a>
+    <a class="hide-m" href="../index.html#library">Archive</a>
+    <a class="hide-m" href="../index.html#agents">Agents</a>
+    <button type="button" data-theme-toggle>Theme</button>
+    <a class="pill gold" href="../index.html#install">Install</a>
+  </nav>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Scripts</span><span class="sep">/</span>
+    <span>grok_api.py</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Scripts · Vol.01</div>
+    <h1>grok_api.py</h1>
+    <p class="deck">Source viewer · scripts/grok_api.py</p>
+    <div class="wz-meta">
+      <span>Source · scripts/grok_api.py</span>
+      <span>Kind · code</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  
+  <article class="wz-prose">
+    
+<div class="wz-code-head">
+  <span class="path">scripts/grok_api.py</span>
+  <button type="button" data-copy="#codeBody">Copy</button>
+</div>
+<pre id="codeBody"><code class="language-py">#!/usr/bin/env python3
+&quot;&quot;&quot;
+Grok API 클라이언트 — OpenAI 호환 (xAI)
+========================================
+인증 방법 (우선순위):
+  1. OAuth 토큰: configs/grok_token.json (SuperGrok 구독 → bash grok_oauth_setup.sh)
+  2. API 키: .secrets.env 의 XAI_API_KEY (console.x.ai → $25 무료 크레딧)
+
+사용법:
+  python3 scripts/grok_api.py chat &quot;질문&quot;
+  python3 scripts/grok_api.py parse &quot;https://m.blog.naver.com/...&quot;
+  python3 scripts/grok_api.py image &quot;프롬프트 설명&quot;
+
+모델:
+  grok-4-1-fast — 업무용 (가장 저렴, $0.20/$0.50 per 1M)
+  grok-4.3     — 범용 플래그십 ($1.25/$2.50)
+  grok-code-fast-1 — 코딩 에이전트 ($0.20/$1.50)
+&quot;&quot;&quot;
+
+import os, sys, json, subprocess, time
+from pathlib import Path
+
+BASE = Path(__file__).resolve().parent.parent
+SECRETS = BASE / &quot;.secrets.env&quot;
+TOKEN_FILE = BASE / &quot;configs&quot; / &quot;grok_token.json&quot;
+
+# ── 인증 ────────────────────────────────────────────────────
+def get_access_token():
+    &quot;&quot;&quot;OAuth 토큰 or API 키 로드. OAuth 우선.&quot;&quot;&quot;
+    # 1. OAuth 토큰 (SuperGrok 구독)
+    if TOKEN_FILE.exists():
+        with open(TOKEN_FILE) as f:
+            data = json.load(f)
+            access_token = data.get(&quot;access_token&quot;, &quot;&quot;)
+            if access_token:
+                return access_token
+
+    # 2. API 키 (console.x.ai)
+    if SECRETS.exists():
+        with open(SECRETS) as f:
+            for line in f:
+                if line.startswith(&quot;XAI_API_KEY=&quot;):
+                    key = line.split(&quot;=&quot;, 1)[1].strip().strip(&#x27;&quot;\&#x27;&#x27;)
+                    if key:
+                        return key
+
+    return os.environ.get(&quot;XAI_API_KEY&quot;, &quot;&quot;)
+
+def load_auth():
+    &quot;&quot;&quot;인증 정보 로드. API 키면 api_key=, OAuth 토큰이면 base_url만 설정&quot;&quot;&quot;
+    token = get_access_token()
+    if not token:
+        print(&quot;❌ 인증 정보 없음&quot;)
+        print(&quot;   방법 1: bash scripts/grok_oauth_setup.sh (SuperGrok 구독)&quot;)
+        print(&quot;   방법 2: .secrets.env 에 XAI_API_KEY=\&quot;xai-...\&quot; 추가&quot;)
+        return None, None
+
+    # OAuth 토큰이면 Bearer, API 키(xai-...)면 그대로
+    return token, &quot;https://api.x.ai/v1&quot;
+                if line.startswith(&quot;XAI_API_KEY=&quot;):
+                    return line.split(&quot;=&quot;, 1)[1].strip().strip(&#x27;&quot;\&#x27;&#x27;)
+    return os.environ.get(&quot;XAI_API_KEY&quot;, &quot;&quot;)
+
+# ── Grok API 호출 ────────────────────────────────────────────
+def grok_chat(prompt, model=&quot;grok-4-1-fast&quot;, system=None):
+    &quot;&quot;&quot;OpenAI 호환 API로 Grok 호출 (OAuth or API Key)&quot;&quot;&quot;
+    token, base_url = load_auth()
+    if not token:
+        return None
+
+    try:
+        from openai import OpenAI
+    except ImportError:
+        print(&quot;❌ openai 패키지 필요: ~/browser-env/bin/pip install openai&quot;)
+        return None
+
+    client = OpenAI(
+        api_key=token,
+        base_url=base_url,
+    )
+
+    messages = []
+    if system:
+        messages.append({&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: system})
+    messages.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt})
+
+    response = client.chat.completions.create(
+        model=model,
+        messages=messages,
+        temperature=0.7,
+    )
+
+    return response.choices[0].message.content
+
+# ── 네이버 파싱 + 요약 ─────────────────────────────────────────
+def parse_naver_and_summarize(url):
+    &quot;&quot;&quot;proot curl로 네이버 파싱 → Grok이 요약&quot;&quot;&quot;
+    # 1. 직접 파싱 (우리 폰에서)
+    html = subprocess.run([
+        &quot;curl&quot;, &quot;-sL&quot;, url,
+        &quot;-H&quot;, &quot;User-Agent: Mozilla/5.0 (Linux; Android 13; SM-G991N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36&quot;,
+        &quot;-H&quot;, &quot;Accept-Language: ko-KR,ko;q=0.9&quot;,
+    ], capture_output=True, text=True, timeout=15).stdout
+
+    # 2. 텍스트 추출
+    import re
+    text = re.sub(r&#x27;&lt;script[^&gt;]*&gt;.*?&lt;/script&gt;&#x27;, &#x27;&#x27;, html, flags=re.DOTALL)
+    text = re.sub(r&#x27;&lt;style[^&gt;]*&gt;.*?&lt;/style&gt;&#x27;, &#x27;&#x27;, text, flags=re.DOTALL)
+    text = re.sub(r&#x27;&lt;[^&gt;]+&gt;&#x27;, &#x27;\n&#x27;, text)
+    text = re.sub(r&#x27;&amp;nbsp;&#x27;, &#x27; &#x27;, text)
+    text = re.sub(r&#x27;&amp;[a-z]+;&#x27;, &#x27;&#x27;, text)
+    lines = [l.strip() for l in text.split(&#x27;\n&#x27;) if l.strip() and len(l.strip()) &gt; 3]
+    content = &#x27;\n&#x27;.join(lines[:100])  # 앞 100줄만
+
+    # 3. Grok에게 요약 요청
+    system = &quot;너는 네이버 블로그 글을 읽고 핵심을 요약하는 AI다. 글의 주요 내용, 구조, 톤을 파악해서 한국어로 답변해라.&quot;
+    prompt = f&quot;다음은 네이버 블로그 글의 텍스트 추출본이다. 이 글을 읽고:\n1. 글의 주제와 핵심 메시지\n2. 주요 섹션/구조\n3. 글의 톤과 스타일\n4. 이 글에서 이미지/영상이 있으면 좋을 위치 제안\n\n---\n{content[:4000]}\n---&quot;
+
+    return grok_chat(prompt, system=system)
+
+# ── 이미지 생성 프롬프트 ───────────────────────────────────────
+def image_prompt(description, style=&quot;다크 테마, 터미널·코드·기술 미학&quot;):
+    &quot;&quot;&quot;Grok에게 이미지 생성을 위한 상세 프롬프트 작성 요청&quot;&quot;&quot;
+    system = &quot;너는 AI 이미지 생성용 프롬프트를 작성하는 전문가다. 주어진 설명을 바탕으로 상세한 이미지 생성 프롬프트를 영어로 작성해라.&quot;
+    prompt = f&quot;다음 설명에 맞는 이미지 생성 프롬프트를 작성해줘:\n설명: {description}\n스타일: {style}\n\n영어로 상세하게 작성하고, 구도·색감·조명·분위기를 포함해라.&quot;
+
+    return grok_chat(prompt, system=system)
+
+# ── CLI ──────────────────────────────────────────────────────
+if __name__ == &quot;__main__&quot;:
+    if len(sys.argv) &lt; 2:
+        print(__doc__)
+        print(&quot;명령: chat | parse | image&quot;)
+        sys.exit(1)
+
+    cmd = sys.argv[1]
+
+    if cmd == &quot;chat&quot;:
+        prompt = &quot; &quot;.join(sys.argv[2:])
+        result = grok_chat(prompt)
+        if result:
+            print(result)
+
+    elif cmd == &quot;parse&quot;:
+        url = sys.argv[2] if len(sys.argv) &gt; 2 else input(&quot;Naver URL: &quot;)
+        result = parse_naver_and_summarize(url)
+        if result:
+            print(result)
+
+    elif cmd == &quot;image&quot;:
+        desc = &quot; &quot;.join(sys.argv[2:])
+        result = image_prompt(desc)
+        if result:
+            print(result)
+
+    elif cmd == &quot;setup&quot;:
+        print(&quot;&quot;&quot;
+═══ Grok API 설정 방법 ═══
+
+1. console.x.ai 접속 → 회원가입 (이메일/Google/X 계정)
+2. 좌측 &quot;API Keys&quot; → &quot;Create API Key&quot;
+3. 키 복사 (xai-... 형식, 한 번만 표시)
+4. .secrets.env 에 추가:
+   XAI_API_KEY=&quot;xai-...&quot;
+
+5. openai 패키지 설치:
+   ~/browser-env/bin/pip install openai
+
+6. 테스트:
+   python3 scripts/grok_api.py chat &quot;안녕&quot;
+
+※ 신규 계정 $25 무료 크레딧 (30일)
+※ API와 SuperGrok 구독은 별도
+&quot;&quot;&quot;)
+</code></pre>
+<p style="margin-top:1.5em;color:var(--ink-mute);font-size:.9rem">원본 파일: <code>scripts/grok_api.py</code> · Webzine code viewer (no execution)</p>
+
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="yt-upload.html">
+          <span class="dir">Previous</span>
+          <span class="title">yt_upload.py</span>
+        </a>
+    <a class="next" href="../configs/bashrc-example.html">
+          <span class="dir">Next</span>
+          <span class="title">bashrc-example.sh</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="../g/install.html"><strong>install.sh · 1줄 설치기</strong>Scripts</a><a href="../care/care-daemon.html"><strong>care-daemon.sh</strong>Scripts</a><a href="../care/care-setup.html"><strong>care-setup.sh</strong>Scripts</a><a href="../care/care-conf.html"><strong>care.conf</strong>Scripts</a><a href="../phone-health.html"><strong>phone-health.sh</strong>Scripts</a><a href="tg.html"><strong>tg.sh · Telegram</strong>Scripts</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

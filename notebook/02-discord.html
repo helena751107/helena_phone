@@ -1,82 +1,122 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>디스코드 서버/봇/위젯 — S21 Phone</title>
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #0d1117; color: #e6edf3; line-height: 1.7;
-    }
-    .container { max-width:860px; margin:0 auto; padding:2rem 1.5rem; }
-    h1 { font-size:1.8rem; color:#f0f6fc; margin-bottom:1.5rem; }
-    h2 { font-size:1.3rem; color:#f0f6fc; margin-top:2rem; margin-bottom:1rem; padding-bottom:0.3rem; border-bottom:1px solid #21262d; }
-    h3 { font-size:1.1rem; color:#f0f6fc; margin-top:1.5rem; margin-bottom:0.5rem; }
-    h4 { font-size:1rem; color:#f0f6fc; margin-top:1rem; margin-bottom:0.5rem; }
-    p { margin-bottom:1rem; color:#c9d1d9; }
-    a { color:#58a6ff; text-decoration:none; }
-    a:hover { text-decoration:underline; }
-    table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.9rem; display:block; overflow-x:auto; }
-    th, td { padding:0.5rem 0.75rem; border-bottom:1px solid #21262d; text-align:left; white-space:nowrap; }
-    th { color:#8b949e; font-weight:600; }
-    td { color:#c9d1d9; }
-    code { background:#161b22; padding:0.15rem 0.4rem; border-radius:4px; font-size:0.9em; }
-    pre { background:#161b22; border:1px solid #30363d; border-radius:8px; padding:1rem; overflow-x:auto; margin:1rem 0; }
-    pre code { background:transparent; padding:0; }
-    blockquote { border-left:3px solid #30363d; padding:0.5rem 1rem; margin:1rem 0; color:#8b949e; background:#161b22; border-radius:0 8px 8px 0; }
-    ul, ol { margin-bottom:1rem; padding-left:1.5rem; }
-    li { color:#c9d1d9; margin-bottom:0.25rem; }
-    hr { border:none; border-top:1px solid #21262d; margin:2rem 0; }
-    strong { color:#f0f6fc; }
-    .nav { display:flex; justify-content:space-between; margin-bottom:2rem; padding-bottom:1rem; border-bottom:1px solid #21262d; }
-    .nav a { color:#58a6ff; font-size:0.9rem; }
-    footer { margin-top:3rem; padding-top:1.5rem; border-top:1px solid #21262d; text-align:center; color:#484f58; font-size:0.85rem; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="디스코드 서버/봇/위젯 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>디스코드 서버/봇/위젯 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
 </head>
 <body>
-  <div class="container">
-    <div class="nav">
-      <a href="../">← S21 Phone 포털</a>
-      <a href="00-INDEX.html">📋 목차</a>
-    </div>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <nav>
+    <a class="hide-m" href="../index.html">Home</a>
+    <a class="hide-m" href="../index.html#library">Archive</a>
+    <a class="hide-m" href="../index.html#agents">Agents</a>
+    <button type="button" data-theme-toggle>Theme</button>
+    <a class="pill gold" href="../index.html#install">Install</a>
+  </nav>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>디스코드 서버/봇/위젯</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
     <h1>디스코드 서버/봇/위젯</h1>
     
-<h2>서버 정보</h2>
-
+    <div class="wz-meta">
+      <span>Source · _notebook/02-discord.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#_2">서버 정보</a></li>
+<li><a href="#_3">채널 목록</a></li>
+<li><a href="#_4">초대링크</a></li>
+<li><a href="#api">위젯 활성화 (API)</a></li>
+<li><a href="#widgetbot">WidgetBot (랜딩 페이지 임베드)</a></li>
+<li><a href="#api_1">디스코드 API 자동화 키포인트</a></li>
+<li><a href="#2026-07-25">현재 상태 (2026-07-25)</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <h2 id="_2">서버 정보</h2>
 <table>
-<thead><tr><th>항목</th><th>값</th></tr></thead>
+<thead>
+<tr>
+<th>항목</th>
+<th>값</th>
+</tr>
+</thead>
 <tbody>
-<tr><td>서버명</td><td>S21 Phone</td></tr>
-<tr><td>서버 ID</td><td>`1529785842560794684`</td></tr>
-<tr><td>개설일</td><td>2026-07-23</td></tr>
-<tr><td>소유자</td><td>helena19751107 (ID: 1529766339441328178)</td></tr>
-
-<h2>채널 목록</h2>
-
+<tr>
+<td>서버명</td>
+<td>S21 Phone</td>
+</tr>
+<tr>
+<td>서버 ID</td>
+<td><code>1529785842560794684</code></td>
+</tr>
+<tr>
+<td>개설일</td>
+<td>2026-07-23</td>
+</tr>
+<tr>
+<td>소유자</td>
+<td>helena19751107 (ID: 1529766339441328178)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_3">채널 목록</h2>
 <table>
-<thead><tr><th>ID</th><th>이름</th><th>용도</th></tr></thead>
+<thead>
+<tr>
+<th>ID</th>
+<th>이름</th>
+<th>용도</th>
+</tr>
+</thead>
 <tbody>
-<tr><td>`1529785982818193469`</td><td>#로비</td><td>일반 채팅</td></tr>
-<tr><td>`1529785985993408723`</td><td>#ai-보고</td><td>AI 웹훅 보고</td></tr>
-
-<h2>초대링크</h2>
-
+<tr>
+<td><code>1529785982818193469</code></td>
+<td>#로비</td>
+<td>일반 채팅</td>
+</tr>
+<tr>
+<td><code>1529785985993408723</code></td>
+<td>#ai-보고</td>
+<td>AI 웹훅 보고</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_4">초대링크</h2>
 <pre><code>https://discord.gg/JTYSZv2WQE
 </code></pre>
-
-<h2>위젯 활성화 (API)</h2>
-
-<pre><code>curl -s -X PATCH "https://discord.com/api/v9/guilds/1529785842560794684/widget" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: $DCT" \
-  -d '{"enabled":true,"channel_id":"1529785982818193469"}'
+<h2 id="api">위젯 활성화 (API)</h2>
+<pre><code class="language-bash">curl -s -X PATCH &quot;https://discord.com/api/v9/guilds/1529785842560794684/widget&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -H &quot;Authorization: $DCT&quot; \
+  -d '{&quot;enabled&quot;:true,&quot;channel_id&quot;:&quot;1529785982818193469&quot;}'
 </code></pre>
-
-<h2>WidgetBot (랜딩 페이지 임베드)</h2>
-
-<pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer&gt;
+<h2 id="widgetbot">WidgetBot (랜딩 페이지 임베드)</h2>
+<pre><code class="language-html">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/@widgetbot/crate@3&quot; async defer&gt;
   new Crate({
     server: '1529785842560794684',
     channel: '1529785982818193469',
@@ -84,17 +124,48 @@
   })
 &lt;/script&gt;
 </code></pre>
-
-<h2>디스코드 API 자동화 키포인트</h2>
-
+<h2 id="api_1">디스코드 API 자동화 키포인트</h2>
+<ul>
 <li>로그인: <code>POST /api/v9/auth/login</code> → user token</li>
 <li>서버 생성: <code>POST /api/v9/guilds</code> → <code>{"name":"..."}</code></li>
 <li>채널 생성: <code>POST /api/v9/guilds/{id}/channels</code></li>
 <li>위젯: <code>PATCH /api/v9/guilds/{id}/widget</code></li>
 <li>앱(봇) 생성: <code>POST /api/v9/applications</code> → hCaptcha 필요 (수동)</li>
 <li>초대링크: <code>POST /api/v9/channels/{id}/invites</code></li>
-
-    <footer><p><a href="../">S21 Phone Workstation</a> · <a href="https://github.com/helena751107/helena_phone">GitHub</a></p></footer>
-  </div>
+</ul>
+<hr>
+<h2 id="2026-07-25">현재 상태 (2026-07-25)</h2>
+<ul>
+<li>서버: S21 Phone ✅</li>
+<li>채널: #로비 (공개) + #ai-보고 (웹훅)</li>
+<li>WidgetBot: GitHub Pages에 임베드</li>
+<li>웹훅 알림: dc.sh (예정)</li>
+</ul>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="01-arch.html">
+          <span class="dir">Previous</span>
+          <span class="title">전체 시스템 아키텍처</span>
+        </a>
+    <a class="next" href="03-telegram.html">
+          <span class="dir">Next</span>
+          <span class="title">Telegram</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-25</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="03-telegram.html"><strong>Telegram</strong>Notebook</a><a href="04-github-pages.html"><strong>Pages · Giscus</strong>Notebook</a><a href="05-tistory.html"><strong>티스토리</strong>Notebook</a><a href="06-youtube.html"><strong>YouTube</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
 </body>
 </html>

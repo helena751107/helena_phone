@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Source viewer · configs/ecosystem-map.json — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>ecosystem-map.json — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <nav>
+    <a class="hide-m" href="../index.html">Home</a>
+    <a class="hide-m" href="../index.html#library">Archive</a>
+    <a class="hide-m" href="../index.html#agents">Agents</a>
+    <button type="button" data-theme-toggle>Theme</button>
+    <a class="pill gold" href="../index.html#install">Install</a>
+  </nav>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Scripts</span><span class="sep">/</span>
+    <span>ecosystem-map.json</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Scripts · Vol.01</div>
+    <h1>ecosystem-map.json</h1>
+    <p class="deck">Source viewer · configs/ecosystem-map.json</p>
+    <div class="wz-meta">
+      <span>Source · configs/ecosystem-map.json</span>
+      <span>Kind · code</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  
+  <article class="wz-prose">
+    
+<div class="wz-code-head">
+  <span class="path">configs/ecosystem-map.json</span>
+  <button type="button" data-copy="#codeBody">Copy</button>
+</div>
+<pre id="codeBody"><code class="language-json">{
+  &quot;_description&quot;: &quot;S21 Phone — 5x5x5 생태계 매트릭스 (Tistory × YouTube × GitHub 1:1:1). 2026-07-25 생성.&quot;,
+  &quot;_principle&quot;: &quot;각 채널은 독립된 정체성. 모든 콘텐츠는 Layer A(인간·STT) → Layer B(에이전트·API) 파이프라인으로 발행.&quot;,
+
+  &quot;main_hub&quot;: {
+    &quot;youtube_main&quot;: &quot;@HelenaPark-e7c (UCRUuiKCCwIbyvqlxTNpDfKw)&quot;,
+    &quot;youtube_first_brand&quot;: &quot;@helena_phone (UC_IPajoyj6_IO8wt9JwVCAQ) ✅ 2026-07-25 생성&quot;,
+    &quot;naver&quot;: &quot;helena1975&quot;,
+    &quot;naver_role&quot;: &quot;관제탑 — 전체 교차홍보 게이트웨이 (그림첩/이미지 중심)&quot;,
+    &quot;discord_server&quot;: &quot;S21 Phone&quot;,
+    &quot;discord_channels&quot;: {
+      &quot;lobby&quot;: &quot;#로비 (1529785982818193469)&quot;,
+      &quot;ai_report&quot;: &quot;#ai-보고 (1529785985993408723)&quot;
+    },
+    &quot;telegram_bot&quot;: &quot;@S21Phone_Bot&quot;,
+    &quot;telegram_chat&quot;: &quot;8579179811&quot;
+  },
+
+  &quot;channels&quot;: [
+    {
+      &quot;id&quot;: &quot;phone&quot;,
+      &quot;theme&quot;: &quot;📱 S21 폰 최적화 바이블&quot;,
+      &quot;color&quot;: &quot;#4A90D9&quot;,
+      &quot;tistory&quot;: {
+        &quot;blog&quot;: &quot;galaxys21-pwuser&quot;,
+        &quot;url&quot;: &quot;https://galaxys21-pwuser.tistory.com&quot;,
+        &quot;title&quot;: &quot;Helena-Phone&quot;,
+        &quot;rss&quot;: &quot;https://galaxys21-pwuser.tistory.com/rss&quot;,
+        &quot;category&quot;: &quot;S21/Termux/proot/ClaudeCode/MCP/0원풀스택&quot;,
+        &quot;posts&quot;: 0
+      },
+      &quot;youtube&quot;: {
+        &quot;channel&quot;: &quot;@helena_phone ✅&quot;,
+        &quot;channel_id&quot;: &quot;UC_IPajoyj6_IO8wt9JwVCAQ&quot;,
+        &quot;handle&quot;: &quot;@helena_phone&quot;,
+        &quot;created&quot;: &quot;2026-07-25&quot;,
+        &quot;playlists&quot;: [
+          {&quot;name&quot;: &quot;S21 셋업 가이드&quot;, &quot;id&quot;: &quot;PLJSop2E1aaV4&quot;, &quot;topic&quot;: &quot;Termux→proot→ClaudeCode→MCP 전체 설치&quot;},
+          {&quot;name&quot;: &quot;STT 음성 코딩&quot;, &quot;id&quot;: &quot;PLS-yy4nKV_z8&quot;, &quot;topic&quot;: &quot;키보드 없이 말로만 코딩&quot;},
+          {&quot;name&quot;: &quot;폰 건강 검진 &amp; 최적화&quot;, &quot;id&quot;: &quot;PLLzMDSzeL218&quot;, &quot;topic&quot;: &quot;phone-health.sh 27항목·하드웨어 관리&quot;},
+          {&quot;name&quot;: &quot;0원 풀스택 인프라&quot;, &quot;id&quot;: &quot;PLXwItZPI7g9I&quot;, &quot;topic&quot;: &quot;GitHub Pages·Discord·Telegram·티스토리 무료 구축&quot;}
+        ],
+        &quot;content_type&quot;: &quot;튜토리얼·셋업·설치·설정가이드&quot;
+      },
+      &quot;github&quot;: {
+        &quot;repo&quot;: &quot;helena_phone&quot;,
+        &quot;pages&quot;: &quot;https://helena751107.github.io/helena_phone/&quot;,
+        &quot;role&quot;: &quot;코드 저장소 + 문서 + Pages&quot;
+      },
+      &quot;discord_notify&quot;: &quot;#로비&quot;,
+      &quot;telegram_notify&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;tech&quot;,
+      &quot;theme&quot;: &quot;🗃️ 박씨캡처 리버싱&quot;,
+      &quot;color&quot;: &quot;#50C878&quot;,
+      &quot;tistory&quot;: {
+        &quot;blog&quot;: &quot;mynote11605&quot;,
+        &quot;url&quot;: &quot;https://mynote11605.tistory.com&quot;,
+        &quot;title&quot;: &quot;엘레나 다이어리&quot;,
+        &quot;rss&quot;: &quot;https://mynote11605.tistory.com/rss&quot;,
+        &quot;category&quot;: &quot;APK리버싱/MCP/LLM로그/기술튜토리얼&quot;,
+        &quot;posts&quot;: 0
+      },
+      &quot;youtube&quot;: {
+        &quot;channel&quot;: &quot;@HelenaTechLog (브랜드 채널 예정)&quot;,
+        &quot;playlist&quot;: &quot;Helena Tech Log — 박씨캡처 리버싱&quot;,
+        &quot;playlist_id&quot;: &quot;PLPeHKuMeuM2k&quot;,
+        &quot;content_type&quot;: &quot;리버싱·MCP개발·기술분석·튜토리얼&quot;
+      },
+      &quot;github&quot;: {
+        &quot;repo&quot;: &quot;helana_log&quot;,
+        &quot;pages&quot;: &quot;https://helena751107.github.io/helana_log/&quot;,
+        &quot;role&quot;: &quot;APK 분석 + 로그 저장소 + MCP 코드&quot;
+      },
+      &quot;discord_notify&quot;: &quot;#로비&quot;,
+      &quot;telegram_notify&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;faith&quot;,
+      &quot;theme&quot;: &quot;✝️ 가족 신앙사&quot;,
+      &quot;color&quot;: &quot;#FFD700&quot;,
+      &quot;tistory&quot;: {
+        &quot;blog&quot;: &quot;helana-christianity&quot;,
+        &quot;url&quot;: &quot;https://helana-christianity.tistory.com&quot;,
+        &quot;title&quot;: &quot;Helana-Christianity&quot;,
+        &quot;rss&quot;: &quot;https://helana-christianity.tistory.com/rss&quot;,
+        &quot;category&quot;: &quot;가족신앙/비교종교학/말씀묵상/기도&quot;,
+        &quot;posts&quot;: 0
+      },
+      &quot;youtube&quot;: {
+        &quot;channel&quot;: &quot;@HelenaFaith (브랜드 채널 예정)&quot;,
+        &quot;playlist&quot;: &quot;Helena Faith — 가족 신앙사&quot;,
+        &quot;playlist_id&quot;: &quot;PLVMVhBhx9j5U&quot;,
+        &quot;content_type&quot;: &quot;말씀·묵상·신앙고백·찬양&quot;
+      },
+      &quot;github&quot;: {
+        &quot;repo&quot;: &quot;helena-faith&quot;,
+        &quot;pages&quot;: &quot;https://helena751107.github.io/helena-faith/&quot;,
+        &quot;role&quot;: &quot;신학 문서 + 가족사 아카이브&quot;
+      },
+      &quot;discord_notify&quot;: &quot;#로비&quot;,
+      &quot;telegram_notify&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;piano&quot;,
+      &quot;theme&quot;: &quot;🎹 피아노 종합&quot;,
+      &quot;color&quot;: &quot;#FF6B9D&quot;,
+      &quot;tistory&quot;: {
+        &quot;blog&quot;: &quot;helena-piano&quot;,
+        &quot;url&quot;: &quot;https://helena-piano.tistory.com&quot;,
+        &quot;title&quot;: &quot;Helena-Piano&quot;,
+        &quot;rss&quot;: &quot;https://helena-piano.tistory.com/rss&quot;,
+        &quot;category&quot;: &quot;연주/MIDI/REAPER/AI음원/악보/레슨&quot;,
+        &quot;posts&quot;: 0
+      },
+      &quot;youtube&quot;: {
+        &quot;channel&quot;: &quot;@HelenaPiano (브랜드 채널 예정)&quot;,
+        &quot;playlist&quot;: &quot;Helena Piano — 피아노 종합&quot;,
+        &quot;playlist_id&quot;: &quot;PLQZhcAIkPriA&quot;,
+        &quot;content_type&quot;: &quot;연주영상·커버·레슨·MIDI시연&quot;
+      },
+      &quot;github&quot;: {
+        &quot;repo&quot;: &quot;helena-piano&quot;,
+        &quot;pages&quot;: &quot;https://helena751107.github.io/helena-piano/&quot;,
+        &quot;role&quot;: &quot;MIDI파일·REAPER프로젝트·AI음원·악보&quot;
+      },
+      &quot;discord_notify&quot;: &quot;#로비&quot;,
+      &quot;telegram_notify&quot;: true
+    },
+    {
+      &quot;id&quot;: &quot;psycare&quot;,
+      &quot;theme&quot;: &quot;🧠 멘탈케어&quot;,
+      &quot;color&quot;: &quot;#9B59B6&quot;,
+      &quot;tistory&quot;: {
+        &quot;blog&quot;: &quot;helena-psycare&quot;,
+        &quot;url&quot;: &quot;https://helena-psycare.tistory.com&quot;,
+        &quot;title&quot;: &quot;Helena Psycare&quot;,
+        &quot;rss&quot;: &quot;https://helena-psycare.tistory.com/rss&quot;,
+        &quot;category&quot;: &quot;정신의학/정신분석/MCP모델/치료기록&quot;,
+        &quot;posts&quot;: 0
+      },
+      &quot;youtube&quot;: {
+        &quot;channel&quot;: &quot;@HelenaPsycare (브랜드 채널 예정)&quot;,
+        &quot;playlist&quot;: &quot;Helena Psycare — 멘탈케어&quot;,
+        &quot;playlist_id&quot;: &quot;PLXRhF8OeEWV0&quot;,
+        &quot;content_type&quot;: &quot;정신분석·치료이론·MCP모델·사례연구&quot;
+      },
+      &quot;github&quot;: {
+        &quot;repo&quot;: &quot;helena-psycare&quot;,
+        &quot;pages&quot;: &quot;https://helena751107.github.io/helena-psycare/&quot;,
+        &quot;role&quot;: &quot;분석코드·MCP모델·문헌·케이스스터디&quot;
+      },
+      &quot;discord_notify&quot;: &quot;#로비&quot;,
+      &quot;telegram_notify&quot;: true
+    }
+  ],
+
+  &quot;publishing_pipeline&quot;: {
+    &quot;source&quot;: &quot;STT 음성입력 → 클립보드 → Claude Code&quot;,
+    &quot;youtube&quot;: {
+      &quot;script&quot;: &quot;scripts/yt_upload.py&quot;,
+      &quot;auth&quot;: &quot;scripts/yt_oauth_setup.sh&quot;,
+      &quot;flow&quot;: &quot;제목+파일 → OAuth토큰 → videos.insert → playlistItems.insert → tg.sh 보고&quot;
+    },
+    &quot;tistory&quot;: {
+      &quot;script&quot;: &quot;scripts/publish.py&quot;,
+      &quot;flow&quot;: &quot;마크다운원고 → Playwright headless → 티스토리 글쓰기 → tg.sh 보고&quot;,
+      &quot;status&quot;: &quot;스크립트 완료, 세션 쿠키 발급 필요&quot;
+    },
+    &quot;naver&quot;: {
+      &quot;script&quot;: &quot;scripts/publish.py&quot;,
+      &quot;flow&quot;: &quot;이미지+링크 → Playwright headless → 네이버 글쓰기 → tg.sh 보고&quot;,
+      &quot;status&quot;: &quot;스크립트 완료, 세션 쿠키 발급 필요&quot;
+    },
+    &quot;github&quot;: {
+      &quot;flow&quot;: &quot;git add → commit → push → Pages 자동배포&quot;,
+      &quot;status&quot;: &quot;완전 자동화 완료&quot;
+    },
+    &quot;discord_telegram&quot;: {
+      &quot;flow&quot;: &quot;발행 완료 시 tg.sh + Discord webhook 동시 알림&quot;,
+      &quot;status&quot;: &quot;tg.sh 완료, dc.sh 예정&quot;
+    }
+  },
+
+  &quot;phase_schedule&quot;: {
+    &quot;rule&quot;: &quot;Google 브랜드 계정 생성 제한 — 한 달에 1개씩. 매월 25일 리마인더.&quot;,
+    &quot;reminders&quot;: &quot;CronCreate 등록 완료 (8/25, 9/25, 10/25, 11/25)&quot;,
+    &quot;focus_now&quot;: &quot;Phase 1 — 컴퓨터 셋업부터 시작&quot;
+  },
+
+  &quot;brand_channels_todo&quot;: {
+    &quot;description&quot;: &quot;YouTube 브랜드 채널 4개 — 한 달 간격으로 생성&quot;,
+    &quot;steps&quot;: &quot;https://www.youtube.com/account → 브랜드 계정 관리 → 채널 만들기&quot;,
+    &quot;done&quot;: [
+      {
+        &quot;phase&quot;: 1,
+        &quot;date&quot;: &quot;2026-07-25&quot;,
+        &quot;name&quot;: &quot;S21 Phone&quot;,
+        &quot;handle&quot;: &quot;@helena_phone&quot;,
+        &quot;id&quot;: &quot;UC_IPajoyj6_IO8wt9JwVCAQ&quot;,
+        &quot;tistory&quot;: &quot;galaxys21-pwuser&quot;,
+        &quot;github&quot;: &quot;helena_phone&quot;,
+        &quot;playlist_count&quot;: 4,
+        &quot;topic&quot;: &quot;📱 컴퓨터·폰 셋업·설치·STT코딩&quot;
+      }
+    ],
+    &quot;pending&quot;: [
+      {&quot;phase&quot;: 2, &quot;month&quot;: &quot;8월&quot;, &quot;reminder&quot;: &quot;2026-08-25&quot;, &quot;name&quot;: &quot;Helena Tech Log&quot;, &quot;handle&quot;: &quot;@HelenaTechLog&quot;, &quot;tistory&quot;: &quot;mynote11605&quot;, &quot;github&quot;: &quot;helana_log&quot;, &quot;topic&quot;: &quot;기술·리버싱&quot;},
+      {&quot;phase&quot;: 3, &quot;month&quot;: &quot;9월&quot;, &quot;reminder&quot;: &quot;2026-09-25&quot;, &quot;name&quot;: &quot;Helena Faith&quot;, &quot;handle&quot;: &quot;@HelenaFaith&quot;, &quot;tistory&quot;: &quot;helana-christianity&quot;, &quot;github&quot;: &quot;helena-faith&quot;, &quot;topic&quot;: &quot;신앙사&quot;},
+      {&quot;phase&quot;: 4, &quot;month&quot;: &quot;10월&quot;, &quot;reminder&quot;: &quot;2026-10-25&quot;, &quot;name&quot;: &quot;Helena Piano&quot;, &quot;handle&quot;: &quot;@HelenaPiano&quot;, &quot;tistory&quot;: &quot;helena-piano&quot;, &quot;github&quot;: &quot;helena-piano&quot;, &quot;topic&quot;: &quot;피아노&quot;},
+      {&quot;phase&quot;: 5, &quot;month&quot;: &quot;11월&quot;, &quot;reminder&quot;: &quot;2026-11-25&quot;, &quot;name&quot;: &quot;Helena Psycare&quot;, &quot;handle&quot;: &quot;@HelenaPsycare&quot;, &quot;tistory&quot;: &quot;helena-psycare&quot;, &quot;github&quot;: &quot;helena-psycare&quot;, &quot;topic&quot;: &quot;멘탈케어&quot;}
+    ]
+  },
+
+  &quot;phase1_content_plan&quot;: {
+    &quot;channel&quot;: &quot;@helena_phone&quot;,
+    &quot;first_upload_target&quot;: &quot;S21 셋업 가이드 — Termux 설치부터 Claude Code까지&quot;,
+    &quot;pipeline&quot;: &quot;STT음성 → Claude Code → scripts/yt_upload.py → @helena_phone → tg.sh 보고 → 티스토리 크로스포스트&quot;,
+    &quot;video_ideas&quot;: [
+      &quot;1. S21에 Termux + proot Ubuntu 설치하기 (10분)&quot;,
+      &quot;2. Claude Code 첫 실행 — 말로 코딩 시작하기 (10분)&quot;,
+      &quot;3. phone-mcp-server — 폰을 18개 도구로 제어하기 (15분)&quot;,
+      &quot;4. phone-health.sh — 27항목 건강검진 자동화 (10분)&quot;,
+      &quot;5. g/install.sh — 이 모든 걸 1줄로 설치하기 (5분)&quot;
+    ],
+    &quot;tistory_crosspost&quot;: &quot;각 영상 스크립트 → 마크다운 → Playwright → galaxys21-pwuser.tistory.com&quot;,
+    &quot;naver_gateway&quot;: &quot;주간 &#x27;이번 주 셋업&#x27; 이미지+링크 → helena1975 네이버 관제탑&quot;
+  }
+}
+</code></pre>
+<p style="margin-top:1.5em;color:var(--ink-mute);font-size:.9rem">원본 파일: <code>configs/ecosystem-map.json</code> · Webzine code viewer (no execution)</p>
+
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="settings.html">
+          <span class="dir">Previous</span>
+          <span class="title">settings.json</span>
+        </a>
+    <a class="next" href="../site-webmanifest.html">
+          <span class="dir">Next</span>
+          <span class="title">site.webmanifest</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="../g/install.html"><strong>install.sh · 1줄 설치기</strong>Scripts</a><a href="../care/care-daemon.html"><strong>care-daemon.sh</strong>Scripts</a><a href="../care/care-setup.html"><strong>care-setup.sh</strong>Scripts</a><a href="../care/care-conf.html"><strong>care.conf</strong>Scripts</a><a href="../phone-health.html"><strong>phone-health.sh</strong>Scripts</a><a href="../scripts/tg.html"><strong>tg.sh · Telegram</strong>Scripts</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

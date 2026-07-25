@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Source viewer · care/care-setup.sh — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>care-setup.sh — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <nav>
+    <a class="hide-m" href="../index.html">Home</a>
+    <a class="hide-m" href="../index.html#library">Archive</a>
+    <a class="hide-m" href="../index.html#agents">Agents</a>
+    <button type="button" data-theme-toggle>Theme</button>
+    <a class="pill gold" href="../index.html#install">Install</a>
+  </nav>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Scripts</span><span class="sep">/</span>
+    <span>care-setup.sh</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Scripts · Vol.01</div>
+    <h1>care-setup.sh</h1>
+    <p class="deck">Source viewer · care/care-setup.sh</p>
+    <div class="wz-meta">
+      <span>Source · care/care-setup.sh</span>
+      <span>Kind · code</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  
+  <article class="wz-prose">
+    
+<div class="wz-code-head">
+  <span class="path">care/care-setup.sh</span>
+  <button type="button" data-copy="#codeBody">Copy</button>
+</div>
+<pre id="codeBody"><code class="language-sh">#!/usr/bin/env bash
+# ==============================================================================
+# care-setup.sh — 트랙 1 돌봄 데몬 설치 스크립트
+# ==============================================================================
+# 실행: bash ~/care/care-setup.sh
+# 이 스크립트는 Termux 네이티브 환경에서 실행 (proot Ubuntu 안에서 실행 금지)
+# ==============================================================================
+
+set -euo pipefail
+
+RED=&#x27;\033[0;31m&#x27;; GREEN=&#x27;\033[0;32m&#x27;; YELLOW=&#x27;\033[1;33m&#x27;; NC=&#x27;\033[0m&#x27;
+ok() { echo -e &quot;${GREEN}✅${NC} $*&quot;; }
+warn() { echo -e &quot;${YELLOW}⚠️${NC}  $*&quot;; }
+fail() { echo -e &quot;${RED}❌${NC} $*&quot;; }
+
+CARE_DIR=&quot;/data/data/com.termux/files/home/care&quot;
+SCRIPT_DIR=&quot;$(cd &quot;$(dirname &quot;$0&quot;)&quot; &amp;&amp; pwd)&quot;
+
+echo &quot;════════════════════════════════════════════&quot;
+echo &quot;  🛡️  트랙 1 돌봄 데몬 — 설치&quot;
+echo &quot;  위치: $CARE_DIR&quot;
+echo &quot;  ⚠️  Termux 네이티브에서 실행 중인가?&quot;
+echo &quot;════════════════════════════════════════════&quot;
+
+# ── 환경 체크 ──
+if [ &quot;$(uname -o 2&gt;/dev/null)&quot; != &quot;Android&quot; ]; then
+  fail &quot;Android/Termux 환경에서만 실행 가능합니다&quot;
+  exit 1
+fi
+
+if [ -z &quot;${TERMUX_VERSION:-}&quot; ]; then
+  fail &quot;Termux에서 실행해주세요&quot;
+  exit 1
+fi
+ok &quot;Termux 환경 확인&quot;
+
+# ── 의존성 체크 ──
+for cmd in termux-battery-status termux-location termux-wifi-connectioninfo curl python3 crontab; do
+  if ! command -v &quot;$cmd&quot; &gt;/dev/null 2&gt;&amp;1; then
+    warn &quot;$cmd 없음 — pkg install termux-api 진행...&quot;
+    pkg install -y termux-api &gt;/dev/null 2&gt;&amp;1 || fail &quot;$cmd 설치 실패&quot;
+  fi
+done
+ok &quot;의존성 확인&quot;
+
+# ── 파일 복사 ──
+mkdir -p &quot;$CARE_DIR&quot;
+
+for f in care-daemon.sh care.conf; do
+  if [ -f &quot;${SCRIPT_DIR}/$f&quot; ]; then
+    cp &quot;${SCRIPT_DIR}/$f&quot; &quot;$CARE_DIR/$f&quot;
+    chmod +x &quot;$CARE_DIR/$f&quot;
+    ok &quot;$f → $CARE_DIR/$f&quot;
+  else
+    warn &quot;$f 없음 (스킵)&quot;
+  fi
+done
+
+# ── 토큰 확인 ──
+if ! grep -q &quot;TG_TOKEN=&quot; &quot;$CARE_DIR/care.conf&quot; 2&gt;/dev/null || \
+   grep -q &quot;TG_TOKEN=\&quot;\&quot;&quot; &quot;$CARE_DIR/care.conf&quot; 2&gt;/dev/null; then
+  echo &quot;&quot;
+  warn &quot;care.conf에 TG_TOKEN이 설정되지 않았습니다.&quot;
+  echo &quot;  편집: nano $CARE_DIR/care.conf&quot;
+  echo &quot;  TG_TOKEN=봇토큰&quot;
+  echo &quot;  TG_CHAT_HELENA=챗ID&quot;
+fi
+
+# ── crontab 등록 ──
+CRON_LINE=&quot;*/15 * * * * bash ${CARE_DIR}/care-daemon.sh &gt;&gt; ${CARE_DIR}/cron.log 2&gt;&amp;1&quot;
+
+if crontab -l 2&gt;/dev/null | grep -q &quot;care-daemon&quot;; then
+  ok &quot;crontab 이미 등록됨&quot;
+else
+  (crontab -l 2&gt;/dev/null || true; echo &quot;$CRON_LINE&quot;) | crontab -
+  ok &quot;crontab 등록 완료 (매 15분)&quot;
+fi
+
+# ── 첫 실행 ──
+echo &quot;&quot;
+echo &quot;─── 첫 실행 테스트 ───&quot;
+if bash &quot;${CARE_DIR}/care-daemon.sh&quot; 2&gt;&amp;1; then
+  ok &quot;첫 실행 완료&quot;
+else
+  warn &quot;첫 실행에 경고가 있습니다. 로그 확인: $CARE_DIR/care.log&quot;
+fi
+
+# ── 상태 파일 ──
+ls -la &quot;$CARE_DIR/care-state.json&quot; 2&gt;/dev/null &amp;&amp; ok &quot;care-state.json 생성됨&quot; || warn &quot;state 파일 없음&quot;
+
+echo &quot;&quot;
+echo &quot;════════════════════════════════════════════&quot;
+echo &quot;  ✅ 트랙 1 돌봄 데몬 설치 완료&quot;
+echo &quot;&quot;
+echo &quot;  작동 확인:&quot;
+echo &quot;    crontab -l              ← 등록 확인&quot;
+echo &quot;    cat ~/care/care-state.json  ← 최신 상태&quot;
+echo &quot;    cat ~/care/care.log     ← 로그&quot;
+echo &quot;&quot;
+echo &quot;  ⚠️  이 데몬은 AI 의존성 제로.&quot;
+echo &quot;     Claude Code가 죽어도 독립 실행됩니다.&quot;
+echo &quot;════════════════════════════════════════════&quot;
+</code></pre>
+<p style="margin-top:1.5em;color:var(--ink-mute);font-size:.9rem">원본 파일: <code>care/care-setup.sh</code> · Webzine code viewer (no execution)</p>
+
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="care-daemon.html">
+          <span class="dir">Previous</span>
+          <span class="title">care-daemon.sh</span>
+        </a>
+    <a class="next" href="care-conf.html">
+          <span class="dir">Next</span>
+          <span class="title">care.conf</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="../g/install.html"><strong>install.sh · 1줄 설치기</strong>Scripts</a><a href="care-daemon.html"><strong>care-daemon.sh</strong>Scripts</a><a href="care-conf.html"><strong>care.conf</strong>Scripts</a><a href="../phone-health.html"><strong>phone-health.sh</strong>Scripts</a><a href="../scripts/tg.html"><strong>tg.sh · Telegram</strong>Scripts</a><a href="../scripts/ds.html"><strong>ds.sh · Aider wrapper</strong>Scripts</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

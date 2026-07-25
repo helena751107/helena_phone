@@ -1,26 +1,99 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><title>28-grok-github-bridge</title></head><body><pre>
-# 🌉 Grok — GitHub↔Naver 인터프리터
-
-> 발견: 2026-07-25 | Grok이 GitHub Pages도 완벽 파싱
-
----
-
-## 1. Grok 파싱 검증
-
-| 대상 | Claude WebFetch | Grok | proot curl |
-|------|----------------|------|-----------|
-| Naver (m.blog) | ❌ | ✅ | ✅ |
-| GitHub Pages | ❌ | ✅ | ✅ |
-| GitHub Raw | ❌ | ✅ | ✅ |
-
-**Grok은 우리 인프라(GitHub)와 배포처(Naver) 양쪽을 모두 읽을 수 있다.**
-
----
-
-## 2. Grok = 인터프리터
-
-```
-GitHub (원본·공장)              Naver (배포·웹진)
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="발견: 2026-07-25 | Grok이 GitHub Pages도 완벽 파싱 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>🌉 Grok — GitHub↔Naver 인터프리터 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <nav>
+    <a class="hide-m" href="../index.html">Home</a>
+    <a class="hide-m" href="../index.html#library">Archive</a>
+    <a class="hide-m" href="../index.html#agents">Agents</a>
+    <button type="button" data-theme-toggle>Theme</button>
+    <a class="pill gold" href="../index.html#install">Install</a>
+  </nav>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>🌉 Grok — GitHub↔Naver 인터프리터</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>🌉 Grok — GitHub↔Naver 인터프리터</h1>
+    <p class="deck">발견: 2026-07-25 | Grok이 GitHub Pages도 완벽 파싱</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/28-grok-github-bridge.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1-grok">1. Grok 파싱 검증</a></li>
+<li><a href="#2-grok">2. Grok = 인터프리터</a></li>
+<li><a href="#3-grok">3. 월간 웹진 파이프 (Grok 포함)</a></li>
+<li><a href="#4-grok">4. Grok이 특별한 이유</a></li>
+<li><a href="#5">5. 비용 포지셔닝</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <blockquote>
+<p>발견: 2026-07-25 | Grok이 GitHub Pages도 완벽 파싱</p>
+</blockquote>
+<hr>
+<h2 id="1-grok">1. Grok 파싱 검증</h2>
+<table>
+<thead>
+<tr>
+<th>대상</th>
+<th>Claude WebFetch</th>
+<th>Grok</th>
+<th>proot curl</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Naver (m.blog)</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>GitHub Pages</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>GitHub Raw</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Grok은 우리 인프라(GitHub)와 배포처(Naver) 양쪽을 모두 읽을 수 있다.</strong></p>
+<hr>
+<h2 id="2-grok">2. Grok = 인터프리터</h2>
+<pre><code>GitHub (원본·공장)              Naver (배포·웹진)
 ─────────────────              ─────────────────
 CONSTITUTION.md                 프로젝트 소개글
 _notebook/99-devlog.md          워크센터 리포트
@@ -37,14 +110,10 @@ phone-health.sh 결과            디바이스 스탯
               │ 이미지 생성 │ → 삽화·표지
               │ 클립 생성   │ → 숏폼 요약
               └───────────┘
-```
-
----
-
-## 3. 월간 웹진 파이프 (Grok 포함)
-
-```
-매주 일요일:
+</code></pre>
+<hr>
+<h2 id="3-grok">3. 월간 웹진 파이프 (Grok 포함)</h2>
+<pre><code>매주 일요일:
 
 1. Claude Code → 주간 GitHub 요약 (git log + devlog)
 2. Claude Code → TG로 텍스트 초안 배달
@@ -53,37 +122,78 @@ phone-health.sh 결과            디바이스 스탯
 5. Grok → 네이버 글 + GitHub 원본 동시 파싱
 6. Grok → 이미지·클립 생성 (양쪽 맥락 이해)
 7. 사람 → 이미지·클립 글에 추가
-```
-
----
-
-## 4. Grok이 특별한 이유
-
-Grok은 다른 AI와 달리 **두 플랫폼을 동시에 이해**할 수 있다:
-
-- Claude Code: GitHub은 완벽, Naver는 못 읽음
-- ChatGPT: 둘 다 제한적
-- Gemini: 둘 다 제한적
-- **Grok: GitHub ✅ + Naver ✅**
-
-이 "양쪽 다 가능"이라는 특성이 Grok을 단순한 이미지 생성기가 아니라
-**인프라-배포 간 인터프리터**로 만든다.
-
----
-
-## 5. 비용 포지셔닝
-
-| 도구 | 비용 | 역할 |
-|------|------|------|
-| Claude Code | $0 | 텍스트·코드·인프라 |
-| Grok | 45,000원/월 | GitHub↔Naver 인터프리터 + 시각 생성 |
-| 사람 | — | 발행·편집·방향 |
-
-**45,000원 = GitHub 원본을 이해하고 Naver 독자에게 전달하는 전담 번역가.**
-
----
-
-> Grok은 "Naver용 Claude Code"가 아니라
-> "GitHub와 Naver 사이를 잇는 다리"다.
-> 이 다리가 없으면 Claude Code의 산출물이 Naver 독자에게 닿지 않는다.
-</pre></body></html>
+</code></pre>
+<hr>
+<h2 id="4-grok">4. Grok이 특별한 이유</h2>
+<p>Grok은 다른 AI와 달리 <strong>두 플랫폼을 동시에 이해</strong>할 수 있다:</p>
+<ul>
+<li>Claude Code: GitHub은 완벽, Naver는 못 읽음</li>
+<li>ChatGPT: 둘 다 제한적</li>
+<li>Gemini: 둘 다 제한적</li>
+<li><strong>Grok: GitHub ✅ + Naver ✅</strong></li>
+</ul>
+<p>이 &ldquo;양쪽 다 가능&rdquo;이라는 특성이 Grok을 단순한 이미지 생성기가 아니라<br>
+<strong>인프라-배포 간 인터프리터</strong>로 만든다.</p>
+<hr>
+<h2 id="5">5. 비용 포지셔닝</h2>
+<table>
+<thead>
+<tr>
+<th>도구</th>
+<th>비용</th>
+<th>역할</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude Code</td>
+<td>$0</td>
+<td>텍스트·코드·인프라</td>
+</tr>
+<tr>
+<td>Grok</td>
+<td>45,000원/월</td>
+<td>GitHub↔Naver 인터프리터 + 시각 생성</td>
+</tr>
+<tr>
+<td>사람</td>
+<td>—</td>
+<td>발행·편집·방향</td>
+</tr>
+</tbody>
+</table>
+<p><strong>45,000원 = GitHub 원본을 이해하고 Naver 독자에게 전달하는 전담 번역가.</strong></p>
+<hr>
+<blockquote>
+<p>Grok은 &ldquo;Naver용 Claude Code&rdquo;가 아니라<br>
+&ldquo;GitHub와 Naver 사이를 잇는 다리&rdquo;다.<br>
+이 다리가 없으면 Claude Code의 산출물이 Naver 독자에게 닿지 않는다.</p>
+</blockquote>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="27-claude-grok-pipeline.html">
+          <span class="dir">Previous</span>
+          <span class="title">🔄 Claude-Grok 협업 파이프라인</span>
+        </a>
+    <a class="next" href="29-grok-cli-installed.html">
+          <span class="dir">Next</span>
+          <span class="title">Grok CLI 설치</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-25</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

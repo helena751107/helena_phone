@@ -1,40 +1,139 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><title>25-multi-ai-strategy</title></head><body><pre>
-# 🤖 멀티 AI 전략 — 플랫폼별 최적 LLM 매칭
-
-> 발견: 2026-07-25 | Boss 리서치
-> 네이버 블로그 파싱: ChatGPT ❌ · Gemini ❌ · Claude ❌ · **Grok ✅**
-
----
-
-## 1. 네이버 파싱 테스트 결과
-
-| AI | 네이버 블로그 파싱 | 비고 |
-|----|------------------|------|
-| ChatGPT | ❌ | 차단됨 |
-| Gemini | ❌ | 차단됨 |
-| Claude | ❌ | 차단됨 (WebFetch 실패) |
-| **Grok** | **✅** | 유일하게 파싱 성공 |
-
-**이유:** 네이버는 robots.txt·User-Agent·IP 기반으로 대부분의 AI 크롤러를 차단한다. Grok만 우회 경로를 가지고 있거나 네이버와의 특별한 연동이 있는 것으로 추정.
-
----
-
-## 2. Grok 스펙 (2026년 7월 기준)
-
-| 기능 | 지원 여부 |
-|------|---------|
-| 네이버 블로그 파싱 | ✅ |
-| 에이전트 기능 | ✅ |
-| 이미지 생성 | ✅ |
-| 짧은 동영상 생성 | ✅ |
-| 가격 | 45,000원/월 (X Premium) |
-
----
-
-## 3. 멀티 AI 아키텍처
-
-```
-S21 Phone — 플랫폼별 최적 AI
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="발견: 2026-07-25 | Boss 리서치 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>🤖 멀티 AI 전략 — 플랫폼별 최적 LLM 매칭 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <nav>
+    <a class="hide-m" href="../index.html">Home</a>
+    <a class="hide-m" href="../index.html#library">Archive</a>
+    <a class="hide-m" href="../index.html#agents">Agents</a>
+    <button type="button" data-theme-toggle>Theme</button>
+    <a class="pill gold" href="../index.html#install">Install</a>
+  </nav>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>🤖 멀티 AI 전략 — 플랫폼별 최적 LLM 매칭</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>🤖 멀티 AI 전략 — 플랫폼별 최적 LLM 매칭</h1>
+    <p class="deck">발견: 2026-07-25 | Boss 리서치</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/25-multi-ai-strategy.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1">1. 네이버 파싱 테스트 결과</a></li>
+<li><a href="#2-grok-2026-7">2. Grok 스펙 (2026년 7월 기준)</a></li>
+<li><a href="#3-ai">3. 멀티 AI 아키텍처</a></li>
+<li><a href="#4-ai">4. 워크센터별 AI 할당</a></li>
+<li><a href="#5-grok">5. Grok 도입 시 변경점</a><ul>
+<li><a href="#grok">현재 (Grok 없이)</a></li>
+<li><a href="#grok_1">Grok 도입 후</a></li>
+</ul>
+</li>
+<li><a href="#6">6. 비용 분석</a></li>
+<li><a href="#7">7. 판단</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <blockquote>
+<p>발견: 2026-07-25 | Boss 리서치<br>
+네이버 블로그 파싱: ChatGPT ❌ · Gemini ❌ · Claude ❌ · <strong>Grok ✅</strong></p>
+</blockquote>
+<hr>
+<h2 id="1">1. 네이버 파싱 테스트 결과</h2>
+<table>
+<thead>
+<tr>
+<th>AI</th>
+<th>네이버 블로그 파싱</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ChatGPT</td>
+<td>❌</td>
+<td>차단됨</td>
+</tr>
+<tr>
+<td>Gemini</td>
+<td>❌</td>
+<td>차단됨</td>
+</tr>
+<tr>
+<td>Claude</td>
+<td>❌</td>
+<td>차단됨 (WebFetch 실패)</td>
+</tr>
+<tr>
+<td><strong>Grok</strong></td>
+<td><strong>✅</strong></td>
+<td>유일하게 파싱 성공</td>
+</tr>
+</tbody>
+</table>
+<p><strong>이유:</strong> 네이버는 robots.txt·User-Agent·IP 기반으로 대부분의 AI 크롤러를 차단한다. Grok만 우회 경로를 가지고 있거나 네이버와의 특별한 연동이 있는 것으로 추정.</p>
+<hr>
+<h2 id="2-grok-2026-7">2. Grok 스펙 (2026년 7월 기준)</h2>
+<table>
+<thead>
+<tr>
+<th>기능</th>
+<th>지원 여부</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>네이버 블로그 파싱</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>에이전트 기능</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>이미지 생성</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>짧은 동영상 생성</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>가격</td>
+<td>45,000원/월 (X Premium)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3-ai">3. 멀티 AI 아키텍처</h2>
+<pre><code>S21 Phone — 플랫폼별 최적 AI
 
 ┌──────────────────────────────────────────┐
 │                                          │
@@ -61,42 +160,78 @@ S21 Phone — 플랫폼별 최적 AI
 │  검증 · 리뷰 · 품질                        │
 │  └── Claude (Anthropic 정품)              │
 │      • Boss 판단에 대한 독립적 검증        │
-│      • "아니다"라고 말하는 역할            │
+│      • &quot;아니다&quot;라고 말하는 역할            │
 │      • 거리 측정                          │
 │      • $20/월 (Pro)                      │
 │                                          │
 └──────────────────────────────────────────┘
-```
-
----
-
-## 4. 워크센터별 AI 할당
-
-| 워크센터 | 주 AI | 보조 AI | 비용 |
-|---------|-------|---------|------|
-| GitHub (공장) | Claude Code | Aider | $0 |
-| Pages (전시장) | Claude Code | — | $0 |
-| YouTube (방송탑) | Claude Code | Grok(클립) | $0 + 45,000 |
-| 네이버 (웹진) | Grok | Claude Code(원고) | 45,000 |
-| 티스토리 (업무일지) | 사람 | Claude Code(TG리포트) | $0 |
-| Telegram (내부) | Claude Code | — | $0 |
-| 검증 (리뷰어) | Claude 정품 | — | $20 |
-
----
-
-## 5. Grok 도입 시 변경점
-
-### 현재 (Grok 없이)
-```
-Claude Code → TG 원고 → 사람이 네이버 발행
+</code></pre>
+<hr>
+<h2 id="4-ai">4. 워크센터별 AI 할당</h2>
+<table>
+<thead>
+<tr>
+<th>워크센터</th>
+<th>주 AI</th>
+<th>보조 AI</th>
+<th>비용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GitHub (공장)</td>
+<td>Claude Code</td>
+<td>Aider</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>Pages (전시장)</td>
+<td>Claude Code</td>
+<td>—</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>YouTube (방송탑)</td>
+<td>Claude Code</td>
+<td>Grok(클립)</td>
+<td>$0 + 45,000</td>
+</tr>
+<tr>
+<td>네이버 (웹진)</td>
+<td>Grok</td>
+<td>Claude Code(원고)</td>
+<td>45,000</td>
+</tr>
+<tr>
+<td>티스토리 (업무일지)</td>
+<td>사람</td>
+<td>Claude Code(TG리포트)</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>Telegram (내부)</td>
+<td>Claude Code</td>
+<td>—</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>검증 (리뷰어)</td>
+<td>Claude 정품</td>
+<td>—</td>
+<td>$20</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="5-grok">5. Grok 도입 시 변경점</h2>
+<h3 id="grok">현재 (Grok 없이)</h3>
+<pre><code>Claude Code → TG 원고 → 사람이 네이버 발행
                             │
                     이미지·영상은 YouTube에서
                     Grok이 없어서 파싱·이미지 생성 불가
-```
-
-### Grok 도입 후
-```
-Claude Code → TG 원고 초안
+</code></pre>
+<h3 id="grok_1">Grok 도입 후</h3>
+<pre><code>Claude Code → TG 원고 초안
     │
 Grok → 네이버 파싱 (참조 콘텐츠 수집)
     │ → 이미지 생성 (웹진 삽화)
@@ -105,40 +240,85 @@ Grok → 네이버 파싱 (참조 콘텐츠 수집)
     │
     ▼
 사람 → 복사·붙여넣기·발행 (5분)
-```
-
----
-
-## 6. 비용 분석
-
-| 항목 | 월 비용 |
-|------|--------|
-| Claude Code (DeepSeek) | $0 |
-| Claude 정품 (리뷰어) | $20 |
-| Grok (X Premium) | 45,000원 (~$34) |
-| GitHub | $0 |
-| YouTube | $0 |
-| **월 합계** | **약 $54 (7만원)** |
-
----
-
-## 7. 판단
-
-**Grok은 "네이버 웹진 전담 AI"로서 도입 가치가 있다.**
-
-이유:
-- 네이버 파싱이 되는 유일한 AI
-- 이미지·클립 생성으로 웹진의 시각적 품질 향상
-- 월 45,000원은 웹진 운영의 유일한 고정 비용
-- Claude Code는 네이버를 전혀 못 건드림 → Grok이 그 갭을 메움
-- Paste Pipeline의 "원고 품질"을 Grok이 높여줌
-
-**현재는 보류.** 이유:
-- Paste Pipeline만으로도 충분히 돌아감
-- Grok은 1~2주 후 실제 웹진 운영하면서 도입 검토
-- 네이버 웹진이 주 1회 이상 발행으로 자리잡으면 그때 비용 정당화
-
----
-
-> 다음: 네이버 웹진 2~3회 발행 후 Grok 도입 재검토
-</pre></body></html>
+</code></pre>
+<hr>
+<h2 id="6">6. 비용 분석</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>월 비용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude Code (DeepSeek)</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>Claude 정품 (리뷰어)</td>
+<td>$20</td>
+</tr>
+<tr>
+<td>Grok (X Premium)</td>
+<td>45,000원 (~$34)</td>
+</tr>
+<tr>
+<td>GitHub</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>YouTube</td>
+<td>$0</td>
+</tr>
+<tr>
+<td><strong>월 합계</strong></td>
+<td><strong>약 $54 (7만원)</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="7">7. 판단</h2>
+<p><strong>Grok은 &ldquo;네이버 웹진 전담 AI&rdquo;로서 도입 가치가 있다.</strong></p>
+<p>이유:<br>
+- 네이버 파싱이 되는 유일한 AI<br>
+- 이미지·클립 생성으로 웹진의 시각적 품질 향상<br>
+- 월 45,000원은 웹진 운영의 유일한 고정 비용<br>
+- Claude Code는 네이버를 전혀 못 건드림 → Grok이 그 갭을 메움<br>
+- Paste Pipeline의 &ldquo;원고 품질&rdquo;을 Grok이 높여줌</p>
+<p><strong>현재는 보류.</strong> 이유:<br>
+- Paste Pipeline만으로도 충분히 돌아감<br>
+- Grok은 1~2주 후 실제 웹진 운영하면서 도입 검토<br>
+- 네이버 웹진이 주 1회 이상 발행으로 자리잡으면 그때 비용 정당화</p>
+<hr>
+<blockquote>
+<p>다음: 네이버 웹진 2~3회 발행 후 Grok 도입 재검토</p>
+</blockquote>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="24-paste-pipeline.html">
+          <span class="dir">Previous</span>
+          <span class="title">📋 Paste Pipeline — &quot;사람+기계 협업 발행&quot; 방법론</span>
+        </a>
+    <a class="next" href="26-naver-parsing-solution.html">
+          <span class="dir">Next</span>
+          <span class="title">Naver 파싱 해결</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-25</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

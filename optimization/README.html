@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="갤럭시 S21을 24/7 서버로 돌리기 위한 꿀팁 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>5단계: 최적화 — 오래된 폰 최대한 오래 쓰기 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <nav>
+    <a class="hide-m" href="../index.html">Home</a>
+    <a class="hide-m" href="../index.html#library">Archive</a>
+    <a class="hide-m" href="../index.html#agents">Agents</a>
+    <button type="button" data-theme-toggle>Theme</button>
+    <a class="pill gold" href="../index.html#install">Install</a>
+  </nav>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Guides</span><span class="sep">/</span>
+    <span>5단계: 최적화 — 오래된 폰 최대한 오래 쓰기</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Guides · Vol.01</div>
+    <h1>5단계: 최적화 — 오래된 폰 최대한 오래 쓰기</h1>
+    <p class="deck">갤럭시 S21을 24/7 서버로 돌리기 위한 꿀팁</p>
+    <div class="wz-meta">
+      <span>Source · 05-optimization/README.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#_1">배터리 관리</a></li>
+<li><a href="#proot">proot 성능 팁</a></li>
+<li><a href="#_2">저장공간</a></li>
+<li><a href="#_3">문서</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <blockquote>
+<p>갤럭시 S21을 24/7 서버로 돌리기 위한 꿀팁</p>
+</blockquote>
+<h2 id="_1">배터리 관리</h2>
+<ul>
+<li><strong>충전 제한:</strong> 80%까지만 충전 (Settings &gt; Battery &gt; Protect battery)</li>
+<li><strong>발열 관리:</strong> 폰을 세워서 공기 순환 (뒤집어 놓거나 거치대)</li>
+<li><strong>WiFi 고정:</strong> 절전 모드에서 WiFi 끊김 방지</li>
+<li><strong>화면 꺼짐:</strong> SSH로 접속 중이면 화면 꺼도 작업 계속됨</li>
+</ul>
+<h2 id="proot">proot 성능 팁</h2>
+<ul>
+<li>메모리 제한: 기본적으로 proot은 호스트 메모리를 그대로 씀 (S21 기준 8GB 충분)</li>
+<li>CPU: big.LITTLE 코어 할당은 커널이 알아서 함</li>
+<li>실행 시간: 배터리 방전 막으려면 12시간 이상 작업은 AC 충전 권장</li>
+</ul>
+<h2 id="_2">저장공간</h2>
+<table>
+<thead>
+<tr>
+<th>대상</th>
+<th>명령어</th>
+<th>예상 확보</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>npm cache</td>
+<td><code>npm cache clean --force</code></td>
+<td>~500MB</td>
+</tr>
+<tr>
+<td>apt cache</td>
+<td><code>apt clean</code></td>
+<td>~300MB</td>
+</tr>
+<tr>
+<td>Termux cache</td>
+<td><code>pkg clean</code></td>
+<td>~200MB</td>
+</tr>
+<tr>
+<td>Docker (안 씀)</td>
+<td>(proot에선 도커 불가)</td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_3">문서</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>내용</th>
+<th>바로가기</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5.1</td>
+<td>배터리 최적화</td>
+<td><a href="battery-saving.html">battery-saving.md</a></td>
+</tr>
+<tr>
+<td>5.2</td>
+<td>성능 튜닝</td>
+<td><a href="performance.html">performance.md</a></td>
+</tr>
+<tr>
+<td>5.3</td>
+<td>저장공간 관리</td>
+<td><a href="storage.html">storage.md</a></td>
+</tr>
+</tbody>
+</table>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="../phone-control/README.html">
+          <span class="dir">Previous</span>
+          <span class="title">4단계: 폰 원격 제어 — PC에서 폰 조종</span>
+        </a>
+    <div></div>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="../foundation/README.html"><strong>1단계: 기반 설치 — 폰을 리눅스 서버로</strong>놀고 있는 갤럭시 폰을 Ubuntu 서버로 만드는 과정</a><a href="../network/README.html"><strong>2단계: 통신망 구축 — 폰을 세상과 연결</strong>폰 안에서만 돌아가던 서비스를 외부와 연결하는 채널 3종</a><a href="../broadcast/README.html"><strong>3단계: 방송/발행 — 폰으로 콘텐츠 만들기</strong>유튜브 방송, 블로그 포스팅을 폰에서 자동화</a><a href="../phone-control/README.html"><strong>4단계: 폰 원격 제어 — PC에서 폰 조종</strong>Claude Code가 폰의 배터리를 읽고, 플래시를 켜고, 문자를 보낸다</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

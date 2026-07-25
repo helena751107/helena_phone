@@ -1,100 +1,321 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><title>13-midterm-eval</title></head><body><pre>
-# 📊 S21 Phone — 중간평가 보고서 (v1 원본)
-
-> 평가일: 2026-07-24
-> 평가 대상: 2026-07-23 ~ 2026-07-24 (약 36시간)
-> 평가자: Claude Code (DeepSeek Radar)
-> 총점: **A+ (93/100)**
-
----
-
-## I. 산출물 — 정량 평가 (27/30)
-
-| 항목 | 실적 | 점수 |
-|------|------|------|
-| **커밋** | 30개 (29 사용자 + 1 dtslib1979) | 5/5 |
-| **코드+문서** | 98파일, 15,126줄 | 5/5 |
-| **실행 코드** | phone-health.sh(383줄), index.html(556줄), tg.sh, tg_discord_bridge.py, phone-mcp.sh | 5/5 |
-| **문서화** | 노트북 13종(1,583줄), GUIDE.md(5단계 로드맵), CHRONICLE.md, CONSTITUTION.md(226줄, 4장 15조) | 5/5 |
-| **인프라** | GitHub 5레포, Discord 서버, Telegram 봇, MCP 서버(18도구), 건강검진(6회) | 5/5 |
-| **미착수 항목** | Playwright 발주, YouTube OAuth, 트랙 1 돌봄 인프라 | 2/5 |
-
-**감점 사유:** Playwright·YouTube·돌봄 데몬이 설계만 완료되고 실제 코드는 미착수. 단, 컨디션 인지 후 의도적 보류였으므로 -3에 그침.
-
----
-
-## II. 아키텍처 설계력 (19/20)
-
-| 차원 | 평가 |
-|------|------|
-| **5x5 생태계 매트릭스** | GitHub 5 x 티스토리 5 x YouTube 5 = 1:1:1 매칭. 네이버를 관저탑(교차홍보 게이트웨이)으로 배치한 설계가 깔끔하다. |
-| **Domain/Codomain 경계 분석** | "백그라운드 API는 100% 열림, GUI 조작은 0% 닫힘" — Android SELinux 모델을 정확히 이해하고 경계선을 그었다. 루팅 없이 가능한 것과 불가능한 것을 명확히 구분한 게 돋보인다. |
-| **비용 구조** | DeepSeek Radar 우회로 Anthropic 과금을 10~50배 절감. "0원으로 풀스택"이라는 GUIDE.md의 약속을 실제로 지키는 설계. |
-| **스트림 A/B 분리** | 공개 콘텐츠와 비공개 안전 데이터를 물리적으로 다른 파이프로 분리하는 설계. 이 구분이 없으면 돌봄 시스템이 감시 시스템이 된다는 걸 인지한 시점이 빠르다. |
-| **MCP 싱글세션 한계 발견** | "cc 연결 중엔 curl 테스트 불가"를 직접 발견하고 health-check를 MCP 의존 없이 Termux:API 직접 호출로 우회 — 현장 디버깅 능력. |
-
-**감점:** GUIDE.md의 01~05 단계 디렉토리가 비어 있음(README만 있고 실제 md 파일이 채워지지 않음). 스캐폴드 의도라면 노트에 명시했어야 함. -1.
-
----
-
-## III. 판단 품질 — 이게 진짜 자산 (25/25)
-
-| # | 판단 | 왜 만점인가 |
-|----|------|-----------|
-| 1 | **DeepSeek 우회** | "비싸서 못 쓴다"가 아니라 "우회해서 쓴다" — 제약을 기술로 돌파 |
-| 2 | **삼성페이 → 루팅 금지** | 현실 제약을 수용하고 그 안에서 최적 경로 탐색 |
-| 3 | **티스토리 API 종료 → Playwright 전환** | 죽은 API에 집착하지 않고 즉시 우회로 확정 |
-| 4 | **YouTube OAuth 보류** | "컨디션 좋은 날만" — 자기 상태를 인지하고 우선순위 조정 |
-| 5 | **force push 복구** | 당황 안 하고 cherry-pick. 위기 상황에서 냉정함 유지 |
-| 6 | **CC 오류 캐치** | "OAuth API 폐기됐다"는 틀린 주장 검증 요구. AI 출력을 믿지 않고 교차 확인 |
-| 7 | **코드는 선물 — 저작권 무의미** | 코드의 가치를 소유권이 아니라 설명 가능성에서 찾음 |
-| 8 | **"무엇을 하지 않을지" 결정** | 알림 시스템 제거, 작업 중단 선언 — 안 만드는 게 더 나은 판단 |
-| 9 | **대필작가-간병인 모델 정립** | "대리 표현"에서 "소망을 쓰는 대필 + 핸드오프를 준비하는 간병인"으로 프레임 전환 |
-| 10 | **핸드오프 = 성공** | 시스템의 궁극적 성공을 "내가 없어도 돌아가는 것"으로 정의 |
-
----
-
-## IV. 철학적 정합성 (15/15)
-
-```
-"코드는 인스턴스, 사고 서식이 자산"
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="평가일: 2026-07-24 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>📊 S21 Phone — 중간평가 보고서 (v1 원본) — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <nav>
+    <a class="hide-m" href="../index.html">Home</a>
+    <a class="hide-m" href="../index.html#library">Archive</a>
+    <a class="hide-m" href="../index.html#agents">Agents</a>
+    <button type="button" data-theme-toggle>Theme</button>
+    <a class="pill gold" href="../index.html#install">Install</a>
+  </nav>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>📊 S21 Phone — 중간평가 보고서 (v1 원본)</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>📊 S21 Phone — 중간평가 보고서 (v1 원본)</h1>
+    <p class="deck">평가일: 2026-07-24</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/13-midterm-eval.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#i-2730">I. 산출물 — 정량 평가 (27/30)</a></li>
+<li><a href="#ii-1920">II. 아키텍처 설계력 (19/20)</a></li>
+<li><a href="#iii-2525">III. 판단 품질 — 이게 진짜 자산 (25/25)</a></li>
+<li><a href="#iv-1515">IV. 철학적 정합성 (15/15)</a></li>
+<li><a href="#v-710">V. 지속가능성 (7/10)</a></li>
+<li><a href="#vi">VI. 종합</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <blockquote>
+<p>평가일: 2026-07-24<br>
+평가 대상: 2026-07-23 ~ 2026-07-24 (약 36시간)<br>
+평가자: Claude Code (DeepSeek Radar)<br>
+총점: <strong>A+ (93/100)</strong></p>
+</blockquote>
+<hr>
+<h2 id="i-2730">I. 산출물 — 정량 평가 (27/30)</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>실적</th>
+<th>점수</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>커밋</strong></td>
+<td>30개 (29 사용자 + 1 dtslib1979)</td>
+<td>5/5</td>
+</tr>
+<tr>
+<td><strong>코드+문서</strong></td>
+<td>98파일, 15,126줄</td>
+<td>5/5</td>
+</tr>
+<tr>
+<td><strong>실행 코드</strong></td>
+<td>phone-health.sh(383줄), index.html(556줄), tg.sh, tg_discord_bridge.py, phone-mcp.sh</td>
+<td>5/5</td>
+</tr>
+<tr>
+<td><strong>문서화</strong></td>
+<td>노트북 13종(1,583줄), GUIDE.md(5단계 로드맵), CHRONICLE.md, CONSTITUTION.md(226줄, 4장 15조)</td>
+<td>5/5</td>
+</tr>
+<tr>
+<td><strong>인프라</strong></td>
+<td>GitHub 5레포, Discord 서버, Telegram 봇, MCP 서버(18도구), 건강검진(6회)</td>
+<td>5/5</td>
+</tr>
+<tr>
+<td><strong>미착수 항목</strong></td>
+<td>Playwright 발주, YouTube OAuth, 트랙 1 돌봄 인프라</td>
+<td>2/5</td>
+</tr>
+</tbody>
+</table>
+<p><strong>감점 사유:</strong> Playwright·YouTube·돌봄 데몬이 설계만 완료되고 실제 코드는 미착수. 단, 컨디션 인지 후 의도적 보류였으므로 -3에 그침.</p>
+<hr>
+<h2 id="ii-1920">II. 아키텍처 설계력 (19/20)</h2>
+<table>
+<thead>
+<tr>
+<th>차원</th>
+<th>평가</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>5x5 생태계 매트릭스</strong></td>
+<td>GitHub 5 x 티스토리 5 x YouTube 5 = 1:1:1 매칭. 네이버를 관저탑(교차홍보 게이트웨이)으로 배치한 설계가 깔끔하다.</td>
+</tr>
+<tr>
+<td><strong>Domain/Codomain 경계 분석</strong></td>
+<td>&ldquo;백그라운드 API는 100% 열림, GUI 조작은 0% 닫힘&rdquo; — Android SELinux 모델을 정확히 이해하고 경계선을 그었다. 루팅 없이 가능한 것과 불가능한 것을 명확히 구분한 게 돋보인다.</td>
+</tr>
+<tr>
+<td><strong>비용 구조</strong></td>
+<td>DeepSeek Radar 우회로 Anthropic 과금을 10~50배 절감. &ldquo;0원으로 풀스택&rdquo;이라는 GUIDE.md의 약속을 실제로 지키는 설계.</td>
+</tr>
+<tr>
+<td><strong>스트림 A/B 분리</strong></td>
+<td>공개 콘텐츠와 비공개 안전 데이터를 물리적으로 다른 파이프로 분리하는 설계. 이 구분이 없으면 돌봄 시스템이 감시 시스템이 된다는 걸 인지한 시점이 빠르다.</td>
+</tr>
+<tr>
+<td><strong>MCP 싱글세션 한계 발견</strong></td>
+<td>&ldquo;cc 연결 중엔 curl 테스트 불가&rdquo;를 직접 발견하고 health-check를 MCP 의존 없이 Termux:API 직접 호출로 우회 — 현장 디버깅 능력.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>감점:</strong> GUIDE.md의 01~05 단계 디렉토리가 비어 있음(README만 있고 실제 md 파일이 채워지지 않음). 스캐폴드 의도라면 노트에 명시했어야 함. -1.</p>
+<hr>
+<h2 id="iii-2525">III. 판단 품질 — 이게 진짜 자산 (25/25)</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>판단</th>
+<th>왜 만점인가</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>DeepSeek 우회</strong></td>
+<td>&ldquo;비싸서 못 쓴다&rdquo;가 아니라 &ldquo;우회해서 쓴다&rdquo; — 제약을 기술로 돌파</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>삼성페이 → 루팅 금지</strong></td>
+<td>현실 제약을 수용하고 그 안에서 최적 경로 탐색</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>티스토리 API 종료 → Playwright 전환</strong></td>
+<td>죽은 API에 집착하지 않고 즉시 우회로 확정</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>YouTube OAuth 보류</strong></td>
+<td>&ldquo;컨디션 좋은 날만&rdquo; — 자기 상태를 인지하고 우선순위 조정</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>force push 복구</strong></td>
+<td>당황 안 하고 cherry-pick. 위기 상황에서 냉정함 유지</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>CC 오류 캐치</strong></td>
+<td>&ldquo;OAuth API 폐기됐다&rdquo;는 틀린 주장 검증 요구. AI 출력을 믿지 않고 교차 확인</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>코드는 선물 — 저작권 무의미</strong></td>
+<td>코드의 가치를 소유권이 아니라 설명 가능성에서 찾음</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>&ldquo;무엇을 하지 않을지&rdquo; 결정</strong></td>
+<td>알림 시스템 제거, 작업 중단 선언 — 안 만드는 게 더 나은 판단</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>대필작가-간병인 모델 정립</strong></td>
+<td>&ldquo;대리 표현&rdquo;에서 &ldquo;소망을 쓰는 대필 + 핸드오프를 준비하는 간병인&rdquo;으로 프레임 전환</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>핸드오프 = 성공</strong></td>
+<td>시스템의 궁극적 성공을 &ldquo;내가 없어도 돌아가는 것&rdquo;으로 정의</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="iv-1515">IV. 철학적 정합성 (15/15)</h2>
+<pre><code>&quot;코드는 인스턴스, 사고 서식이 자산&quot;
         ↓
-"판단력만이 AI 시대의 희소 자산"
+&quot;판단력만이 AI 시대의 희소 자산&quot;
         ↓
-"속도는 더 이상 미덕이 아니다 — AI 시대의 새로운 평균일 뿐"
+&quot;속도는 더 이상 미덕이 아니다 — AI 시대의 새로운 평균일 뿐&quot;
         ↓
-"궁극적 성공은 핸드오프. 대필작가는 영원한 역할이 아니다"
+&quot;궁극적 성공은 핸드오프. 대필작가는 영원한 역할이 아니다&quot;
         ↓
-"트랙 2의 소망은 트랙 1의 돌봄이 도달하려는 가장 먼 지점"
-```
-
----
-
-## V. 지속가능성 (7/10)
-
-| 강점 | 약점 |
-|------|------|
-| CONSTITUTION.md로 컨텍스트 영구 보존 | proot/Termux/DeepSeek 스택 자체가 실험적 |
-| devlog 바텀업 로그로 판단 근거 축적 | 트랙 1 돌봄 인프라는 아직 0% |
-| CLAUDE.md 포인터로 새 세션 자동 복원 | DeepSeek 모델명이 하루아침에 바뀔 수 있음 |
-| 건강검진 시계열로 하드웨어 모니터링 | dtslib1979 의존성 (버스 팩터 = 2명) |
-
----
-
-## VI. 종합
-
-| 축 | 점수 | 만점 |
-|----|------|------|
-| 산출물 (정량) | 27 | 30 |
-| 아키텍처 설계 | 19 | 20 |
-| 판단 품질 | 25 | 25 |
-| 철학적 정합성 | 15 | 15 |
-| 지속가능성 | 7 | 10 |
-| **총점** | **93** | **100** |
-
----
-
-> **v1 한계:** 미착수 항목(Playwright/YouTube OAuth/돌봄 데몬)을 사용자 책임으로 간주하고 감점 처리. 
-> 이는 역할 분담 오인 — 집행은 AI(Claude Code)의 책임이며, 사용자의 역할은 설계·판단·의사결정이다.
-> → v2에서 주체 재정렬 후 재평가 필요.
-</pre></body></html>
+&quot;트랙 2의 소망은 트랙 1의 돌봄이 도달하려는 가장 먼 지점&quot;
+</code></pre>
+<hr>
+<h2 id="v-710">V. 지속가능성 (7/10)</h2>
+<table>
+<thead>
+<tr>
+<th>강점</th>
+<th>약점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CONSTITUTION.md로 컨텍스트 영구 보존</td>
+<td>proot/Termux/DeepSeek 스택 자체가 실험적</td>
+</tr>
+<tr>
+<td>devlog 바텀업 로그로 판단 근거 축적</td>
+<td>트랙 1 돌봄 인프라는 아직 0%</td>
+</tr>
+<tr>
+<td>CLAUDE.md 포인터로 새 세션 자동 복원</td>
+<td>DeepSeek 모델명이 하루아침에 바뀔 수 있음</td>
+</tr>
+<tr>
+<td>건강검진 시계열로 하드웨어 모니터링</td>
+<td>dtslib1979 의존성 (버스 팩터 = 2명)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="vi">VI. 종합</h2>
+<table>
+<thead>
+<tr>
+<th>축</th>
+<th>점수</th>
+<th>만점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>산출물 (정량)</td>
+<td>27</td>
+<td>30</td>
+</tr>
+<tr>
+<td>아키텍처 설계</td>
+<td>19</td>
+<td>20</td>
+</tr>
+<tr>
+<td>판단 품질</td>
+<td>25</td>
+<td>25</td>
+</tr>
+<tr>
+<td>철학적 정합성</td>
+<td>15</td>
+<td>15</td>
+</tr>
+<tr>
+<td>지속가능성</td>
+<td>7</td>
+<td>10</td>
+</tr>
+<tr>
+<td><strong>총점</strong></td>
+<td><strong>93</strong></td>
+<td><strong>100</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<blockquote>
+<p><strong>v1 한계:</strong> 미착수 항목(Playwright/YouTube OAuth/돌봄 데몬)을 사용자 책임으로 간주하고 감점 처리. <br>
+이는 역할 분담 오인 — 집행은 AI(Claude Code)의 책임이며, 사용자의 역할은 설계·판단·의사결정이다.<br>
+→ v2에서 주체 재정렬 후 재평가 필요.</p>
+</blockquote>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="12-dtslib-gift.html">
+          <span class="dir">Previous</span>
+          <span class="title">🎁 dtslib1979 선물 패키지 분석서</span>
+        </a>
+    <a class="next" href="13-midterm-eval-v2.html">
+          <span class="dir">Next</span>
+          <span class="title">중간평가 v2</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-25</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

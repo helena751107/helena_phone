@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Source viewer · care/care-daemon.sh — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>care-daemon.sh — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <nav>
+    <a class="hide-m" href="../index.html">Home</a>
+    <a class="hide-m" href="../index.html#library">Archive</a>
+    <a class="hide-m" href="../index.html#agents">Agents</a>
+    <button type="button" data-theme-toggle>Theme</button>
+    <a class="pill gold" href="../index.html#install">Install</a>
+  </nav>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Scripts</span><span class="sep">/</span>
+    <span>care-daemon.sh</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Scripts · Vol.01</div>
+    <h1>care-daemon.sh</h1>
+    <p class="deck">Source viewer · care/care-daemon.sh</p>
+    <div class="wz-meta">
+      <span>Source · care/care-daemon.sh</span>
+      <span>Kind · code</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  
+  <article class="wz-prose">
+    
+<div class="wz-code-head">
+  <span class="path">care/care-daemon.sh</span>
+  <button type="button" data-copy="#codeBody">Copy</button>
+</div>
+<pre id="codeBody"><code class="language-sh">#!/usr/bin/env bash
+# ==============================================================================
+# care-daemon.sh — 트랙 1 돌봄 데몬 (Termux 네이티브, proot 위에서 실행 금지)
+# ==============================================================================
+# 실행: crontab */15 * * * * bash ~/care/care-daemon.sh
+# 의존성: termux-api, curl
+# AI 의존성: 제로 — Claude Code 세션과 완전히 독립적
+# ==============================================================================
+
+set -euo pipefail
+
+# ── 경로 ───────────────────────────────────────────────────────────────────
+CARE_DIR=&quot;$(cd &quot;$(dirname &quot;$0&quot;)&quot; &amp;&amp; pwd)&quot;
+STATE_FILE=&quot;${CARE_DIR}/care-state.json&quot;
+LOG_FILE=&quot;${CARE_DIR}/care.log&quot;
+CONF_FILE=&quot;${CARE_DIR}/care.conf&quot;
+NOW=$(date &#x27;+%Y-%m-%d %H:%M:%S&#x27;)
+NOW_EPOCH=$(date +%s)
+
+# Termux PATH
+export PATH=&quot;/data/data/com.termux/files/usr/bin:$PATH&quot;
+
+# ── 설정 로드 ──────────────────────────────────────────────────────────────
+if [ -f &quot;$CONF_FILE&quot; ]; then
+  source &quot;$CONF_FILE&quot;
+fi
+
+TG_TOKEN=&quot;${TG_TOKEN:-}&quot;
+TG_CHAT_HELENA=&quot;${TG_CHAT_HELENA:-}&quot;
+TG_CHAT_PASTOR=&quot;${TG_CHAT_PASTOR:-}&quot;
+
+# 임계값 (conf에서 override 가능)
+BATTERY_LOW=&quot;${BATTERY_LOW:-15}&quot;
+BATTERY_DROP_PCT=&quot;${BATTERY_DROP_PCT:-30}&quot;
+BATTERY_DROP_MIN=&quot;${BATTERY_DROP_MIN:-60}&quot;
+TEMP_HIGH=&quot;${TEMP_HIGH:-45}&quot;
+GPS_SILENT_HOURS=&quot;${GPS_SILENT_HOURS:-2}&quot;
+NO_MOVE_HOURS=&quot;${NO_MOVE_HOURS:-6}&quot;
+LOCATION_RADIUS_M=&quot;${LOCATION_RADIUS_M:-500}&quot;
+
+# ── 유틸리티 ────────────────────────────────────────────────────────────────
+log() { echo &quot;[$NOW] $*&quot; &gt;&gt; &quot;$LOG_FILE&quot;; }
+
+save_state() {
+  python3 -c &quot;
+import json, sys, os
+state = {}
+if os.path.exists(&#x27;$STATE_FILE&#x27;):
+    try: state = json.load(open(&#x27;$STATE_FILE&#x27;))
+    except: pass
+state.update(json.load(sys.stdin))
+json.dump(state, open(&#x27;$STATE_FILE&#x27;,&#x27;w&#x27;), indent=2)
+&quot;
+}
+
+load_state() {
+  [ -f &quot;$STATE_FILE&quot; ] &amp;&amp; python3 -c &quot;
+import json
+state = json.load(open(&#x27;$STATE_FILE&#x27;))
+for k,v in state.items():
+    print(f&#x27;{k}={v}&#x27;)
+&quot; || true
+}
+
+send_alert() {
+  local level=&quot;$1&quot; msg=&quot;$2&quot; target=&quot;${3:-$TG_CHAT_HELENA}&quot;
+
+  if [ -z &quot;${TG_TOKEN:-}&quot; ] || [ -z &quot;${target:-}&quot; ]; then
+    log &quot;WARN: TG_TOKEN 또는 chat_id 미설정 → 알림 전송 스킵&quot;
+    return 1
+  fi
+
+  local icon
+  case &quot;$level&quot; in
+    urgent) icon=&quot;🔴&quot; ;;
+    warning) icon=&quot;🟡&quot; ;;
+    info) icon=&quot;🟢&quot; ;;
+    *) icon=&quot;📢&quot; ;;
+  esac
+
+  local text=&quot;${icon} [${level^^}] ${NOW}
+${msg}&quot;
+
+  curl -s -X POST &quot;https://api.telegram.org/bot${TG_TOKEN}/sendMessage&quot; \
+    -d &quot;chat_id=${target}&quot; \
+    -d &quot;text=${text}&quot; \
+    -d &quot;disable_notification=${DISABLE_NOTIFY:-false}&quot; &gt;/dev/null 2&gt;&amp;1 || {
+    log &quot;ERROR: 텔레그램 전송 실패&quot;
+    return 1
+  }
+
+  log &quot;ALERT → ${target}: ${msg}&quot;
+}
+
+# ── 수집 ────────────────────────────────────────────────────────────────────
+
+collect_battery() {
+  local batt_json
+  batt_json=$(termux-battery-status 2&gt;/dev/null || echo &#x27;{}&#x27;)
+
+  local pct; pct=$(echo &quot;$batt_json&quot; | grep -o &#x27;&quot;percentage&quot;:[0-9]*&#x27; | grep -o &#x27;[0-9]*&#x27; || echo &quot;0&quot;)
+  local temp; temp=$(echo &quot;$batt_json&quot; | grep -o &#x27;&quot;temperature&quot;:[0-9.]*&#x27; | grep -o &#x27;[0-9.]*&#x27; || echo &quot;0&quot;)
+  local status; status=$(echo &quot;$batt_json&quot; | grep -o &#x27;&quot;status&quot;:&quot;[^&quot;]*&quot;&#x27; | cut -d&#x27;&quot;&#x27; -f4 || echo &quot;UNKNOWN&quot;)
+  local health; health=$(echo &quot;$batt_json&quot; | grep -o &#x27;&quot;health&quot;:&quot;[^&quot;]*&quot;&#x27; | cut -d&#x27;&quot;&#x27; -f4 || echo &quot;UNKNOWN&quot;)
+  local plugged; plugged=$(echo &quot;$batt_json&quot; | grep -o &#x27;&quot;plugged&quot;:&quot;[^&quot;]*&quot;&#x27; | cut -d&#x27;&quot;&#x27; -f4 || echo &quot;UNKNOWN&quot;)
+
+  echo &quot;BATTERY_PCT=$pct&quot;
+  echo &quot;BATTERY_TEMP=$temp&quot;
+  echo &quot;BATTERY_STATUS=$status&quot;
+  echo &quot;BATTERY_HEALTH=$health&quot;
+  echo &quot;BATTERY_PLUGGED=$plugged&quot;
+}
+
+collect_location() {
+  local loc_json
+  loc_json=$(termux-location -p gps -r last 2&gt;/dev/null || termux-location -p network -r last 2&gt;/dev/null || echo &#x27;{}&#x27;)
+
+  local lat; lat=$(echo &quot;$loc_json&quot; | grep -o &#x27;&quot;latitude&quot;:[0-9.]*&#x27; | grep -o &#x27;[0-9.]*&#x27; || echo &quot;&quot;)
+  local lon; lon=$(echo &quot;$loc_json&quot; | grep -o &#x27;&quot;longitude&quot;:[0-9.]*&#x27; | grep -o &#x27;[0-9.]*&#x27; || echo &quot;&quot;)
+  local provider; provider=$(echo &quot;$loc_json&quot; | grep -o &#x27;&quot;provider&quot;:&quot;[^&quot;]*&quot;&#x27; | cut -d&#x27;&quot;&#x27; -f4 || echo &quot;none&quot;)
+
+  echo &quot;LOC_LAT=$lat&quot;
+  echo &quot;LOC_LON=$lon&quot;
+  echo &quot;LOC_PROVIDER=$provider&quot;
+}
+
+collect_connectivity() {
+  local wifi_json
+  wifi_json=$(termux-wifi-scaninfo 2&gt;/dev/null || termux-wifi-connectioninfo 2&gt;/dev/null || echo &#x27;{}&#x27;)
+
+  local ssid; ssid=$(echo &quot;$wifi_json&quot; | grep -o &#x27;&quot;ssid&quot;:&quot;[^&quot;]*&quot;&#x27; | cut -d&#x27;&quot;&#x27; -f4 || echo &quot;UNKNOWN&quot;)
+  local rssi; rssi=$(echo &quot;$wifi_json&quot; | grep -o &#x27;&quot;rssi&quot;:-\?[0-9]*&#x27; | grep -o -- &#x27;-\?[0-9]*&#x27; | head -1 || echo &quot;0&quot;)
+  local ip; ip=$(echo &quot;$wifi_json&quot; | grep -o &#x27;&quot;ip&quot;:&quot;[^&quot;]*&quot;&#x27; | cut -d&#x27;&quot;&#x27; -f4 || echo &quot;0.0.0.0&quot;)
+
+  echo &quot;WIFI_SSID=$ssid&quot;
+  echo &quot;WIFI_RSSI=$rssi&quot;
+  echo &quot;WIFI_IP=$ip&quot;
+}
+
+collect_telephony() {
+  local tel_json
+  tel_json=$(termux-telephony-deviceinfo 2&gt;/dev/null || echo &#x27;{}&#x27;)
+
+  local net_type; net_type=$(echo &quot;$tel_json&quot; | grep -o &#x27;&quot;network_type&quot;:&quot;[^&quot;]*&quot;&#x27; | cut -d&#x27;&quot;&#x27; -f4 || echo &quot;UNKNOWN&quot;)
+  local signal_str; signal_str=$(echo &quot;$tel_json&quot; | grep -o &#x27;&quot;signal_strength&quot;:[0-9]*&#x27; | grep -o &#x27;[0-9]*&#x27; || echo &quot;0&quot;)
+
+  echo &quot;CELL_NET=$net_type&quot;
+  echo &quot;CELL_SIGNAL=$signal_str&quot;
+}
+
+# ── 분석 ────────────────────────────────────────────────────────────────────
+
+analyze() {
+  local batt_pct=&quot;$1&quot; batt_temp=&quot;$2&quot; batt_status=&quot;$3&quot; batt_plugged=&quot;$4&quot;
+  local loc_lat=&quot;$5&quot; loc_lon=&quot;$6&quot; loc_provider=&quot;$7&quot;
+  local wifi_ssid=&quot;$8&quot; wifi_rssi=&quot;$9&quot; cell_signal=&quot;${10}&quot;
+
+  local alerts=&quot;&quot;
+  local level=&quot;info&quot;
+
+  # ── 배터리 검사 ──
+  if [ &quot;$batt_pct&quot; -lt &quot;$BATTERY_LOW&quot; ] &amp;&amp; [ &quot;$batt_plugged&quot; != &quot;PLUGGED_AC&quot; ]; then
+    level=&quot;urgent&quot;
+    alerts=&quot;${alerts}
+⚠️ 배터리 ${batt_pct}% (방전 위험)&quot;
+  fi
+
+  if [ &quot;${batt_temp%.*}&quot; -gt &quot;$TEMP_HIGH&quot; ] 2&gt;/dev/null; then
+    [ &quot;$level&quot; = &quot;info&quot; ] &amp;&amp; level=&quot;warning&quot;
+    alerts=&quot;${alerts}
+🔥 온도 ${batt_temp}°C (과열)&quot;
+  fi
+
+  # 이전 대비 급감 감지
+  local prev_batt
+  prev_batt=$(echo &quot;$PREV_STATE&quot; | grep &quot;BATTERY_PCT=&quot; | cut -d= -f2 || echo &quot;100&quot;)
+  if [ -n &quot;$prev_batt&quot; ] &amp;&amp; [ &quot;$prev_batt&quot; != &quot;0&quot; ]; then
+    local drop=$((prev_batt - batt_pct))
+    if [ &quot;$drop&quot; -gt &quot;$BATTERY_DROP_PCT&quot; ]; then
+      level=&quot;urgent&quot;
+      alerts=&quot;${alerts}
+📉 배터리 급감: ${prev_batt}% → ${batt_pct}% (${drop}% 하락)&quot;
+    fi
+  fi
+
+  # ── GPS 검사 ──
+  if [ -z &quot;$loc_lat&quot; ] || [ &quot;$loc_provider&quot; = &quot;none&quot; ]; then
+    local prev_gps_time
+    prev_gps_time=$(echo &quot;$PREV_STATE&quot; | grep &quot;LAST_GPS_TIME=&quot; | cut -d= -f2 || echo &quot;$NOW_EPOCH&quot;)
+    local gps_gap=$(( (NOW_EPOCH - prev_gps_time) / 3600 ))
+    if [ &quot;$gps_gap&quot; -gt &quot;$GPS_SILENT_HOURS&quot; ]; then
+      [ &quot;$level&quot; = &quot;info&quot; ] &amp;&amp; level=&quot;warning&quot;
+      alerts=&quot;${alerts}
+📍 GPS ${gps_gap}시간째 무응답&quot;
+    fi
+  fi
+
+  # ── 활동 패턴 ──
+  local prev_loc
+  prev_loc=$(echo &quot;$PREV_STATE&quot; | grep &quot;LOC_LAT=&quot; | cut -d= -f2 || echo &quot;&quot;)
+  if [ -n &quot;$prev_loc&quot; ] &amp;&amp; [ -n &quot;$loc_lat&quot; ] &amp;&amp; [ &quot;$prev_loc&quot; = &quot;$loc_lat&quot; ]; then
+    local prev_move_time
+    prev_move_time=$(echo &quot;$PREV_STATE&quot; | grep &quot;LAST_MOVE_TIME=&quot; | cut -d= -f2 || echo &quot;$NOW_EPOCH&quot;)
+    local still_hours=$(( (NOW_EPOCH - prev_move_time) / 3600 ))
+    if [ &quot;$still_hours&quot; -gt &quot;$NO_MOVE_HOURS&quot; ]; then
+      level=&quot;urgent&quot;
+      alerts=&quot;${alerts}
+🛑 ${still_hours}시간째 위치 변동 없음 (웰니스 체크 필요)&quot;
+    fi
+  fi
+
+  # ── 연결성 ──
+  if [ &quot;${wifi_rssi#-}&quot; -gt 80 ] 2&gt;/dev/null; then
+    [ &quot;$level&quot; = &quot;info&quot; ] &amp;&amp; level=&quot;warning&quot;
+    alerts=&quot;${alerts}
+📶 WiFi 약함 (RSSI ${wifi_rssi}dBm)&quot;
+  fi
+
+  echo &quot;ALERT_LEVEL=$level&quot;
+  echo &quot;ALERTS=$alerts&quot;
+}
+
+# ── 메인 ────────────────────────────────────────────────────────────────────
+
+main() {
+  log &quot;─── 데몬 체크 시작 ───&quot;
+
+  # 이전 상태 로드
+  PREV_STATE=$(load_state)
+
+  # 수집
+  eval &quot;$(collect_battery)&quot;
+  eval &quot;$(collect_location)&quot;
+  eval &quot;$(collect_connectivity)&quot;
+  eval &quot;$(collect_telephony)&quot;
+
+  # 분석
+  eval &quot;$(analyze &quot;$BATTERY_PCT&quot; &quot;$BATTERY_TEMP&quot; &quot;$BATTERY_STATUS&quot; &quot;$BATTERY_PLUGGED&quot; \
+    &quot;$LOC_LAT&quot; &quot;$LOC_LON&quot; &quot;$LOC_PROVIDER&quot; \
+    &quot;$WIFI_SSID&quot; &quot;$WIFI_RSSI&quot; &quot;$CELL_SIGNAL&quot;)&quot;
+
+  # 상태 저장
+  echo &quot;{
+    \&quot;timestamp\&quot;: \&quot;$NOW\&quot;,
+    \&quot;epoch\&quot;: $NOW_EPOCH,
+    \&quot;battery_pct\&quot;: $BATTERY_PCT,
+    \&quot;battery_temp\&quot;: $BATTERY_TEMP,
+    \&quot;battery_status\&quot;: \&quot;$BATTERY_STATUS\&quot;,
+    \&quot;battery_plugged\&quot;: \&quot;$BATTERY_PLUGGED\&quot;,
+    \&quot;loc_lat\&quot;: \&quot;$LOC_LAT\&quot;,
+    \&quot;loc_lon\&quot;: \&quot;$LOC_LON\&quot;,
+    \&quot;loc_provider\&quot;: \&quot;$LOC_PROVIDER\&quot;,
+    \&quot;wifi_ssid\&quot;: \&quot;$WIFI_SSID\&quot;,
+    \&quot;wifi_rssi\&quot;: $WIFI_RSSI,
+    \&quot;cell_signal\&quot;: $CELL_SIGNAL,
+    \&quot;alert_level\&quot;: \&quot;$ALERT_LEVEL\&quot;,
+    \&quot;last_gps_time\&quot;: $([ -n &quot;$LOC_LAT&quot; ] &amp;&amp; echo &quot;$NOW_EPOCH&quot; || echo &quot;$(echo &quot;$PREV_STATE&quot; | grep &quot;LAST_GPS_TIME=&quot; | cut -d= -f2 || echo &quot;$NOW_EPOCH&quot;)&quot;),
+    \&quot;last_move_time\&quot;: $([ &quot;$LOC_LAT&quot; != &quot;$(echo &quot;$PREV_STATE&quot; | grep &quot;LOC_LAT=&quot; | cut -d= -f2 || echo &#x27;&#x27;)&quot; ] &amp;&amp; echo &quot;$NOW_EPOCH&quot; || echo &quot;$(echo &quot;$PREV_STATE&quot; | grep &quot;LAST_MOVE_TIME=&quot; | cut -d= -f2 || echo &quot;$NOW_EPOCH&quot;)&quot;)
+  }&quot; | save_state
+
+  # ── 보고 ──
+  if [ &quot;$ALERT_LEVEL&quot; = &quot;urgent&quot; ] || [ &quot;$ALERT_LEVEL&quot; = &quot;warning&quot; ]; then
+    # 이상 보고 — 즉시 발송
+    local report=&quot;${alerts}
+📍 위치: ${LOC_LAT}, ${LOC_LON} (${LOC_PROVIDER})
+🔋 배터리: ${BATTERY_PCT}% / ${BATTERY_TEMP}°C / ${BATTERY_STATUS}
+📶 WiFi: ${WIFI_SSID} (${WIFI_RSSI}dBm) | 셀룰러: ${CELL_SIGNAL}&quot;
+
+    send_alert &quot;$ALERT_LEVEL&quot; &quot;$report&quot; &quot;$TG_CHAT_HELENA&quot;
+
+    # 긴급 시 목사님에게도
+    if [ &quot;$ALERT_LEVEL&quot; = &quot;urgent&quot; ] &amp;&amp; [ -n &quot;${TG_CHAT_PASTOR:-}&quot; ]; then
+      send_alert &quot;urgent&quot; &quot;[에스컬레이션] $report&quot; &quot;$TG_CHAT_PASTOR&quot;
+    fi
+  fi
+
+  # 정기 보고 (매 시간 정각 ±5분)
+  local min
+  min=$(date +%M | sed &#x27;s/^0//&#x27;)
+  if [ &quot;$min&quot; -le 5 ]; then
+    local report=&quot;🟢 [정기] $(date +%H:%M)
+🔋 ${BATTERY_PCT}% / ${BATTERY_TEMP}°C / ${BATTERY_STATUS}
+📍 ${LOC_LAT}, ${LOC_LON} (${LOC_PROVIDER})
+📶 ${WIFI_SSID} (${WIFI_RSSI}dBm)
+상태: 정상&quot;
+    send_alert &quot;info&quot; &quot;$report&quot; &quot;$TG_CHAT_HELENA&quot;
+  fi
+
+  log &quot;체크 완료: battery=${BATTERY_PCT}%, level=${ALERT_LEVEL}&quot;
+}
+
+main &quot;$@&quot;
+</code></pre>
+<p style="margin-top:1.5em;color:var(--ink-mute);font-size:.9rem">원본 파일: <code>care/care-daemon.sh</code> · Webzine code viewer (no execution)</p>
+
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="../g/install.html">
+          <span class="dir">Previous</span>
+          <span class="title">install.sh · 1줄 설치기</span>
+        </a>
+    <a class="next" href="care-setup.html">
+          <span class="dir">Next</span>
+          <span class="title">care-setup.sh</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="../g/install.html"><strong>install.sh · 1줄 설치기</strong>Scripts</a><a href="care-setup.html"><strong>care-setup.sh</strong>Scripts</a><a href="care-conf.html"><strong>care.conf</strong>Scripts</a><a href="../phone-health.html"><strong>phone-health.sh</strong>Scripts</a><a href="../scripts/tg.html"><strong>tg.sh · Telegram</strong>Scripts</a><a href="../scripts/ds.html"><strong>ds.sh · Aider wrapper</strong>Scripts</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>
