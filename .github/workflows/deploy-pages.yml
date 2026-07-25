@@ -21,15 +21,18 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: false
 
       - name: Build static site bundle
         run: |
           set -euo pipefail
           mkdir -p _site
-          # Copy tracked static content; skip secrets, git, workflows, caches
+          # Never follow nested repos / secrets
           rsync -a \
             --exclude='.git/' \
             --exclude='.github/' \
@@ -42,16 +45,22 @@ jobs:
             --exclude='.aider*' \
             --exclude='**/__pycache__/' \
             --exclude='*.pyc' \
+            --exclude='assets/mobile-shot-*.png' \
+            --exclude='assets/pw-*.png' \
             ./ _site/
-          # Guarantees
           test -f _site/index.html
           test -f _site/site.webmanifest
           test -f _site/icons/icon-192.png
           test -f _site/icons/icon-512.png
+          # prove accordion fix is in the bundle
+          grep -q 'accChapters' _site/index.html
+          grep -q 'acc-head' _site/index.html
+          ! grep -q 'const chapters = \$\$' _site/index.html || (echo 'BAD: old chapters collision still present' && exit 1)
           touch _site/.nojekyll
-          # Sanity: manifest JSON
           python3 -c "import json; json.load(open('_site/site.webmanifest'))"
           echo "Bundle ready:" && du -sh _site && ls _site/icons | head
+          # verify no nested .git
+          ! find _site -name .git -type d | grep -q . || (echo nested git && exit 1)
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

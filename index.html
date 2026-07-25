@@ -599,12 +599,15 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .acc-panel {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows .4s var(--ease);
+  transition: grid-template-rows .35s var(--ease);
 }
-.acc-panel > .acc-inner { overflow: hidden; min-height: 0; }
+.acc-panel > .acc-inner {
+  overflow: hidden; min-height: 0; padding-bottom: 0;
+  opacity: 0; transition: opacity .25s ease, padding .35s ease;
+}
 .acc-panel.open { grid-template-rows: 1fr; }
+.acc-panel.open > .acc-inner { padding-bottom: 28px; opacity: 1; }
 .acc-panel .ch-deck { margin-top: 0; }
-.acc-panel .acc-inner { padding-bottom: 28px; }
 /* library nested accordion */
 .lib-section.acc-lib { border: 1px solid var(--rule); background: var(--paper-2); margin-bottom: 12px; }
 .lib-section.acc-lib > h3 {
@@ -1775,19 +1778,23 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   }
 
   /* —— Keyboard: j/k chapter nav —— */
-  const chapters = ['cover','tracks','system','agents','centers','funnel','economics','install','library','channels'];
+  const chapterIds = ['cover','tracks','system','agents','centers','funnel','economics','install','library','channels'];
   addEventListener('keydown', e => {
     if (e.target.matches('input, textarea')) return;
-    const id = chapters.find(ch => {
+    const id = chapterIds.find(ch => {
       const el = document.getElementById(ch);
       return el && el.getBoundingClientRect().top >= -80 && el.getBoundingClientRect().top < innerHeight * 0.45;
-    }) || chapters[0];
-    const i = chapters.indexOf(id);
-    if (e.key === 'j' && i < chapters.length - 1) {
-      document.getElementById(chapters[i + 1]).scrollIntoView({ behavior: 'smooth' });
+    }) || chapterIds[0];
+    const i = chapterIds.indexOf(id);
+    if (e.key === 'j' && i < chapterIds.length - 1) {
+      const next = document.getElementById(chapterIds[i + 1]);
+      if (next?.classList.contains('chapter')) setChapterOpen(next, true, false);
+      next?.scrollIntoView({ behavior: 'smooth' });
     }
     if (e.key === 'k' && i > 0) {
-      document.getElementById(chapters[i - 1]).scrollIntoView({ behavior: 'smooth' });
+      const prev = document.getElementById(chapterIds[i - 1]);
+      if (prev?.classList.contains('chapter')) setChapterOpen(prev, true, false);
+      prev?.scrollIntoView({ behavior: 'smooth' });
     }
   });
 })();
