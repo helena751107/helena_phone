@@ -183,17 +183,48 @@
     }
   },
 
+  "phase_schedule": {
+    "rule": "Google 브랜드 계정 생성 제한 — 한 달에 1개씩. 매월 25일 리마인더.",
+    "reminders": "CronCreate 등록 완료 (8/25, 9/25, 10/25, 11/25)",
+    "focus_now": "Phase 1 — 컴퓨터 셋업부터 시작"
+  },
+
   "brand_channels_todo": {
-    "description": "YouTube 브랜드 채널 4개를 YouTube Studio에서 수동 생성 후 이 JSON에 ID 추가",
+    "description": "YouTube 브랜드 채널 4개 — 한 달 간격으로 생성",
     "steps": "https://www.youtube.com/account → 브랜드 계정 관리 → 채널 만들기",
     "done": [
-      {"name": "S21 Phone", "handle": "@helena_phone", "id": "UC_IPajoyj6_IO8wt9JwVCAQ", "playlist_count": 4}
+      {
+        "phase": 1,
+        "date": "2026-07-25",
+        "name": "S21 Phone",
+        "handle": "@helena_phone",
+        "id": "UC_IPajoyj6_IO8wt9JwVCAQ",
+        "tistory": "galaxys21-pwuser",
+        "github": "helena_phone",
+        "playlist_count": 4,
+        "topic": "📱 컴퓨터·폰 셋업·설치·STT코딩"
+      }
     ],
     "pending": [
-      {"name": "Helena Tech Log", "handle": "@HelenaTechLog", "playlist_id": "PLPeHKuMeuM2k"},
-      {"name": "Helena Faith", "handle": "@HelenaFaith", "playlist_id": "PLVMVhBhx9j5U"},
-      {"name": "Helena Piano", "handle": "@HelenaPiano", "playlist_id": "PLQZhcAIkPriA"},
-      {"name": "Helena Psycare", "handle": "@HelenaPsycare", "playlist_id": "PLXRhF8OeEWV0"}
+      {"phase": 2, "month": "8월", "reminder": "2026-08-25", "name": "Helena Tech Log", "handle": "@HelenaTechLog", "tistory": "mynote11605", "github": "helana_log", "topic": "기술·리버싱"},
+      {"phase": 3, "month": "9월", "reminder": "2026-09-25", "name": "Helena Faith", "handle": "@HelenaFaith", "tistory": "helana-christianity", "github": "helena-faith", "topic": "신앙사"},
+      {"phase": 4, "month": "10월", "reminder": "2026-10-25", "name": "Helena Piano", "handle": "@HelenaPiano", "tistory": "helena-piano", "github": "helena-piano", "topic": "피아노"},
+      {"phase": 5, "month": "11월", "reminder": "2026-11-25", "name": "Helena Psycare", "handle": "@HelenaPsycare", "tistory": "helena-psycare", "github": "helena-psycare", "topic": "멘탈케어"}
     ]
+  },
+
+  "phase1_content_plan": {
+    "channel": "@helena_phone",
+    "first_upload_target": "S21 셋업 가이드 — Termux 설치부터 Claude Code까지",
+    "pipeline": "STT음성 → Claude Code → scripts/yt_upload.py → @helena_phone → tg.sh 보고 → 티스토리 크로스포스트",
+    "video_ideas": [
+      "1. S21에 Termux + proot Ubuntu 설치하기 (10분)",
+      "2. Claude Code 첫 실행 — 말로 코딩 시작하기 (10분)",
+      "3. phone-mcp-server — 폰을 18개 도구로 제어하기 (15분)",
+      "4. phone-health.sh — 27항목 건강검진 자동화 (10분)",
+      "5. g/install.sh — 이 모든 걸 1줄로 설치하기 (5분)"
+    ],
+    "tistory_crosspost": "각 영상 스크립트 → 마크다운 → Playwright → galaxys21-pwuser.tistory.com",
+    "naver_gateway": "주간 '이번 주 셋업' 이미지+링크 → helena1975 네이버 관제탑"
   }
 }
