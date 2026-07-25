@@ -3,157 +3,346 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="S21 Phone — 갤럭시 폰 하나로 돌아가는 풀스택 AI 워크스테이션. 0원. 100% 음성입력.">
+<meta name="description" content="S21 Phone — 갤럭시 폰 하나로 풀스택 AI 워크스테이션. 0원. 100% 음성입력. 96파일·11,727줄.">
 <title>S21 Phone — AI Workstation</title>
 <style>
 :root {
   --bg: #0a0a0f; --card: rgba(255,255,255,0.04); --text: #e0e0e0;
   --red: #ff6b6b; --green: #4ecdc4; --yellow: #ffd93d; --blue: #2997ff;
   --muted: #888; --border: rgba(255,255,255,0.06);
+  --radius: 10px;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-.container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
-header { text-align: center; padding: 80px 0 40px; }
-h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -0.03em; }
+.container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+nav { position: sticky; top:0; z-index:100; background: rgba(10,10,15,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 10px 0; display:flex; gap:14px; flex-wrap:wrap; justify-content:center; font-size:0.82em; }
+nav a { color: var(--muted); text-decoration:none; }
+nav a:hover { color: var(--text); }
+
+header { text-align: center; padding: 60px 0 30px; }
+h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -0.03em; }
 h1 span { background: linear-gradient(135deg, var(--red), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.tagline { color: var(--muted); font-size: 1.1em; margin-top: 12px; }
-.stats { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin: 24px 0; }
+.tagline { color: var(--muted); font-size: 1em; margin-top: 8px; }
+.stats { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin: 20px 0; }
 .stat { text-align: center; }
-.stat .num { font-size: 1.6em; font-weight: 700; color: var(--green); }
-.stat .lbl { font-size: 0.8em; color: var(--muted); }
-h2 { font-size: 1.3em; margin: 40px 0 16px; color: var(--green); }
-h3 { font-size: 1em; margin: 20px 0 10px; }
-.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin: 12px 0; }
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.9em; }
-th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
-th { color: var(--green); font-weight: 600; }
-.tag { display: inline-block; padding: 2px 10px; border-radius: 100px; font-size: 0.75em; font-weight: 500; }
+.stat .num { font-size: 1.4em; font-weight: 700; color: var(--green); }
+.stat .lbl { font-size: 0.75em; color: var(--muted); }
+
+h2 { font-size: 1.2em; margin: 36px 0 14px; color: var(--green); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+h3 { font-size: 1em; margin: 20px 0 8px; }
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.grid4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+
+.card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin: 6px 0; }
+.card:hover { background: rgba(255,255,255,0.07); }
+
+table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.85em; }
+th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); }
+th { color: var(--green); font-weight: 600; font-size:0.8em; }
+
+.tag { display: inline-block; padding: 1px 8px; border-radius: 100px; font-size: 0.7em; font-weight: 500; }
 .t-auto { background: rgba(78,205,196,0.15); color: var(--green); }
 .t-manual { background: rgba(255,217,61,0.15); color: var(--yellow); }
 .t-mixed { background: rgba(41,151,255,0.15); color: var(--blue); }
-.funnel { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; margin: 20px 0; }
-.funnel-step { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; text-align: center; min-width: 140px; }
-.funnel-arrow { color: var(--red); font-size: 1.5em; font-weight: 700; }
-pre { background: rgba(255,255,255,0.04); padding: 20px; border-radius: 8px; overflow-x: auto; font-size: 0.9em; }
+
+.doc-list { font-size: 0.85em; columns: 2; column-gap: 20px; }
+.doc-list li { margin: 3px 0; list-style: none; }
+.doc-list a { color: var(--text); text-decoration: none; }
+.doc-list a:hover { color: var(--blue); }
+.doc-list .sz { color: var(--muted); font-size: 0.75em; }
+
+.funnel { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin: 16px 0; }
+.funnel-step { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 18px; text-align: center; }
+.funnel-arrow { color: var(--red); font-size: 1.3em; font-weight: 700; }
+
+pre { background: rgba(255,255,255,0.04); padding: 16px; border-radius: var(--radius); font-size: 0.85em; overflow-x: auto; }
 code { font-family: 'SF Mono', 'Fira Code', monospace; }
 a { color: var(--blue); text-decoration: none; }
 a:hover { text-decoration: underline; }
-.links { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0; }
-.link-card { flex: 1; min-width: 160px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; }
-.link-card:hover { border-color: var(--blue); }
-footer { text-align: center; padding: 60px 0 30px; color: var(--muted); font-size: 0.85em; border-top: 1px solid var(--border); margin-top: 40px; }
-@media (max-width: 600px) { .grid2, .grid3 { grid-template-columns: 1fr; } .funnel { flex-direction: column; } }
+
+.link-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.link-btn { display: inline-block; padding: 8px 16px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); font-size: 0.85em; }
+.link-btn:hover { border-color: var(--blue); background: rgba(255,255,255,0.07); }
+
+footer { text-align: center; padding: 40px 0 20px; color: var(--muted); font-size: 0.8em; border-top: 1px solid var(--border); margin-top: 40px; }
+
+@media (max-width: 600px) {
+  .grid2, .grid3 { grid-template-columns: 1fr; }
+  .doc-list { columns: 1; }
+  .funnel { flex-direction: column; }
+}
 </style>
 </head>
 <body>
+
+<nav>
+  <a href="#hero">홈</a>
+  <a href="#tracks">트랙</a>
+  <a href="#ai">AI</a>
+  <a href="#workcenters">워크센터</a>
+  <a href="#funnel">퍼널</a>
+  <a href="#install">설치</a>
+  <a href="#docs">문서</a>
+  <a href="#scripts">스크립트</a>
+  <a href="#links">링크</a>
+</nav>
+
 <div class="container">
 
-<header>
+<!-- HERO -->
+<header id="hero">
   <h1><span>S21 Phone</span> — AI Workstation</h1>
-  <p class="tagline">갤럭시 S21 하나로 돌아가는 풀스택 개발·방송·출판 스튜디오.<br>비용 0원. 100% 음성입력. 3개의 AI 에이전트.</p>
+  <p class="tagline">갤럭시 S21 하나로 돌아가는 풀스택 개발·방송·출판 미니 스튜디오. 0원. 100% 음성입력.</p>
   <div class="stats">
     <div class="stat"><div class="num">41</div><div class="lbl">커밋</div></div>
-    <div class="stat"><div class="num">102</div><div class="lbl">파일</div></div>
-    <div class="stat"><div class="num">15,874</div><div class="lbl">라인</div></div>
+    <div class="stat"><div class="num">96</div><div class="lbl">파일</div></div>
+    <div class="stat"><div class="num">11,727</div><div class="lbl">라인</div></div>
+    <div class="stat"><div class="num">34</div><div class="lbl">업무수첩</div></div>
     <div class="stat"><div class="num">3</div><div class="lbl">AI 에이전트</div></div>
     <div class="stat"><div class="num">7</div><div class="lbl">워크센터</div></div>
   </div>
 </header>
 
-<h2>🛡️ 두 개의 트랙</h2>
+<!-- 두 트랙 -->
+<h2 id="tracks">🛡️ 두 개의 트랙</h2>
 <div class="grid2">
   <div class="card">
     <h3 style="color:var(--red)">트랙 1 — 돌봄</h3>
-    <p style="color:var(--muted);">위치추적·배터리·이상감지·에스컬레이션. 절대 비공개. 성공 기준: "절대 안 깨질 것."</p>
-    <p style="margin-top:8px;"><span class="tag t-auto">care-daemon.sh</span> <span class="tag t-auto">Termux crontab</span></p>
+    <p style="color:var(--muted);font-size:0.85em;">위치추적·배터리·이상감지·에스컬레이션. 절대 비공개. 두 사람만 본다.</p>
+    <p style="margin-top:6px;"><span class="tag t-auto">care-daemon.sh</span> <span class="tag t-auto">Termux crontab</span> <span class="tag t-auto">AI 의존성 제로</span></p>
+    <p style="font-size:0.8em;margin-top:6px;">성공 기준: <strong style="color:var(--red)">"절대 안 깨질 것."</strong></p>
   </div>
   <div class="card">
     <h3 style="color:var(--blue)">트랙 2 — 소망</h3>
-    <p style="color:var(--muted);">대필작가-간병인. 누나의 목소리를 세상에. 모든 계정은 큰누나 명의. 핸드오프가 곧 성공.</p>
-    <p style="margin-top:8px;"><span class="tag t-auto">GitHub</span> <span class="tag t-auto">YouTube</span> <span class="tag t-auto">Naver</span></p>
+    <p style="color:var(--muted);font-size:0.85em;">대필작가-간병인. 누나의 목소리를 세상에. 모든 계정은 큰누나 명의.</p>
+    <p style="margin-top:6px;"><span class="tag t-auto">GitHub</span> <span class="tag t-auto">YouTube</span> <span class="tag t-auto">Naver 웹진</span></p>
+    <p style="font-size:0.8em;margin-top:6px;">성공 기준: <strong style="color:var(--blue)">핸드오프 — 누나가 스스로 운영하는 것.</strong></p>
   </div>
 </div>
 
-<h2>🤖 AI 에이전트 3종</h2>
+<!-- AI 에이전트 -->
+<h2 id="ai">🤖 AI 에이전트 3종</h2>
 <div class="grid3">
   <div class="card" style="text-align:center;">
-    <div style="font-size:2rem;">💻</div>
+    <div style="font-size:1.8rem;">💻</div>
     <h3>Claude Code</h3>
-    <p style="color:var(--muted);font-size:0.85em;">코드·문서·자동화<br>DeepSeek Radar · $0</p>
+    <p style="color:var(--muted);font-size:0.8em;">DeepSeek Radar · $0/월<br>코드·문서·자동화·GitHub·Telegram</p>
     <p><span class="tag t-auto">메인 엔진</span></p>
   </div>
   <div class="card" style="text-align:center;">
-    <div style="font-size:2rem;">🎨</div>
+    <div style="font-size:1.8rem;">🎨</div>
     <h3>Grok CLI</h3>
-    <p style="color:var(--muted);font-size:0.85em;">시각·네이버·이미지·클립<br>xAI SuperGrok · 45,000원</p>
+    <p style="color:var(--muted);font-size:0.8em;">xAI SuperGrok · 45,000원/월<br>시각·네이버·이미지·클립·채팅검색</p>
     <p><span class="tag t-manual">드래프트·프로토타입</span></p>
   </div>
   <div class="card" style="text-align:center;">
-    <div style="font-size:2rem;">🔧</div>
+    <div style="font-size:1.8rem;">🔧</div>
     <h3>Aider</h3>
-    <p style="color:var(--muted);font-size:0.85em;">보조 코딩·자동화 루프<br>DeepSeek · 포함</p>
-    <p><span class="tag t-mixed">백업</span></p>
+    <p style="color:var(--muted);font-size:0.8em;">DeepSeek · $0/월<br>보조 코딩·자동화 루프·CLI</p>
+    <p><span class="tag t-mixed">백업 엔진</span></p>
   </div>
 </div>
 
-<h2>🏭 7개 워크센터</h2>
+<!-- 워크센터 -->
+<h2 id="workcenters">🏭 7개 워크센터</h2>
 <table>
 <tr><th>#</th><th>워크센터</th><th>플랫폼</th><th>주체</th><th>상태</th></tr>
-<tr><td>①</td><td>공장</td><td><a href="https://github.com/helena751107/helena_phone">GitHub</a></td><td><span class="tag t-auto">Claude Code</span></td><td>🟢 가동</td></tr>
-<tr><td>②</td><td>전시장</td><td>GitHub Pages</td><td><span class="tag t-auto">자동배포</span></td><td>🟢 라이브</td></tr>
-<tr><td>③</td><td>방송탑</td><td><a href="https://www.youtube.com/@helena_phone">YouTube @helena_phone</a></td><td><span class="tag t-auto">Claude Code</span></td><td>🟢 준비</td></tr>
-<tr><td>④</td><td>내부보고</td><td>Telegram @S21Phone_Bot</td><td><span class="tag t-auto">Claude Code</span></td><td>🟢 가동</td></tr>
+<tr><td>①</td><td>공장</td><td><a href="https://github.com/helena751107/helena_phone">GitHub</a></td><td><span class="tag t-auto">Claude Code</span></td><td>🟢 41커밋</td></tr>
+<tr><td>②</td><td>전시장</td><td><a href=".">GitHub Pages</a></td><td><span class="tag t-auto">자동배포</span></td><td>🟢 라이브</td></tr>
+<tr><td>③</td><td>방송탑</td><td><a href="https://www.youtube.com/@helena_phone">YouTube</a></td><td><span class="tag t-auto">Claude Code</span></td><td>🟢 준비</td></tr>
+<tr><td>④</td><td>내부 인터컴</td><td>Telegram</td><td><span class="tag t-auto">tg.sh</span></td><td>🟢 가동</td></tr>
 <tr><td>⑤</td><td>업무일지</td><td><a href="https://galaxys21-pwuser.tistory.com">티스토리</a></td><td><span class="tag t-manual">사람</span></td><td>🟡 수동</td></tr>
 <tr><td>⑥</td><td>웹진·미끼</td><td><a href="https://m.blog.naver.com/helena1975">네이버</a></td><td><span class="tag t-manual">사람 + Grok</span></td><td>🟡 수동</td></tr>
-<tr><td>⑦</td><td>로비</td><td><a href="https://discord.gg/JTYSZv2WQE">Discord</a></td><td><span class="tag t-mixed">혼합</span></td><td>🟢 라이브</td></tr>
+<tr><td>⑦</td><td>로비</td><td><a href="https://discord.gg/JTYSZv2WQE">Discord</a></td><td><span class="tag t-mixed">WidgetBot</span></td><td>🟢 라이브</td></tr>
 </table>
 
-<h2>💰 콘텐츠 퍼널</h2>
+<!-- 비즈니스 퍼널 -->
+<h2 id="funnel">💰 콘텐츠 퍼널</h2>
 <div class="funnel">
   <div class="funnel-step">
     <div style="font-size:1.5rem;">🎨</div>
-    <strong>Naver 웹진</strong>
-    <p style="color:var(--muted);font-size:0.8em;">Grok 80% 드래프트<br>무료·미끼·티저</p>
+    <strong>Naver</strong>
+    <p style="color:var(--muted);font-size:0.75em;">Grok 80% 드래프트<br>무료·미끼·티저</p>
   </div>
   <div class="funnel-arrow">→</div>
   <div class="funnel-step">
     <div style="font-size:1.5rem;">📺</div>
-    <strong>YouTube 강의</strong>
-    <p style="color:var(--muted);font-size:0.8em;">Claude Code 100% 완성<br>유료·수익화</p>
+    <strong>YouTube</strong>
+    <p style="color:var(--muted);font-size:0.75em;">Claude 100% 완성<br>강의·수익화</p>
   </div>
   <div class="funnel-arrow">→</div>
   <div class="funnel-step">
     <div style="font-size:1.5rem;">💵</div>
-    <strong>수익</strong>
-    <p style="color:var(--muted);font-size:0.8em;">누나 명의<br>경제적 독립</p>
+    <strong>누나</strong>
+    <p style="color:var(--muted);font-size:0.75em;">경제적 독립<br>핸드오프</p>
   </div>
 </div>
 
-<h2>⚡ 1줄 설치</h2>
+<!-- 설치 -->
+<h2 id="install">⚡ 1줄 설치</h2>
 <div class="card">
 <pre><code>curl -sL https://raw.github.com/helena751107/helena_phone/main/g/install.sh | bash</code></pre>
-<p style="color:var(--muted);margin-top:8px;">Termux → proot Ubuntu → Claude Code → phone-mcp-server → 건강검진 → 끝. 0원.</p>
+<p style="color:var(--muted);font-size:0.8em;margin-top:6px;">Termux → proot Ubuntu → Claude Code → MCP → 건강검진 → 끝. 0원.</p>
 </div>
 
-<h2>🔗 전체 링크</h2>
-<div class="links">
-  <a href="https://github.com/helena751107/helena_phone" class="link-card">💻<br><strong>GitHub</strong><br><small>코드·문서</small></a>
-  <a href="https://www.youtube.com/@helena_phone" class="link-card">📺<br><strong>YouTube</strong><br><small>강의·튜토리얼</small></a>
-  <a href="https://m.blog.naver.com/helena1975" class="link-card">🌐<br><strong>Naver 웹진</strong><br><small>주간·드래프트</small></a>
-  <a href="https://galaxys21-pwuser.tistory.com" class="link-card">📝<br><strong>티스토리</strong><br><small>업무일지</small></a>
-  <a href="https://discord.gg/JTYSZv2WQE" class="link-card">💬<br><strong>Discord</strong><br><small>실시간 소통</small></a>
-  <a href="CONSTITUTION.md" class="link-card">📜<br><strong>헌법</strong><br><small>16조·4장</small></a>
-  <a href="_notebook/00-INDEX.md" class="link-card">📋<br><strong>업무 수첩</strong><br><small>29종</small></a>
-  <a href="_textbook/index.md" class="link-card">📖<br><strong>완결판 교재</strong><br><small>판단+실행</small></a>
+<!-- 루트 문서 -->
+<h2 id="docs">📜 핵심 문서 (루트)</h2>
+<div class="link-row">
+  <a href="CONSTITUTION.md" class="link-btn">📜 헌법 (284줄·16조·4장)</a>
+  <a href="CLAUDE.md" class="link-btn">📋 실무 규칙</a>
+  <a href="README.md" class="link-btn">📖 프로젝트 소개</a>
+  <a href="GUIDE.md" class="link-btn">🗺️ 5단계 가이드</a>
+  <a href="CHRONICLE.md" class="link-btn">📅 연대기</a>
+  <a href="GIFT.md" class="link-btn">🎁 dtslib 선물</a>
+</div>
+
+<!-- 업무 수첩 -->
+<h2>📋 업무 수첩 (_notebook/ 34종)</h2>
+
+<h3>🏗️ 인프라·아키텍처</h3>
+<div class="link-row">
+  <a href="_notebook/01-arch.md" class="link-btn">01 시스템 아키텍처</a>
+  <a href="_notebook/09-ecosystem.md" class="link-btn">09 5x5 생태계</a>
+  <a href="_notebook/10-phone-mcp.md" class="link-btn">10 MCP 18도구</a>
+  <a href="_notebook/18-workcenters.md" class="link-btn">18 워크센터(초안)</a>
+  <a href="_notebook/20-workcenters-final.md" class="link-btn">20 워크센터(최종)</a>
+</div>
+
+<h3>🔌 플랫폼·연동</h3>
+<div class="link-row">
+  <a href="_notebook/02-discord.md" class="link-btn">02 Discord</a>
+  <a href="_notebook/03-telegram.md" class="link-btn">03 Telegram</a>
+  <a href="_notebook/04-github-pages.md" class="link-btn">04 Pages·Giscus</a>
+  <a href="_notebook/05-tistory.md" class="link-btn">05 티스토리</a>
+  <a href="_notebook/06-youtube.md" class="link-btn">06 YouTube</a>
+</div>
+
+<h3>⚙️ 운영·설정</h3>
+<div class="link-row">
+  <a href="_notebook/07-cli-reference.md" class="link-btn">07 CLI 명령어</a>
+  <a href="_notebook/08-secrets.md" class="link-btn">08 비밀 관리</a>
+  <a href="_notebook/11-health.md" class="link-btn">11 건강 검진</a>
+</div>
+
+<h3>📊 분석·평가</h3>
+<div class="link-row">
+  <a href="_notebook/12-dtslib-gift.md" class="link-btn">12 dtslib 선물 분석</a>
+  <a href="_notebook/13-midterm-eval.md" class="link-btn">13 중간평가 v1(93)</a>
+  <a href="_notebook/13-midterm-eval-v2.md" class="link-btn">13 중간평가 v2(98)</a>
+  <a href="_notebook/14-daemon-design.md" class="link-btn">14 돌봄 데몬 설계</a>
+  <a href="_notebook/15-proot-report.md" class="link-btn">15 proot 종합 보고서</a>
+  <a href="_notebook/22-s21-benchmark.md" class="link-btn">22 S21 벤치마크</a>
+</div>
+
+<h3>🎯 전략·방법론</h3>
+<div class="link-row">
+  <a href="_notebook/16-textbook-methodology.md" class="link-btn">16 교재 합성 지침</a>
+  <a href="_notebook/17-merged-chronicle.md" class="link-btn">17 병합 연대기</a>
+  <a href="_notebook/19-final-strategy.md" class="link-btn">19 최종 전략</a>
+  <a href="_notebook/21-integrated-dev-plan.md" class="link-btn">21 통합 개발 계획서</a>
+  <a href="_notebook/23-naver-webzine-solution.md" class="link-btn">23 네이버 웹진 솔루션</a>
+  <a href="_notebook/24-paste-pipeline.md" class="link-btn">24 Paste Pipeline</a>
+</div>
+
+<h3>🤖 AI·에이전트 전략</h3>
+<div class="link-row">
+  <a href="_notebook/25-multi-ai-strategy.md" class="link-btn">25 멀티 AI 전략</a>
+  <a href="_notebook/26-naver-parsing-solution.md" class="link-btn">26 네이버 파싱 해결</a>
+  <a href="_notebook/27-claude-grok-pipeline.md" class="link-btn">27 Claude·Grok 파이프</a>
+  <a href="_notebook/28-grok-github-bridge.md" class="link-btn">28 Grok 인터프리터</a>
+  <a href="_notebook/29-grok-cli-installed.md" class="link-btn">29 Grok CLI 설치</a>
+  <a href="_notebook/supergrok-community-research-2026-07-25.md" class="link-btn">🆕 SuperGrok 리서치</a>
+</div>
+
+<h3>📝 개발일지·교재</h3>
+<div class="link-row">
+  <a href="_notebook/99-devlog.md" class="link-btn">📋 99 개발일지 (758줄)</a>
+  <a href="_notebook/00-INDEX.md" class="link-btn">📑 00 전체 목차</a>
+  <a href="_notebook/naver-intro-article.md" class="link-btn">📰 네이버 첫 글</a>
+  <a href="_textbook/index.md" class="link-btn">📖 완결판 교재 (442줄)</a>
+</div>
+
+<!-- 스크립트 -->
+<h2 id="scripts">🛠️ 실행 코드</h2>
+<div class="grid4">
+  <div class="card" style="text-align:center;">
+    <strong>g/install.sh</strong> <span style="color:var(--muted);font-size:0.75em;">364줄</span>
+    <p style="font-size:0.8em;color:var(--muted);">1줄 풀스택 설치</p>
+  </div>
+  <div class="card" style="text-align:center;">
+    <strong>care/care-daemon.sh</strong> <span style="color:var(--muted);font-size:0.75em;">292줄</span>
+    <p style="font-size:0.8em;color:var(--muted);">트랙1 돌봄 데몬</p>
+  </div>
+  <div class="card" style="text-align:center;">
+    <strong>phone-health.sh</strong> <span style="color:var(--muted);font-size:0.75em;">383줄</span>
+    <p style="font-size:0.8em;color:var(--muted);">27항목 건강 검진</p>
+  </div>
+  <div class="card" style="text-align:center;">
+    <strong>yt_upload.py</strong> <span style="color:var(--muted);font-size:0.75em;">256줄</span>
+    <p style="font-size:0.8em;color:var(--muted);">YouTube 자동 업로드</p>
+  </div>
+  <div class="card" style="text-align:center;">
+    <strong>grok_api.py</strong> <span style="color:var(--muted);font-size:0.75em;">174줄</span>
+    <p style="font-size:0.8em;color:var(--muted);">Grok API 클라이언트</p>
+  </div>
+  <div class="card" style="text-align:center;">
+    <strong>grok_oauth_setup.sh</strong> <span style="color:var(--muted);font-size:0.75em;">135줄</span>
+    <p style="font-size:0.8em;color:var(--muted);">Grok Device Auth</p>
+  </div>
+  <div class="card" style="text-align:center;">
+    <strong>naver_recipe.py</strong> <span style="color:var(--muted);font-size:0.75em;">151줄</span>
+    <p style="font-size:0.8em;color:var(--muted);">네이버 레시피 생성기</p>
+  </div>
+  <div class="card" style="text-align:center;">
+    <strong>naver_template.html</strong> <span style="color:var(--muted);font-size:0.75em;">161줄</span>
+    <p style="font-size:0.8em;color:var(--muted);">네이버 HTML 템플릿</p>
+  </div>
+  <div class="card" style="text-align:center;">
+    <strong>tg.sh</strong> <span style="color:var(--muted);font-size:0.75em;">36줄</span>
+    <p style="font-size:0.8em;color:var(--muted);">텔레그램 보고</p>
+  </div>
+  <div class="card" style="text-align:center;">
+    <strong>publish.py</strong> <span style="color:var(--muted);font-size:0.75em;">114줄</span>
+    <p style="font-size:0.8em;color:var(--muted);">블로그 자동화 (보존)</p>
+  </div>
+  <div class="card" style="text-align:center;">
+    <strong>yt_oauth_setup.sh</strong> <span style="color:var(--muted);font-size:0.75em;">132줄</span>
+    <p style="font-size:0.8em;color:var(--muted);">YouTube OAuth</p>
+  </div>
+  <div class="card" style="text-align:center;">
+    <strong>extract_cookie.js</strong> <span style="color:var(--muted);font-size:0.75em;">45줄</span>
+    <p style="font-size:0.8em;color:var(--muted);">쿠키 추출기</p>
+  </div>
+</div>
+
+<!-- 설정 -->
+<h2>⚙️ 설정 파일</h2>
+<div class="link-row">
+  <a href="configs/ecosystem-map.json" class="link-btn">ecosystem-map.json (230줄)</a>
+  <a href="configs/settings.json" class="link-btn">Claude Code MCP 설정</a>
+  <a href="configs/secrets-template.env" class="link-btn">비밀 템플릿</a>
+  <a href="configs/bashrc-example.sh" class="link-btn">.bashrc 예시 (gr alias 포함)</a>
+  <a href="care/care.conf" class="link-btn">돌봄 데몬 설정</a>
+</div>
+
+<!-- 외부 링크 -->
+<h2 id="links">🔗 외부 채널</h2>
+<div class="link-row">
+  <a href="https://github.com/helena751107/helena_phone" class="link-btn">💻 GitHub</a>
+  <a href="https://www.youtube.com/@helena_phone" class="link-btn">📺 YouTube</a>
+  <a href="https://m.blog.naver.com/helena1975" class="link-btn">🌐 Naver 웹진</a>
+  <a href="https://galaxys21-pwuser.tistory.com" class="link-btn">📝 티스토리</a>
+  <a href="https://discord.gg/JTYSZv2WQE" class="link-btn">💬 Discord</a>
 </div>
 
 <footer>
-  <p>© 2026 Helena Park — <a href="https://github.com/helena751107/helena_phone">helena751107/helena_phone</a></p>
-  <p style="margin-top:4px;">대필작가-간병인 · 100% STT 음성입력 · Galaxy S21 + Termux + proot Ubuntu</p>
+  <p>© 2026 Helena Park — 대필작가-간병인</p>
+  <p style="margin-top:4px;">Galaxy S21 + Termux + proot Ubuntu + Claude Code (DeepSeek) + Grok CLI (xAI) + Aider</p>
   <p style="margin-top:4px;color:var(--red);">모든 계정은 큰누나 명의입니다.</p>
+  <p style="margin-top:8px;font-size:0.75em;">96파일 · 11,727줄 · 41커밋 · <a href="https://github.com/helena751107/helena_phone">helena751107/helena_phone</a></p>
 </footer>
 
 </div>
