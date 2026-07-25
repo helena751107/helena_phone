@@ -106,7 +106,7 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """봇 시작 + 사용법"""
     chat_id = update.effective_chat.id
     msg = (
-        "안녕! Park 파일 전송 봇이야~\n\n"
+        "헤이! Park 파일 전송 봇이야~\n\n"
         "명령어:\n"
         "/status — PC 상태 확인\n"
         "/ls [경로] — 파일 목록\n"
