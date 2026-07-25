@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Comparative Note on Three Terminal Agents — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>Comparative Note on Three Terminal Agents — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>Comparative Note on Three Terminal Agents</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>Comparative Note on Three Terminal Agents</h1>
+    
+    <div class="wz-meta">
+      <span>Source · _notebook/ai-agents-cc-ds-grok-comparison-2026-07-25.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#claude-code-cc-aider-deepseek-ds-and-grok-cli-grok">Claude Code (cc), Aider + DeepSeek (ds), and Grok CLI (grok)</a></li>
+<li><a href="#1-abstract">1. Abstract</a></li>
+<li><a href="#2-what-each-alias-actually-launches">2. What Each Alias Actually Launches</a></li>
+<li><a href="#3-master-comparison-table">3. Master Comparison Table</a></li>
+<li><a href="#4-when-each-has-a-clear-advantage">4. When Each Has a Clear Advantage</a><ul>
+<li><a href="#41-prefer-cc-when">4.1 Prefer cc when</a></li>
+<li><a href="#42-prefer-ds-when">4.2 Prefer ds when</a></li>
+<li><a href="#43-prefer-grok-when">4.3 Prefer grok when</a></li>
+</ul>
+</li>
+<li><a href="#5-pros-and-cons-compact">5. Pros and Cons (Compact)</a></li>
+<li><a href="#6-decision-heuristic-one-screen">6. Decision Heuristic (One Screen)</a></li>
+<li><a href="#7-cost-and-limit-notes-operational">7. Cost and Limit Notes (Operational)</a></li>
+<li><a href="#8-conclusion">8. Conclusion</a></li>
+<li><a href="#9-appendix-alias-cheatsheet">9. Appendix — Alias Cheatsheet</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <h3 id="claude-code-cc-aider-deepseek-ds-and-grok-cli-grok">Claude Code (<code>cc</code>), Aider + DeepSeek (<code>ds</code>), and Grok CLI (<code>grok</code>)</h3>
+<p><strong>Date:</strong> 2026-07-25<br>
+<strong>Context:</strong> Termux → proot Ubuntu workstation (no local GPU)<br>
+<strong>Stack aliases:</strong> <code>cc</code> · <code>ds</code> · <code>grok</code><br>
+<strong>Register:</strong> Analytic comparison for practical selection, not marketing</p>
+<hr>
+<h2 id="1-abstract">1. Abstract</h2>
+<p>This note compares three agent entry points used on the same phone-based Linux environment. Although <strong><code>cc</code> and <code>ds</code> often share a DeepSeek backend</strong>, they are not interchangeable: one is a broad agentic workbench (Claude Code), the other a lean edit–test–commit loop (Aider). <strong><code>grok</code></strong> is a separate product tier (SuperGrok / xAI), stronger on multimodal generation, live research tooling, and parallel agent breadth, while remaining subject to weekly usage pools rather than “unlimited” access.</p>
+<p>The practical conclusion is <strong>role separation</strong>, not a single winner: use <strong><code>cc</code> for wide orchestration</strong>, <strong><code>ds</code> for cheap tight coding loops</strong>, and <strong><code>grok</code> for vision, media, and agent-plus-research sessions</strong>—especially when local GPU is unavailable.</p>
+<hr>
+<h2 id="2-what-each-alias-actually-launches">2. What Each Alias Actually Launches</h2>
+<table>
+<thead>
+<tr>
+<th>Alias</th>
+<th>Surface tool</th>
+<th>Typical model path</th>
+<th>Entry (Termux)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>cc</code></strong></td>
+<td>Claude Code (TUI agent)</td>
+<td>DeepSeek via Anthropic-compatible base URL</td>
+<td><code>cc</code></td>
+</tr>
+<tr>
+<td><strong><code>ds</code></strong></td>
+<td>Aider (CLI coding pair)</td>
+<td><code>deepseek/deepseek-v4-pro</code></td>
+<td><code>ds</code></td>
+</tr>
+<tr>
+<td><strong><code>grok</code></strong></td>
+<td>Grok CLI / Build agent</td>
+<td>SuperGrok subscription models</td>
+<td><code>grok</code></td>
+</tr>
+</tbody>
+</table>
+<p>Related: <code>groklogin</code> (device auth), <code>grokc</code> (continue session), <code>agent</code> (headless Grok agent). Legacy <code>gr</code> / <code>grlogin</code> / <code>grc</code> remain as compatibility aliases.</p>
+<hr>
+<h2 id="3-master-comparison-table">3. Master Comparison Table</h2>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th><strong><code>cc</code></strong> (Claude Code + DeepSeek)</th>
+<th><strong><code>ds</code></strong> (Aider + DeepSeek)</th>
+<th><strong><code>grok</code></strong> (Grok CLI / SuperGrok)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Primary strength</strong></td>
+<td>Broad agent: tools, MCP, docs, GitHub, Telegram workflows</td>
+<td>Tight coding loop: edit → run → commit</td>
+<td>Speed, multimodal (image/video), live research, parallel agents</td>
+</tr>
+<tr>
+<td><strong>Best when…</strong></td>
+<td>Multi-step project work, repo navigation, automation, reporting</td>
+<td>Small-to-medium code changes, iterative refactors, low ceremony</td>
+<td>Prototypes, UI/media drafts (~80% mock quality), web crawl/research + act</td>
+</tr>
+<tr>
+<td><strong>Weaker when…</strong></td>
+<td>You only need a few file edits; permission flags feel heavy</td>
+<td>You need deep multi-tool orchestration or non-code deliverables</td>
+<td>Ultra-deep single-repo reasoning vs top Claude Max; weekly pool burns fast</td>
+</tr>
+<tr>
+<td><strong>UX model</strong></td>
+<td>Full agent TUI (“engineering teammate”)</td>
+<td>Pair-programmer CLI</td>
+<td>Full product suite in CLI/TUI (chat, build, imagine)</td>
+</tr>
+<tr>
+<td><strong>Cost shape</strong></td>
+<td>Often $0 if routed to DeepSeek API keys</td>
+<td>Same DeepSeek cost profile; usually thrifty</td>
+<td>~₩45,000/mo SuperGrok; weekly shared usage pool</td>
+</tr>
+<tr>
+<td><strong>Multimodal</strong></td>
+<td>Limited vs Grok Imagine</td>
+<td>Not the point</td>
+<td>Strong: image/UI, video (check watermark policy)</td>
+</tr>
+<tr>
+<td><strong>Research / crawl</strong></td>
+<td>Good with tools/MCP if wired</td>
+<td>Minimal by design</td>
+<td>Strong community claim for speed + agentic web use; Perplexity still wins pure citation UX for many</td>
+</tr>
+<tr>
+<td><strong>Autonomy / agents</strong></td>
+<td>Subagents, hooks, skills, MCP ecosystem</td>
+<td>Session-focused coding agent</td>
+<td>Parallel agents, Build workflows, headless <code>agent</code></td>
+</tr>
+<tr>
+<td><strong>Risk profile</strong></td>
+<td>Powerful with <code>--dangerously-skip-permissions</code>—needs trust &amp; review</td>
+<td>Lower surface area; still can rewrite code aggressively</td>
+<td>Usage limits; media policy (watermark); not unlimited</td>
+</tr>
+<tr>
+<td><strong>GPU dependency</strong></td>
+<td>None (cloud model)</td>
+<td>None</td>
+<td>None—major value if you lack a GPU for local diffusion</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-when-each-has-a-clear-advantage">4. When Each Has a Clear Advantage</h2>
+<h3 id="41-prefer-cc-when">4.1 Prefer <strong><code>cc</code></strong> when</h3>
+<ul>
+<li>The task spans <strong>code + docs + git + notifications</strong> (e.g. implement, document, push, Telegram report).</li>
+<li>You need <strong>MCP / phone control / multi-tool</strong> orchestration on this workstation.</li>
+<li>You want <strong>structured agent habits</strong> (project rules, hooks, subagents) rather than a thin chat loop.</li>
+<li>Depth of planning across a <strong>messy multi-file repo</strong> matters more than raw generation speed.</li>
+</ul>
+<p><strong>Trade-off:</strong> Heavier process; overkill for “change three lines and commit.”</p>
+<h3 id="42-prefer-ds-when">4.2 Prefer <strong><code>ds</code></strong> when</h3>
+<ul>
+<li>The job is <strong>code-centric and iterative</strong>: fix tests, rename, small features, git-aware patches.</li>
+<li>You want <strong>minimum ceremony</strong> and a familiar Aider loop.</li>
+<li>You are <strong>budget- and latency-sensitive</strong> on DeepSeek without spinning up a full Claude Code session.</li>
+<li>You already know the files and want a <strong>surgical editor</strong>, not a project manager.</li>
+</ul>
+<p><strong>Trade-off:</strong> Weak for non-code production (images, long research dossiers, multi-product workflows).</p>
+<h3 id="43-prefer-grok-when">4.3 Prefer <strong><code>grok</code></strong> when</h3>
+<ul>
+<li>You need <strong>images / UI mockups / short video</strong> without local GPU (e.g. coffee branding UI at ~80% polish).</li>
+<li>You want <strong>fast agent runs</strong> and breadth (parallel workers, prototype-to-demo).</li>
+<li><strong>Live web / social-adjacent research</strong> should feed directly into action, not only citations.</li>
+<li>One <strong>subscription bundle</strong> (chat + build + imagine) beats paying separately for Claude Max + image + video tools.</li>
+</ul>
+<p><strong>Trade-off:</strong> Weekly usage pool; community still often ranks pure deep coding slightly behind top Claude Code setups; media watermark rules should be re-checked periodically.</p>
+<hr>
+<h2 id="5-pros-and-cons-compact">5. Pros and Cons (Compact)</h2>
+<table>
+<thead>
+<tr>
+<th>Agent</th>
+<th><strong>Pros</strong></th>
+<th><strong>Cons</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>cc</code></strong></td>
+<td>Widest orchestration; MCP/ecosystem; strong multi-step engineering posture; DeepSeek can keep cash cost near zero</td>
+<td>Heavier; permission model easy to misuse; not best for media; not always the fastest “one-shot” coder</td>
+</tr>
+<tr>
+<td><strong><code>ds</code></strong></td>
+<td>Light, cheap, excellent tight loops; low cognitive overhead; ideal auxiliary coder</td>
+<td>Narrow scope; little multimodal; less “team of agents” feel</td>
+</tr>
+<tr>
+<td><strong><code>grok</code></strong></td>
+<td>Multimodal + agents + research in one paid tier; no GPU; high speed/prototype value</td>
+<td>Not unlimited; pool drains on agents/media; deep production coding still contested vs Claude Max</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="6-decision-heuristic-one-screen">6. Decision Heuristic (One Screen)</h2>
+<pre><code>Need image / video / UI mock without GPU?     → grok
+Need multi-tool project orchestration?       → cc
+Need cheap, tight code edit loop only?       → ds
+Deep production architecture debate?         → cc first; optional grok second opinion
+Live crawl + act in one session?             → grok (or cc if tools already wired)
+</code></pre>
+<p><strong>Recommended default on this phone stack</strong></p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Daily coding automation</td>
+<td><code>cc</code></td>
+</tr>
+<tr>
+<td>Quick patch / secondary loop</td>
+<td><code>ds</code></td>
+</tr>
+<tr>
+<td>Media + research + fast build</td>
+<td><code>grok</code></td>
+</tr>
+</tbody>
+</table>
+<p>This matches community patterns observed in 2026 discussions: Claude Code for depth and systems; Aider-class tools for thrift; Grok for multimodal and speed-oriented agent breadth—while rejecting the myth of unlimited SuperGrok usage.</p>
+<hr>
+<h2 id="7-cost-and-limit-notes-operational">7. Cost and Limit Notes (Operational)</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>cc</code> / <code>ds</code></strong></td>
+<td>Dominated by DeepSeek API usage; monitor keys and accidental high token burns</td>
+</tr>
+<tr>
+<td><strong><code>grok</code></strong></td>
+<td>SuperGrok weekly <strong>shared usage pool</strong> (Chat / Build / Imagine / Voice, etc.) — check <strong>Settings → Usage</strong></td>
+</tr>
+<tr>
+<td>On pool exhaustion</td>
+<td>Free-tier remnants may remain; Extra Credits / Auto Top-up / plan upgrade are the official escapes</td>
+</tr>
+<tr>
+<td>Watermark</td>
+<td>Grok media policy has moved toward visible marks; verify exports rather than assume zero watermark</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="8-conclusion">8. Conclusion</h2>
+<p>The three aliases are best understood as <strong>complementary instruments</strong>:</p>
+<ol>
+<li><strong><code>cc</code></strong> — the <strong>orchestral conductor</strong> (broad agentic engineering).  </li>
+<li><strong><code>ds</code></strong> — the <strong>chamber musician</strong> (precise, economical coding duet).  </li>
+<li><strong><code>grok</code></strong> — the <strong>multimedia ensemble + scout</strong> (vision, media, fast agents, live inquiry).</li>
+</ol>
+<p>For a <strong>no-GPU, single-device</strong> operator, keeping all three is rational: DeepSeek-backed <code>cc</code>/<code>ds</code> control cash cost for code, while SuperGrok pays for capabilities that would otherwise require separate image/video/research subscriptions. Selection should follow <strong>task shape</strong>, not brand loyalty.</p>
+<hr>
+<h2 id="9-appendix-alias-cheatsheet">9. Appendix — Alias Cheatsheet</h2>
+<pre><code class="language-bash">cc          # Claude Code (DeepSeek-routed agent TUI)
+ds          # Aider + deepseek-v4-pro
+grok        # Grok CLI (SuperGrok)
+groklogin   # device-auth login
+grokc       # continue last Grok session
+agent       # headless Grok agent
+
+# legacy compatibility
+gr / grlogin / grc   # → grok / groklogin / grokc
+</code></pre>
+<hr>
+<p><em>Prepared for internal workstation notes. Product limits and model routing change frequently; re-validate Usage tab and API endpoints after major vendor updates.</em></p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="99-devlog.html">
+          <span class="dir">Previous</span>
+          <span class="title">📋 S21 Phone — 전체 개발일지</span>
+        </a>
+    <a class="next" href="supergrok-community-research-2026-07-25.html">
+          <span class="dir">Next</span>
+          <span class="title">SuperGrok 리서치</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-25</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

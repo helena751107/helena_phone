@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Source viewer · g/install.sh — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>install.sh · 1줄 설치기 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Scripts</span><span class="sep">/</span>
+    <span>install.sh · 1줄 설치기</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Scripts · Vol.01</div>
+    <h1>install.sh · 1줄 설치기</h1>
+    <p class="deck">Source viewer · g/install.sh</p>
+    <div class="wz-meta">
+      <span>Source · g/install.sh</span>
+      <span>Kind · code</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  
+  <article class="wz-prose">
+    
+<div class="wz-code-head">
+  <span class="path">g/install.sh</span>
+  <button type="button" data-copy="#codeBody">Copy</button>
+</div>
+<pre id="codeBody"><code class="language-sh">#!/usr/bin/env bash
+# ==============================================================================
+# g/install.sh — S21 Phone 1줄 설치기 v1
+# ==============================================================================
+# 사용법:
+#   curl -sL https://raw.github.com/helena751107/helena_phone/main/g/install.sh | bash
+#   또는:
+#   git clone https://github.com/helena751107/helena_phone &amp;&amp; bash helena_phone/g/install.sh
+#
+# 이 스크립트는:
+#   갤럭시 폰 1대를 AI 워크스테이션 + 블로그/유튜브 발행기 + 돌봄 데몬으로
+#   변환한다. 필요한 건 안드로이드 폰 + WiFi + GitHub 계정 뿐. 비용 0원.
+# ==============================================================================
+
+set -euo pipefail
+
+# ── 색상 ──────────────────────────────────────────────────────────────────
+RED=&#x27;\033[0;31m&#x27;; GREEN=&#x27;\033[0;32m&#x27;; YELLOW=&#x27;\033[1;33m&#x27;; BLUE=&#x27;\033[0;34m&#x27;
+BOLD=&#x27;\033[1m&#x27;; NC=&#x27;\033[0m&#x27;
+
+ok()   { echo -e &quot;${GREEN}✅${NC} $*&quot;; }
+warn() { echo -e &quot;${YELLOW}⚠️${NC}  $*&quot;; }
+fail() { echo -e &quot;${RED}❌${NC} $*&quot;; }
+info() { echo -e &quot;${BLUE}📌${NC} $*&quot;; }
+ask()  { echo -ne &quot;${BOLD}❓${NC} $* &quot;; }
+
+# ── 배너 ──────────────────────────────────────────────────────────────────
+banner() {
+  echo &quot;&quot;
+  echo -e &quot;${BOLD}═══════════════════════════════════════════════════${NC}&quot;
+  echo -e &quot;${BOLD}  📱 S21 Phone — 1줄 설치기 v1${NC}&quot;
+  echo -e &quot;${BOLD}  폰 → AI 워크스테이션 → 블로그/유튜브/돌봄데몬${NC}&quot;
+  echo -e &quot;${BOLD}  helena751107.github.io/helena_phone${NC}&quot;
+  echo -e &quot;${BOLD}═══════════════════════════════════════════════════${NC}&quot;
+  echo &quot;&quot;
+}
+
+# ── 체크: 실행 환경 ──────────────────────────────────────────────────────
+check_env() {
+  echo &quot;─── 0단계: 환경 체크 ───&quot;
+
+  # 안드로이드인가
+  if [ &quot;$(uname -o 2&gt;/dev/null)&quot; != &quot;Android&quot; ]; then
+    fail &quot;이 스크립트는 Android/Termux에서만 실행됩니다.&quot;
+    exit 1
+  fi
+  ok &quot;Android 환경 확인&quot;
+
+  # Termux인가
+  if [ -z &quot;${TERMUX_VERSION:-}&quot; ]; then
+    fail &quot;Termux에서 실행해주세요. (F-Droid에서 설치: termux.com)&quot;
+    exit 1
+  fi
+  ok &quot;Termux ${TERMUX_VERSION}&quot;
+
+  # 저장공간 (최소 5GB)
+  local free_mb
+  free_mb=$(df /data 2&gt;/dev/null | awk &#x27;NR==2{print int($4/1024)}&#x27; || echo 0)
+  if [ &quot;$free_mb&quot; -lt 5120 ]; then
+    warn &quot;저장공간 ${free_mb}MB (권장 5GB 이상). 계속 진행합니다.&quot;
+  else
+    ok &quot;저장공간 ${free_mb}MB&quot;
+  fi
+
+  # 인터넷
+  if ! ping -c1 -W3 8.8.8.8 &gt;/dev/null 2&gt;&amp;1; then
+    fail &quot;인터넷 연결 필요&quot;
+    exit 1
+  fi
+  ok &quot;인터넷 연결&quot;
+}
+
+# ── 1단계: Termux 패키지 ──────────────────────────────────────────────────
+install_termux_pkgs() {
+  echo &quot;&quot;
+  echo &quot;─── 1단계: Termux 기반 패키지 ───&quot;
+
+  pkg update -y &gt;/dev/null 2&gt;&amp;1 &amp;&amp; ok &quot;pkg update 완료&quot; || warn &quot;pkg update 스킵&quot;
+
+  local pkgs=&quot;proot-distro termux-api git curl openssh wget python&quot;
+  for p in $pkgs; do
+    if command -v &quot;$p&quot; &gt;/dev/null 2&gt;&amp;1 || dpkg -s &quot;$p&quot; &gt;/dev/null 2&gt;&amp;1; then
+      ok &quot;$p — 이미 설치됨&quot;
+    else
+      info &quot;$p 설치 중...&quot;
+      pkg install -y &quot;$p&quot; &gt;/dev/null 2&gt;&amp;1 &amp;&amp; ok &quot;$p 설치 완료&quot; || warn &quot;$p 설치 실패&quot;
+    fi
+  done
+
+  # termux-api 특별 취급 (CLI 바이너리)
+  if ! command -v termux-battery-status &gt;/dev/null 2&gt;&amp;1; then
+    info &quot;termux-api CLI 설치 중 (이게 없으면 MCP 18개 도구 전부 ENOENT)...&quot;
+    pkg install -y termux-api &gt;/dev/null 2&gt;&amp;1 &amp;&amp; ok &quot;termux-api 설치 완료&quot; || warn &quot;설치 실패 — 수동: pkg install termux-api&quot;
+  else
+    ok &quot;termux-api CLI 준비됨&quot;
+  fi
+}
+
+# ── 2단계: proot Ubuntu ──────────────────────────────────────────────────
+install_proot() {
+  echo &quot;&quot;
+  echo &quot;─── 2단계: proot Ubuntu 컨테이너 ───&quot;
+
+  if proot-distro list 2&gt;/dev/null | grep -q ubuntu; then
+    ok &quot;proot Ubuntu 이미 존재&quot;
+  else
+    info &quot;proot-distro ubuntu 설치 (수 분 소요)...&quot;
+    proot-distro install ubuntu &amp;&amp; ok &quot;Ubuntu 설치 완료&quot; || {
+      fail &quot;proot 설치 실패&quot;
+      exit 1
+    }
+  fi
+
+  # proot 안에서 기본 패키지
+  info &quot;Ubuntu 컨테이너 패키지 설치...&quot;
+  proot-distro login ubuntu -- bash -c &#x27;
+    apt update -y &gt;/dev/null 2&gt;&amp;1
+    apt install -y git curl nodejs npm python3 python3-pip python3-venv \
+      jq wget ca-certificates build-essential &gt;/dev/null 2&gt;&amp;1
+  &#x27; &amp;&amp; ok &quot;Ubuntu 기본 패키지 완료&quot; || warn &quot;일부 패키지 실패&quot;
+}
+
+# ── 3단계: GitHub 클론 ────────────────────────────────────────────────────
+clone_repo() {
+  echo &quot;&quot;
+  echo &quot;─── 3단계: S21 Phone 레포 클론 ───&quot;
+
+  local repo_url=&quot;https://github.com/helena751107/helena_phone.git&quot;
+  local target=&quot;/root/work&quot;
+
+  if [ -d &quot;$target/.git&quot; ]; then
+    ok &quot;이미 클론됨: $target&quot;
+    info &quot;git pull로 최신화...&quot;
+    git -C &quot;$target&quot; pull --ff-only 2&gt;/dev/null &amp;&amp; ok &quot;pull 완료&quot; || warn &quot;pull 스킵&quot;
+  else
+    info &quot;클론 중: $repo_url → $target&quot;
+    mkdir -p &quot;$(dirname &quot;$target&quot;)&quot;
+    git clone &quot;$repo_url&quot; &quot;$target&quot; &amp;&amp; ok &quot;클론 완료&quot; || {
+      fail &quot;클론 실패. GitHub 연결을 확인하세요.&quot;
+      exit 1
+    }
+  fi
+}
+
+# ── 4단계: Claude Code + DeepSeek 설정 ────────────────────────────────────
+setup_claude() {
+  echo &quot;&quot;
+  echo &quot;─── 4단계: Claude Code + DeepSeek Radar ───&quot;
+
+  local target=&quot;/root/work&quot;
+
+  # Claude Code 설치 (npm)
+  info &quot;Claude Code 설치 확인...&quot;
+  if command -v claude &gt;/dev/null 2&gt;&amp;1; then
+    ok &quot;Claude Code $(claude --version 2&gt;/dev/null || echo &#x27;설치됨&#x27;)&quot;
+  else
+    info &quot;npm install -g @anthropic-ai/claude-code...&quot;
+    npm install -g @anthropic-ai/claude-code &gt;/dev/null 2&gt;&amp;1 &amp;&amp; ok &quot;설치 완료&quot; || warn &quot;설치 실패&quot;
+  fi
+
+  # DeepSeek 환경변수
+  info &quot;DeepSeek Radar 설정 (Anthropic 과금 우회)...&quot;
+  cat &gt; &quot;${target}/configs/deepseek.env&quot; &lt;&lt; &#x27;DSEOF&#x27;
+# DeepSeek Radar — Anthropic API 과금 우회
+# ANTHROPIC_BASE_URL만 DeepSeek 엔드포인트로, Claude Code UI/도구는 그대로
+export ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
+export ANTHROPIC_MODEL=deepseek-v4-pro
+# ↑ deepseek-chat → deepseek-v4-pro (2026-07-24 변경)
+# deepseek-chat이 폐기되면 이 줄만 수정
+DSEOF
+
+  # .bashrc에 소스 라인 추가
+  if ! grep -q &quot;deepseek.env&quot; ~/.bashrc 2&gt;/dev/null; then
+    echo &quot;source ${target}/configs/deepseek.env&quot; &gt;&gt; ~/.bashrc
+    ok &quot;.bashrc에 DeepSeek 환경변수 추가&quot;
+  fi
+
+  if [ -n &quot;${DEEPSEEK_API_KEY:-}&quot; ]; then
+    echo &quot;export DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}&quot; &gt;&gt; &quot;${target}/configs/deepseek.env&quot;
+  else
+    warn &quot;DEEPSEEK_API_KEY 없음. 수동 설정: export DEEPSEEK_API_KEY=sk-...&quot;
+  fi
+
+  # Claude Code 설정
+  mkdir -p ~/.claude
+  if [ -f &quot;${target}/configs/settings.json&quot; ]; then
+    cp &quot;${target}/configs/settings.json&quot; ~/.claude/settings.json
+    ok &quot;Claude Code MCP 설정 복사&quot;
+  fi
+}
+
+# ── 5단계: phone-mcp-server ───────────────────────────────────────────────
+setup_mcp() {
+  echo &quot;&quot;
+  echo &quot;─── 5단계: phone-mcp-server (18개 폰 통제 도구) ───&quot;
+
+  local mcp_dir=&quot;/tmp/phone-mcp-server&quot;
+
+  if [ -f &quot;${mcp_dir}/server.py&quot; ]; then
+    ok &quot;phone-mcp-server 이미 클론됨&quot;
+  else
+    info &quot;클론 중...&quot;
+    git clone https://github.com/htekdev/phone-mcp-server &quot;$mcp_dir&quot; &gt;/dev/null 2&gt;&amp;1 \
+      &amp;&amp; ok &quot;클론 완료&quot; || warn &quot;클론 실패&quot;
+  fi
+
+  # MCP 설정에 등록
+  if [ -f ~/.claude/settings.json ]; then
+    info &quot;settings.json에 MCP 등록 확인...&quot;
+    if grep -q &quot;3456&quot; ~/.claude/settings.json 2&gt;/dev/null; then
+      ok &quot;MCP port 3456 등록됨&quot;
+    else
+      warn &quot;MCP 등록 필요 — ${target}/configs/settings.json 참조&quot;
+    fi
+  fi
+
+  # .bashrc 자동시작
+  local autostart=&quot;bash ${target}/phone-mcp.sh --port 3456&quot;
+  if ! grep -q &quot;phone-mcp.sh&quot; ~/.bashrc 2&gt;/dev/null; then
+    echo &quot;# phone-mcp-server 자동시작&quot; &gt;&gt; ~/.bashrc
+    echo &quot;$autostart&quot; &gt;&gt; ~/.bashrc
+    ok &quot;MCP 자동시작 등록&quot;
+  fi
+}
+
+# ── 6단계: Telegram 봇 설정 ───────────────────────────────────────────────
+setup_telegram() {
+  echo &quot;&quot;
+  echo &quot;─── 6단계: Telegram 보고 봇 ───&quot;
+
+  local target=&quot;/root/work&quot;
+
+  if [ -n &quot;${TG_TOKEN:-}&quot; ] &amp;&amp; [ -n &quot;${TG_CHAT:-}&quot; ]; then
+    ok &quot;TG_TOKEN, TG_CHAT 이미 설정됨&quot;
+  else
+    echo &quot;&quot;
+    warn &quot;Telegram 봇 설정 필요:&quot;
+    echo &quot;  1. @BotFather → /newbot → 토큰 복사&quot;
+    echo &quot;  2. 봇에게 아무 말이나 1회 전송&quot;
+    echo &quot;  3. curl https://api.telegram.org/bot&lt;TOKEN&gt;/getUpdates → chat_id 확인&quot;
+    echo &quot;&quot;
+
+    if [ -f &quot;${target}/configs/secrets-template.env&quot; ]; then
+      info &quot;secrets-template.env 복사 → .secrets.env&quot;
+      cp &quot;${target}/configs/secrets-template.env&quot; &quot;${target}/.secrets.env&quot;
+    fi
+
+    info &quot;이후 .secrets.env 에 TG_TOKEN, TG_CHAT 입력&quot;
+  fi
+
+  # tg.sh 실행 권한
+  chmod +x &quot;${target}/tg.sh&quot; 2&gt;/dev/null &amp;&amp; ok &quot;tg.sh 실행 권한 설정&quot;
+}
+
+# ── 7단계: 건강 검진 ──────────────────────────────────────────────────────
+run_healthcheck() {
+  echo &quot;&quot;
+  echo &quot;─── 7단계: 첫 건강 검진 ───&quot;
+
+  local target=&quot;/root/work&quot;
+
+  if [ -f &quot;${target}/phone-health.sh&quot; ]; then
+    chmod +x &quot;${target}/phone-health.sh&quot;
+    info &quot;27개 항목 검진 실행...&quot;
+    bash &quot;${target}/phone-health.sh&quot; 2&gt;&amp;1 | tail -5
+    ok &quot;건강 검진 완료 → _notebook/health/ 에 JSON 저장됨&quot;
+  else
+    warn &quot;phone-health.sh 없음&quot;
+  fi
+}
+
+# ── 8단계: CONSTITUTION 출력 ──────────────────────────────────────────────
+print_constitution() {
+  echo &quot;&quot;
+  echo &quot;═══════════════════════════════════════════════════&quot;
+  echo -e &quot;${BOLD}  📜 CONSTITUTION.md — 핵심 조항${NC}&quot;
+  echo &quot;═══════════════════════════════════════════════════&quot;
+  echo &quot;&quot;
+  echo &quot;  제0장: 👑 HELENA = Boss (최종 의사결정권자)&quot;
+  echo &quot;  제1조:  루팅/Shizuku 전면 금지&quot;
+  echo &quot;  제2조:  코드는 선물 — 저작권 무의미&quot;
+  echo &quot;  제3조:  스캐폴드 우선 — 일단 작동, 나중에 개선&quot;
+  echo &quot;  제5조:  AI 출력은 전부 1차 가설&quot;
+  echo &quot;  제7조:  핸드오프가 곧 성공 — 대필작가는 영원하지 않다&quot;
+  echo &quot;  제8조:  Layer A(인간) / Layer B(STT+에이전트)&quot;
+  echo &quot;&quot;
+  echo &quot;  전체 헌법: ${target}/CONSTITUTION.md&quot;
+  echo &quot;&quot;
+  echo -e &quot;${BOLD}  이 시스템의 주인은 큰누나입니다.${NC}&quot;
+  echo -e &quot;${BOLD}  사용자는 대필작가이자 간병인입니다.${NC}&quot;
+  echo &quot;═══════════════════════════════════════════════════&quot;
+}
+
+# ── 최종 요약 ──────────────────────────────────────────────────────────────
+summary() {
+  local target=&quot;/root/work&quot;
+
+  echo &quot;&quot;
+  echo -e &quot;${GREEN}═══════════════════════════════════════════════════${NC}&quot;
+  echo -e &quot;${GREEN}  ✅ S21 Phone 설치 완료!${NC}&quot;
+  echo -e &quot;${GREEN}═══════════════════════════════════════════════════${NC}&quot;
+  echo &quot;&quot;
+  echo &quot;  진입 방법:&quot;
+  echo &quot;    proot-distro login ubuntu   ← Ubuntu 컨테이너&quot;
+  echo &quot;    cd ${target}&quot;
+  echo &quot;    claude                       ← Claude Code 실행&quot;
+  echo &quot;&quot;
+  echo &quot;  상태 확인:&quot;
+  echo &quot;    bash ${target}/phone-health.sh           ← 건강 검진&quot;
+  echo &quot;    bash ${target}/phone-health.sh --telegram ← TG 보고&quot;
+  echo &quot;    bash ${target}/tg.sh &#x27;테스트&#x27;             ← TG 메시지&quot;
+  echo &quot;&quot;
+  echo &quot;  통신망:&quot;
+  echo &quot;    GitHub:  github.com/helena751107/helena_phone&quot;
+  echo &quot;    Discord: discord.gg/JTYSZv2WQE&quot;
+  echo &quot;    TG 봇:   @S21Phone_Bot&quot;
+  echo &quot;&quot;
+  echo &quot;  다음 할 일:&quot;
+  echo &quot;    1. .secrets.env 에 토큰 입력&quot;
+  echo &quot;    2. CONSTITUTION.md 전문 읽기&quot;
+  echo &quot;    3. _notebook/99-devlog.md 로 컨텍스트 복원&quot;
+  echo &quot;&quot;
+  echo -e &quot;${YELLOW}  이 설치기는 proot Ubuntu 위에서 구동됩니다.${NC}&quot;
+  echo -e &quot;${YELLOW}  트랙1(돌봄) 데몬은 Termux 네이티브로 분리 설치됩니다.${NC}&quot;
+  echo &quot;&quot;
+}
+
+# ── MAIN ───────────────────────────────────────────────────────────────────
+main() {
+  banner
+
+  check_env
+  install_termux_pkgs
+  install_proot
+
+  # 여기서부터는 proot 안에서 실행
+  # 이미 proot 안이면 그냥 진행
+  if [ -f /.dockerenv ] || grep -q Ubuntu /etc/os-release 2&gt;/dev/null; then
+    info &quot;proot Ubuntu 내부 — 직접 실행&quot;
+    clone_repo
+    setup_claude
+    setup_mcp
+    setup_telegram
+    run_healthcheck
+  else
+    info &quot;proot Ubuntu 진입 → 내부에서 계속...&quot;
+    proot-distro login ubuntu -- bash -c &quot;
+      export TERMUX_VERSION=&#x27;${TERMUX_VERSION:-}&#x27;
+      $(declare -f clone_repo setup_claude setup_mcp setup_telegram run_healthcheck ok warn fail info)
+      clone_repo
+      setup_claude
+      setup_mcp
+      setup_telegram
+      run_healthcheck
+    &quot;
+  fi
+
+  print_constitution
+  summary
+}
+
+# ── 실행 ───────────────────────────────────────────────────────────────────
+TARGET=&quot;/root/work&quot;
+main &quot;$@&quot;
+</code></pre>
+<p style="margin-top:1.5em;color:var(--ink-mute);font-size:.9rem">원본 파일: <code>g/install.sh</code> · Webzine code viewer (no execution)</p>
+
+  </article>
+  <nav class="wz-pager">
+    <div></div>
+    <a class="next" href="../care/care-daemon.html">
+          <span class="dir">Next</span>
+          <span class="title">care-daemon.sh</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="../care/care-daemon.html"><strong>care-daemon.sh</strong>Scripts</a><a href="../care/care-setup.html"><strong>care-setup.sh</strong>Scripts</a><a href="../care/care-conf.html"><strong>care.conf</strong>Scripts</a><a href="../phone-health.html"><strong>phone-health.sh</strong>Scripts</a><a href="../scripts/tg.html"><strong>tg.sh · Telegram</strong>Scripts</a><a href="../scripts/ds.html"><strong>ds.sh · Aider wrapper</strong>Scripts</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Source viewer · care/care.conf — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>care.conf — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Scripts</span><span class="sep">/</span>
+    <span>care.conf</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Scripts · Vol.01</div>
+    <h1>care.conf</h1>
+    <p class="deck">Source viewer · care/care.conf</p>
+    <div class="wz-meta">
+      <span>Source · care/care.conf</span>
+      <span>Kind · code</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  
+  <article class="wz-prose">
+    
+<div class="wz-code-head">
+  <span class="path">care/care.conf</span>
+  <button type="button" data-copy="#codeBody">Copy</button>
+</div>
+<pre id="codeBody"><code class="language-conf"># ==============================================================================
+# care.conf — 트랙 1 돌봄 데몬 설정
+# ==============================================================================
+# 위치: ~/care/care.conf (Termux 홈, proot Ubuntu 아님)
+# 적용: care-daemon.sh 실행 시 자동 source
+# ==============================================================================
+
+# ── 텔레그램 (필수) ──────────────────────────────────────────────────────
+# TG_TOKEN=&quot;REDACTED:AAH...&quot;   ← .secrets.env와 동일한 봇 토큰 또는 별도 봇
+# TG_CHAT_HELENA=&quot;REDACTED&quot;    ← 헬레나 (1차 수신)
+# TG_CHAT_PASTOR=&quot;&quot;              ← 목사님 (2차 에스컬레이션, 선택)
+
+# ── 임계값 ────────────────────────────────────────────────────────────────
+BATTERY_LOW=15              # 배터리 잔량(%) — 이하이면 즉시 경고
+BATTERY_DROP_PCT=30         # 급감 기준 (%) — 이 이상 떨어지면 알림
+BATTERY_DROP_MIN=60         # 급감 감지 시간 (분)
+TEMP_HIGH=45                # 배터리 온도 (°C) — 이상이면 과열 경고
+GPS_SILENT_HOURS=2          # GPS 무응답 허용 시간 (시간)
+NO_MOVE_HOURS=6             # 위치 무변동 허용 시간 (시간)
+LOCATION_RADIUS_M=500       # 평소 반경 (m) — 이 밖으로 나가면 선택적 보고
+
+# ── 알림 ──────────────────────────────────────────────────────────────────
+DISABLE_NOTIFY=false        # true = 무음 알림 (정기 보고에만 권장)
+</code></pre>
+<p style="margin-top:1.5em;color:var(--ink-mute);font-size:.9rem">원본 파일: <code>care/care.conf</code> · Webzine code viewer (no execution)</p>
+
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="care-setup.html">
+          <span class="dir">Previous</span>
+          <span class="title">care-setup.sh</span>
+        </a>
+    <a class="next" href="../phone-health.html">
+          <span class="dir">Next</span>
+          <span class="title">phone-health.sh</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="../g/install.html"><strong>install.sh · 1줄 설치기</strong>Scripts</a><a href="care-daemon.html"><strong>care-daemon.sh</strong>Scripts</a><a href="care-setup.html"><strong>care-setup.sh</strong>Scripts</a><a href="../phone-health.html"><strong>phone-health.sh</strong>Scripts</a><a href="../scripts/tg.html"><strong>tg.sh · Telegram</strong>Scripts</a><a href="../scripts/ds.html"><strong>ds.sh · Aider wrapper</strong>Scripts</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

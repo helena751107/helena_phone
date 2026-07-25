@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="2026-07-25 | Phase 1 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>🏭 S21 Phone — 통합 개발 계획서 v1 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>🏭 S21 Phone — 통합 개발 계획서 v1</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>🏭 S21 Phone — 통합 개발 계획서 v1</h1>
+    <p class="deck">2026-07-25 | Phase 1</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/21-integrated-dev-plan.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1">1. 레포지토리 폴더 구조 (확정)</a></li>
+<li><a href="#2-github-issues">2. GitHub Issues — 오픈 태스크</a><ul>
+<li><a href="#phase-1">🔴 Phase 1 (현재)</a></li>
+<li><a href="#phase-2-8-helenatechlog">🟡 Phase 2 (8월, @HelenaTechLog)</a></li>
+<li><a href="#phase-35-911">🟡 Phase 3~5 (9~11월)</a></li>
+<li><a href="#_1">⬜ 유지보수</a></li>
+</ul>
+</li>
+<li><a href="#3">3. 웹페이지 랜딩 구조 (영문)</a></li>
+<li><a href="#4-youtube-api">4. YouTube API 통합 개발 계획</a><ul>
+<li><a href="#_2">현재 상태</a></li>
+<li><a href="#_3">콘텐츠 파이프라인</a></li>
+<li><a href="#phase-1_1">영상 아이디어 (Phase 1)</a></li>
+<li><a href="#api">API 쿼터 관리</a></li>
+</ul>
+</li>
+<li><a href="#5">5. 네이버 웹진 — 카테고리 설계</a><ul>
+<li><a href="#helena1975-helena-park">블로그: helena1975 (Helena Park)</a></li>
+<li><a href="#_4">발행 템플릿</a></li>
+</ul>
+</li>
+<li><a href="#6">6. 수동 작업 루틴 (사람)</a><ul>
+<li><a href="#_5">매일</a></li>
+<li><a href="#_6">매주</a></li>
+<li><a href="#25">매월 (25일)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <blockquote>
+<p>2026-07-25 | Phase 1<br>
+GitHub → Pages(영문) → YouTube API → 네이버 웹진 → 티스토리 업무일지</p>
+</blockquote>
+<hr>
+<h2 id="1">1. 레포지토리 폴더 구조 (확정)</h2>
+<pre><code>helena_phone/                  ← 📱 메인 레포 (SSOT)
+│
+├── CONSTITUTION.md            ← 헌법 (한글)
+├── CLAUDE.md                  ← 실무 규칙 (한글)
+├── README.md                  ← 개요 (한글)
+├── index.html                 ← 🇰🇷 포털 랜딩페이지
+│
+├── en/                        ← 🇬🇧 영문 미러
+│   ├── index.html             ← 영문 랜딩페이지
+│   └── README.md              ← 영문 개요
+│
+├── _notebook/                 ← 업무 수첩 (개발 아카이브)
+│   ├── 00-INDEX.md
+│   ├── 01~20-*.md             ← 주제별 노트
+│   └── 99-devlog.md           ← 개발일지
+│
+├── _textbook/                 ← 교재·출판물
+│   └── index.md               ← 완결판 교재
+│
+├── g/                         ← 설치
+│   └── install.sh             ← 1줄 설치기
+│
+├── care/                      ← 트랙1 돌봄 데몬
+│   ├── care-daemon.sh
+│   ├── care-setup.sh
+│   └── care.conf
+│
+├── scripts/                   ← 자동화
+│   ├── phone-health.sh        ← 건강 검진
+│   ├── tg.sh                  ← 텔레그램 보고
+│   ├── yt_upload.py           ← YouTube 업로더
+│   ├── yt_oauth_setup.sh      ← YouTube OAuth
+│   └── publish.py             ← (보존) 티스토리 자동화
+│
+├── configs/                   ← 설정
+│   ├── settings.json          ← Claude Code MCP
+│   ├── ecosystem-map.json     ← 5x5 매트릭스
+│   ├── secrets-template.env   ← 비밀 템플릿
+│   └── bashrc-example.sh
+│
+├── 01-foundation/             ← GUIDE.md 챕터 (작성 예정)
+├── 02-network/
+├── 03-broadcast/
+├── 04-phone-control/
+└── 05-optimization/
+</code></pre>
+<hr>
+<h2 id="2-github-issues">2. GitHub Issues — 오픈 태스크</h2>
+<p>아래 이슈들을 생성하고 우선순위 태그를 붙인다.</p>
+<h3 id="phase-1">🔴 Phase 1 (현재)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>이슈</th>
+<th>담당</th>
+<th>라벨</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>YouTube @helena_phone 첫 영상 업로드</td>
+<td>Claude Code(스크립트) + 사람(녹화)</td>
+<td><code>phase-1</code> <code>youtube</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>g/install.sh 실제 폰에서 설치 테스트</td>
+<td>Claude Code</td>
+<td><code>phase-1</code> <code>install</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>care-daemon.sh 실제 crontab 구동 확인</td>
+<td>Claude Code</td>
+<td><code>phase-1</code> <code>care</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>GitHub Issues 템플릿·라벨·마일스톤 설정</td>
+<td>Claude Code</td>
+<td><code>phase-1</code> <code>meta</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="phase-2-8-helenatechlog">🟡 Phase 2 (8월, @HelenaTechLog)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>이슈</th>
+<th>라벨</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td>@HelenaTechLog 브랜드 채널 생성 (수동)</td>
+<td><code>phase-2</code> <code>youtube</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>helana_log 레포 문서화·Pages 정비</td>
+<td><code>phase-2</code> <code>github</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td>mynote11605 티스토리 업무일지 템플릿</td>
+<td><code>phase-2</code> <code>tistory</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="phase-35-911">🟡 Phase 3~5 (9~11월)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>이슈</th>
+<th>라벨</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>@HelenaFaith 브랜드 채널</td>
+<td><code>phase-3</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td>@HelenaPiano 브랜드 채널</td>
+<td><code>phase-4</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td>@HelenaPsycare 브랜드 채널</td>
+<td><code>phase-5</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="_1">⬜ 유지보수</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>이슈</th>
+<th>라벨</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>11</td>
+<td>en/ 영문 번역 자동화 (한글 커밋 → 영문 싱크)</td>
+<td><code>maintenance</code> <code>translation</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td>Discord dc.sh 웹훅 알림 스크립트</td>
+<td><code>maintenance</code> <code>discord</code></td>
+</tr>
+<tr>
+<td>13</td>
+<td>phone-health.sh → GitHub Actions 연동</td>
+<td><code>maintenance</code> <code>health</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3">3. 웹페이지 랜딩 구조 (영문)</h2>
+<pre><code>helena751107.github.io/helena_phone/
+│
+├── /                          ← 🇰🇷 한글 포털 (index.html)
+│   ├── Hero: &quot;S21 Phone — Workstation&quot;
+│   ├── 5레포 생태계 테이블
+│   ├── 개발일지 타임라인
+│   ├── 통신망 현황 (Discord·TG·YouTube)
+│   ├── 업무 수첩 링크 카드
+│   ├── Giscus 댓글
+│   └── WidgetBot 채팅
+│
+├── /en/                       ← 🇬🇧 English mirror
+│   ├── Hero: &quot;S21 Phone — AI Workstation&quot;
+│   ├── Two Tracks (Caregiving &amp; Aspiration)
+│   ├── Tech Stack diagram
+│   ├── 5×5 Ecosystem table
+│   ├── Core Principles
+│   ├── Quick Install
+│   └── Links (KR portal·YouTube·Discord·Tistory)
+│
+├── /en/install/               ← (예정) 영문 설치 가이드
+├── /en/docs/                  ← (예정) 영문 기술 문서
+└── /en/chronicle/             ← (예정) 영문 연대기
+</code></pre>
+<p><strong>번역 파이프라인:</strong></p>
+<pre><code>한글 원본 변경 → Claude Code가 영문 번역 → 같은 커밋에 포함 → Pages 자동 배포
+</code></pre>
+<hr>
+<h2 id="4-youtube-api">4. YouTube API 통합 개발 계획</h2>
+<h3 id="_2">현재 상태</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>채널</td>
+<td>@helena_phone (UC_IPajoyj6_IO8wt9JwVCAQ)</td>
+</tr>
+<tr>
+<td>인증</td>
+<td>OAuth TV Device Flow — 리프레시 토큰 보유</td>
+</tr>
+<tr>
+<td>업로더</td>
+<td><code>scripts/yt_upload.py</code> (256줄) — videos.insert</td>
+</tr>
+<tr>
+<td>플레이리스트</td>
+<td>4개 (셋업·STT코딩·건강검진·0원인프라)</td>
+</tr>
+<tr>
+<td>동영상</td>
+<td>0개</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_3">콘텐츠 파이프라인</h3>
+<pre><code>1. 사람이 폰 화면 녹화 → .mp4 파일
+2. Claude Code에게 &quot;이 영상 업로드해, 제목은 ~&quot;
+3. yt_upload.py 실행
+   ├── OAuth 토큰 리프레시
+   ├── videos.insert (제목·설명·태그·카테고리)
+   ├── playlistItems.insert (플레이리스트에 추가)
+   └── tg.sh → Telegram 보고 (&quot;✅ 업로드 완료: youtu.be/xxxxx&quot;)
+4. GitHub에 업로드 로그 커밋
+</code></pre>
+<h3 id="phase-1_1">영상 아이디어 (Phase 1)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>제목</th>
+<th>플레이리스트</th>
+<th>분량</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>S21에 Termux + proot Ubuntu 설치하기</td>
+<td>S21 셋업 가이드</td>
+<td>10분</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Claude Code 첫 실행 — 말로 코딩</td>
+<td>STT 음성 코딩</td>
+<td>10분</td>
+</tr>
+<tr>
+<td>3</td>
+<td>phone-mcp-server — 폰 18개 도구 제어</td>
+<td>S21 셋업 가이드</td>
+<td>15분</td>
+</tr>
+<tr>
+<td>4</td>
+<td>phone-health.sh — 27항목 건강검진</td>
+<td>폰 건강 검진</td>
+<td>10분</td>
+</tr>
+<tr>
+<td>5</td>
+<td>g/install.sh — 1줄로 풀스택 설치</td>
+<td>0원 풀스택 인프라</td>
+<td>5분</td>
+</tr>
+</tbody>
+</table>
+<h3 id="api">API 쿼터 관리</h3>
+<table>
+<thead>
+<tr>
+<th>호출</th>
+<th>유닛</th>
+<th>빈도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>videos.insert</code></td>
+<td>1,600</td>
+<td>영상당 1회 (하루 최대 6개)</td>
+</tr>
+<tr>
+<td><code>playlistItems.insert</code></td>
+<td>50</td>
+<td>영상당 1회</td>
+</tr>
+<tr>
+<td><code>playlistItems.list</code></td>
+<td>1</td>
+<td>확인용</td>
+</tr>
+<tr>
+<td><code>channels.list</code></td>
+<td>1</td>
+<td>통계 확인</td>
+</tr>
+<tr>
+<td>❌ <code>search.list</code></td>
+<td>100</td>
+<td><strong>사용 금지</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="5">5. 네이버 웹진 — 카테고리 설계</h2>
+<h3 id="helena1975-helena-park">블로그: helena1975 (Helena Park)</h3>
+<p><strong>웹진 이름:</strong> &ldquo;S21 워크스테이션 — 폰 하나로 짓는 AI 공장&rdquo;</p>
+<table>
+<thead>
+<tr>
+<th>카테고리</th>
+<th>내용</th>
+<th>빈도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>📱 <strong>셋업 &amp; 설치</strong></td>
+<td>g/install.sh 설치 후기·신규 버전·환경 설정 가이드</td>
+<td>월 1~2회</td>
+</tr>
+<tr>
+<td>🎤 <strong>STT 음성 코딩</strong></td>
+<td>말로 코딩하는 팁·음성명령 예시·생산성 후기</td>
+<td>주 1회</td>
+</tr>
+<tr>
+<td>🏭 <strong>워크센터 리포트</strong></td>
+<td>이번 주 GitHub 커밋·YouTube 영상·TG 리포트 요약</td>
+<td><strong>주 1회 (메인)</strong></td>
+</tr>
+<tr>
+<td>🛡️ <strong>돌봄 인프라</strong></td>
+<td>care-daemon 작동 로그·건강검진 결과·안전 모니터링 (민감정보 제외)</td>
+<td>월 1~2회</td>
+</tr>
+<tr>
+<td>📖 <strong>비하인드 &amp; 에세이</strong></td>
+<td>개발 과정에서의 판단·실패·깨달음·사람 이야기</td>
+<td>월 1~2회</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_4">발행 템플릿</h3>
+<pre><code>[주간 워크센터 리포트] 2026-07-25
+
+📱 이번 주 GitHub: 5커밋 (install.sh·영문판·워크센터)
+📺 이번 주 YouTube: @helena_phone 셋업 영상
+📝 업무일지: galaxys21-pwuser.tistory.com/123
+
+📌 이번 주 판단: 티스토리·네이버 자동화 포기 —
+   API 없는 GUI 자동화는 치킨게임이다. 되는 것만 한다.
+
+🔗 GitHub(en): helena751107.github.io/helena_phone/en/
+🔗 YouTube: youtube.com/@helena_phone
+</code></pre>
+<hr>
+<h2 id="6">6. 수동 작업 루틴 (사람)</h2>
+<h3 id="_5">매일</h3>
+<ul>
+<li>[ ] Claude Code와 작업 → 자동 git commit + TG 보고</li>
+<li>[ ] TG 리포트 + 터미널 스크린샷 → 티스토리 업무일지</li>
+</ul>
+<h3 id="_6">매주</h3>
+<ul>
+<li>[ ] 주간 TG 리포트 모아서 → 네이버 웹진 &ldquo;워크센터 리포트&rdquo; 발행</li>
+<li>[ ] YouTube 영상 1개 녹화·업로드</li>
+</ul>
+<h3 id="25">매월 (25일)</h3>
+<ul>
+<li>[ ] 새 YouTube 브랜드 채널 생성 (8~11월)</li>
+<li>[ ] en/ 영문판 동기화 상태 확인</li>
+</ul>
+<hr>
+<blockquote>
+<p>📱 helena751107.github.io/helena_phone<br>
+📺 youtube.com/@helena_phone<br>
+📝 galaxys21-pwuser.tistory.com<br>
+🌐 m.blog.naver.com/helena1975</p>
+</blockquote>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="20-workcenters-final.html">
+          <span class="dir">Previous</span>
+          <span class="title">🏭 S21 Phone — 워크센터 최종 (2026-07-25)</span>
+        </a>
+    <a class="next" href="22-s21-benchmark.html">
+          <span class="dir">Next</span>
+          <span class="title">S21 벤치마크</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-25</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

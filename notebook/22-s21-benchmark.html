@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="측정일: 2026-07-25 | 실측 기기: Galaxy S21 5G (SM-G991N, 한국판) — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>📱 S21 디바이스 분석 — 최신폰 대비 성능 비교 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>📱 S21 디바이스 분석 — 최신폰 대비 성능 비교</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>📱 S21 디바이스 분석 — 최신폰 대비 성능 비교</h1>
+    <p class="deck">측정일: 2026-07-25 | 실측 기기: Galaxy S21 5G (SM-G991N, 한국판)</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/22-s21-benchmark.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1">1. 실측 사양</a></li>
+<li><a href="#2-vs-s21-2026-7">2. 최신 플래그십 vs S21 (2026년 7월 기준)</a></li>
+<li><a href="#3-ai">3. AI 워크스테이션 용도 관점 비교</a></li>
+<li><a href="#4">4. 결론: 이 폰으로 할 수 있는 것, 없는 것</a><ul>
+<li><a href="#_1">✅ 할 수 있는 것 (제약 없음)</a></li>
+<li><a href="#_2">⚠️ 가능하지만 느린 것</a></li>
+<li><a href="#_3">❌ 할 수 없는 것 (물리적 한계)</a></li>
+</ul>
+</li>
+<li><a href="#5">5. 핵심 인사이트</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <blockquote>
+<p>측정일: 2026-07-25 | 실측 기기: Galaxy S21 5G (SM-G991N, 한국판)<br>
+용도: AI 워크스테이션·미니 스튜디오·개인 출판 오피스</p>
+</blockquote>
+<hr>
+<h2 id="1">1. 실측 사양</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>실측값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>모델</td>
+<td>SM-G991N (Galaxy S21 5G)</td>
+</tr>
+<tr>
+<td>제조사</td>
+<td>Samsung</td>
+</tr>
+<tr>
+<td>출시</td>
+<td>2021년 1월 (5년 6개월 경과)</td>
+</tr>
+<tr>
+<td>Android</td>
+<td>15 (SDK 35)</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>Samsung Exynos 2100 (5nm), 8코어 (1×Cortex-X1 2.9GHz + 3×A78 2.8GHz + 4×A55 2.2GHz)</td>
+</tr>
+<tr>
+<td>RAM</td>
+<td>8GB LPDDR5 (실측 7.0Gi 사용 가능)</td>
+</tr>
+<tr>
+<td>저장공간</td>
+<td>256GB (실측 226GB, 54GB 사용, 172GB 남음)</td>
+</tr>
+<tr>
+<td>배터리</td>
+<td>4,000mAh, 건강 GOOD, 현재 85%·38.5°C·4,096mV</td>
+</tr>
+<tr>
+<td>디스플레이</td>
+<td>6.2&rdquo; Dynamic AMOLED 2X, FHD+ 2400×1080, 120Hz</td>
+</tr>
+<tr>
+<td>카메라</td>
+<td>후면 2개(12MP+64MP), 전면 2개(10MP)</td>
+</tr>
+<tr>
+<td>WiFi</td>
+<td>WiFi 6 (802.11ax), RSSI -49dBm</td>
+</tr>
+<tr>
+<td>GPU</td>
+<td>ARM Mali-G78 MP14</td>
+</tr>
+<tr>
+<td>무게</td>
+<td>169g</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="2-vs-s21-2026-7">2. 최신 플래그십 vs S21 (2026년 7월 기준)</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th><strong>S21 (2021)</strong></th>
+<th><strong>S26 Ultra (2026, 추정)</strong></th>
+<th><strong>갭</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU</td>
+<td>Exynos 2100 (5nm)</td>
+<td>Snapdragon 8 Gen 4 / Exynos 2500 (3nm)</td>
+<td>약 3.5배</td>
+</tr>
+<tr>
+<td>RAM</td>
+<td>8GB LPDDR5</td>
+<td>12~16GB LPDDR6</td>
+<td>1.5~2배</td>
+</tr>
+<tr>
+<td>저장</td>
+<td>256GB UFS 3.1</td>
+<td>256GB~1TB UFS 4.0</td>
+<td>속도 2배</td>
+</tr>
+<tr>
+<td>배터리</td>
+<td>4,000mAh (5년 사용)</td>
+<td>5,000~5,500mAh (신품)</td>
+<td>실체감 2배</td>
+</tr>
+<tr>
+<td>디스플레이</td>
+<td>6.2&rdquo; FHD+ 120Hz</td>
+<td>6.8&rdquo; QHD+ 144Hz</td>
+<td>해상도 ↑</td>
+</tr>
+<tr>
+<td>WiFi</td>
+<td>WiFi 6</td>
+<td>WiFi 7</td>
+<td>속도 4.8배</td>
+</tr>
+<tr>
+<td>GPU</td>
+<td>Mali-G78 MP14</td>
+<td>Snapdragon Xclipse / AMD RDNA 4</td>
+<td>약 4배</td>
+</tr>
+<tr>
+<td>AI 칩</td>
+<td>없음 (CPU/GPU 대체)</td>
+<td>전용 NPU (45 TOPS)</td>
+<td>AI연산 10배+</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3-ai">3. AI 워크스테이션 용도 관점 비교</h2>
+<p>이 관점이 진짜 중요하다. 스펙 숫자가 아니라 <strong>&ldquo;이 일을 이 폰으로 할 수 있냐&rdquo;</strong> 가 기준.</p>
+<table>
+<thead>
+<tr>
+<th>작업</th>
+<th>S21에서 가능?</th>
+<th>한계</th>
+<th>최신폰이면?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Termux + proot Ubuntu</td>
+<td>✅ 잘 됨</td>
+<td>파일시스템 약간 느림</td>
+<td>동일</td>
+</tr>
+<tr>
+<td>Claude Code (DeepSeek)</td>
+<td>✅ 잘 됨</td>
+<td>API 호출이라 로컬 성능 무관</td>
+<td>동일 (API는 같음)</td>
+</tr>
+<tr>
+<td>Git + GitHub</td>
+<td>✅ 잘 됨</td>
+<td>대용량 레포는 약간 느림</td>
+<td>동일</td>
+</tr>
+<tr>
+<td>Playwright Chromium headless</td>
+<td>✅ 잘 됨</td>
+<td>메모리 500MB 먹음, 초기 로딩 느림</td>
+<td>더 빠름</td>
+</tr>
+<tr>
+<td>Python·Node.js·pip·npm</td>
+<td>✅ 잘 됨</td>
+<td>빌드 속도 차이</td>
+<td>2~3배 빠름</td>
+</tr>
+<tr>
+<td>phone-mcp-server 18도구</td>
+<td>✅ 잘 됨</td>
+<td>제약 없음</td>
+<td>동일</td>
+</tr>
+<tr>
+<td>YouTube 업로드 (API)</td>
+<td>✅ 잘 됨</td>
+<td>API 호출이라 로컬 성능 무관</td>
+<td>동일</td>
+</tr>
+<tr>
+<td>영상 녹화 + 인코딩</td>
+<td>⚠️ 가능하나 느림</td>
+<td>1080p 이상은 인코딩 부담</td>
+<td>하드웨어 인코딩</td>
+</tr>
+<tr>
+<td>LLM 로컬 실행 (Ollama)</td>
+<td>❌ 불가능</td>
+<td>RAM 부족 + NPU 없음</td>
+<td>S26은 가능 (NPU)</td>
+</tr>
+<tr>
+<td>Docker / VM</td>
+<td>❌ 불가능</td>
+<td>proot은 컨테이너 에뮬레이션일 뿐</td>
+<td>동일 (Android 제약)</td>
+</tr>
+<tr>
+<td>GUI 앱 (X11)</td>
+<td>⚠️ 이론상 가능</td>
+<td>GPU 가속 없음, 느림</td>
+<td>DeX 모드로 가능</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4">4. 결론: 이 폰으로 할 수 있는 것, 없는 것</h2>
+<h3 id="_1">✅ 할 수 있는 것 (제약 없음)</h3>
+<ul>
+<li><strong>AI 코딩 에이전트</strong> — Claude Code, Aider, MCP 서버</li>
+<li><strong>풀스택 웹 개발</strong> — Git, GitHub Pages, HTML/CSS/JS</li>
+<li><strong>문서화</strong> — Markdown, Jekyll, 정적 사이트 생성</li>
+<li><strong>API 자동화</strong> — YouTube, Telegram, Discord, GitHub API</li>
+<li><strong>폰 하드웨어 통제</strong> — SMS, 배터리, GPS, 카메라, 플래시</li>
+<li><strong>헤드리스 브라우저</strong> — Playwright Chromium</li>
+<li><strong>쉘 스크립트 자동화</strong> — Bash, cron, daemon</li>
+</ul>
+<h3 id="_2">⚠️ 가능하지만 느린 것</h3>
+<ul>
+<li><strong>대용량 컴파일</strong> — C/C++ 빌드, pip 대형 패키지</li>
+<li><strong>영상 인코딩</strong> — FFmpeg 소프트웨어 인코딩 (1080p 이상)</li>
+<li><strong>데이터베이스</strong> — SQLite 충분, PostgreSQL은 무거움</li>
+</ul>
+<h3 id="_3">❌ 할 수 없는 것 (물리적 한계)</h3>
+<ul>
+<li><strong>로컬 LLM 실행</strong> — 8GB RAM + NPU 없음. 7B 모델도 스왑 필요</li>
+<li><strong>Docker / 가상화</strong> — Android 커널 제약. proot만 가능</li>
+<li><strong>GPU 가속</strong> — CUDA/Metal 없음. 순수 CPU 연산</li>
+<li><strong>iOS 개발</strong> — Xcode 불가 (macOS 필요)</li>
+</ul>
+<hr>
+<h2 id="5">5. 핵심 인사이트</h2>
+<blockquote>
+<p><strong>&ldquo;API 기반 AI 워크스테이션으로서 S21은 성능 제약이 거의 없다.&rdquo;</strong></p>
+<p>Claude Code·GitHub·YouTube·Telegram 전부 API 호출이기 때문에<br>
+로컬 CPU/GPU 성능보다 <strong>네트워크 대역폭</strong>이 더 중요하다.</p>
+<p>S21의 진짜 한계는 CPU가 아니라 <strong>배터리 수명</strong>(5년 사용)과<br>
+<strong>로컬 LLM 실행 불가</strong>(NPU 없음)다. 하지만 클라우드 API를 쓰는<br>
+현 구조에서는 둘 다 문제가 되지 않는다.</p>
+<p><strong>5년 된 폰으로 최신 AI 개발이 가능한 이유: 모든 무거운 연산이 API로 빠지기 때문.</strong></p>
+</blockquote>
+<hr>
+<blockquote>
+<p>다음: 이 분석을 기반으로 en/device-benchmark.html 영문 페이지 생성</p>
+</blockquote>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="21-integrated-dev-plan.html">
+          <span class="dir">Previous</span>
+          <span class="title">🏭 S21 Phone — 통합 개발 계획서 v1</span>
+        </a>
+    <a class="next" href="23-naver-webzine-solution.html">
+          <span class="dir">Next</span>
+          <span class="title">네이버 웹진 솔루션</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-25</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

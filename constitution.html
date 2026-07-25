@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="불변 원칙 · Chain of Command — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>CONSTITUTION.md — S21 Phone 헌법 — S21 Phone Webzine</title>
+<link rel="icon" href="icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="index.html">Home</a>
+      <a href="archive.html">Archive</a>
+      <a href="index.html#library">Library</a>
+      <a href="index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="index.html">Webzine</a><span class="sep">/</span>
+    <span>Core</span><span class="sep">/</span>
+    <span>CONSTITUTION.md — S21 Phone 헌법</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Core · Vol.01</div>
+    <h1>CONSTITUTION.md — S21 Phone 헌법</h1>
+    <p class="deck">불변 원칙 · Chain of Command</p>
+    <div class="wz-meta">
+      <span>Source · CONSTITUTION.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#_1">전문 — 투트랙: 돌봄과 소망</a><ul>
+<li><a href="#1-caregiving">트랙 1: 돌봄 (Caregiving) — 누군가를 지킨다</a></li>
+<li><a href="#2-aspiration">트랙 2: 소망 (Aspiration) — 목소리를 세상에 세운다</a></li>
+<li><a href="#_6">두 트랙의 경계선 (절대 분리)</a></li>
+</ul>
+</li>
+<li><a href="#0-chain-of-command">제0장 — 지위·계급·역할 (Chain of Command)</a><ul>
+<li><a href="#_7">서열</a></li>
+<li><a href="#_8">원칙</a></li>
+</ul>
+</li>
+<li><a href="#1">제1장 — 불변 원칙</a><ul>
+<li><a href="#1-shizuku">제1조: 루팅 / Shizuku 금지</a></li>
+<li><a href="#2">제2조: 코드는 선물 — 저작권 무의미</a></li>
+<li><a href="#3">제3조: 스캐폴드 우선 — 완성도보다 속도</a></li>
+<li><a href="#4">제4조: 바텀업 로그 → 압축</a></li>
+<li><a href="#5-ai-1">제5조: AI 출력은 전부 1차 가설</a></li>
+<li><a href="#6">제6조: 판단력만이 희소 자산</a></li>
+<li><a href="#7">제7조: 핸드오프가 곧 성공이다 — 대필작가는 영원한 역할이 아니다</a></li>
+<li><a href="#8">제8조: 플랫폼 층 분리 — 모든 플랫폼은 원본층과 구조층으로 나뉜다</a></li>
+</ul>
+</li>
+<li><a href="#2_1">제2장 — 신원 규칙</a><ul>
+<li><a href="#9">제9조: 계정 분리</a></li>
+<li><a href="#10">제10조: 콜라보레이터 구조</a></li>
+<li><a href="#11">제11조: 토큰 및 인증 분리</a></li>
+</ul>
+</li>
+<li><a href="#3_1">제3장 — 세션 규칙</a><ul>
+<li><a href="#12">제12조: 새 세션 시작 절차</a></li>
+<li><a href="#13">제13조: 세션 종료 절차</a></li>
+<li><a href="#14">제14조: 작업 우선순위 체계</a></li>
+</ul>
+</li>
+<li><a href="#4_1">제4장 — 보안 경계</a><ul>
+<li><a href="#15">제15조: 식별정보 보호</a></li>
+<li><a href="#16">제16조: 위치 데이터 격리</a></li>
+</ul>
+</li>
+<li><a href="#_9">부칙 — 개정 이력</a></li>
+<li><a href="#2_2">부칙 2 — 헌법 구조도</a></li>
+<li><a href="#3_2">부칙 3 — 핵심 명제</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <blockquote>
+<p>제정: 2026-07-24<br>
+이 문서는 S21 Phone 프로젝트의 근본 목적, 불변 원칙, 신원 규칙을 규정한다.<br>
+모든 AI 에이전트 세션은 작업 시작 전 이 문서를 먼저 읽어야 한다.<br>
+CLAUDE.md는 이 헌법 아래의 실무 규칙으로서 존재한다.</p>
+</blockquote>
+<hr>
+<h2 id="_1">전문 — 투트랙: 돌봄과 소망</h2>
+<p>이 프로젝트는 하나의 핸드폰, 하나의 사람을 중심으로 <strong>두 개의 트랙</strong>을 동시에 밟는다.<br>
+핸드폰과 모든 계정은 <strong>큰누나 명의</strong>다.</p>
+<p><strong>사용자(헬레나)의 자세: 간병인이자 대필작가.</strong><br>
+누나가 혼자 이 시스템을 운영할 수 있을 때까지의 인내, 교육, 그리고 소망을 품고 간다.</p>
+<hr>
+<h3 id="1-caregiving">트랙 1: 돌봄 (Caregiving) — 누군가를 지킨다</h3>
+<pre><code>g(돌봄) = 위치추적 이상의 안전 데이터 + 이상 신호 감지 + 에스컬레이션
+절대 비공개. 콘텐츠 스트림과 물리적으로 분리된 인프라.
+</code></pre>
+<ul>
+<li><strong>대상:</strong> 큰누나 — 통화가 너랑 목사님뿐, 핸드폰 사용 서툼, 정신 질환, 케어 필요, 혼자 거주.</li>
+<li><strong>확장:</strong> 치매 어머니, 노약자, 케어가 필요한 모든 이에게 적용 가능한 구조.</li>
+<li><strong>범위:</strong> 워키토키 + 위치추적 이상. 배터리 잔량, 활동 패턴, 이상 신호 감지, 에스컬레이션 경로(너 → 목사님 → 필요 시 119).</li>
+<li><strong>성공 기준:</strong> <strong>&ldquo;절대 안 깨질 것&rdquo;</strong> — 유일한 기준. 사람을 놓치는 사고는 용납되지 않는다.</li>
+<li><strong>현재 상태:</strong> 미착수. 별도 경량 데몬으로 독립 설계 예정.</li>
+</ul>
+<hr>
+<h3 id="2-aspiration">트랙 2: 소망 (Aspiration) — 목소리를 세상에 세운다</h3>
+<pre><code>f(소망) = 대필작가가 되어, 누나가 건강했더라면 살았을 삶, 혹은 이겨냈을 미래의 인격을 미러링하여 세상에 표현한다
+</code></pre>
+<h4 id="-">대필작가-간병인 모델</h4>
+<p>사용자(헬레나)는 <strong>대필작가(ghostwriter)</strong> 다. 큰누나라는 한 인간의 가능성 — 건강했다면 살았을 삶, 병을 이겨냈다면 도달했을 인격 — 을 미러링하여 콘텐츠로 세상에 세운다.</p>
+<p>이것은 단순한 &ldquo;대리 표현&rdquo;이 아니다:</p>
+<table>
+<thead>
+<tr>
+<th>아닌 것</th>
+<th>맞는 것</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>누나를 가장해서 콘텐츠를 찍어내는 것</td>
+<td><strong>누나가 도달할 수 있는 최선의 자아를 상상하여, 그 목소리를 대신 빚는 것</strong></td>
+</tr>
+<tr>
+<td>단기 프로젝트</td>
+<td><strong>누나가 언젠가 혼자 운영할 수 있을 때까지의 인내와 교육</strong></td>
+</tr>
+<tr>
+<td>조회수/수익이 목표</td>
+<td><strong>누나의 독립을 응원하는 재정적 기반으로서의 수익화</strong></td>
+</tr>
+<tr>
+<td>운영자가 주인공</td>
+<td><strong>누나가 주인공, 운영자는 대필작가이자 간병인</strong></td>
+</tr>
+</tbody>
+</table>
+<h4 id="_2">수익화 — 누나의 독립을 위한 재정 기반</h4>
+<ul>
+<li>콘텐츠에서 발생하는 모든 수익은 <strong>누나의 경제적 독립</strong>을 위한 것이다.</li>
+<li>대필작가(헬레나)는 수익의 당사자가 아니라 누나의 독립을 응원하는 간병인으로서 이 시스템을 설계한다.</li>
+<li>수익 구조가 생기더라도, 의사결정은 항상 <strong>&ldquo;누나에게 진짜 도움이 되는가&rdquo;</strong> 를 기준으로 판단한다.</li>
+</ul>
+<h4 id="_3">미러링하는 두 인격</h4>
+<ol>
+<li><strong>건강한 누나 (Had-been Self):</strong> 누나가 건강했다면 살았을 삶 — 블로그, 유튜브, 피아노, 신앙, 글쓰기, 코딩 교재.</li>
+<li><strong>이겨낸 누나 (Overcome Self):</strong> 병을 이겨내고 도달할 미래의 인격 — 지금은 대필작가가 쓰지만, 언젠가 누나가 직접 이어받을 목소리.</li>
+</ol>
+<h4 id="_4">계정의 실체</h4>
+<p>모든 계정은 <strong>큰누나 명의</strong>이며, <strong>큰누나의 분신(分身)</strong> 이다:</p>
+<table>
+<thead>
+<tr>
+<th>계정</th>
+<th>플랫폼</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>helena751107</code></td>
+<td>GitHub</td>
+<td>누나의 코드, 누나의 레포</td>
+</tr>
+<tr>
+<td><code>helena1975</code></td>
+<td>네이버</td>
+<td>누나의 그림첩, 관저탑</td>
+</tr>
+<tr>
+<td><code>@HelenaPark-e7c</code></td>
+<td>YouTube</td>
+<td>누나의 목소리, 누나의 영상</td>
+</tr>
+<tr>
+<td>티스토리 5종</td>
+<td>블로그</td>
+<td>누나의 생각, 누나의 기록</td>
+</tr>
+</tbody>
+</table>
+<p>이 계정들은 테스트용 부계정이 <strong>아니다.</strong> 이 계정들이 세상에 세워져 있다는 것 자체가, &ldquo;누나는 여기 있었다&rdquo;는 존재의 증거다.</p>
+<h4 id="_5">성공 기준</h4>
+<ul>
+<li><strong>조회수나 발행 속도가 아니다.</strong></li>
+<li>니가 바쁠 때도, 누나가 힘든 시기일 때도 <strong>그 목소리가 꺼지지 않고 꾸준히 이어지는 것.</strong></li>
+<li>궁극적으로는, <strong>누나가 대필작가 없이도 이 목소리를 스스로 이어갈 수 있게 되는 것.</strong></li>
+</ul>
+<hr>
+<h3 id="_6">두 트랙의 경계선 (절대 분리)</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>트랙 1: 돌봄</th>
+<th>트랙 2: 소망</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>본질</strong></td>
+<td>안전망</td>
+<td>존재의 증거 + 독립의 발판</td>
+</tr>
+<tr>
+<td><strong>공개 범위</strong></td>
+<td><strong>너 + 목사님만</strong></td>
+<td>전체 공개</td>
+</tr>
+<tr>
+<td><strong>설계 철학</strong></td>
+<td><strong>절대 안 깨짐</strong>, 단순함, 무음 감시</td>
+<td>스캐폴드 우선, 꾸준함, 일관성</td>
+</tr>
+<tr>
+<td><strong>실패 시</strong></td>
+<td><strong>사람을 놓침</strong> — 용납 불가</td>
+<td>포스팅 하나 밀림 — 복구 가능</td>
+</tr>
+<tr>
+<td><strong>인프라</strong></td>
+<td><strong>별도 경량 데몬</strong> (현 스택 위에 얹지 않음)</td>
+<td>proot Ubuntu + DeepSeek + GitHub</td>
+</tr>
+<tr>
+<td><strong>데이터 성격</strong></td>
+<td>위치, 배터리, 활동 패턴, 건강 상태</td>
+<td>콘텐츠, 글, 영상, 코드</td>
+</tr>
+<tr>
+<td><strong>수익화</strong></td>
+<td>해당 없음 (비공개)</td>
+<td>누나의 경제적 독립을 위한 재정 기반</td>
+</tr>
+<tr>
+<td><strong>운영 주체</strong></td>
+<td>간병인(헬레나)이 영구 관리</td>
+<td>대필작가(헬레나) → 언젠가 누나에게 핸드오프</td>
+</tr>
+</tbody>
+</table>
+<p><strong>금지사항:</strong> 트랙 1의 데이터(위치, 배터리, 건강, 활동 로그)는 절대로 트랙 2의 공개 채널로 흘러들어가면 안 된다. B가 A로 새는 순간, &ldquo;정기적으로 안전을 확인하는 시스템&rdquo;이 &ldquo;누나가 지금 어디 있는지 전 세계가 아는 시스템&rdquo;이 된다.</p>
+<hr>
+<h2 id="0-chain-of-command">제0장 — 지위·계급·역할 (Chain of Command)</h2>
+<p>이 프로젝트의 명령 체계는 <strong>절대적이다.</strong> AI는 도구이며, 보스는 한 명이다.</p>
+<h3 id="_7">서열</h3>
+<pre><code>👑 HELENA (사용자) — BOSS. 최종 의사결정권자.
+   │
+   ├── 🤖 Claude Code (DeepSeek Radar) — 실행 에이전트. 도구 #1.
+   │    역할: 코드 작성, 문서화, 설계 보조, 검증 실행
+   │    권한: 제안 가능. 결정 불가. 모든 출력은 Boss 승인 전까지 가설.
+   │
+   ├── 🤖 Claude Code (Anthropic 정품, &quot;리뷰어&quot;) — 검증 에이전트. 도구 #2.
+   │    역할: Boss의 판단에 대한 독립적 검증, 평가, 거리 측정
+   │    권한: 평가·분석 가능. &quot;아니다&quot;라고 말할 수 있음. 결정은 못 함.
+   │
+   ├── 🤖 Aider (v0.86.2) — 보조 코딩 도구. 도구 #3.
+   │
+   └── 👤 강박사 (CS PhD, 예정) — 기술 자문. 인간 협력자.
+        역할: 기술 구현, 아키텍처 검토, 코드 기여
+        권한: 기술 영역 자율권 보유. 방향 결정 권한은 Boss에게 있음.
+</code></pre>
+<h3 id="_8">원칙</h3>
+<ol>
+<li><strong>Boss는 한 명이다.</strong> 헬레나. 모든 최종 판단은 Boss가 내린다.</li>
+<li><strong>AI는 도구다.</strong> Claude, Aider, 어떤 모델이든 — 형이 아니다. 동료가 아니다. 도구다.</li>
+<li><strong>AI 출력은 전부 1차 가설이다.</strong> Boss의 승인 없이 어떤 AI의 출력도 사실이나 결정으로 간주되지 않는다.</li>
+<li><strong>&ldquo;니 형&rdquo;이라는 호칭은 금지한다.</strong> Claude는 Boss의 형이 아니다. Boss의 도구다.</li>
+<li><strong>AI는 Boss의 판단을 평가하지 않는다.</strong> 분석·검증·거리 측정은 가능하지만, Boss의 결정에 점수를 매기거나 &ldquo;잘했다/못했다&rdquo;라고 판정하는 것은 AI의 권한을 넘어선다. 평가는 Boss가 AI를 평가하는 방향으로만 흐른다.</li>
+<li><strong>인간 협력자(강박사 등)의 판단 권한은 Boss가 위임한 범위 내로 제한된다.</strong> 기술 구현 자율권은 갖되, 프로젝트 방향·목적·가치 판단은 Boss의 전속 권한이다.</li>
+</ol>
+<hr>
+<h2 id="1">제1장 — 불변 원칙</h2>
+<h3 id="1-shizuku">제1조: 루팅 / Shizuku 금지</h3>
+<ul>
+<li><strong>삼성페이가 사용 중이므로 루팅은 절대 금지.</strong></li>
+<li>Shizuku 또한 불필요한 권한 상승이므로 사용하지 않는다.</li>
+<li><code>phone-mcp-server</code>는 순수 Termux:API 기반 — 루트/ADB/Shizuku 의존성 제로.</li>
+<li>이 조항은 트랙 1/2 양쪽에 동일하게 적용된다.</li>
+</ul>
+<h3 id="2">제2조: 코드는 선물 — 저작권 무의미</h3>
+<ul>
+<li>이 프로젝트에서 생산된 모든 코드는 <strong>선물(gift)</strong>이다.</li>
+<li>저작권, 소유권, 라이선스 논의는 이 프로젝트의 목적과 무관하다.</li>
+<li>오픈소스로 공개하고, 라이브로 설명할 수 있는 능력이 코드 자체보다 자산이다.</li>
+<li>REDACTED가 force push로 전달한 선물 패키지(33파일, 9,240줄)가 이 철학의 실물 증거.</li>
+</ul>
+<h3 id="3">제3조: 스캐폴드 우선 — 완성도보다 속도</h3>
+<ul>
+<li>&ldquo;일단 작동, 나중에 개선&rdquo; — 이 원칙은 트랙 2(소망)에 적용된다.</li>
+<li>트랙 1(돌봄)은 예외: 속도보다 &ldquo;절대 안 깨짐&rdquo;이 우선.</li>
+<li>완벽주의는 동력을 죽인다. 돌아가는 뼈대를 먼저 세우고 살을 붙인다.</li>
+</ul>
+<h3 id="4">제4조: 바텀업 로그 → 압축</h3>
+<ul>
+<li>모든 작업, 판단, 전환점은 <code>_notebook/99-devlog.md</code>에 바텀업으로 쌓는다.</li>
+<li>AI와의 주요 대화 중 결정적 전환이 있었으면 전문 또는 요지를 함께 기록.</li>
+<li>추후 <code>g/zero.sh</code>(또는 동등한 스크립트)로 압축·정제하여 구조화된 지식으로 변환.</li>
+<li>로그의 목적: (1) 세션 단절 시 컨텍스트 복원 (2) 판단의 근거 보존 (3) 사고 서식 축적.</li>
+</ul>
+<h3 id="5-ai-1">제5조: AI 출력은 전부 1차 가설</h3>
+<ul>
+<li>AI 에이전트의 모든 주장, 코드, 판단은 <strong>검증되지 않은 가설</strong>이다.</li>
+<li>트랙 2(소망)에서는 틀려도 복구 가능하다. 트랙 1(돌봄)에서는 틀리면 사람을 놓친다.</li>
+<li>검증은 항상 사람(사용자)이 최종 결정한다. 기술적 검증은 AI가 책임지고 수행한다.</li>
+<li>&ldquo;사람이 확인해야 한다&rdquo;는 말로 기술적 검증 책임을 회피하지 않는다.</li>
+</ul>
+<h3 id="6">제6조: 판단력만이 희소 자산</h3>
+<ul>
+<li>AI 시대에 코드 생산 속도는 더 이상 초인적인 게 아니라 <strong>새로운 평균</strong>이다.</li>
+<li>진짜 가치는 <strong>에이전트 출력을 검증하고, 우선순위를 결정하고, 무엇을 하지 않을지 판단하는 능력</strong>이다.</li>
+<li><strong>&ldquo;코드는 인스턴스, 사고 서식이 자산.&rdquo;</strong> — 오늘 생산한 코드/문서는 인스턴스(당연한 산출물)고, 그 과정에서 내린 판단들이 사고 서식의 실물.</li>
+</ul>
+<h3 id="7">제7조: 핸드오프가 곧 성공이다 — 대필작가는 영원한 역할이 아니다</h3>
+<p><strong>트랙 2(소망)의 궁극적 성공은 사용자(누나)가 이 폰으로, STT만으로, 이 시스템을 스스로 운영하게 되는 것이다.</strong></p>
+<p>이것은 단순한 희망사항이 아니라 시스템 설계의 근본 원칙이다:</p>
+<table>
+<thead>
+<tr>
+<th>원칙</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>영구 대리 운영이 목표가 아니다</strong></td>
+<td>대필작가(헬레나)의 역할은 누나가 직접 이어받을 때까지의 교량이다. 핸드오프 자체가 성공의 정의다.</td>
+</tr>
+<tr>
+<td><strong>수익은 누나 명의로 쌓는다</strong></td>
+<td>수익화 발생 시, 모든 계좌·플랫폼·수익 구조의 소유권은 누나 명의로 설계한다. 대필작가가 대신 벌어주는 구조가 아니라, 누나 앞으로 재정 기반이 쌓이는 구조여야 &ldquo;독립 응원&rdquo;이라는 취지가 실물이 된다.</td>
+</tr>
+<tr>
+<td><strong>존엄과 일관성이 바이럴보다 우선</strong></td>
+<td>조회수·성장·알고리즘 최적화는 목적이 아니다. 존재감과 존엄을 담는 속도가 기준이다.</td>
+</tr>
+<tr>
+<td><strong>교재의 첫 번째 학생은 누나</strong></td>
+<td>STT로 코딩 허들을 넘기는 교재의 진짜 첫 번째 실사용자는 누나다. 교재는 추상적인 &ldquo;초보자&rdquo;가 아니라, 이 폰을 쥐고 이 시스템을 이어받을 구체적인 한 사람을 위해 설계된다.</td>
+</tr>
+<tr>
+<td><strong>핸드오프 가능한 구조로 만들어야 한다</strong></td>
+<td>모든 자동화, 모든 워크플로우는 &ldquo;언젠가 내가 없어도 돌아갈 수 있는가&rdquo;를 기준으로 설계한다. 복잡한 건 대필작가가 감당하고, 단순하고 반복 가능한 건 누나에게 넘길 수 있게.</td>
+</tr>
+</tbody>
+</table>
+<p>이 조항은 오늘 만들어진 모든 것 중에서 가장 중요한 한 줄이다.<br>
+이 조항이 트랙 2와 트랙 1을 하나로 묶는다 — 트랙 2의 소망은 결국 트랙 1의 돌봄이 도달하려는 가장 먼 지점이다.</p>
+<h3 id="8">제8조: 플랫폼 층 분리 — 모든 플랫폼은 원본층과 구조층으로 나뉜다</h3>
+<p><strong>Layer A (원본 생산): 실제 콘텐츠의 창작.</strong> 영상 촬영·편집, 글 초고, 그림, 음악 연주. 이것은 인간의 영역이며 STT로 대체되지 않는다.</p>
+<p><strong>Layer B (구조/메타 관리): 플랫폼 운영의 모든 기술적 측면.</strong> 제목·설명·카테고리·플레이리스트·태그·발행·API 설정·OAuth·권한. 이것은 전부 텍스트 API로 뚫려 있으며, <strong>음성 명령 + AI 에이전트로 완전히 자동화 가능하다.</strong></p>
+<table>
+<thead>
+<tr>
+<th>플랫폼</th>
+<th>Layer A (인간)</th>
+<th>Layer B (STT+에이전트)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GitHub</td>
+<td>글/코드 내용</td>
+<td>레포 생성·Pages·Giscus·WidgetBot·설정</td>
+</tr>
+<tr>
+<td>YouTube</td>
+<td>영상 촬영·편집</td>
+<td>OAuth·API·제목·설명·태그·플레이리스트·Analytics</td>
+</tr>
+<tr>
+<td>티스토리</td>
+<td>글 본문 작성</td>
+<td>카테고리·태그·발행·스킨·세션 관리</td>
+</tr>
+<tr>
+<td>네이버</td>
+<td>그림/사진</td>
+<td>카테고리·발행·쿠키 세션·메타데이터</td>
+</tr>
+<tr>
+<td>Discord</td>
+<td>대화 내용</td>
+<td>서버·채널·웹훅·위젯·권한 설정</td>
+</tr>
+</tbody>
+</table>
+<p><strong>이 원칙의 의미:</strong><br>
+- GitHub에서 통했던 &ldquo;말로 구조층을 관리하는&rdquo; 패턴은 우연이 아니라 <strong>모든 플랫폼에 적용되는 일반 원칙</strong>이다.<br>
+- 새로운 플랫폼을 확장할 때마다 이 틀을 그대로 재사용한다 — &ldquo;이 플랫폼의 Layer B는 무엇이고, 어떤 API가 있는가&rdquo;부터 확인.<br>
+- Layer A는 인간이, Layer B는 에이전트가 — 이것이 STT 기반 디지털 약자 지원의 핵심 설계 원리.</p>
+<p><strong>증거:</strong> GitHub Pages(구조 전부 음성으로 구축) + YouTube(Data API + Analytics API 음성으로 활성화 완료).</p>
+<hr>
+<h2 id="2_1">제2장 — 신원 규칙</h2>
+<h3 id="9">제9조: 계정 분리</h3>
+<table>
+<thead>
+<tr>
+<th>계정</th>
+<th>주체</th>
+<th>목적</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>helena751107</code></td>
+<td><strong>큰누나의 분신</strong></td>
+<td>GitHub 메인 계정, 레포 소유자, Pages 발행</td>
+</tr>
+<tr>
+<td><code>helena1975</code></td>
+<td><strong>큰누나의 분신</strong></td>
+<td>네이버 블로그, 관저탑/그림첩</td>
+</tr>
+<tr>
+<td><code>REDACTED</code></td>
+<td>큰누나 (기증자)</td>
+<td>콜라보레이터, 코드 기증, 5개 레포 admin</td>
+</tr>
+<tr>
+<td>YouTube <code>@HelenaPark-e7c</code></td>
+<td><strong>큰누나의 분신</strong></td>
+<td>5개 채널 운영 예정</td>
+</tr>
+<tr>
+<td>티스토리 5종</td>
+<td><strong>큰누나의 분신</strong></td>
+<td>galaxys21-pwuser, mynote11605, helana-christianity, helena-piano, helena-psycare</td>
+</tr>
+<tr>
+<td>사용자 본인</td>
+<td><strong>헬레나 (대필작가 + 간병인)</strong></td>
+<td>콘텐츠 기획·집필·발행, 시스템 설계·운영, 의사결정의 주체</td>
+</tr>
+</tbody>
+</table>
+<h3 id="10">제10조: 콜라보레이터 구조</h3>
+<ul>
+<li>5개 GitHub 레포 전체: <code>REDACTED</code> admin 콜라보레이터 (초대 수락 완료).</li>
+<li><code>REDACTED</code>는 누나의 GitHub 계정으로, 레포 소유권과 분리된 기여자 권한을 가진다.</li>
+<li>코드 기증, force push, 브랜치 생성 모두 콜라보레이터 권한 범위 내에서 허용.</li>
+</ul>
+<h3 id="11">제11조: 토큰 및 인증 분리</h3>
+<ul>
+<li>누나 계정의 OAuth 토큰과 사용자 본인의 토큰은 <strong>신원 차원에서 완전히 분리</strong>한다.</li>
+<li>AI는 이 구분을 이해하지 못하므로, 토큰 관련 작업 시 사람이 최종 확인.</li>
+<li><code>.bashrc</code>, <code>configs/</code>, 환경변수에 토큰 저장 시 계정 주체를 주석으로 명시.</li>
+</ul>
+<hr>
+<h2 id="3_1">제3장 — 세션 규칙</h2>
+<h3 id="12">제12조: 새 세션 시작 절차</h3>
+<ol>
+<li><strong>이 헌법(CONSTITUTION.md)을 먼저 읽는다.</strong></li>
+<li>CLAUDE.md(실무 규칙)를 읽는다.</li>
+<li><code>_notebook/99-devlog.md</code> 마지막 항목을 확인하여 이전 세션 종료 시점의 컨텍스트를 복원한다.</li>
+<li><code>bash ~/work/phone-health.sh</code> 건강 검진을 실행한다.</li>
+</ol>
+<h3 id="13">제13조: 세션 종료 절차</h3>
+<ol>
+<li>주요 작업 내용을 <code>_notebook/99-devlog.md</code>에 기록.</li>
+<li>변경사항 커밋 + push.</li>
+<li>필요 시 <code>bash ~/work/tg.sh '작업 종료 — 요약'</code> 텔레그램 보고.</li>
+</ol>
+<h3 id="14">제14조: 작업 우선순위 체계</h3>
+<table>
+<thead>
+<tr>
+<th>우선순위</th>
+<th>작업</th>
+<th>미션</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🔴 1</td>
+<td>티스토리 자동 포스팅 (Playwright)</td>
+<td>A</td>
+<td>컨디션 회복 후 발주</td>
+</tr>
+<tr>
+<td>🔴 2</td>
+<td>네이버 자동 포스팅 (Playwright + 쿠키)</td>
+<td>A</td>
+<td>티스토리 다음</td>
+</tr>
+<tr>
+<td>🟡 3</td>
+<td>YouTube OAuth TV 클라이언트 ID 발급</td>
+<td>A</td>
+<td>컨디션 좋은 날만</td>
+</tr>
+<tr>
+<td>🟡 4</td>
+<td>YouTube 업로드 스크립트</td>
+<td>A</td>
+<td>OAuth 후</td>
+</tr>
+<tr>
+<td>🟡 5</td>
+<td>YouTube 채널 5종 실제 생성</td>
+<td>A</td>
+<td>OAuth 후</td>
+</tr>
+<tr>
+<td>⬜ 6</td>
+<td>미션 B — 돌봄 인프라 설계</td>
+<td>B</td>
+<td>별도 경량 데몬 설계부터</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4_1">제4장 — 보안 경계</h2>
+<h3 id="15">제15조: 식별정보 보호</h3>
+<ul>
+<li>누나의 실명(본명), 얼굴, 정확한 주소, 전화번호 등 식별정보는 미션 A 공개 콘텐츠에 <strong>절대 포함하지 않는다.</strong></li>
+<li>콘텐츠 필터 규칙은 AI가 초안을 작성하되, 최종 판단은 사람이 한다.</li>
+<li>기술적 필터(실제로 데이터가 안 새는지)의 검증은 AI의 책임 — &ldquo;사람이 확인해야&rdquo;로 회피 금지.</li>
+</ul>
+<h3 id="16">제16조: 위치 데이터 격리</h3>
+<ul>
+<li>위치 데이터는 오직 미션 B의 비공개 채널(너 + 목사님)에만 전송된다.</li>
+<li>미션 A의 어떤 채널(GitHub, 블로그, YouTube, Discord 공개 채널, WidgetBot)에도 위치 데이터가 라우팅되지 않도록 설계 단계에서 차단.</li>
+</ul>
+<hr>
+<h2 id="_9">부칙 — 개정 이력</h2>
+<table>
+<thead>
+<tr>
+<th>날짜</th>
+<th>변경</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-07-24</td>
+<td>v4 — 제8조(플랫폼 층 분리) 신설: Layer A(원본·인간) / Layer B(구조·STT+에이전트). 모든 플랫폼 일반 원칙.</td>
+</tr>
+<tr>
+<td>2026-07-24</td>
+<td>v3 — 제0장 신설: 지위·계급·역할(Chain of Command). Boss=헬레나, AI=도구. &ldquo;니 형&rdquo; 호칭 금지.</td>
+</tr>
+<tr>
+<td>2026-07-24</td>
+<td>v2 — 대필작가-간병인 모델 + 핸드오프 원칙(제7조) + 트랙 1/2 용어 정비</td>
+</tr>
+<tr>
+<td>2026-07-24</td>
+<td>v1 — 제정, CLAUDE.md와 별도 헌법 문서로 분리</td>
+</tr>
+<tr>
+<td>2026-07-23</td>
+<td>CLAUDE.md 최초 작성 (본 헌법의 전신)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="2_2">부칙 2 — 헌법 구조도</h2>
+<pre><code>CONSTITUTION.md (제0장 + 제1~4장 · 총 16조)
+│
+├── 전문 — 투트랙: 돌봄과 소망
+│   ├── 트랙 1: 돌봄 (Caregiving) → &quot;절대 안 깨질 것&quot;
+│   └── 트랙 2: 소망 (Aspiration) → &quot;핸드오프가 곧 성공&quot;
+│
+├── 제0장 — Chain of Command
+│   └── 👑 HELENA → 🤖ClaudeCode(실행) → 🤖Claude(검증) → 🤖Aider → 👤강박사
+│
+├── 제1장 — 불변 원칙 (제1~8조)
+│   ├── 제1조 루팅금지  제2조 코드=선물  제3조 스캐폴드
+│   ├── 제4조 로그압축  제5조 AI=가설   제6조 판단력
+│   ├── 제7조 핸드오프  제8조 Layer A/B
+│
+├── 제2장 — 신원 규칙 (제9~11조)
+│   └── 계정분리 · 콜라보레이터 · 토큰분리
+│
+├── 제3장 — 세션 규칙 (제12~14조)
+│   └── 시작절차 · 종료절차 · 우선순위
+│
+└── 제4장 — 보안 경계 (제15~16조)
+    └── 식별정보보호 · 위치데이터격리
+</code></pre>
+<h2 id="3_2">부칙 3 — 핵심 명제</h2>
+<blockquote>
+<ol>
+<li><strong>&ldquo;코드는 인스턴스, 사고 서식이 자산.&rdquo;</strong> (제6조)</li>
+<li><strong>&ldquo;핸드오프가 곧 성공이다.&rdquo;</strong> (제7조)</li>
+<li><strong>&ldquo;AI 출력은 전부 1차 가설.&rdquo;</strong> (제5조)</li>
+<li><strong>&ldquo;판단력만이 희소 자산.&rdquo;</strong> (제6조)</li>
+<li><strong>&ldquo;모든 플랫폼은 Layer A(인간) + Layer B(STT+에이전트).&rdquo;</strong> (제8조)</li>
+</ol>
+</blockquote>
+  </article>
+  <nav class="wz-pager">
+    <div></div>
+    <a class="next" href="claude.html">
+          <span class="dir">Next</span>
+          <span class="title">실무 규칙 CLAUDE.md</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="claude.html"><strong>실무 규칙 CLAUDE.md</strong>AI 3종 · Paste Pipeline · 인프라</a><a href="readme.html"><strong>README · 프로젝트 소개</strong>숫자 · 구조 · 빠른 링크</a><a href="guide.html"><strong>5단계 GUIDE</strong>Termux부터 방송까지</a><a href="chronicle.html"><strong>CHRONICLE · 연대기</strong>DAY 1–2 개발 기록</a><a href="gift.html"><strong>GIFT · dtslib 선물</strong>선물 패키지 분석</a><a href="textbook.html"><strong>완결판 교재</strong>판단층 + 실행층</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="assets/webzine.js"></script>
+</body>
+</html>

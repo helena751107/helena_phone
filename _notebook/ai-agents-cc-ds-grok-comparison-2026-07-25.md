@@ -1,0 +1,147 @@
+# Comparative Note on Three Terminal Agents  
+### Claude Code (`cc`), Aider + DeepSeek (`ds`), and Grok CLI (`grok`)
+
+**Date:** 2026-07-25  
+**Context:** Termux → proot Ubuntu workstation (no local GPU)  
+**Stack aliases:** `cc` · `ds` · `grok`  
+**Register:** Analytic comparison for practical selection, not marketing
+
+---
+
+## 1. Abstract
+
+This note compares three agent entry points used on the same phone-based Linux environment. Although **`cc` and `ds` often share a DeepSeek backend**, they are not interchangeable: one is a broad agentic workbench (Claude Code), the other a lean edit–test–commit loop (Aider). **`grok`** is a separate product tier (SuperGrok / xAI), stronger on multimodal generation, live research tooling, and parallel agent breadth, while remaining subject to weekly usage pools rather than “unlimited” access.
+
+The practical conclusion is **role separation**, not a single winner: use **`cc` for wide orchestration**, **`ds` for cheap tight coding loops**, and **`grok` for vision, media, and agent-plus-research sessions**—especially when local GPU is unavailable.
+
+---
+
+## 2. What Each Alias Actually Launches
+
+| Alias | Surface tool | Typical model path | Entry (Termux) |
+|-------|----------------|--------------------|----------------|
+| **`cc`** | Claude Code (TUI agent) | DeepSeek via Anthropic-compatible base URL | `cc` |
+| **`ds`** | Aider (CLI coding pair) | `deepseek/deepseek-v4-pro` | `ds` |
+| **`grok`** | Grok CLI / Build agent | SuperGrok subscription models | `grok` |
+
+Related: `groklogin` (device auth), `grokc` (continue session), `agent` (headless Grok agent). Legacy `gr` / `grlogin` / `grc` remain as compatibility aliases.
+
+---
+
+## 3. Master Comparison Table
+
+| Dimension | **`cc`** (Claude Code + DeepSeek) | **`ds`** (Aider + DeepSeek) | **`grok`** (Grok CLI / SuperGrok) |
+|-----------|-----------------------------------|-----------------------------|-----------------------------------|
+| **Primary strength** | Broad agent: tools, MCP, docs, GitHub, Telegram workflows | Tight coding loop: edit → run → commit | Speed, multimodal (image/video), live research, parallel agents |
+| **Best when…** | Multi-step project work, repo navigation, automation, reporting | Small-to-medium code changes, iterative refactors, low ceremony | Prototypes, UI/media drafts (~80% mock quality), web crawl/research + act |
+| **Weaker when…** | You only need a few file edits; permission flags feel heavy | You need deep multi-tool orchestration or non-code deliverables | Ultra-deep single-repo reasoning vs top Claude Max; weekly pool burns fast |
+| **UX model** | Full agent TUI (“engineering teammate”) | Pair-programmer CLI | Full product suite in CLI/TUI (chat, build, imagine) |
+| **Cost shape** | Often $0 if routed to DeepSeek API keys | Same DeepSeek cost profile; usually thrifty | ~₩45,000/mo SuperGrok; weekly shared usage pool |
+| **Multimodal** | Limited vs Grok Imagine | Not the point | Strong: image/UI, video (check watermark policy) |
+| **Research / crawl** | Good with tools/MCP if wired | Minimal by design | Strong community claim for speed + agentic web use; Perplexity still wins pure citation UX for many |
+| **Autonomy / agents** | Subagents, hooks, skills, MCP ecosystem | Session-focused coding agent | Parallel agents, Build workflows, headless `agent` |
+| **Risk profile** | Powerful with `--dangerously-skip-permissions`—needs trust & review | Lower surface area; still can rewrite code aggressively | Usage limits; media policy (watermark); not unlimited |
+| **GPU dependency** | None (cloud model) | None | None—major value if you lack a GPU for local diffusion |
+
+---
+
+## 4. When Each Has a Clear Advantage
+
+### 4.1 Prefer **`cc`** when
+- The task spans **code + docs + git + notifications** (e.g. implement, document, push, Telegram report).
+- You need **MCP / phone control / multi-tool** orchestration on this workstation.
+- You want **structured agent habits** (project rules, hooks, subagents) rather than a thin chat loop.
+- Depth of planning across a **messy multi-file repo** matters more than raw generation speed.
+
+**Trade-off:** Heavier process; overkill for “change three lines and commit.”
+
+### 4.2 Prefer **`ds`** when
+- The job is **code-centric and iterative**: fix tests, rename, small features, git-aware patches.
+- You want **minimum ceremony** and a familiar Aider loop.
+- You are **budget- and latency-sensitive** on DeepSeek without spinning up a full Claude Code session.
+- You already know the files and want a **surgical editor**, not a project manager.
+
+**Trade-off:** Weak for non-code production (images, long research dossiers, multi-product workflows).
+
+### 4.3 Prefer **`grok`** when
+- You need **images / UI mockups / short video** without local GPU (e.g. coffee branding UI at ~80% polish).
+- You want **fast agent runs** and breadth (parallel workers, prototype-to-demo).
+- **Live web / social-adjacent research** should feed directly into action, not only citations.
+- One **subscription bundle** (chat + build + imagine) beats paying separately for Claude Max + image + video tools.
+
+**Trade-off:** Weekly usage pool; community still often ranks pure deep coding slightly behind top Claude Code setups; media watermark rules should be re-checked periodically.
+
+---
+
+## 5. Pros and Cons (Compact)
+
+| Agent | **Pros** | **Cons** |
+|-------|----------|----------|
+| **`cc`** | Widest orchestration; MCP/ecosystem; strong multi-step engineering posture; DeepSeek can keep cash cost near zero | Heavier; permission model easy to misuse; not best for media; not always the fastest “one-shot” coder |
+| **`ds`** | Light, cheap, excellent tight loops; low cognitive overhead; ideal auxiliary coder | Narrow scope; little multimodal; less “team of agents” feel |
+| **`grok`** | Multimodal + agents + research in one paid tier; no GPU; high speed/prototype value | Not unlimited; pool drains on agents/media; deep production coding still contested vs Claude Max |
+
+---
+
+## 6. Decision Heuristic (One Screen)
+
+```
+Need image / video / UI mock without GPU?     → grok
+Need multi-tool project orchestration?       → cc
+Need cheap, tight code edit loop only?       → ds
+Deep production architecture debate?         → cc first; optional grok second opinion
+Live crawl + act in one session?             → grok (or cc if tools already wired)
+```
+
+**Recommended default on this phone stack**
+
+| Layer | Default |
+|-------|---------|
+| Daily coding automation | `cc` |
+| Quick patch / secondary loop | `ds` |
+| Media + research + fast build | `grok` |
+
+This matches community patterns observed in 2026 discussions: Claude Code for depth and systems; Aider-class tools for thrift; Grok for multimodal and speed-oriented agent breadth—while rejecting the myth of unlimited SuperGrok usage.
+
+---
+
+## 7. Cost and Limit Notes (Operational)
+
+| Item | Note |
+|------|------|
+| **`cc` / `ds`** | Dominated by DeepSeek API usage; monitor keys and accidental high token burns |
+| **`grok`** | SuperGrok weekly **shared usage pool** (Chat / Build / Imagine / Voice, etc.) — check **Settings → Usage** |
+| On pool exhaustion | Free-tier remnants may remain; Extra Credits / Auto Top-up / plan upgrade are the official escapes |
+| Watermark | Grok media policy has moved toward visible marks; verify exports rather than assume zero watermark |
+
+---
+
+## 8. Conclusion
+
+The three aliases are best understood as **complementary instruments**:
+
+1. **`cc`** — the **orchestral conductor** (broad agentic engineering).  
+2. **`ds`** — the **chamber musician** (precise, economical coding duet).  
+3. **`grok`** — the **multimedia ensemble + scout** (vision, media, fast agents, live inquiry).
+
+For a **no-GPU, single-device** operator, keeping all three is rational: DeepSeek-backed `cc`/`ds` control cash cost for code, while SuperGrok pays for capabilities that would otherwise require separate image/video/research subscriptions. Selection should follow **task shape**, not brand loyalty.
+
+---
+
+## 9. Appendix — Alias Cheatsheet
+
+```bash
+cc          # Claude Code (DeepSeek-routed agent TUI)
+ds          # Aider + deepseek-v4-pro
+grok        # Grok CLI (SuperGrok)
+groklogin   # device-auth login
+grokc       # continue last Grok session
+agent       # headless Grok agent
+
+# legacy compatibility
+gr / grlogin / grc   # → grok / groklogin / grokc
+```
+
+---
+
+*Prepared for internal workstation notes. Product limits and model routing change frequently; re-validate Usage tab and API endpoints after major vendor updates.*

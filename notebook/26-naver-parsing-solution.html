@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="발견: 2026-07-25 | Grok만 된다는 건 틀렸다 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>🔍 네이버 블로그 파싱 — 직접 해결 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>🔍 네이버 블로그 파싱 — 직접 해결</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>🔍 네이버 블로그 파싱 — 직접 해결</h1>
+    <p class="deck">발견: 2026-07-25 | Grok만 된다는 건 틀렸다</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/26-naver-parsing-solution.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1">1. 재검증 결과</a></li>
+<li><a href="#2">2. 되는 방법 (우리 폰)</a></li>
+<li><a href="#3">3. 왜 되는가</a></li>
+<li><a href="#4-grok">4. Grok이 틀린 부분</a></li>
+<li><a href="#5-paste-pipeline">5. 적용: Paste Pipeline에 네이버 파싱 추가</a></li>
+<li><a href="#6">6. 결론</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <blockquote>
+<p>발견: 2026-07-25 | Grok만 된다는 건 틀렸다</p>
+</blockquote>
+<hr>
+<h2 id="1">1. 재검증 결과</h2>
+<table>
+<thead>
+<tr>
+<th>방식</th>
+<th>Naver 파싱</th>
+<th>이유</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude Code WebFetch</td>
+<td>❌</td>
+<td>내장 페처가 네이버 차단</td>
+</tr>
+<tr>
+<td>ChatGPT 브라우징</td>
+<td>❌</td>
+<td>보수적 차단</td>
+</tr>
+<tr>
+<td>Gemini</td>
+<td>❌</td>
+<td>동일</td>
+</tr>
+<tr>
+<td>Grok open_page</td>
+<td>✅</td>
+<td>모바일 UA 사용</td>
+</tr>
+<tr>
+<td><strong>proot curl + 모바일 UA</strong></td>
+<td><strong>✅</strong></td>
+<td><strong>우리 폰에서 직접 파싱 가능!</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="2">2. 되는 방법 (우리 폰)</h2>
+<pre><code class="language-bash">curl -sL &quot;https://m.blog.naver.com/helena1975/224357424597&quot; \
+  -H &quot;User-Agent: Mozilla/5.0 (Linux; Android 13; SM-G991N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36&quot; \
+  -H &quot;Accept-Language: ko-KR,ko;q=0.9&quot;
+</code></pre>
+<p><strong>핵심:</strong><br>
+- <code>m.blog.naver.com</code> (모바일 버전)<br>
+- 한국어 User-Agent (Android + Chrome Mobile)<br>
+- Accept-Language: ko-KR<br>
+- proot Ubuntu에서 직접 curl 호출</p>
+<hr>
+<h2 id="3">3. 왜 되는가</h2>
+<table>
+<thead>
+<tr>
+<th>요소</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>모바일 버전</td>
+<td>데스크탑보다 봇 차단이 약함. JS 렌더링 없이 텍스트 제공</td>
+</tr>
+<tr>
+<td>한국 UA</td>
+<td>해외 IP/UA를 더 강하게 차단. 국내 모바일 UA는 통과</td>
+</tr>
+<tr>
+<td>proot 환경</td>
+<td>S21 실기기 IP. VPN·프록시 아님</td>
+</tr>
+<tr>
+<td>직접 curl</td>
+<td>WebFetch 같은 중간 프록시 없음</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-grok">4. Grok이 틀린 부분</h2>
+<blockquote>
+<p>Grok: &ldquo;나는 open_page라는 전용 툴이 있어서 되는 거다.&rdquo;</p>
+</blockquote>
+<p><strong>실제로는:</strong> 모바일 버전 + 적절한 User-Agent면 어떤 HTTP 클라이언트로도 파싱 가능. Grok의 <code>open_page</code>가 특별한 게 아니라, 그냥 curl과 동일한 원리.</p>
+<blockquote>
+<p>Grok: &ldquo;다른 모델들은 네이버 같은 국내 서비스에 보수적으로 막혀 있다.&rdquo;</p>
+</blockquote>
+<p><strong>실제로는:</strong> Claude Code의 WebFetch 툴이 중간 프록시 경유라서 막히는 것. 프로트 환경에서 직접 curl 돌리면 우회됨.</p>
+<hr>
+<h2 id="5-paste-pipeline">5. 적용: Paste Pipeline에 네이버 파싱 추가</h2>
+<pre><code class="language-python"># scripts/naver_parser.py (추가 예정)
+import subprocess, sys
+
+def parse_naver_post(url):
+    &quot;&quot;&quot;네이버 블로그 포스트 파싱&quot;&quot;&quot;
+    html = subprocess.run([
+        &quot;curl&quot;, &quot;-sL&quot;, url,
+        &quot;-H&quot;, &quot;User-Agent: Mozilla/5.0 (Linux; Android 13; SM-G991N) ...&quot;,
+        &quot;-H&quot;, &quot;Accept-Language: ko-KR,ko;q=0.9&quot;
+    ], capture_output=True, text=True).stdout
+    # 텍스트 추출 로직...
+    return extracted_text
+</code></pre>
+<hr>
+<h2 id="6">6. 결론</h2>
+<p><strong>Grok은 필요 없다.</strong> 네이버 파싱은 우리 폰에서 직접 가능.</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>Grok</th>
+<th>proot curl</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>네이버 파싱</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>비용</td>
+<td>45,000원/월</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>이미지 생성</td>
+<td>✅</td>
+<td>❌ (YouTube 클립으로 대체)</td>
+</tr>
+<tr>
+<td>인프라 통합</td>
+<td>별도 서비스</td>
+<td>같은 폰</td>
+</tr>
+</tbody>
+</table>
+<p>Grok을 고려할 유일한 이유는 <strong>이미지 생성</strong>인데, 그것도 YouTube 짧은 클립으로 대체하기로 이미 결정했다.</p>
+<p><strong>월 45,000원 절약. 더 중요한 건: 모든 게 한 폰 안에서 돈다.</strong></p>
+<hr>
+<blockquote>
+<p>⚠️ 주의: 네이버가 차단 정책을 변경하면 언제든 막힐 수 있음.<br>
+그땐 Grok도 같이 막힐 가능성이 높다 (Grok도 HTTP 기반이므로).</p>
+</blockquote>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="25-multi-ai-strategy.html">
+          <span class="dir">Previous</span>
+          <span class="title">🤖 멀티 AI 전략 — 플랫폼별 최적 LLM 매칭</span>
+        </a>
+    <a class="next" href="27-claude-grok-pipeline.html">
+          <span class="dir">Next</span>
+          <span class="title">Claude+Grok 파이프</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-25</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

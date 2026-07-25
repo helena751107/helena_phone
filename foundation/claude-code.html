@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="AI 코딩 에이전트를 폰에서 돌리기 — 과금 없이 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>1.3 Claude Code + DeepSeek Radar — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Foundation</span><span class="sep">/</span>
+    <span>1.3 Claude Code + DeepSeek Radar</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Foundation · Vol.01</div>
+    <h1>1.3 Claude Code + DeepSeek Radar</h1>
+    <p class="deck">AI 코딩 에이전트를 폰에서 돌리기 — 과금 없이</p>
+    <div class="wz-meta">
+      <span>Source · 01-foundation/claude-code.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#claude-code">Claude Code란?</a></li>
+<li><a href="#anthropic-api">문제: Anthropic API는 비싸다</a></li>
+<li><a href="#deepseek-radar">해결: DeepSeek Radar</a></li>
+<li><a href="#claude-code_1">Claude Code 설치</a></li>
+<li><a href="#_1">실행</a></li>
+<li><a href="#_2">주의사항</a></li>
+<li><a href="#_3">다음 단계</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <blockquote>
+<p>AI 코딩 에이전트를 폰에서 돌리기 — 과금 없이</p>
+</blockquote>
+<h2 id="claude-code">Claude Code란?</h2>
+<p>Claude Code는 Anthropic이 만든 <strong>터미널 기반 AI 코딩 에이전트</strong>다.<br>
+파일 생성/수정, git 작업, 터미널 명령 등 개발 작업을 자연어로 시킬 수 있다.</p>
+<h2 id="anthropic-api">문제: Anthropic API는 비싸다</h2>
+<p>Claude Code는 기본적으로 Anthropic API를 호출하는데, 한국에서 쓰면 호출당 수백 원.</p>
+<h2 id="deepseek-radar">해결: DeepSeek Radar</h2>
+<p><a href="https://platform.deepseek.ai/">DeepSeek</a>이 Anthropic 호환 API를 제공한다.<br>
+Claude Code의 <code>ANTHROPIC_BASE_URL</code>만 DeepSeek 엔드포인트로 바꾸면 된다.</p>
+<pre><code class="language-bash"># DeepSeek Radar 환경변수 설정
+export ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
+export ANTHROPIC_MODEL=deepseek-chat
+export ANTHROPIC_AUTH_TOKEN=sk-xxxxx  # DeepSeek API 키
+export DEEPSEEK_API_KEY=sk-xxxxx       # 동일
+</code></pre>
+<p>이렇게 하면:<br>
+- <strong>Claude Code UI/도구는 그대로</strong><br>
+- <strong>LLM 엔진만 DeepSeek V3로 교체</strong><br>
+- <strong>비용 약 10~50배 절감</strong></p>
+<h2 id="claude-code_1">Claude Code 설치</h2>
+<pre><code class="language-bash"># proot Ubuntu 안에서
+npm install -g @anthropic-ai/claude-code
+</code></pre>
+<p>또는 공식 설치 스크립트:</p>
+<pre><code class="language-bash">curl -sS https://docs.anthropic.com/claude-code/install.sh | bash
+</code></pre>
+<h2 id="_1">실행</h2>
+<pre><code class="language-bash"># 환경변수 설정 후 실행
+export ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
+export ANTHROPIC_MODEL=deepseek-chat
+export ANTHROPIC_AUTH_TOKEN=sk-xxxxx
+claude
+</code></pre>
+<p>또는 <code>.bashrc</code>에 등록해서 항상 적용:</p>
+<pre><code class="language-bash">echo 'export ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic' &gt;&gt; ~/.bashrc
+echo 'export ANTHROPIC_MODEL=deepseek-chat' &gt;&gt; ~/.bashrc
+</code></pre>
+<h2 id="_2">주의사항</h2>
+<ul>
+<li>DeepSeek API 키 발급: https://platform.deepseek.ai/ → API Keys</li>
+<li>응답 속도는 Anthropic보다 느릴 수 있음 (DeepSeek V3 기준)</li>
+<li>한/영 모두 가능</li>
+</ul>
+<h2 id="_3">다음 단계</h2>
+<p>→ <a href="git-github.html">Git/GitHub 연결하기</a></p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="proot-ubuntu.html">
+          <span class="dir">Previous</span>
+          <span class="title">1.2 proot Ubuntu 설치</span>
+        </a>
+    <a class="next" href="git-github.html">
+          <span class="dir">Next</span>
+          <span class="title">Git · GitHub</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="termux-setup.html"><strong>1.1 Termux 설치</strong>안드로이드에서 리눅스 네이티브 환경을 실행하는 앱</a><a href="proot-ubuntu.html"><strong>1.2 proot Ubuntu 설치</strong>Termux 위에 Ubuntu 컨테이너를 올리는 방법</a><a href="git-github.html"><strong>Git · GitHub</strong>Foundation</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

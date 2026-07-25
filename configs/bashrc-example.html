@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Source viewer · configs/bashrc-example.sh — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>bashrc-example.sh — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Scripts</span><span class="sep">/</span>
+    <span>bashrc-example.sh</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Scripts · Vol.01</div>
+    <h1>bashrc-example.sh</h1>
+    <p class="deck">Source viewer · configs/bashrc-example.sh</p>
+    <div class="wz-meta">
+      <span>Source · configs/bashrc-example.sh</span>
+      <span>Kind · code</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  
+  <article class="wz-prose">
+    
+<div class="wz-code-head">
+  <span class="path">configs/bashrc-example.sh</span>
+  <button type="button" data-copy="#codeBody">Copy</button>
+</div>
+<pre id="codeBody"><code class="language-sh"># 📄 .bashrc 예시 — proot Ubuntu 자동 설정
+# 📍 저장 위치: /root/.bashrc (proot Ubuntu 내부)
+#
+# phone-mcp-server 자동 시작 + PATH 설정 포함
+
+# ---- 기본 PATH ----
+export PATH=&quot;$HOME/.local/bin:$PATH&quot;
+
+# ---- Termux 바이너리 PATH (필수!) ----
+# phone-mcp-server가 termux-* 명령어를 찾을 수 있게 해줌
+export PATH=&quot;/data/data/com.termux/files/usr/bin:$PATH&quot;
+
+# ---- phone-mcp-server 자동 시작 ----
+# proot Ubuntu 로그인 시 자동 실행 (이미 떠 있으면 생략)
+pgrep -f &quot;phone-mcp-server&quot; &gt; /dev/null 2&gt;&amp;1 || \
+  nohup bash /root/work/phone-mcp.sh --port 3456 &gt; /tmp/phone-mcp.log 2&gt;&amp;1 &amp;
+
+# ---- 편의 Aliases ----
+alias hc=&#x27;bash /root/work/phone-health.sh&#x27;
+alias hcf=&#x27;bash /root/work/phone-health.sh --full&#x27;
+alias hct=&#x27;bash /root/work/phone-health.sh --telegram&#x27;
+alias tg=&#x27;bash /root/work/tg.sh&#x27;
+alias mcp-restart=&#x27;pkill -f &quot;node server&quot; 2&gt;/dev/null; sleep 1; bash /root/work/phone-mcp.sh --port 3456 &amp;&#x27;
+
+# ── DeepSeek Aider (래퍼: 오염 히스토리 정리 + diff + 정체성 프롬프트) ──
+alias ds=&#x27;proot-distro login ubuntu -- bash -lc &quot;bash /root/work/scripts/ds.sh&quot;&#x27;
+alias dsflash=&#x27;proot-distro login ubuntu -- bash -lc &quot;AIDER_MODEL=deepseek/deepseek-v4-flash bash /root/work/scripts/ds.sh&quot;&#x27;
+
+# ── Grok CLI (Termux → proot Ubuntu) — 직관적 이름 ──
+alias grok=&#x27;proot-distro login ubuntu -- bash -lc &quot;export PATH=\$HOME/.grok/bin:\$PATH; cd ~/work; grok&quot;&#x27;
+alias groklogin=&#x27;proot-distro login ubuntu -- bash -lc &quot;export PATH=\$HOME/.grok/bin:\$PATH; grok login --device-auth&quot;&#x27;
+alias grokc=&#x27;proot-distro login ubuntu -- bash -lc &quot;export PATH=\$HOME/.grok/bin:\$PATH; cd ~/work; grok -c&quot;&#x27;
+alias agent=&#x27;proot-distro login ubuntu -- bash -lc &quot;export PATH=\$HOME/.grok/bin:\$PATH; agent&quot;&#x27;
+# 예전 이름 호환
+alias gr=&#x27;grok&#x27;
+alias grlogin=&#x27;groklogin&#x27;
+alias grc=&#x27;grokc&#x27;
+</code></pre>
+<p style="margin-top:1.5em;color:var(--ink-mute);font-size:.9rem">원본 파일: <code>configs/bashrc-example.sh</code> · Webzine code viewer (no execution)</p>
+
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="../scripts/grok-api.html">
+          <span class="dir">Previous</span>
+          <span class="title">grok_api.py</span>
+        </a>
+    <a class="next" href="settings.html">
+          <span class="dir">Next</span>
+          <span class="title">settings.json</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="../g/install.html"><strong>install.sh · 1줄 설치기</strong>Scripts</a><a href="../care/care-daemon.html"><strong>care-daemon.sh</strong>Scripts</a><a href="../care/care-setup.html"><strong>care-setup.sh</strong>Scripts</a><a href="../care/care-conf.html"><strong>care.conf</strong>Scripts</a><a href="../phone-health.html"><strong>phone-health.sh</strong>Scripts</a><a href="../scripts/tg.html"><strong>tg.sh · Telegram</strong>Scripts</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

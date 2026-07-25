@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="YouTube 채널 아키텍처 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>YouTube 채널 아키텍처 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>YouTube 채널 아키텍처</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>YouTube 채널 아키텍처</h1>
+    
+    <div class="wz-meta">
+      <span>Source · _notebook/06-youtube.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#11">채널 구성 (티스토리 1:1 매칭)</a></li>
+<li><a href="#_1">채널 구조</a></li>
+<li><a href="#_2">루트 채널</a></li>
+<li><a href="#_3">구축 상태</a></li>
+<li><a href="#_4">수동 작업 (폰 브라우저)</a></li>
+<li><a href="#_5">쿼터 참고</a></li>
+<li><a href="#2026-07-25">현재 상태 (2026-07-25)</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <h2 id="11">채널 구성 (티스토리 1:1 매칭)</h2>
+<table>
+<thead>
+<tr>
+<th>채널명</th>
+<th>매칭 티스토리</th>
+<th>콘텐츠</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>(미정)</em></td>
+<td><code>galaxys21-pwuser</code></td>
+<td>S21 폰 워크스테이션 셋업/코딩</td>
+</tr>
+<tr>
+<td><em>(미정)</em></td>
+<td><code>mynote11605</code></td>
+<td>기술 튜토리얼 / 개발 vlog</td>
+</tr>
+<tr>
+<td><em>(미정)</em></td>
+<td><code>helana-christianity</code></td>
+<td>말씀 / 신앙 콘텐츠</td>
+</tr>
+<tr>
+<td><em>(미정)</em></td>
+<td><code>helena-piano</code></td>
+<td>연주 커버 / 피아노 레슨</td>
+</tr>
+<tr>
+<td><em>(미정)</em></td>
+<td><code>helena-psycare</code></td>
+<td>금속 공예 / 메이킹 필름</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_1">채널 구조</h2>
+<ul>
+<li>각 티스토리 블로그 = 1개의 YouTube 채널과 1:1 매칭</li>
+<li>YouTube 채널명은 티스토리와 동일하거나 유사하게 구성</li>
+<li>네이버 블로그(관저탑)는 모든 채널의 교차 홍보 게이트웨이</li>
+</ul>
+<h2 id="_2">루트 채널</h2>
+<pre><code>https://www.youtube.com/@HelenaPark-e7c
+</code></pre>
+<h2 id="_3">구축 상태</h2>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GCP 프로젝트 생성</td>
+<td>📌 준비 완료 (gcloud CLI 설치됨)</td>
+</tr>
+<tr>
+<td>YouTube Data API v3 활성화</td>
+<td>📌 준비 완료</td>
+</tr>
+<tr>
+<td>OAuth 동의 화면</td>
+<td>⏳ 수동 필요 (console.cloud.google.com)</td>
+</tr>
+<tr>
+<td>TV 클라이언트 ID 생성</td>
+<td>⏳ 수동 필요</td>
+</tr>
+<tr>
+<td>Device code 인증</td>
+<td>📌 자동화 준비</td>
+</tr>
+<tr>
+<td>업로드 스크립트</td>
+<td>⏳ 미작성</td>
+</tr>
+<tr>
+<td>쿼터 보호(playlistItems)</td>
+<td>📌 설계 반영 예정</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_4">수동 작업 (폰 브라우저)</h2>
+<pre><code class="language-md">1. console.cloud.google.com → 새 프로젝트 &quot;S21 YouTube&quot;
+2. OAuth 동의 화면 → 외부 → 앱이름 &quot;S21 Phone&quot; → 테스트 사용자 추가
+3. 사용자 인증 정보 → OAuth 클라이언트 ID → &quot;TV 및 제한된 입력 장치&quot;
+4. 클라이언트 ID + 시크릿 복사
+</code></pre>
+<h2 id="_5">쿼터 참고</h2>
+<table>
+<thead>
+<tr>
+<th>작업</th>
+<th>유닛</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>업로드 (videos.insert)</td>
+<td>1,600</td>
+<td>하루 약 6개 가능</td>
+</tr>
+<tr>
+<td>메타데이터 수정</td>
+<td>50</td>
+<td></td>
+</tr>
+<tr>
+<td>목록 조회 (search.list)</td>
+<td>100</td>
+<td>❌ 사용 금지</td>
+</tr>
+<tr>
+<td>playlistItems.list</td>
+<td>1</td>
+<td>✅ 이걸로 대체</td>
+</tr>
+<tr>
+<td>채널 정보</td>
+<td>1</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>절대 <code>search.list</code>를 루프에 넣지 말 것. playlistItems.list (1유닛) 사용.</strong></p>
+<hr>
+<h2 id="2026-07-25">현재 상태 (2026-07-25)</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phase 1 채널</td>
+<td>@helena_phone ✅ (UC_IPajoyj6_IO8wt9JwVCAQ)</td>
+</tr>
+<tr>
+<td>OAuth</td>
+<td>TV Device Flow ✅</td>
+</tr>
+<tr>
+<td>API</td>
+<td>Data v3 ✅ · Analytics ✅ · Reporting ⚠️</td>
+</tr>
+<tr>
+<td>플레이리스트</td>
+<td>5개 카테고리 (디바이스·AI·퍼블리싱·오피스·노트)</td>
+</tr>
+<tr>
+<td>업로더</td>
+<td>scripts/yt_upload.py (256줄)</td>
+</tr>
+<tr>
+<td>동영상</td>
+<td>0개 (첫 업로드 대기)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Phase 2~5:</strong> 8~11월 매월 25일 브랜드 채널 생성 (CronCreate 등록 완료)</p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="05-tistory.html">
+          <span class="dir">Previous</span>
+          <span class="title">블로그 포트폴리오 + 자동화 전략</span>
+        </a>
+    <a class="next" href="07-cli-reference.html">
+          <span class="dir">Next</span>
+          <span class="title">CLI 레퍼런스</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-25</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

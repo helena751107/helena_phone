@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="DAY 1–2 개발 기록 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>📋 S21 Phone 최적화 연대기 — S21 Phone Webzine</title>
+<link rel="icon" href="icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="index.html">Home</a>
+      <a href="archive.html">Archive</a>
+      <a href="index.html#library">Library</a>
+      <a href="index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="index.html">Webzine</a><span class="sep">/</span>
+    <span>Core</span><span class="sep">/</span>
+    <span>📋 S21 Phone 최적화 연대기</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Core · Vol.01</div>
+    <h1>📋 S21 Phone 최적화 연대기</h1>
+    <p class="deck">DAY 1–2 개발 기록</p>
+    <div class="wz-meta">
+      <span>Source · CHRONICLE.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#day-1-2026-07-23">DAY 1 — 2026-07-23: 폰을 서버로</a><ul>
+<li><a href="#_1">오전: 첫 삽</a></li>
+<li><a href="#ai">오후: AI 에이전트 이식</a></li>
+<li><a href="#_2">저녁: 통신망 구축</a></li>
+<li><a href="#github">밤: GitHub 레포 확장</a></li>
+</ul>
+</li>
+<li><a href="#day-2-2026-07-24">DAY 2 — 2026-07-24: 폰 통제와 검증</a><ul>
+<li><a href="#phone-mcp-server">오전: phone-mcp-server 설치</a></li>
+<li><a href="#termux-api">발견: termux-api 패키지 누락</a></li>
+<li><a href="#_3">정오: 건강 검진 시스템</a></li>
+<li><a href="#_4">오후: 우선순위 정리</a></li>
+<li><a href="#_5">작업 중단</a></li>
+</ul>
+</li>
+<li><a href="#_6">현재 인프라 전체 구성</a></li>
+<li><a href="#_7">남은 작업 (우선순위 순)</a></li>
+<li><a href="#2026-07-25">현재 인프라 (2026-07-25 기준)</a></li>
+<li><a href="#ai_1">AI 비용</a></li>
+<li><a href="#_8">핵심 성과</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <blockquote>
+<p>이 저장소가 어떻게 만들어졌는지 — 생생한 현장 기록<br>
+기간: 2026-07-23 ~ 2026-07-24 (2일)<br>
+환경: 갤럭시 S21 → Termux → proot Ubuntu → Claude Code (DeepSeek Radar)</p>
+</blockquote>
+<hr>
+<h2 id="day-1-2026-07-23">DAY 1 — 2026-07-23: 폰을 서버로</h2>
+<h3 id="_1">오전: 첫 삽</h3>
+<p><strong>&ldquo;갤럭시 폰 하나로 어디까지 할 수 있을까?&rdquo;</strong></p>
+<p>시작은 단순한 테스트 파일 하나였다.</p>
+<pre><code>gugudan.py  ← 구구단 출력 (Python 테스트)
+</code></pre>
+<p>여기서 시작해서 Git 저장소를 만들고, GitHub에 연결했다. 처음 만든 레포 이름은 <code>s21-work</code>. Pages도 바로 개통했다.</p>
+<pre><code>helena751107.github.io/helena_phone/  ← &quot;S21 Workstation Live&quot; 발행
+</code></pre>
+<h3 id="ai">오후: AI 에이전트 이식</h3>
+<p>진짜 핵심은 <strong>Claude Code를 폰에서 돌리는 것</strong>. 그런데 문제가 있었다:<br>
+- Anthropic API는 비싸다 (호출 한 번에 수백 원)<br>
+- DeepSeek는 1/10 가격</p>
+<p>그래서 만든 게 <strong>DeepSeek Radar</strong> — <code>ANTHROPIC_BASE_URL</code>만 DeepSeek endpoint로 바꾸는 꼼수. Claude Code의 UI/도구는 그대로, LLM 엔진만 DeepSeek V3로 교체.</p>
+<blockquote>
+<p><strong>비용: 0원. 성능: 거의 동일.</strong></p>
+</blockquote>
+<h3 id="_2">저녁: 통신망 구축</h3>
+<p>폰이 혼자 일하게 만들었으니, 밖에서도 상황을 알 수 있어야 했다.</p>
+<ol>
+<li><strong>GitHub Pages</strong> — 정적 웹사이트 (무료 호스팅)</li>
+<li><strong>Discord 서버</strong> — 실시간 채팅방 + WidgetBot 위젯</li>
+<li><strong>Telegram 봇</strong> — AI가 작업 완료를 보고하는 채널</li>
+</ol>
+<pre><code class="language-bash"># 텔레그램 보고는 이 한 줄이 전부
+bash tg.sh &quot;✅ 작업 완료&quot;
+</code></pre>
+<p>CLAUDE.md에 &ldquo;AI 에이전트는 작업 후 텔레그램으로 보고할 의무가 있다&rdquo;는 규칙을 넣었다. 에이전트가 자기 일을 스스로 보고하게 만든 것.</p>
+<h3 id="github">밤: GitHub 레포 확장</h3>
+<p>레포를 5개로 늘렸다 — 각각 티스토리 블로그 1:1 매칭:</p>
+<table>
+<thead>
+<tr>
+<th>레포</th>
+<th>매칭 블로그</th>
+<th>용도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>helena_phone</code></td>
+<td>(메인 포털)</td>
+<td>전체 허브</td>
+</tr>
+<tr>
+<td><code>helana_log</code></td>
+<td>mynote11605</td>
+<td>기술블로그</td>
+</tr>
+<tr>
+<td><code>helana-faith</code></td>
+<td>helana-christianity</td>
+<td>신앙</td>
+</tr>
+<tr>
+<td><code>helena-piano</code></td>
+<td>helena-piano</td>
+<td>피아노</td>
+</tr>
+<tr>
+<td><code>helena-metalcare</code></td>
+<td>helena-metalcare</td>
+<td>금속공예</td>
+</tr>
+</tbody>
+</table>
+<p>각 레포마다 Pages + Giscus 댓글 + WidgetBot 채팅 전부 자동 활성화.</p>
+<hr>
+<h2 id="day-2-2026-07-24">DAY 2 — 2026-07-24: 폰 통제와 검증</h2>
+<h3 id="phone-mcp-server">오전: phone-mcp-server 설치</h3>
+<p>PC에서 폰을 원격 조종하고 싶었다. 방법을 찾다가 발견한 게 <strong>phone-mcp-server</strong>:<br>
+- Termux:API 기반 (루트/ADB 불필요)<br>
+- 18개 도구: SMS, 배터리, WiFi, 카메라, GPS, 클립보드, 플래시, 진동&hellip;<br>
+- MCP 프로토콜로 Claude Code가 직접 호출 가능</p>
+<p>설치는 5분 컷. 그런데&hellip;</p>
+<h3 id="termux-api">발견: termux-api 패키지 누락</h3>
+<pre><code>$ termux-battery-status
+→ ENOENT (파일 없음)
+</code></pre>
+<p>😱 뭐야 왜 안 돼?</p>
+<p><strong>원인:</strong> <code>phone-mcp-server</code>만 설치했지, <code>termux-api</code> 패키지(실제 CLI 바이너리)를 안 깔았음.</p>
+<pre><code>pkg install termux-api  ← 이게 없었음
+</code></pre>
+<p>설치 후 테스트:</p>
+<pre><code>get_battery → 64% / 34.1°C ✅
+flashlight  → ON / OFF  ✅  ← 🔦 실제 폰 플래시가 켜짐!
+</code></pre>
+<h3 id="_3">정오: 건강 검진 시스템</h3>
+<p>&ldquo;이 하드웨어들이 진짜 살아있는지&rdquo;를 정기적으로 확인해야겠다는 생각이 들어서 <strong>phone-health.sh</strong>를 만들었다:</p>
+<ul>
+<li>10개 카테고리, 27개 항목 자동 검진</li>
+<li>배터리/WiFi/플래시/진동/클립보드/GPS/카메라/SMS/연락처&hellip;</li>
+<li>등급 시스템 (S/A/B/C)</li>
+<li>결과를 JSON으로 시계열 저장</li>
+</ul>
+<pre><code>첫 검진 결과: A등급 (27통과 / 0실패 / 3경고)
+</code></pre>
+<p>경고 3개는 GPS(실내라 안 잡힘), 통화기록 권한, 마이크 권한 — 모두 허용 가능한 수준.</p>
+<h3 id="_4">오후: 우선순위 정리</h3>
+<p>YouTube OAuth TV 클라이언트 ID를 발급받으려고 했는데, 문득 생각했다:</p>
+<blockquote>
+<p><strong>&ldquo;지친 상태에서 콘솔 UI 붙잡았다가 실수하면? 3분 작업이 30분이 된다.&rdquo;</strong></p>
+</blockquote>
+<p>그래서 YouTube는 <strong>컨디션 좋은 날로 보류</strong>. 티스토리/네이버 Playwright 자동화가 먼저다.</p>
+<h3 id="_5">작업 중단</h3>
+<p>스캐폴드 단계 기준은 충분히 달성했다:<br>
+- ✅ 레포 5개 체계<br>
+- ✅ 통신망 3종 (Pages + Discord + Telegram)<br>
+- ✅ AI 에이전트 스킨<br>
+- ✅ 폰 원격 제어<br>
+- ✅ 건강 검진 자동화</p>
+<blockquote>
+<p><strong>&ldquo;오늘은 여기서 접는다. 내일 컨디션 회복 후 Playwright 발주부터.&rdquo;</strong></p>
+</blockquote>
+<hr>
+<h2 id="_6">현재 인프라 전체 구성</h2>
+<pre><code>📱 갤럭시 S21 (Android + Termux)
+├── 🐧 proot Ubuntu 컨테이너
+│   ├── 🤖 Claude Code (DeepSeek Radar) ← AI 코딩 에이전트
+│   ├── 📡 phone-mcp-server (18개 도구) ← 폰 통제
+│   └── 🔗 Git → GitHub
+│
+├── 🌐 GitHub (5개 레포)
+│   ├── helena_phone (메인 포털)       ✅ Pages + Giscus
+│   ├── helana_log (기술노트)           ✅ Pages + Giscus
+│   ├── helana-faith (신앙)             ✅ Pages + Giscus
+│   ├── helena-piano (피아노)           ✅ Pages + Giscus
+│   └── helena-metalcare (금속케어)     ✅ Pages + Giscus
+│
+├── 💬 Discord (S21 Phone 서버)
+│   ├── #로비 (실시간 채팅)
+│   └── #ai-보고 (웹훅/보고)
+│
+├── 🤖 Telegram (@S21Phone_Bot)
+│
+├── 📝 티스토리 5종 + 네이버 블로그
+└── 📺 YouTube 5채널 (설계 완료, OAuth 대기)
+</code></pre>
+<hr>
+<h2 id="_7">남은 작업 (우선순위 순)</h2>
+<table>
+<thead>
+<tr>
+<th>순위</th>
+<th>작업</th>
+<th>상태</th>
+<th>조건</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🔴 1</td>
+<td>티스토리 자동 포스팅 (Playwright)</td>
+<td>🔧 준비</td>
+<td>컨디션 회복 후</td>
+</tr>
+<tr>
+<td>🔴 2</td>
+<td>네이버 자동 포스팅 (Playwright)</td>
+<td>🔧 준비</td>
+<td>티스토리 후</td>
+</tr>
+<tr>
+<td>🟡 3</td>
+<td>YouTube OAuth 클라이언트 ID 발급</td>
+<td>⏳ 대기</td>
+<td><strong>좋은 날만</strong></td>
+</tr>
+<tr>
+<td>🟡 4</td>
+<td>YouTube 업로드 스크립트</td>
+<td>⏳ 대기</td>
+<td>OAuth 후</td>
+</tr>
+<tr>
+<td>⚪ 5</td>
+<td>UI 자동화 (tap_screen)</td>
+<td>🚫 보류</td>
+<td>루트/ADB 필요</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<blockquote>
+<p>이 연대기는 계속된다.<br>
+다음 에피소드: 티스토리/네이버 Playwright 자동화 — 그리고 YouTube OAuth (좋은 날에)</p>
+</blockquote>
+<hr>
+<h2 id="2026-07-25">현재 인프라 (2026-07-25 기준)</h2>
+<pre><code>📱 S21 (Android + Termux + proot Ubuntu)
+├── 🤖 Claude Code (DeepSeek Radar) — 메인 코딩 엔진
+├── 🎨 Grok CLI (xAI SuperGrok) — 시각·Naver
+├── 🔧 Aider (DeepSeek) — 보조 코딩
+├── 📡 phone-mcp-server (18도구)
+├── 🌐 GitHub (5레포) + Pages (5사이트)
+├── 💬 Discord (2채널) + WidgetBot
+├── 🤖 Telegram @S21Phone_Bot
+├── 📝 티스토리 5종
+├── 📺 YouTube @helena_phone
+└── 🌐 네이버 웹진 (helena1975)
+</code></pre>
+<h2 id="ai_1">AI 비용</h2>
+<table>
+<thead>
+<tr>
+<th>도구</th>
+<th>월 비용</th>
+<th>역할</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude Code (DeepSeek)</td>
+<td>$0</td>
+<td>코드·문서·자동화</td>
+</tr>
+<tr>
+<td>Grok CLI (SuperGrok)</td>
+<td>45,000원</td>
+<td>시각·Naver·이미지</td>
+</tr>
+<tr>
+<td>Aider (DeepSeek)</td>
+<td>포함</td>
+<td>보조 코딩</td>
+</tr>
+<tr>
+<td><strong>합계</strong></td>
+<td><strong>~55,000원/월</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="_8">핵심 성과</h2>
+<ul>
+<li>41커밋 · 96파일 · 11,727줄</li>
+<li>CONSTITUTION.md 헌법 16조 제정</li>
+<li>g/install.sh 1줄 설치기</li>
+<li>care-daemon.sh 돌봄 데몬</li>
+<li>phone-health.sh 27항목 건강검진</li>
+<li>YouTube OAuth + 업로더</li>
+<li>Grok CLI + API 연동</li>
+<li>Paste Pipeline 방법론</li>
+<li>국판 500페이지 분량 문서</li>
+</ul>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="guide.html">
+          <span class="dir">Previous</span>
+          <span class="title">📖 S21 Phone 최적화 — 전체 가이드</span>
+        </a>
+    <a class="next" href="gift.html">
+          <span class="dir">Next</span>
+          <span class="title">GIFT · dtslib 선물</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="constitution.html"><strong>CONSTITUTION.md — S21 Phone 헌법</strong>불변 원칙 · Chain of Command</a><a href="claude.html"><strong>S21 Phone — 실무 규칙</strong>AI 3종 · Paste Pipeline · 인프라</a><a href="readme.html"><strong>📱 S21 Phone — AI Workstation</strong>숫자 · 구조 · 빠른 링크</a><a href="guide.html"><strong>📖 S21 Phone 최적화 — 전체 가이드</strong>Termux부터 방송까지</a><a href="gift.html"><strong>GIFT · dtslib 선물</strong>선물 패키지 분석</a><a href="textbook.html"><strong>완결판 교재</strong>판단층 + 실행층</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="assets/webzine.js"></script>
+</body>
+</html>

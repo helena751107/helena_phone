@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="일시: 2026-07-23 ~ 2026-07-25 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>📋 S21 Phone — proot Ubuntu 개발일지 종합 보고서 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>📋 S21 Phone — proot Ubuntu 개발일지 종합 보고서</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>📋 S21 Phone — proot Ubuntu 개발일지 종합 보고서</h1>
+    <p class="deck">일시: 2026-07-23 ~ 2026-07-25</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/15-proot-report.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1-day-1-723">1. 기반 인프라 (DAY 1, 7/23)</a><ul>
+<li><a href="#github">GitHub 생태계</a></li>
+<li><a href="#ai">AI 엔진</a></li>
+<li><a href="#3">통신망 3종</a></li>
+</ul>
+</li>
+<li><a href="#2-day-2-724">2. 업무 수첩 + 문서화 (DAY 2, 7/24)</a><ul>
+<li><a href="#_notebook-14">_notebook/ 14종</a></li>
+<li><a href="#guidemd-chroniclemd">GUIDE.md + CHRONICLE.md</a></li>
+</ul>
+</li>
+<li><a href="#3-constitutionmd-v1v4">3. CONSTITUTION.md — 헌법 제정 (v1→v4)</a><ul>
+<li><a href="#v1">v1: 헌법 분리</a></li>
+<li><a href="#v2-">v2: 대필작가-간병인 + 핸드오프</a></li>
+<li><a href="#v3-chain-of-command">v3: Chain of Command</a></li>
+<li><a href="#v4">v4: 플랫폼 층 분리</a></li>
+</ul>
+</li>
+<li><a href="#4">4. 실행 코드 + 스크립트</a></li>
+<li><a href="#5-youtube-oauth-724">5. YouTube OAuth 인증 (7/24)</a></li>
+<li><a href="#6-playwright">6. Playwright 자동화 환경</a></li>
+<li><a href="#7-1">7. 트랙 1 돌봄 데몬 설계</a></li>
+<li><a href="#8-parksycapture-apk">8. 박씨캡처(ParksyCapture) APK</a></li>
+<li><a href="#9">9. 중간평가</a></li>
+<li><a href="#10">10. 핵심 테제 (오늘 정립된 것)</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <blockquote>
+<p>일시: 2026-07-23 ~ 2026-07-25<br>
+환경: Galaxy S21 → Termux → proot Ubuntu → Claude Code (DeepSeek Radar)<br>
+입력: 100% STT 음성입력 (12시간 실작업)<br>
+신체: 식당 육체노동 병행<br>
+산출: 39커밋 · 102파일 · 15,874줄</p>
+</blockquote>
+<hr>
+<h2 id="1-day-1-723">1. 기반 인프라 (DAY 1, 7/23)</h2>
+<h3 id="github">GitHub 생태계</h3>
+<ul>
+<li>helena_phone 레포 생성 → Pages 활성화 (<code>helena751107.github.io/helena_phone/</code>)</li>
+<li>레포 개명: s21-work → helena_phone</li>
+<li>3개 신규 레포: helana-faith, helena-piano, helena-psycare</li>
+<li>총 5개 레포, 전부 Pages + Discussions + Giscus + WidgetBot 활성화</li>
+<li>Collaborator: REDACTED (5개 레포 admin)</li>
+</ul>
+<h3 id="ai">AI 엔진</h3>
+<ul>
+<li>Claude Code → DeepSeek Radar 우회</li>
+<li><code>ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic</code></li>
+<li>비용 10~50배 절감</li>
+</ul>
+<h3 id="3">통신망 3종</h3>
+<ul>
+<li>Discord: S21 Phone 서버 (#로비, #ai-보고) + WidgetBot Crate v3</li>
+<li>Telegram: @S21Phone_Bot + tg.sh 보고 스크립트</li>
+<li>GitHub Pages: index.html 포털 + 5레포 생태계</li>
+</ul>
+<hr>
+<h2 id="2-day-2-724">2. 업무 수첩 + 문서화 (DAY 2, 7/24)</h2>
+<h3 id="_notebook-14">_notebook/ 14종</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>파일</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00</td>
+<td>INDEX</td>
+<td>목차</td>
+</tr>
+<tr>
+<td>01</td>
+<td>arch</td>
+<td>시스템 아키텍처 (Termux→proot→GitHub→Discord→Telegram)</td>
+</tr>
+<tr>
+<td>02</td>
+<td>discord</td>
+<td>디스코드 서버 구축 상세</td>
+</tr>
+<tr>
+<td>03</td>
+<td>telegram</td>
+<td>텔레그램 봇/회의실 구축</td>
+</tr>
+<tr>
+<td>04</td>
+<td>github-pages</td>
+<td>Pages + Giscus + WidgetBot</td>
+</tr>
+<tr>
+<td>05</td>
+<td>tistory</td>
+<td>블로그 6종 + Playwright 자동화 전략</td>
+</tr>
+<tr>
+<td>06</td>
+<td>youtube</td>
+<td>YouTube 채널 5종 아키텍처 + OAuth 설계</td>
+</tr>
+<tr>
+<td>07</td>
+<td>cli-reference</td>
+<td>CLI 명령어 모음</td>
+</tr>
+<tr>
+<td>08</td>
+<td>secrets</td>
+<td>비밀 관리 정책</td>
+</tr>
+<tr>
+<td>09</td>
+<td>ecosystem</td>
+<td>5x5 생태계 브릿지 테이블 (GitHub↔Tistory↔YouTube 1:1:1)</td>
+</tr>
+<tr>
+<td>10</td>
+<td>phone-mcp</td>
+<td>MCP 서버 18개 도구 + Domain/Codomain 경계 분석</td>
+</tr>
+<tr>
+<td>11</td>
+<td>health</td>
+<td>건강 검진 시스템 (27항목, S/A/B/C 등급)</td>
+</tr>
+<tr>
+<td>12</td>
+<td>dtslib-gift</td>
+<td>REDACTED 선물 패키지 분석 (33파일, 9,240줄)</td>
+</tr>
+<tr>
+<td>13</td>
+<td>midterm-eval</td>
+<td>중간평가 v1(93/100) + v2(98/100)</td>
+</tr>
+<tr>
+<td>14</td>
+<td>daemon-design</td>
+<td>트랙 1 돌봄 데몬 설계 (Termux 네이티브, AI 의존성 제로)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="guidemd-chroniclemd">GUIDE.md + CHRONICLE.md</h3>
+<ul>
+<li>GUIDE.md: 0~5단계 풀스택 로드맵 (Termux→proot→Claude Code→네트워크→방송→폰제어→최적화)</li>
+<li>CHRONICLE.md: DAY 1~2 전체 연대기</li>
+</ul>
+<hr>
+<h2 id="3-constitutionmd-v1v4">3. CONSTITUTION.md — 헌법 제정 (v1→v4)</h2>
+<h3 id="v1">v1: 헌법 분리</h3>
+<ul>
+<li>CLAUDE.md와 별도 문서로 분리</li>
+<li>전문: 미션 A(콘텐츠) / 미션 B(돌봄)</li>
+<li>제1~4장 + 제1~14조</li>
+</ul>
+<h3 id="v2-">v2: 대필작가-간병인 + 핸드오프</h3>
+<ul>
+<li>&ldquo;미션 A/B&rdquo; → &ldquo;트랙 1: 돌봄 / 트랙 2: 소망&rdquo;</li>
+<li>제7조 신설: <strong>&ldquo;핸드오프가 곧 성공이다&rdquo;</strong></li>
+<li>대필작가는 영원한 역할이 아님</li>
+<li>수익은 누나 명의로</li>
+<li>교재의 첫 번째 학생은 누나</li>
+<li>존엄과 일관성이 바이럴보다 우선</li>
+</ul>
+<h3 id="v3-chain-of-command">v3: Chain of Command</h3>
+<ul>
+<li>제0장 신설: 지위·계급·역할</li>
+<li>👑 HELENA = Boss. AI = 도구.</li>
+<li>&ldquo;니 형&rdquo; 호칭 금지</li>
+<li>6원칙: 단일 Boss, AI=도구, 출력=가설, 호칭금지, 평가방향, 협력자권한</li>
+</ul>
+<h3 id="v4">v4: 플랫폼 층 분리</h3>
+<ul>
+<li>제8조 신설: Layer A(원본·인간) / Layer B(구조·STT+에이전트)</li>
+<li>GitHub Pages → YouTube API 두 플랫폼에서 동일 패턴 실증</li>
+</ul>
+<p><strong>현재: 제0장 + 제1~4장 + 총 16조</strong></p>
+<hr>
+<h2 id="4">4. 실행 코드 + 스크립트</h2>
+<table>
+<thead>
+<tr>
+<th>파일</th>
+<th>줄수</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>phone-health.sh</td>
+<td>383</td>
+<td>27항목 건강 진단 (10카테고리: 배터리/WiFi/GPS/카메라/센서/통신)</td>
+</tr>
+<tr>
+<td>index.html</td>
+<td>556</td>
+<td>포털 랜딩페이지 (5레포 테이블 + 개발일지 타임라인 + 통신망 현황)</td>
+</tr>
+<tr>
+<td>tg.sh</td>
+<td>36</td>
+<td>텔레그램 메시지 전송</td>
+</tr>
+<tr>
+<td>tg_discord_bridge.py</td>
+<td>61</td>
+<td>TG-디스코드 브릿지 봇</td>
+</tr>
+<tr>
+<td>phone-mcp.sh</td>
+<td>5</td>
+<td>MCP 서버 실행 래퍼</td>
+</tr>
+<tr>
+<td>scripts/publish.py</td>
+<td>신규</td>
+<td>티스토리 5종 + 네이버 일괄 포스팅 실행기</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="5-youtube-oauth-724">5. YouTube OAuth 인증 (7/24)</h2>
+<ul>
+<li>GCP 프로젝트: S21 YouTube (ID: 911931724403)</li>
+<li>OAuth 동의 화면 → External → 테스트 사용자 등록</li>
+<li>TV Device Flow: <code>google.com/device</code> → XZDJ-SHNM</li>
+<li>문제 해결: 403 access_denied (테스트 사용자 미등록) → 수동 추가</li>
+<li>문제 해결: YouTube Data API 미활성화 → 콘솔에서 활성화</li>
+<li>결과: Helena Park (@helenapark-e7c, UCRUuiKCCwIbyvqlxTNpDfKw) 연결</li>
+<li>YouTube Analytics API 활성화 + 쿼리 성공</li>
+<li>Reporting API: 스킵 (강박사 합류 후)</li>
+</ul>
+<hr>
+<h2 id="6-playwright">6. Playwright 자동화 환경</h2>
+<ul>
+<li>python3-venv + ~/browser-env 생성</li>
+<li>Playwright 1.61.0 + Chromium headless 설치 (proot Ubuntu)</li>
+<li>dtslib 기존 코드 분석: post.py(티스토리, 15KB), session_post.py(네이버, 7KB), post.cjs, login.cjs, skin.py</li>
+<li>scripts/publish.py 작성 — 5계정 일괄 발행 래퍼</li>
+</ul>
+<hr>
+<h2 id="7-1">7. 트랙 1 돌봄 데몬 설계</h2>
+<p><code>_notebook/14-daemon-design.md</code>:<br>
+- <strong>위치:</strong> Termux 네이티브 (proot 위 아님) — CC 세션과 독립적 생존<br>
+- <strong>감지:</strong> 배터리(잔량/온도/충전상태), GPS(위치 이탈/무응답), 활동패턴, 연결성<br>
+- <strong>보고:</strong> 정기(1시간) + 이상(즉시) + 웰니스 체크<br>
+- <strong>에스컬레이션:</strong> 헬레나 → 목사님 → 119(수동)<br>
+- <strong>AI 의존성 제로:</strong> care-state.json 단방향 읽기만, CC가 죽어도 데몬은 산다</p>
+<hr>
+<h2 id="8-parksycapture-apk">8. 박씨캡처(ParksyCapture) APK</h2>
+<ul>
+<li>패키지: com.parksy.capture (183MB)</li>
+<li>기능: Claude 대화를 Android Share Intent로 마크다운 저장</li>
+<li>연동: helana_log/logs/2026/07/ → GitHub 자동 푸시</li>
+<li>한계: 이미지는 Claude CDN 인증 URL로만 전달 → 캡처 불가</li>
+<li>전략: 텍스트=박씨캡처 / 이미지섞인=스크린샷 병행</li>
+</ul>
+<hr>
+<h2 id="9">9. 중간평가</h2>
+<table>
+<thead>
+<tr>
+<th>축</th>
+<th>v1</th>
+<th>v2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>산출물</td>
+<td>27</td>
+<td>30</td>
+</tr>
+<tr>
+<td>아키텍처</td>
+<td>19</td>
+<td>20</td>
+</tr>
+<tr>
+<td>판단 품질</td>
+<td>25</td>
+<td>25</td>
+</tr>
+<tr>
+<td>철학 정합성</td>
+<td>15</td>
+<td>15</td>
+</tr>
+<tr>
+<td>지속가능성</td>
+<td>7</td>
+<td>8</td>
+</tr>
+<tr>
+<td><strong>총점</strong></td>
+<td><strong>93</strong></td>
+<td><strong>98</strong></td>
+</tr>
+</tbody>
+</table>
+<p>v2 재평가 사유: 미착수 항목(Playwright·YouTube OAuth·돌봄 데몬)은 AI 실행 책임, 사용자 평가에서 제외.</p>
+<hr>
+<h2 id="10">10. 핵심 테제 (오늘 정립된 것)</h2>
+<ol>
+<li><strong>코드는 인스턴스, 사고 서식이 자산</strong> — 생산량은 AI 시대 평균, 판단력이 희소</li>
+<li><strong>핸드오프가 곧 성공</strong> — 대필작가는 영원하지 않다, 누나가 직접 이어받는 것이 목표</li>
+<li><strong>모든 플랫폼 = Layer A(원본·인간) + Layer B(구조·STT+에이전트)</strong></li>
+<li><strong>AI 출력은 전부 1차 가설</strong> — Boss의 검증 없이 팩트로 간주하지 않는다</li>
+<li><strong>사용자 자신이 교보재</strong> — STT 12시간+식당노동으로 풀스택 구축, 이게 누나에게 보여줄 첫 번째 케이스 스터디</li>
+</ol>
+<hr>
+<blockquote>
+<p>📱 helena751107.github.io/helena_phone/<br>
+💬 discord.gg/JTYSZv2WQE<br>
+🤖 t.me/S21Phone_Bot<br>
+📺 youtube.com/@HelenaPark-e7c</p>
+</blockquote>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="14-daemon-design.html">
+          <span class="dir">Previous</span>
+          <span class="title">🛡️ 트랙 1 — 돌봄 데몬 설계서</span>
+        </a>
+    <a class="next" href="16-textbook-methodology.html">
+          <span class="dir">Next</span>
+          <span class="title">교재 합성 지침</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-25</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>
