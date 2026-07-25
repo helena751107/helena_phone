@@ -1,0 +1,190 @@
+{
+  "_description": "S21 Phone — 5x5x5 생태계 매트릭스 (Tistory × YouTube × GitHub 1:1:1). 2026-07-25 생성.",
+  "_principle": "각 채널은 독립된 정체성. 모든 콘텐츠는 Layer A(인간·STT) → Layer B(에이전트·API) 파이프라인으로 발행.",
+
+  "main_hub": {
+    "youtube_channel": "@HelenaPark-e7c",
+    "youtube_id": "UCRUuiKCCwIbyvqlxTNpDfKw",
+    "naver": "helena1975",
+    "naver_role": "관제탑 — 전체 교차홍보 게이트웨이 (그림첩/이미지 중심)",
+    "discord_server": "S21 Phone",
+    "discord_channels": {
+      "lobby": "#로비 (1529785982818193469)",
+      "ai_report": "#ai-보고 (1529785985993408723)"
+    },
+    "telegram_bot": "@S21Phone_Bot",
+    "telegram_chat": "8579179811"
+  },
+
+  "channels": [
+    {
+      "id": "phone",
+      "theme": "📱 S21 폰 최적화 바이블",
+      "color": "#4A90D9",
+      "tistory": {
+        "blog": "galaxys21-pwuser",
+        "url": "https://galaxys21-pwuser.tistory.com",
+        "title": "Helena-Phone",
+        "rss": "https://galaxys21-pwuser.tistory.com/rss",
+        "category": "S21/Termux/proot/ClaudeCode/MCP/0원풀스택",
+        "posts": 0
+      },
+      "youtube": {
+        "channel": "@S21Phone (브랜드 채널 예정)",
+        "playlist": "S21 Phone — 폰 최적화 바이블",
+        "playlist_id": "PLXRzzp1dJ36c",
+        "content_type": "튜토리얼·셋업·설치·설정가이드"
+      },
+      "github": {
+        "repo": "helena_phone",
+        "pages": "https://helena751107.github.io/helena_phone/",
+        "role": "코드 저장소 + 문서 + Pages"
+      },
+      "discord_notify": "#로비",
+      "telegram_notify": true
+    },
+    {
+      "id": "tech",
+      "theme": "🗃️ 박씨캡처 리버싱",
+      "color": "#50C878",
+      "tistory": {
+        "blog": "mynote11605",
+        "url": "https://mynote11605.tistory.com",
+        "title": "엘레나 다이어리",
+        "rss": "https://mynote11605.tistory.com/rss",
+        "category": "APK리버싱/MCP/LLM로그/기술튜토리얼",
+        "posts": 0
+      },
+      "youtube": {
+        "channel": "@HelenaTechLog (브랜드 채널 예정)",
+        "playlist": "Helena Tech Log — 박씨캡처 리버싱",
+        "playlist_id": "PLPeHKuMeuM2k",
+        "content_type": "리버싱·MCP개발·기술분석·튜토리얼"
+      },
+      "github": {
+        "repo": "helana_log",
+        "pages": "https://helena751107.github.io/helana_log/",
+        "role": "APK 분석 + 로그 저장소 + MCP 코드"
+      },
+      "discord_notify": "#로비",
+      "telegram_notify": true
+    },
+    {
+      "id": "faith",
+      "theme": "✝️ 가족 신앙사",
+      "color": "#FFD700",
+      "tistory": {
+        "blog": "helana-christianity",
+        "url": "https://helana-christianity.tistory.com",
+        "title": "Helana-Christianity",
+        "rss": "https://helana-christianity.tistory.com/rss",
+        "category": "가족신앙/비교종교학/말씀묵상/기도",
+        "posts": 0
+      },
+      "youtube": {
+        "channel": "@HelenaFaith (브랜드 채널 예정)",
+        "playlist": "Helena Faith — 가족 신앙사",
+        "playlist_id": "PLVMVhBhx9j5U",
+        "content_type": "말씀·묵상·신앙고백·찬양"
+      },
+      "github": {
+        "repo": "helena-faith",
+        "pages": "https://helena751107.github.io/helena-faith/",
+        "role": "신학 문서 + 가족사 아카이브"
+      },
+      "discord_notify": "#로비",
+      "telegram_notify": true
+    },
+    {
+      "id": "piano",
+      "theme": "🎹 피아노 종합",
+      "color": "#FF6B9D",
+      "tistory": {
+        "blog": "helena-piano",
+        "url": "https://helena-piano.tistory.com",
+        "title": "Helena-Piano",
+        "rss": "https://helena-piano.tistory.com/rss",
+        "category": "연주/MIDI/REAPER/AI음원/악보/레슨",
+        "posts": 0
+      },
+      "youtube": {
+        "channel": "@HelenaPiano (브랜드 채널 예정)",
+        "playlist": "Helena Piano — 피아노 종합",
+        "playlist_id": "PLQZhcAIkPriA",
+        "content_type": "연주영상·커버·레슨·MIDI시연"
+      },
+      "github": {
+        "repo": "helena-piano",
+        "pages": "https://helena751107.github.io/helena-piano/",
+        "role": "MIDI파일·REAPER프로젝트·AI음원·악보"
+      },
+      "discord_notify": "#로비",
+      "telegram_notify": true
+    },
+    {
+      "id": "psycare",
+      "theme": "🧠 멘탈케어",
+      "color": "#9B59B6",
+      "tistory": {
+        "blog": "helena-psycare",
+        "url": "https://helena-psycare.tistory.com",
+        "title": "Helena Psycare",
+        "rss": "https://helena-psycare.tistory.com/rss",
+        "category": "정신의학/정신분석/MCP모델/치료기록",
+        "posts": 0
+      },
+      "youtube": {
+        "channel": "@HelenaPsycare (브랜드 채널 예정)",
+        "playlist": "Helena Psycare — 멘탈케어",
+        "playlist_id": "PLXRhF8OeEWV0",
+        "content_type": "정신분석·치료이론·MCP모델·사례연구"
+      },
+      "github": {
+        "repo": "helena-psycare",
+        "pages": "https://helena751107.github.io/helena-psycare/",
+        "role": "분석코드·MCP모델·문헌·케이스스터디"
+      },
+      "discord_notify": "#로비",
+      "telegram_notify": true
+    }
+  ],
+
+  "publishing_pipeline": {
+    "source": "STT 음성입력 → 클립보드 → Claude Code",
+    "youtube": {
+      "script": "scripts/yt_upload.py",
+      "auth": "scripts/yt_oauth_setup.sh",
+      "flow": "제목+파일 → OAuth토큰 → videos.insert → playlistItems.insert → tg.sh 보고"
+    },
+    "tistory": {
+      "script": "scripts/publish.py",
+      "flow": "마크다운원고 → Playwright headless → 티스토리 글쓰기 → tg.sh 보고",
+      "status": "스크립트 완료, 세션 쿠키 발급 필요"
+    },
+    "naver": {
+      "script": "scripts/publish.py",
+      "flow": "이미지+링크 → Playwright headless → 네이버 글쓰기 → tg.sh 보고",
+      "status": "스크립트 완료, 세션 쿠키 발급 필요"
+    },
+    "github": {
+      "flow": "git add → commit → push → Pages 자동배포",
+      "status": "완전 자동화 완료"
+    },
+    "discord_telegram": {
+      "flow": "발행 완료 시 tg.sh + Discord webhook 동시 알림",
+      "status": "tg.sh 완료, dc.sh 예정"
+    }
+  },
+
+  "brand_channels_todo": {
+    "description": "YouTube 브랜드 채널 4개를 YouTube Studio에서 수동 생성 후 이 JSON에 ID 추가",
+    "steps": "https://www.youtube.com/account → 브랜드 계정 관리 → 채널 만들기",
+    "pending": [
+      {"name": "S21 Phone", "handle": "@S21Phone", "playlist_id": "PLXRzzp1dJ36c"},
+      {"name": "Helena Tech Log", "handle": "@HelenaTechLog", "playlist_id": "PLPeHKuMeuM2k"},
+      {"name": "Helena Faith", "handle": "@HelenaFaith", "playlist_id": "PLVMVhBhx9j5U"},
+      {"name": "Helena Piano", "handle": "@HelenaPiano", "playlist_id": "PLQZhcAIkPriA"},
+      {"name": "Helena Psycare", "handle": "@HelenaPsycare", "playlist_id": "PLXRhF8OeEWV0"}
+    ]
+  }
+}
