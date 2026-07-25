@@ -36,3 +36,10 @@ export TG_CHAT="${TG_CHAT:-}"
 - 메시지 수신 확인: `GET /bot{token}/getUpdates`
 - 메시지 발송: `POST /bot{token}/sendMessage`
 - 봇은 먼저 말을 못 검 → 사용자가 먼저 메시지 보내야 chat_id 생성됨
+
+---
+
+## 현재 상태 (2026-07-25)
+- 봇: @S21Phone_Bot ✅
+- 스크립트: tg.sh (36줄)
+- 용도: git push 보고·건강검진·돌봄 알림·Paste Pipeline 배달

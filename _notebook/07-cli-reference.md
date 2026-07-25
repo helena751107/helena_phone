@@ -82,3 +82,13 @@ curl -s -o /dev/null -w "%{http_code}" https://helena751107.github.io/helena_pho
 curl -s -H "Authorization: token $TOKEN" \
   https://api.github.com/users/helena751107/repos | jq -r '.[].name'
 ```
+
+---
+
+## Grok CLI (2026-07-25 추가)
+```bash
+gr          # grok 실행 (proot Ubuntu)
+grlogin     # device-auth 로그인
+grc         # 이전 세션 이어가기
+agent       # 헤드리스 에이전트
+```

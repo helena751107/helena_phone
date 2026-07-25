@@ -51,3 +51,11 @@ curl -s -X PATCH "https://discord.com/api/v9/guilds/1529785842560794684/widget" 
 - 위젯: `PATCH /api/v9/guilds/{id}/widget`
 - 앱(봇) 생성: `POST /api/v9/applications` → hCaptcha 필요 (수동)
 - 초대링크: `POST /api/v9/channels/{id}/invites`
+
+---
+
+## 현재 상태 (2026-07-25)
+- 서버: S21 Phone ✅
+- 채널: #로비 (공개) + #ai-보고 (웹훅)
+- WidgetBot: GitHub Pages에 임베드
+- 웹훅 알림: dc.sh (예정)
