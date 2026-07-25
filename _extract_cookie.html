@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>티스토리 쿠키 추출</title>
+<style>
+  body { font-family: sans-serif; padding: 16px; max-width: 500px; margin: 0 auto; background: #1a1a2e; color: #eee; }
+  h1 { font-size: 1.2em; color: #ff6b6b; }
+  .step { background: #16213e; padding: 14px; margin: 12px 0; border-radius: 8px; border-left: 3px solid #ff6b6b; }
+  .btn { display: block; width: 100%; padding: 16px; background: #ff6b6b; color: #fff; border: none; border-radius: 8px; font-size: 1em; margin: 12px 0; cursor: pointer; }
+  code { background: #0f3460; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; word-break: break-all; }
+  a { color: #ff6b6b; }
+  ol { padding-left: 20px; }
+  li { margin: 8px 0; line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<h1>🍪 티스토리 쿠키 추출 (1회)</h1>
+
+<div class="step">
+  <strong>Step 1:</strong> 아래 링크를 <strong>길게 눌러서</strong> "북마크에 추가" 하세요.<br><br>
+  <a href="javascript:(function(){var%20c=document.cookie;var%20d=new%20Date();prompt('%E2%86%93%E2%86%93%E2%86%93%20%EC%BF%A0%ED%82%A4%20JSON%20%EC%A0%84%EC%B2%B4%EB%B3%B5%EC%82%AC%20%E2%86%93%E2%86%93%E2%86%93%20('+d.toISOString().slice(0,10)+')',JSON.stringify({date:d.toISOString(),domain:window.location.hostname,cookies:c.split(';%20').map(function(x){var%20p=x.split('=');return{name:p[0].trim(),value:p.slice(1).join('=')}}))}))})();" style="font-size:1.1em;">📌 북마크 추가하기 (길게 누르기)</a>
+</div>
+
+<div class="step">
+  <strong>Step 2:</strong> 크롬에서 <code>galaxys21-pwuser.tistory.com</code> 열기 (이미 로그인됨)
+</div>
+
+<div class="step">
+  <strong>Step 3:</strong> 방금 추가한 북마크 터치 → 팝업에서 JSON 전체 복사
+</div>
+
+<div class="step">
+  <strong>완료!</strong> 복사한 JSON을 Termux로 돌아와서 붙여넣기.
+</div>
+
+<p style="color:#888;font-size:0.8em;margin-top:24px;">
+  이 작업은 쿠키 만료 시(1~3개월)까지 다시 할 필요 없습니다.<br>
+  카카오 OAuth(KOE006)가 고쳐지면 완전 자동화로 전환됩니다.
+</p>
+
+</body>
+</html>
