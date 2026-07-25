@@ -610,3 +610,28 @@ Claude API로 스레드 이미지 URL 별도 수집 파이프 고려.
 - `_notebook/18-workcenters.md` — GitHub(공장)·Pages(전시장)·티스토리(출판소)·YouTube(방송탑)·네이버(관제탑)·Discord(로비)·Telegram(내부보고)
 - 콘텐츠 생애주기: STT→스크립트→GitHub→(영상+블로그)→네이버관제탑→알림
 - 전체 공장 배치도 + 워크플로우 다이어그램 포함
+
+### 44. 티스토리·네이버 자동화 폐기 — Boss 전략 판단 (2026-07-25)
+
+**Boss 판단:** "티스토리랑 네이버는 기를 쓰고 뚫을 필요 없다. API 죽었고, 안티봇에 막히고, 북마크릿도 차단된다. 여기는 업무일지·관제탑으로 사람이 직접 한다."
+
+**기술적 장벽 (3중):**
+1. 티스토리 Open API — 2024년 2월 완전 종료
+2. Kakao OAuth — KOE006 (앱 관리자 설정 오류). Tistory 쪽 설정 문제로 자동 로그인 불가.
+3. Android Chrome — 북마크릿 실행 차단 (구글 7년째 방치된 버그). Firefox 우회 가능하나 번거로움.
+
+**시도했던 것들:**
+- Playwright headless → Kakao OAuth URL 직접 구성 → KOE006 에러
+- Kakao SDK `Kakao.Auth.authorize()` 우회 → 동일 KOE006
+- Chrome 북마크릿 → 메뉴에서 차단
+- `am start` Intent로 javascript URL → Android SecurityException
+- Chrome cookie DB 직접 접근 → `/data/data/` sandbox 차단
+- GitHub Pages에 추출 페이지 호스팅 → `_` 프리픽스 이슈 후 수정했으나 Pages 배포 지연
+
+**확정:**
+- 티스토리: 사람이 업무일지로 수동 발행 (터미널 스크린샷 + TG 리포트 + git log)
+- 네이버: 사람이 관제탑으로 주간 발행 (이미지 + 링크)
+- `scripts/publish.py`, `scripts/save_tistory_cookie.py`, `tistory-naver/` 코드 보존 (참고용)
+- 자동화는 GitHub·Pages·YouTube·Telegram·건강검진·돌봄데몬에 집중
+
+**저장:** `_notebook/19-final-strategy.md`
