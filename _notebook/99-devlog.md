@@ -657,3 +657,31 @@ Grok만 모바일 버전(m.blog.naver.com) 파싱에 성공.
 파싱이 아니라 **이미지·클립 생성 + 에이전트 + LLM 통합**에 있다.
 
 **저장:** `_notebook/25-multi-ai-strategy.md`, `_notebook/26-naver-parsing-solution.md`, `_notebook/27-claude-grok-pipeline.md`
+
+### 46. Grok CLI 설치 + gr alias — 세 번째 AI 에이전트 (2026-07-25)
+
+**설치:**
+- `curl -fsSL https://x.ai/cli/install.sh | bash` → v0.2.112, linux-aarch64 네이티브
+- `grok login --device-auth` → YouTube OAuth와 동일한 Device Code Flow
+- `~/.grok/bin/grok` + `~/.grok/bin/agent` (심링크)
+
+**Termux alias:**
+```bash
+alias gr='proot-distro login ubuntu -- bash -c "grok"'
+alias grlogin='proot-distro login ubuntu -- bash -c "grok login --device-auth"'
+alias grc='proot-distro login ubuntu -- bash -c "grok -c"'
+alias agent='proot-distro login ubuntu -- bash -c "agent"'
+```
+
+**우리 폰의 AI 도구 3종:**
+| 도구 | 엔진 | 역할 | 비용 |
+|------|------|------|------|
+| Claude Code | DeepSeek Radar | 코드·문서·자동화·GitHub | $0 |
+| Grok CLI | xAI (SuperGrok) | 시각·네이버·에이전트·이미지 | 45,000원/월 |
+| Aider | DeepSeek | 보조 코딩 | $0 |
+
+**Grok CLI vs grok_api.py 분리:**
+- Grok CLI: 대화·탐색·에이전트 (사람 상호작용)
+- grok_api.py: 자동화·파싱·파이프라인 (스크립트)
+
+**저장:** `_notebook/29-grok-cli-installed.md`, `scripts/grok_api.py`, `scripts/grok_oauth_setup.sh`, `configs/bashrc-example.sh`
