@@ -9,14 +9,21 @@
 ## 작업 원칙
 - **커밋 자주, 작게**: 기능 단위로 쪼개서 커밋
 - **설명 남겨라**: "왜"를 커밋 메시지에 포함
-- **깨져도 괜찮다**: 미션 A에 한함. 미션 B는 절대 안 깨지는 게 유일한 기준.
-- **스캐폴드 우선**: 일단 작동, 나중에 개선
+- **깨져도 괜찮다**: 트랙 2(소망)에 한함. 트랙 1(돌봄)은 절대 안 깨지는 게 유일한 기준.
+- **스캐폴드 우선**: 일단 작동, 나중에 개선. Grok 80% 드래프트 → Claude Code 100% 완성.
 
 ## Git 작업
 - 작업 전 `git pull`로 최신 상태 확인
 - 커밋 메시지는 한글/영문 혼용 가능, 간결하게
 - `git push --force`는 원격이 로컬보다 뒤처진 게 확실할 때만. 함부로 쓰지 말 것.
 - 완료 후 `git push` 자동 실행
+
+## AI 에이전트 3종
+| 호출 | 에이전트 | 역할 | 비용 |
+|------|---------|------|------|
+| `cc` | Claude Code (DeepSeek) | 코드·문서·자동화·GitHub·TG | $0 |
+| `gr` | Grok CLI (xAI SuperGrok) | 시각·Naver·이미지·클립·채팅검색 | 45,000원/월 |
+| `aider` | Aider (DeepSeek) | 보조 코딩·자동화 루프 | 포함 |
 
 ## AI 에이전트 규칙
 - 세션 시작 시 CONSTITUTION.md → CLAUDE.md 순으로 참고할 것
@@ -40,30 +47,41 @@ bash ~/work/tg.sh '✅ 작업명 — 결과'
 - AI와의 주요 대화 중 결정적 전환이 있었으면 요지 함께 기록
 - 추후 `g/zero.sh`로 압축·정제 예정
 
+## Paste Pipeline (네이버·티스토리 수동 발행)
+- API 없는 플랫폼은 Paste Pipeline으로 대응:
+  `Claude Code → TG 원고 배달 → 사람 복사붙여넣기 → 발행 (5분)`
+- 티스토리 = 업무일지 (TG리포트 + git log + 스크린샷)
+- 네이버 = 웹진·미끼 (Grok 80% 드래프트 → 주간 발행)
+
 ## 파일 구조
-- `CONSTITUTION.md` = 헌법 (목적, 불변 원칙, 신원) — **무엇을, 왜**
-- `CLAUDE.md` = 실무 규칙 (방법, 절차) — **어떻게**
-- `index.html` = 랜딩 페이지 (루트)
-- `_notebook/` = 업무 수첩/개발일지
-- `notebook/` = HTML 변환 문서
-- `configs/` = 설정 파일
-- `scripts/` = 자동화 스크립트
-- `.github/workflows/` = CI/CD
-- `mcp-servers/` = MCP 서버 모음
-- `tistory-naver/` = 블로그 자동화
-- `telegram/` = 텔레그램 연동
-- `google-api/` = YouTube/Google API
-- `discord/` = 디스코드 연동
+```
+helena_phone/
+├── CONSTITUTION.md  ← 헌법 (무엇을, 왜)
+├── CLAUDE.md        ← 실무 규칙 (어떻게)
+├── index.html       ← 랜딩 포털
+├── _notebook/       ← 업무 수첩 (34종)
+├── _textbook/       ← 완결판 교재
+├── g/               ← install.sh
+├── care/            ← 트랙1 돌봄 데몬
+├── scripts/         ← 자동화 스크립트
+├── configs/         ← 설정 파일
+├── 01~05/           ← GUIDE.md 챕터
+├── mcp-servers/     ← dtslib MCP
+└── tistory-naver/   ← dtslib 블로그코드(보존)
+```
 
 ## 현재 인프라
 
 ```
 📱 S21 (Android + Termux + proot Ubuntu)
-├── Claude Code (DeepSeek Radar)
+├── Claude Code (DeepSeek Radar) — 메인 코딩
+├── Grok CLI (xAI SuperGrok) — 시각·Naver
+├── Aider (DeepSeek) — 보조 코딩
 ├── phone-mcp-server (18 도구, 포트 3456)
 ├── 5개 GitHub 레포 → Pages + Giscus + WidgetBot
 ├── Discord S21 Phone 서버 (#로비, #ai-보고)
 ├── Telegram @S21Phone_Bot (tg.sh 보고)
-├── 티스토리 5종 (Playwright 발주 대기)
-└── YouTube 5채널 (설계 완료, OAuth 대기)
+├── 티스토리 5종 (수동 업무일지)
+├── YouTube @helena_phone (OAuth 완료)
+└── 네이버 helena1975 (웹진·미끼)
 ```
