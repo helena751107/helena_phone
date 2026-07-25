@@ -685,3 +685,25 @@ alias agent='proot-distro login ubuntu -- bash -c "agent"'
 - grok_api.py: 자동화·파싱·파이프라인 (스크립트)
 
 **저장:** `_notebook/29-grok-cli-installed.md`, `scripts/grok_api.py`, `scripts/grok_oauth_setup.sh`, `configs/bashrc-example.sh`
+
+### 47. AI 비용 분석 — 월 55,000원 3에이전트 체제 (2026-07-25)
+
+**Boss 평가:** "Grok 45,000원 + DeepSeek/Aider 만 원 = 55,000원. GPU 없을 때 드래프트·동영상·이미지·채팅 아카이브 검색 Grok밖에 못 하니까 괜찮다."
+
+**월 비용:**
+| 도구 | 비용 | 담당 |
+|------|------|------|
+| Grok (SuperGrok) | 45,000원 | 시각·네이버·이미지·클립·채팅검색 |
+| DeepSeek (Claude Code) | ~10,000원 | 코드·문서·자동화 |
+| Aider (DeepSeek) | 포함 | 보조 코딩 |
+| **합계** | **~55,000원/월** | |
+
+**Grok의 독점 영역 (다른 AI로 대체 불가):**
+- 네이버 블로그 파싱 (ChatGPT❌ Gemini❌ Claude❌ Grok✅)
+- 채팅 아카이브 검색 (Claude Code 세션 히스토리 검색)
+- GPU 없이 이미지·동영상 80% 드래프트
+
+**ComfyUI/Stable Diffusion과의 관계:**
+- Grok = GPU 부담 없을 때 80% 스캐폴드 드래프트
+- ComfyUI = GPU 사용 가능할 때 100% 품질
+- 둘이 경쟁이 아니라 단계적 파이프라인
