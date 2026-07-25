@@ -1,0 +1,95 @@
+# 🏭 S21 Phone — 최종 전략 (2026-07-25)
+
+> Boss 판단: "기를 쓰고 뚫을 필요 없다. 자동화할 건 자동화하고, 사람 손 탈 건 사람 손 탄다."
+
+---
+
+## 투트랙 자동화 원칙
+
+```
+자동화 (Claude Code)          │  수동 (사람)
+─────────────────────────────┼─────────────────────
+GitHub: 코드·문서·커밋        │ 티스토리: 업무일지
+GitHub Pages: 자동배포        │ 네이버: 관제탑 그림첩
+YouTube: 영상 업로드          │ 영상 녹화·편집
+Telegram: 작업 보고           │ 스크린샷 촬영
+건강검진: phone-health.sh     │ 최종 콘텐츠 기획
+돌봄데몬: care-daemon.sh      │
+```
+
+---
+
+## Phase 1 워크플로우 (수정)
+
+### 자동 파이프 (Claude Code가 함)
+
+```
+1. 작업 → git commit → GitHub
+2. git push → GitHub Pages 자동배포
+3. tg.sh → Telegram "✅ 작업명 — 결과" 보고
+4. YouTube 영상 필요 시 → scripts/yt_upload.py
+```
+
+### 수동 파이프 (사람이 함)
+
+```
+1. 폰 화면 캡처 (터미널 작업 장면)
+2. 텔레그램 보고 스크린샷
+3. 티스토리 galaxys21-pwuser에 "업무일지"로 발행
+   - 스크린샷 + 텔레그램 리포트 요약 + GitHub 링크
+4. 네이버 helena1975에 주간 "관제탑" 발행
+   - 이번 주 주요 작업 이미지 + 링크
+```
+
+---
+
+## 티스토리 업무일지 템플릿
+
+```
+# [날짜] S21 Phone 작업일지
+
+## 오늘 한 일
+- (텔레그램 리포트에서 복붙)
+
+## 터미널 작업
+(스크린샷 2~3장)
+
+## GitHub 커밋
+- (git log --oneline --since="00:00" 붙여넣기)
+
+## 다음 할 일
+- (우선순위)
+```
+
+---
+
+## 폐기: Playwright 티스토리/네이버 자동화
+
+- `scripts/publish.py` — 보존 (참고용)
+- `scripts/save_tistory_cookie.py` — 보존 (참고용)
+- `.tistory_session_galaxys21.json` — 폐기 가능
+- `tistory-naver/` (dtslib 코드) — 보존 (참고용)
+
+**이유:** 티스토리 Open API 2024년 2월 종료, Kakao OAuth KOE006 오류, Android Chrome 북마크릿 차단. 3중 장벽. 뚫는 데 드는 시간 > 수동 발행 시간.
+
+---
+
+## 여전히 자동화되는 것
+
+| 항목 | 스크립트 | 상태 |
+|------|---------|------|
+| git commit/push | Claude Code | 🟢 가동 중 |
+| GitHub Pages 배포 | git push → deploy | 🟢 자동 |
+| TG 작업 보고 | tg.sh | 🟢 가동 중 |
+| YouTube 업로드 | scripts/yt_upload.py | 🟢 준비 완료 |
+| YouTube OAuth | scripts/yt_oauth_setup.sh | 🟢 토큰 발급 완료 |
+| 건강 검진 | phone-health.sh | 🟢 자동 |
+| 돌봄 데몬 | care/care-daemon.sh | 🟢 crontab |
+| 1줄 설치 | g/install.sh | 🟢 완료 |
+
+---
+
+> **핵심:** 티스토리·네이버는 막아놓은 걸 뚫는 게 목표가 아니다.
+> 거기는 업무일지·관제탑이라는 **사람 영역**으로 두고,
+> GitHub·YouTube·Telegram이라는 **기계 영역**에 집중한다.
+> 이게 Layer A/B 원칙의 확장이다 — 플랫폼마다 Layer B가 열린 정도가 다르다.
