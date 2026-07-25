@@ -573,6 +573,66 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .reveal-d2 { transition-delay: .16s; }
 .reveal-d3 { transition-delay: .24s; }
 
+/* Accordion chapters */
+.chapter.acc { border-top: 1px solid var(--rule); padding: 0; }
+.chapter.acc + .chapter.acc { margin-top: 0; }
+.acc-head {
+  width: 100%; text-align: left; cursor: pointer;
+  background: transparent; border: none; color: inherit;
+  padding: 22px 0; display: grid;
+  grid-template-columns: 1fr auto; gap: 8px 16px; align-items: start;
+  font: inherit;
+}
+.acc-head:hover .ch-title { color: var(--gold-bright); }
+.acc-head .ch-label { grid-column: 1 / -1; margin-bottom: 0; pointer-events: none; }
+.acc-head .ch-title { margin: 0; pointer-events: none; grid-column: 1; }
+.acc-head .acc-ico {
+  grid-column: 2; grid-row: 2; align-self: center;
+  width: 36px; height: 36px; border: 1px solid var(--rule-strong);
+  display: grid; place-items: center; font-size: 1.2rem; color: var(--gold);
+  transition: transform .3s var(--ease), background .2s; flex-shrink: 0;
+  font-family: var(--mono); line-height: 1;
+}
+.acc-head[aria-expanded="true"] .acc-ico {
+  transform: rotate(45deg); background: rgba(212,168,75,.12);
+}
+.acc-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .4s var(--ease);
+}
+.acc-panel > .acc-inner { overflow: hidden; min-height: 0; }
+.acc-panel.open { grid-template-rows: 1fr; }
+.acc-panel .ch-deck { margin-top: 0; }
+.acc-panel .acc-inner { padding-bottom: 28px; }
+/* library nested accordion */
+.lib-section.acc-lib { border: 1px solid var(--rule); background: var(--paper-2); margin-bottom: 12px; }
+.lib-section.acc-lib > h3 {
+  margin: 0; padding: 14px 16px; cursor: pointer; user-select: none;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--serif); font-size: 1.15rem; border-bottom: 1px solid transparent;
+}
+.lib-section.acc-lib > h3::after {
+  content: '+'; font-family: var(--mono); color: var(--gold); font-size: 1.1rem;
+  transition: transform .25s;
+}
+.lib-section.acc-lib.open > h3::after { transform: rotate(45deg); }
+.lib-section.acc-lib.open > h3 { border-bottom-color: var(--rule); }
+.lib-section.acc-lib .lib-grid {
+  display: none; padding: 12px; margin: 0;
+}
+.lib-section.acc-lib.open .lib-grid { display: grid; }
+.acc-toolbar {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end;
+  margin: 8px 0 4px; position: sticky; top: 64px; z-index: 20;
+}
+.acc-toolbar button {
+  font-size: .72rem; letter-spacing: .08em; text-transform: uppercase;
+  padding: 8px 12px; min-height: 40px; border: 1px solid var(--rule);
+  background: var(--paper-2); color: var(--ink-dim); cursor: pointer; font-family: var(--sans);
+}
+.acc-toolbar button:hover { border-color: var(--gold); color: var(--gold); }
+
 /* Mobile */
 @media (max-width: 900px) {
   body { cursor: auto; }
@@ -1256,6 +1316,126 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
     try { closeNav(); } catch (_) { $('#mastRight')?.classList.remove('open'); }
   }));
 
+  /* —— Accordion chapters —— */
+  const OPEN_DEFAULT = new Set(['install']); // keep install open; rest folded
+  const chapters = $$('section.chapter');
+  // toolbar
+  const shell = document.querySelector('.shell');
+  if (shell && chapters.length) {
+    const bar = document.createElement('div');
+    bar.className = 'acc-toolbar';
+    bar.innerHTML = '<button type="button" id="accExpand">Expand all</button><button type="button" id="accCollapse">Collapse all</button>';
+    const firstCh = chapters[0];
+    firstCh.parentNode.insertBefore(bar, firstCh);
+  }
+
+  function setChapterOpen(sec, open, scrollInto) {
+    const head = sec.querySelector('.acc-head');
+    const panel = sec.querySelector('.acc-panel');
+    if (!head || !panel) return;
+    head.setAttribute('aria-expanded', open ? 'true' : 'false');
+    panel.classList.toggle('open', open);
+    if (open) {
+      // animate bars / reveal when opening
+      sec.querySelectorAll('.f[data-w]').forEach(f => { f.style.width = f.dataset.w + '%'; });
+      sec.querySelectorAll('.reveal').forEach(el => el.classList.add('on'));
+      if (sec.id === 'agents') try { drawAllRadars(); } catch(_){}
+      if (sec.id === 'economics') try { drawCostPie(); } catch(_){}
+      if (sec.id === 'funnel') try { $$('.pct-ring').forEach(drawPctRing); } catch(_){}
+      if (sec.id === 'centers') try { selectWc(wcIndex); } catch(_){}
+      if (sec.id === 'install') try { typeCmd(); } catch(_){}
+      if (scrollInto) setTimeout(() => sec.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+    }
+  }
+
+  chapters.forEach((sec, i) => {
+    sec.classList.add('acc');
+    const label = sec.querySelector('.ch-label');
+    const title = sec.querySelector('.ch-title');
+    if (!label || !title) return;
+    const kids = [...sec.childNodes];
+    // build head button
+    const head = document.createElement('button');
+    head.type = 'button';
+    head.className = 'acc-head';
+    head.id = (sec.id || 'ch' + i) + '-head';
+    const ico = document.createElement('span');
+    ico.className = 'acc-ico';
+    ico.setAttribute('aria-hidden', 'true');
+    ico.textContent = '+';
+    head.appendChild(label);
+    head.appendChild(title);
+    head.appendChild(ico);
+    // panel
+    const panel = document.createElement('div');
+    panel.className = 'acc-panel';
+    panel.id = (sec.id || 'ch' + i) + '-panel';
+    const inner = document.createElement('div');
+    inner.className = 'acc-inner';
+    // move remaining elements into panel
+    kids.forEach(n => {
+      if (n === label || n === title) return;
+      if (n.nodeType === 1 || (n.nodeType === 3 && n.textContent.trim())) inner.appendChild(n);
+    });
+    panel.appendChild(inner);
+    sec.innerHTML = '';
+    sec.appendChild(head);
+    sec.appendChild(panel);
+    head.setAttribute('aria-controls', panel.id);
+    const shouldOpen = OPEN_DEFAULT.has(sec.id);
+    setChapterOpen(sec, shouldOpen, false);
+    head.addEventListener('click', () => {
+      const open = head.getAttribute('aria-expanded') !== 'true';
+      // optional: close others (single-open). User asked fold - multi open ok
+      setChapterOpen(sec, open, open);
+    });
+  });
+
+  $('#accExpand')?.addEventListener('click', () => chapters.forEach(s => setChapterOpen(s, true, false)));
+  $('#accCollapse')?.addEventListener('click', () => chapters.forEach(s => setChapterOpen(s, false, false)));
+
+  // deep link #section → open that accordion
+  const hashOpen = () => {
+    const id = location.hash.replace('#', '');
+    if (!id) return;
+    const sec = document.getElementById(id);
+    if (sec && sec.classList.contains('chapter')) {
+      setChapterOpen(sec, true, true);
+    }
+  };
+  hashOpen();
+  addEventListener('hashchange', hashOpen);
+
+  // library group accordions
+  $$('.lib-section').forEach((sec, i) => {
+    const h = sec.querySelector('h3');
+    if (!h) return;
+    sec.classList.add('acc-lib');
+    // first lib group open
+    if (i === 0) sec.classList.add('open');
+    h.tabIndex = 0;
+    h.setAttribute('role', 'button');
+    h.setAttribute('aria-expanded', i === 0 ? 'true' : 'false');
+    const toggle = () => {
+      const on = !sec.classList.contains('open');
+      sec.classList.toggle('open', on);
+      h.setAttribute('aria-expanded', on ? 'true' : 'false');
+    };
+    h.addEventListener('click', toggle);
+    h.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+    });
+  });
+
+  // nav anchors open target accordion first
+  $$('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', () => {
+      const id = a.getAttribute('href')?.slice(1);
+      const sec = id && document.getElementById(id);
+      if (sec && sec.classList.contains('chapter')) setChapterOpen(sec, true, false);
+    });
+  });
+
   /* —— Reveal + bars —— */
   const io = new IntersectionObserver(entries => {
     entries.forEach(en => {
@@ -1567,7 +1747,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   };
 
   /* —— Library search —— */
-  $('#libSearch').addEventListener('input', e => {
+  $('#libSearch')?.addEventListener('input', e => {
     const q = e.target.value.trim().toLowerCase();
     $$('[data-lib]').forEach(sec => {
       let any = false;
@@ -1577,6 +1757,11 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
         if (show) any = true;
       });
       sec.style.display = any ? '' : 'none';
+      if (q && any) {
+        sec.classList.add('open');
+        const h = sec.querySelector('h3');
+        if (h) h.setAttribute('aria-expanded', 'true');
+      }
     });
   });
 
