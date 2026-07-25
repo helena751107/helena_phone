@@ -2,14 +2,14 @@
 """
 Grok API 클라이언트 — OpenAI 호환 (xAI)
 ========================================
+인증 방법 (우선순위):
+  1. OAuth 토큰: configs/grok_token.json (SuperGrok 구독 → bash grok_oauth_setup.sh)
+  2. API 키: .secrets.env 의 XAI_API_KEY (console.x.ai → $25 무료 크레딧)
+
 사용법:
   python3 scripts/grok_api.py chat "질문"
   python3 scripts/grok_api.py parse "https://m.blog.naver.com/..."
   python3 scripts/grok_api.py image "프롬프트 설명"
-
-설정:
-  export XAI_API_KEY="xai-..."
-  또는 .secrets.env 에 XAI_API_KEY 추가
 
 모델:
   grok-4-1-fast — 업무용 (가장 저렴, $0.20/$0.50 per 1M)
@@ -17,29 +17,55 @@ Grok API 클라이언트 — OpenAI 호환 (xAI)
   grok-code-fast-1 — 코딩 에이전트 ($0.20/$1.50)
 """
 
-import os, sys, json, subprocess
+import os, sys, json, subprocess, time
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent.parent
 SECRETS = BASE / ".secrets.env"
+TOKEN_FILE = BASE / "configs" / "grok_token.json"
 
-# ── API 키 로드 ──────────────────────────────────────────────
-def load_api_key():
+# ── 인증 ────────────────────────────────────────────────────
+def get_access_token():
+    """OAuth 토큰 or API 키 로드. OAuth 우선."""
+    # 1. OAuth 토큰 (SuperGrok 구독)
+    if TOKEN_FILE.exists():
+        with open(TOKEN_FILE) as f:
+            data = json.load(f)
+            access_token = data.get("access_token", "")
+            if access_token:
+                return access_token
+
+    # 2. API 키 (console.x.ai)
     if SECRETS.exists():
         with open(SECRETS) as f:
             for line in f:
+                if line.startswith("XAI_API_KEY="):
+                    key = line.split("=", 1)[1].strip().strip('"\'')
+                    if key:
+                        return key
+
+    return os.environ.get("XAI_API_KEY", "")
+
+def load_auth():
+    """인증 정보 로드. API 키면 api_key=, OAuth 토큰이면 base_url만 설정"""
+    token = get_access_token()
+    if not token:
+        print("❌ 인증 정보 없음")
+        print("   방법 1: bash scripts/grok_oauth_setup.sh (SuperGrok 구독)")
+        print("   방법 2: .secrets.env 에 XAI_API_KEY=\"xai-...\" 추가")
+        return None, None
+
+    # OAuth 토큰이면 Bearer, API 키(xai-...)면 그대로
+    return token, "https://api.x.ai/v1"
                 if line.startswith("XAI_API_KEY="):
                     return line.split("=", 1)[1].strip().strip('"\'')
     return os.environ.get("XAI_API_KEY", "")
 
 # ── Grok API 호출 ────────────────────────────────────────────
 def grok_chat(prompt, model="grok-4-1-fast", system=None):
-    """OpenAI 호환 API로 Grok 호출"""
-    api_key = load_api_key()
-    if not api_key:
-        print("❌ XAI_API_KEY가 설정되지 않았습니다.")
-        print("   console.x.ai 에서 API 키 발급 후 .secrets.env 에 추가:")
-        print('   XAI_API_KEY="xai-..."')
+    """OpenAI 호환 API로 Grok 호출 (OAuth or API Key)"""
+    token, base_url = load_auth()
+    if not token:
         return None
 
     try:
@@ -49,8 +75,8 @@ def grok_chat(prompt, model="grok-4-1-fast", system=None):
         return None
 
     client = OpenAI(
-        api_key=api_key,
-        base_url="https://api.x.ai/v1",
+        api_key=token,
+        base_url=base_url,
     )
 
     messages = []
