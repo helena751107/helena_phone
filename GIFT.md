@@ -112,3 +112,20 @@ helena-piano                helena-metalcare
 
 *이 문서는 dtslib-papyrus `gift/helena` 브랜치의 SSOT입니다.*
 *각 레포 배포는 이 브랜치에서만 진행하며, 직접 푸시는 금지됩니다.*
+
+---
+
+## 📊 선물 패키지 통합 후 현재 상태
+
+| 카테고리 | 파일 | 통합 상태 |
+|---------|------|---------|
+| MCP 서버 5종 | law·rawmat·scm·platform·writer | `mcp-servers/` 보존 (참고용) |
+| 티스토리/네이버 | post.py·session_post.py·skin.py | `tistory-naver/` 보존 (API 종료로 사용 안 함) |
+| 텔레그램 3종 | core·bot·bridge | `telegram/` 보존 |
+| YouTube | yt_oauth·orbit_publish·sync | `scripts/yt_*.py` 로 자체 구현 완료 |
+| GitHub Actions 6종 | rule-tuner·design-guard·issue-terminal 등 | `.github/workflows/` 활성화 |
+| Discord | webhook.sh | `discord/` 보존 |
+| phone-claude | INSTALL.sh | `g/install.sh` 로 대체 (자체 구현) |
+
+> **핵심 결정:** dtslib 코드는 라이브 강의용 치트시트로 전환.
+> 실제 자동화는 우리가 직접 작성한 `scripts/` 코드로 운영.
