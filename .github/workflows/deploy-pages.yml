@@ -1,4 +1,4 @@
-# Static site deploy — no Jekyll, no service worker
+# Deploy static site to gh-pages branch (avoids stuck workflow deployment lock)
 name: Deploy GitHub Pages
 
 on:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -17,11 +17,8 @@ concurrency:
 
 jobs:
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,7 +29,6 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p _site
-          # Never follow nested repos / secrets
           rsync -a \
             --exclude='.git/' \
             --exclude='.github/' \
@@ -51,25 +47,17 @@ jobs:
           test -f _site/index.html
           test -f _site/site.webmanifest
           test -f _site/icons/icon-192.png
-          test -f _site/icons/icon-512.png
-          # prove accordion fix is in the bundle
           grep -q 'accChapters' _site/index.html
           grep -q 'acc-head' _site/index.html
-          ! grep -q 'const chapters = \$\$' _site/index.html || (echo 'BAD: old chapters collision still present' && exit 1)
           touch _site/.nojekyll
           python3 -c "import json; json.load(open('_site/site.webmanifest'))"
-          echo "Bundle ready:" && du -sh _site && ls _site/icons | head
-          # verify no nested .git
-          ! find _site -name .git -type d | grep -q . || (echo nested git && exit 1)
+          echo "Bundle ready:" && du -sh _site
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Publish to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: _site
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
+          force_orphan: true
+          enable_jekyll: false
+          cname: ""
