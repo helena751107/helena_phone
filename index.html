@@ -1318,14 +1318,14 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
   /* —— Accordion chapters —— */
   const OPEN_DEFAULT = new Set(['install']); // keep install open; rest folded
-  const chapters = $$('section.chapter');
+  const accChapters = $$('section.chapter');
   // toolbar
   const shell = document.querySelector('.shell');
-  if (shell && chapters.length) {
+  if (shell && accChapters.length) {
     const bar = document.createElement('div');
     bar.className = 'acc-toolbar';
     bar.innerHTML = '<button type="button" id="accExpand">Expand all</button><button type="button" id="accCollapse">Collapse all</button>';
-    const firstCh = chapters[0];
+    const firstCh = accChapters[0];
     firstCh.parentNode.insertBefore(bar, firstCh);
   }
 
@@ -1348,7 +1348,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
     }
   }
 
-  chapters.forEach((sec, i) => {
+  accChapters.forEach((sec, i) => {
     sec.classList.add('acc');
     const label = sec.querySelector('.ch-label');
     const title = sec.querySelector('.ch-title');
@@ -1386,13 +1386,12 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
     setChapterOpen(sec, shouldOpen, false);
     head.addEventListener('click', () => {
       const open = head.getAttribute('aria-expanded') !== 'true';
-      // optional: close others (single-open). User asked fold - multi open ok
       setChapterOpen(sec, open, open);
     });
   });
 
-  $('#accExpand')?.addEventListener('click', () => chapters.forEach(s => setChapterOpen(s, true, false)));
-  $('#accCollapse')?.addEventListener('click', () => chapters.forEach(s => setChapterOpen(s, false, false)));
+  $('#accExpand')?.addEventListener('click', () => accChapters.forEach(s => setChapterOpen(s, true, false)));
+  $('#accCollapse')?.addEventListener('click', () => accChapters.forEach(s => setChapterOpen(s, false, false)));
 
   // deep link #section → open that accordion
   const hashOpen = () => {
