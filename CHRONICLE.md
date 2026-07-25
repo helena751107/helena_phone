@@ -176,3 +176,42 @@ YouTube OAuth TV 클라이언트 ID를 발급받으려고 했는데, 문득 생�
 
 > 이 연대기는 계속된다.  
 > 다음 에피소드: 티스토리/네이버 Playwright 자동화 — 그리고 YouTube OAuth (좋은 날에)
+
+---
+
+## 현재 인프라 (2026-07-25 기준)
+
+```
+📱 S21 (Android + Termux + proot Ubuntu)
+├── 🤖 Claude Code (DeepSeek Radar) — 메인 코딩 엔진
+├── 🎨 Grok CLI (xAI SuperGrok) — 시각·Naver
+├── 🔧 Aider (DeepSeek) — 보조 코딩
+├── 📡 phone-mcp-server (18도구)
+├── 🌐 GitHub (5레포) + Pages (5사이트)
+├── 💬 Discord (2채널) + WidgetBot
+├── 🤖 Telegram @S21Phone_Bot
+├── 📝 티스토리 5종
+├── 📺 YouTube @helena_phone
+└── 🌐 네이버 웹진 (helena1975)
+```
+
+## AI 비용
+
+| 도구 | 월 비용 | 역할 |
+|------|--------|------|
+| Claude Code (DeepSeek) | $0 | 코드·문서·자동화 |
+| Grok CLI (SuperGrok) | 45,000원 | 시각·Naver·이미지 |
+| Aider (DeepSeek) | 포함 | 보조 코딩 |
+| **합계** | **~55,000원/월** | |
+
+## 핵심 성과
+
+- 41커밋 · 96파일 · 11,727줄
+- CONSTITUTION.md 헌법 16조 제정
+- g/install.sh 1줄 설치기
+- care-daemon.sh 돌봄 데몬
+- phone-health.sh 27항목 건강검진
+- YouTube OAuth + 업로더
+- Grok CLI + API 연동
+- Paste Pipeline 방법론
+- 국판 500페이지 분량 문서
