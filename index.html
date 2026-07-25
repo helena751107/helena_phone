@@ -3,445 +3,882 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="S21 Phone — 갤럭시 폰 하나로 풀스택 AI 워크스테이션. 0원. 100% 음성입력.">
+<meta name="description" content="S21 Phone — 갤럭시 폰 하나로 풀스택 AI 워크스테이션. 돌봄과 소망, 3 AI 에이전트, 7 워크센터.">
+<meta name="theme-color" content="#07070c">
+<meta property="og:title" content="S21 Phone — AI Workstation">
+<meta property="og:description" content="Galaxy S21 + Termux + proot Ubuntu. 0원 코어 · 3 AI · 7 워크센터">
+<meta property="og:type" content="website">
 <title>S21 Phone — AI Workstation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
+/* ════════════════════════════════════════════════════════════
+   S21 Phone Landing — warm dark, soft gold accent (eye-friendly)
+   ════════════════════════════════════════════════════════════ */
 :root {
-  --bg: #060609; --surface: #0c0c14; --elevated: #12121e;
-  --text: #e8e8ed; --text2: #9898a8; --text3: #686878;
-  --red: #ff5252; --green: #4ecdc4; --yellow: #ffd93d; --blue: #5b9eff; --purple: #b06fff;
-  --border: rgba(255,255,255,0.05); --border2: rgba(255,255,255,0.1);
-  --radius: 12px; --radius2: 20px;
+  --bg: #07070c;
+  --bg2: #0c0c14;
+  --surface: rgba(255,255,255,0.035);
+  --surface2: rgba(255,255,255,0.055);
+  --elevated: #14141f;
+  --text: #f2f0eb;
+  --text2: #a8a49a;
+  --text3: #6e6a62;
+  --gold: #e8c547;
+  --gold2: #f0d878;
+  --mint: #5ecfba;
+  --coral: #ff7a6e;
+  --lilac: #b8a0ff;
+  --sky: #7eb8ff;
+  --border: rgba(255,255,255,0.06);
+  --border2: rgba(232,197,71,0.22);
+  --glow: rgba(232,197,71,0.12);
+  --radius: 14px;
+  --radius-lg: 22px;
+  --shadow: 0 24px 64px rgba(0,0,0,0.45);
+  --font: 'Instrument Sans', 'Noto Sans KR', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 [data-theme="light"] {
-  --bg: #fafafc; --surface: #fff; --elevated: #f0f0f5;
-  --text: #1a1a28; --text2: #666; --text3: #999;
-  --border: rgba(0,0,0,0.06); --border2: rgba(0,0,0,0.1);
+  --bg: #f7f5f0; --bg2: #fffefb; --surface: rgba(0,0,0,0.03); --surface2: rgba(0,0,0,0.05);
+  --elevated: #fff; --text: #1a1814; --text2: #5c574e; --text3: #8a8478;
+  --border: rgba(0,0,0,0.07); --border2: rgba(180,140,20,0.25);
+  --glow: rgba(232,197,71,0.15); --shadow: 0 20px 50px rgba(40,30,10,0.08);
 }
-* { margin:0; padding:0; box-sizing:border-box; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; transition: background 0.4s, color 0.4s; -webkit-font-smoothing: antialiased; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  transition: background .4s, color .4s;
+}
+a { color: inherit; }
+img { max-width: 100%; }
 
 /* Ambient */
-body::before { content:''; position:fixed; top:0; left:0; width:100%; height:100%; background: radial-gradient(ellipse 80% 60% at 20% 10%, rgba(255,82,82,0.03) 0%, transparent 50%), radial-gradient(ellipse 60% 80% at 80% 90%, rgba(91,158,255,0.03) 0%, transparent 50%); pointer-events:none; z-index:0; }
-
-#progress { position:fixed; top:0; left:0; height:2px; background:linear-gradient(90deg,var(--red),var(--purple),var(--blue)); z-index:999; transition:width 0.1s; }
-
-/* Typography */
-h1 { font-size:clamp(2.4rem,6vw,4rem); font-weight:900; letter-spacing:-0.05em; line-height:1.05; }
-h2 { font-size:clamp(1.4rem,2.5vw,1.8rem); font-weight:700; letter-spacing:-0.02em; margin-bottom:20px; }
-h3 { font-size:1.1rem; font-weight:600; }
-.fw300 { font-weight:300; }
-.accent { color:var(--red); }
-.gradient-text { background:linear-gradient(135deg,var(--red),var(--purple),var(--blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-.muted { color:var(--text2); }
-.small { font-size:0.82em; color:var(--text3); }
-
-/* Layout */
-.wrap { max-width:1100px; margin:0 auto; padding:0 24px; position:relative; z-index:1; }
-section { padding:60px 0; }
-
-/* Navigation */
-.top-nav { position:sticky; top:16px; z-index:100; display:flex; gap:4px; justify-content:center; margin:0 auto 20px; max-width:600px; }
-.top-nav a { padding:8px 16px; border-radius:100px; font-size:0.78em; color:var(--text2); text-decoration:none; transition:all 0.3s; background:var(--surface); border:1px solid transparent; }
-.top-nav a:hover, .top-nav a.on { color:var(--text); border-color:var(--border2); background:var(--elevated); }
-
-/* Hero */
-.hero { text-align:center; padding:100px 0 60px; position:relative; }
-.hero .kicker { display:inline-block; font-size:0.72em; font-weight:500; letter-spacing:3px; text-transform:uppercase; color:var(--red); margin-bottom:16px; padding:4px 14px; border:1px solid rgba(255,82,82,0.2); border-radius:100px; }
-.hero h1 { margin-bottom:16px; }
-.hero .deck { font-size:1.1em; color:var(--text2); max-width:600px; margin:0 auto 30px; line-height:1.7; }
-.hero-metrics { display:flex; justify-content:center; gap:2px; flex-wrap:wrap; }
-.hero-metrics .m { text-align:center; padding:16px 20px; background:var(--surface); border:1px solid var(--border); min-width:90px; }
-.hero-metrics .m:first-child { border-radius:var(--radius) 0 0 var(--radius); }
-.hero-metrics .m:last-child { border-radius:0 var(--radius) var(--radius) 0; }
-.hero-metrics .m .val { font-size:1.6em; font-weight:800; }
-.hero-metrics .m .lbl { font-size:0.7em; color:var(--text3); margin-top:2px; }
-@media (max-width:600px) {
-  .hero-metrics .m { min-width:70px; padding:12px; }
-  .hero-metrics .m:first-child { border-radius:var(--radius) 0 0 0; }
+.ambient {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% -10%, rgba(232,197,71,0.09), transparent 55%),
+    radial-gradient(ellipse 50% 60% at 90% 20%, rgba(94,207,186,0.05), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 50% 100%, rgba(184,160,255,0.05), transparent 50%);
+}
+[data-theme="light"] .ambient {
+  background:
+    radial-gradient(ellipse 70% 50% at 20% 0%, rgba(232,197,71,0.18), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 100% 30%, rgba(94,207,186,0.1), transparent 50%);
 }
 
-/* Section headers */
-.sec-label { display:flex; align-items:center; gap:10px; margin-bottom:28px; }
-.sec-label .num { font-size:0.75em; font-weight:700; color:var(--red); letter-spacing:1px; }
-.sec-label .line { flex:1; height:1px; background:var(--border); }
+/* Progress */
+#progress {
+  position: fixed; top: 0; left: 0; height: 2px; width: 0;
+  background: linear-gradient(90deg, var(--gold), var(--mint), var(--lilac));
+  z-index: 200; transition: width .12s linear;
+}
 
-/* Feature grid */
-.feature-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-.feature-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
-.feature-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius2); padding:28px; transition:all 0.4s; position:relative; overflow:hidden; }
-.feature-card:hover { border-color:var(--border2); transform:translateY(-4px); box-shadow:0 20px 60px rgba(0,0,0,0.3); }
-.feature-card .icon { font-size:2rem; margin-bottom:14px; }
-.feature-card h3 { margin-bottom:8px; }
-.feature-card p { color:var(--text2); font-size:0.9em; }
+/* Nav */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 58px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 clamp(16px, 4vw, 40px);
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  backdrop-filter: blur(18px) saturate(1.3);
+  -webkit-backdrop-filter: blur(18px) saturate(1.3);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-weight: 700; font-size: .95rem; letter-spacing: -.02em;
+  display: flex; align-items: center; gap: 10px; text-decoration: none;
+}
+.nav-logo .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--gold); box-shadow: 0 0 12px var(--gold);
+}
+.nav-logo span { background: linear-gradient(135deg, var(--gold2), var(--mint)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-links { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+.nav-links a {
+  text-decoration: none; color: var(--text2); font-size: .78rem; font-weight: 500;
+  padding: 7px 12px; border-radius: 999px; transition: .25s var(--ease);
+}
+.nav-links a:hover, .nav-links a.on { color: var(--text); background: var(--surface2); }
+.nav-cta {
+  margin-left: 6px !important;
+  background: linear-gradient(135deg, #d4b03a, #e8c547) !important;
+  color: #1a1508 !important; font-weight: 600 !important;
+  box-shadow: 0 4px 20px var(--glow);
+}
+.nav-cta:hover { filter: brightness(1.06); transform: translateY(-1px); }
+.nav-toggle {
+  display: none; background: none; border: 1px solid var(--border); color: var(--text);
+  width: 40px; height: 40px; border-radius: 10px; cursor: pointer; font-size: 1.1rem;
+}
 
-/* Stat bars */
-.stat-row { display:flex; align-items:center; gap:10px; margin:6px 0; font-size:0.8em; }
-.stat-row .label { min-width:70px; color:var(--text3); text-align:right; }
-.stat-row .bar { flex:1; height:5px; background:var(--border); border-radius:3px; overflow:hidden; }
-.stat-row .bar .fill { height:100%; border-radius:3px; transition:width 1.5s ease; }
+/* Layout */
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 28px); position: relative; z-index: 1; }
+section { padding: clamp(48px, 8vw, 88px) 0; }
+.sec-head { margin-bottom: 32px; }
+.sec-kicker {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 12px;
+}
+.sec-kicker::before { content: ''; width: 18px; height: 1px; background: var(--gold); }
+h1 {
+  font-size: clamp(2.6rem, 7vw, 4.4rem); font-weight: 700;
+  letter-spacing: -.04em; line-height: 1.05;
+}
+h2 { font-size: clamp(1.45rem, 3vw, 2rem); font-weight: 700; letter-spacing: -.025em; line-height: 1.2; }
+h3 { font-size: 1.05rem; font-weight: 600; letter-spacing: -.01em; }
+.lede { color: var(--text2); font-size: 1.05rem; max-width: 560px; margin-top: 14px; }
+.gradient-text {
+  background: linear-gradient(120deg, var(--gold2) 0%, var(--mint) 50%, var(--lilac) 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+/* Hero */
+.hero {
+  min-height: calc(100vh - 58px); display: flex; flex-direction: column;
+  justify-content: center; padding: 100px 0 60px; text-align: left;
+}
+.hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 40px; align-items: center; }
+.badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px; border-radius: 999px; font-size: .75rem; font-weight: 500;
+  border: 1px solid var(--border2); background: var(--glow); color: var(--gold2);
+  margin-bottom: 20px;
+}
+.badge .pulse {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--mint);
+  box-shadow: 0 0 0 0 rgba(94,207,186,.5); animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(94,207,186,.45); }
+  70% { box-shadow: 0 0 0 10px rgba(94,207,186,0); }
+  100% { box-shadow: 0 0 0 0 rgba(94,207,186,0); }
+}
+.hero h1 { margin-bottom: 18px; }
+.hero .deck { color: var(--text2); font-size: clamp(1rem, 2vw, 1.15rem); max-width: 520px; margin-bottom: 28px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 36px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+  padding: 12px 20px; border-radius: 999px; font-size: .9rem; font-weight: 600;
+  transition: .3s var(--ease); border: 1px solid transparent; cursor: pointer;
+}
+.btn-primary {
+  background: linear-gradient(135deg, #d4b03a, #e8c547);
+  color: #1a1508; box-shadow: 0 8px 28px var(--glow);
+}
+.btn-primary:hover { transform: translateY(-2px); filter: brightness(1.05); }
+.btn-ghost {
+  background: var(--surface); border-color: var(--border); color: var(--text);
+}
+.btn-ghost:hover { border-color: var(--border2); background: var(--surface2); }
+
+.metrics {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+}
+.metric {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px 14px; text-align: center;
+  transition: .35s var(--ease);
+}
+.metric:hover { border-color: var(--border2); transform: translateY(-3px); background: var(--surface2); }
+.metric .val {
+  font-size: 1.55rem; font-weight: 700; letter-spacing: -.03em;
+  background: linear-gradient(135deg, var(--gold2), var(--mint));
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.metric .lbl { font-size: .7rem; color: var(--text3); margin-top: 4px; letter-spacing: .02em; }
+
+.hero-card {
+  background: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 28px; box-shadow: var(--shadow); position: relative; overflow: hidden;
+}
+.hero-card::before {
+  content: ''; position: absolute; top: -40%; right: -30%; width: 70%; height: 70%;
+  background: radial-gradient(circle, var(--glow), transparent 70%); pointer-events: none;
+}
+.stack-row {
+  display: flex; flex-direction: column; gap: 10px; position: relative; z-index: 1;
+}
+.stack-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px; border-radius: 12px;
+  background: var(--bg2); border: 1px solid var(--border);
+}
+.stack-item .ico {
+  width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center;
+  font-size: 1rem; background: var(--surface2); flex-shrink: 0;
+}
+.stack-item .meta { flex: 1; min-width: 0; }
+.stack-item .meta strong { display: block; font-size: .88rem; }
+.stack-item .meta small { color: var(--text3); font-size: .72rem; }
+.stack-item .tag {
+  font-size: .65rem; font-weight: 600; padding: 3px 8px; border-radius: 999px;
+  background: rgba(94,207,186,.12); color: var(--mint); white-space: nowrap;
+}
+.stack-item .tag.gold { background: rgba(232,197,71,.14); color: var(--gold2); }
+.stack-item .tag.lilac { background: rgba(184,160,255,.14); color: var(--lilac); }
+
+/* Cards grid */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 26px;
+  transition: .4s var(--ease); position: relative; overflow: hidden;
+}
+.card:hover {
+  border-color: var(--border2); transform: translateY(-4px);
+  background: var(--surface2); box-shadow: var(--shadow);
+}
+.card .icon {
+  width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center;
+  font-size: 1.25rem; margin-bottom: 16px;
+  background: var(--bg2); border: 1px solid var(--border);
+}
+.card h3 { margin-bottom: 8px; }
+.card p { color: var(--text2); font-size: .9rem; }
+.card .price {
+  display: inline-block; margin-top: 14px; font-family: var(--mono);
+  font-size: .78rem; color: var(--gold2); font-weight: 500;
+}
+.pill {
+  display: inline-block; padding: 3px 10px; border-radius: 999px;
+  font-size: .68rem; font-weight: 600; margin: 2px 2px 0 0;
+}
+.pill-mint { background: rgba(94,207,186,.12); color: var(--mint); }
+.pill-gold { background: rgba(232,197,71,.14); color: var(--gold2); }
+.pill-coral { background: rgba(255,122,110,.12); color: var(--coral); }
+.pill-lilac { background: rgba(184,160,255,.14); color: var(--lilac); }
+
+/* Bars */
+.bars { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+.bar-row { display: grid; grid-template-columns: 64px 1fr 42px; gap: 8px; align-items: center; font-size: .75rem; }
+.bar-row .name { color: var(--text3); text-align: right; }
+.bar-row .track { height: 5px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.bar-row .fill { height: 100%; border-radius: 99px; width: 0; transition: width 1.2s var(--ease); }
+.bar-row .pct { color: var(--text2); font-family: var(--mono); font-size: .7rem; }
 
 /* Table */
-.table-wrap { overflow-x:auto; }
-table { width:100%; border-collapse:collapse; font-size:0.88em; }
-th { text-align:left; padding:12px 14px; color:var(--text3); font-size:0.72em; font-weight:500; letter-spacing:1px; text-transform:uppercase; border-bottom:1px solid var(--border); }
-td { padding:12px 14px; border-bottom:1px solid var(--border); }
-tr { transition:background 0.2s; }
-tbody tr:hover { background:var(--surface); }
-
-/* Tags */
-.tag { display:inline-block; padding:2px 10px; border-radius:100px; font-size:0.68em; font-weight:500; }
-.tag-auto { background:rgba(78,205,196,0.1); color:var(--green); }
-.tag-manual { background:rgba(255,217,61,0.1); color:var(--yellow); }
-.tag-mixed { background:rgba(91,158,255,0.1); color:var(--blue); }
+.table-shell {
+  overflow: hidden; border-radius: var(--radius-lg);
+  border: 1px solid var(--border); background: var(--surface);
+}
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .88rem; min-width: 640px; }
+th {
+  text-align: left; padding: 14px 16px; color: var(--text3);
+  font-size: .68rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  border-bottom: 1px solid var(--border); background: var(--bg2);
+}
+td { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr { transition: background .2s; }
+tbody tr:hover { background: var(--surface2); }
+td a { color: var(--gold2); text-decoration: none; }
+td a:hover { text-decoration: underline; }
 
 /* Funnel */
-.funnel { display:flex; align-items:center; justify-content:center; gap:20px; flex-wrap:wrap; padding:20px 0; }
-.f-step { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius2); padding:24px 28px; text-align:center; transition:all 0.4s; }
-.f-step:hover { transform:scale(1.05); border-color:var(--purple); }
-.f-step .f-icon { font-size:1.8rem; margin-bottom:8px; }
-.f-step .f-title { font-weight:700; }
-.f-step .f-desc { font-size:0.78em; color:var(--text3); margin-top:4px; }
-.f-arrow { font-size:1.5em; color:var(--red); font-weight:300; animation:blink 2s infinite; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+.funnel {
+  display: grid; grid-template-columns: 1fr auto 1fr auto 1fr;
+  gap: 12px; align-items: stretch;
+}
+.f-step {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 28px 20px; text-align: center;
+  transition: .35s var(--ease);
+}
+.f-step:hover { border-color: var(--border2); transform: translateY(-3px); }
+.f-step .f-n {
+  font-family: var(--mono); font-size: .7rem; color: var(--gold); letter-spacing: .1em; margin-bottom: 10px;
+}
+.f-step h3 { margin-bottom: 8px; }
+.f-step p { color: var(--text3); font-size: .82rem; }
+.f-arrow {
+  display: grid; place-items: center; color: var(--gold); font-size: 1.4rem; opacity: .7;
+}
 
-/* Code block */
-.code-block { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius2); padding:24px; margin:16px 0; font-family:'SF Mono','Fira Code',monospace; font-size:0.88em; overflow-x:auto; }
-.code-block .prompt { color:var(--green); }
-.code-block .cmd { color:var(--blue); }
+/* Code */
+.code-block {
+  background: #0a0a10; border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 18px 20px; font-family: var(--mono); font-size: .82rem;
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  position: relative; overflow-x: auto;
+}
+[data-theme="light"] .code-block { background: #1a1814; color: #f2f0eb; }
+.code-block .prompt { color: var(--mint); flex-shrink: 0; }
+.code-block .cmd { color: #f5e6a8; word-break: break-all; }
+.code-block .copy {
+  margin-left: auto; border: 1px solid var(--border); background: var(--surface2);
+  color: var(--text2); border-radius: 8px; padding: 6px 12px; font-size: .72rem;
+  cursor: pointer; font-family: var(--font); transition: .2s;
+}
+.code-block .copy:hover { color: var(--text); border-color: var(--border2); }
+.code-block .copy.ok { color: var(--mint); }
 
-/* Document grid */
-.doc-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(240px,1fr)); gap:12px; }
-.doc-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px; transition:all 0.3s; text-decoration:none; color:var(--text); display:block; }
-.doc-card:hover { border-color:var(--blue); transform:translateY(-2px); }
-.doc-card .doc-title { font-weight:600; font-size:0.9em; margin-bottom:4px; }
-.doc-card .doc-desc { font-size:0.78em; color:var(--text3); }
+/* Docs */
+.doc-search {
+  width: 100%; padding: 14px 18px; margin-bottom: 20px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  color: var(--text); font: inherit; font-size: .92rem; transition: .25s;
+}
+.doc-search:focus { outline: none; border-color: var(--border2); box-shadow: 0 0 0 3px var(--glow); }
+.doc-search::placeholder { color: var(--text3); }
+.doc-group { margin-bottom: 28px; }
+.doc-group h3 { font-size: .85rem; color: var(--text2); margin-bottom: 12px; font-weight: 600; }
+.doc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+.doc-card {
+  display: block; text-decoration: none; color: var(--text);
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 16px; transition: .3s var(--ease);
+}
+.doc-card:hover { border-color: var(--border2); transform: translateY(-2px); background: var(--surface2); }
+.doc-card .t { font-weight: 600; font-size: .88rem; margin-bottom: 4px; }
+.doc-card .d { font-size: .75rem; color: var(--text3); line-height: 1.45; }
 
-/* Channel bar */
-.channel-bar { display:flex; flex-wrap:wrap; gap:10px; }
-.channel-bar a { flex:1; min-width:150px; display:block; padding:18px 20px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); text-align:center; color:var(--text); text-decoration:none; transition:all 0.3s; }
-.channel-bar a:hover { border-color:var(--blue); background:var(--elevated); }
-.channel-bar a .ch-icon { font-size:1.4rem; }
-.channel-bar a .ch-name { font-weight:600; font-size:0.9em; margin-top:6px; }
-.channel-bar a .ch-url { font-size:0.7em; color:var(--text3); margin-top:2px; }
+/* Channels */
+.channels { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+.ch {
+  display: block; text-decoration: none; color: var(--text); text-align: center;
+  padding: 22px 14px; border-radius: var(--radius-lg);
+  background: var(--surface); border: 1px solid var(--border); transition: .3s var(--ease);
+}
+.ch:hover { border-color: var(--border2); transform: translateY(-3px); background: var(--surface2); }
+.ch .ci { font-size: 1.5rem; margin-bottom: 8px; }
+.ch .cn { font-weight: 600; font-size: .9rem; }
+.ch .cu { font-size: .7rem; color: var(--text3); margin-top: 4px; }
 
-/* Floating */
-.floating { position:fixed; bottom:28px; right:28px; z-index:150; display:flex; flex-direction:column; gap:8px; }
-.fbtn { width:46px; height:46px; border-radius:50%; background:var(--surface); border:1px solid var(--border2); color:var(--text); cursor:pointer; font-size:1.1em; display:flex; align-items:center; justify-content:center; transition:all 0.3s; backdrop-filter:blur(16px); }
-.fbtn:hover { border-color:var(--blue); background:var(--elevated); transform:scale(1.1); }
-#toTop { opacity:0; pointer-events:none; transition:opacity 0.3s; }
-#toTop.show { opacity:1; pointer-events:all; }
-
-/* Search */
-.doc-search { width:100%; padding:14px 18px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); color:var(--text); font-size:0.9em; margin-bottom:16px; transition:all 0.3s; font-family:inherit; }
-.doc-search:focus { outline:none; border-color:var(--blue); }
+/* Architecture strip */
+.arch {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center;
+  padding: 24px; border-radius: var(--radius-lg); border: 1px dashed var(--border);
+  background: var(--surface);
+}
+.arch .node {
+  padding: 10px 14px; border-radius: 10px; background: var(--bg2);
+  border: 1px solid var(--border); font-size: .78rem; font-weight: 500;
+}
+.arch .node.hi { border-color: var(--border2); color: var(--gold2); }
+.arch .sep { color: var(--text3); font-size: .85rem; }
 
 /* Footer */
-footer { text-align:center; padding:50px 0 30px; border-top:1px solid var(--border); margin-top:40px; color:var(--text3); font-size:0.82em; }
-footer a { color:var(--blue); text-decoration:none; }
+footer {
+  border-top: 1px solid var(--border); padding: 48px 0 36px; margin-top: 20px;
+  text-align: center; color: var(--text3); font-size: .82rem;
+}
+footer .brand { font-weight: 700; font-size: 1.05rem; color: var(--text); margin-bottom: 6px; }
+footer .accent-line { color: var(--gold2); font-weight: 500; margin-top: 10px; }
+footer a { color: var(--gold2); text-decoration: none; }
+
+/* Float */
+.float {
+  position: fixed; bottom: 24px; right: 24px; z-index: 120;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.fbtn {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: color-mix(in srgb, var(--elevated) 90%, transparent);
+  border: 1px solid var(--border2); color: var(--text); cursor: pointer;
+  display: grid; place-items: center; font-size: 1rem;
+  backdrop-filter: blur(12px); transition: .25s var(--ease);
+}
+.fbtn:hover { transform: scale(1.08); border-color: var(--gold); }
+#toTop { opacity: 0; pointer-events: none; }
+#toTop.show { opacity: 1; pointer-events: all; }
 
 /* Reveal */
-.reveal { opacity:0; transform:translateY(24px); transition:opacity 0.7s ease, transform 0.7s ease; }
-.reveal.on { opacity:1; transform:translateY(0); }
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+.reveal.on { opacity: 1; transform: none; }
 
-@media (max-width:600px) {
-  .feature-2, .feature-3 { grid-template-columns:1fr; }
-  .funnel { flex-direction:column; }
+/* Mobile */
+@media (max-width: 860px) {
+  .hero-grid, .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .funnel { grid-template-columns: 1fr; }
+  .f-arrow { transform: rotate(90deg); padding: 4px 0; }
+  .nav-links { display: none; }
+  .nav-links.open {
+    display: flex; flex-direction: column; position: absolute; top: 58px; left: 0; right: 0;
+    background: var(--bg2); border-bottom: 1px solid var(--border); padding: 12px;
+    align-items: stretch;
+  }
+  .nav-links.open a { padding: 12px 14px; }
+  .nav-toggle { display: grid; place-items: center; }
+  .metrics { grid-template-columns: repeat(3, 1fr); }
+  .hero { min-height: auto; padding-top: 88px; }
+}
+@media (max-width: 420px) {
+  .metrics { grid-template-columns: repeat(2, 1fr); }
 }
 </style>
 </head>
 <body>
+<div class="ambient" aria-hidden="true"></div>
 <div id="progress"></div>
 
-<div class="wrap">
-
-<!-- ═══ HERO ═══ -->
-<header class="hero reveal">
-  <div class="kicker">Vol.1 · 2026년 7월</div>
-  <h1 class="gradient-text">S21 Phone</h1>
-  <p class="deck">갤럭시 S21 하나로 돌아가는 풀스택 개발·방송·출판 스튜디오.<br>0원. 100% 음성입력. 3 AI 에이전트. 7 워크센터.</p>
-  <div class="hero-metrics">
-    <div class="m"><div class="val gradient-text">41</div><div class="lbl">커밋</div></div>
-    <div class="m"><div class="val gradient-text">96</div><div class="lbl">파일</div></div>
-    <div class="m"><div class="val gradient-text">11,727</div><div class="lbl">라인</div></div>
-    <div class="m"><div class="val gradient-text">500</div><div class="lbl">페이지 분량</div></div>
-    <div class="m"><div class="val gradient-text">3</div><div class="lbl">AI 에이전트</div></div>
-    <div class="m"><div class="val gradient-text">7</div><div class="lbl">워크센터</div></div>
+<nav class="nav">
+  <a class="nav-logo" href="#top"><span class="dot"></span><span>S21 Phone</span></a>
+  <button class="nav-toggle" id="navToggle" aria-label="메뉴">☰</button>
+  <div class="nav-links" id="navLinks">
+    <a href="#tracks">트랙</a>
+    <a href="#ai">AI</a>
+    <a href="#workcenters">워크센터</a>
+    <a href="#funnel">퍼널</a>
+    <a href="#install">설치</a>
+    <a href="#library">문서</a>
+    <a href="#channels">채널</a>
+    <a class="nav-cta" href="https://github.com/helena751107/helena_phone">GitHub</a>
   </div>
-</header>
-
-<!-- ═══ NAV ═══ -->
-<nav class="top-nav">
-  <a href="#tracks">트랙</a><a href="#ai">AI</a><a href="#workcenters">워크센터</a><a href="#funnel">퍼널</a><a href="#install">설치</a><a href="#library">문서</a><a href="#channels">채널</a>
 </nav>
 
-<!-- ═══ SECTION 01 — TWO TRACKS ═══ -->
-<section id="tracks" class="reveal">
-  <div class="sec-label"><span class="num">01</span><span class="line"></span></div>
-  <h2>두 개의 트랙, 하나의 폰</h2>
+<main class="wrap" id="top">
 
-  <div class="feature-2">
-    <div class="feature-card">
-      <div class="icon">🛡️</div>
-      <h3 style="color:var(--red)">트랙 1 — 돌봄</h3>
-      <p>위치추적·배터리·이상감지·에스컬레이션. 절대 비공개. 오직 두 사람만을 위한 안전망.</p>
-      <div style="margin-top:16px;">
-        <div class="stat-row"><span class="label">안정성</span><div class="bar"><div class="fill" style="width:100%;background:var(--green)"></div></div><span style="color:var(--green);font-size:0.8em;">100%</span></div>
-        <div class="stat-row"><span class="label">자동화</span><div class="bar"><div class="fill" style="width:100%;background:var(--green)"></div></div><span style="color:var(--green);font-size:0.8em;">완전</span></div>
-        <div class="stat-row"><span class="label">AI 의존</span><div class="bar"><div class="fill" style="width:0%"></div></div><span style="color:var(--green);font-size:0.8em;">제로</span></div>
+  <!-- HERO -->
+  <header class="hero reveal">
+    <div class="hero-grid">
+      <div>
+        <div class="badge"><span class="pulse"></span> Live · Galaxy S21 Workstation</div>
+        <h1><span class="gradient-text">한 대의 폰으로<br>풀스택 스튜디오.</span></h1>
+        <p class="deck">
+          Termux → proot Ubuntu 위에서 <strong style="color:var(--text)">돌봄</strong>과 <strong style="color:var(--text)">소망</strong>을 동시에.
+          Claude Code · Grok · Aider 3에이전트, 7워크센터, 문서 라이브러리까지.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#install">1줄 설치 →</a>
+          <a class="btn btn-ghost" href="#library">문서 둘러보기</a>
+          <a class="btn btn-ghost" href="CONSTITUTION.md">헌법 읽기</a>
+        </div>
+        <div class="metrics">
+          <div class="metric"><div class="val" data-count="98">0</div><div class="lbl">커밋</div></div>
+          <div class="metric"><div class="val" data-count="173">0</div><div class="lbl">파일</div></div>
+          <div class="metric"><div class="val" data-count="18908">0</div><div class="lbl">라인</div></div>
+          <div class="metric"><div class="val" data-count="3">0</div><div class="lbl">AI 에이전트</div></div>
+          <div class="metric"><div class="val" data-count="7">0</div><div class="lbl">워크센터</div></div>
+          <div class="metric"><div class="val" data-count="58">0</div><div class="lbl">Markdown</div></div>
+        </div>
       </div>
-      <p style="margin-top:12px;"><span class="tag tag-auto">care-daemon.sh</span> <span class="tag tag-auto">Termux crontab</span></p>
-      <p class="small" style="margin-top:6px;">성공 기준 — <strong style="color:var(--red)">"절대 안 깨질 것."</strong></p>
-    </div>
-
-    <div class="feature-card">
-      <div class="icon">📡</div>
-      <h3 style="color:var(--blue)">트랙 2 — 소망</h3>
-      <p>대필작가-간병인. 누나가 건강했다면 가졌을 삶을 미러링하여 세상에 표현. 모든 계정은 큰누나 명의.</p>
-      <div style="margin-top:16px;">
-        <div class="stat-row"><span class="label">GitHub</span><div class="bar"><div class="fill" style="width:100%;background:var(--green)"></div></div><span style="color:var(--green);font-size:0.8em;">자동</span></div>
-        <div class="stat-row"><span class="label">YouTube</span><div class="bar"><div class="fill" style="width:85%;background:var(--blue)"></div></div><span style="color:var(--blue);font-size:0.8em;">준비</span></div>
-        <div class="stat-row"><span class="label">Naver</span><div class="bar"><div class="fill" style="width:25%;background:var(--yellow)"></div></div><span style="color:var(--yellow);font-size:0.8em;">수동</span></div>
+      <div class="hero-card">
+        <p style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:14px;font-weight:600;">Stack · Termux 단축키</p>
+        <div class="stack-row">
+          <div class="stack-item">
+            <div class="ico">📱</div>
+            <div class="meta"><strong>Galaxy S21</strong><small>호스트 · 루팅 없음</small></div>
+            <span class="tag">Device</span>
+          </div>
+          <div class="stack-item">
+            <div class="ico">🐧</div>
+            <div class="meta"><strong>Termux + proot Ubuntu</strong><small>네이티브 리눅스 워크스페이스</small></div>
+            <span class="tag">Runtime</span>
+          </div>
+          <div class="stack-item">
+            <div class="ico">💻</div>
+            <div class="meta"><strong>cc — Claude Code</strong><small>DeepSeek · 오케스트레이션</small></div>
+            <span class="tag">Main</span>
+          </div>
+          <div class="stack-item">
+            <div class="ico">✨</div>
+            <div class="meta"><strong>grok — Grok CLI</strong><small>SuperGrok · 시각·리서치</small></div>
+            <span class="tag gold">Media</span>
+          </div>
+          <div class="stack-item">
+            <div class="ico">🔧</div>
+            <div class="meta"><strong>ds — Aider</strong><small>DeepSeek · 코드 수술</small></div>
+            <span class="tag lilac">Loop</span>
+          </div>
+        </div>
       </div>
-      <p style="margin-top:12px;"><span class="tag tag-auto">GitHub</span> <span class="tag tag-auto">YouTube</span> <span class="tag tag-manual">Naver</span></p>
-      <p class="small" style="margin-top:6px;">성공 기준 — <strong style="color:var(--blue)">핸드오프가 곧 성공.</strong></p>
     </div>
+  </header>
+
+  <!-- ARCH STRIP -->
+  <div class="arch reveal" aria-label="아키텍처 요약">
+    <span class="node">S21</span><span class="sep">→</span>
+    <span class="node">Termux</span><span class="sep">→</span>
+    <span class="node">proot Ubuntu</span><span class="sep">→</span>
+    <span class="node hi">cc / ds / grok</span><span class="sep">→</span>
+    <span class="node">7 Workcenters</span><span class="sep">→</span>
+    <span class="node">World</span>
   </div>
-</section>
 
-<!-- ═══ SECTION 02 — AI ═══ -->
-<section id="ai" class="reveal">
-  <div class="sec-label"><span class="num">02</span><span class="line"></span></div>
-  <h2>3개의 AI 에이전트</h2>
-
-  <div class="feature-3">
-    <div class="feature-card" style="text-align:center;">
-      <div class="icon">💻</div>
-      <h3>Claude Code</h3>
-      <p>DeepSeek Radar · <strong>$0/월</strong><br>코드·문서·자동화·GitHub·Telegram</p>
-      <div class="stat-row" style="margin-top:12px;"><div class="bar"><div class="fill" style="width:100%;background:var(--green)"></div></div></div>
-      <p style="margin-top:6px;"><span class="tag tag-auto">메인 엔진</span></p>
+  <!-- TRACKS -->
+  <section id="tracks" class="reveal">
+    <div class="sec-head">
+      <div class="sec-kicker">01 · Purpose</div>
+      <h2>두 개의 트랙, 하나의 폰</h2>
+      <p class="lede">헌법이 정한 목적. 돌봄은 절대 안 깨지고, 소망은 핸드오프를 향해 간다.</p>
     </div>
-    <div class="feature-card" style="text-align:center;">
-      <div class="icon">🎨</div>
-      <h3>Grok CLI</h3>
-      <p>xAI SuperGrok · <strong>45,000원/월</strong><br>시각·Naver·이미지·클립·채팅검색</p>
-      <div class="stat-row" style="margin-top:12px;"><div class="bar"><div class="fill" style="width:80%;background:var(--yellow)"></div></div></div>
-      <p style="margin-top:6px;"><span class="tag tag-manual">드래프트·프로토타입</span></p>
+    <div class="grid-2">
+      <article class="card">
+        <div class="icon">🛡️</div>
+        <h3 style="color:var(--coral)">트랙 1 — 돌봄</h3>
+        <p>위치·배터리·이상 감지·에스컬레이션. 콘텐츠와 물리적으로 분리된 안전망. 대상은 큰누나 — 그리고 같은 구조가 필요한 모든 이.</p>
+        <div class="bars" data-animate>
+          <div class="bar-row"><span class="name">안정성</span><div class="track"><div class="fill" data-w="100" style="background:var(--mint)"></div></div><span class="pct">100%</span></div>
+          <div class="bar-row"><span class="name">자동화</span><div class="track"><div class="fill" data-w="100" style="background:var(--mint)"></div></div><span class="pct">완전</span></div>
+          <div class="bar-row"><span class="name">AI 의존</span><div class="track"><div class="fill" data-w="0" style="background:var(--text3)"></div></div><span class="pct">제로</span></div>
+        </div>
+        <p style="margin-top:14px">
+          <span class="pill pill-mint">care-daemon.sh</span>
+          <span class="pill pill-mint">Termux crontab</span>
+        </p>
+        <p style="margin-top:12px;font-size:.82rem;color:var(--text3)">성공 기준 — <strong style="color:var(--coral)">절대 안 깨질 것.</strong></p>
+      </article>
+      <article class="card">
+        <div class="icon">📡</div>
+        <h3 style="color:var(--sky)">트랙 2 — 소망</h3>
+        <p>대필작가-간병인. 누나가 건강했다면 살았을 삶을 미러링해 세상에 표현. 모든 계정은 큰누나 명의.</p>
+        <div class="bars" data-animate>
+          <div class="bar-row"><span class="name">GitHub</span><div class="track"><div class="fill" data-w="100" style="background:var(--mint)"></div></div><span class="pct">자동</span></div>
+          <div class="bar-row"><span class="name">YouTube</span><div class="track"><div class="fill" data-w="85" style="background:var(--sky)"></div></div><span class="pct">준비</span></div>
+          <div class="bar-row"><span class="name">Naver</span><div class="track"><div class="fill" data-w="30" style="background:var(--gold)"></div></div><span class="pct">수동</span></div>
+        </div>
+        <p style="margin-top:14px">
+          <span class="pill pill-mint">GitHub</span>
+          <span class="pill pill-gold">YouTube</span>
+          <span class="pill pill-coral">Naver 수동</span>
+        </p>
+        <p style="margin-top:12px;font-size:.82rem;color:var(--text3)">성공 기준 — <strong style="color:var(--sky)">핸드오프가 곧 성공.</strong></p>
+      </article>
     </div>
-    <div class="feature-card" style="text-align:center;">
-      <div class="icon">🔧</div>
-      <h3>Aider</h3>
-      <p>DeepSeek · <strong>$0/월</strong><br>보조 코딩·자동화 루프</p>
-      <div class="stat-row" style="margin-top:12px;"><div class="bar"><div class="fill" style="width:60%;background:var(--blue)"></div></div></div>
-      <p style="margin-top:6px;"><span class="tag tag-mixed">백업 엔진</span></p>
+  </section>
+
+  <!-- AI -->
+  <section id="ai" class="reveal">
+    <div class="sec-head">
+      <div class="sec-kicker">02 · Agents</div>
+      <h2>3 AI — 역할이 다른 동료</h2>
+      <p class="lede">만능 하나보다, 지휘자 · 외과의 · 미디어 팀을 나눈다. Termux에서 <code style="font-family:var(--mono);color:var(--gold2)">cc</code> · <code style="font-family:var(--mono);color:var(--gold2)">ds</code> · <code style="font-family:var(--mono);color:var(--gold2)">grok</code>.</p>
     </div>
-  </div>
-</section>
-
-<!-- ═══ SECTION 03 — WORKCENTERS ═══ -->
-<section id="workcenters" class="reveal">
-  <div class="sec-label"><span class="num">03</span><span class="line"></span></div>
-  <h2>7개 워크센터</h2>
-
-  <div class="table-wrap">
-  <table>
-  <thead><tr><th>#</th><th>워크센터</th><th>비유</th><th>플랫폼</th><th>주체</th><th>가동률</th></tr></thead>
-  <tbody>
-  <tr><td>①</td><td><strong>공장</strong></td><td>생산라인</td><td><a href="https://github.com/helena751107/helena_phone">GitHub</a></td><td><span class="tag tag-auto">Claude Code</span></td><td><div class="stat-row"><div class="bar" style="width:60px"><div class="fill" style="width:100%;background:var(--green)"></div></div></div></td></tr>
-  <tr><td>②</td><td><strong>전시장</strong></td><td>쇼룸</td><td>GitHub Pages</td><td><span class="tag tag-auto">자동배포</span></td><td><div class="stat-row"><div class="bar" style="width:60px"><div class="fill" style="width:100%;background:var(--green)"></div></div></div></td></tr>
-  <tr><td>③</td><td><strong>방송탑</strong></td><td>송신탑</td><td><a href="https://www.youtube.com/@helena_phone">YouTube</a></td><td><span class="tag tag-auto">Claude Code</span></td><td><div class="stat-row"><div class="bar" style="width:60px"><div class="fill" style="width:80%;background:var(--blue)"></div></div></div></td></tr>
-  <tr><td>④</td><td><strong>인터컴</strong></td><td>내부통신</td><td>Telegram</td><td><span class="tag tag-auto">tg.sh</span></td><td><div class="stat-row"><div class="bar" style="width:60px"><div class="fill" style="width:100%;background:var(--green)"></div></div></div></td></tr>
-  <tr><td>⑤</td><td><strong>업무일지</strong></td><td>기록창고</td><td><a href="https://galaxys21-pwuser.tistory.com">티스토리</a></td><td><span class="tag tag-manual">사람</span></td><td><div class="stat-row"><div class="bar" style="width:60px"><div class="fill" style="width:30%;background:var(--yellow)"></div></div></div></td></tr>
-  <tr><td>⑥</td><td><strong>웹진</strong></td><td>미끼·티저</td><td><a href="https://m.blog.naver.com/helena1975">네이버</a></td><td><span class="tag tag-manual">사람+Grok</span></td><td><div class="stat-row"><div class="bar" style="width:60px"><div class="fill" style="width:20%;background:var(--yellow)"></div></div></div></td></tr>
-  <tr><td>⑦</td><td><strong>로비</strong></td><td>응접실</td><td><a href="https://discord.gg/JTYSZv2WQE">Discord</a></td><td><span class="tag tag-mixed">WidgetBot</span></td><td><div class="stat-row"><div class="bar" style="width:60px"><div class="fill" style="width:100%;background:var(--green)"></div></div></div></td></tr>
-  </tbody>
-  </table>
-  </div>
-</section>
-
-<!-- ═══ SECTION 04 — FUNNEL ═══ -->
-<section id="funnel" class="reveal">
-  <div class="sec-label"><span class="num">04</span><span class="line"></span></div>
-  <h2>콘텐츠 퍼널</h2>
-
-  <div class="funnel">
-    <div class="f-step">
-      <div class="f-icon">🎨</div>
-      <div class="f-title">Naver 웹진</div>
-      <div class="f-desc">Grok 80% 드래프트<br>무료·미끼·티저</div>
+    <div class="grid-3">
+      <article class="card">
+        <div class="icon">💻</div>
+        <h3>cc · Claude Code</h3>
+        <p>DeepSeek 라우팅. 코드·문서·git·MCP·Telegram까지 다단계 오케스트레이션. 메인 엔진.</p>
+        <div class="price">~$0 / 월 · 지휘자</div>
+        <p style="margin-top:12px"><span class="pill pill-mint">메인</span><span class="pill pill-lilac">MCP</span></p>
+      </article>
+      <article class="card">
+        <div class="icon">🔧</div>
+        <h3>ds · Aider</h3>
+        <p>DeepSeek-V4-Pro. 비전 없음. 대신 싸고 짧은 코드 수술 루프. SuperGrok 풀을 아낀다.</p>
+        <div class="price">~$0 / 월 · 외과의</div>
+        <p style="margin-top:12px"><span class="pill pill-gold">코드 전용</span><span class="pill pill-lilac">dsflash</span></p>
+      </article>
+      <article class="card">
+        <div class="icon">✨</div>
+        <h3>grok · Grok CLI</h3>
+        <p>SuperGrok. 이미지·UI 시안·영상·리서치·에이전트. GPU 없이 멀티모달. 주간 사용량 풀 주의.</p>
+        <div class="price">~₩45,000 / 월 · 미디어 팀</div>
+        <p style="margin-top:12px"><span class="pill pill-coral">Imagine</span><span class="pill pill-gold">Build</span></p>
+      </article>
     </div>
-    <div class="f-arrow">→</div>
-    <div class="f-step">
-      <div class="f-icon">📺</div>
-      <div class="f-title">YouTube 강의</div>
-      <div class="f-desc">Claude Code 100% 완성<br>강의·수익화</div>
+  </section>
+
+  <!-- WORKCENTERS -->
+  <section id="workcenters" class="reveal">
+    <div class="sec-head">
+      <div class="sec-kicker">03 · Workcenters</div>
+      <h2>7개 워크센터</h2>
+      <p class="lede">공장에서 로비까지. 자동·수동을 섞어 운영하는 콘텐츠 인프라.</p>
     </div>
-    <div class="f-arrow">→</div>
-    <div class="f-step">
-      <div class="f-icon">💵</div>
-      <div class="f-title">누나의 독립</div>
-      <div class="f-desc">모든 수익 누나 명의<br>경제적 독립·핸드오프</div>
+    <div class="table-shell">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>#</th><th>센터</th><th>비유</th><th>플랫폼</th><th>주체</th><th>상태</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>①</td><td><strong>공장</strong></td><td>생산라인</td><td><a href="https://github.com/helena751107/helena_phone">GitHub</a></td><td><span class="pill pill-mint">Claude Code</span></td><td>가동</td></tr>
+            <tr><td>②</td><td><strong>전시장</strong></td><td>쇼룸</td><td>GitHub Pages</td><td><span class="pill pill-mint">자동배포</span></td><td>가동</td></tr>
+            <tr><td>③</td><td><strong>방송탑</strong></td><td>송신탑</td><td><a href="https://www.youtube.com/@helena_phone">YouTube</a></td><td><span class="pill pill-mint">Claude Code</span></td><td>준비</td></tr>
+            <tr><td>④</td><td><strong>인터컴</strong></td><td>내부통신</td><td>Telegram</td><td><span class="pill pill-mint">tg.sh</span></td><td>가동</td></tr>
+            <tr><td>⑤</td><td><strong>업무일지</strong></td><td>기록창고</td><td><a href="https://galaxys21-pwuser.tistory.com">티스토리</a></td><td><span class="pill pill-gold">사람</span></td><td>수동</td></tr>
+            <tr><td>⑥</td><td><strong>웹진</strong></td><td>미끼·티저</td><td><a href="https://m.blog.naver.com/helena1975">네이버</a></td><td><span class="pill pill-coral">사람+Grok</span></td><td>수동</td></tr>
+            <tr><td>⑦</td><td><strong>로비</strong></td><td>응접실</td><td><a href="https://discord.gg/JTYSZv2WQE">Discord</a></td><td><span class="pill pill-lilac">WidgetBot</span></td><td>가동</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ═══ SECTION 05 — INSTALL ═══ -->
-<section id="install" class="reveal">
-  <div class="sec-label"><span class="num">05</span><span class="line"></span></div>
-  <h2>1줄 설치</h2>
+  <!-- FUNNEL -->
+  <section id="funnel" class="reveal">
+    <div class="sec-head">
+      <div class="sec-kicker">04 · Funnel</div>
+      <h2>콘텐츠 퍼널</h2>
+      <p class="lede">Grok 80% 드래프트에서 시작해, 완성 강의와 독립으로 이어진다.</p>
+    </div>
+    <div class="funnel">
+      <div class="f-step">
+        <div class="f-n">STEP 01</div>
+        <h3>Naver 웹진</h3>
+        <p>Grok 드래프트<br>무료 · 미끼 · 티저</p>
+      </div>
+      <div class="f-arrow" aria-hidden="true">→</div>
+      <div class="f-step">
+        <div class="f-n">STEP 02</div>
+        <h3>YouTube 강의</h3>
+        <p>Claude Code 완성<br>강의 · 수익화</p>
+      </div>
+      <div class="f-arrow" aria-hidden="true">→</div>
+      <div class="f-step">
+        <div class="f-n">STEP 03</div>
+        <h3>누나의 독립</h3>
+        <p>수익은 누나 명의<br>핸드오프</p>
+      </div>
+    </div>
+  </section>
 
-  <div class="code-block">
-    <span class="prompt">$</span> <span class="cmd">curl -sL https://raw.github.com/helena751107/helena_phone/main/g/install.sh | bash</span>
-  </div>
-  <p class="small" style="margin-top:8px;">Termux → proot Ubuntu → Claude Code → MCP → 건강검진. <strong style="color:var(--red)">비용 0원.</strong></p>
-</section>
+  <!-- INSTALL -->
+  <section id="install" class="reveal">
+    <div class="sec-head">
+      <div class="sec-kicker">05 · Install</div>
+      <h2>1줄 설치</h2>
+      <p class="lede">Termux → proot Ubuntu → Claude Code → MCP → 건강검진. 코어 비용 0원.</p>
+    </div>
+    <div class="code-block" id="installCmd">
+      <span class="prompt">$</span>
+      <span class="cmd" id="cmdText">curl -sL https://raw.github.com/helena751107/helena_phone/main/g/install.sh | bash</span>
+      <button class="copy" type="button" id="copyBtn">복사</button>
+    </div>
+    <p style="margin-top:14px;font-size:.82rem;color:var(--text3)">
+      전제: F-Droid Termux + termux-api · 저장소 권한 · 인터넷.
+      상세는 <a href="GUIDE.md" style="color:var(--gold2)">GUIDE.md</a> ·
+      <a href="01-foundation/termux-setup.md" style="color:var(--gold2)">termux-setup</a>.
+    </p>
+  </section>
 
-<!-- ═══ SECTION 06 — DOCUMENT LIBRARY ═══ -->
-<section id="library" class="reveal">
-  <div class="sec-label"><span class="num">06</span><span class="line"></span></div>
-  <h2>문서 라이브러리 <span class="fw300 muted">— 96파일 · 11,727줄 · 국판 500페이지</span></h2>
+  <!-- LIBRARY -->
+  <section id="library" class="reveal">
+    <div class="sec-head">
+      <div class="sec-kicker">06 · Library</div>
+      <h2>문서 라이브러리</h2>
+      <p class="lede">레포를 파싱한 문서 맵. 검색으로 바로 점프.</p>
+    </div>
+    <input type="search" class="doc-search" id="searchDocs" placeholder="문서 검색… 예: telegram, 워크센터, grok" autocomplete="off">
 
-  <input type="text" class="doc-search" id="searchDocs" placeholder="문서 검색...">
+    <div class="doc-group">
+      <h3>📜 핵심</h3>
+      <div class="doc-grid">
+        <a class="doc-card" href="CONSTITUTION.md"><div class="t">헌법 CONSTITUTION</div><div class="d">16조·4장 · Chain of Command · 불변 원칙</div></a>
+        <a class="doc-card" href="CLAUDE.md"><div class="t">실무 규칙 CLAUDE.md</div><div class="d">AI 3종 · Paste Pipeline · 인프라</div></a>
+        <a class="doc-card" href="README.md"><div class="t">README</div><div class="d">숫자 · 구조도 · 빠른 링크</div></a>
+        <a class="doc-card" href="GUIDE.md"><div class="t">5단계 GUIDE</div><div class="d">Termux → proot → Claude → 방송 → 최적화</div></a>
+        <a class="doc-card" href="CHRONICLE.md"><div class="t">CHRONICLE</div><div class="d">DAY 1~2 개발 연대기</div></a>
+        <a class="doc-card" href="GIFT.md"><div class="t">GIFT · dtslib</div><div class="d">선물 패키지 분석</div></a>
+        <a class="doc-card" href="_textbook/index.md"><div class="t">완결판 교재</div><div class="d">판단층 + 실행층 병합</div></a>
+        <a class="doc-card" href="_notebook/99-devlog.md"><div class="t">개발일지 99</div><div class="d">전체 히스토리 · 바텀업 기록</div></a>
+      </div>
+    </div>
 
-  <h3 style="margin-top:24px;">📜 핵심 문서</h3>
-  <div class="doc-grid">
-    <a href="CONSTITUTION.md" class="doc-card"><div class="doc-title">📜 헌법</div><div class="doc-desc">16조·4장. Chain of Command + 불변원칙</div></a>
-    <a href="CLAUDE.md" class="doc-card"><div class="doc-title">📋 실무 규칙</div><div class="doc-desc">AI 3종·Paste Pipeline·인프라</div></a>
-    <a href="README.md" class="doc-card"><div class="doc-title">📖 프로젝트 소개</div><div class="doc-desc">숫자·구조도·빠른 링크</div></a>
-    <a href="GUIDE.md" class="doc-card"><div class="doc-title">🗺️ 5단계 가이드</div><div class="doc-desc">Termux→proot→Claude→방송→최적화</div></a>
-    <a href="CHRONICLE.md" class="doc-card"><div class="doc-title">📅 연대기</div><div class="doc-desc">DAY 1~2 전체 개발 과정</div></a>
-    <a href="GIFT.md" class="doc-card"><div class="doc-title">🎁 dtslib 선물 패키지</div><div class="doc-desc">33파일·9,240줄 분석</div></a>
-    <a href="_textbook/index.md" class="doc-card"><div class="doc-title">📖 완결판 교재</div><div class="doc-desc">판단층+실행층 병합·442줄</div></a>
-    <a href="_notebook/99-devlog.md" class="doc-card"><div class="doc-title">📋 개발일지</div><div class="doc-desc">50섹션·758줄·전체 히스토리</div></a>
-  </div>
+    <div class="doc-group">
+      <h3>🏗️ 인프라 · 아키텍처</h3>
+      <div class="doc-grid">
+        <a class="doc-card" href="_notebook/01-arch.md"><div class="t">01 시스템 아키텍처</div><div class="d">전체 구조</div></a>
+        <a class="doc-card" href="_notebook/09-ecosystem.md"><div class="t">09 생태계 브릿지</div><div class="d">5×5 테이블</div></a>
+        <a class="doc-card" href="_notebook/10-phone-mcp.md"><div class="t">10 phone-MCP</div><div class="d">18도구 · Domain</div></a>
+        <a class="doc-card" href="_notebook/18-workcenters.md"><div class="t">18 워크센터 초안</div><div class="d">7종 설계</div></a>
+        <a class="doc-card" href="_notebook/20-workcenters-final.md"><div class="t">20 워크센터 최종</div><div class="d">자동/수동 분리</div></a>
+        <a class="doc-card" href="_notebook/14-daemon-design.md"><div class="t">14 돌봄 데몬</div><div class="d">트랙1 설계</div></a>
+        <a class="doc-card" href="_notebook/15-proot-report.md"><div class="t">15 proot 보고서</div><div class="d">종합 리포트</div></a>
+        <a class="doc-card" href="_notebook/22-s21-benchmark.md"><div class="t">22 S21 벤치</div><div class="d">실측 벤치마크</div></a>
+      </div>
+    </div>
 
-  <h3 style="margin-top:28px;">🏗️ 인프라 & 아키텍처</h3>
-  <div class="doc-grid">
-    <a href="_notebook/01-arch.md" class="doc-card"><div class="doc-title">01 시스템 아키텍처</div></a>
-    <a href="_notebook/09-ecosystem.md" class="doc-card"><div class="doc-title">09 5×5 생태계 브릿지</div></a>
-    <a href="_notebook/10-phone-mcp.md" class="doc-card"><div class="doc-title">10 MCP 18도구 + 도메인 분석</div></a>
-    <a href="_notebook/18-workcenters.md" class="doc-card"><div class="doc-title">18 워크센터 초안</div></a>
-    <a href="_notebook/20-workcenters-final.md" class="doc-card"><div class="doc-title">20 워크센터 최종</div></a>
-  </div>
+    <div class="doc-group">
+      <h3>🔌 플랫폼 · 운영</h3>
+      <div class="doc-grid">
+        <a class="doc-card" href="_notebook/02-discord.md"><div class="t">02 Discord</div><div class="d">서버 · 봇 · 위젯</div></a>
+        <a class="doc-card" href="_notebook/03-telegram.md"><div class="t">03 Telegram</div><div class="d">봇 · 회의실</div></a>
+        <a class="doc-card" href="_notebook/04-github-pages.md"><div class="t">04 Pages · Giscus</div><div class="d">배포 · 댓글</div></a>
+        <a class="doc-card" href="_notebook/05-tistory.md"><div class="t">05 티스토리</div><div class="d">업무일지</div></a>
+        <a class="doc-card" href="_notebook/06-youtube.md"><div class="t">06 YouTube</div><div class="d">채널 · OAuth</div></a>
+        <a class="doc-card" href="_notebook/07-cli-reference.md"><div class="t">07 CLI 레퍼런스</div><div class="d">cc · ds · grok</div></a>
+        <a class="doc-card" href="_notebook/08-secrets.md"><div class="t">08 비밀 관리</div><div class="d">토큰 정책</div></a>
+        <a class="doc-card" href="_notebook/11-health.md"><div class="t">11 건강 검진</div><div class="d">phone-health</div></a>
+      </div>
+    </div>
 
-  <h3 style="margin-top:28px;">🔌 플랫폼 & 운영</h3>
-  <div class="doc-grid">
-    <a href="_notebook/02-discord.md" class="doc-card"><div class="doc-title">02 Discord</div></a>
-    <a href="_notebook/03-telegram.md" class="doc-card"><div class="doc-title">03 Telegram</div></a>
-    <a href="_notebook/04-github-pages.md" class="doc-card"><div class="doc-title">04 Pages·Giscus</div></a>
-    <a href="_notebook/05-tistory.md" class="doc-card"><div class="doc-title">05 티스토리</div></a>
-    <a href="_notebook/06-youtube.md" class="doc-card"><div class="doc-title">06 YouTube</div></a>
-    <a href="_notebook/07-cli-reference.md" class="doc-card"><div class="doc-title">07 CLI 명령어</div></a>
-    <a href="_notebook/08-secrets.md" class="doc-card"><div class="doc-title">08 비밀 관리</div></a>
-    <a href="_notebook/11-health.md" class="doc-card"><div class="doc-title">11 건강 검진</div></a>
-  </div>
+    <div class="doc-group">
+      <h3>🤖 AI · 에이전트 · 전략</h3>
+      <div class="doc-grid">
+        <a class="doc-card" href="_notebook/25-multi-ai-strategy.md"><div class="t">25 멀티 AI 전략</div><div class="d">Claude · Grok · Aider</div></a>
+        <a class="doc-card" href="_notebook/ai-agents-cc-ds-grok-comparison-2026-07-25.md"><div class="t">cc vs ds vs grok</div><div class="d">영문 비교 노트</div></a>
+        <a class="doc-card" href="_notebook/supergrok-community-research-2026-07-25.md"><div class="t">SuperGrok 리서치</div><div class="d">커뮤니티 검증</div></a>
+        <a class="doc-card" href="_notebook/27-claude-grok-pipeline.md"><div class="t">27 Claude+Grok 파이프</div><div class="d">협업 파이프라인</div></a>
+        <a class="doc-card" href="_notebook/29-grok-cli-installed.md"><div class="t">29 Grok CLI 설치</div><div class="d">v0.2.x 설치 기록</div></a>
+        <a class="doc-card" href="_notebook/23-naver-webzine-solution.md"><div class="t">23 네이버 웹진</div><div class="d">최종 솔루션</div></a>
+        <a class="doc-card" href="_notebook/24-paste-pipeline.md"><div class="t">24 Paste Pipeline</div><div class="d">수동 발행 방법론</div></a>
+        <a class="doc-card" href="_notebook/19-final-strategy.md"><div class="t">19 최종 전략</div><div class="d">자동/수동 분리</div></a>
+      </div>
+    </div>
 
-  <h3 style="margin-top:28px;">📊 분석 & 전략</h3>
-  <div class="doc-grid">
-    <a href="_notebook/12-dtslib-gift.md" class="doc-card"><div class="doc-title">12 dtslib 선물 분석</div></a>
-    <a href="_notebook/13-midterm-eval-v2.md" class="doc-card"><div class="doc-title">13 중간평가 v2 (98/100)</div></a>
-    <a href="_notebook/14-daemon-design.md" class="doc-card"><div class="doc-title">14 돌봄 데몬 설계</div></a>
-    <a href="_notebook/15-proot-report.md" class="doc-card"><div class="doc-title">15 proot 종합 보고서</div></a>
-    <a href="_notebook/22-s21-benchmark.md" class="doc-card"><div class="doc-title">22 S21 벤치마크</div></a>
-    <a href="_notebook/supergrok-community-research-2026-07-25.md" class="doc-card"><div class="doc-title">🆕 SuperGrok 리서치</div></a>
-  </div>
+    <div class="doc-group">
+      <h3>📚 기초 가이드 · 설치</h3>
+      <div class="doc-grid">
+        <a class="doc-card" href="01-foundation/termux-setup.md"><div class="t">Termux 설치</div><div class="d">F-Droid · API</div></a>
+        <a class="doc-card" href="01-foundation/proot-ubuntu.md"><div class="t">proot Ubuntu</div><div class="d">컨테이너</div></a>
+        <a class="doc-card" href="01-foundation/claude-code.md"><div class="t">Claude Code</div><div class="d">DeepSeek Radar</div></a>
+        <a class="doc-card" href="g/install.sh"><div class="t">g/install.sh</div><div class="d">1줄 설치기 소스</div></a>
+        <a class="doc-card" href="care/care-daemon.sh"><div class="t">care-daemon</div><div class="d">돌봄 데몬</div></a>
+        <a class="doc-card" href="phone-health.sh"><div class="t">phone-health</div><div class="d">27항목 검진</div></a>
+      </div>
+    </div>
+  </section>
 
-  <h3 style="margin-top:28px;">🎯 전략 & 방법론</h3>
-  <div class="doc-grid">
-    <a href="_notebook/16-textbook-methodology.md" class="doc-card"><div class="doc-title">16 교재 합성 지침</div></a>
-    <a href="_notebook/17-merged-chronicle.md" class="doc-card"><div class="doc-title">17 병합 연대기</div></a>
-    <a href="_notebook/19-final-strategy.md" class="doc-card"><div class="doc-title">19 최종 전략</div></a>
-    <a href="_notebook/21-integrated-dev-plan.md" class="doc-card"><div class="doc-title">21 통합 개발 계획서</div></a>
-    <a href="_notebook/23-naver-webzine-solution.md" class="doc-card"><div class="doc-title">23 네이버 웹진 솔루션</div></a>
-    <a href="_notebook/24-paste-pipeline.md" class="doc-card"><div class="doc-title">24 Paste Pipeline</div></a>
-  </div>
+  <!-- CHANNELS -->
+  <section id="channels" class="reveal">
+    <div class="sec-head">
+      <div class="sec-kicker">07 · Channels</div>
+      <h2>외부 채널</h2>
+      <p class="lede">모든 계정은 큰누나 명의. 로비에서 전시장까지.</p>
+    </div>
+    <div class="channels">
+      <a class="ch" href="https://github.com/helena751107/helena_phone"><div class="ci">💻</div><div class="cn">GitHub</div><div class="cu">helena_phone</div></a>
+      <a class="ch" href="https://www.youtube.com/@helena_phone"><div class="ci">📺</div><div class="cn">YouTube</div><div class="cu">@helena_phone</div></a>
+      <a class="ch" href="https://m.blog.naver.com/helena1975"><div class="ci">🌐</div><div class="cn">Naver</div><div class="cu">helena1975</div></a>
+      <a class="ch" href="https://galaxys21-pwuser.tistory.com"><div class="ci">📝</div><div class="cn">티스토리</div><div class="cu">업무일지</div></a>
+      <a class="ch" href="https://discord.gg/JTYSZv2WQE"><div class="ci">💬</div><div class="cn">Discord</div><div class="cu">실시간 로비</div></a>
+    </div>
+  </section>
 
-  <h3 style="margin-top:28px;">🤖 AI & 에이전트</h3>
-  <div class="doc-grid">
-    <a href="_notebook/25-multi-ai-strategy.md" class="doc-card"><div class="doc-title">25 멀티 AI 전략</div></a>
-    <a href="_notebook/26-naver-parsing-solution.md" class="doc-card"><div class="doc-title">26 Naver 파싱 해결</div></a>
-    <a href="_notebook/27-claude-grok-pipeline.md" class="doc-card"><div class="doc-title">27 Claude+Grok 파이프</div></a>
-    <a href="_notebook/28-grok-github-bridge.md" class="doc-card"><div class="doc-title">28 Grok 인터프리터</div></a>
-    <a href="_notebook/29-grok-cli-installed.md" class="doc-card"><div class="doc-title">29 Grok CLI 설치</div></a>
-  </div>
-</section>
+  <footer class="reveal">
+    <p class="brand">S21 Phone — AI Workstation</p>
+    <p>© 2026 Helena Park · 대필작가-간병인</p>
+    <p style="margin-top:6px">Galaxy S21 · Termux · proot Ubuntu · cc · ds · grok</p>
+    <p class="accent-line">모든 계정은 큰누나 명의입니다.</p>
+    <p style="margin-top:14px;font-size:.75rem">
+      98 commits · 173 files · 18.9k lines ·
+      <a href="https://github.com/helena751107/helena_phone">Open source on GitHub</a>
+    </p>
+  </footer>
+</main>
 
-<!-- ═══ SECTION 07 — CHANNELS ═══ -->
-<section id="channels" class="reveal">
-  <div class="sec-label"><span class="num">07</span><span class="line"></span></div>
-  <h2>외부 채널</h2>
-
-  <div class="channel-bar">
-    <a href="https://github.com/helena751107/helena_phone"><div class="ch-icon">💻</div><div class="ch-name">GitHub</div><div class="ch-url">helena751107/helena_phone</div></a>
-    <a href="https://www.youtube.com/@helena_phone"><div class="ch-icon">📺</div><div class="ch-name">YouTube</div><div class="ch-url">@helena_phone</div></a>
-    <a href="https://m.blog.naver.com/helena1975"><div class="ch-icon">🌐</div><div class="ch-name">Naver 웹진</div><div class="ch-url">helena1975</div></a>
-    <a href="https://galaxys21-pwuser.tistory.com"><div class="ch-icon">📝</div><div class="ch-name">티스토리</div><div class="ch-url">업무일지</div></a>
-    <a href="https://discord.gg/JTYSZv2WQE"><div class="ch-icon">💬</div><div class="ch-name">Discord</div><div class="ch-url">실시간 소통</div></a>
-  </div>
-</section>
-
-<!-- ═══ FOOTER ═══ -->
-<footer class="reveal">
-  <p style="font-size:1.1em;font-weight:600;">S21 Phone — AI Workstation</p>
-  <p style="margin-top:4px;">© 2026 Helena Park · 대필작가-간병인</p>
-  <p style="margin-top:4px;">Galaxy S21 + Termux + proot Ubuntu + Claude Code + Grok CLI + Aider</p>
-  <p style="margin-top:8px;color:var(--red);font-weight:500;">모든 계정은 큰누나 명의입니다.</p>
-  <p style="margin-top:12px;font-size:0.75em;">96파일 · 11,727줄 · 41커밋 · 국판 500페이지 · <a href="https://github.com/helena751107/helena_phone">GitHub</a></p>
-</footer>
-
-</div>
-
-<div class="floating">
-  <button class="fbtn" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
-  <button class="fbtn" onclick="(function(){var h=document.documentElement;var n=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',n);localStorage.setItem('theme',n)})()">🌓</button>
+<div class="float">
+  <button class="fbtn" id="toTop" type="button" aria-label="맨 위로">↑</button>
+  <button class="fbtn" id="themeBtn" type="button" aria-label="테마 전환">◐</button>
 </div>
 
 <script>
-// Progress bar
-addEventListener('scroll',()=>{
-  const p=(scrollY/(document.documentElement.scrollHeight-innerHeight))*100;
-  document.getElementById('progress').style.width=p+'%';
-  document.getElementById('toTop').classList.toggle('show',scrollY>500);
-});
+(() => {
+  const $ = (s, r=document) => r.querySelector(s);
+  const $$ = (s, r=document) => [...r.querySelectorAll(s)];
 
-// Reveal on scroll
-new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on')}),{threshold:0.1})
-  .observe(document.querySelectorAll('.reveal'));
+  // Progress + top
+  addEventListener('scroll', () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    $('#progress').style.width = (max > 0 ? (scrollY / max) * 100 : 0) + '%';
+    $('#toTop').classList.toggle('show', scrollY > 480);
+  }, { passive: true });
+  $('#toTop').onclick = () => scrollTo({ top: 0, behavior: 'smooth' });
 
-// Active nav
-addEventListener('scroll',()=>{
-  document.querySelectorAll('.top-nav a').forEach(a=>{
-    const t=document.querySelector(a.getAttribute('href'));
-    if(t)a.classList.toggle('on',t.getBoundingClientRect().top<200&&t.getBoundingClientRect().bottom>200);
+  // Theme
+  const root = document.documentElement;
+  const saved = localStorage.getItem('s21-theme');
+  if (saved) root.setAttribute('data-theme', saved);
+  $('#themeBtn').onclick = () => {
+    const n = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', n);
+    localStorage.setItem('s21-theme', n);
+  };
+
+  // Mobile nav
+  const links = $('#navLinks');
+  $('#navToggle').onclick = () => links.classList.toggle('open');
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+
+  // Smooth anchors
+  $$('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+    const id = a.getAttribute('href');
+    if (id.length < 2) return;
+    const t = $(id);
+    if (!t) return;
+    e.preventDefault();
+    t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }));
+
+  // Active nav
+  const sections = $$('section[id]');
+  addEventListener('scroll', () => {
+    let cur = '';
+    sections.forEach(s => {
+      if (s.getBoundingClientRect().top < 140) cur = s.id;
+    });
+    $$('.nav-links a[href^="#"]').forEach(a => {
+      a.classList.toggle('on', a.getAttribute('href') === '#' + cur);
+    });
+  }, { passive: true });
+
+  // Reveal
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('on');
+      // bars
+      e.target.querySelectorAll('.fill[data-w]').forEach(f => {
+        f.style.width = f.dataset.w + '%';
+      });
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.12 });
+  $$('.reveal').forEach(el => io.observe(el));
+
+  // Count-up metrics
+  const countIo = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const target = +el.dataset.count;
+      const dur = 1100;
+      const t0 = performance.now();
+      const tick = now => {
+        const p = Math.min(1, (now - t0) / dur);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(target * eased).toLocaleString();
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+      countIo.unobserve(el);
+    });
+  }, { threshold: 0.4 });
+  $$('[data-count]').forEach(el => countIo.observe(el));
+
+  // Copy install
+  $('#copyBtn').onclick = async () => {
+    const text = $('#cmdText').textContent.trim();
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); ta.remove();
+    }
+    const b = $('#copyBtn');
+    b.textContent = '복사됨';
+    b.classList.add('ok');
+    setTimeout(() => { b.textContent = '복사'; b.classList.remove('ok'); }, 1600);
+  };
+
+  // Doc search
+  $('#searchDocs').addEventListener('input', e => {
+    const q = e.target.value.trim().toLowerCase();
+    $$('#library .doc-card').forEach(c => {
+      const show = !q || c.textContent.toLowerCase().includes(q);
+      c.style.display = show ? '' : 'none';
+    });
+    $$('#library .doc-group').forEach(g => {
+      const any = [...g.querySelectorAll('.doc-card')].some(c => c.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    });
   });
-});
-
-// Smooth scroll nav
-document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
-  e.preventDefault();
-  document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'});
-}));
-
-// Theme restore
-(function(){var s=localStorage.getItem('theme');if(s)document.documentElement.setAttribute('data-theme',s)})();
-
-// Search
-document.getElementById('searchDocs').addEventListener('input',e=>{
-  const q=e.target.value.toLowerCase();
-  document.querySelectorAll('#library .doc-card').forEach(c=>{
-    c.style.display=!q||c.textContent.toLowerCase().includes(q)?'':'none';
-  });
-  document.querySelectorAll('#library h3').forEach(h=>{
-    const grid=h.nextElementSibling;
-    if(!grid||!grid.classList.contains('doc-grid'))return;
-    h.style.display=q&&!grid.querySelectorAll('.doc-card:not([style*="display: none"])').length?'none':'';
-  });
-});
+})();
 </script>
-
 </body>
 </html>
