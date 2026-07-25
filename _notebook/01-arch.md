@@ -70,3 +70,45 @@ YouTube (5채널) ← 1:1 → Tistory (5블로그) ← 1:1 → GitHub (5레포)
 ```
 
 자세한 내용: `_notebook/09-ecosystem.md`
+
+---
+
+## 현재 아키텍처 (2026-07-25 업데이트)
+
+```
+📱 Galaxy S21 5G (SM-G991N)
+│  Android 15 · 8GB RAM · 256GB · Exynos 2100
+│
+├── Termux (Android 네이티브)
+│   ├── termux-api (18개 CLI 도구)
+│   ├── crontab → care-daemon.sh (돌봄)
+│   └── proot-distro → Ubuntu 26.04 LTS
+│
+├── proot Ubuntu 컨테이너
+│   ├── Claude Code (DeepSeek Radar) — 메인
+│   ├── Grok CLI (xAI SuperGrok) — 시각·Naver
+│   ├── Aider (DeepSeek) — 보조 코딩
+│   ├── phone-mcp-server (18도구·3456포트)
+│   ├── Playwright + Chromium headless
+│   ├── Python 3.14 + Node.js
+│   └── Git → GitHub (5레포)
+│
+├── 🌐 출력 채널
+│   ├── GitHub Pages (5사이트·자동배포)
+│   ├── YouTube @helena_phone (OAuth)
+│   ├── Discord (2채널·WidgetBot)
+│   ├── Telegram @S21Phone_Bot
+│   ├── 티스토리 5종 (수동)
+│   └── 네이버 웹진 (수동+Grok)
+│
+└── 🛡️ 트랙1 독립 (Termux 네이티브)
+    └── care-daemon.sh (AI 의존성 제로)
+```
+
+## AI 도구
+
+| 도구 | 엔진 | 비용 | 용도 |
+|------|------|------|------|
+| Claude Code | DeepSeek Radar | $0 | 코드·문서·자동화 |
+| Grok CLI | xAI SuperGrok | 45,000원/월 | 시각·Naver·이미지 |
+| Aider | DeepSeek | $0 | 보조 코딩 |

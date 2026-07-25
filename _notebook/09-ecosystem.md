@@ -73,3 +73,17 @@ helena-psycare      ✅ 정신분석/뷰티풀마인드 (구 metalcare)
 | **티스토리** | 글/이미지 위주 블로그 — YouTube와 1:1 매칭 |
 | **네이버** | 🏛️ **관저탑** — 대중 대상 그림첩. 모든 결과물의 교차 홍보 |
 | **_notebook/** | 🏗️ **구축 History** — Making film + 로고 기록
+
+---
+
+## 현재 상태 (2026-07-25)
+
+| 레포 | 티스토리 | YouTube | 상태 |
+|------|---------|---------|------|
+| helena_phone | galaxys21-pwuser | @helena_phone ✅ | Phase 1 |
+| helana_log | mynote11605 | @HelenaTechLog 🟡 | Phase 2 (8월) |
+| helena-faith | helana-christianity | @HelenaFaith 🟡 | Phase 3 (9월) |
+| helena-piano | helena-piano | @HelenaPiano 🟡 | Phase 4 (10월) |
+| helena-psycare | helena-psycare | @HelenaPsycare 🟡 | Phase 5 (11월) |
+
+**네이버 helena1975** = 전체 교차홍보 웹진 (주간 발행)

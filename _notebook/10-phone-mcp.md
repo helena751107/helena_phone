@@ -146,3 +146,20 @@ GUI 조작 (터치 주입)
 > 백그라운드 API 통제는 거의 100% 열렸고,
 > GUI 화면 조작은 0%로 완전히 닫혀 있다.
 > GUI 통제가 진짜 필요해지면 그때 Accessibility Service 트랙 별도 검토.
+
+---
+
+## 현재 검증 상태 (2026-07-25)
+
+| 카테고리 | 도구 | 검증 |
+|---------|------|------|
+| 배터리 | get_battery | ✅ 85%·38.5°C·GOOD |
+| WiFi | get_wifi_info | ✅ RSSI -49dBm |
+| 카메라 | take_photo | ✅ 4대 인식 |
+| 플래시 | flashlight on/off | ✅ 하드웨어 제어 |
+| SMS | send_sms·read_sms | ⚠️ 미검증 |
+| GPS | get_location | ⚠️ 실내 제한 |
+| 클립보드 | get/set_clipboard | ✅ 읽기·쓰기 |
+
+> **핵심:** 백그라운드 API 100% 통제 가능. GUI 조작(tap_screen)은 0%.
+> 그래서 티스토리·네이버 자동화는 Playwright(브라우저 레벨)로, MCP는 폰 하드웨어만.
