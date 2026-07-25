@@ -7,97 +7,114 @@
 <title>S21 Phone — AI Workstation</title>
 <style>
 :root {
-  --bg: #0a0a0f; --card: rgba(255,255,255,0.04); --text: #e0e0e0;
-  --red: #ff6b6b; --green: #4ecdc4; --yellow: #ffd93d; --blue: #2997ff;
-  --muted: #888; --border: rgba(255,255,255,0.06);
-  --radius: 10px;
+  --bg: #050508; --bg2: #0a0a12; --card: rgba(255,255,255,0.03);
+  --text: #e0e0e0; --red: #ff5e5e; --green: #4ecdc4; --yellow: #ffd93d;
+  --blue: #4da6ff; --purple: #a855f7; --muted: #777;
+  --border: rgba(255,255,255,0.05); --radius: 12px;
+  --glass: rgba(255,255,255,0.02);
 }
 [data-theme="light"] {
-  --bg: #f8f9fa; --card: rgba(0,0,0,0.03); --text: #1a1a2e;
-  --muted: #666; --border: rgba(0,0,0,0.08);
+  --bg: #f5f5f7; --bg2: #fff; --card: rgba(0,0,0,0.02); --text: #1a1a2e;
+  --muted: #666; --border: rgba(0,0,0,0.06); --glass: rgba(0,0,0,0.01);
 }
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; transition: background 0.3s, color 0.3s; }
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; transition: background 0.4s, color 0.4s; overflow-x: hidden; }
 
-/* Progress bar */
-#progress-bar { position:fixed; top:0; left:0; height:3px; background:linear-gradient(90deg,var(--red),var(--blue)); z-index:200; transition:width 0.1s; }
+/* Ambient bg */
+body::before { content:''; position:fixed; top:-30%; left:-20%; width:140%; height:100%; background:radial-gradient(ellipse at 30% 10%, rgba(255,94,94,0.04) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(77,166,255,0.04) 0%, transparent 50%); pointer-events:none; z-index:0; }
 
-.container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+#progress-bar { position:fixed; top:0; left:0; height:3px; background:linear-gradient(90deg,var(--red),var(--purple),var(--blue)); z-index:200; transition:width 0.15s; box-shadow:0 0 12px rgba(168,85,247,0.4); }
 
-nav { position: sticky; top:0; z-index:100; background: var(--bg); border-bottom: 1px solid var(--border); padding: 10px 0; display:flex; gap:10px; flex-wrap:wrap; justify-content:center; font-size:0.8em; transition: background 0.3s; }
-nav a { color: var(--muted); text-decoration:none; padding:4px 8px; border-radius:6px; transition:all 0.2s; }
-nav a:hover, nav a.active { color: var(--text); background: var(--card); }
+.container { max-width: 980px; margin: 0 auto; padding: 0 20px; position:relative; z-index:1; }
 
-/* Controls */
-.controls { position:fixed; bottom:20px; right:20px; z-index:150; display:flex; flex-direction:column; gap:8px; }
-.ctrl-btn { width:40px; height:40px; border-radius:50%; background:var(--card); border:1px solid var(--border); color:var(--text); cursor:pointer; font-size:1.1em; display:flex; align-items:center; justify-content:center; transition:all 0.2s; backdrop-filter:blur(10px); }
-.ctrl-btn:hover { border-color:var(--blue); background:rgba(41,151,255,0.1); }
+nav { position:sticky; top:10px; z-index:100; display:flex; gap:6px; flex-wrap:wrap; justify-content:center; padding:8px 16px; margin:10px auto; max-width:700px; background:var(--glass); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border:1px solid var(--border); border-radius:100px; font-size:0.78em; }
+nav a { color:var(--muted); text-decoration:none; padding:6px 14px; border-radius:100px; transition:all 0.25s; white-space:nowrap; }
+nav a:hover, nav a.active { color:var(--text); background:var(--card); }
+
+.controls { position:fixed; bottom:24px; right:24px; z-index:150; display:flex; flex-direction:column; gap:8px; }
+.ctrl-btn { width:44px; height:44px; border-radius:50%; background:var(--glass); backdrop-filter:blur(16px); border:1px solid var(--border); color:var(--text); cursor:pointer; font-size:1.1em; display:flex; align-items:center; justify-content:center; transition:all 0.25s; }
+.ctrl-btn:hover { border-color:var(--blue); transform:scale(1.1); }
 #back-to-top { opacity:0; pointer-events:none; transition:opacity 0.3s; }
 #back-to-top.visible { opacity:1; pointer-events:all; }
 
+header { text-align:center; padding:80px 0 40px; position:relative; }
+header::after { content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:120px; height:2px; background:linear-gradient(90deg,transparent,var(--red),var(--blue),transparent); }
+h1 { font-size:clamp(2rem,5vw,3.2rem); font-weight:850; letter-spacing:-0.04em; line-height:1.1; margin-bottom:8px; }
+h1 span { background:linear-gradient(135deg, var(--red) 0%, var(--purple) 50%, var(--blue) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.tagline { color:var(--muted); font-size:1em; margin-top:10px; }
+.stats { display:flex; justify-content:center; gap:2rem; flex-wrap:wrap; margin:28px 0; }
+.stat { text-align:center; padding:10px 16px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); min-width:80px; transition:all 0.3s; }
+.stat:hover { border-color:var(--blue); transform:translateY(-2px); }
+.stat .num { font-size:1.6em; font-weight:800; background:linear-gradient(135deg,var(--green),var(--blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.stat .lbl { font-size:0.72em; color:var(--muted); margin-top:2px; }
+
+h2 { font-size:1.25em; margin:44px 0 16px; color:var(--text); border-bottom:1px solid var(--border); padding-bottom:10px; display:flex; align-items:center; gap:8px; }
+h2::before { content:''; width:4px; height:20px; background:var(--green); border-radius:2px; }
+h3 { font-size:1em; margin:20px 0 8px; }
+
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.grid4 { display:grid; grid-template-columns:repeat(auto-fill, minmax(180px,1fr)); gap:8px; }
+
+.card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:20px; margin:6px 0; transition:all 0.3s; position:relative; overflow:hidden; }
+.card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--blue),transparent); opacity:0; transition:opacity 0.3s; }
+.card:hover { border-color:rgba(255,255,255,0.12); transform:translateY(-2px); }
+.card:hover::before { opacity:1; }
+
+table { width:100%; border-collapse:collapse; margin:10px 0; font-size:0.85em; }
+th, td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--border); }
+th { color:var(--green); font-weight:600; font-size:0.78em; text-transform:uppercase; letter-spacing:0.5px; }
+tr { transition:background 0.2s; }
+tr:hover { background:var(--card); }
+
+.tag { display:inline-block; padding:2px 10px; border-radius:100px; font-size:0.7em; font-weight:500; }
+.t-auto { background:rgba(78,205,196,0.12); color:var(--green); }
+.t-manual { background:rgba(255,217,61,0.12); color:var(--yellow); }
+.t-mixed { background:rgba(77,166,255,0.12); color:var(--blue); }
+
+.funnel { display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap; margin:20px 0; }
+.funnel-step { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:18px 24px; text-align:center; transition:all 0.4s; }
+.funnel-step:hover { transform:scale(1.06); border-color:var(--purple); box-shadow:0 8px 32px rgba(168,85,247,0.1); }
+.funnel-arrow { color:var(--red); font-size:1.4em; font-weight:700; animation:pulse 1.8s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:translateX(0)} 50%{opacity:0.3;transform:translateX(4px)} }
+
+pre { background:var(--card); padding:20px; border-radius:var(--radius); font-size:0.85em; overflow-x:auto; border:1px solid var(--border); }
+code { font-family:'SF Mono','Fira Code',monospace; }
+a { color:var(--blue); text-decoration:none; transition:color 0.2s; }
+a:hover { color:var(--green); }
+
+.link-row { display:flex; flex-wrap:wrap; gap:6px; margin:8px 0; }
+.link-btn { display:inline-block; padding:7px 14px; background:var(--card); border:1px solid var(--border); border-radius:8px; font-size:0.82em; transition:all 0.2s; }
+.link-btn:hover { border-color:var(--blue); background:rgba(77,166,255,0.06); transform:translateY(-1px); text-decoration:none; }
+
+.section { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease, transform 0.6s ease; }
+.section.visible { opacity:1; transform:translateY(0); }
+
+/* Info bars */
+.info-bar { display:flex; align-items:center; gap:6px; margin:3px 0; font-size:0.78em; }
+.info-bar .bar-track { flex:1; height:6px; background:rgba(255,255,255,0.05); border-radius:3px; overflow:hidden; }
+.info-bar .bar-fill { height:100%; border-radius:3px; transition:width 1.2s ease; }
+
+/* Status indicator */
+.status-dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; animation:glow 2s infinite; }
+.status-dot.green { background:var(--green); box-shadow:0 0 8px var(--green); }
+.status-dot.yellow { background:var(--yellow); box-shadow:0 0 8px var(--yellow); }
+
 /* Search */
-#search-box { width:100%; padding:12px 16px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); color:var(--text); font-size:0.9em; margin:10px 0; }
-#search-box:focus { outline:none; border-color:var(--blue); }
+#search-box { width:100%; padding:14px 18px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); color:var(--text); font-size:0.9em; margin:12px 0; transition:all 0.3s; }
+#search-box:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(77,166,255,0.1); }
 
-header { text-align: center; padding: 60px 0 30px; }
-h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -0.03em; }
-h1 span { background: linear-gradient(135deg, var(--red), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.tagline { color: var(--muted); font-size: 1em; margin-top: 8px; }
-.stats { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin: 20px 0; }
-.stat { text-align: center; }
-.stat .num { font-size: 1.4em; font-weight: 700; color: var(--green); }
-.stat .lbl { font-size: 0.75em; color: var(--muted); }
+footer { text-align:center; padding:50px 0 30px; color:var(--muted); font-size:0.8em; border-top:1px solid var(--border); margin-top:50px; }
 
-h2 { font-size: 1.2em; margin: 36px 0 14px; color: var(--green); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-h3 { font-size: 1em; margin: 20px 0 8px; }
-
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.grid4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
-
-.card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin: 6px 0; transition: all 0.2s; }
-.card:hover { background: rgba(255,255,255,0.07); transform: translateY(-1px); }
-
-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.85em; }
-th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); }
-th { color: var(--green); font-weight: 600; font-size:0.8em; }
-
-.tag { display: inline-block; padding: 1px 8px; border-radius: 100px; font-size: 0.7em; font-weight: 500; }
-.t-auto { background: rgba(78,205,196,0.15); color: var(--green); }
-.t-manual { background: rgba(255,217,61,0.15); color: var(--yellow); }
-.t-mixed { background: rgba(41,151,255,0.15); color: var(--blue); }
-
-.funnel { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin: 16px 0; }
-.funnel-step { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 18px; text-align: center; transition: all 0.3s; }
-.funnel-step:hover { transform: scale(1.05); border-color: var(--blue); }
-.funnel-arrow { color: var(--red); font-size: 1.3em; font-weight: 700; animation: pulse 1.5s infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-
-pre { background: rgba(255,255,255,0.04); padding: 16px; border-radius: var(--radius); font-size: 0.85em; overflow-x: auto; }
-code { font-family: 'SF Mono', 'Fira Code', monospace; }
-a { color: var(--blue); text-decoration: none; }
-a:hover { text-decoration: underline; }
-
-.link-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
-.link-btn { display: inline-block; padding: 7px 14px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); font-size: 0.82em; transition:all 0.2s; }
-.link-btn:hover { border-color: var(--blue); background: rgba(41,151,255,0.08); transform: translateY(-1px); text-decoration:none; }
-
-/* Section visibility animation */
-.section { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
-.section.visible { opacity: 1; transform: translateY(0); }
-
-footer { text-align: center; padding: 40px 0 20px; color: var(--muted); font-size: 0.8em; border-top: 1px solid var(--border); margin-top: 40px; }
-
-/* Infographic bars */
-.info-bar { display:flex; align-items:center; gap:8px; margin:4px 0; font-size:0.82em; }
-.info-bar .bar-label { min-width:100px; text-align:right; color:var(--muted); }
-.info-bar .bar-track { flex:1; height:8px; background:var(--card); border-radius:4px; overflow:hidden; }
-.info-bar .bar-fill { height:100%; border-radius:4px; transition:width 1s ease; }
-
-@media (max-width: 600px) {
-  .grid2, .grid3 { grid-template-columns: 1fr; }
-  .funnel { flex-direction: column; }
-  .info-bar .bar-label { min-width:70px; font-size:0.7em; }
+@media (max-width:600px) {
+  .grid2,.grid3 { grid-template-columns:1fr; }
+  .funnel { flex-direction:column; }
+  .stats { gap:0.8rem; }
+  .stat { min-width:60px; padding:8px 10px; }
+  nav { border-radius:20px; padding:6px 10px; gap:2px; }
+  nav a { padding:5px 10px; font-size:0.75em; }
+  header { padding:50px 0 30px; }
 }
 </style>
 </head>
@@ -108,154 +125,177 @@ footer { text-align: center; padding: 40px 0 20px; color: var(--muted); font-siz
 <div class="container">
 
 <header id="hero" class="section">
-  <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
-    <button onclick="toggleTheme()" style="background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:20px;cursor:pointer;font-size:0.8em;">🌓 테마</button>
-  </div>
   <h1><span>S21 Phone</span> — AI Workstation</h1>
-  <p class="tagline">갤럭시 S21 하나로 돌아가는 풀스택 개발·방송·출판 미니 스튜디오. 0원. 100% 음성입력.</p>
+  <p class="tagline">갤럭시 S21 하나로 풀스택 개발·방송·출판 미니 스튜디오.<br>0원. 100% 음성입력. 3 AI 에이전트. 7 워크센터.</p>
   <div class="stats">
-    <div class="stat"><div class="num" data-target="41">0</div><div class="lbl">커밋</div></div>
-    <div class="stat"><div class="num" data-target="96">0</div><div class="lbl">파일</div></div>
-    <div class="stat"><div class="num" data-target="11727">0</div><div class="lbl">라인</div></div>
-    <div class="stat"><div class="num" data-target="34">0</div><div class="lbl">업무수첩</div></div>
-    <div class="stat"><div class="num" data-target="3">0</div><div class="lbl">AI 에이전트</div></div>
-    <div class="stat"><div class="num" data-target="7">0</div><div class="lbl">워크센터</div></div>
+    <div class="stat"><div class="num" data-target="41">41</div><div class="lbl">커밋</div></div>
+    <div class="stat"><div class="num" data-target="96">96</div><div class="lbl">파일</div></div>
+    <div class="stat"><div class="num" data-target="11727">11,727</div><div class="lbl">라인</div></div>
+    <div class="stat"><div class="num" data-target="34">34</div><div class="lbl">업무수첩</div></div>
+    <div class="stat"><div class="num" data-target="3">3</div><div class="lbl">AI 에이전트</div></div>
+    <div class="stat"><div class="num" data-target="7">7</div><div class="lbl">워크센터</div></div>
   </div>
 </header>
 
 <nav id="nav">
-  <a href="#hero">홈</a><a href="#tracks">트랙</a><a href="#ai">AI</a><a href="#workcenters">워크센터</a><a href="#funnel">퍼널</a><a href="#install">설치</a><a href="#docs">문서</a><a href="#scripts">스크립트</a><a href="#links">링크</a>
+  <a href="#hero">홈</a><a href="#tracks">트랙</a><a href="#ai">AI</a><a href="#workcenters">워크센터</a><a href="#funnel">퍼널</a><a href="#install">설치</a><a href="#docs">문서</a><a href="#scripts">코드</a><a href="#links">채널</a>
 </nav>
 
+<!-- 트랙 -->
 <div class="section" id="tracks">
-<h2>🛡️ 두 개의 트랙</h2>
+<h2>두 개의 트랙</h2>
 <div class="grid2">
   <div class="card">
-    <h3 style="color:var(--red)">트랙 1 — 돌봄 (Caregiving)</h3>
+    <h3 style="color:var(--red);margin-top:0;">🛡️ 트랙 1 — 돌봄</h3>
     <p style="color:var(--muted);font-size:0.85em;">위치추적·배터리·이상감지·에스컬레이션. 절대 비공개. 두 사람만 본다.</p>
-    <div style="margin-top:10px;">
-      <div class="info-bar"><span class="bar-label">안정성</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div><span style="color:var(--green)">100%</span></div>
-      <div class="info-bar"><span class="bar-label">자동화</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div><span style="color:var(--green)">완전</span></div>
-      <div class="info-bar"><span class="bar-label">AI 의존성</span><div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--green)"></div></div><span style="color:var(--green)">제로</span></div>
+    <div style="margin-top:12px;">
+      <div class="info-bar"><span style="min-width:60px;font-size:0.7em;color:var(--muted);">안정성</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div><span style="font-size:0.7em;color:var(--green);">100%</span></div>
+      <div class="info-bar"><span style="min-width:60px;font-size:0.7em;color:var(--muted);">자동화</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div><span style="font-size:0.7em;color:var(--green);">완전</span></div>
+      <div class="info-bar"><span style="min-width:60px;font-size:0.7em;color:var(--muted);">AI의존</span><div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--green)"></div></div><span style="font-size:0.7em;color:var(--green);">제로</span></div>
     </div>
-    <p style="margin-top:8px;"><span class="tag t-auto">care-daemon.sh</span> <span class="tag t-auto">Termux crontab</span></p>
-    <p style="font-size:0.8em;margin-top:6px;">성공 기준: <strong style="color:var(--red)">"절대 안 깨질 것."</strong></p>
+    <p style="margin-top:10px;"><span class="tag t-auto">care-daemon.sh</span> <span class="tag t-auto">crontab</span></p>
+    <p style="font-size:0.8em;margin-top:6px;color:var(--red);"><strong>"절대 안 깨질 것."</strong></p>
   </div>
   <div class="card">
-    <h3 style="color:var(--blue)">트랙 2 — 소망 (Aspiration)</h3>
+    <h3 style="color:var(--blue);margin-top:0;">📡 트랙 2 — 소망</h3>
     <p style="color:var(--muted);font-size:0.85em;">대필작가-간병인. 누나의 목소리를 세상에. 모든 계정은 큰누나 명의.</p>
-    <div style="margin-top:10px;">
-      <div class="info-bar"><span class="bar-label">GitHub</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div><span style="color:var(--green)">자동</span></div>
-      <div class="info-bar"><span class="bar-label">YouTube</span><div class="bar-track"><div class="bar-fill" style="width:90%;background:var(--blue)"></div></div><span style="color:var(--blue)">준비</span></div>
-      <div class="info-bar"><span class="bar-label">Naver</span><div class="bar-track"><div class="bar-fill" style="width:30%;background:var(--yellow)"></div></div><span style="color:var(--yellow)">수동</span></div>
+    <div style="margin-top:12px;">
+      <div class="info-bar"><span style="min-width:60px;font-size:0.7em;color:var(--muted);">GitHub</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div><span style="font-size:0.7em;color:var(--green);">자동</span></div>
+      <div class="info-bar"><span style="min-width:60px;font-size:0.7em;color:var(--muted);">YouTube</span><div class="bar-track"><div class="bar-fill" style="width:85%;background:var(--blue)"></div></div><span style="font-size:0.7em;color:var(--blue);">준비</span></div>
+      <div class="info-bar"><span style="min-width:60px;font-size:0.7em;color:var(--muted);">Naver</span><div class="bar-track"><div class="bar-fill" style="width:25%;background:var(--yellow)"></div></div><span style="font-size:0.7em;color:var(--yellow);">수동</span></div>
     </div>
-    <p style="margin-top:8px;"><span class="tag t-auto">GitHub</span> <span class="tag t-auto">YouTube</span> <span class="tag t-auto">Naver 웹진</span></p>
-    <p style="font-size:0.8em;margin-top:6px;">성공 기준: <strong style="color:var(--blue)">핸드오프 — 누나가 스스로 운영하는 것.</strong></p>
+    <p style="margin-top:10px;"><span class="tag t-auto">GitHub</span> <span class="tag t-auto">YouTube</span> <span class="tag t-auto">Naver</span></p>
+    <p style="font-size:0.8em;margin-top:6px;color:var(--blue);"><strong>핸드오프가 곧 성공.</strong></p>
   </div>
 </div>
 </div>
 
+<!-- AI -->
 <div class="section" id="ai">
-<h2>🤖 AI 에이전트 3종</h2>
+<h2>AI 에이전트 3종</h2>
 <div class="grid3">
   <div class="card" style="text-align:center;">
-    <div style="font-size:1.8rem;">💻</div>
-    <h3>Claude Code</h3>
-    <p style="color:var(--muted);font-size:0.8em;">DeepSeek Radar · $0/월<br>코드·문서·자동화·GitHub·Telegram</p>
-    <div class="info-bar" style="margin-top:8px;"><span class="bar-label">품질</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div></div>
-    <p style="margin-top:4px;"><span class="tag t-auto">메인 엔진</span></p>
+    <div style="font-size:2.2rem;margin-bottom:8px;">💻</div>
+    <h3 style="margin-top:0;">Claude Code</h3>
+    <p style="color:var(--muted);font-size:0.8em;">DeepSeek Radar · $0/월<br>코드·문서·자동화·GitHub·TG</p>
+    <div class="info-bar" style="margin-top:10px;"><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div></div>
+    <p style="margin-top:6px;"><span class="tag t-auto">메인 엔진</span></p>
   </div>
   <div class="card" style="text-align:center;">
-    <div style="font-size:1.8rem;">🎨</div>
-    <h3>Grok CLI</h3>
-    <p style="color:var(--muted);font-size:0.8em;">xAI SuperGrok · 45,000원/월<br>시각·네이버·이미지·클립·채팅검색</p>
-    <div class="info-bar" style="margin-top:8px;"><span class="bar-label">품질</span><div class="bar-track"><div class="bar-fill" style="width:80%;background:var(--yellow)"></div></div></div>
-    <p style="margin-top:4px;"><span class="tag t-manual">드래프트·프로토타입</span></p>
+    <div style="font-size:2.2rem;margin-bottom:8px;">🎨</div>
+    <h3 style="margin-top:0;">Grok CLI</h3>
+    <p style="color:var(--muted);font-size:0.8em;">xAI SuperGrok · 45,000원/월<br>시각·Naver·이미지·클립</p>
+    <div class="info-bar" style="margin-top:10px;"><div class="bar-track"><div class="bar-fill" style="width:80%;background:var(--yellow)"></div></div></div>
+    <p style="margin-top:6px;"><span class="tag t-manual">드래프트·프로토</span></p>
   </div>
   <div class="card" style="text-align:center;">
-    <div style="font-size:1.8rem;">🔧</div>
-    <h3>Aider</h3>
-    <p style="color:var(--muted);font-size:0.8em;">DeepSeek · $0/월<br>보조 코딩·자동화 루프·CLI</p>
-    <div class="info-bar" style="margin-top:8px;"><span class="bar-label">품질</span><div class="bar-track"><div class="bar-fill" style="width:60%;background:var(--blue)"></div></div></div>
-    <p style="margin-top:4px;"><span class="tag t-mixed">백업 엔진</span></p>
+    <div style="font-size:2.2rem;margin-bottom:8px;">🔧</div>
+    <h3 style="margin-top:0;">Aider</h3>
+    <p style="color:var(--muted);font-size:0.8em;">DeepSeek · $0/월<br>보조 코딩·자동화 루프</p>
+    <div class="info-bar" style="margin-top:10px;"><div class="bar-track"><div class="bar-fill" style="width:65%;background:var(--blue)"></div></div></div>
+    <p style="margin-top:6px;"><span class="tag t-mixed">백업</span></p>
   </div>
 </div>
 </div>
 
+<!-- 워크센터 -->
 <div class="section" id="workcenters">
-<h2>🏭 7개 워크센터</h2>
+<h2>7 워크센터</h2>
 <table>
-<tr><th>#</th><th>워크센터</th><th>플랫폼</th><th>주체</th><th>가동률</th></tr>
-<tr><td>①</td><td>공장</td><td><a href="https://github.com/helena751107/helena_phone">GitHub</a></td><td><span class="tag t-auto">Claude Code</span></td><td>
-  <div class="info-bar"><div class="bar-track" style="width:60px"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div><span style="font-size:0.75em;color:var(--green)">100%</span></div>
-</td></tr>
-<tr><td>②</td><td>전시장</td><td><a href=".">GitHub Pages</a></td><td><span class="tag t-auto">자동배포</span></td><td>
-  <div class="info-bar"><div class="bar-track" style="width:60px"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div><span style="font-size:0.75em;color:var(--green)">100%</span></div>
-</td></tr>
-<tr><td>③</td><td>방송탑</td><td><a href="https://www.youtube.com/@helena_phone">YouTube</a></td><td><span class="tag t-auto">Claude Code</span></td><td>
-  <div class="info-bar"><div class="bar-track" style="width:60px"><div class="bar-fill" style="width:80%;background:var(--blue)"></div></div><span style="font-size:0.75em;color:var(--blue)">80%</span></div>
-</td></tr>
-<tr><td>④</td><td>내부 인터컴</td><td>Telegram</td><td><span class="tag t-auto">tg.sh</span></td><td>
-  <div class="info-bar"><div class="bar-track" style="width:60px"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div><span style="font-size:0.75em;color:var(--green)">100%</span></div>
-</td></tr>
-<tr><td>⑤</td><td>업무일지</td><td><a href="https://galaxys21-pwuser.tistory.com">티스토리</a></td><td><span class="tag t-manual">사람</span></td><td>
-  <div class="info-bar"><div class="bar-track" style="width:60px"><div class="bar-fill" style="width:30%;background:var(--yellow)"></div></div><span style="font-size:0.75em;color:var(--yellow)">30%</span></div>
-</td></tr>
-<tr><td>⑥</td><td>웹진·미끼</td><td><a href="https://m.blog.naver.com/helena1975">네이버</a></td><td><span class="tag t-manual">사람 + Grok</span></td><td>
-  <div class="info-bar"><div class="bar-track" style="width:60px"><div class="bar-fill" style="width:20%;background:var(--yellow)"></div></div><span style="font-size:0.75em;color:var(--yellow)">20%</span></div>
-</td></tr>
-<tr><td>⑦</td><td>로비</td><td><a href="https://discord.gg/JTYSZv2WQE">Discord</a></td><td><span class="tag t-mixed">WidgetBot</span></td><td>
-  <div class="info-bar"><div class="bar-track" style="width:60px"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div><span style="font-size:0.75em;color:var(--green)">100%</span></div>
-</td></tr>
+<tr><th>#</th><th>워크센터</th><th>비유</th><th>플랫폼</th><th>주체</th><th>가동</th></tr>
+<tr>
+  <td>①</td><td>공장</td><td>생산라인</td>
+  <td><a href="https://github.com/helena751107/helena_phone">GitHub</a></td>
+  <td><span class="tag t-auto">Claude Code</span></td>
+  <td><div class="info-bar"><div class="bar-track" style="width:50px"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div></div></td>
+</tr>
+<tr>
+  <td>②</td><td>전시장</td><td>쇼룸</td>
+  <td><a href=".">GitHub Pages</a></td>
+  <td><span class="tag t-auto">자동배포</span></td>
+  <td><div class="info-bar"><div class="bar-track" style="width:50px"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div></div></td>
+</tr>
+<tr>
+  <td>③</td><td>방송탑</td><td>송신탑</td>
+  <td><a href="https://www.youtube.com/@helena_phone">YouTube</a></td>
+  <td><span class="tag t-auto">Claude Code</span></td>
+  <td><div class="info-bar"><div class="bar-track" style="width:50px"><div class="bar-fill" style="width:80%;background:var(--blue)"></div></div></div></td>
+</tr>
+<tr>
+  <td>④</td><td>인터컴</td><td>내부통신</td>
+  <td>Telegram</td>
+  <td><span class="tag t-auto">tg.sh</span></td>
+  <td><div class="info-bar"><div class="bar-track" style="width:50px"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div></div></td>
+</tr>
+<tr>
+  <td>⑤</td><td>업무일지</td><td>기록창고</td>
+  <td><a href="https://galaxys21-pwuser.tistory.com">티스토리</a></td>
+  <td><span class="tag t-manual">사람</span></td>
+  <td><div class="info-bar"><div class="bar-track" style="width:50px"><div class="bar-fill" style="width:30%;background:var(--yellow)"></div></div></div></td>
+</tr>
+<tr>
+  <td>⑥</td><td>웹진</td><td>미끼·티저</td>
+  <td><a href="https://m.blog.naver.com/helena1975">네이버</a></td>
+  <td><span class="tag t-manual">사람+Grok</span></td>
+  <td><div class="info-bar"><div class="bar-track" style="width:50px"><div class="bar-fill" style="width:20%;background:var(--yellow)"></div></div></div></td>
+</tr>
+<tr>
+  <td>⑦</td><td>로비</td><td>응접실</td>
+  <td><a href="https://discord.gg/JTYSZv2WQE">Discord</a></td>
+  <td><span class="tag t-mixed">WidgetBot</span></td>
+  <td><div class="info-bar"><div class="bar-track" style="width:50px"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div></div></td>
+</tr>
 </table>
 </div>
 
+<!-- 퍼널 -->
 <div class="section" id="funnel">
-<h2>💰 콘텐츠 퍼널 — Naver(미끼) → YouTube(수익)</h2>
+<h2>콘텐츠 퍼널 — Naver → YouTube → 수익</h2>
 <div class="funnel">
   <div class="funnel-step">
-    <div style="font-size:1.5rem;">🎨</div>
+    <div style="font-size:1.6rem;">🎨</div>
     <strong>Naver 웹진</strong>
     <p style="color:var(--muted);font-size:0.75em;">Grok 80% 드래프트<br>무료·미끼·티저</p>
-    <p style="font-size:0.7em;color:var(--yellow);margin-top:4px;">주 1회 수동</p>
   </div>
   <div class="funnel-arrow">→</div>
   <div class="funnel-step">
-    <div style="font-size:1.5rem;">📺</div>
-    <strong>YouTube 강의</strong>
-    <p style="color:var(--muted);font-size:0.75em;">Claude Code 100% 완성<br>강의·튜토리얼·수익화</p>
-    <p style="font-size:0.7em;color:var(--blue);margin-top:4px;">스크립트 자동화</p>
+    <div style="font-size:1.6rem;">📺</div>
+    <strong>YouTube</strong>
+    <p style="color:var(--muted);font-size:0.75em;">Claude 100% 완성<br>강의·수익화</p>
   </div>
   <div class="funnel-arrow">→</div>
   <div class="funnel-step">
-    <div style="font-size:1.5rem;">💵</div>
-    <strong>누나의 독립</strong>
-    <p style="color:var(--muted);font-size:0.75em;">모든 수익 누나 명의<br>경제적 독립·핸드오프</p>
-    <p style="font-size:0.7em;color:var(--red);margin-top:4px;">궁극적 목표</p>
+    <div style="font-size:1.6rem;">💵</div>
+    <strong>누나</strong>
+    <p style="color:var(--muted);font-size:0.75em;">경제적 독립<br>핸드오프</p>
   </div>
 </div>
 </div>
 
+<!-- 설치 -->
 <div class="section" id="install">
-<h2>⚡ 1줄 설치</h2>
+<h2>1줄 설치</h2>
 <div class="card">
 <pre><code>curl -sL https://raw.github.com/helena751107/helena_phone/main/g/install.sh | bash</code></pre>
-<p style="color:var(--muted);font-size:0.8em;margin-top:6px;">Termux → proot Ubuntu → Claude Code → MCP → 건강검진 → 끝. <strong style="color:var(--red)">0원</strong>.</p>
+<p style="color:var(--muted);font-size:0.82em;margin-top:8px;">Termux → proot Ubuntu → Claude Code → MCP → 건강검진. <strong style="color:var(--red);">비용 0원.</strong></p>
 </div>
 </div>
 
+<!-- 문서 인덱스 -->
 <div class="section" id="docs">
-<h2>📜 핵심 문서 (루트)</h2>
+<h2>문서 (96파일 · 11,727줄 · 국판 500페이지)</h2>
+
+<input type="text" id="search-box" placeholder="🔍 문서 검색...">
+
+<h3>📜 핵심 문서</h3>
 <div class="link-row">
-  <a href="CONSTITUTION.md" class="link-btn">📜 헌법 (284줄·16조·4장)</a>
+  <a href="CONSTITUTION.md" class="link-btn">📜 헌법 (284줄·16조)</a>
   <a href="CLAUDE.md" class="link-btn">📋 실무 규칙</a>
   <a href="README.md" class="link-btn">📖 프로젝트 소개</a>
   <a href="GUIDE.md" class="link-btn">🗺️ 5단계 가이드</a>
   <a href="CHRONICLE.md" class="link-btn">📅 연대기</a>
   <a href="GIFT.md" class="link-btn">🎁 dtslib 선물</a>
 </div>
-
-<h2>📋 업무 수첩 (<a href="_notebook/00-INDEX.md">_notebook/</a> 34종)</h2>
 
 <h3>🏗️ 인프라·아키텍처</h3>
 <div class="link-row">
@@ -284,74 +324,70 @@ footer { text-align: center; padding: 40px 0 20px; color: var(--muted); font-siz
 
 <h3>📊 분석·평가</h3>
 <div class="link-row">
-  <a href="_notebook/12-dtslib-gift.md" class="link-btn">12 dtslib 선물 분석</a>
-  <a href="_notebook/13-midterm-eval.md" class="link-btn">13 중간평가 v1(93)</a>
-  <a href="_notebook/13-midterm-eval-v2.md" class="link-btn">13 중간평가 v2(98)</a>
-  <a href="_notebook/14-daemon-design.md" class="link-btn">14 돌봄 데몬 설계</a>
-  <a href="_notebook/15-proot-report.md" class="link-btn">15 proot 종합 보고서</a>
+  <a href="_notebook/12-dtslib-gift.md" class="link-btn">12 dtslib 선물</a>
+  <a href="_notebook/13-midterm-eval.md" class="link-btn">13 평가 v1(93)</a>
+  <a href="_notebook/13-midterm-eval-v2.md" class="link-btn">13 평가 v2(98)</a>
+  <a href="_notebook/14-daemon-design.md" class="link-btn">14 데몬 설계</a>
+  <a href="_notebook/15-proot-report.md" class="link-btn">15 proot 보고서</a>
   <a href="_notebook/22-s21-benchmark.md" class="link-btn">22 S21 벤치마크</a>
 </div>
 
 <h3>🎯 전략·방법론</h3>
 <div class="link-row">
-  <a href="_notebook/16-textbook-methodology.md" class="link-btn">16 교재 합성 지침</a>
+  <a href="_notebook/16-textbook-methodology.md" class="link-btn">16 교재 방법론</a>
   <a href="_notebook/17-merged-chronicle.md" class="link-btn">17 병합 연대기</a>
   <a href="_notebook/19-final-strategy.md" class="link-btn">19 최종 전략</a>
-  <a href="_notebook/21-integrated-dev-plan.md" class="link-btn">21 통합 개발 계획서</a>
-  <a href="_notebook/23-naver-webzine-solution.md" class="link-btn">23 네이버 웹진 솔루션</a>
+  <a href="_notebook/21-integrated-dev-plan.md" class="link-btn">21 통합 계획서</a>
+  <a href="_notebook/23-naver-webzine-solution.md" class="link-btn">23 웹진 솔루션</a>
   <a href="_notebook/24-paste-pipeline.md" class="link-btn">24 Paste Pipeline</a>
 </div>
 
 <h3>🤖 AI·에이전트 전략</h3>
 <div class="link-row">
-  <a href="_notebook/25-multi-ai-strategy.md" class="link-btn">25 멀티 AI 전략</a>
-  <a href="_notebook/26-naver-parsing-solution.md" class="link-btn">26 네이버 파싱 해결</a>
-  <a href="_notebook/27-claude-grok-pipeline.md" class="link-btn">27 Claude·Grok 파이프</a>
-  <a href="_notebook/28-grok-github-bridge.md" class="link-btn">28 Grok 인터프리터</a>
-  <a href="_notebook/29-grok-cli-installed.md" class="link-btn">29 Grok CLI 설치</a>
-  <a href="_notebook/supergrok-community-research-2026-07-25.md" class="link-btn">🆕 SuperGrok 리서치</a>
+  <a href="_notebook/25-multi-ai-strategy.md" class="link-btn">25 멀티 AI</a>
+  <a href="_notebook/26-naver-parsing-solution.md" class="link-btn">26 Naver 파싱</a>
+  <a href="_notebook/27-claude-grok-pipeline.md" class="link-btn">27 Claude+Grok</a>
+  <a href="_notebook/28-grok-github-bridge.md" class="link-btn">28 Grok 브릿지</a>
+  <a href="_notebook/29-grok-cli-installed.md" class="link-btn">29 Grok CLI</a>
+  <a href="_notebook/supergrok-community-research-2026-07-25.md" class="link-btn">🆕 리서치</a>
 </div>
 
 <h3>📝 개발일지·교재</h3>
 <div class="link-row">
-  <a href="_notebook/99-devlog.md" class="link-btn">📋 99 개발일지 (758줄)</a>
-  <a href="_notebook/00-INDEX.md" class="link-btn">📑 00 전체 목차</a>
-  <a href="_notebook/naver-intro-article.md" class="link-btn">📰 네이버 첫 글</a>
-  <a href="_textbook/index.md" class="link-btn">📖 완결판 교재 (442줄)</a>
+  <a href="_notebook/99-devlog.md" class="link-btn">📋 개발일지 (758줄)</a>
+  <a href="_notebook/00-INDEX.md" class="link-btn">📑 전체 목차</a>
+  <a href="_notebook/naver-intro-article.md" class="link-btn">📰 Naver 첫 글</a>
+  <a href="_textbook/index.md" class="link-btn">📖 교재 (442줄)</a>
 </div>
 </div>
 
+<!-- 스크립트 -->
 <div class="section" id="scripts">
-<h2>🛠️ 실행 코드</h2>
+<h2>실행 코드</h2>
 <div class="grid4">
-  <div class="card" style="text-align:center;"><strong>g/install.sh</strong><br><span style="color:var(--muted);font-size:0.75em;">364줄·1줄 풀스택 설치</span></div>
-  <div class="card" style="text-align:center;"><strong>care/care-daemon.sh</strong><br><span style="color:var(--muted);font-size:0.75em;">292줄·트랙1 돌봄</span></div>
-  <div class="card" style="text-align:center;"><strong>phone-health.sh</strong><br><span style="color:var(--muted);font-size:0.75em;">383줄·27항목 건강</span></div>
-  <div class="card" style="text-align:center;"><strong>yt_upload.py</strong><br><span style="color:var(--muted);font-size:0.75em;">256줄·YouTube 업로드</span></div>
-  <div class="card" style="text-align:center;"><strong>grok_api.py</strong><br><span style="color:var(--muted);font-size:0.75em;">174줄·Grok API</span></div>
-  <div class="card" style="text-align:center;"><strong>grok_oauth_setup.sh</strong><br><span style="color:var(--muted);font-size:0.75em;">135줄·Grok 인증</span></div>
-  <div class="card" style="text-align:center;"><strong>naver_recipe.py</strong><br><span style="color:var(--muted);font-size:0.75em;">151줄·레시피 생성</span></div>
-  <div class="card" style="text-align:center;"><strong>naver_template.html</strong><br><span style="color:var(--muted);font-size:0.75em;">161줄·웹진 템플릿</span></div>
-  <div class="card" style="text-align:center;"><strong>tg.sh</strong><br><span style="color:var(--muted);font-size:0.75em;">36줄·TG 보고</span></div>
-  <div class="card" style="text-align:center;"><strong>publish.py</strong><br><span style="color:var(--muted);font-size:0.75em;">114줄·블로그(보존)</span></div>
-  <div class="card" style="text-align:center;"><strong>yt_oauth_setup.sh</strong><br><span style="color:var(--muted);font-size:0.75em;">132줄·YT OAuth</span></div>
-  <div class="card" style="text-align:center;"><strong>extract_cookie.js</strong><br><span style="color:var(--muted);font-size:0.75em;">45줄·쿠키 추출</span></div>
-</div>
+  <div class="card" style="text-align:center;"><strong>g/install.sh</strong><br><span style="color:var(--muted);font-size:0.75em;">364줄·1줄 설치</span></div>
+  <div class="card" style="text-align:center;"><strong>care-daemon.sh</strong><br><span style="color:var(--muted);font-size:0.75em;">292줄·돌봄</span></div>
+  <div class="card" style="text-align:center;"><strong>phone-health.sh</strong><br><span style="color:var(--muted);font-size:0.75em;">383줄·건강</span></div>
+  <div class="card" style="text-align:center;"><strong>yt_upload.py</strong><br><span style="color:var(--muted);font-size:0.75em;">256줄·YT업로드</span></div>
+  <div class="card" style="text-align:center;"><strong>grok_api.py</strong><br><span style="color:var(--muted);font-size:0.75em;">174줄·Grok</span></div>
+  <div class="card" style="text-align:center;"><strong>grok_oauth.sh</strong><br><span style="color:var(--muted);font-size:0.75em;">135줄·인증</span></div>
+  <div class="card" style="text-align:center;"><strong>naver_recipe.py</strong><br><span style="color:var(--muted);font-size:0.75em;">151줄·레시피</span></div>
+  <div class="card" style="text-align:center;"><strong>tg.sh</strong><br><span style="color:var(--muted);font-size:0.75em;">36줄·TG</span></div>
 </div>
 
-<div class="section" id="config">
-<h2>⚙️ 설정 파일</h2>
+<h3 style="margin-top:20px;">⚙️ 설정</h3>
 <div class="link-row">
   <a href="configs/ecosystem-map.json" class="link-btn">ecosystem-map.json (230줄)</a>
-  <a href="configs/settings.json" class="link-btn">Claude Code MCP 설정</a>
+  <a href="configs/settings.json" class="link-btn">MCP 설정</a>
   <a href="configs/secrets-template.env" class="link-btn">비밀 템플릿</a>
-  <a href="configs/bashrc-example.sh" class="link-btn">.bashrc (gr alias)</a>
-  <a href="care/care.conf" class="link-btn">돌봄 데몬 설정</a>
+  <a href="configs/bashrc-example.sh" class="link-btn">bashrc (gr alias)</a>
+  <a href="care/care.conf" class="link-btn">돌봄 설정</a>
 </div>
 </div>
 
+<!-- 외부 채널 -->
 <div class="section" id="links">
-<h2>🔗 외부 채널</h2>
+<h2>외부 채널</h2>
 <div class="link-row">
   <a href="https://github.com/helena751107/helena_phone" class="link-btn">💻 GitHub</a>
   <a href="https://www.youtube.com/@helena_phone" class="link-btn">📺 YouTube</a>
@@ -363,118 +399,93 @@ footer { text-align: center; padding: 40px 0 20px; color: var(--muted); font-siz
 
 <footer>
   <p>© 2026 Helena Park — 대필작가-간병인</p>
-  <p style="margin-top:4px;">Galaxy S21 + Termux + proot Ubuntu + Claude Code (DeepSeek) + Grok CLI (xAI) + Aider</p>
+  <p style="margin-top:4px;">Galaxy S21 + Termux + proot Ubuntu + Claude Code + Grok CLI + Aider</p>
   <p style="margin-top:4px;color:var(--red);">모든 계정은 큰누나 명의입니다.</p>
-  <p style="margin-top:8px;font-size:0.75em;">96파일 · 11,727줄 · 41커밋 · <a href="https://github.com/helena751107/helena_phone">helena751107/helena_phone</a></p>
-  <p style="margin-top:4px;font-size:0.7em;">국판 500페이지 분량 · IT 실무서 1권</p>
+  <p style="margin-top:8px;font-size:0.75em;">96파일 · 11,727줄 · 41커밋 · 국판 500페이지 · IT 실무서 1권 분량</p>
+  <p style="margin-top:4px;font-size:0.7em;"><a href="https://github.com/helena751107/helena_phone">github.com/helena751107/helena_phone</a></p>
 </footer>
 
 </div>
 
 <div class="controls">
   <button class="ctrl-btn" id="back-to-top" onclick="scrollToTop()" title="맨 위로">↑</button>
-  <button class="ctrl-btn" onclick="toggleTheme()" title="테마 전환">🌓</button>
+  <button class="ctrl-btn" onclick="toggleTheme()" title="테마">🌓</button>
 </div>
 
 <script>
-// Reading progress bar
+// Progress bar
 window.addEventListener('scroll', () => {
-  const scrollTop = document.documentElement.scrollTop;
-  const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
-  document.getElementById('progress-bar').style.width = progress + '%';
-
-  // Back to top visibility
+  const h = document.documentElement;
+  const p = (h.scrollHeight - h.clientHeight) > 0 ? (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100 : 0;
+  document.getElementById('progress-bar').style.width = p + '%';
   const btn = document.getElementById('back-to-top');
-  if (scrollTop > 400) btn.classList.add('visible');
-  else btn.classList.remove('visible');
+  btn.classList.toggle('visible', h.scrollTop > 400);
 
   // Active nav
-  const sections = document.querySelectorAll('.section[id], h2[id]');
-  const navLinks = document.querySelectorAll('nav a');
-  let current = '';
-  sections.forEach(s => {
-    if (s.getBoundingClientRect().top < 100) current = s.id;
-  });
-  navLinks.forEach(a => {
-    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  document.querySelectorAll('nav a').forEach(a => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) a.classList.toggle('active', t.getBoundingClientRect().top < 120 && t.getBoundingClientRect().bottom > 120);
   });
 });
 
-// Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     e.preventDefault();
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
 
 function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
-// Theme toggle
+// Theme
 function toggleTheme() {
-  const html = document.documentElement;
-  const current = html.getAttribute('data-theme');
-  html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
-  localStorage.setItem('theme', current === 'dark' ? 'light' : 'dark');
+  const h = document.documentElement;
+  const n = h.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  h.setAttribute('data-theme', n);
+  localStorage.setItem('theme', n);
 }
-// Load saved theme
-const saved = localStorage.getItem('theme');
-if (saved) document.documentElement.setAttribute('data-theme', saved);
+const s = localStorage.getItem('theme');
+if (s) document.documentElement.setAttribute('data-theme', s);
 
-// Animated stat counters
+// Animated counters
 function animateStats() {
   document.querySelectorAll('.stat .num[data-target]').forEach(el => {
-    if (el.dataset.animated) return;
-    el.dataset.animated = '1';
-    const target = parseInt(el.dataset.target);
-    const duration = 1500;
-    const start = performance.now();
-    function update(now) {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      el.textContent = Math.floor(target * eased).toLocaleString();
-      if (progress < 1) requestAnimationFrame(update);
-      else el.textContent = target.toLocaleString();
+    if (el._done) return; el._done = true;
+    const t = +el.dataset.target, d = 1600, st = performance.now();
+    function up(now) {
+      const p = Math.min((now - st) / d, 1);
+      const e = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.floor(t * e).toLocaleString();
+      if (p < 1) requestAnimationFrame(up);
+      else el.textContent = t.toLocaleString();
     }
-    requestAnimationFrame(update);
+    requestAnimationFrame(up);
   });
 }
 
-// Section visibility
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      if (entry.target.id === 'hero') animateStats();
+// Intersection Observer
+const ob = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      if (e.target.id === 'hero') animateStats();
     }
   });
-}, { threshold: 0.15 });
+}, { threshold: 0.12 });
+document.querySelectorAll('.section').forEach(s => ob.observe(s));
 
-document.querySelectorAll('.section').forEach(s => observer.observe(s));
-observer.observe(document.getElementById('hero'));
-
-// Document search
-const searchBox = document.createElement('input');
-searchBox.id = 'search-box';
-searchBox.placeholder = '🔍 문서 검색 (제목·파일명)...';
-searchBox.style.cssText = 'margin:0 0 20px;';
-document.querySelector('#docs').insertBefore(searchBox, document.querySelector('#docs').firstChild);
-
-searchBox.addEventListener('input', e => {
-  const query = e.target.value.toLowerCase();
-  document.querySelectorAll('#docs .link-btn').forEach(btn => {
-    const text = btn.textContent.toLowerCase();
-    btn.style.display = text.includes(query) || !query ? '' : 'none';
+// Search
+document.getElementById('search-box').addEventListener('input', e => {
+  const q = e.target.value.toLowerCase();
+  document.querySelectorAll('#docs .link-btn').forEach(b => {
+    b.style.display = !q || b.textContent.toLowerCase().includes(q) ? '' : 'none';
   });
-  // Also toggle h3 visibility
-  document.querySelectorAll('#docs h3').forEach(h3 => {
-    const nextRow = h3.nextElementSibling;
-    if (!nextRow || !nextRow.classList.contains('link-row')) return;
-    const visibleBtns = nextRow.querySelectorAll('.link-btn:not([style*="display: none"])');
-    h3.style.display = query && visibleBtns.length === 0 ? 'none' : '';
+  document.querySelectorAll('#docs h3').forEach(h => {
+    const row = h.nextElementSibling;
+    if (!row || !row.classList.contains('link-row')) return;
+    const vis = row.querySelectorAll('.link-btn:not([style*="display: none"])');
+    h.style.display = q && !vis.length ? 'none' : '';
   });
 });
 </script>
