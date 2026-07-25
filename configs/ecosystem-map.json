@@ -3,8 +3,8 @@
   "_principle": "각 채널은 독립된 정체성. 모든 콘텐츠는 Layer A(인간·STT) → Layer B(에이전트·API) 파이프라인으로 발행.",
 
   "main_hub": {
-    "youtube_channel": "@HelenaPark-e7c",
-    "youtube_id": "UCRUuiKCCwIbyvqlxTNpDfKw",
+    "youtube_main": "@HelenaPark-e7c (UCRUuiKCCwIbyvqlxTNpDfKw)",
+    "youtube_first_brand": "@helena_phone (UC_IPajoyj6_IO8wt9JwVCAQ) ✅ 2026-07-25 생성",
     "naver": "helena1975",
     "naver_role": "관제탑 — 전체 교차홍보 게이트웨이 (그림첩/이미지 중심)",
     "discord_server": "S21 Phone",
@@ -30,9 +30,16 @@
         "posts": 0
       },
       "youtube": {
-        "channel": "@S21Phone (브랜드 채널 예정)",
-        "playlist": "S21 Phone — 폰 최적화 바이블",
-        "playlist_id": "PLXRzzp1dJ36c",
+        "channel": "@helena_phone ✅",
+        "channel_id": "UC_IPajoyj6_IO8wt9JwVCAQ",
+        "handle": "@helena_phone",
+        "created": "2026-07-25",
+        "playlists": [
+          {"name": "S21 셋업 가이드", "id": "PLJSop2E1aaV4", "topic": "Termux→proot→ClaudeCode→MCP 전체 설치"},
+          {"name": "STT 음성 코딩", "id": "PLS-yy4nKV_z8", "topic": "키보드 없이 말로만 코딩"},
+          {"name": "폰 건강 검진 & 최적화", "id": "PLLzMDSzeL218", "topic": "phone-health.sh 27항목·하드웨어 관리"},
+          {"name": "0원 풀스택 인프라", "id": "PLXwItZPI7g9I", "topic": "GitHub Pages·Discord·Telegram·티스토리 무료 구축"}
+        ],
         "content_type": "튜토리얼·셋업·설치·설정가이드"
       },
       "github": {
@@ -179,8 +186,10 @@
   "brand_channels_todo": {
     "description": "YouTube 브랜드 채널 4개를 YouTube Studio에서 수동 생성 후 이 JSON에 ID 추가",
     "steps": "https://www.youtube.com/account → 브랜드 계정 관리 → 채널 만들기",
+    "done": [
+      {"name": "S21 Phone", "handle": "@helena_phone", "id": "UC_IPajoyj6_IO8wt9JwVCAQ", "playlist_count": 4}
+    ],
     "pending": [
-      {"name": "S21 Phone", "handle": "@S21Phone", "playlist_id": "PLXRzzp1dJ36c"},
       {"name": "Helena Tech Log", "handle": "@HelenaTechLog", "playlist_id": "PLPeHKuMeuM2k"},
       {"name": "Helena Faith", "handle": "@HelenaFaith", "playlist_id": "PLVMVhBhx9j5U"},
       {"name": "Helena Piano", "handle": "@HelenaPiano", "playlist_id": "PLQZhcAIkPriA"},
