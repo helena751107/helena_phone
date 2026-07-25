@@ -3,489 +3,442 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="S21 Phone — 갤럭시 폰 하나로 풀스택 AI 워크스테이션. 0원. 100% 음성입력. 96파일·11,727줄.">
+<meta name="description" content="S21 Phone — 갤럭시 폰 하나로 풀스택 AI 워크스테이션. 0원. 100% 음성입력.">
 <title>S21 Phone — AI Workstation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #050508; --bg2: #0a0a12; --card: rgba(255,255,255,0.03);
-  --text: #e0e0e0; --red: #ff5e5e; --green: #4ecdc4; --yellow: #ffd93d;
-  --blue: #4da6ff; --purple: #a855f7; --muted: #777;
-  --border: rgba(255,255,255,0.05); --radius: 12px;
-  --glass: rgba(255,255,255,0.02);
+  --bg: #060609; --surface: #0c0c14; --elevated: #12121e;
+  --text: #e8e8ed; --text2: #9898a8; --text3: #686878;
+  --red: #ff5252; --green: #4ecdc4; --yellow: #ffd93d; --blue: #5b9eff; --purple: #b06fff;
+  --border: rgba(255,255,255,0.05); --border2: rgba(255,255,255,0.1);
+  --radius: 12px; --radius2: 20px;
 }
 [data-theme="light"] {
-  --bg: #f5f5f7; --bg2: #fff; --card: rgba(0,0,0,0.02); --text: #1a1a2e;
-  --muted: #666; --border: rgba(0,0,0,0.06); --glass: rgba(0,0,0,0.01);
+  --bg: #fafafc; --surface: #fff; --elevated: #f0f0f5;
+  --text: #1a1a28; --text2: #666; --text3: #999;
+  --border: rgba(0,0,0,0.06); --border2: rgba(0,0,0,0.1);
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior: smooth; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; transition: background 0.4s, color 0.4s; overflow-x: hidden; }
+body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; transition: background 0.4s, color 0.4s; -webkit-font-smoothing: antialiased; }
 
-/* Ambient bg */
-body::before { content:''; position:fixed; top:-30%; left:-20%; width:140%; height:100%; background:radial-gradient(ellipse at 30% 10%, rgba(255,94,94,0.04) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(77,166,255,0.04) 0%, transparent 50%); pointer-events:none; z-index:0; }
+/* Ambient */
+body::before { content:''; position:fixed; top:0; left:0; width:100%; height:100%; background: radial-gradient(ellipse 80% 60% at 20% 10%, rgba(255,82,82,0.03) 0%, transparent 50%), radial-gradient(ellipse 60% 80% at 80% 90%, rgba(91,158,255,0.03) 0%, transparent 50%); pointer-events:none; z-index:0; }
 
-#progress-bar { position:fixed; top:0; left:0; height:3px; background:linear-gradient(90deg,var(--red),var(--purple),var(--blue)); z-index:200; transition:width 0.15s; box-shadow:0 0 12px rgba(168,85,247,0.4); }
+#progress { position:fixed; top:0; left:0; height:2px; background:linear-gradient(90deg,var(--red),var(--purple),var(--blue)); z-index:999; transition:width 0.1s; }
 
-.container { max-width: 980px; margin: 0 auto; padding: 0 20px; position:relative; z-index:1; }
+/* Typography */
+h1 { font-size:clamp(2.4rem,6vw,4rem); font-weight:900; letter-spacing:-0.05em; line-height:1.05; }
+h2 { font-size:clamp(1.4rem,2.5vw,1.8rem); font-weight:700; letter-spacing:-0.02em; margin-bottom:20px; }
+h3 { font-size:1.1rem; font-weight:600; }
+.fw300 { font-weight:300; }
+.accent { color:var(--red); }
+.gradient-text { background:linear-gradient(135deg,var(--red),var(--purple),var(--blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.muted { color:var(--text2); }
+.small { font-size:0.82em; color:var(--text3); }
 
-nav { position:sticky; top:10px; z-index:100; display:flex; gap:6px; flex-wrap:wrap; justify-content:center; padding:8px 16px; margin:10px auto; max-width:700px; background:var(--glass); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border:1px solid var(--border); border-radius:100px; font-size:0.78em; }
-nav a { color:var(--muted); text-decoration:none; padding:6px 14px; border-radius:100px; transition:all 0.25s; white-space:nowrap; }
-nav a:hover, nav a.active { color:var(--text); background:var(--card); }
+/* Layout */
+.wrap { max-width:1100px; margin:0 auto; padding:0 24px; position:relative; z-index:1; }
+section { padding:60px 0; }
 
-.controls { position:fixed; bottom:24px; right:24px; z-index:150; display:flex; flex-direction:column; gap:8px; }
-.ctrl-btn { width:44px; height:44px; border-radius:50%; background:var(--glass); backdrop-filter:blur(16px); border:1px solid var(--border); color:var(--text); cursor:pointer; font-size:1.1em; display:flex; align-items:center; justify-content:center; transition:all 0.25s; }
-.ctrl-btn:hover { border-color:var(--blue); transform:scale(1.1); }
-#back-to-top { opacity:0; pointer-events:none; transition:opacity 0.3s; }
-#back-to-top.visible { opacity:1; pointer-events:all; }
+/* Navigation */
+.top-nav { position:sticky; top:16px; z-index:100; display:flex; gap:4px; justify-content:center; margin:0 auto 20px; max-width:600px; }
+.top-nav a { padding:8px 16px; border-radius:100px; font-size:0.78em; color:var(--text2); text-decoration:none; transition:all 0.3s; background:var(--surface); border:1px solid transparent; }
+.top-nav a:hover, .top-nav a.on { color:var(--text); border-color:var(--border2); background:var(--elevated); }
 
-header { text-align:center; padding:80px 0 40px; position:relative; }
-header::after { content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:120px; height:2px; background:linear-gradient(90deg,transparent,var(--red),var(--blue),transparent); }
-h1 { font-size:clamp(2rem,5vw,3.2rem); font-weight:850; letter-spacing:-0.04em; line-height:1.1; margin-bottom:8px; }
-h1 span { background:linear-gradient(135deg, var(--red) 0%, var(--purple) 50%, var(--blue) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-.tagline { color:var(--muted); font-size:1em; margin-top:10px; }
-.stats { display:flex; justify-content:center; gap:2rem; flex-wrap:wrap; margin:28px 0; }
-.stat { text-align:center; padding:10px 16px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); min-width:80px; transition:all 0.3s; }
-.stat:hover { border-color:var(--blue); transform:translateY(-2px); }
-.stat .num { font-size:1.6em; font-weight:800; background:linear-gradient(135deg,var(--green),var(--blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-.stat .lbl { font-size:0.72em; color:var(--muted); margin-top:2px; }
+/* Hero */
+.hero { text-align:center; padding:100px 0 60px; position:relative; }
+.hero .kicker { display:inline-block; font-size:0.72em; font-weight:500; letter-spacing:3px; text-transform:uppercase; color:var(--red); margin-bottom:16px; padding:4px 14px; border:1px solid rgba(255,82,82,0.2); border-radius:100px; }
+.hero h1 { margin-bottom:16px; }
+.hero .deck { font-size:1.1em; color:var(--text2); max-width:600px; margin:0 auto 30px; line-height:1.7; }
+.hero-metrics { display:flex; justify-content:center; gap:2px; flex-wrap:wrap; }
+.hero-metrics .m { text-align:center; padding:16px 20px; background:var(--surface); border:1px solid var(--border); min-width:90px; }
+.hero-metrics .m:first-child { border-radius:var(--radius) 0 0 var(--radius); }
+.hero-metrics .m:last-child { border-radius:0 var(--radius) var(--radius) 0; }
+.hero-metrics .m .val { font-size:1.6em; font-weight:800; }
+.hero-metrics .m .lbl { font-size:0.7em; color:var(--text3); margin-top:2px; }
+@media (max-width:600px) {
+  .hero-metrics .m { min-width:70px; padding:12px; }
+  .hero-metrics .m:first-child { border-radius:var(--radius) 0 0 0; }
+}
 
-h2 { font-size:1.25em; margin:44px 0 16px; color:var(--text); border-bottom:1px solid var(--border); padding-bottom:10px; display:flex; align-items:center; gap:8px; }
-h2::before { content:''; width:4px; height:20px; background:var(--green); border-radius:2px; }
-h3 { font-size:1em; margin:20px 0 8px; }
+/* Section headers */
+.sec-label { display:flex; align-items:center; gap:10px; margin-bottom:28px; }
+.sec-label .num { font-size:0.75em; font-weight:700; color:var(--red); letter-spacing:1px; }
+.sec-label .line { flex:1; height:1px; background:var(--border); }
 
-.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-.grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
-.grid4 { display:grid; grid-template-columns:repeat(auto-fill, minmax(180px,1fr)); gap:8px; }
+/* Feature grid */
+.feature-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.feature-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.feature-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius2); padding:28px; transition:all 0.4s; position:relative; overflow:hidden; }
+.feature-card:hover { border-color:var(--border2); transform:translateY(-4px); box-shadow:0 20px 60px rgba(0,0,0,0.3); }
+.feature-card .icon { font-size:2rem; margin-bottom:14px; }
+.feature-card h3 { margin-bottom:8px; }
+.feature-card p { color:var(--text2); font-size:0.9em; }
 
-.card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:20px; margin:6px 0; transition:all 0.3s; position:relative; overflow:hidden; }
-.card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--blue),transparent); opacity:0; transition:opacity 0.3s; }
-.card:hover { border-color:rgba(255,255,255,0.12); transform:translateY(-2px); }
-.card:hover::before { opacity:1; }
+/* Stat bars */
+.stat-row { display:flex; align-items:center; gap:10px; margin:6px 0; font-size:0.8em; }
+.stat-row .label { min-width:70px; color:var(--text3); text-align:right; }
+.stat-row .bar { flex:1; height:5px; background:var(--border); border-radius:3px; overflow:hidden; }
+.stat-row .bar .fill { height:100%; border-radius:3px; transition:width 1.5s ease; }
 
-table { width:100%; border-collapse:collapse; margin:10px 0; font-size:0.85em; }
-th, td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--border); }
-th { color:var(--green); font-weight:600; font-size:0.78em; text-transform:uppercase; letter-spacing:0.5px; }
+/* Table */
+.table-wrap { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; font-size:0.88em; }
+th { text-align:left; padding:12px 14px; color:var(--text3); font-size:0.72em; font-weight:500; letter-spacing:1px; text-transform:uppercase; border-bottom:1px solid var(--border); }
+td { padding:12px 14px; border-bottom:1px solid var(--border); }
 tr { transition:background 0.2s; }
-tr:hover { background:var(--card); }
+tbody tr:hover { background:var(--surface); }
 
-.tag { display:inline-block; padding:2px 10px; border-radius:100px; font-size:0.7em; font-weight:500; }
-.t-auto { background:rgba(78,205,196,0.12); color:var(--green); }
-.t-manual { background:rgba(255,217,61,0.12); color:var(--yellow); }
-.t-mixed { background:rgba(77,166,255,0.12); color:var(--blue); }
+/* Tags */
+.tag { display:inline-block; padding:2px 10px; border-radius:100px; font-size:0.68em; font-weight:500; }
+.tag-auto { background:rgba(78,205,196,0.1); color:var(--green); }
+.tag-manual { background:rgba(255,217,61,0.1); color:var(--yellow); }
+.tag-mixed { background:rgba(91,158,255,0.1); color:var(--blue); }
 
-.funnel { display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap; margin:20px 0; }
-.funnel-step { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:18px 24px; text-align:center; transition:all 0.4s; }
-.funnel-step:hover { transform:scale(1.06); border-color:var(--purple); box-shadow:0 8px 32px rgba(168,85,247,0.1); }
-.funnel-arrow { color:var(--red); font-size:1.4em; font-weight:700; animation:pulse 1.8s infinite; }
-@keyframes pulse { 0%,100%{opacity:1;transform:translateX(0)} 50%{opacity:0.3;transform:translateX(4px)} }
+/* Funnel */
+.funnel { display:flex; align-items:center; justify-content:center; gap:20px; flex-wrap:wrap; padding:20px 0; }
+.f-step { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius2); padding:24px 28px; text-align:center; transition:all 0.4s; }
+.f-step:hover { transform:scale(1.05); border-color:var(--purple); }
+.f-step .f-icon { font-size:1.8rem; margin-bottom:8px; }
+.f-step .f-title { font-weight:700; }
+.f-step .f-desc { font-size:0.78em; color:var(--text3); margin-top:4px; }
+.f-arrow { font-size:1.5em; color:var(--red); font-weight:300; animation:blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
 
-pre { background:var(--card); padding:20px; border-radius:var(--radius); font-size:0.85em; overflow-x:auto; border:1px solid var(--border); }
-code { font-family:'SF Mono','Fira Code',monospace; }
-a { color:var(--blue); text-decoration:none; transition:color 0.2s; }
-a:hover { color:var(--green); }
+/* Code block */
+.code-block { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius2); padding:24px; margin:16px 0; font-family:'SF Mono','Fira Code',monospace; font-size:0.88em; overflow-x:auto; }
+.code-block .prompt { color:var(--green); }
+.code-block .cmd { color:var(--blue); }
 
-.link-row { display:flex; flex-wrap:wrap; gap:6px; margin:8px 0; }
-.link-btn { display:inline-block; padding:7px 14px; background:var(--card); border:1px solid var(--border); border-radius:8px; font-size:0.82em; transition:all 0.2s; }
-.link-btn:hover { border-color:var(--blue); background:rgba(77,166,255,0.06); transform:translateY(-1px); text-decoration:none; }
+/* Document grid */
+.doc-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(240px,1fr)); gap:12px; }
+.doc-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px; transition:all 0.3s; text-decoration:none; color:var(--text); display:block; }
+.doc-card:hover { border-color:var(--blue); transform:translateY(-2px); }
+.doc-card .doc-title { font-weight:600; font-size:0.9em; margin-bottom:4px; }
+.doc-card .doc-desc { font-size:0.78em; color:var(--text3); }
 
-.section { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease, transform 0.6s ease; }
-.section.visible { opacity:1; transform:translateY(0); }
+/* Channel bar */
+.channel-bar { display:flex; flex-wrap:wrap; gap:10px; }
+.channel-bar a { flex:1; min-width:150px; display:block; padding:18px 20px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); text-align:center; color:var(--text); text-decoration:none; transition:all 0.3s; }
+.channel-bar a:hover { border-color:var(--blue); background:var(--elevated); }
+.channel-bar a .ch-icon { font-size:1.4rem; }
+.channel-bar a .ch-name { font-weight:600; font-size:0.9em; margin-top:6px; }
+.channel-bar a .ch-url { font-size:0.7em; color:var(--text3); margin-top:2px; }
 
-/* Info bars */
-.info-bar { display:flex; align-items:center; gap:6px; margin:3px 0; font-size:0.78em; }
-.info-bar .bar-track { flex:1; height:6px; background:rgba(255,255,255,0.05); border-radius:3px; overflow:hidden; }
-.info-bar .bar-fill { height:100%; border-radius:3px; transition:width 1.2s ease; }
-
-/* Status indicator */
-.status-dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; animation:glow 2s infinite; }
-.status-dot.green { background:var(--green); box-shadow:0 0 8px var(--green); }
-.status-dot.yellow { background:var(--yellow); box-shadow:0 0 8px var(--yellow); }
+/* Floating */
+.floating { position:fixed; bottom:28px; right:28px; z-index:150; display:flex; flex-direction:column; gap:8px; }
+.fbtn { width:46px; height:46px; border-radius:50%; background:var(--surface); border:1px solid var(--border2); color:var(--text); cursor:pointer; font-size:1.1em; display:flex; align-items:center; justify-content:center; transition:all 0.3s; backdrop-filter:blur(16px); }
+.fbtn:hover { border-color:var(--blue); background:var(--elevated); transform:scale(1.1); }
+#toTop { opacity:0; pointer-events:none; transition:opacity 0.3s; }
+#toTop.show { opacity:1; pointer-events:all; }
 
 /* Search */
-#search-box { width:100%; padding:14px 18px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); color:var(--text); font-size:0.9em; margin:12px 0; transition:all 0.3s; }
-#search-box:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(77,166,255,0.1); }
+.doc-search { width:100%; padding:14px 18px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); color:var(--text); font-size:0.9em; margin-bottom:16px; transition:all 0.3s; font-family:inherit; }
+.doc-search:focus { outline:none; border-color:var(--blue); }
 
-footer { text-align:center; padding:50px 0 30px; color:var(--muted); font-size:0.8em; border-top:1px solid var(--border); margin-top:50px; }
+/* Footer */
+footer { text-align:center; padding:50px 0 30px; border-top:1px solid var(--border); margin-top:40px; color:var(--text3); font-size:0.82em; }
+footer a { color:var(--blue); text-decoration:none; }
+
+/* Reveal */
+.reveal { opacity:0; transform:translateY(24px); transition:opacity 0.7s ease, transform 0.7s ease; }
+.reveal.on { opacity:1; transform:translateY(0); }
 
 @media (max-width:600px) {
-  .grid2,.grid3 { grid-template-columns:1fr; }
+  .feature-2, .feature-3 { grid-template-columns:1fr; }
   .funnel { flex-direction:column; }
-  .stats { gap:0.8rem; }
-  .stat { min-width:60px; padding:8px 10px; }
-  nav { border-radius:20px; padding:6px 10px; gap:2px; }
-  nav a { padding:5px 10px; font-size:0.75em; }
-  header { padding:50px 0 30px; }
 }
 </style>
 </head>
 <body>
+<div id="progress"></div>
 
-<div id="progress-bar" style="width:0%"></div>
+<div class="wrap">
 
-<div class="container">
-
-<header id="hero" class="section">
-  <h1><span>S21 Phone</span> — AI Workstation</h1>
-  <p class="tagline">갤럭시 S21 하나로 풀스택 개발·방송·출판 미니 스튜디오.<br>0원. 100% 음성입력. 3 AI 에이전트. 7 워크센터.</p>
-  <div class="stats">
-    <div class="stat"><div class="num" data-target="41">41</div><div class="lbl">커밋</div></div>
-    <div class="stat"><div class="num" data-target="96">96</div><div class="lbl">파일</div></div>
-    <div class="stat"><div class="num" data-target="11727">11,727</div><div class="lbl">라인</div></div>
-    <div class="stat"><div class="num" data-target="34">34</div><div class="lbl">업무수첩</div></div>
-    <div class="stat"><div class="num" data-target="3">3</div><div class="lbl">AI 에이전트</div></div>
-    <div class="stat"><div class="num" data-target="7">7</div><div class="lbl">워크센터</div></div>
+<!-- ═══ HERO ═══ -->
+<header class="hero reveal">
+  <div class="kicker">Vol.1 · 2026년 7월</div>
+  <h1 class="gradient-text">S21 Phone</h1>
+  <p class="deck">갤럭시 S21 하나로 돌아가는 풀스택 개발·방송·출판 스튜디오.<br>0원. 100% 음성입력. 3 AI 에이전트. 7 워크센터.</p>
+  <div class="hero-metrics">
+    <div class="m"><div class="val gradient-text">41</div><div class="lbl">커밋</div></div>
+    <div class="m"><div class="val gradient-text">96</div><div class="lbl">파일</div></div>
+    <div class="m"><div class="val gradient-text">11,727</div><div class="lbl">라인</div></div>
+    <div class="m"><div class="val gradient-text">500</div><div class="lbl">페이지 분량</div></div>
+    <div class="m"><div class="val gradient-text">3</div><div class="lbl">AI 에이전트</div></div>
+    <div class="m"><div class="val gradient-text">7</div><div class="lbl">워크센터</div></div>
   </div>
 </header>
 
-<nav id="nav">
-  <a href="#hero">홈</a><a href="#tracks">트랙</a><a href="#ai">AI</a><a href="#workcenters">워크센터</a><a href="#funnel">퍼널</a><a href="#install">설치</a><a href="#docs">문서</a><a href="#scripts">코드</a><a href="#links">채널</a>
+<!-- ═══ NAV ═══ -->
+<nav class="top-nav">
+  <a href="#tracks">트랙</a><a href="#ai">AI</a><a href="#workcenters">워크센터</a><a href="#funnel">퍼널</a><a href="#install">설치</a><a href="#library">문서</a><a href="#channels">채널</a>
 </nav>
 
-<!-- 트랙 -->
-<div class="section" id="tracks">
-<h2>두 개의 트랙</h2>
-<div class="grid2">
-  <div class="card">
-    <h3 style="color:var(--red);margin-top:0;">🛡️ 트랙 1 — 돌봄</h3>
-    <p style="color:var(--muted);font-size:0.85em;">위치추적·배터리·이상감지·에스컬레이션. 절대 비공개. 두 사람만 본다.</p>
-    <div style="margin-top:12px;">
-      <div class="info-bar"><span style="min-width:60px;font-size:0.7em;color:var(--muted);">안정성</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div><span style="font-size:0.7em;color:var(--green);">100%</span></div>
-      <div class="info-bar"><span style="min-width:60px;font-size:0.7em;color:var(--muted);">자동화</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div><span style="font-size:0.7em;color:var(--green);">완전</span></div>
-      <div class="info-bar"><span style="min-width:60px;font-size:0.7em;color:var(--muted);">AI의존</span><div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--green)"></div></div><span style="font-size:0.7em;color:var(--green);">제로</span></div>
+<!-- ═══ SECTION 01 — TWO TRACKS ═══ -->
+<section id="tracks" class="reveal">
+  <div class="sec-label"><span class="num">01</span><span class="line"></span></div>
+  <h2>두 개의 트랙, 하나의 폰</h2>
+
+  <div class="feature-2">
+    <div class="feature-card">
+      <div class="icon">🛡️</div>
+      <h3 style="color:var(--red)">트랙 1 — 돌봄</h3>
+      <p>위치추적·배터리·이상감지·에스컬레이션. 절대 비공개. 오직 두 사람만을 위한 안전망.</p>
+      <div style="margin-top:16px;">
+        <div class="stat-row"><span class="label">안정성</span><div class="bar"><div class="fill" style="width:100%;background:var(--green)"></div></div><span style="color:var(--green);font-size:0.8em;">100%</span></div>
+        <div class="stat-row"><span class="label">자동화</span><div class="bar"><div class="fill" style="width:100%;background:var(--green)"></div></div><span style="color:var(--green);font-size:0.8em;">완전</span></div>
+        <div class="stat-row"><span class="label">AI 의존</span><div class="bar"><div class="fill" style="width:0%"></div></div><span style="color:var(--green);font-size:0.8em;">제로</span></div>
+      </div>
+      <p style="margin-top:12px;"><span class="tag tag-auto">care-daemon.sh</span> <span class="tag tag-auto">Termux crontab</span></p>
+      <p class="small" style="margin-top:6px;">성공 기준 — <strong style="color:var(--red)">"절대 안 깨질 것."</strong></p>
     </div>
-    <p style="margin-top:10px;"><span class="tag t-auto">care-daemon.sh</span> <span class="tag t-auto">crontab</span></p>
-    <p style="font-size:0.8em;margin-top:6px;color:var(--red);"><strong>"절대 안 깨질 것."</strong></p>
-  </div>
-  <div class="card">
-    <h3 style="color:var(--blue);margin-top:0;">📡 트랙 2 — 소망</h3>
-    <p style="color:var(--muted);font-size:0.85em;">대필작가-간병인. 누나의 목소리를 세상에. 모든 계정은 큰누나 명의.</p>
-    <div style="margin-top:12px;">
-      <div class="info-bar"><span style="min-width:60px;font-size:0.7em;color:var(--muted);">GitHub</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div><span style="font-size:0.7em;color:var(--green);">자동</span></div>
-      <div class="info-bar"><span style="min-width:60px;font-size:0.7em;color:var(--muted);">YouTube</span><div class="bar-track"><div class="bar-fill" style="width:85%;background:var(--blue)"></div></div><span style="font-size:0.7em;color:var(--blue);">준비</span></div>
-      <div class="info-bar"><span style="min-width:60px;font-size:0.7em;color:var(--muted);">Naver</span><div class="bar-track"><div class="bar-fill" style="width:25%;background:var(--yellow)"></div></div><span style="font-size:0.7em;color:var(--yellow);">수동</span></div>
+
+    <div class="feature-card">
+      <div class="icon">📡</div>
+      <h3 style="color:var(--blue)">트랙 2 — 소망</h3>
+      <p>대필작가-간병인. 누나가 건강했다면 가졌을 삶을 미러링하여 세상에 표현. 모든 계정은 큰누나 명의.</p>
+      <div style="margin-top:16px;">
+        <div class="stat-row"><span class="label">GitHub</span><div class="bar"><div class="fill" style="width:100%;background:var(--green)"></div></div><span style="color:var(--green);font-size:0.8em;">자동</span></div>
+        <div class="stat-row"><span class="label">YouTube</span><div class="bar"><div class="fill" style="width:85%;background:var(--blue)"></div></div><span style="color:var(--blue);font-size:0.8em;">준비</span></div>
+        <div class="stat-row"><span class="label">Naver</span><div class="bar"><div class="fill" style="width:25%;background:var(--yellow)"></div></div><span style="color:var(--yellow);font-size:0.8em;">수동</span></div>
+      </div>
+      <p style="margin-top:12px;"><span class="tag tag-auto">GitHub</span> <span class="tag tag-auto">YouTube</span> <span class="tag tag-manual">Naver</span></p>
+      <p class="small" style="margin-top:6px;">성공 기준 — <strong style="color:var(--blue)">핸드오프가 곧 성공.</strong></p>
     </div>
-    <p style="margin-top:10px;"><span class="tag t-auto">GitHub</span> <span class="tag t-auto">YouTube</span> <span class="tag t-auto">Naver</span></p>
-    <p style="font-size:0.8em;margin-top:6px;color:var(--blue);"><strong>핸드오프가 곧 성공.</strong></p>
   </div>
-</div>
-</div>
+</section>
 
-<!-- AI -->
-<div class="section" id="ai">
-<h2>AI 에이전트 3종</h2>
-<div class="grid3">
-  <div class="card" style="text-align:center;">
-    <div style="font-size:2.2rem;margin-bottom:8px;">💻</div>
-    <h3 style="margin-top:0;">Claude Code</h3>
-    <p style="color:var(--muted);font-size:0.8em;">DeepSeek Radar · $0/월<br>코드·문서·자동화·GitHub·TG</p>
-    <div class="info-bar" style="margin-top:10px;"><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div></div>
-    <p style="margin-top:6px;"><span class="tag t-auto">메인 엔진</span></p>
+<!-- ═══ SECTION 02 — AI ═══ -->
+<section id="ai" class="reveal">
+  <div class="sec-label"><span class="num">02</span><span class="line"></span></div>
+  <h2>3개의 AI 에이전트</h2>
+
+  <div class="feature-3">
+    <div class="feature-card" style="text-align:center;">
+      <div class="icon">💻</div>
+      <h3>Claude Code</h3>
+      <p>DeepSeek Radar · <strong>$0/월</strong><br>코드·문서·자동화·GitHub·Telegram</p>
+      <div class="stat-row" style="margin-top:12px;"><div class="bar"><div class="fill" style="width:100%;background:var(--green)"></div></div></div>
+      <p style="margin-top:6px;"><span class="tag tag-auto">메인 엔진</span></p>
+    </div>
+    <div class="feature-card" style="text-align:center;">
+      <div class="icon">🎨</div>
+      <h3>Grok CLI</h3>
+      <p>xAI SuperGrok · <strong>45,000원/월</strong><br>시각·Naver·이미지·클립·채팅검색</p>
+      <div class="stat-row" style="margin-top:12px;"><div class="bar"><div class="fill" style="width:80%;background:var(--yellow)"></div></div></div>
+      <p style="margin-top:6px;"><span class="tag tag-manual">드래프트·프로토타입</span></p>
+    </div>
+    <div class="feature-card" style="text-align:center;">
+      <div class="icon">🔧</div>
+      <h3>Aider</h3>
+      <p>DeepSeek · <strong>$0/월</strong><br>보조 코딩·자동화 루프</p>
+      <div class="stat-row" style="margin-top:12px;"><div class="bar"><div class="fill" style="width:60%;background:var(--blue)"></div></div></div>
+      <p style="margin-top:6px;"><span class="tag tag-mixed">백업 엔진</span></p>
+    </div>
   </div>
-  <div class="card" style="text-align:center;">
-    <div style="font-size:2.2rem;margin-bottom:8px;">🎨</div>
-    <h3 style="margin-top:0;">Grok CLI</h3>
-    <p style="color:var(--muted);font-size:0.8em;">xAI SuperGrok · 45,000원/월<br>시각·Naver·이미지·클립</p>
-    <div class="info-bar" style="margin-top:10px;"><div class="bar-track"><div class="bar-fill" style="width:80%;background:var(--yellow)"></div></div></div>
-    <p style="margin-top:6px;"><span class="tag t-manual">드래프트·프로토</span></p>
+</section>
+
+<!-- ═══ SECTION 03 — WORKCENTERS ═══ -->
+<section id="workcenters" class="reveal">
+  <div class="sec-label"><span class="num">03</span><span class="line"></span></div>
+  <h2>7개 워크센터</h2>
+
+  <div class="table-wrap">
+  <table>
+  <thead><tr><th>#</th><th>워크센터</th><th>비유</th><th>플랫폼</th><th>주체</th><th>가동률</th></tr></thead>
+  <tbody>
+  <tr><td>①</td><td><strong>공장</strong></td><td>생산라인</td><td><a href="https://github.com/helena751107/helena_phone">GitHub</a></td><td><span class="tag tag-auto">Claude Code</span></td><td><div class="stat-row"><div class="bar" style="width:60px"><div class="fill" style="width:100%;background:var(--green)"></div></div></div></td></tr>
+  <tr><td>②</td><td><strong>전시장</strong></td><td>쇼룸</td><td>GitHub Pages</td><td><span class="tag tag-auto">자동배포</span></td><td><div class="stat-row"><div class="bar" style="width:60px"><div class="fill" style="width:100%;background:var(--green)"></div></div></div></td></tr>
+  <tr><td>③</td><td><strong>방송탑</strong></td><td>송신탑</td><td><a href="https://www.youtube.com/@helena_phone">YouTube</a></td><td><span class="tag tag-auto">Claude Code</span></td><td><div class="stat-row"><div class="bar" style="width:60px"><div class="fill" style="width:80%;background:var(--blue)"></div></div></div></td></tr>
+  <tr><td>④</td><td><strong>인터컴</strong></td><td>내부통신</td><td>Telegram</td><td><span class="tag tag-auto">tg.sh</span></td><td><div class="stat-row"><div class="bar" style="width:60px"><div class="fill" style="width:100%;background:var(--green)"></div></div></div></td></tr>
+  <tr><td>⑤</td><td><strong>업무일지</strong></td><td>기록창고</td><td><a href="https://galaxys21-pwuser.tistory.com">티스토리</a></td><td><span class="tag tag-manual">사람</span></td><td><div class="stat-row"><div class="bar" style="width:60px"><div class="fill" style="width:30%;background:var(--yellow)"></div></div></div></td></tr>
+  <tr><td>⑥</td><td><strong>웹진</strong></td><td>미끼·티저</td><td><a href="https://m.blog.naver.com/helena1975">네이버</a></td><td><span class="tag tag-manual">사람+Grok</span></td><td><div class="stat-row"><div class="bar" style="width:60px"><div class="fill" style="width:20%;background:var(--yellow)"></div></div></div></td></tr>
+  <tr><td>⑦</td><td><strong>로비</strong></td><td>응접실</td><td><a href="https://discord.gg/JTYSZv2WQE">Discord</a></td><td><span class="tag tag-mixed">WidgetBot</span></td><td><div class="stat-row"><div class="bar" style="width:60px"><div class="fill" style="width:100%;background:var(--green)"></div></div></div></td></tr>
+  </tbody>
+  </table>
   </div>
-  <div class="card" style="text-align:center;">
-    <div style="font-size:2.2rem;margin-bottom:8px;">🔧</div>
-    <h3 style="margin-top:0;">Aider</h3>
-    <p style="color:var(--muted);font-size:0.8em;">DeepSeek · $0/월<br>보조 코딩·자동화 루프</p>
-    <div class="info-bar" style="margin-top:10px;"><div class="bar-track"><div class="bar-fill" style="width:65%;background:var(--blue)"></div></div></div>
-    <p style="margin-top:6px;"><span class="tag t-mixed">백업</span></p>
+</section>
+
+<!-- ═══ SECTION 04 — FUNNEL ═══ -->
+<section id="funnel" class="reveal">
+  <div class="sec-label"><span class="num">04</span><span class="line"></span></div>
+  <h2>콘텐츠 퍼널</h2>
+
+  <div class="funnel">
+    <div class="f-step">
+      <div class="f-icon">🎨</div>
+      <div class="f-title">Naver 웹진</div>
+      <div class="f-desc">Grok 80% 드래프트<br>무료·미끼·티저</div>
+    </div>
+    <div class="f-arrow">→</div>
+    <div class="f-step">
+      <div class="f-icon">📺</div>
+      <div class="f-title">YouTube 강의</div>
+      <div class="f-desc">Claude Code 100% 완성<br>강의·수익화</div>
+    </div>
+    <div class="f-arrow">→</div>
+    <div class="f-step">
+      <div class="f-icon">💵</div>
+      <div class="f-title">누나의 독립</div>
+      <div class="f-desc">모든 수익 누나 명의<br>경제적 독립·핸드오프</div>
+    </div>
   </div>
-</div>
-</div>
+</section>
 
-<!-- 워크센터 -->
-<div class="section" id="workcenters">
-<h2>7 워크센터</h2>
-<table>
-<tr><th>#</th><th>워크센터</th><th>비유</th><th>플랫폼</th><th>주체</th><th>가동</th></tr>
-<tr>
-  <td>①</td><td>공장</td><td>생산라인</td>
-  <td><a href="https://github.com/helena751107/helena_phone">GitHub</a></td>
-  <td><span class="tag t-auto">Claude Code</span></td>
-  <td><div class="info-bar"><div class="bar-track" style="width:50px"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div></div></td>
-</tr>
-<tr>
-  <td>②</td><td>전시장</td><td>쇼룸</td>
-  <td><a href=".">GitHub Pages</a></td>
-  <td><span class="tag t-auto">자동배포</span></td>
-  <td><div class="info-bar"><div class="bar-track" style="width:50px"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div></div></td>
-</tr>
-<tr>
-  <td>③</td><td>방송탑</td><td>송신탑</td>
-  <td><a href="https://www.youtube.com/@helena_phone">YouTube</a></td>
-  <td><span class="tag t-auto">Claude Code</span></td>
-  <td><div class="info-bar"><div class="bar-track" style="width:50px"><div class="bar-fill" style="width:80%;background:var(--blue)"></div></div></div></td>
-</tr>
-<tr>
-  <td>④</td><td>인터컴</td><td>내부통신</td>
-  <td>Telegram</td>
-  <td><span class="tag t-auto">tg.sh</span></td>
-  <td><div class="info-bar"><div class="bar-track" style="width:50px"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div></div></td>
-</tr>
-<tr>
-  <td>⑤</td><td>업무일지</td><td>기록창고</td>
-  <td><a href="https://galaxys21-pwuser.tistory.com">티스토리</a></td>
-  <td><span class="tag t-manual">사람</span></td>
-  <td><div class="info-bar"><div class="bar-track" style="width:50px"><div class="bar-fill" style="width:30%;background:var(--yellow)"></div></div></div></td>
-</tr>
-<tr>
-  <td>⑥</td><td>웹진</td><td>미끼·티저</td>
-  <td><a href="https://m.blog.naver.com/helena1975">네이버</a></td>
-  <td><span class="tag t-manual">사람+Grok</span></td>
-  <td><div class="info-bar"><div class="bar-track" style="width:50px"><div class="bar-fill" style="width:20%;background:var(--yellow)"></div></div></div></td>
-</tr>
-<tr>
-  <td>⑦</td><td>로비</td><td>응접실</td>
-  <td><a href="https://discord.gg/JTYSZv2WQE">Discord</a></td>
-  <td><span class="tag t-mixed">WidgetBot</span></td>
-  <td><div class="info-bar"><div class="bar-track" style="width:50px"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div></div></td>
-</tr>
-</table>
-</div>
+<!-- ═══ SECTION 05 — INSTALL ═══ -->
+<section id="install" class="reveal">
+  <div class="sec-label"><span class="num">05</span><span class="line"></span></div>
+  <h2>1줄 설치</h2>
 
-<!-- 퍼널 -->
-<div class="section" id="funnel">
-<h2>콘텐츠 퍼널 — Naver → YouTube → 수익</h2>
-<div class="funnel">
-  <div class="funnel-step">
-    <div style="font-size:1.6rem;">🎨</div>
-    <strong>Naver 웹진</strong>
-    <p style="color:var(--muted);font-size:0.75em;">Grok 80% 드래프트<br>무료·미끼·티저</p>
+  <div class="code-block">
+    <span class="prompt">$</span> <span class="cmd">curl -sL https://raw.github.com/helena751107/helena_phone/main/g/install.sh | bash</span>
   </div>
-  <div class="funnel-arrow">→</div>
-  <div class="funnel-step">
-    <div style="font-size:1.6rem;">📺</div>
-    <strong>YouTube</strong>
-    <p style="color:var(--muted);font-size:0.75em;">Claude 100% 완성<br>강의·수익화</p>
+  <p class="small" style="margin-top:8px;">Termux → proot Ubuntu → Claude Code → MCP → 건강검진. <strong style="color:var(--red)">비용 0원.</strong></p>
+</section>
+
+<!-- ═══ SECTION 06 — DOCUMENT LIBRARY ═══ -->
+<section id="library" class="reveal">
+  <div class="sec-label"><span class="num">06</span><span class="line"></span></div>
+  <h2>문서 라이브러리 <span class="fw300 muted">— 96파일 · 11,727줄 · 국판 500페이지</span></h2>
+
+  <input type="text" class="doc-search" id="searchDocs" placeholder="문서 검색...">
+
+  <h3 style="margin-top:24px;">📜 핵심 문서</h3>
+  <div class="doc-grid">
+    <a href="CONSTITUTION.md" class="doc-card"><div class="doc-title">📜 헌법</div><div class="doc-desc">16조·4장. Chain of Command + 불변원칙</div></a>
+    <a href="CLAUDE.md" class="doc-card"><div class="doc-title">📋 실무 규칙</div><div class="doc-desc">AI 3종·Paste Pipeline·인프라</div></a>
+    <a href="README.md" class="doc-card"><div class="doc-title">📖 프로젝트 소개</div><div class="doc-desc">숫자·구조도·빠른 링크</div></a>
+    <a href="GUIDE.md" class="doc-card"><div class="doc-title">🗺️ 5단계 가이드</div><div class="doc-desc">Termux→proot→Claude→방송→최적화</div></a>
+    <a href="CHRONICLE.md" class="doc-card"><div class="doc-title">📅 연대기</div><div class="doc-desc">DAY 1~2 전체 개발 과정</div></a>
+    <a href="GIFT.md" class="doc-card"><div class="doc-title">🎁 dtslib 선물 패키지</div><div class="doc-desc">33파일·9,240줄 분석</div></a>
+    <a href="_textbook/index.md" class="doc-card"><div class="doc-title">📖 완결판 교재</div><div class="doc-desc">판단층+실행층 병합·442줄</div></a>
+    <a href="_notebook/99-devlog.md" class="doc-card"><div class="doc-title">📋 개발일지</div><div class="doc-desc">50섹션·758줄·전체 히스토리</div></a>
   </div>
-  <div class="funnel-arrow">→</div>
-  <div class="funnel-step">
-    <div style="font-size:1.6rem;">💵</div>
-    <strong>누나</strong>
-    <p style="color:var(--muted);font-size:0.75em;">경제적 독립<br>핸드오프</p>
+
+  <h3 style="margin-top:28px;">🏗️ 인프라 & 아키텍처</h3>
+  <div class="doc-grid">
+    <a href="_notebook/01-arch.md" class="doc-card"><div class="doc-title">01 시스템 아키텍처</div></a>
+    <a href="_notebook/09-ecosystem.md" class="doc-card"><div class="doc-title">09 5×5 생태계 브릿지</div></a>
+    <a href="_notebook/10-phone-mcp.md" class="doc-card"><div class="doc-title">10 MCP 18도구 + 도메인 분석</div></a>
+    <a href="_notebook/18-workcenters.md" class="doc-card"><div class="doc-title">18 워크센터 초안</div></a>
+    <a href="_notebook/20-workcenters-final.md" class="doc-card"><div class="doc-title">20 워크센터 최종</div></a>
   </div>
-</div>
-</div>
 
-<!-- 설치 -->
-<div class="section" id="install">
-<h2>1줄 설치</h2>
-<div class="card">
-<pre><code>curl -sL https://raw.github.com/helena751107/helena_phone/main/g/install.sh | bash</code></pre>
-<p style="color:var(--muted);font-size:0.82em;margin-top:8px;">Termux → proot Ubuntu → Claude Code → MCP → 건강검진. <strong style="color:var(--red);">비용 0원.</strong></p>
-</div>
-</div>
+  <h3 style="margin-top:28px;">🔌 플랫폼 & 운영</h3>
+  <div class="doc-grid">
+    <a href="_notebook/02-discord.md" class="doc-card"><div class="doc-title">02 Discord</div></a>
+    <a href="_notebook/03-telegram.md" class="doc-card"><div class="doc-title">03 Telegram</div></a>
+    <a href="_notebook/04-github-pages.md" class="doc-card"><div class="doc-title">04 Pages·Giscus</div></a>
+    <a href="_notebook/05-tistory.md" class="doc-card"><div class="doc-title">05 티스토리</div></a>
+    <a href="_notebook/06-youtube.md" class="doc-card"><div class="doc-title">06 YouTube</div></a>
+    <a href="_notebook/07-cli-reference.md" class="doc-card"><div class="doc-title">07 CLI 명령어</div></a>
+    <a href="_notebook/08-secrets.md" class="doc-card"><div class="doc-title">08 비밀 관리</div></a>
+    <a href="_notebook/11-health.md" class="doc-card"><div class="doc-title">11 건강 검진</div></a>
+  </div>
 
-<!-- 문서 인덱스 -->
-<div class="section" id="docs">
-<h2>문서 (96파일 · 11,727줄 · 국판 500페이지)</h2>
+  <h3 style="margin-top:28px;">📊 분석 & 전략</h3>
+  <div class="doc-grid">
+    <a href="_notebook/12-dtslib-gift.md" class="doc-card"><div class="doc-title">12 dtslib 선물 분석</div></a>
+    <a href="_notebook/13-midterm-eval-v2.md" class="doc-card"><div class="doc-title">13 중간평가 v2 (98/100)</div></a>
+    <a href="_notebook/14-daemon-design.md" class="doc-card"><div class="doc-title">14 돌봄 데몬 설계</div></a>
+    <a href="_notebook/15-proot-report.md" class="doc-card"><div class="doc-title">15 proot 종합 보고서</div></a>
+    <a href="_notebook/22-s21-benchmark.md" class="doc-card"><div class="doc-title">22 S21 벤치마크</div></a>
+    <a href="_notebook/supergrok-community-research-2026-07-25.md" class="doc-card"><div class="doc-title">🆕 SuperGrok 리서치</div></a>
+  </div>
 
-<input type="text" id="search-box" placeholder="🔍 문서 검색...">
+  <h3 style="margin-top:28px;">🎯 전략 & 방법론</h3>
+  <div class="doc-grid">
+    <a href="_notebook/16-textbook-methodology.md" class="doc-card"><div class="doc-title">16 교재 합성 지침</div></a>
+    <a href="_notebook/17-merged-chronicle.md" class="doc-card"><div class="doc-title">17 병합 연대기</div></a>
+    <a href="_notebook/19-final-strategy.md" class="doc-card"><div class="doc-title">19 최종 전략</div></a>
+    <a href="_notebook/21-integrated-dev-plan.md" class="doc-card"><div class="doc-title">21 통합 개발 계획서</div></a>
+    <a href="_notebook/23-naver-webzine-solution.md" class="doc-card"><div class="doc-title">23 네이버 웹진 솔루션</div></a>
+    <a href="_notebook/24-paste-pipeline.md" class="doc-card"><div class="doc-title">24 Paste Pipeline</div></a>
+  </div>
 
-<h3>📜 핵심 문서</h3>
-<div class="link-row">
-  <a href="CONSTITUTION.md" class="link-btn">📜 헌법 (284줄·16조)</a>
-  <a href="CLAUDE.md" class="link-btn">📋 실무 규칙</a>
-  <a href="README.md" class="link-btn">📖 프로젝트 소개</a>
-  <a href="GUIDE.md" class="link-btn">🗺️ 5단계 가이드</a>
-  <a href="CHRONICLE.md" class="link-btn">📅 연대기</a>
-  <a href="GIFT.md" class="link-btn">🎁 dtslib 선물</a>
-</div>
+  <h3 style="margin-top:28px;">🤖 AI & 에이전트</h3>
+  <div class="doc-grid">
+    <a href="_notebook/25-multi-ai-strategy.md" class="doc-card"><div class="doc-title">25 멀티 AI 전략</div></a>
+    <a href="_notebook/26-naver-parsing-solution.md" class="doc-card"><div class="doc-title">26 Naver 파싱 해결</div></a>
+    <a href="_notebook/27-claude-grok-pipeline.md" class="doc-card"><div class="doc-title">27 Claude+Grok 파이프</div></a>
+    <a href="_notebook/28-grok-github-bridge.md" class="doc-card"><div class="doc-title">28 Grok 인터프리터</div></a>
+    <a href="_notebook/29-grok-cli-installed.md" class="doc-card"><div class="doc-title">29 Grok CLI 설치</div></a>
+  </div>
+</section>
 
-<h3>🏗️ 인프라·아키텍처</h3>
-<div class="link-row">
-  <a href="_notebook/01-arch.md" class="link-btn">01 시스템 아키텍처</a>
-  <a href="_notebook/09-ecosystem.md" class="link-btn">09 5x5 생태계</a>
-  <a href="_notebook/10-phone-mcp.md" class="link-btn">10 MCP 18도구</a>
-  <a href="_notebook/18-workcenters.md" class="link-btn">18 워크센터(초안)</a>
-  <a href="_notebook/20-workcenters-final.md" class="link-btn">20 워크센터(최종)</a>
-</div>
+<!-- ═══ SECTION 07 — CHANNELS ═══ -->
+<section id="channels" class="reveal">
+  <div class="sec-label"><span class="num">07</span><span class="line"></span></div>
+  <h2>외부 채널</h2>
 
-<h3>🔌 플랫폼·연동</h3>
-<div class="link-row">
-  <a href="_notebook/02-discord.md" class="link-btn">02 Discord</a>
-  <a href="_notebook/03-telegram.md" class="link-btn">03 Telegram</a>
-  <a href="_notebook/04-github-pages.md" class="link-btn">04 Pages·Giscus</a>
-  <a href="_notebook/05-tistory.md" class="link-btn">05 티스토리</a>
-  <a href="_notebook/06-youtube.md" class="link-btn">06 YouTube</a>
-</div>
+  <div class="channel-bar">
+    <a href="https://github.com/helena751107/helena_phone"><div class="ch-icon">💻</div><div class="ch-name">GitHub</div><div class="ch-url">helena751107/helena_phone</div></a>
+    <a href="https://www.youtube.com/@helena_phone"><div class="ch-icon">📺</div><div class="ch-name">YouTube</div><div class="ch-url">@helena_phone</div></a>
+    <a href="https://m.blog.naver.com/helena1975"><div class="ch-icon">🌐</div><div class="ch-name">Naver 웹진</div><div class="ch-url">helena1975</div></a>
+    <a href="https://galaxys21-pwuser.tistory.com"><div class="ch-icon">📝</div><div class="ch-name">티스토리</div><div class="ch-url">업무일지</div></a>
+    <a href="https://discord.gg/JTYSZv2WQE"><div class="ch-icon">💬</div><div class="ch-name">Discord</div><div class="ch-url">실시간 소통</div></a>
+  </div>
+</section>
 
-<h3>⚙️ 운영·설정</h3>
-<div class="link-row">
-  <a href="_notebook/07-cli-reference.md" class="link-btn">07 CLI 명령어</a>
-  <a href="_notebook/08-secrets.md" class="link-btn">08 비밀 관리</a>
-  <a href="_notebook/11-health.md" class="link-btn">11 건강 검진</a>
-</div>
-
-<h3>📊 분석·평가</h3>
-<div class="link-row">
-  <a href="_notebook/12-dtslib-gift.md" class="link-btn">12 dtslib 선물</a>
-  <a href="_notebook/13-midterm-eval.md" class="link-btn">13 평가 v1(93)</a>
-  <a href="_notebook/13-midterm-eval-v2.md" class="link-btn">13 평가 v2(98)</a>
-  <a href="_notebook/14-daemon-design.md" class="link-btn">14 데몬 설계</a>
-  <a href="_notebook/15-proot-report.md" class="link-btn">15 proot 보고서</a>
-  <a href="_notebook/22-s21-benchmark.md" class="link-btn">22 S21 벤치마크</a>
-</div>
-
-<h3>🎯 전략·방법론</h3>
-<div class="link-row">
-  <a href="_notebook/16-textbook-methodology.md" class="link-btn">16 교재 방법론</a>
-  <a href="_notebook/17-merged-chronicle.md" class="link-btn">17 병합 연대기</a>
-  <a href="_notebook/19-final-strategy.md" class="link-btn">19 최종 전략</a>
-  <a href="_notebook/21-integrated-dev-plan.md" class="link-btn">21 통합 계획서</a>
-  <a href="_notebook/23-naver-webzine-solution.md" class="link-btn">23 웹진 솔루션</a>
-  <a href="_notebook/24-paste-pipeline.md" class="link-btn">24 Paste Pipeline</a>
-</div>
-
-<h3>🤖 AI·에이전트 전략</h3>
-<div class="link-row">
-  <a href="_notebook/25-multi-ai-strategy.md" class="link-btn">25 멀티 AI</a>
-  <a href="_notebook/26-naver-parsing-solution.md" class="link-btn">26 Naver 파싱</a>
-  <a href="_notebook/27-claude-grok-pipeline.md" class="link-btn">27 Claude+Grok</a>
-  <a href="_notebook/28-grok-github-bridge.md" class="link-btn">28 Grok 브릿지</a>
-  <a href="_notebook/29-grok-cli-installed.md" class="link-btn">29 Grok CLI</a>
-  <a href="_notebook/supergrok-community-research-2026-07-25.md" class="link-btn">🆕 리서치</a>
-</div>
-
-<h3>📝 개발일지·교재</h3>
-<div class="link-row">
-  <a href="_notebook/99-devlog.md" class="link-btn">📋 개발일지 (758줄)</a>
-  <a href="_notebook/00-INDEX.md" class="link-btn">📑 전체 목차</a>
-  <a href="_notebook/naver-intro-article.md" class="link-btn">📰 Naver 첫 글</a>
-  <a href="_textbook/index.md" class="link-btn">📖 교재 (442줄)</a>
-</div>
-</div>
-
-<!-- 스크립트 -->
-<div class="section" id="scripts">
-<h2>실행 코드</h2>
-<div class="grid4">
-  <div class="card" style="text-align:center;"><strong>g/install.sh</strong><br><span style="color:var(--muted);font-size:0.75em;">364줄·1줄 설치</span></div>
-  <div class="card" style="text-align:center;"><strong>care-daemon.sh</strong><br><span style="color:var(--muted);font-size:0.75em;">292줄·돌봄</span></div>
-  <div class="card" style="text-align:center;"><strong>phone-health.sh</strong><br><span style="color:var(--muted);font-size:0.75em;">383줄·건강</span></div>
-  <div class="card" style="text-align:center;"><strong>yt_upload.py</strong><br><span style="color:var(--muted);font-size:0.75em;">256줄·YT업로드</span></div>
-  <div class="card" style="text-align:center;"><strong>grok_api.py</strong><br><span style="color:var(--muted);font-size:0.75em;">174줄·Grok</span></div>
-  <div class="card" style="text-align:center;"><strong>grok_oauth.sh</strong><br><span style="color:var(--muted);font-size:0.75em;">135줄·인증</span></div>
-  <div class="card" style="text-align:center;"><strong>naver_recipe.py</strong><br><span style="color:var(--muted);font-size:0.75em;">151줄·레시피</span></div>
-  <div class="card" style="text-align:center;"><strong>tg.sh</strong><br><span style="color:var(--muted);font-size:0.75em;">36줄·TG</span></div>
-</div>
-
-<h3 style="margin-top:20px;">⚙️ 설정</h3>
-<div class="link-row">
-  <a href="configs/ecosystem-map.json" class="link-btn">ecosystem-map.json (230줄)</a>
-  <a href="configs/settings.json" class="link-btn">MCP 설정</a>
-  <a href="configs/secrets-template.env" class="link-btn">비밀 템플릿</a>
-  <a href="configs/bashrc-example.sh" class="link-btn">bashrc (gr alias)</a>
-  <a href="care/care.conf" class="link-btn">돌봄 설정</a>
-</div>
-</div>
-
-<!-- 외부 채널 -->
-<div class="section" id="links">
-<h2>외부 채널</h2>
-<div class="link-row">
-  <a href="https://github.com/helena751107/helena_phone" class="link-btn">💻 GitHub</a>
-  <a href="https://www.youtube.com/@helena_phone" class="link-btn">📺 YouTube</a>
-  <a href="https://m.blog.naver.com/helena1975" class="link-btn">🌐 Naver 웹진</a>
-  <a href="https://galaxys21-pwuser.tistory.com" class="link-btn">📝 티스토리</a>
-  <a href="https://discord.gg/JTYSZv2WQE" class="link-btn">💬 Discord</a>
-</div>
-</div>
-
-<footer>
-  <p>© 2026 Helena Park — 대필작가-간병인</p>
+<!-- ═══ FOOTER ═══ -->
+<footer class="reveal">
+  <p style="font-size:1.1em;font-weight:600;">S21 Phone — AI Workstation</p>
+  <p style="margin-top:4px;">© 2026 Helena Park · 대필작가-간병인</p>
   <p style="margin-top:4px;">Galaxy S21 + Termux + proot Ubuntu + Claude Code + Grok CLI + Aider</p>
-  <p style="margin-top:4px;color:var(--red);">모든 계정은 큰누나 명의입니다.</p>
-  <p style="margin-top:8px;font-size:0.75em;">96파일 · 11,727줄 · 41커밋 · 국판 500페이지 · IT 실무서 1권 분량</p>
-  <p style="margin-top:4px;font-size:0.7em;"><a href="https://github.com/helena751107/helena_phone">github.com/helena751107/helena_phone</a></p>
+  <p style="margin-top:8px;color:var(--red);font-weight:500;">모든 계정은 큰누나 명의입니다.</p>
+  <p style="margin-top:12px;font-size:0.75em;">96파일 · 11,727줄 · 41커밋 · 국판 500페이지 · <a href="https://github.com/helena751107/helena_phone">GitHub</a></p>
 </footer>
 
 </div>
 
-<div class="controls">
-  <button class="ctrl-btn" id="back-to-top" onclick="scrollToTop()" title="맨 위로">↑</button>
-  <button class="ctrl-btn" onclick="toggleTheme()" title="테마">🌓</button>
+<div class="floating">
+  <button class="fbtn" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+  <button class="fbtn" onclick="(function(){var h=document.documentElement;var n=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',n);localStorage.setItem('theme',n)})()">🌓</button>
 </div>
 
 <script>
 // Progress bar
-window.addEventListener('scroll', () => {
-  const h = document.documentElement;
-  const p = (h.scrollHeight - h.clientHeight) > 0 ? (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100 : 0;
-  document.getElementById('progress-bar').style.width = p + '%';
-  const btn = document.getElementById('back-to-top');
-  btn.classList.toggle('visible', h.scrollTop > 400);
+addEventListener('scroll',()=>{
+  const p=(scrollY/(document.documentElement.scrollHeight-innerHeight))*100;
+  document.getElementById('progress').style.width=p+'%';
+  document.getElementById('toTop').classList.toggle('show',scrollY>500);
+});
 
-  // Active nav
-  document.querySelectorAll('nav a').forEach(a => {
-    const t = document.querySelector(a.getAttribute('href'));
-    if (t) a.classList.toggle('active', t.getBoundingClientRect().top < 120 && t.getBoundingClientRect().bottom > 120);
+// Reveal on scroll
+new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on')}),{threshold:0.1})
+  .observe(document.querySelectorAll('.reveal'));
+
+// Active nav
+addEventListener('scroll',()=>{
+  document.querySelectorAll('.top-nav a').forEach(a=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t)a.classList.toggle('on',t.getBoundingClientRect().top<200&&t.getBoundingClientRect().bottom>200);
   });
 });
 
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    const t = document.querySelector(a.getAttribute('href'));
-    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-});
+// Smooth scroll nav
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+  e.preventDefault();
+  document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'});
+}));
 
-function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
-
-// Theme
-function toggleTheme() {
-  const h = document.documentElement;
-  const n = h.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  h.setAttribute('data-theme', n);
-  localStorage.setItem('theme', n);
-}
-const s = localStorage.getItem('theme');
-if (s) document.documentElement.setAttribute('data-theme', s);
-
-// Animated counters
-function animateStats() {
-  document.querySelectorAll('.stat .num[data-target]').forEach(el => {
-    if (el._done) return; el._done = true;
-    const t = +el.dataset.target, d = 1600, st = performance.now();
-    function up(now) {
-      const p = Math.min((now - st) / d, 1);
-      const e = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.floor(t * e).toLocaleString();
-      if (p < 1) requestAnimationFrame(up);
-      else el.textContent = t.toLocaleString();
-    }
-    requestAnimationFrame(up);
-  });
-}
-
-// Intersection Observer
-const ob = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      if (e.target.id === 'hero') animateStats();
-    }
-  });
-}, { threshold: 0.12 });
-document.querySelectorAll('.section').forEach(s => ob.observe(s));
+// Theme restore
+(function(){var s=localStorage.getItem('theme');if(s)document.documentElement.setAttribute('data-theme',s)})();
 
 // Search
-document.getElementById('search-box').addEventListener('input', e => {
-  const q = e.target.value.toLowerCase();
-  document.querySelectorAll('#docs .link-btn').forEach(b => {
-    b.style.display = !q || b.textContent.toLowerCase().includes(q) ? '' : 'none';
+document.getElementById('searchDocs').addEventListener('input',e=>{
+  const q=e.target.value.toLowerCase();
+  document.querySelectorAll('#library .doc-card').forEach(c=>{
+    c.style.display=!q||c.textContent.toLowerCase().includes(q)?'':'none';
   });
-  document.querySelectorAll('#docs h3').forEach(h => {
-    const row = h.nextElementSibling;
-    if (!row || !row.classList.contains('link-row')) return;
-    const vis = row.querySelectorAll('.link-btn:not([style*="display: none"])');
-    h.style.display = q && !vis.length ? 'none' : '';
+  document.querySelectorAll('#library h3').forEach(h=>{
+    const grid=h.nextElementSibling;
+    if(!grid||!grid.classList.contains('doc-grid'))return;
+    h.style.display=q&&!grid.querySelectorAll('.doc-card:not([style*="display: none"])').length?'none':'';
   });
 });
 </script>
