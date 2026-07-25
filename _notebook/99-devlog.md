@@ -593,3 +593,20 @@ Claude API로 스레드 이미지 URL 별도 수집 파이프 고려.
 부록 D — 핵심 명제 10선
 설치 — 지금 당장 (1줄)
 ```
+
+### 43. YouTube 브랜드 채널 Phase 1 + 워크센터 정의 (2026-07-25)
+
+**@helena_phone 브랜드 채널 연결:**
+- UC_IPajoyj6_IO8wt9JwVCAQ (@helena_phone) 생성 확인 → galaxys21-pwuser → helena_phone 1:1 매핑
+- 채널 브랜딩: 설명·키워드 설정
+- 4개 플레이리스트: S21 셋업 가이드·STT 음성 코딩·폰 건강 검진·0원 풀스택 인프라
+
+**Phase 1~5 로드맵:**
+- Phase 1 (7월): @helena_phone ✅ — 컴퓨터 셋업부터 시작
+- Phase 2~5: 8~11월 매월 25일 CronCreate 리마인더 등록 완료
+- Google 브랜드 계정 생성 제한 — 월 1개. 11월에 5x5 완성.
+
+**워크센터 7종 정의:**
+- `_notebook/18-workcenters.md` — GitHub(공장)·Pages(전시장)·티스토리(출판소)·YouTube(방송탑)·네이버(관제탑)·Discord(로비)·Telegram(내부보고)
+- 콘텐츠 생애주기: STT→스크립트→GitHub→(영상+블로그)→네이버관제탑→알림
+- 전체 공장 배치도 + 워크플로우 다이어그램 포함
