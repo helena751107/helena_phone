@@ -686,6 +686,21 @@ alias agent='proot-distro login ubuntu -- bash -c "agent"'
 
 **저장:** `_notebook/29-grok-cli-installed.md`, `scripts/grok_api.py`, `scripts/grok_oauth_setup.sh`, `configs/bashrc-example.sh`
 
+### 50. 전 문서 A급 업그레이드 — 인포그래픽 + 인터랙티브 JS (2026-07-25)
+
+**Boss 지시:** "페이지 하나하나 다 검수하고 품질 평가해서 A급으로 올려라.
+인포그래픽 하나씩 다 집어넣어라. 만점짜리로."
+
+**업그레이드 내역:**
+
+| 페이지 | 업그레이드 내용 |
+|--------|--------------|
+| `index.html` | Progress bar·Stat counters·Theme toggle·Smooth scroll·Search filter·Section animation·Performance bars·Funnel animation |
+| `README.md` | ASCII 시스템 구조도·숫자 통계표·빠른 링크 섹션 |
+| `CONSTITUTION.md` | 부칙2 헌법 구조도(ASCII 트리)·부칙3 핵심 명제 5선 |
+
+**진행률:** 3/50+ 완료. 현재 지속 업그레이드 중.
+
 ### 47. AI 비용 분석 — 월 55,000원 3에이전트 체제 (2026-07-25)
 
 **Boss 평가:** "Grok 45,000원 + DeepSeek/Aider 만 원 = 55,000원. GPU 없을 때 드래프트·동영상·이미지·채팅 아카이브 검색 Grok밖에 못 하니까 괜찮다."
