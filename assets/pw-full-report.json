@@ -1,0 +1,147 @@
+{
+  "errors": [],
+  "desktop": {
+    "status": 200,
+    "pageErrors": [],
+    "accordion": {
+      "headCount": 9,
+      "open": [
+        "install"
+      ],
+      "closed": 8,
+      "toolbar": true,
+      "ids": [
+        "tracks-head",
+        "system-head",
+        "agents-head",
+        "centers-head",
+        "funnel-head",
+        "economics-head",
+        "install-head",
+        "library-head",
+        "channels-head"
+      ]
+    },
+    "panelHeights": [
+      {
+        "id": "tracks-panel",
+        "open": false,
+        "h": 28,
+        "scrollH": 28
+      },
+      {
+        "id": "system-panel",
+        "open": false,
+        "h": 28,
+        "scrollH": 28
+      },
+      {
+        "id": "agents-panel",
+        "open": false,
+        "h": 28,
+        "scrollH": 28
+      },
+      {
+        "id": "centers-panel",
+        "open": false,
+        "h": 28,
+        "scrollH": 28
+      },
+      {
+        "id": "funnel-panel",
+        "open": false,
+        "h": 28,
+        "scrollH": 28
+      },
+      {
+        "id": "economics-panel",
+        "open": false,
+        "h": 28,
+        "scrollH": 28
+      },
+      {
+        "id": "install-panel",
+        "open": true,
+        "h": 366,
+        "scrollH": 366
+      },
+      {
+        "id": "library-panel",
+        "open": false,
+        "h": 28,
+        "scrollH": 28
+      },
+      {
+        "id": "channels-panel",
+        "open": false,
+        "h": 28,
+        "scrollH": 28
+      }
+    ],
+    "tracksAfterClick": "true",
+    "tracksPanelH": 448,
+    "afterExpandAll": 9,
+    "afterCollapseAll": 0,
+    "brokenLinks": [],
+    "overflow": {
+      "vw": 1280,
+      "sw": 1280,
+      "bad": false
+    }
+  },
+  "mobile": {
+    "pageErrors": [],
+    "accordion": {
+      "headCount": 9,
+      "open": [
+        "install"
+      ],
+      "closed": 8
+    },
+    "overflow": {
+      "vw": 390,
+      "sw": 390,
+      "bad": false
+    },
+    "burgerVisible": true,
+    "burgerBox": {
+      "x": 332,
+      "y": 12,
+      "width": 44,
+      "height": 44
+    },
+    "drawerOpen": true,
+    "agentsOpenH": 1665
+  },
+  "links": [
+    {
+      "u": "https://helena751107.github.io/helena_phone/site.webmanifest",
+      "status": 200
+    },
+    {
+      "u": "https://helena751107.github.io/helena_phone/assets/webzine.css",
+      "status": 200
+    },
+    {
+      "u": "https://helena751107.github.io/helena_phone/constitution.html",
+      "status": 200
+    },
+    {
+      "u": "https://helena751107.github.io/helena_phone/archive.html",
+      "status": 200
+    }
+  ],
+  "live": {
+    "status": 200,
+    "pageErrors": [
+      "Identifier 'chapters' has already been declared"
+    ],
+    "bytes": 90535,
+    "accordion": {
+      "headCount": 0,
+      "open": [],
+      "hasToolbar": false,
+      "title": "S21 PHONE — Webzine Vol.01"
+    }
+  }
+}
