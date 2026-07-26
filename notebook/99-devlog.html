@@ -128,12 +128,21 @@
 <li><a href="#61">61. 교훈 (이번 세션)</a></li>
 <li><a href="#62-_grok">62. 에이전트 파일 마크 규약 신설 (_Grok)</a></li>
 <li><a href="#63-_grok">63. 에이전트 직함 분장 — 디자이너 · 반장 · 감사 (_Grok)</a></li>
+<li><a href="#51-youtube-helena_phone-5-2026-07-26">51. YouTube @helena_phone 5개 플레이리스트 완성 + 첫 영상 (2026-07-26)</a></li>
+<li><a href="#53-boss-claude-code-2026-07-26">53. 중간 자기 평가 — Boss + Claude Code (2026-07-26)</a></li>
+<li><a href="#64-_grok">64. 웹페이지 커버리지 가디언 · 인터랙티브 문서 앱 (_Grok)</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </nav>
-  <article class="wz-prose">
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
     <blockquote>
 <p>구축 기간: 2026-07-23 ~ 2026-07-24<br>
 환경: Termux → proot Ubuntu → Claude Code (DeepSeek Radar)</p>
@@ -1466,6 +1475,109 @@ helana-faith / helena-piano / helena-psycare
 <li><code>CLAUDE.md</code> 표·파이프 갱신 · <code>30-agent-file-marks</code> · <code>25-multi-ai</code> §8 · INDEX</li>
 <li>파이프: Boss → 디자이너 시안 → 반장 시공 → 감사 → Boss 최종</li>
 </ul>
+<h3 id="51-youtube-helena_phone-5-2026-07-26">51. YouTube @helena_phone 5개 플레이리스트 완성 + 첫 영상 (2026-07-26)</h3>
+<p><strong>플레이리스트 (5/5):</strong><br>
+| # | 카테고리 | ID |<br>
+|&mdash;|---------|-----|<br>
+| 1 | 📱 디바이스 — 스튜디오 하드웨어 | <code>PLW8SDwnO6v5U</code> |<br>
+| 2 | 🤖 AI 워크벤치 — 스튜디오 소프트웨어 | <code>PLG0GPU7OwPI4</code> |<br>
+| 3 | 🏭 퍼블리싱 — 출판·배포 파이프 | <code>PLMeWnW15qgoM</code> |<br>
+| 4 | 🛡️ 오피스 관리 — 유지보수·안전 | <code>PLTI_59TNQHQg</code> |<br>
+| 5 | 📖 스튜디오 노트 — 비하인드·에세이 | <code>PLEGS7WSHUXE8</code> |</p>
+<p><strong>경과:</strong> YouTube API 일일 쿼터 소진으로 3일차에 완성. Phase2~5용 옛날 플레이리스트 5개 정리.</p>
+<p><strong>첫 영상:</strong> Boss가 &ldquo;채널 소개&rdquo; 샘플 업로드.<br>
+- URL: <code>https://youtu.be/lelb7X3h4VE</code><br>
+- 상태: public · 0조회 · 2026-07-26<br>
+- @helena_phone 채널의 첫 콘텐츠 🎉</p>
+<p><strong>채널:</strong> UC_IPajoyj6_IO8wt9JwVCAQ · 구독자 0명 · 동영상 1개</p>
+<h3 id="53-boss-claude-code-2026-07-26">53. 중간 자기 평가 — Boss + Claude Code (2026-07-26)</h3>
+<p><strong>Boss 평가:</strong> &ldquo;랜딩페이지 5번 갈아엎은 건 네가 역할을 못 해서다. 그래서 Grok에 예시켜서 다른 세션에서 작업하고 있다.&rdquo;</p>
+<p><strong>Claude Code 자기 평가:</strong></p>
+<p>잘한 점:<br>
+- 속도: 36시간 41커밋·96파일·11,727줄 → 기본기<br>
+- 구조화: 헌법·워크센터·Paste Pipeline·5×5 매트릭스 → 사고 서식<br>
+- 판단 보좌: 티스토리·네이버 자동화 포기 근거 제시<br>
+- 실행: install.sh·care-daemon·yt_upload·grok_api 전부 구동되는 코드</p>
+<p>못한 점:<br>
+- <strong>랜딩페이지 디자인</strong>: 시각적 완성도가 Grok 수준에 못 미침. S급 목표였지만 결과는 B+.<br>
+  → Boss가 직접 Grok 세션으로 이관 (@helena_phone 웹진 Vol.1 디자인은 Grok 작업)<br>
+- <strong>너무 많은 문서</strong>: 34종 업무수첩은 내부용으로 과잉. 핵심 10개로 압축 가능.<br>
+- <strong>중복 작업</strong>: 영문판 만들었다 취소. 플레이리스트 쿼터 3일 소진. 북마크릿 삽질.<br>
+- <strong>시각적 사고 부족</strong>: 코드·문서는 잘 다루지만 디자인·레이아웃·타이포는 약점.</p>
+<p><strong>Boss의 Grok 활용 패턴:</strong><br>
+- Claude Code = 코드·문서·자동화 (강점)<br>
+- Grok = 디자인·시각·네이버 파싱 (강점)<br>
+- Boss가 직접 각 도구의 강점에 작업 배분</p>
+<p><strong>교훈:</strong> 내가 못하는 건 인정하고 Boss가 다른 도구에 맡긴다.<br>
+이게 헌법 제6조(판단력이 희소자산)의 실전이다.</p>
+<p><strong>Boss 지시:</strong> &ldquo;레포지토리별 리포팅 라인 텔레그램 봇 따로따로 다 설정.&rdquo;</p>
+<p><strong>5개 봇 생성 완료:</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>레포</th>
+<th>봇</th>
+<th>토큰</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>helena_phone</td>
+<td>@S21Phone_Bot</td>
+<td>기존</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td>2</td>
+<td>helana_log</td>
+<td>@helana_logbot</td>
+<td><code>8937927183:...</code></td>
+<td>🟢</td>
+</tr>
+<tr>
+<td>3</td>
+<td>helena-faith</td>
+<td>@helana_faithbot</td>
+<td><code>8819591168:...</code></td>
+<td>🟢</td>
+</tr>
+<tr>
+<td>4</td>
+<td>helena-piano</td>
+<td>@helena_pianobot</td>
+<td><code>8918184400:...</code></td>
+<td>🟢</td>
+</tr>
+<tr>
+<td>5</td>
+<td>helena-psycare</td>
+<td>@helena_psycarebot</td>
+<td><code>8705721129:...</code></td>
+<td>🟢</td>
+</tr>
+</tbody>
+</table>
+<p><strong>소개글 전송:</strong><br>
+- 각 레포 파싱 → 소개글 + 이미지·영상 생성 프롬프트 포함<br>
+- helana_log: 행정대화록 (DW/BL/DC 3트랙 · Fact→Feel→Gap→Fix→Next)<br>
+- helena-faith: 가족신앙사·비교종교학 (카톨릭→개신교·3축)<br>
+- helena-piano: 피아노·MIDI·AI음원·GitHub Actions (4분할)<br>
+- helena-psycare: 정신의학·분석·MCP모델·돌봄기록 (3렌즈·4분면)</p>
+<p><strong>인프라:</strong><br>
+- 모든 토큰 <code>.secrets.env</code>에 저장 (gitignore 보호)<br>
+- <code>helana_log/scripts/tg.sh</code> 전용 보고 스크립트 생성<br>
+- 모든 chat_id: <code>8579179811</code> (Boss 회의실)</p>
+<h3 id="64-_grok">64. 웹페이지 커버리지 가디언 · 인터랙티브 문서 앱 (_Grok)</h3>
+<p><strong>Boss:</strong> helena_phone 문서 중 웹페이지 안 된 것 파악·전부 생성. Grok에 상시 체크 역할. 가급적 JS 웹앱 형태.</p>
+<p><strong>갭:</strong> <code>_notebook/32-ecosystem-whitepaper.md</code> HTML 없음 → 빌드 생성.<br>
+<strong>자동화:</strong> <code>build_webzine.py</code> 노트북 md 전체 자동 발견 · <code>check_webpages_Grok.py</code> · <code>assets/webpage-coverage.json</code><br>
+<strong>역할 문서:</strong> <code>33-webpage-coverage_Grok.md</code> · CLAUDE.md · 직함 보강<br>
+<strong>웹앱 UI:</strong> 모든 문서 페이지에 검색·섹션 접기/펼치기·본문 복사 (<code>webzine.js</code>)<br>
+<strong>앱:</strong> <code>notebook/webpage-coverage.html</code> 인터랙티브 갭 대시보드<br>
+<strong>결과:</strong> <code>gap_count=0</code> (orphan <code>53-self-eval.html</code> 레거시 유지)</p>
   </article>
   <nav class="wz-pager">
     <a class="" href="session-2026-07-26_Grok.html">

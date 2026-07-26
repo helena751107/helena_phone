@@ -131,6 +131,8 @@ NOTEBOOK_TITLES = {
     "29-grok-cli-installed.md": "Grok CLI 설치",
     "30-agent-file-marks.md": "에이전트 파일 마크 _Grok",
     "31-agent-roles_Grok.md": "직함 디자이너·반장·감사",
+    "32-ecosystem-whitepaper.md": "생태계 백서",
+    "33-webpage-coverage_Grok.md": "웹페이지 커버리지 체크 (_Grok)",
     "session-2026-07-26_Grok.md": "세션 2026-07-26 _Grok",
     "99-devlog.md": "개발일지",
     "ai-agents-cc-ds-grok-comparison-2026-07-25.md": "cc vs ds vs grok",
@@ -138,11 +140,23 @@ NOTEBOOK_TITLES = {
     "naver-intro-article.md": "네이버 소개 아티클",
 }
 
+# Auto-discover every _notebook/*.md (overrides in NOTEBOOK_TITLES)
+_nb_seen = set()
 for md_name, title in NOTEBOOK_TITLES.items():
     src = f"_notebook/{md_name}"
     if (ROOT / src).exists():
         out = f"notebook/{md_name.replace('.md', '.html')}"
         add(src, out, title, "Notebook")
+        _nb_seen.add(md_name)
+for md_path in sorted((ROOT / "_notebook").glob("*.md")):
+    if md_path.name in _nb_seen:
+        continue
+    # skip private drafts if any
+    if md_path.name.startswith("."):
+        continue
+    title = md_path.stem.replace("_", " ").replace("-", " ")
+    # try first H1 later at build; placeholder title
+    add(f"_notebook/{md_path.name}", f"notebook/{md_path.stem}.html", title, "Notebook")
 
 # Code / config viewers
 CODE_PAGES = [
@@ -353,7 +367,13 @@ def page_shell(
     </div>
   </header>
   {toc_block}
-  <article class="wz-prose">
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
     {body_html}
   </article>
   <nav class="wz-pager">
@@ -528,6 +548,44 @@ def write_sitemap() -> None:
     (ROOT / "sitemap.xml").write_text("\n".join(body) + "\n", encoding="utf-8")
 
 
+def write_webpage_coverage() -> dict:
+    """Compare docs ↔ HTML; Grok coverage duty source of truth."""
+    notebook_mds = sorted((ROOT / "_notebook").glob("*.md"))
+    notebook_html = {p.stem for p in (ROOT / "notebook").glob("*.html")}
+    missing_html = []
+    for m in notebook_mds:
+        if m.stem not in notebook_html:
+            missing_html.append(f"_notebook/{m.name}")
+    orphan_html = []
+    for h in sorted((ROOT / "notebook").glob("*.html")):
+        if not (ROOT / "_notebook" / f"{h.stem}.md").exists():
+            # allow generated apps without md
+            if h.stem in {"webpage-coverage", "apps-index"}:
+                continue
+            orphan_html.append(f"notebook/{h.name}")
+    catalog_missing = []
+    for item in CATALOG:
+        out = ROOT / item["out"]
+        if not out.exists():
+            catalog_missing.append(item["out"])
+    report = {
+        "generated": __import__("datetime").datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "notebook_md_count": len(notebook_mds),
+        "notebook_html_count": len(list((ROOT / "notebook").glob("*.html"))),
+        "catalog_count": len(CATALOG),
+        "missing_html": missing_html,
+        "orphan_html": orphan_html,
+        "catalog_missing_on_disk": catalog_missing,
+        "gap_count": len(missing_html) + len(catalog_missing),
+        "policy": "Every _notebook/*.md must have notebook/*.html. Build via scripts/build_webzine.py. Agent: _Grok checks every session.",
+    }
+    outp = ROOT / "assets" / "webpage-coverage.json"
+    outp.parent.mkdir(parents=True, exist_ok=True)
+    outp.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return report
+
+
+
 def main() -> int:
     built = 0
     for item in CATALOG:
@@ -551,8 +609,10 @@ def main() -> int:
     (ROOT / "assets" / "catalog.json").write_text(
         json.dumps(CATALOG, ensure_ascii=False, indent=2), encoding="utf-8"
     )
+    cov = write_webpage_coverage()
+    print(f"Coverage gaps: {cov.get('gap_count', 0)} → assets/webpage-coverage.json")
     print(f"Built {built} pages + archive")
-    return 0
+    return 0 if cov.get("gap_count", 0) == 0 else 0  # build always succeeds; gaps reported
 
 
 if __name__ == "__main__":

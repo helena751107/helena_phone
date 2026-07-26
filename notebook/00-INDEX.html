@@ -56,11 +56,18 @@
 <li><a href="#_4">분석·평가</a></li>
 <li><a href="#_5">전략·방법론</a></li>
 <li><a href="#ai">AI·에이전트</a></li>
-<li><a href="#_6">기타</a></li>
+<li><a href="#_6">웹앱 · 커버리지</a></li>
+<li><a href="#_7">기타</a></li>
 </ul>
 </div>
 </nav>
-  <article class="wz-prose">
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
     <blockquote>
 <p>구축: 2026-07-23 ~ 2026-07-26<br>
 환경: Galaxy S21 → Termux → proot Ubuntu → Claude Code (DeepSeek Radar) + Grok CLI (xAI SuperGrok) + Aider<br>
@@ -261,6 +268,14 @@
 <td><strong>직함 분장</strong> 디자이너·작업반장·감사 (_Grok 기록)</td>
 </tr>
 <tr>
+<td><code>32-ecosystem-whitepaper.md</code></td>
+<td>생태계 백서 v1.0</td>
+</tr>
+<tr>
+<td><code>33-webpage-coverage_Grok.md</code></td>
+<td><strong>웹페이지 커버리지 상시 체크</strong> (_Grok 역할)</td>
+</tr>
+<tr>
 <td><code>session-2026-07-26_Grok.md</code></td>
 <td>세션 메모 — 웹진·아이콘·행정대화록 (_Grok)</td>
 </tr>
@@ -274,7 +289,30 @@
 </tr>
 </tbody>
 </table>
-<h2 id="_6">기타</h2>
+<h2 id="_6">웹앱 · 커버리지</h2>
+<table>
+<thead>
+<tr>
+<th>페이지</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../notebook/webpage-coverage.html"><code>notebook/webpage-coverage.html</code></a></td>
+<td>문서↔HTML 갭 <strong>인터랙티브 앱</strong></td>
+</tr>
+<tr>
+<td><code>scripts/check_webpages_Grok.py</code></td>
+<td>CLI 갭 검사 → <code>assets/webpage-coverage.json</code></td>
+</tr>
+<tr>
+<td><code>scripts/build_webzine.py</code></td>
+<td>md→HTML 전체 빌드 (노트북 자동 발견)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_7">기타</h2>
 <table>
 <thead>
 <tr>
@@ -289,7 +327,7 @@
 </tr>
 <tr>
 <td><code>99-devlog.md</code></td>
-<td>전체 개발일지 (§1–61, §50–61 = _Grok)</td>
+<td>전체 개발일지 (§1–61+, §50– = _Grok)</td>
 </tr>
 </tbody>
 </table>

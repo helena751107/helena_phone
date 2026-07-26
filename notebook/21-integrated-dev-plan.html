@@ -80,7 +80,13 @@
 </ul>
 </div>
 </nav>
-  <article class="wz-prose">
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
     <blockquote>
 <p>2026-07-25 | Phase 1<br>
 GitHub → Pages(영문) → YouTube API → 네이버 웹진 → 티스토리 업무일지</p>

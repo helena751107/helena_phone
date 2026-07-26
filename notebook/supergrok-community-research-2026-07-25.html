@@ -79,7 +79,13 @@
 </ul>
 </div>
 </nav>
-  <article class="wz-prose">
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
     <p><strong>작성일:</strong> 2026-07-25<br>
 <strong>출처:</strong> Reddit (r/ClaudeCode, r/grok, r/perplexity_ai, r/GrokBuild), X, 비교 블로그, xAI 공식 FAQ<br>
 <strong>관점:</strong> GPU 없는 1인 제작자 — 에이전트 + 리서치 + 이미지/영상 올인원</p>

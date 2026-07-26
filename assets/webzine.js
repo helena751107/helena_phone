@@ -74,4 +74,95 @@
       setTimeout(() => { btn.textContent = old; }, 1400);
     });
   });
+
+  /* —— Doc web-app: section accordion + search + copy —— */
+  const prose = document.getElementById('wzProse');
+  if (prose) {
+    const headings = [...prose.querySelectorAll(':scope > h2')];
+    headings.forEach((h2, i) => {
+      const sec = document.createElement('div');
+      sec.className = 'wz-sec open';
+      sec.dataset.sec = String(i);
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'wz-sec-h';
+      btn.setAttribute('aria-expanded', 'true');
+      const ico = document.createElement('span');
+      ico.className = 'wz-sec-ico';
+      ico.setAttribute('aria-hidden', 'true');
+      ico.textContent = '+';
+      const titleWrap = document.createElement('div');
+      titleWrap.appendChild(h2.cloneNode(true));
+      btn.appendChild(titleWrap);
+      btn.appendChild(ico);
+      const body = document.createElement('div');
+      body.className = 'wz-sec-b';
+      const inner = document.createElement('div');
+      inner.className = 'wz-sec-i';
+      // move siblings until next h2
+      let n = h2.nextSibling;
+      const move = [];
+      while (n && !(n.nodeType === 1 && n.tagName === 'H2')) {
+        move.push(n);
+        n = n.nextSibling;
+      }
+      move.forEach(node => inner.appendChild(node));
+      body.appendChild(inner);
+      sec.appendChild(btn);
+      sec.appendChild(body);
+      h2.replaceWith(sec);
+      btn.addEventListener('click', () => {
+        const on = !sec.classList.contains('open');
+        sec.classList.toggle('open', on);
+        btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+      });
+    });
+
+    const setAll = (open) => {
+      prose.querySelectorAll('.wz-sec').forEach(sec => {
+        sec.classList.toggle('open', open);
+        const b = sec.querySelector('.wz-sec-h');
+        if (b) b.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    };
+    document.getElementById('wzFoldAll')?.addEventListener('click', () => setAll(false));
+    document.getElementById('wzExpandAll')?.addEventListener('click', () => setAll(true));
+
+    document.getElementById('wzCopy')?.addEventListener('click', async () => {
+      const text = prose.innerText;
+      try { await navigator.clipboard.writeText(text); }
+      catch {
+        const ta = document.createElement('textarea');
+        ta.value = text; document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); ta.remove();
+      }
+      const btn = document.getElementById('wzCopy');
+      if (btn) { const o = btn.textContent; btn.textContent = 'Copied'; setTimeout(() => btn.textContent = o, 1200); }
+    });
+
+    const search = document.getElementById('wzSearch');
+    search?.addEventListener('input', () => {
+      const q = search.value.trim().toLowerCase();
+      // clear marks
+      prose.querySelectorAll('mark.wz-hit').forEach(m => {
+        const t = document.createTextNode(m.textContent);
+        m.replaceWith(t);
+      });
+      prose.normalize();
+      if (!q) {
+        prose.querySelectorAll('.wz-sec').forEach(s => s.classList.remove('wz-hide'));
+        return;
+      }
+      prose.querySelectorAll('.wz-sec').forEach(sec => {
+        const text = sec.innerText.toLowerCase();
+        const hit = text.includes(q);
+        sec.classList.toggle('wz-hide', !hit);
+        if (hit) {
+          sec.classList.add('open');
+          sec.querySelector('.wz-sec-h')?.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  }
+
 })();

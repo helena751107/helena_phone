@@ -66,7 +66,13 @@
 </ul>
 </div>
 </nav>
-  <article class="wz-prose">
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
     <blockquote>
 <p>Boss + Gemini + Claude 3자 통합 결론:<br>
 API 열린 건 자동화, 막힌 건 사람 손.<br>

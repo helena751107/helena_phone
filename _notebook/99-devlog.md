@@ -1101,3 +1101,14 @@ helana-faith / helena-piano / helena-psycare
 - `helana_log/scripts/tg.sh` 전용 보고 스크립트 생성
 - 모든 chat_id: `8579179811` (Boss 회의실)
 
+### 64. 웹페이지 커버리지 가디언 · 인터랙티브 문서 앱 (_Grok)
+
+**Boss:** helena_phone 문서 중 웹페이지 안 된 것 파악·전부 생성. Grok에 상시 체크 역할. 가급적 JS 웹앱 형태.
+
+**갭:** `_notebook/32-ecosystem-whitepaper.md` HTML 없음 → 빌드 생성.  
+**자동화:** `build_webzine.py` 노트북 md 전체 자동 발견 · `check_webpages_Grok.py` · `assets/webpage-coverage.json`  
+**역할 문서:** `33-webpage-coverage_Grok.md` · CLAUDE.md · 직함 보강  
+**웹앱 UI:** 모든 문서 페이지에 검색·섹션 접기/펼치기·본문 복사 (`webzine.js`)  
+**앱:** `notebook/webpage-coverage.html` 인터랙티브 갭 대시보드  
+**결과:** `gap_count=0` (orphan `53-self-eval.html` 레거시 유지)
+

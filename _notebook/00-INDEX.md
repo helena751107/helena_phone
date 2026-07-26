@@ -68,13 +68,23 @@
 | `29-grok-cli-installed.md` | Grok CLI 설치 완료 (v0.2.112) |
 | `30-agent-file-marks.md` | **파일 마크 규약** `_Grok` `_Claude` `_Aider` (_Shared) |
 | `31-agent-roles_Grok.md` | **직함 분장** 디자이너·작업반장·감사 (_Grok 기록) |
+| `32-ecosystem-whitepaper.md` | 생태계 백서 v1.0 |
+| `33-webpage-coverage_Grok.md` | **웹페이지 커버리지 상시 체크** (_Grok 역할) |
 | `session-2026-07-26_Grok.md` | 세션 메모 — 웹진·아이콘·행정대화록 (_Grok) |
 | `ai-agents-cc-ds-grok-comparison-2026-07-25.md` | cc/ds/grok 비교 (날짜 스냅샷) |
 | `supergrok-community-research-2026-07-25.md` | SuperGrok 커뮤니티 리서치 |
+
+## 웹앱 · 커버리지
+
+| 페이지 | 내용 |
+|--------|------|
+| [`notebook/webpage-coverage.html`](../notebook/webpage-coverage.html) | 문서↔HTML 갭 **인터랙티브 앱** |
+| `scripts/check_webpages_Grok.py` | CLI 갭 검사 → `assets/webpage-coverage.json` |
+| `scripts/build_webzine.py` | md→HTML 전체 빌드 (노트북 자동 발견) |
 
 ## 기타
 
 | 파일 | 내용 |
 |------|------|
 | `naver-intro-article.md` | 네이버 첫 글 소개 아티클 |
-| `99-devlog.md` | 전체 개발일지 (§1–61, §50–61 = _Grok) |
+| `99-devlog.md` | 전체 개발일지 (§1–61+, §50– = _Grok) |

@@ -66,6 +66,17 @@ bash ~/work/tg.sh '✅ 작업명 — 결과'
 - 공용 `99-devlog.md` 섹션을 추가할 때는 제목 끝에 `(_Grok)` / `(_Claude)` / `(_Aider)` 표기
 - **다른 에이전트 마크 파일은 덮어쓰지 말 것** — 이어서 할 거면 자기 마크 신규 파일 + handoff 체크리스트
 
+## 웹페이지 커버리지 (Grok 상시 · 2026-07-26~)
+- **`_notebook/*.md` 는 반드시 `notebook/*.html` 웹페이지**가 있어야 한다.
+- `_Grok` 는 세션마다 갭을 검사하고, 없으면 빌드한다:
+  ```bash
+  python3 scripts/check_webpages_Grok.py   # gap_count
+  python3 scripts/build_webzine.py         # 전체 생성 + coverage JSON
+  ```
+- 인터랙티브 앱: `notebook/webpage-coverage.html`
+- 역할 문서: `_notebook/33-webpage-coverage_Grok.md`
+- 문서 페이지는 공통 **웹앱 UI**(검색·접기·펼치기·본문 복사) — `assets/webzine.js`
+
 ## Paste Pipeline (네이버·티스토리 수동 발행)
 - API 없는 플랫폼은 Paste Pipeline으로 대응:
   `Claude Code → TG 원고 배달 → 사람 복사붙여넣기 → 발행 (5분)`

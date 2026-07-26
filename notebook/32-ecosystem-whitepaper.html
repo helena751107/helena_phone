@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="텔레그램 봇/회의실 — S21 Phone Webzine">
+<meta name="description" content="2026-07-26 | @S21Phone_Bot 전송 완료 — S21 Phone Webzine">
 <meta name="theme-color" content="#0a0908">
 <meta name="application-name" content="S21 Phone">
-<title>텔레그램 봇/회의실 — S21 Phone Webzine</title>
+<title>S21 Phone 생태계 백서 v1.0 — S21 Phone Webzine</title>
 <link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
@@ -36,25 +36,21 @@
   <div class="wz-crumb">
     <a href="../index.html">Webzine</a><span class="sep">/</span>
     <span>Notebook</span><span class="sep">/</span>
-    <span>텔레그램 봇/회의실</span>
+    <span>S21 Phone 생태계 백서 v1.0</span>
   </div>
   <header class="wz-hero">
     <div class="wz-kicker">Notebook · Vol.01</div>
-    <h1>텔레그램 봇/회의실</h1>
-    
+    <h1>S21 Phone 생태계 백서 v1.0</h1>
+    <p class="deck">2026-07-26 | @S21Phone_Bot 전송 완료</p>
     <div class="wz-meta">
-      <span>Source · _notebook/03-telegram.md</span>
+      <span>Source · _notebook/32-ecosystem-whitepaper.md</span>
       <span>Kind · markdown</span>
       <span>S21 Phone Editorial</span>
     </div>
   </header>
   <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
 <ul>
-<li><a href="#_2">봇 정보</a></li>
-<li><a href="#worktgsh">보고 스크립트 (~/work/tg.sh)</a></li>
-<li><a href="#_3">환경변수</a></li>
-<li><a href="#api">텔레그램 API 자동화 키포인트</a></li>
-<li><a href="#2026-07-25">현재 상태 (2026-07-25)</a></li>
+<li><a href="#_1">목차</a></li>
 </ul>
 </div>
 </nav>
@@ -65,76 +61,37 @@
     <button type="button" id="wzCopy" data-cursor>본문 복사</button>
   </div>
   <article class="wz-prose" id="wzProse" data-app="doc">
-    <h2 id="_2">봇 정보</h2>
-<table>
-<thead>
-<tr>
-<th>항목</th>
-<th>값</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>봇 이름</td>
-<td>S21 Phone Bot</td>
-</tr>
-<tr>
-<td>봇 유저네임</td>
-<td>@S21Phone_Bot</td>
-</tr>
-<tr>
-<td>봇 토큰</td>
-<td><code>8988031320:AAH...</code> (.secrets.env 참조)</td>
-</tr>
-<tr>
-<td>채팅방 ID</td>
-<td><code>8579179811</code></td>
-</tr>
-</tbody>
-</table>
-<h2 id="worktgsh">보고 스크립트 (<code>~/work/tg.sh</code>)</h2>
-<pre><code class="language-bash">#!/bin/bash
-# 사용법: bash ~/work/tg.sh &quot;메시지 내용&quot;
-TOKEN=&quot;${TG_TOKEN:-}&quot;
-CHAT=&quot;${TG_CHAT:-}&quot;
-curl -s -X POST &quot;https://api.telegram.org/bot${TOKEN}/sendMessage&quot; \
-  -d chat_id=&quot;$CHAT&quot; -d text=&quot;$1&quot;
-</code></pre>
-<h2 id="_3">환경변수</h2>
-<pre><code class="language-bash"># .secrets.env 에서 로드
-source /root/work/.secrets.env
-# 또는 직접 export (토큰은 .secrets.env 참조)
-export TG_TOKEN=&quot;${TG_TOKEN:-}&quot;
-export TG_CHAT=&quot;${TG_CHAT:-}&quot;
-</code></pre>
-<h2 id="api">텔레그램 API 자동화 키포인트</h2>
-<ul>
-<li>봇 생성: <code>@BotFather</code> → <code>/newbot</code> (수동, 텔레그램 앱)</li>
-<li>메시지 수신 확인: <code>GET /bot{token}/getUpdates</code></li>
-<li>메시지 발송: <code>POST /bot{token}/sendMessage</code></li>
-<li>봇은 먼저 말을 못 검 → 사용자가 먼저 메시지 보내야 chat_id 생성됨</li>
-</ul>
-<hr>
-<h2 id="2026-07-25">현재 상태 (2026-07-25)</h2>
-<ul>
-<li>봇: @S21Phone_Bot ✅</li>
-<li>스크립트: tg.sh (36줄)</li>
-<li>용도: git push 보고·건강검진·돌봄 알림·Paste Pipeline 배달</li>
-</ul>
+    <blockquote>
+<p>2026-07-26 | @S21Phone_Bot 전송 완료<br>
+갤럭시 S21 하나로 돌아가는 25개 플랫폼, 3 AI 에이전트, 7 워크센터</p>
+</blockquote>
+<h2 id="_1">목차</h2>
+<ol>
+<li>철학: 두 개의 트랙</li>
+<li>5×5 생태계 매트릭스</li>
+<li>7개 워크센터</li>
+<li>AI 에이전트 3종</li>
+<li>콘텐츠 퍼널 (Naver→YouTube→수익)</li>
+<li>Paste Pipeline</li>
+<li>기술 스택</li>
+<li>숫자로 보는 생태계</li>
+<li>원칙</li>
+<li>시작하는 법</li>
+</ol>
   </article>
   <nav class="wz-pager">
-    <a class="" href="02-discord.html">
+    <a class="" href="31-agent-roles_Grok.html">
           <span class="dir">Previous</span>
-          <span class="title">디스코드 서버/봇/위젯</span>
+          <span class="title">에이전트 역할 분장 — 디자이너 · 작업 반장 · 감사</span>
         </a>
-    <a class="next" href="04-github-pages.html">
+    <a class="next" href="33-webpage-coverage_Grok.html">
           <span class="dir">Next</span>
-          <span class="title">Pages · Giscus</span>
+          <span class="title">웹페이지 커버리지 체크 (_Grok)</span>
         </a>
   </nav>
   <div class="wz-related">
           <h2>같은 섹션</h2>
-          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="04-github-pages.html"><strong>Pages · Giscus</strong>Notebook</a><a href="05-tistory.html"><strong>티스토리</strong>Notebook</a><a href="06-youtube.html"><strong>YouTube</strong>Notebook</a></div>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
         </div>
   <footer class="wz-foot">
     <div>S21 PHONE · Webzine Vol.01</div>

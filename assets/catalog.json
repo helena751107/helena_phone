@@ -189,7 +189,7 @@
     "title": "📖 S21 Phone 업무 수첩",
     "section": "Notebook",
     "kind": "md",
-    "deck": "구축: 2026-07-23 ~ 2026-07-25"
+    "deck": "구축: 2026-07-23 ~ 2026-07-26"
   },
   {
     "src": "_notebook/01-arch.md",
@@ -430,6 +430,46 @@
     "section": "Notebook",
     "kind": "md",
     "deck": "설치: 2026-07-25 | 버전: 0.2.112 | 아키텍처: linux-aarch64"
+  },
+  {
+    "src": "_notebook/30-agent-file-marks.md",
+    "out": "notebook/30-agent-file-marks.html",
+    "title": "에이전트 파일 마크 규약 — `_Grok` · `_Claude` · `_Aider`",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "제정: 2026-07-26"
+  },
+  {
+    "src": "_notebook/31-agent-roles_Grok.md",
+    "out": "notebook/31-agent-roles_Grok.html",
+    "title": "에이전트 역할 분장 — 디자이너 · 작업 반장 · 감사",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "**Boss 결정 (2026-07-26)**"
+  },
+  {
+    "src": "_notebook/32-ecosystem-whitepaper.md",
+    "out": "notebook/32-ecosystem-whitepaper.html",
+    "title": "S21 Phone 생태계 백서 v1.0",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-07-26 | @S21Phone_Bot 전송 완료"
+  },
+  {
+    "src": "_notebook/33-webpage-coverage_Grok.md",
+    "out": "notebook/33-webpage-coverage_Grok.html",
+    "title": "웹페이지 커버리지 체크 — `_Grok` 상시 역할",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "**Boss 지시 (2026-07-26)**"
+  },
+  {
+    "src": "_notebook/session-2026-07-26_Grok.md",
+    "out": "notebook/session-2026-07-26_Grok.html",
+    "title": "세션 메모 _Grok — 2026-07-26",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "**agent:** _Grok"
   },
   {
     "src": "_notebook/99-devlog.md",

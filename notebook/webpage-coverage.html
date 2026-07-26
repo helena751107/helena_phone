@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="문서↔웹페이지 커버리지 인터랙티브 앱 · _Grok guardian">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>웹페이지 커버리지 앱 — S21 Phone</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+<style>
+.cov-app { max-width: 960px; margin: 0 auto; padding: 24px max(16px, env(safe-area-inset-right)) 80px max(16px, env(safe-area-inset-left)); }
+.cov-hero h1 { font-family: var(--serif); font-size: clamp(1.8rem, 5vw, 2.6rem); margin: 8px 0 12px; }
+.cov-hero p { color: var(--ink-dim); font-weight: 300; max-width: 40em; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 24px 0; }
+.stats .s { background: var(--paper-2); padding: 18px 10px; text-align: center; }
+.stats .v { font-family: var(--serif); font-size: 1.8rem; font-weight: 700; color: var(--gold-bright); }
+.stats .v.bad { color: var(--crimson); }
+.stats .v.ok { color: var(--teal); }
+.stats .l { font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-mute); margin-top: 6px; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.toolbar input { flex: 1 1 180px; min-height: 42px; padding: 8px 12px; border: 1px solid var(--rule-strong); background: var(--paper-2); color: var(--ink); font: inherit; }
+.toolbar button, .toolbar a.btn {
+  min-height: 42px; padding: 8px 14px; border: 1px solid var(--rule-strong); background: var(--paper-3);
+  color: var(--ink-dim); font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center;
+}
+.toolbar button.primary { background: var(--gold); color: #1a1508; border-color: var(--gold); font-weight: 600; }
+.list { display: grid; gap: 8px; }
+.row { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; padding: 12px 14px; border: 1px solid var(--rule); background: var(--paper-2); font-size: .9rem; }
+.row .tag { font-size: .65rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 700; padding: 4px 8px; border: 1px solid var(--rule); }
+.row .tag.miss { color: var(--crimson); border-color: rgba(232,93,76,.4); }
+.row .tag.ok { color: var(--teal); border-color: rgba(61,184,168,.4); }
+.row .tag.orph { color: var(--gold); border-color: rgba(212,168,75,.4); }
+.row code { font-family: var(--mono); font-size: .78rem; color: var(--ink-dim); word-break: break-all; }
+.empty { padding: 28px; text-align: center; color: var(--teal); border: 1px dashed var(--rule); }
+.policy { margin-top: 28px; padding: 16px; border: 1px solid var(--rule); background: var(--paper-2); color: var(--ink-dim); font-size: .9rem; font-weight: 300; }
+@media(max-width:640px){ .stats{grid-template-columns:repeat(2,1fr)} .row{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="./00-INDEX.html">Notebook</a>
+      <button type="button" data-theme-toggle>Theme</button>
+    </nav>
+  </div>
+</header>
+<main class="cov-app">
+  <div class="cov-hero">
+    <div class="wz-kicker" style="color:var(--gold);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600">App · Coverage Guardian · _Grok</div>
+    <h1>문서 → 웹페이지 커버리지</h1>
+    <p>업무 수첩(<code>_notebook/*.md</code>)이 HTML 웹페이지로 만들어졌는지 검사하는 인터랙티브 앱입니다. Grok 세션마다 이 갭을 닫습니다.</p>
+  </div>
+
+  <div class="stats" id="stats">
+    <div class="s"><div class="v" id="vMd">–</div><div class="l">Notebook MD</div></div>
+    <div class="s"><div class="v" id="vHtml">–</div><div class="l">Notebook HTML</div></div>
+    <div class="s"><div class="v" id="vCat">–</div><div class="l">Catalog</div></div>
+    <div class="s"><div class="v" id="vGap">–</div><div class="l">Gaps</div></div>
+  </div>
+
+  <div class="toolbar">
+    <input type="search" id="q" placeholder="경로 필터…" autocomplete="off">
+    <button type="button" class="primary" id="reload">Reload JSON</button>
+    <a class="btn" href="../assets/webpage-coverage.json" target="_blank" rel="noopener">Raw JSON</a>
+    <a class="btn" href="./33-webpage-coverage_Grok.html">역할 문서</a>
+    <a class="btn" href="../archive.html">Archive hub</a>
+  </div>
+
+  <div id="status" class="wz-status-pill" style="margin-bottom:14px">loading…</div>
+  <div class="list" id="list"></div>
+  <div class="policy" id="policy"></div>
+  <p style="margin-top:24px;font-size:.85rem;color:var(--ink-mute)">
+    CLI: <code>python3 scripts/check_webpages_Grok.py</code> · Build: <code>python3 scripts/build_webzine.py</code>
+  </p>
+  <p style="margin-top:12px"><a href="../index.html">← Landing</a></p>
+</main>
+<script src="../assets/webzine.js"></script>
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const list = $('#list');
+  const status = $('#status');
+  let data = null;
+
+  function render(filter = '') {
+    if (!data) return;
+    const q = filter.trim().toLowerCase();
+    $('#vMd').textContent = data.notebook_md_count ?? '–';
+    $('#vHtml').textContent = data.notebook_html_count ?? '–';
+    $('#vCat').textContent = data.catalog_count ?? '–';
+    const gap = data.gap_count ?? 0;
+    const vg = $('#vGap');
+    vg.textContent = gap;
+    vg.className = 'v ' + (gap ? 'bad' : 'ok');
+    status.textContent = data.ok ? 'ALL COVERED' : `${gap} GAP(S)`;
+    status.className = 'wz-status-pill ' + (data.ok ? 'ok' : 'bad');
+    $('#policy').textContent = data.policy || '';
+
+    const rows = [];
+    (data.missing_html || []).forEach(p => rows.push({ tag: 'miss', label: 'MISSING HTML', path: p }));
+    (data.catalog_missing_on_disk || []).forEach(p => rows.push({ tag: 'miss', label: 'CATALOG MISS', path: p }));
+    (data.orphan_html || []).forEach(p => rows.push({ tag: 'orph', label: 'ORPHAN HTML', path: p }));
+    if (!rows.length) {
+      list.innerHTML = '<div class="empty">✓ gap_count = 0 · 모든 수첩 md에 HTML이 있습니다.</div>';
+      return;
+    }
+    const filtered = q ? rows.filter(r => r.path.toLowerCase().includes(q) || r.label.toLowerCase().includes(q)) : rows;
+    list.innerHTML = filtered.map(r => `
+      <div class="row">
+        <span class="tag ${r.tag}">${r.label}</span>
+        <code>${r.path}</code>
+        <span style="font-size:.75rem;color:var(--ink-mute)">${r.tag === 'miss' ? 'build 필요' : '확인'}</span>
+      </div>`).join('');
+  }
+
+  async function load() {
+    status.textContent = 'loading…';
+    status.className = 'wz-status-pill';
+    try {
+      const res = await fetch('../assets/webpage-coverage.json?t=' + Date.now(), { cache: 'no-store' });
+      if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
+      data = await res.json();
+      render($('#q').value);
+    } catch (e) {
+      status.textContent = 'JSON load failed — run build';
+      status.className = 'wz-status-pill bad';
+      list.innerHTML = `<div class="empty" style="color:var(--crimson)">${e.message}</div>`;
+    }
+  }
+
+  $('#reload').addEventListener('click', load);
+  $('#q').addEventListener('input', () => render($('#q').value));
+  load();
+})();
+</script>
+</body>
+</html>

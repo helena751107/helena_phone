@@ -58,7 +58,13 @@
 </ul>
 </div>
 </nav>
-  <article class="wz-prose">
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
     <hr>
 <p>date: 2026-07-26<br>
 agent: Grok<br>
@@ -144,9 +150,9 @@ ssot_devlog: _notebook/99-devlog.md §50–61</p>
 </ul>
   </article>
   <nav class="wz-pager">
-    <a class="" href="30-agent-file-marks.html">
+    <a class="" href="33-webpage-coverage_Grok.html">
           <span class="dir">Previous</span>
-          <span class="title">에이전트 파일 마크 규약 — `_Grok` · `_Claude` · `_Aider`</span>
+          <span class="title">웹페이지 커버리지 체크 — `_Grok` 상시 역할</span>
         </a>
     <a class="next" href="99-devlog.html">
           <span class="dir">Next</span>

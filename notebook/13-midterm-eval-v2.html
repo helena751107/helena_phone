@@ -59,7 +59,13 @@
 </ul>
 </div>
 </nav>
-  <article class="wz-prose">
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
     <blockquote>
 <p>평가일: 2026-07-24 | 평가자: Claude Code<br>
 <strong>v2 변경:</strong> 미착수 항목 주체 재정렬 — Playwright·YouTube OAuth·돌봄 데몬 실행은 AI 책임이며 사용자 평가에서 제외</p>

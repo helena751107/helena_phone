@@ -49,7 +49,13 @@
     </div>
   </header>
   
-  <article class="wz-prose">
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
     <p>랜딩 페이지와 연결된 모든 Webzine 문서 · 스크립트 뷰어 허브.</p>
 <h2>Core</h2><ul>
 <li><a href="constitution.html">CONSTITUTION.md — S21 Phone 헌법</a> <code style="opacity:.6">constitution.html</code></li>
@@ -118,6 +124,11 @@
 <li><a href="notebook/27-claude-grok-pipeline.html">🔄 Claude-Grok 협업 파이프라인</a> <code style="opacity:.6">notebook/27-claude-grok-pipeline.html</code></li>
 <li><a href="notebook/28-grok-github-bridge.html">🌉 Grok — GitHub↔Naver 인터프리터</a> <code style="opacity:.6">notebook/28-grok-github-bridge.html</code></li>
 <li><a href="notebook/29-grok-cli-installed.html">🤖 Grok CLI — Termux + proot Ubuntu 설치 완료</a> <code style="opacity:.6">notebook/29-grok-cli-installed.html</code></li>
+<li><a href="notebook/30-agent-file-marks.html">에이전트 파일 마크 규약 — `_Grok` · `_Claude` · `_Aider`</a> <code style="opacity:.6">notebook/30-agent-file-marks.html</code></li>
+<li><a href="notebook/31-agent-roles_Grok.html">에이전트 역할 분장 — 디자이너 · 작업 반장 · 감사</a> <code style="opacity:.6">notebook/31-agent-roles_Grok.html</code></li>
+<li><a href="notebook/32-ecosystem-whitepaper.html">S21 Phone 생태계 백서 v1.0</a> <code style="opacity:.6">notebook/32-ecosystem-whitepaper.html</code></li>
+<li><a href="notebook/33-webpage-coverage_Grok.html">웹페이지 커버리지 체크 — `_Grok` 상시 역할</a> <code style="opacity:.6">notebook/33-webpage-coverage_Grok.html</code></li>
+<li><a href="notebook/session-2026-07-26_Grok.html">세션 메모 _Grok — 2026-07-26</a> <code style="opacity:.6">notebook/session-2026-07-26_Grok.html</code></li>
 <li><a href="notebook/99-devlog.html">📋 S21 Phone — 전체 개발일지</a> <code style="opacity:.6">notebook/99-devlog.html</code></li>
 <li><a href="notebook/ai-agents-cc-ds-grok-comparison-2026-07-25.html">Comparative Note on Three Terminal Agents</a> <code style="opacity:.6">notebook/ai-agents-cc-ds-grok-comparison-2026-07-25.html</code></li>
 <li><a href="notebook/supergrok-community-research-2026-07-25.html">SuperGrok 커뮤니티 리서치 리포트</a> <code style="opacity:.6">notebook/supergrok-community-research-2026-07-25.html</code></li>

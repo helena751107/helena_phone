@@ -75,7 +75,13 @@
 </ul>
 </div>
 </nav>
-  <article class="wz-prose">
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
     <hr>
 <p>date: 2026-07-26<br>
 agent: Grok<br>
@@ -138,6 +144,8 @@ status: active</p>
 <li>행정 대화록 등 <strong>서사·톤·공개 경계 카피</strong> (docs 서술 톤 포함)</li>
 <li>채팅 아카이브·리서치로 <strong>콘텐츠 재료</strong> 모으기</li>
 <li>업무 수첩에 <strong>디자인/콘텐츠 결정</strong>을 <code>*_Grok.md</code> 로 남기기</li>
+<li><strong>문서↔웹페이지 커버리지 가디언</strong> — <code>_notebook</code> md 가 HTML 없는 갭을 세션마다 검사·빌드 (<code>33-webpage-coverage_Grok.md</code>)</li>
+<li>가능하면 페이지를 <strong>인터랙티브 웹앱 UI</strong>(검색·아코디언·필터)로 제공</li>
 </ul>
 <h3 id="_3">안 맡는 것 (원칙)</h3>
 <ul>
@@ -268,9 +276,9 @@ status: active</p>
           <span class="dir">Previous</span>
           <span class="title">에이전트 파일 마크 규약 — `_Grok` · `_Claude` · `_Aider`</span>
         </a>
-    <a class="next" href="session-2026-07-26_Grok.html">
+    <a class="next" href="32-ecosystem-whitepaper.html">
           <span class="dir">Next</span>
-          <span class="title">세션 2026-07-26 _Grok</span>
+          <span class="title">생태계 백서</span>
         </a>
   </nav>
   <div class="wz-related">

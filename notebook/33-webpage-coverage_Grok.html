@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="**Boss 지시 (2026-07-26)** — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>웹페이지 커버리지 체크 — `_Grok` 상시 역할 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>웹페이지 커버리지 체크 — `_Grok` 상시 역할</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>웹페이지 커버리지 체크 — `_Grok` 상시 역할</h1>
+    <p class="deck">**Boss 지시 (2026-07-26)**</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/33-webpage-coverage_Grok.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1">1. 역할 한 줄</a></li>
+<li><a href="#2-ssot">2. SSOT · 명령</a></li>
+<li><a href="#3">3. 규칙 (불변에 가깝게)</a></li>
+<li><a href="#4">4. 체크리스트 (세션마다)</a></li>
+<li><a href="#5-2026-07-26">5. 2026-07-26 초기 감사 결과</a></li>
+<li><a href="#6">6. 관련</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <hr>
+<p>date: 2026-07-26<br>
+agent: Grok<br>
+mark: _Grok<br>
+role: designer + coverage guardian<br>
+status: active</p>
+<hr>
+<h1 id="_grok">웹페이지 커버리지 체크 — <code>_Grok</code> 상시 역할</h1>
+<blockquote>
+<p><strong>Boss 지시 (2026-07-26)</strong><br>
+helena_phone 레포의 문서·수첩이 <strong>웹페이지로 안 만들어진 것</strong>을 파악하고 전부 페이지화.<br>
+가급적 <strong>인터랙티브 / JS 웹앱 형태</strong>.<br>
+<strong>Grok은 항상 이 갭을 체크하는 역할</strong>을 갖는다.</p>
+</blockquote>
+<hr>
+<h2 id="1">1. 역할 한 줄</h2>
+<table>
+<thead>
+<tr>
+<th>마크</th>
+<th>추가 의무</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>_Grok</code></strong></td>
+<td>세션 시작·종료 시 <strong>문서 ↔ HTML 갭</strong> 검사. 갭 있으면 페이지 생성 후 빌드.</td>
+</tr>
+<tr>
+<td><code>_Aider</code></td>
+<td>빌드 스크립트·CI 패치 시공 (반장)</td>
+</tr>
+<tr>
+<td><code>_Claude</code></td>
+<td>감사 시 “문서만 있고 링크 죽은 페이지” 지적</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="2-ssot">2. SSOT · 명령</h2>
+<pre><code class="language-bash"># 갭 리포트 (JSON)
+python3 scripts/check_webpages_Grok.py
+
+# 전체 웹진 빌드 (노트북 자동 발견 + coverage 기록)
+python3 scripts/build_webzine.py
+
+# 인터랙티브 앱
+# https://helena751107.github.io/helena_phone/notebook/webpage-coverage.html
+</code></pre>
+<p>산출물:<br>
+- <code>assets/webpage-coverage.json</code> — 기계 판독 리포트<br>
+- <code>assets/catalog.json</code> — 빌드 카탈로그<br>
+- <code>notebook/*.html</code> — 수첩 웹페이지<br>
+- <code>archive.html</code> — 전체 인덱스  </p>
+<hr>
+<h2 id="3">3. 규칙 (불변에 가깝게)</h2>
+<ol>
+<li><strong><code>_notebook/*.md</code> 가 생기면 같은 이름의 <code>notebook/*.html</code> 이 있어야 한다.</strong>  </li>
+<li>제목 맵은 <code>scripts/build_webzine.py</code> 의 <code>NOTEBOOK_TITLES</code> (없어도 자동 발견).  </li>
+<li>새 문서는 가능하면 <strong>표·단계·체크리스트</strong>를 넣어 웹앱 UI(접기/검색/필터)가 살게 쓴다.  </li>
+<li>순수 정적 뷰어보다 <strong>검색·아코디언·카운터·필터</strong>를 <code>assets/webzine.js</code> 로 공통 제공.  </li>
+<li>갭이 0이 될 때까지 “완료”라고 말하지 않는다 (커버 히어로 제외).  </li>
+<li>파일 마크: 이 역할 문서·체커·앱은 <strong><code>_Grok</code></strong>.</li>
+</ol>
+<hr>
+<h2 id="4">4. 체크리스트 (세션마다)</h2>
+<ul>
+<li>[ ] <code>python3 scripts/check_webpages_Grok.py</code> → <code>gap_count == 0</code>  </li>
+<li>[ ] 신규 md 있으면 <code>build_webzine.py</code> 실행 후 push  </li>
+<li>[ ] 라이브 <code>notebook/…html</code> 200 확인 (핵심 페이지만)  </li>
+<li>[ ] <code>00-INDEX.md</code> 에 새 문서 링크  </li>
+<li>[ ] 인터랙티브 앱 페이지가 깨지지 않았는지 (<code>webpage-coverage.html</code>)</li>
+</ul>
+<hr>
+<h2 id="5-2026-07-26">5. 2026-07-26 초기 감사 결과</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_notebook/32-ecosystem-whitepaper.md</code></td>
+<td>HTML 없음 → <strong>빌드로 생성</strong></td>
+</tr>
+<tr>
+<td>나머지 수첩 md</td>
+<td>HTML 존재</td>
+</tr>
+<tr>
+<td><code>notebook/53-self-eval.html</code></td>
+<td>md 없는 레거시 단독 페이지 (orphan 허용·유지)</td>
+</tr>
+<tr>
+<td>가이드 01~05</td>
+<td>catalog + HTML 존재</td>
+</tr>
+<tr>
+<td>자동 발견</td>
+<td>build에 <strong>glob 전체 md</strong> 추가</td>
+</tr>
+<tr>
+<td>공통 웹앱 UI</td>
+<td>검색·접기·펼치기·본문복사 (<code>webzine.js</code>)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="6">6. 관련</h2>
+<ul>
+<li>직함: <a href="31-agent-roles_Grok.html"><code>31-agent-roles_Grok.md</code></a> — 디자이너 + <strong>커버리지 가디언</strong>  </li>
+<li>마크: <a href="30-agent-file-marks.html"><code>30-agent-file-marks.md</code></a>  </li>
+<li>앱: <code>notebook/webpage-coverage.html</code>  </li>
+<li>스크립트: <code>scripts/check_webpages_Grok.py</code> · <code>scripts/build_webzine.py</code></li>
+</ul>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="32-ecosystem-whitepaper.html">
+          <span class="dir">Previous</span>
+          <span class="title">S21 Phone 생태계 백서 v1.0</span>
+        </a>
+    <a class="next" href="session-2026-07-26_Grok.html">
+          <span class="dir">Next</span>
+          <span class="title">세션 2026-07-26 _Grok</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>
