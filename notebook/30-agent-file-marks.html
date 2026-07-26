@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="제정: 2026-07-26 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>에이전트 파일 마크 규약 — `_Grok` · `_Claude` · `_Aider` — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>에이전트 파일 마크 규약 — `_Grok` · `_Claude` · `_Aider`</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>에이전트 파일 마크 규약 — `_Grok` · `_Claude` · `_Aider`</h1>
+    <p class="deck">제정: 2026-07-26</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/30-agent-file-marks.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1">1. 필수 마크 (파일명)</a><ul>
+<li><a href="#_1">규칙</a></li>
+</ul>
+</li>
+<li><a href="#2-yaml">2. 본문 메타 (권장 YAML/헤더)</a></li>
+<li><a href="#3">3. 핸드오프</a></li>
+<li><a href="#4-2026-07-26">4. 현재 상태 점검 (2026-07-26 감사)</a></li>
+<li><a href="#5-cli">5. CLI 별칭 대응</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <blockquote>
+<p>제정: 2026-07-26<br>
+이유: 한 폰(S21 · Termux · proot)에서 <strong>cc / ds / grok</strong> 가 같은 <code>_notebook/</code> · <code>logs/</code> 를 건드린다.<br>
+누가 썼는지 파일명에 안 남으면 덮어쓰기·책임 추적이 안 된다.</p>
+</blockquote>
+<hr>
+<h2 id="1">1. 필수 마크 (파일명)</h2>
+<table>
+<thead>
+<tr>
+<th>에이전트</th>
+<th>CLI</th>
+<th>파일명 마크</th>
+<th>예</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Grok Build / SuperGrok</td>
+<td><code>grok</code> · <code>gr</code></td>
+<td><strong><code>_Grok</code></strong></td>
+<td><code>session-2026-07-26_Grok.md</code></td>
+</tr>
+<tr>
+<td>Claude Code (DeepSeek radar 포함)</td>
+<td><code>cc</code></td>
+<td><strong><code>_Claude</code></strong></td>
+<td><code>patch-pages_Claude.md</code></td>
+</tr>
+<tr>
+<td>Aider + DeepSeek</td>
+<td><code>ds</code> · <code>dsflash</code></td>
+<td><strong><code>_Aider</code></strong></td>
+<td><code>diff-fix_Aider.md</code></td>
+</tr>
+<tr>
+<td>사람(Boss) 직접</td>
+<td>—</td>
+<td><strong><code>_Boss</code></strong> 또는 마크 없음</td>
+<td><code>decision-2026-07-26_Boss.md</code></td>
+</tr>
+<tr>
+<td>공동·합본·규약 자체</td>
+<td>여러 명</td>
+<td><strong><code>_Shared</code></strong></td>
+<td><code>30-agent-file-marks.md</code> 는 Shared</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_1">규칙</h3>
+<ol>
+<li><strong>에이전트가 새로 쓰는 업무 수첩·일지·세션 메모</strong>는 파일명 끝에 반드시 <code>_{Agent}</code> 를 붙인다.<br>
+   - 예: <code>webzine-icons_Grok.md</code> · <code>aider-conf_Aider.md</code> · <code>review_Claude.md</code></li>
+<li><strong>공용 번호 문서</strong> (<code>01-arch.md</code> ~ <code>29-…</code>, <code>99-devlog.md</code>, <code>00-INDEX.md</code>)는 번호를 유지하되,<br>
+   - 본문 섹션 헤더/푸터에 <code>&lt;!-- agent: Grok --&gt;</code> 또는 <code>**agent:** _Grok</code> 를 남긴다.<br>
+   - 큰 단독 기여 블록은 가능하면 <strong>별도 <code>*_Grok.md</code> 로 빼고</strong> INDEX에 링크한다.</li>
+<li><strong>덮어쓰지 말 것.</strong> 다른 에이전트 마크 파일은 수정 전 합의. 급하면 <code>*_Grok_note-on-Claude.md</code> 처럼 자기 마크 메모를 옆에 만든다.</li>
+<li><strong>날짜</strong>는 <code>YYYY-MM-DD</code> 또는 <code>YYYYMMDD</code> 를 파일명 앞에/중간에 넣는 것을 권장.</li>
+<li>helana_log <code>logs/</code> 날것 캡처도 동일: <code>DevLog_20260726_Grok.md</code> (행정 대화록 <code>docs/dialogue/</code> 는 트랙 코드 DW/BL/DC 우선, 에이전트 마크는 메타에).</li>
+</ol>
+<hr>
+<h2 id="2-yaml">2. 본문 메타 (권장 YAML/헤더)</h2>
+<pre><code class="language-markdown">---
+date: 2026-07-26
+agent: Grok
+mark: _Grok
+cli: grok
+cowork: [Aider, Claude]   # 같이 볼 대상
+status: done | wip | handoff
+---
+</code></pre>
+<p>또는 마크다운 상단 한 줄:</p>
+<pre><code class="language-markdown">&gt; **agent:** _Grok · 2026-07-26 · handoff → _Claude / _Aider
+</code></pre>
+<hr>
+<h2 id="3">3. 핸드오프</h2>
+<table>
+<thead>
+<tr>
+<th>상황</th>
+<th>방법</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Grok → Claude 로 이어서 코딩</td>
+<td><code>*_Grok.md</code> 끝에 <strong>Next for _Claude</strong> 체크리스트</td>
+</tr>
+<tr>
+<td>Aider 가 패치만</td>
+<td><code>*_Aider.md</code> 에 diff 요약 + 건드릴 파일 목록</td>
+</tr>
+<tr>
+<td>공유 일지</td>
+<td><code>99-devlog.md</code> 에 섹션 추가 시 줄 끝에 <code>(_Grok)</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-2026-07-26">4. 현재 상태 점검 (2026-07-26 감사)</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>마크 규약 준수?</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>99-devlog.md</code> §50–61</td>
+<td>부분</td>
+<td>푸터에「작성: Grok」만 있음 → 섹션에 <code>(_Grok)</code> 보강</td>
+</tr>
+<tr>
+<td><code>DevLog_Grok_20260726.md</code></td>
+<td>유사</td>
+<td>언더바 위치가 앞/중간 혼용 → <code>DevLog_20260726_Grok.md</code> 로 정렬</td>
+</tr>
+<tr>
+<td><code>ai-agents-cc-ds-grok-comparison-…</code></td>
+<td>이름에 grok 포함</td>
+<td>비교 문서라 Shared 성격</td>
+</tr>
+<tr>
+<td><code>supergrok-community-research-…</code></td>
+<td>부분</td>
+<td>연구 주제명; 에이전트 마크와 별개</td>
+</tr>
+<tr>
+<td><code>.aider.chat.history*</code></td>
+<td>Aider 전용 로그</td>
+<td>파일명에 <code>_Aider</code> 없음 (도구 기본 경로)</td>
+</tr>
+<tr>
+<td><code>.claude/</code></td>
+<td>Claude 상태</td>
+<td>도구 기본 경로</td>
+</tr>
+<tr>
+<td><strong><code>_Grok</code> / <code>_Claude</code> / <code>_Aider</code> 접미 규약</strong></td>
+<td><strong>이전에는 없음</strong></td>
+<td>본 문서에서 신설</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="5-cli">5. CLI 별칭 대응</h2>
+<table>
+<thead>
+<tr>
+<th>별칭</th>
+<th>마크</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gr</code> / <code>grok</code></td>
+<td><code>_Grok</code></td>
+</tr>
+<tr>
+<td><code>cc</code></td>
+<td><code>_Claude</code></td>
+</tr>
+<tr>
+<td><code>ds</code> / <code>dsflash</code></td>
+<td><code>_Aider</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><em>Shared 규약 문서. 에이전트는 이 파일을 읽고 자기 마크 파일을 쓴다.</em></p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="29-grok-cli-installed.html">
+          <span class="dir">Previous</span>
+          <span class="title">🤖 Grok CLI — Termux + proot Ubuntu 설치 완료</span>
+        </a>
+    <a class="next" href="session-2026-07-26_Grok.html">
+          <span class="dir">Next</span>
+          <span class="title">세션 2026-07-26 _Grok</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

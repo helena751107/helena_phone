@@ -49,6 +49,16 @@ bash ~/work/tg.sh '✅ 작업명 — 결과'
 - AI와의 주요 대화 중 결정적 전환이 있었으면 요지 함께 기록
 - 추후 `g/zero.sh`로 압축·정제 예정
 
+## 에이전트 파일 마크 (필수 · 2026-07-26~)
+- 업무 수첩·세션 메모·단독 로그를 **새로 쓸 때** 파일명 접미 마크:
+  - Grok → **`_Grok`** (예: `session-2026-07-26_Grok.md`)
+  - Claude Code (`cc`) → **`_Claude`**
+  - Aider (`ds`) → **`_Aider`**
+  - 사람 → `_Boss` / 공용 규약 → `_Shared` 또는 번호 문서 유지
+- 규약 전문: `_notebook/30-agent-file-marks.md`
+- 공용 `99-devlog.md` 섹션을 추가할 때는 제목 끝에 `(_Grok)` / `(_Claude)` / `(_Aider)` 표기
+- **다른 에이전트 마크 파일은 덮어쓰지 말 것** — 이어서 할 거면 자기 마크 신규 파일 + handoff 체크리스트
+
 ## Paste Pipeline (네이버·티스토리 수동 발행)
 - API 없는 플랫폼은 Paste Pipeline으로 대응:
   `Claude Code → TG 원고 배달 → 사람 복사붙여넣기 → 발행 (5분)`

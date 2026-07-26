@@ -1,7 +1,9 @@
 # 📖 S21 Phone 업무 수첩
 
-> 구축: 2026-07-23 ~ 2026-07-25
-> 환경: Galaxy S21 → Termux → proot Ubuntu → Claude Code (DeepSeek Radar) + Grok CLI (xAI SuperGrok) + Aider
+> 구축: 2026-07-23 ~ 2026-07-26  
+> 환경: Galaxy S21 → Termux → proot Ubuntu → Claude Code (DeepSeek Radar) + Grok CLI (xAI SuperGrok) + Aider  
+> **에이전트 마크:** 신규 메모는 파일명 접미 `_Grok` / `_Claude` / `_Aider` / `_Boss` / `_Shared`  
+> 규약: [`30-agent-file-marks.md`](./30-agent-file-marks.md)
 
 ---
 
@@ -64,10 +66,14 @@
 | `27-claude-grok-pipeline.md` | Claude-Grok 협업 파이프라인 |
 | `28-grok-github-bridge.md` | Grok — GitHub↔Naver 인터프리터 |
 | `29-grok-cli-installed.md` | Grok CLI 설치 완료 (v0.2.112) |
+| `30-agent-file-marks.md` | **파일 마크 규약** `_Grok` `_Claude` `_Aider` (_Shared) |
+| `session-2026-07-26_Grok.md` | 세션 메모 — 웹진·아이콘·행정대화록 (_Grok) |
+| `ai-agents-cc-ds-grok-comparison-2026-07-25.md` | cc/ds/grok 비교 (날짜 스냅샷) |
+| `supergrok-community-research-2026-07-25.md` | SuperGrok 커뮤니티 리서치 |
 
 ## 기타
 
 | 파일 | 내용 |
 |------|------|
 | `naver-intro-article.md` | 네이버 첫 글 소개 아티클 |
-| `99-devlog.md` | 전체 개발일지 (49섹션) |
+| `99-devlog.md` | 전체 개발일지 (§1–61, §50–61 = _Grok) |

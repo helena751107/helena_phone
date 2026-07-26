@@ -113,8 +113,8 @@
 <li><a href="#49-naver-youtube-2026-07-25">49. 비즈니스 모델 — Naver 드래프트(미끼) → YouTube 강의(수익) (2026-07-25)</a></li>
 </ul>
 </li>
-<li><a href="#day-34-2026-07-25-2026-07-26-grok-build">DAY 3–4 — 2026-07-25 ~ 2026-07-26 (Grok Build 세션 일괄)</a><ul>
-<li><a href="#50-supergrok">50. SuperGrok 사용량 · 커뮤니티 리서치</a></li>
+<li><a href="#day-34-2026-07-25-2026-07-26-grok-build-_grok">DAY 3–4 — 2026-07-25 ~ 2026-07-26 (Grok Build 세션 일괄) (_Grok)</a><ul>
+<li><a href="#50-supergrok-_grok">50. SuperGrok 사용량 · 커뮤니티 리서치 (_Grok)</a></li>
 <li><a href="#51-termux-gr-grok">51. Termux 별칭 gr → Grok</a></li>
 <li><a href="#52-3">52. 에이전트 3종 비교 · 텔레그램 문서화</a></li>
 <li><a href="#53-aider-ds">53. Aider (ds) 장애 복구 · 색상 · 강제 종료</a></li>
@@ -126,6 +126,7 @@
 <li><a href="#59-url">59. 세션 산출물 맵 (파일·URL)</a></li>
 <li><a href="#60">60. 다음 액션 (일지 기준 백로그)</a></li>
 <li><a href="#61">61. 교훈 (이번 세션)</a></li>
+<li><a href="#62-_grok">62. 에이전트 파일 마크 규약 신설 (_Grok)</a></li>
 </ul>
 </li>
 </ul>
@@ -1197,13 +1198,16 @@ YouTube 강의(Claude Code 완성본)로 들어와서 수익이 된다.</p>
 - ComfyUI = GPU 사용 가능할 때 100% 품질<br>
 - 둘이 경쟁이 아니라 단계적 파이프라인</p>
 <hr>
-<h2 id="day-34-2026-07-25-2026-07-26-grok-build">DAY 3–4 — 2026-07-25 ~ 2026-07-26 (Grok Build 세션 일괄)</h2>
+<h2 id="day-34-2026-07-25-2026-07-26-grok-build-_grok">DAY 3–4 — 2026-07-25 ~ 2026-07-26 (Grok Build 세션 일괄) (_Grok)</h2>
 <blockquote>
-<p>세션 주체: <strong>Grok (SuperGrok / Grok Build TUI)</strong><br>
+<p><strong>agent mark:</strong> <code>_Grok</code><br>
+세션 주체: <strong>Grok (SuperGrok / Grok Build TUI)</strong><br>
 작업 루트: <code>/root/work</code> (helena_phone) · <code>/tmp/sites/*</code> (위성 Pages)<br>
-주제 축: 에이전트 운용 · 웹진 랜딩 · 홈 화면 아이콘 · <strong>행정 대화록 정체성</strong></p>
+주제 축: 에이전트 운용 · 웹진 랜딩 · 홈 화면 아이콘 · <strong>행정 대화록 정체성</strong><br>
+수첩 세션 파일: <code>_notebook/session-2026-07-26_Grok.md</code><br>
+마크 규약: <code>_notebook/30-agent-file-marks.md</code> (_Shared)</p>
 </blockquote>
-<h3 id="50-supergrok">50. SuperGrok 사용량 · 커뮤니티 리서치</h3>
+<h3 id="50-supergrok-_grok">50. SuperGrok 사용량 · 커뮤니티 리서치 (_Grok)</h3>
 <ul>
 <li>SuperGrok <strong>주간 Usage pool</strong> 구조 확인 (한도·리셋 주기 커뮤니티 정보 조사)</li>
 <li>토큰 단위 과금이 아니라 구독 풀 소모 모델 → 일지 §48과 정합</li>
@@ -1408,12 +1412,27 @@ helana-faith / helena-piano / helena-psycare
 <li><strong>에이전트 킬은 PID</strong> — 패턴 매칭 kill은 놓치거나 과다 킬</li>
 </ol>
 <hr>
-<p><em>§50–61 기록 시각: 2026-07-26 · 작성: Grok Build · 저장: <code>_notebook/99-devlog.md</code> + helana_log <code>logs/2026/07/</code></em></p>
+<p><em>§50–61 기록 시각: 2026-07-26 · </em><em>agent:</em><em> _Grok · 저장: <code>_notebook/99-devlog.md</code> + <code>session-2026-07-26_Grok.md</code> + <code>logs/2026/07/DevLog_20260726_Grok.md</code></em></p>
+<h3 id="62-_grok">62. 에이전트 파일 마크 규약 신설 (_Grok)</h3>
+<p><strong>질문(Boss):</strong> 폰 폴더·업무 수첩에 Grok도 같이 저장하되 꼭 <strong><code>_Grok</code></strong> 마크. ds(Aider)·cc(Claude)와 병행.</p>
+<p><strong>감사 결과 (이전 로그)</strong><br>
+- <code>_Grok</code> / <code>_Claude</code> / <code>_Aider</code> <strong>접미 규약은 없었다.</strong><br>
+- 부분 흔적만 존재: 본문「작성: Grok」, 파일명 <code>DevLog_Grok_…</code>, <code>*grok*comparison*</code>, <code>.aider.chat.history*</code>, <code>.claude/</code><br>
+- 공용 일지·수첩에 <strong>누가 썼는지 파일명으로 강제하는 규칙 없음</strong> → 덮어쓰기 위험</p>
+<p><strong>조치</strong><br>
+| 파일 | 역할 |<br>
+|------|------|<br>
+| <code>_notebook/30-agent-file-marks.md</code> | Shared 규약 |<br>
+| <code>_notebook/session-2026-07-26_Grok.md</code> | 이 세션 수첩 메모 (_Grok) |<br>
+| <code>logs/…/DevLog_20260726_Grok.md</code> | 로그 정규 접미 <code>_Grok</code> |<br>
+| <code>CLAUDE.md</code> · <code>00-INDEX.md</code> | 규칙·목차 반영 |<br>
+| <code>99-devlog</code> §50–61 헤더 | <code>(_Grok)</code> 표기 |</p>
+<p><strong>이후 모든 에이전트:</strong> 신규 수첩/세션 파일 = <code>*{주제}_{Grok|Claude|Aider}.md</code></p>
   </article>
   <nav class="wz-pager">
-    <a class="" href="29-grok-cli-installed.html">
+    <a class="" href="session-2026-07-26_Grok.html">
           <span class="dir">Previous</span>
-          <span class="title">🤖 Grok CLI — Termux + proot Ubuntu 설치 완료</span>
+          <span class="title">세션 메모 _Grok — 2026-07-26</span>
         </a>
     <a class="next" href="ai-agents-cc-ds-grok-comparison-2026-07-25.html">
           <span class="dir">Next</span>
@@ -1422,7 +1441,7 @@ helana-faith / helena-piano / helena-psycare
   </nav>
   <div class="wz-related">
           <h2>같은 섹션</h2>
-          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-25</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
         </div>
   <footer class="wz-foot">
     <div>S21 PHONE · Webzine Vol.01</div>

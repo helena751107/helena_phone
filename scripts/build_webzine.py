@@ -129,6 +129,8 @@ NOTEBOOK_TITLES = {
     "27-claude-grok-pipeline.md": "Claude+Grok 파이프",
     "28-grok-github-bridge.md": "Grok 인터프리터",
     "29-grok-cli-installed.md": "Grok CLI 설치",
+    "30-agent-file-marks.md": "에이전트 파일 마크 _Grok",
+    "session-2026-07-26_Grok.md": "세션 2026-07-26 _Grok",
     "99-devlog.md": "개발일지",
     "ai-agents-cc-ds-grok-comparison-2026-07-25.md": "cc vs ds vs grok",
     "supergrok-community-research-2026-07-25.md": "SuperGrok 리서치",

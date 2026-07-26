@@ -789,13 +789,16 @@ YouTube 강의(Claude Code 완성본)로 들어와서 수익이 된다.
 
 ---
 
-## DAY 3–4 — 2026-07-25 ~ 2026-07-26 (Grok Build 세션 일괄)
+## DAY 3–4 — 2026-07-25 ~ 2026-07-26 (Grok Build 세션 일괄) (_Grok)
 
+> **agent mark:** `_Grok`  
 > 세션 주체: **Grok (SuperGrok / Grok Build TUI)**  
 > 작업 루트: `/root/work` (helena_phone) · `/tmp/sites/*` (위성 Pages)  
-> 주제 축: 에이전트 운용 · 웹진 랜딩 · 홈 화면 아이콘 · **행정 대화록 정체성**
+> 주제 축: 에이전트 운용 · 웹진 랜딩 · 홈 화면 아이콘 · **행정 대화록 정체성**  
+> 수첩 세션 파일: `_notebook/session-2026-07-26_Grok.md`  
+> 마크 규약: `_notebook/30-agent-file-marks.md` (_Shared)
 
-### 50. SuperGrok 사용량 · 커뮤니티 리서치
+### 50. SuperGrok 사용량 · 커뮤니티 리서치 (_Grok)
 
 - SuperGrok **주간 Usage pool** 구조 확인 (한도·리셋 주기 커뮤니티 정보 조사)
 - 토큰 단위 과금이 아니라 구독 풀 소모 모델 → 일지 §48과 정합
@@ -991,5 +994,25 @@ helana-faith / helena-piano / helena-psycare
 
 ---
 
-*§50–61 기록 시각: 2026-07-26 · 작성: Grok Build · 저장: `_notebook/99-devlog.md` + helana_log `logs/2026/07/`*
+*§50–61 기록 시각: 2026-07-26 · **agent:** _Grok · 저장: `_notebook/99-devlog.md` + `session-2026-07-26_Grok.md` + `logs/2026/07/DevLog_20260726_Grok.md`*
+
+### 62. 에이전트 파일 마크 규약 신설 (_Grok)
+
+**질문(Boss):** 폰 폴더·업무 수첩에 Grok도 같이 저장하되 꼭 **`_Grok`** 마크. ds(Aider)·cc(Claude)와 병행.
+
+**감사 결과 (이전 로그)**
+- `_Grok` / `_Claude` / `_Aider` **접미 규약은 없었다.**
+- 부분 흔적만 존재: 본문「작성: Grok」, 파일명 `DevLog_Grok_…`, `*grok*comparison*`, `.aider.chat.history*`, `.claude/`
+- 공용 일지·수첩에 **누가 썼는지 파일명으로 강제하는 규칙 없음** → 덮어쓰기 위험
+
+**조치**
+| 파일 | 역할 |
+|------|------|
+| `_notebook/30-agent-file-marks.md` | Shared 규약 |
+| `_notebook/session-2026-07-26_Grok.md` | 이 세션 수첩 메모 (_Grok) |
+| `logs/…/DevLog_20260726_Grok.md` | 로그 정규 접미 `_Grok` |
+| `CLAUDE.md` · `00-INDEX.md` | 규칙·목차 반영 |
+| `99-devlog` §50–61 헤더 | `(_Grok)` 표기 |
+
+**이후 모든 에이전트:** 신규 수첩/세션 파일 = `*{주제}_{Grok|Claude|Aider}.md`
 
