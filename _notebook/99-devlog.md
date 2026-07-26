@@ -1050,3 +1050,29 @@ helana-faith / helena-piano / helena-psycare
 
 **채널:** UC_IPajoyj6_IO8wt9JwVCAQ · 구독자 0명 · 동영상 1개
 
+### 52. 5×5 레포별 텔레그램 전용 봇 구축 (2026-07-26)
+
+**Boss 지시:** "레포지토리별 리포팅 라인 텔레그램 봇 따로따로 다 설정."
+
+**5개 봇 생성 완료:**
+
+| # | 레포 | 봇 | 토큰 | 상태 |
+|---|------|-----|------|------|
+| 1 | helena_phone | @S21Phone_Bot | 기존 | 🟢 |
+| 2 | helana_log | @helana_logbot | `8937927183:...` | 🟢 |
+| 3 | helena-faith | @helana_faithbot | `8819591168:...` | 🟢 |
+| 4 | helena-piano | @helena_pianobot | `8918184400:...` | 🟢 |
+| 5 | helena-psycare | @helena_psycarebot | `8705721129:...` | 🟢 |
+
+**소개글 전송:**
+- 각 레포 파싱 → 소개글 + 이미지·영상 생성 프롬프트 포함
+- helana_log: 행정대화록 (DW/BL/DC 3트랙 · Fact→Feel→Gap→Fix→Next)
+- helena-faith: 가족신앙사·비교종교학 (카톨릭→개신교·3축)
+- helena-piano: 피아노·MIDI·AI음원·GitHub Actions (4분할)
+- helena-psycare: 정신의학·분석·MCP모델·돌봄기록 (3렌즈·4분면)
+
+**인프라:**
+- 모든 토큰 `.secrets.env`에 저장 (gitignore 보호)
+- `helana_log/scripts/tg.sh` 전용 보고 스크립트 생성
+- 모든 chat_id: `8579179811` (Boss 회의실)
+
