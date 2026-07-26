@@ -130,6 +130,7 @@ NOTEBOOK_TITLES = {
     "28-grok-github-bridge.md": "Grok 인터프리터",
     "29-grok-cli-installed.md": "Grok CLI 설치",
     "30-agent-file-marks.md": "에이전트 파일 마크 _Grok",
+    "31-agent-roles_Grok.md": "직함 디자이너·반장·감사",
     "session-2026-07-26_Grok.md": "세션 2026-07-26 _Grok",
     "99-devlog.md": "개발일지",
     "ai-agents-cc-ds-grok-comparison-2026-07-25.md": "cc vs ds vs grok",

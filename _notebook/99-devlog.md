@@ -1016,3 +1016,17 @@ helana-faith / helena-piano / helena-psycare
 
 **이후 모든 에이전트:** 신규 수첩/세션 파일 = `*{주제}_{Grok|Claude|Aider}.md`
 
+### 63. 에이전트 직함 분장 — 디자이너 · 반장 · 감사 (_Grok)
+
+**Boss:** Grok은 콘텐츠를 잘 만드니 **디자이너 영역**. DeepSeek Aider는 **작업 반장**. Claude는 나중에 들어오면 **감사** (현재 환경 미설치).
+
+| 직함 | 마크 | CLI | 상태 |
+|------|------|-----|------|
+| 디자이너 | `_Grok` | grok/gr | ✅ |
+| 작업 반장 | `_Aider` | ds/dsflash | ✅ |
+| 감사 | `_Claude` | cc | ⏳ 미설치 |
+
+- 수첩: `_notebook/31-agent-roles_Grok.md`
+- `CLAUDE.md` 표·파이프 갱신 · `30-agent-file-marks` · `25-multi-ai` §8 · INDEX
+- 파이프: Boss → 디자이너 시안 → 반장 시공 → 감사 → Boss 최종
+

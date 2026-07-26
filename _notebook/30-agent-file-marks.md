@@ -8,13 +8,15 @@
 
 ## 1. 필수 마크 (파일명)
 
-| 에이전트 | CLI | 파일명 마크 | 예 |
-|----------|-----|-------------|-----|
-| Grok Build / SuperGrok | `grok` · `gr` | **`_Grok`** | `session-2026-07-26_Grok.md` |
-| Claude Code (DeepSeek radar 포함) | `cc` | **`_Claude`** | `patch-pages_Claude.md` |
-| Aider + DeepSeek | `ds` · `dsflash` | **`_Aider`** | `diff-fix_Aider.md` |
-| 사람(Boss) 직접 | — | **`_Boss`** 또는 마크 없음 | `decision-2026-07-26_Boss.md` |
-| 공동·합본·규약 자체 | 여러 명 | **`_Shared`** | `30-agent-file-marks.md` 는 Shared |
+| 에이전트 | CLI | 직함 (2026-07-26) | 파일명 마크 | 예 |
+|----------|-----|-------------------|-------------|-----|
+| Grok Build / SuperGrok | `grok` · `gr` | **디자이너** (콘텐츠) | **`_Grok`** | `session-2026-07-26_Grok.md` |
+| Aider + DeepSeek | `ds` · `dsflash` | **작업 반장** | **`_Aider`** | `queue-fix_Aider.md` |
+| Claude (추후 진입) | `cc` | **감사** | **`_Claude`** | `audit-20260726_Claude.md` |
+| 사람(Boss) 직접 | — | 최종 판단 | **`_Boss`** 또는 마크 없음 | `decision-2026-07-26_Boss.md` |
+| 공동·합본·규약 자체 | 여러 명 | — | **`_Shared`** | `30-agent-file-marks.md` |
+
+역할 본문: [`31-agent-roles_Grok.md`](./31-agent-roles_Grok.md)
 
 ### 규칙
 

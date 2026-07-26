@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="**Boss 결정 (2026-07-26)** — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>에이전트 역할 분장 — 디자이너 · 작업 반장 · 감사 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>에이전트 역할 분장 — 디자이너 · 작업 반장 · 감사</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>에이전트 역할 분장 — 디자이너 · 작업 반장 · 감사</h1>
+    <p class="deck">**Boss 결정 (2026-07-26)**</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/31-agent-roles_Grok.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1">1. 한눈에</a></li>
+<li><a href="#2-_grok">2. _Grok — 디자이너 (콘텐츠 영역)</a><ul>
+<li><a href="#_2">맡는 것</a></li>
+<li><a href="#_3">안 맡는 것 (원칙)</a></li>
+<li><a href="#_4">산출 예</a></li>
+</ul>
+</li>
+<li><a href="#3-_aider-deepseek">3. _Aider (DeepSeek) — 작업 반장</a><ul>
+<li><a href="#_5">맡는 것</a></li>
+<li><a href="#_6">안 맡는 것</a></li>
+<li><a href="#_7">반장 핸드오프 형식 (권장)</a></li>
+</ul>
+</li>
+<li><a href="#4-_claude">4. _Claude — 감사 (추후 진입)</a><ul>
+<li><a href="#_8">맡는 것</a></li>
+<li><a href="#_9">안 맡는 것 (역할이 감사일 때)</a></li>
+<li><a href="#_10">감사 게이트 (초안)</a></li>
+</ul>
+</li>
+<li><a href="#5">5. 협업 흐름 (기본 파이프)</a></li>
+<li><a href="#6">6. 이전 표와의 관계</a></li>
+<li><a href="#7">7. 다음에 할 일</a></li>
+</ul>
+</div>
+</nav>
+  <article class="wz-prose">
+    <hr>
+<p>date: 2026-07-26<br>
+agent: Grok<br>
+mark: _Grok<br>
+cli: grok<br>
+type: org-decision<br>
+boss: true<br>
+status: active</p>
+<hr>
+<h1 id="_1">에이전트 역할 분장 — 디자이너 · 작업 반장 · 감사</h1>
+<blockquote>
+<p><strong>Boss 결정 (2026-07-26)</strong><br>
+기록 agent: <strong>_Grok</strong> (수첩 마크 규약 준수)<br>
+설치 현황: Grok ✅ · DeepSeek Aider (<code>ds</code>) ✅ · <strong>Claude 본진은 이 환경에 아직 미설치</strong> (추후 진입)</p>
+</blockquote>
+<hr>
+<h2 id="1">1. 한눈에</h2>
+<pre><code>Boss (큰누나 / 최종 판단)
+        │
+        ├─► _Grok     · 디자이너 · 콘텐츠 영역
+        ├─► _Aider    · 작업 반장 · 실행·패치·루프
+        └─► _Claude   · 감사     · 거리 두기 검증  (추후 진입)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>마크</th>
+<th>CLI</th>
+<th>직함</th>
+<th>한 줄</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>_Grok</code></strong></td>
+<td><code>grok</code> / <code>gr</code></td>
+<td><strong>디자이너</strong></td>
+<td>콘텐츠·비주얼·톤·랜딩·웹진·아이콘·카피</td>
+</tr>
+<tr>
+<td><strong><code>_Aider</code></strong></td>
+<td><code>ds</code> / <code>dsflash</code></td>
+<td><strong>작업 반장</strong></td>
+<td>패치 큐·디프·반복 수정·현장 실행 감독</td>
+</tr>
+<tr>
+<td><strong><code>_Claude</code></strong></td>
+<td><code>cc</code> (추후)</td>
+<td><strong>감사</strong></td>
+<td>독립 검증·「아니다」·리스크·품질 게이트</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="2-_grok">2. _Grok — 디자이너 (콘텐츠 영역)</h2>
+<h3 id="_2">맡는 것</h3>
+<ul>
+<li>웹진·랜딩·매니페스트 카피, 정보 구조, 타이포·색·아이콘 무드</li>
+<li>네이버/티스토리용 <strong>원고 드래프트·시각 스캐폴드</strong> (이미지·짧은 클립)</li>
+<li>행정 대화록 등 <strong>서사·톤·공개 경계 카피</strong> (docs 서술 톤 포함)</li>
+<li>채팅 아카이브·리서치로 <strong>콘텐츠 재료</strong> 모으기</li>
+<li>업무 수첩에 <strong>디자인/콘텐츠 결정</strong>을 <code>*_Grok.md</code> 로 남기기</li>
+</ul>
+<h3 id="_3">안 맡는 것 (원칙)</h3>
+<ul>
+<li>끝없는 기계적 리팩터 루프 → 반장(_Aider)에게 넘김</li>
+<li>최종 “이게 법적으로/보안상 맞는가” 단독 확정 → 감사(_Claude) 또는 Boss</li>
+<li>트랙1(돌봄) 안전 판단의 최종 책임 → 항상 <strong>Boss</strong></li>
+</ul>
+<h3 id="_4">산출 예</h3>
+<p><code>index.html</code> 카피, <code>icons/</code>, <code>session-*_Grok.md</code>, 웹진 삽화 프롬프트, helana_log 랜딩 문장</p>
+<hr>
+<h2 id="3-_aider-deepseek">3. _Aider (DeepSeek) — 작업 반장</h2>
+<h3 id="_5">맡는 것</h3>
+<ul>
+<li><strong>작업 큐 실행</strong>: “이 파일 고치라” 목록을 디프 단위로 밀어 넣기</li>
+<li>conf/래퍼/반복 패치, 테스트 돌리고 깨진 것 다시 붙이기</li>
+<li>디자이너(_Grok) 시안을 <strong>코드/설정에 박는 시공</strong></li>
+<li>세션 로그는 <code>*_Aider.md</code> — 뭐가 남았는지 반장 노트</li>
+</ul>
+<h3 id="_6">안 맡는 것</h3>
+<ul>
+<li>브랜드 톤·레이아웃 최종 시안 (디자이너 영역)</li>
+<li>독립 감사 의견서 (감사 영역)</li>
+<li>Boss 없이 트랙1 정책 변경</li>
+</ul>
+<h3 id="_7">반장 핸드오프 형식 (권장)</h3>
+<pre><code class="language-markdown">## 반장 큐 (_Aider)
+- [ ] path — 할 일
+- [ ] …
+시안/근거: session-…_Grok.md §…
+감사 필요 여부: yes/no
+</code></pre>
+<hr>
+<h2 id="4-_claude">4. _Claude — 감사 (추후 진입)</h2>
+<blockquote>
+<p><strong>지금 이 proot 환경에는 Claude 본진 미설치.</strong><br>
+들어올 때 역할은 <strong>작업자가 아니라 감사</strong>로 연다.</p>
+</blockquote>
+<h3 id="_8">맡는 것</h3>
+<ul>
+<li>디자이너 산출·반장 패치에 대한 <strong>거리 둔 검증</strong></li>
+<li>보안(토큰·개인정보), 헌법(CONSTITUTION) 위배, “과한 낙관” 지적</li>
+<li><strong>「아니다」라고 말하기</strong> — 통과/보류/반려 의견</li>
+<li>감사 메모: <code>audit-YYYYMMDD_Claude.md</code> (또는 <code>review-*_Claude.md</code>)</li>
+</ul>
+<h3 id="_9">안 맡는 것 (역할이 감사일 때)</h3>
+<ul>
+<li>시안을 자기가 다시 그리는 주 디자이너 겸직 (예외는 Boss 지시)</li>
+<li>반장 대신 무한 패치 루프 (필요 시 지적만 하고 큐는 _Aider)</li>
+</ul>
+<h3 id="_10">감사 게이트 (초안)</h3>
+<table>
+<thead>
+<tr>
+<th>등급</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>통과</strong></td>
+<td>머지·배포 가능</td>
+</tr>
+<tr>
+<td><strong>보류</strong></td>
+<td>수정 후 재감사</td>
+</tr>
+<tr>
+<td><strong>반려</strong></td>
+<td>방향 재검토 (Boss)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="5">5. 협업 흐름 (기본 파이프)</h2>
+<pre><code>[1] Boss 방향
+      ↓
+[2] _Grok  시안·카피·구조 (디자이너)
+      ↓
+[3] _Aider 시공·패치·루프 (작업 반장)
+      ↓
+[4] _Claude 감사 (설치 후) · 미설치 시 Boss가 간이 감사
+      ↓
+[5] Boss 최종 · push / 발행
+</code></pre>
+<p><strong>예외:</strong> 긴급 핫픽스는 반장이 먼저 고치고, 사후 디자이너 톤 정리 + 감사.</p>
+<hr>
+<h2 id="6">6. 이전 표와의 관계</h2>
+<table>
+<thead>
+<tr>
+<th>예전 표현</th>
+<th>이번 분장</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Grok = 시각·Naver·이미지</td>
+<td><strong>디자이너</strong>로 공식 직함화 (콘텐츠 영역 포함)</td>
+</tr>
+<tr>
+<td>Aider = 보조 코딩</td>
+<td><strong>작업 반장</strong> (보조가 아니라 실행 감독)</td>
+</tr>
+<tr>
+<td>Claude = 메인 코딩 / 리뷰어 혼재</td>
+<td><strong>감사</strong>로 정리 (코딩 메인은 반장+필요 시 다른 레인)</td>
+</tr>
+<tr>
+<td>Claude Code + DeepSeek radar</td>
+<td>엔진 이슈와 <strong>역할(감사)</strong> 은 별개 — 감사 역할은 “거리 두기”가 핵심</td>
+</tr>
+</tbody>
+</table>
+<p>비용 표·CLI 별칭은 <code>CLAUDE.md</code> · <code>07-cli-reference.md</code> 유지.<br>
+파일 마크는 <code>30-agent-file-marks.md</code>.</p>
+<hr>
+<h2 id="7">7. 다음에 할 일</h2>
+<ul>
+<li>[ ] Claude 진입 시: 이 문서 §4를 읽히고 <code>audit-</code> 템플릿 첫 장 작성 (_Claude)</li>
+<li>[ ] 반장용 큐 템플릿을 <code>templates/foreman-queue_Aider.md</code> 로 빼기 (선택)</li>
+<li>[ ] 허브 랜딩/아키텍처 박스에 직함 3종 한 줄 반영 (_Grok 시안)</li>
+</ul>
+<hr>
+<p><em>Boss 결정 기록 · agent mark <code>_Grok</code> · 2026-07-26</em></p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="30-agent-file-marks.html">
+          <span class="dir">Previous</span>
+          <span class="title">에이전트 파일 마크 규약 — `_Grok` · `_Claude` · `_Aider`</span>
+        </a>
+    <a class="next" href="session-2026-07-26_Grok.html">
+          <span class="dir">Next</span>
+          <span class="title">세션 2026-07-26 _Grok</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

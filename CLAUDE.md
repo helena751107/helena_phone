@@ -18,19 +18,26 @@
 - `git push --force`는 원격이 로컬보다 뒤처진 게 확실할 때만. 함부로 쓰지 말 것.
 - 완료 후 `git push` 자동 실행
 
-## AI 에이전트 3종
-| 호출 | 에이전트 | 역할 | 비용 |
-|------|---------|------|------|
-| `cc` | Claude Code (DeepSeek) | 코드·문서·자동화·GitHub·TG | $0 |
-| `grok` | Grok CLI (xAI SuperGrok) | 시각·Naver·이미지·클립·채팅검색 | 45,000원/월 |
-| `ds` / `dsflash` | Aider (DeepSeek Pro/Flash) | 보조 코딩·자동화 루프 | 포함 |
+## AI 에이전트 3종 — 직함 (Boss 2026-07-26)
 
-> Termux: `grok` / `groklogin` / `grokc` / `agent` · `ds`는 `scripts/ds.sh` 래퍼 사용.  
+| 호출 | 마크 | 직함 | 영역 | 비용 | 설치 |
+|------|------|------|------|------|------|
+| `grok` / `gr` | **`_Grok`** | **디자이너** | 콘텐츠·비주얼·톤·랜딩·웹진·아이콘·카피·Naver 드래프트 | 45,000원/월 | ✅ |
+| `ds` / `dsflash` | **`_Aider`** | **작업 반장** | 패치 큐·디프·반복 시공·실행 감독 | DeepSeek 포함 | ✅ |
+| `cc` (추후) | **`_Claude`** | **감사** | 거리 둔 검증·보안·헌법·통과/보류/반려 | 정책에 따름 | ⏳ 미설치 |
+
+**파이프:** Boss 방향 → `_Grok` 시안 → `_Aider` 시공 → `_Claude` 감사(있을 때) → Boss 최종.  
+**상세:** `_notebook/31-agent-roles_Grok.md` · 마크 규약: `30-agent-file-marks.md`
+
+> Termux: `grok` / `groklogin` / `grokc` / `agent` · `ds`는 `scripts/ds.sh` 래퍼.  
 > 예전 `gr`/`grlogin`/`grc` 호환 유지.
+
 ## AI 에이전트 규칙
-- 세션 시작 시 CONSTITUTION.md → CLAUDE.md 순으로 참고할 것
+- 세션 시작 시 CONSTITUTION.md → CLAUDE.md → (역할) `31-agent-roles_Grok.md` 순
 - AI 출력은 전부 1차 가설 — 검증 없이 수용하지 말 것
-- 모든 설정 변경 전후로 기록을 남길 것
+- **디자이너는 톤·구조, 반장은 패치, 감사는 「아니다」** — 직함 침범 최소화
+- Claude가 아직 없으면 감사 간이 게이트는 **Boss**
+- 모든 설정 변경 전후로 기록을 남길 것 (`*_Grok` / `*_Aider` / `*_Claude`)
 
 ## 텔레그램 보고 의무
 작업 완료 후 보고가 필요하면:

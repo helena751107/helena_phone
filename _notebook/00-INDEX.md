@@ -67,6 +67,7 @@
 | `28-grok-github-bridge.md` | Grok — GitHub↔Naver 인터프리터 |
 | `29-grok-cli-installed.md` | Grok CLI 설치 완료 (v0.2.112) |
 | `30-agent-file-marks.md` | **파일 마크 규약** `_Grok` `_Claude` `_Aider` (_Shared) |
+| `31-agent-roles_Grok.md` | **직함 분장** 디자이너·작업반장·감사 (_Grok 기록) |
 | `session-2026-07-26_Grok.md` | 세션 메모 — 웹진·아이콘·행정대화록 (_Grok) |
 | `ai-agents-cc-ds-grok-comparison-2026-07-25.md` | cc/ds/grok 비교 (날짜 스냅샷) |
 | `supergrok-community-research-2026-07-25.md` | SuperGrok 커뮤니티 리서치 |
