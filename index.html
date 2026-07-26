@@ -1325,7 +1325,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   }));
 
   /* —— Accordion chapters —— */
-  const OPEN_DEFAULT = new Set(['install']); // keep install open; rest folded
+  const OPEN_DEFAULT = new Set(); // all chapters folded for clean landing
   const accChapters = $$('section.chapter');
   // toolbar
   const shell = document.querySelector('.shell');
@@ -1413,16 +1413,15 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   hashOpen();
   addEventListener('hashchange', hashOpen);
 
-  // library group accordions
-  $$('.lib-section').forEach((sec, i) => {
+  // library group accordions — all folded by default
+  $$('.lib-section').forEach((sec) => {
     const h = sec.querySelector('h3');
     if (!h) return;
     sec.classList.add('acc-lib');
-    // first lib group open
-    if (i === 0) sec.classList.add('open');
+    sec.classList.remove('open');
     h.tabIndex = 0;
     h.setAttribute('role', 'button');
-    h.setAttribute('aria-expanded', i === 0 ? 'true' : 'false');
+    h.setAttribute('aria-expanded', 'false');
     const toggle = () => {
       const on = !sec.classList.contains('open');
       sec.classList.toggle('open', on);
