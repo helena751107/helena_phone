@@ -52,18 +52,26 @@
 <ul>
 <li><a href="#_1">작업 원칙</a></li>
 <li><a href="#git">Git 작업</a></li>
-<li><a href="#ai-3">AI 에이전트 3종</a></li>
+<li><a href="#ai-3-boss-2026-07-26">AI 에이전트 3종 — 직함 (Boss 2026-07-26)</a></li>
 <li><a href="#ai">AI 에이전트 규칙</a></li>
 <li><a href="#_2">텔레그램 보고 의무</a></li>
 <li><a href="#_3">건강 검진 의무</a></li>
 <li><a href="#_4">업무일지</a></li>
+<li><a href="#2026-07-26">에이전트 파일 마크 (필수 · 2026-07-26~)</a></li>
+<li><a href="#grok-2026-07-26">웹페이지 커버리지 (Grok 상시 · 2026-07-26~)</a></li>
 <li><a href="#paste-pipeline">Paste Pipeline (네이버·티스토리 수동 발행)</a></li>
 <li><a href="#_5">파일 구조</a></li>
 <li><a href="#_6">현재 인프라</a></li>
 </ul>
 </div>
 </nav>
-  <article class="wz-prose">
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
     <blockquote>
 <p>⚠️ <strong>작업 시작 전 반드시 <code>CONSTITUTION.md</code>를 먼저 읽을 것.</strong><br>
 이 문서는 CONSTITUTION.md 아래에서 실제 작업에 적용되는 실무 규칙이다.<br>
@@ -84,46 +92,58 @@
 <li><code>git push --force</code>는 원격이 로컬보다 뒤처진 게 확실할 때만. 함부로 쓰지 말 것.</li>
 <li>완료 후 <code>git push</code> 자동 실행</li>
 </ul>
-<h2 id="ai-3">AI 에이전트 3종</h2>
+<h2 id="ai-3-boss-2026-07-26">AI 에이전트 3종 — 직함 (Boss 2026-07-26)</h2>
 <table>
 <thead>
 <tr>
 <th>호출</th>
-<th>에이전트</th>
-<th>역할</th>
+<th>마크</th>
+<th>직함</th>
+<th>영역</th>
 <th>비용</th>
+<th>설치</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>cc</code></td>
-<td>Claude Code (DeepSeek)</td>
-<td>코드·문서·자동화·GitHub·TG</td>
-<td>$0</td>
-</tr>
-<tr>
-<td><code>grok</code></td>
-<td>Grok CLI (xAI SuperGrok)</td>
-<td>시각·Naver·이미지·클립·채팅검색</td>
+<td><code>grok</code> / <code>gr</code></td>
+<td><strong><code>_Grok</code></strong></td>
+<td><strong>디자이너</strong></td>
+<td>콘텐츠·비주얼·톤·랜딩·웹진·아이콘·카피·Naver 드래프트</td>
 <td>45,000원/월</td>
+<td>✅</td>
 </tr>
 <tr>
 <td><code>ds</code> / <code>dsflash</code></td>
-<td>Aider (DeepSeek Pro/Flash)</td>
-<td>보조 코딩·자동화 루프</td>
-<td>포함</td>
+<td><strong><code>_Aider</code></strong></td>
+<td><strong>작업 반장</strong></td>
+<td>패치 큐·디프·반복 시공·실행 감독</td>
+<td>DeepSeek 포함</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>cc</code> (추후)</td>
+<td><strong><code>_Claude</code></strong></td>
+<td><strong>감사</strong></td>
+<td>거리 둔 검증·보안·헌법·통과/보류/반려</td>
+<td>정책에 따름</td>
+<td>⏳ 미설치</td>
 </tr>
 </tbody>
 </table>
+<p><strong>파이프:</strong> Boss 방향 → <code>_Grok</code> 시안 → <code>_Aider</code> 시공 → <code>_Claude</code> 감사(있을 때) → Boss 최종.<br>
+<strong>상세:</strong> <code>_notebook/31-agent-roles_Grok.md</code> · 마크 규약: <code>30-agent-file-marks.md</code></p>
 <blockquote>
-<p>Termux: <code>grok</code> / <code>groklogin</code> / <code>grokc</code> / <code>agent</code> · <code>ds</code>는 <code>scripts/ds.sh</code> 래퍼 사용.<br>
+<p>Termux: <code>grok</code> / <code>groklogin</code> / <code>grokc</code> / <code>agent</code> · <code>ds</code>는 <code>scripts/ds.sh</code> 래퍼.<br>
 예전 <code>gr</code>/<code>grlogin</code>/<code>grc</code> 호환 유지.</p>
 </blockquote>
 <h2 id="ai">AI 에이전트 규칙</h2>
 <ul>
-<li>세션 시작 시 CONSTITUTION.md → CLAUDE.md 순으로 참고할 것</li>
+<li>세션 시작 시 CONSTITUTION.md → CLAUDE.md → (역할) <code>31-agent-roles_Grok.md</code> 순</li>
 <li>AI 출력은 전부 1차 가설 — 검증 없이 수용하지 말 것</li>
-<li>모든 설정 변경 전후로 기록을 남길 것</li>
+<li><strong>디자이너는 톤·구조, 반장은 패치, 감사는 「아니다」</strong> — 직함 침범 최소화</li>
+<li>Claude가 아직 없으면 감사 간이 게이트는 <strong>Boss</strong></li>
+<li>모든 설정 변경 전후로 기록을 남길 것 (<code>*_Grok</code> / <code>*_Aider</code> / <code>*_Claude</code>)</li>
 </ul>
 <h2 id="_2">텔레그램 보고 의무</h2>
 <p>작업 완료 후 보고가 필요하면:</p>
@@ -141,6 +161,28 @@
 <li>주요 작업, 판단, 전환점은 <code>_notebook/99-devlog.md</code>에 바텀업으로 기록</li>
 <li>AI와의 주요 대화 중 결정적 전환이 있었으면 요지 함께 기록</li>
 <li>추후 <code>g/zero.sh</code>로 압축·정제 예정</li>
+</ul>
+<h2 id="2026-07-26">에이전트 파일 마크 (필수 · 2026-07-26~)</h2>
+<ul>
+<li>업무 수첩·세션 메모·단독 로그를 <strong>새로 쓸 때</strong> 파일명 접미 마크:</li>
+<li>Grok → <strong><code>_Grok</code></strong> (예: <code>session-2026-07-26_Grok.md</code>)</li>
+<li>Claude Code (<code>cc</code>) → <strong><code>_Claude</code></strong></li>
+<li>Aider (<code>ds</code>) → <strong><code>_Aider</code></strong></li>
+<li>사람 → <code>_Boss</code> / 공용 규약 → <code>_Shared</code> 또는 번호 문서 유지</li>
+<li>규약 전문: <code>_notebook/30-agent-file-marks.md</code></li>
+<li>공용 <code>99-devlog.md</code> 섹션을 추가할 때는 제목 끝에 <code>(_Grok)</code> / <code>(_Claude)</code> / <code>(_Aider)</code> 표기</li>
+<li><strong>다른 에이전트 마크 파일은 덮어쓰지 말 것</strong> — 이어서 할 거면 자기 마크 신규 파일 + handoff 체크리스트</li>
+</ul>
+<h2 id="grok-2026-07-26">웹페이지 커버리지 (Grok 상시 · 2026-07-26~)</h2>
+<ul>
+<li><strong><code>_notebook/*.md</code> 는 반드시 <code>notebook/*.html</code> 웹페이지</strong>가 있어야 한다.</li>
+<li><code>_Grok</code> 는 세션마다 갭을 검사하고, 없으면 빌드한다:<br>
+<code>bash
+  python3 scripts/check_webpages_Grok.py   # gap_count
+  python3 scripts/build_webzine.py         # 전체 생성 + coverage JSON</code></li>
+<li>인터랙티브 앱: <code>notebook/webpage-coverage.html</code></li>
+<li>역할 문서: <code>_notebook/33-webpage-coverage_Grok.md</code></li>
+<li>문서 페이지는 공통 <strong>웹앱 UI</strong>(검색·접기·펼치기·본문 복사) — <code>assets/webzine.js</code></li>
 </ul>
 <h2 id="paste-pipeline">Paste Pipeline (네이버·티스토리 수동 발행)</h2>
 <ul>

@@ -123,7 +123,13 @@
 </ul>
 </div>
 </nav>
-  <article class="wz-prose">
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
     <p><strong>S21 Phone 프로젝트 — 완결판 교재 (Day 1~2, 39커밋·102파일·15,874줄)</strong></p>
 <hr>
 <p>이 문서는 두 개의 층을 병합한 것이다. <strong>판단 층</strong>(Claude Code와의 대화 — 왜 그렇게 정했는지)과 <strong>실행 층</strong>(에이전트 devlog — 실제로 뭘 돌렸는지). 순서는 실제로 일어난 그대로 보존했고, 삽질과 정정을 미화하지 않았다. 그게 이 교재의 값어치다.</p>
