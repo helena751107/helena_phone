@@ -113,6 +113,21 @@
 <li><a href="#49-naver-youtube-2026-07-25">49. 비즈니스 모델 — Naver 드래프트(미끼) → YouTube 강의(수익) (2026-07-25)</a></li>
 </ul>
 </li>
+<li><a href="#day-34-2026-07-25-2026-07-26-grok-build">DAY 3–4 — 2026-07-25 ~ 2026-07-26 (Grok Build 세션 일괄)</a><ul>
+<li><a href="#50-supergrok">50. SuperGrok 사용량 · 커뮤니티 리서치</a></li>
+<li><a href="#51-termux-gr-grok">51. Termux 별칭 gr → Grok</a></li>
+<li><a href="#52-3">52. 에이전트 3종 비교 · 텔레그램 문서화</a></li>
+<li><a href="#53-aider-ds">53. Aider (ds) 장애 복구 · 색상 · 강제 종료</a></li>
+<li><a href="#54-helena_phone-a-playwright">54. helena_phone — A급 웹진 랜딩 (Playwright 검증)</a></li>
+<li><a href="#55-4">55. 생태계 위성 4종 — 웹진 랜딩 통일</a></li>
+<li><a href="#56">56. 전 레포 파비콘 · 매니페스트 (서비스 워커 없음)</a></li>
+<li><a href="#57-helana_log">57. helana_log 정체성 전환 — 대한민국 행정 대화록</a></li>
+<li><a href="#58-helana_log">58. helana_log 랜딩 — 문서 온페이지 임베드</a></li>
+<li><a href="#59-url">59. 세션 산출물 맵 (파일·URL)</a></li>
+<li><a href="#60">60. 다음 액션 (일지 기준 백로그)</a></li>
+<li><a href="#61">61. 교훈 (이번 세션)</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </nav>
@@ -1181,6 +1196,219 @@ YouTube 강의(Claude Code 완성본)로 들어와서 수익이 된다.</p>
 - Grok = GPU 부담 없을 때 80% 스캐폴드 드래프트<br>
 - ComfyUI = GPU 사용 가능할 때 100% 품질<br>
 - 둘이 경쟁이 아니라 단계적 파이프라인</p>
+<hr>
+<h2 id="day-34-2026-07-25-2026-07-26-grok-build">DAY 3–4 — 2026-07-25 ~ 2026-07-26 (Grok Build 세션 일괄)</h2>
+<blockquote>
+<p>세션 주체: <strong>Grok (SuperGrok / Grok Build TUI)</strong><br>
+작업 루트: <code>/root/work</code> (helena_phone) · <code>/tmp/sites/*</code> (위성 Pages)<br>
+주제 축: 에이전트 운용 · 웹진 랜딩 · 홈 화면 아이콘 · <strong>행정 대화록 정체성</strong></p>
+</blockquote>
+<h3 id="50-supergrok">50. SuperGrok 사용량 · 커뮤니티 리서치</h3>
+<ul>
+<li>SuperGrok <strong>주간 Usage pool</strong> 구조 확인 (한도·리셋 주기 커뮤니티 정보 조사)</li>
+<li>토큰 단위 과금이 아니라 구독 풀 소모 모델 → 일지 §48과 정합</li>
+<li>실무 함의: 긴 코딩/리서치 세션은 풀 소모 체감 큼 → 역할 분담(cc/ds/grok) 유지</li>
+</ul>
+<h3 id="51-termux-gr-grok">51. Termux 별칭 <code>gr</code> → Grok</h3>
+<ul>
+<li>Termux에서 <code>grok</code> CLI 호출 단축: 별칭 <strong><code>gr</code></strong></li>
+<li>기존 <code>cc</code>(Claude Code) · <code>ds</code>(Aider/DeepSeek)와 3단 단축 체계 정렬</li>
+<li>목표 UX: 폰 한 대에서 에이전트 전환 마찰 최소화</li>
+</ul>
+<h3 id="52-3">52. 에이전트 3종 비교 · 텔레그램 문서화</h3>
+<table>
+<thead>
+<tr>
+<th>단축</th>
+<th>도구</th>
+<th>역할 (당시 합의)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cc</code></td>
+<td>Claude Code (+ DeepSeek radar 등)</td>
+<td>메인 코딩·레포 작업</td>
+</tr>
+<tr>
+<td><code>ds</code></td>
+<td>Aider + DeepSeek</td>
+<td>보조 패치·디프 중심</td>
+</tr>
+<tr>
+<td><code>gr</code> / Grok</td>
+<td>Grok Build / SuperGrok</td>
+<td>리서치·웹진·이미지·채팅 아카이브·네이버 드래프트</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>비교 문서를 <strong>텔레그램용</strong>으로 정리 후, 요청에 따라 <strong>URL 위주</strong>로 전달 형태 조정</li>
+<li>영문 → 국문 정리 이력 포함</li>
+</ul>
+<h3 id="53-aider-ds">53. Aider (<code>ds</code>) 장애 복구 · 색상 · 강제 종료</h3>
+<p><strong>증상</strong><br>
+- <code>ds</code> 세션이 Claude/다른 정체성으로 환각(hallucination)하거나 설정 꼬임<br>
+- 색상(diff/테마) 가독성 문제<br>
+- 프로세스가 멈춰 kill 필요</p>
+<p><strong>조치</strong><br>
+- Aider conf / history / wrapper 점검·수정 (정체성·모델 경로 고정)<br>
+- 색상 설정 정리<br>
+- <strong>stuck Aider는 <code>pgrep -f</code> 단독이 아니라 PID 기준 종료</strong> (오탐·미종료 방지)<br>
+- 복구 후 <code>ds</code>가 보조 코딩 레인으로 다시 사용 가능하게</p>
+<h3 id="54-helena_phone-a-playwright">54. helena_phone — A급 웹진 랜딩 (Playwright 검증)</h3>
+<p><strong>목표:</strong> 갤럭시 S21 워크스테이션 서사를 <strong>에디토리얼 웹진</strong>으로 랜딩</p>
+<p><strong>구현 요약</strong><br>
+- <code>index.html</code> 전면 개편: masthead, chapter rail, cover, accordion 챕터, install 섹션<br>
+- <code>assets/webzine.css</code> · <code>assets/webzine.js</code> · <code>scripts/build_webzine.py</code> 체계<br>
+- 모바일 터치 타깃·safe-area·버거 메뉴 (드로어 <strong>밖</strong>에 토글 — 드로어 안에 두면 닫기 불가)<br>
+- 아코디언: 닫힘 시 잔여 높이(약 28px) → <code>0fr</code> / overflow 정리<br>
+- <code>const chapters</code> 이중 선언 충돌 → <code>accChapters</code> / <code>chapterIds</code> 등으로 분리</p>
+<p><strong>배포 장애 타임라인</strong><br>
+| 이슈 | 대응 |<br>
+|------|------|<br>
+| Jekyll / nested git | <code>.nojekyll</code>, 경로 정리 |<br>
+| Pages 배포 stuck (예: <code>1923e83</code>) | 배포 취소 후 재시도, peaceiris → <code>gh-pages</code> 브랜치, Actions <code>deploy-pages</code> |<br>
+| 라이브 반영 지연 | Actions SUCCESS 확인 후 curl 200 검증 |<br>
+| Playwright “대충” 검증 지적 | 실제 브라우저 스냅/높이·아코디언 동작 재검증 루프 |</p>
+<p><strong>Install (PWA 아님)</strong><br>
+- <strong>서비스 워커 없음</strong><br>
+- <code>site.webmanifest</code> + <code>icons/</code> (16/32/192/512/maskable/svg/apple-touch)<br>
+- <code>start_url</code> / <code>scope</code> 절대 경로: <code>/helena_phone/</code><br>
+- Chrome/Edge “홈 화면에 추가” 아이콘 정상 목표</p>
+<p><strong>라이브:</strong> https://helena751107.github.io/helena_phone/</p>
+<h3 id="55-4">55. 생태계 위성 4종 — 웹진 랜딩 통일</h3>
+<p>각 레포에 helena_phone 톤의 랜딩 + Giscus + 생태계 링크 바:</p>
+<table>
+<thead>
+<tr>
+<th>레포</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>helana_log</td>
+<td>https://helena751107.github.io/helana_log/</td>
+</tr>
+<tr>
+<td>helana-faith</td>
+<td>https://helena751107.github.io/helana-faith/</td>
+</tr>
+<tr>
+<td>helena-piano</td>
+<td>https://helena751107.github.io/helena-piano/</td>
+</tr>
+<tr>
+<td>helena-psycare</td>
+<td>https://helena751107.github.io/helena-psycare/</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>공통: sticky mast, accordion, theme toggle, hub 링크</li>
+<li>작업 클론 경로: <code>/tmp/sites/{repo}</code> → <code>main</code> push</li>
+<li>텔레그램 안내는 <strong>URL 위주</strong> (장문 HTML 대신)</li>
+</ul>
+<h3 id="56">56. 전 레포 파비콘 · 매니페스트 (서비스 워커 없음)</h3>
+<p><strong>요구:</strong> helena_phone처럼 “바로 가기 추가 시 아이콘” — SW 없이</p>
+<p><strong>아이콘 생성</strong><br>
+- Playwright로 SVG 모노그램 → PNG 일괄<br>
+  - Log <strong>L</strong> 청록 · Faith <strong>F</strong> 금 · Piano <strong>P</strong> 라일락 · PsyCare <strong>C</strong> 코랄<br>
+- 파일: <code>icons/favicon-16|32.png</code>, <code>apple-touch-icon.png</code>, <code>icon-192|512.png</code>, <code>icon-maskable-512.png</code>, <code>icon.svg</code></p>
+<p><strong>연결</strong><br>
+- 각 <code>site.webmanifest</code>: <code>id</code>/<code>start_url</code>/<code>scope</code> = <code>/repo/</code><br>
+- icons src 절대 경로 <code>/repo/icons/...</code> (192/512/maskable/svg/favicon-32)<br>
+- <code>index.html</code> head: favicon 16/32, svg, apple-touch, mask-icon, application-name, apple-mobile-web-app-*</p>
+<p><strong>배포 커밋 (위성, 예)</strong><br>
+- helana_log <code>d06ca2e</code> 등 — <em>Add local install icons and web app manifest</em><br>
+- 라이브 검증: 4레포 × manifest/icon-192/512 <strong>HTTP 200</strong></p>
+<h3 id="57-helana_log">57. helana_log 정체성 전환 — 대한민국 행정 대화록</h3>
+<p><strong>이전:</strong> 일반 학습·트러블슈팅·일일 로그 창고<br>
+<strong>이후:</strong> 복합 돌봄 가정 × 한국 행정 <strong>대화록 아카이브</strong></p>
+<p><strong>가정 맥락 (공개 기록 단위)</strong><br>
+| 코드 | 축 | 맥락 |<br>
+|------|-----|------|<br>
+| DW | 장애·정신건강 복지 | 조현병 등 당사자 <strong>누나</strong> |<br>
+| BL | 기초생활 보장 | 수급·생계 안전망 가구 |<br>
+| DC | 치매·노인 돌봄 | <strong>치매 어머니</strong> |</p>
+<p><strong>문서 트리 (<code>docs/</code>)</strong><br>
+| 경로 | 역할 |<br>
+|------|------|<br>
+| <code>IDENTITY.md</code> | 정체성 헌장 (한 줄 정의, 아닌 것, 톤) |<br>
+| <code>METHOD.md</code> | Fact / Feel / Gap / Fix / Next |<br>
+| <code>dialogue/_TEMPLATE.md</code> | 빈 템플릿 |<br>
+| <code>dialogue/2026-07-26-opening.md</code> | 성격 전환 첫 대화록 |<br>
+| <code>tracks/disability-welfare.md</code> 등 | 트랙별 빈칸 체크리스트 |<br>
+| <code>solutions/README.md</code> | 솔루션 승격 보드 |<br>
+| <code>logs/README.md</code> | 날것 캡처 vs 정제 대화록 |<br>
+| <code>CLAUDE.md</code> | AI 규칙 갱신 (개인정보·단정 금지) |</p>
+<p><strong>커밋:</strong> <code>6269eeb</code> — <em>Rebrand Helana Log as Korea admin dialogue archive</em></p>
+<p><strong>브랜드 카피</strong></p>
+<blockquote>
+<p>행정은 창구로 쪼개지고, 가정은 하루로 이어진다.</p>
+</blockquote>
+<p><strong>아이콘 성격 업데이트</strong><br>
+- 인장(seal) 링 + 서류 플레이트 + L + 「行政日誌」<br>
+- manifest <code>short_name</code>: <strong>행정대화록</strong><br>
+- categories: government / social / education</p>
+<p><strong>경계 (명시)</strong><br>
+- 법률 자문·수급 대행·의료 가이드 아님<br>
+- 공무원 실명 비난 채널 아님 → 제도·프로세스·정보 설계<br>
+- 긴급 시 공식 경로(정신건강복지센터·119 등) 우선<br>
+- 주민번호·계좌·정확한 주소·진료 원문 커밋 금지</p>
+<h3 id="58-helana_log">58. helana_log 랜딩 — 문서 온페이지 임베드</h3>
+<p><strong>요구:</strong> “랜딩 페이지에 업데이트” — GitHub 링크만이 아니라 <strong>사이트 안에서</strong> 읽히게</p>
+<p><strong>랜딩 섹션</strong><br>
+1. 히어로 + 한 집의 세 축 + 인용(느낀 바)<br>
+2. <code>#charter</code> 정체성 헌장 요약<br>
+3. <code>#method</code> 기록 방법 <strong>5단</strong> 카드<br>
+4. <code>#tracks</code> DW/BL/DC + 자주 비는 틈 불릿<br>
+5. <code>#dialogue</code> 2026-07-26 대화록 <strong>전문 임베드</strong> (Fact~Next 표 포함)<br>
+6. <code>#solutions</code> 솔루션 보드 (위기 1p / 갱신 체크 / 타임라인 / 질문 카드)<br>
+7. 경계 · 문서 지도 · 홈 화면 추가 · Giscus</p>
+<p><strong>커밋:</strong> <code>a3b8ae9</code> — <em>Expand landing with on-page charter, method, and dialogue</em><br>
+<strong>라이브:</strong> https://helena751107.github.io/helana_log/ (캐시 시 hard refresh)</p>
+<h3 id="59-url">59. 세션 산출물 맵 (파일·URL)</h3>
+<pre><code>helena_phone
+  index.html, assets/webzine.*, site.webmanifest, icons/
+  scripts/build_webzine.py
+  _notebook/99-devlog.md  ← 본 일지
+
+helana_log  (행정 대화록)
+  index.html, site.webmanifest, icons/
+  docs/IDENTITY|METHOD|tracks|dialogue|solutions
+  logs/ (날것) + 본 일지 복사본 logs/2026/07/DevLog_Grok_20260726.md
+
+helana-faith / helena-piano / helena-psycare
+  index.html, site.webmanifest, icons/ (각 모노그램)
+</code></pre>
+<p><strong>Pages (전부 main 배포 전제, SW 없음)</strong><br>
+- https://helena751107.github.io/helena_phone/<br>
+- https://helena751107.github.io/helana_log/<br>
+- https://helena751107.github.io/helana-faith/<br>
+- https://helena751107.github.io/helena-piano/<br>
+- https://helena751107.github.io/helena-psycare/</p>
+<h3 id="60">60. 다음 액션 (일지 기준 백로그)</h3>
+<ul>
+<li>[ ] helana_log: 실제 창구·전화 후 <code>docs/dialogue/</code> 템플릿 1편</li>
+<li>[ ] <code>docs/solutions/dw-crisis-map.md</code> 위기 연락 1페이지</li>
+<li>[ ] BL 갱신 체크리스트 · DC 하루 타임라인</li>
+<li>[ ] 위성 랜딩 카피 중 아직 “학습 로그” 잔향 있으면 트랙별 톤 정리</li>
+<li>[ ] helena_phone 허브 카피에 helana_log <strong>행정 대화록</strong> 한 줄 반영</li>
+<li>[ ] 노출된 토큰 패턴 있으면 재발급·로그 마스킹 (이전 ParksyLog 경고와 동일 원칙)</li>
+</ul>
+<h3 id="61">61. 교훈 (이번 세션)</h3>
+<ol>
+<li><strong>Pages는 커밋 ≠ 라이브</strong> — Actions/브랜치 stuck 먼저 보고 curl 200으로 닫을 것  </li>
+<li><strong>프로젝트 사이트는 manifest 절대 경로</strong> (<code>/repo/icons/...</code>) 필수  </li>
+<li><strong>아이콘은 레포 로컬 자산</strong> — 허브 아이콘 빌려 쓰면 설치 아이콘이 전부 같아짐  </li>
+<li><strong>정체성 바꾸면 문서 → 랜딩 → manifest short_name → 아이콘</strong> 순으로 한 세트  </li>
+<li><strong>대화록은 Fact/Feel 분리</strong> — 행정 기록의 재사용 가능성 핵심  </li>
+<li><strong>에이전트 킬은 PID</strong> — 패턴 매칭 kill은 놓치거나 과다 킬</li>
+</ol>
+<hr>
+<p><em>§50–61 기록 시각: 2026-07-26 · 작성: Grok Build · 저장: <code>_notebook/99-devlog.md</code> + helana_log <code>logs/2026/07/</code></em></p>
   </article>
   <nav class="wz-pager">
     <a class="" href="29-grok-cli-installed.html">
