@@ -117,8 +117,8 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   align-items: center; gap: 12px;
   padding: 12px clamp(14px, 3vw, 36px);
   padding-top: max(12px, env(safe-area-inset-top));
-  padding-left: max(14px, env(safe-area-inset-left));
-  padding-right: max(14px, env(safe-area-inset-right));
+  padding-left: max(16px, calc(env(safe-area-inset-left, 0px) + 12px));
+  padding-right: max(16px, calc(env(safe-area-inset-right, 0px) + 12px));
   background: color-mix(in srgb, var(--paper) 88%, transparent);
   backdrop-filter: blur(16px) saturate(1.2);
   -webkit-backdrop-filter: blur(16px) saturate(1.2);
@@ -181,7 +181,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .chapter-rail a:hover span, .chapter-rail a.on span { opacity: 1; color: var(--ink-dim); }
 
 /* Layout */
-.shell { max-width: var(--max); margin: 0 auto; padding: 0 clamp(18px, 4vw, 32px); position: relative; z-index: 1; }
+.shell { max-width: var(--max); margin: 0 auto; padding: 0 clamp(22px, 5vw, 36px); position: relative; z-index: 1; }
 .chapter { padding: clamp(72px, 12vw, 120px) 0; border-top: 1px solid var(--rule); }
 .chapter:first-of-type { border-top: none; }
 .ch-label {
@@ -213,7 +213,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   position: absolute; inset: 0; opacity: .04; z-index: 0; pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-.cover-inner { position: relative; z-index: 1; width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 clamp(18px, 4vw, 32px); }
+.cover-inner { position: relative; z-index: 1; width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 clamp(22px, 5vw, 36px); }
 .cover-kicker {
   display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center;
   font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 28px;
@@ -722,7 +722,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   .ed-card, .agent-card, .f-col { padding: 20px 16px; }
   .canvas-box { min-height: 260px; padding: 12px; }
   #costPie { width: min(280px, 85vw) !important; height: auto !important; max-width: 100%; }
-  .shell { padding-left: max(14px, env(safe-area-inset-left)); padding-right: max(14px, env(safe-area-inset-right)); }
+  .shell { padding-left: max(22px, calc(env(safe-area-inset-left, 0px) + 16px)); padding-right: max(22px, calc(env(safe-area-inset-right, 0px) + 16px)); }
   .chapter { padding: 48px 0; }
 }
 @media (max-width: 520px) {
@@ -733,6 +733,49 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 @media (max-width: 380px) {
   .ch-grid { grid-template-columns: 1fr; }
 }
+
+/* —— Mobile readability: keep text clear of left spine + edge clip —— */
+:root { --gutter: max(20px, calc(env(safe-area-inset-left, 0px) + 14px)); --gutter-r: max(20px, calc(env(safe-area-inset-right, 0px) + 14px)); }
+.spine { width: 2px !important; opacity: .9; pointer-events: none; }
+.shell,
+.cover-inner,
+.acc-toolbar.shell,
+.acc-toolbar {
+  padding-left: var(--gutter) !important;
+  padding-right: var(--gutter-r) !important;
+  box-sizing: border-box;
+}
+.masthead {
+  padding-left: var(--gutter) !important;
+  padding-right: var(--gutter-r) !important;
+}
+.mast-brand { padding-left: 0; margin-left: 0; }
+.mast-left { padding-left: 0; }
+.cover h1,
+.ch-title,
+.cover-sub,
+.ch-deck {
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+  padding-inline: 2px; /* negative letter-spacing can clip first glyph */
+}
+.cover h1 { letter-spacing: -0.02em; } /* slightly less aggressive than -0.03 */
+.marquee-wrap { margin-inline: 0; }
+.acc-head { padding-left: 2px; padding-right: 2px; }
+.to-top {
+  right: max(14px, env(safe-area-inset-right, 0px)) !important;
+  bottom: max(18px, env(safe-area-inset-bottom, 0px)) !important;
+}
+@media (max-width: 640px) {
+  :root { --gutter: max(22px, calc(env(safe-area-inset-left, 0px) + 16px)); --gutter-r: max(22px, calc(env(safe-area-inset-right, 0px) + 16px)); }
+  .cover h1 { font-size: clamp(2.1rem, 10.5vw, 3.2rem); line-height: 1.02; }
+  .cover-stats { margin-inline: 0; }
+  .keys { max-width: 100%; }
+  .infograph-box { padding-left: 14px; padding-right: 14px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .svg-arch { min-width: 520px; } /* allow pan instead of crush */
+  .chapter-rail { display: none !important; }
+}
+
 </style>
 </head>
 <body>
