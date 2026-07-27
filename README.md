@@ -63,4 +63,4 @@ curl -sL https://raw.github.com/helena751107/helena_phone/main/g/install.sh | ba
 ---
 
 > © 2026 Helena Park — 대필작가-간병인 · Galaxy S21 + Termux + proot Ubuntu
-> 모든 계정은 큰누나 명의입니다.
+> 모든 계정은 누나 명의입니다.

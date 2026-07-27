@@ -386,7 +386,7 @@ def page_shell(
   {related_html}
   <footer class="wz-foot">
     <div>S21 PHONE · Webzine Vol.01</div>
-    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
     <p style="margin-top:12px"><a href="{home}">← Back to landing</a></p>
   </footer>
 </main>

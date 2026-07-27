@@ -286,7 +286,7 @@ print_constitution() {
   echo ""
   echo "  전체 헌법: ${target}/CONSTITUTION.md"
   echo ""
-  echo -e "${BOLD}  이 시스템의 주인은 큰누나입니다.${NC}"
+  echo -e "${BOLD}  이 시스템의 주인은 누나입니다.${NC}"
   echo -e "${BOLD}  사용자는 대필작가이자 간병인입니다.${NC}"
   echo "═══════════════════════════════════════════════════"
 }
