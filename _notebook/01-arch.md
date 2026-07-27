@@ -15,7 +15,7 @@
 │   │   └── _notebook/        ← 이 업무 수첩
 │   │
 │   ├── Claude Code (현재 엔진) ← AI 코딩 에이전트
-│   │   └── DeepSeek Radar 바이패스 ← Anthropic 과금 회피
+│   │   └── DeepSeek 바이패스 ← Anthropic 과금 회피
 │   │
 │   └── Aider v0.86.2         ← 보조 AI 코딩 도구
 │
@@ -37,7 +37,7 @@
     └── TG_CHAT: 8579179811
 ```
 
-## DeepSeek Radar (Anthropic 과금 바이패스)
+## DeepSeek (Anthropic 과금 바이패스)
 
 Claude Code가 DeepSeek API 위에서 돌도록 우회:
 
@@ -85,7 +85,7 @@ YouTube (5채널) ← 1:1 → Tistory (5블로그) ← 1:1 → GitHub (5레포)
 │   └── proot-distro → Ubuntu 26.04 LTS
 │
 ├── proot Ubuntu 컨테이너
-│   ├── Claude Code (DeepSeek Radar) — 메인
+│   ├── Claude Code (DeepSeek) — 메인
 │   ├── Grok CLI (xAI SuperGrok) — 시각·Naver
 │   ├── Aider (DeepSeek) — 보조 코딩
 │   ├── phone-mcp-server (18도구·3456포트)
@@ -109,6 +109,6 @@ YouTube (5채널) ← 1:1 → Tistory (5블로그) ← 1:1 → GitHub (5레포)
 
 | 도구 | 엔진 | 비용 | 용도 |
 |------|------|------|------|
-| Claude Code | DeepSeek Radar | $0 | 코드·문서·자동화 |
+| Claude Code | DeepSeek | $0 | 코드·문서·자동화 |
 | Grok CLI | xAI SuperGrok | 45,000원/월 | 시각·Naver·이미지 |
 | Aider | DeepSeek | $0 | 보조 코딩 |

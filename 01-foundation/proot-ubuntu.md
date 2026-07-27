@@ -54,4 +54,4 @@ proot-distro remove ubuntu
 
 ## 다음 단계
 
-→ [Claude Code + DeepSeek Radar 설치](./claude-code.md)
+→ [Claude Code + DeepSeek 설치](./claude-code.md)

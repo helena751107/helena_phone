@@ -104,7 +104,7 @@ helena_phone/
 
 ```
 📱 S21 (Android + Termux + proot Ubuntu)
-├── Claude Code (DeepSeek Radar) — 메인 코딩
+├── Claude Code (DeepSeek) — 메인 코딩
 ├── Grok CLI (xAI SuperGrok) — 시각·Naver
 ├── Aider (DeepSeek) — 보조 코딩
 ├── phone-mcp-server (18 도구, 포트 3456)

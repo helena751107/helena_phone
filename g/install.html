@@ -208,7 +208,7 @@ clone_repo() {
 # ── 4단계: Claude Code + DeepSeek 설정 ────────────────────────────────────
 setup_claude() {
   echo &quot;&quot;
-  echo &quot;─── 4단계: Claude Code + DeepSeek Radar ───&quot;
+  echo &quot;─── 4단계: Claude Code + DeepSeek ───&quot;
 
   local target=&quot;/root/work&quot;
 
@@ -222,9 +222,9 @@ setup_claude() {
   fi
 
   # DeepSeek 환경변수
-  info &quot;DeepSeek Radar 설정 (Anthropic 과금 우회)...&quot;
+  info &quot;DeepSeek 설정 (Anthropic 과금 우회)...&quot;
   cat &gt; &quot;${target}/configs/deepseek.env&quot; &lt;&lt; &#x27;DSEOF&#x27;
-# DeepSeek Radar — Anthropic API 과금 우회
+# DeepSeek — Anthropic API 과금 우회
 # ANTHROPIC_BASE_URL만 DeepSeek 엔드포인트로, Claude Code UI/도구는 그대로
 export ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
 export ANTHROPIC_MODEL=deepseek-v4-pro

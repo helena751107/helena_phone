@@ -8,7 +8,7 @@
 |---|------|--------|------|
 | 1.1 | [Termux 설치](./termux-setup.md) | ⭐ 초급 | 10분 |
 | 1.2 | [proot Ubuntu](./proot-ubuntu.md) | ⭐⭐ 중급 | 15분 |
-| 1.3 | [Claude Code + DeepSeek Radar](./claude-code.md) | ⭐⭐ 중급 | 20분 |
+| 1.3 | [Claude Code + DeepSeek](./claude-code.md) | ⭐⭐ 중급 | 20분 |
 | 1.4 | [Git/GitHub 연결](./git-github.md) | ⭐ 초급 | 10분 |
 
 ## 전체 흐름
@@ -16,7 +16,7 @@
 ```
 F-Droid → Termux 설치 → pkg update
     → proot-distro Ubuntu 설치
-        → Claude Code + DeepSeek Radar
+        → Claude Code + DeepSeek
             → Git → GitHub 연결
                 → 🎉 완료
 ```

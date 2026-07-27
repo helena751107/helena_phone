@@ -151,7 +151,7 @@ setup_repo() {
 # ── 5단계: Claude Code + DeepSeek ─────────────────────────────────────────
 setup_claude() {
   echo ""
-  echo "─── 5단계: Claude Code + DeepSeek Radar ───"
+  echo "─── 5단계: Claude Code + DeepSeek ───"
 
   if ! command -v claude >/dev/null 2>&1; then
     info "npm install -g @anthropic-ai/claude-code..."

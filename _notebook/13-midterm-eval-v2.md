@@ -25,7 +25,7 @@
 - **5x5 생태계 매트릭스** — GitHub↔Tistory↔YouTube 1:1:1 + 네이버 관저탑
 - **Domain/Codomain 경계** — Android SELinux 모델 정확히 이해, 루팅 없이 가능한 것과 불가능한 것 구분
 - **스트림 A/B 분리** — 공개 콘텐츠와 비공개 안전 데이터 물리적 파이프 분리
-- **비용 구조** — DeepSeek Radar 우회, "0원 풀스택" 실현
+- **비용 구조** — DeepSeek 우회, "0원 풀스택" 실현
 - **트랙 1 데몬 분리 설계** — "절대 안 깨짐"을 위해 AI 의존성 없는 Termux 네이티브 crontab 설계 (+1)
 
 ---

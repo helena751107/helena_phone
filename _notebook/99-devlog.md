@@ -1,7 +1,7 @@
 # 📋 S21 Phone — 전체 개발일지
 
 > 구축 기간: 2026-07-23 ~ 2026-07-24
-> 환경: Termux → proot Ubuntu → Claude Code (DeepSeek Radar)
+> 환경: Termux → proot Ubuntu → Claude Code (DeepSeek)
 
 ---
 
@@ -13,7 +13,7 @@
 - GitHub 레포 `s21-work` 생성 → `helena751107/s21-work`
 - GitHub 연결 + push 파이프 개통
 
-### 2. Claude Code + DeepSeek Radar (Anthropic 과금 바이패스)
+### 2. Claude Code + DeepSeek (Anthropic 과금 바이패스)
 ```env
 ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
 ANTHROPIC_MODEL=deepseek-chat
@@ -157,7 +157,7 @@ _notebook/ = History + Making film + 로고 아카이브
 ```
 📱 폰 (Android + Termux)
 ├── proot Ubuntu 컨테이너
-│   ├── Claude Code (DeepSeek Radar) ← 현재 너
+│   ├── Claude Code (DeepSeek) ← 현재 너
 │   ├── Aider v0.86.2
 │   ├── phone-mcp-server (18 도구) ← 📲 폰 통제 가능
 │   └── Git → GitHub
@@ -691,7 +691,7 @@ alias agent='proot-distro login ubuntu -- bash -c "agent"'
 **우리 폰의 AI 도구 3종:**
 | 도구 | 엔진 | 역할 | 비용 |
 |------|------|------|------|
-| Claude Code | DeepSeek Radar | 코드·문서·자동화·GitHub | $0 |
+| Claude Code | DeepSeek | 코드·문서·자동화·GitHub | $0 |
 | Grok CLI | xAI (SuperGrok) | 시각·네이버·에이전트·이미지 | 45,000원/월 |
 | Aider | DeepSeek | 보조 코딩 | $0 |
 

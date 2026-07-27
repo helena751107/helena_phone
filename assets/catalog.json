@@ -74,7 +74,7 @@
   {
     "src": "01-foundation/claude-code.md",
     "out": "foundation/claude-code.html",
-    "title": "1.3 Claude Code + DeepSeek Radar",
+    "title": "1.3 Claude Code + DeepSeek",
     "section": "Foundation",
     "kind": "md",
     "deck": "AI 코딩 에이전트를 폰에서 돌리기 — 과금 없이"

@@ -1,7 +1,7 @@
 # 📋 S21 Phone — proot Ubuntu 개발일지 종합 보고서
 
 > 일시: 2026-07-23 ~ 2026-07-25
-> 환경: Galaxy S21 → Termux → proot Ubuntu → Claude Code (DeepSeek Radar)
+> 환경: Galaxy S21 → Termux → proot Ubuntu → Claude Code (DeepSeek)
 > 입력: 100% STT 음성입력 (12시간 실작업)
 > 신체: 식당 육체노동 병행
 > 산출: 39커밋 · 102파일 · 15,874줄
@@ -18,7 +18,7 @@
 - Collaborator: dtslib1979 (5개 레포 admin)
 
 ### AI 엔진
-- Claude Code → DeepSeek Radar 우회
+- Claude Code → DeepSeek 우회
 - `ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic`
 - 비용 10~50배 절감
 

@@ -32,7 +32,7 @@
 ```
 👑 HELENA (사용자) — BOSS. 최종 의사결정권자.
 │
-├── 🤖 Claude Code (DeepSeek Radar) — 실행 에이전트, 도구 #1
+├── 🤖 Claude Code (DeepSeek) — 실행 에이전트, 도구 #1
 │    역할: 코드 작성·문서화·설계 보조·검증 실행
 │    권한: 제안 가능, 결정 불가. 모든 출력은 Boss 승인 전까지 가설.
 │
@@ -79,7 +79,7 @@
 
 > **이걸 코드로:** `git init && git remote add origin https://github.com/helena751107/...`
 
-### [2] Claude Code + DeepSeek Radar
+### [2] Claude Code + DeepSeek
 
 ANTHROPIC_BASE_URL을 DeepSeek 엔드포인트로 배선. Claude Code의 UI/도구는 그대로, LLM만 DeepSeek로 교체. 비용 약 10~50배 절감. Claude Code는 애초에 모델-불가지론적 클라이언트라 엔드포인트만 갈아끼우면 된다.
 

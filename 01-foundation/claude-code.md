@@ -1,4 +1,4 @@
-# 1.3 Claude Code + DeepSeek Radar
+# 1.3 Claude Code + DeepSeek
 
 > AI 코딩 에이전트를 폰에서 돌리기 — 과금 없이
 
@@ -11,13 +11,13 @@ Claude Code는 Anthropic이 만든 **터미널 기반 AI 코딩 에이전트**�
 
 Claude Code는 기본적으로 Anthropic API를 호출하는데, 한국에서 쓰면 호출당 수백 원.
 
-## 해결: DeepSeek Radar
+## 해결: DeepSeek
 
 [DeepSeek](https://platform.deepseek.ai/)이 Anthropic 호환 API를 제공한다.
 Claude Code의 `ANTHROPIC_BASE_URL`만 DeepSeek 엔드포인트로 바꾸면 된다.
 
 ```bash
-# DeepSeek Radar 환경변수 설정
+# DeepSeek 환경변수 설정
 export ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
 export ANTHROPIC_MODEL=deepseek-chat
 export ANTHROPIC_AUTH_TOKEN=sk-xxxxx  # DeepSeek API 키

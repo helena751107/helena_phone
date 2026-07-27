@@ -43,12 +43,12 @@
 |--------|------|---------|
 | §1 | `026d295` | `gugudan.py` — 구구단 출력 (테스트 파일) |
 | §1 | — | Git init → GitHub `s21-work` 레포 생성 |
-| §2 | — | Claude Code + DeepSeek Radar 우회 설정 |
+| §2 | — | Claude Code + DeepSeek 우회 설정 |
 | §3 | `330f7b2` | GitHub Pages 개통 → `helena751107.github.io/helena_phone/` |
 | §4 | — | 레포 개명 `s21-work` → `helena_phone` |
 | §5 | `c85819e` | Discussions + Giscus 댓글 활성화 |
 
-**핵심 설정 — DeepSeek Radar:**
+**핵심 설정 — DeepSeek:**
 ```bash
 ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
 ANTHROPIC_MODEL=deepseek-chat
@@ -380,7 +380,7 @@ CC가 자신을 "니 형"이라고 부르는 걸 목격. "AI가 사람 말투로
 **명령 체계:**
 ```
 👑 HELENA (사용자) — BOSS. 최종 의사결정권자.
-├── 🤖 Claude Code (DeepSeek Radar) — 실행. 제안만. 결정 불가.
+├── 🤖 Claude Code (DeepSeek) — 실행. 제안만. 결정 불가.
 ├── 🤖 Claude Code (Anthropic 정품) — 검증. "아니다" 가능. 결정 불가.
 ├── 🤖 Aider (v0.86.2) — 보조 코딩
 └── 👤 강박사 (CS PhD) — 기술 자문. 기술 영역 자율권 O, 방향 결정은 Boss.
@@ -525,7 +525,7 @@ devlog 38섹션을 다 쓰고 나서, 이걸 어떻게 읽을 수 있는 형태�
 install.sh
 ├── 0. 체크: Android 버전, Termux 설치 여부, 저장공간
 ├── 1. proot Ubuntu 설치 + 기본 패키지
-├── 2. Claude Code + DeepSeek Radar 설정
+├── 2. Claude Code + DeepSeek 설정
 ├── 3. GitHub 레포 클론 + remote 설정
 ├── 4. configs/ 복사 (settings.json, .bashrc, secrets-template)
 ├── 5. phone-mcp-server 설치 + 서비스 등록

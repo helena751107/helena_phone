@@ -2,7 +2,7 @@
 
 > 이 저장소가 어떻게 만들어졌는지 — 생생한 현장 기록
 > 기간: 2026-07-23 ~ 2026-07-24 (2일)
-> 환경: 갤럭시 S21 → Termux → proot Ubuntu → Claude Code (DeepSeek Radar)
+> 환경: 갤럭시 S21 → Termux → proot Ubuntu → Claude Code (DeepSeek)
 
 ---
 
@@ -30,7 +30,7 @@ helena751107.github.io/helena_phone/  ← "S21 Workstation Live" 발행
 - Anthropic API는 비싸다 (호출 한 번에 수백 원)
 - DeepSeek는 1/10 가격
 
-그래서 만든 게 **DeepSeek Radar** — `ANTHROPIC_BASE_URL`만 DeepSeek endpoint로 바꾸는 꼼수. Claude Code의 UI/도구는 그대로, LLM 엔진만 DeepSeek V3로 교체.
+그래서 만든 게 **DeepSeek** — `ANTHROPIC_BASE_URL`만 DeepSeek endpoint로 바꾸는 꼼수. Claude Code의 UI/도구는 그대로, LLM 엔진만 DeepSeek V3로 교체.
 
 > **비용: 0원. 성능: 거의 동일.**
 
@@ -139,7 +139,7 @@ YouTube OAuth TV 클라이언트 ID를 발급받으려고 했는데, 문득 생�
 ```
 📱 갤럭시 S21 (Android + Termux)
 ├── 🐧 proot Ubuntu 컨테이너
-│   ├── 🤖 Claude Code (DeepSeek Radar) ← AI 코딩 에이전트
+│   ├── 🤖 Claude Code (DeepSeek) ← AI 코딩 에이전트
 │   ├── 📡 phone-mcp-server (18개 도구) ← 폰 통제
 │   └── 🔗 Git → GitHub
 │
@@ -183,7 +183,7 @@ YouTube OAuth TV 클라이언트 ID를 발급받으려고 했는데, 문득 생�
 
 ```
 📱 S21 (Android + Termux + proot Ubuntu)
-├── 🤖 Claude Code (DeepSeek Radar) — 메인 코딩 엔진
+├── 🤖 Claude Code (DeepSeek) — 메인 코딩 엔진
 ├── 🎨 Grok CLI (xAI SuperGrok) — 시각·Naver
 ├── 🔧 Aider (DeepSeek) — 보조 코딩
 ├── 📡 phone-mcp-server (18도구)

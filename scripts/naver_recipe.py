@@ -83,7 +83,7 @@ EXAMPLE = {
     "intro": """삼성 구형 핸드폰 Galaxy S21.
 2021년에 출시된 이 폰이 2026년, AI 개발 워크스테이션으로 다시 태어났습니다.
 
-Termux + proot Ubuntu + Claude Code + DeepSeek Radar.
+Termux + proot Ubuntu + Claude Code + DeepSeek.
 모든 비용 0원. 모든 작업 100% 음성입력.
 
 이 레시피는 "폰을 AI 서버로 만드는"全过程을 요리하듯 안내합니다.""",
@@ -92,7 +92,7 @@ Termux + proot Ubuntu + Claude Code + DeepSeek Radar.
         "📱 삼성 갤럭시 S21 (또는 아무 안드로이드 폰)",
         "🛠️ Termux (F-Droid에서 설치)",
         "🐧 proot-distro Ubuntu 26.04",
-        "🤖 Claude Code + DeepSeek Radar (무료 LLM)",
+        "🤖 Claude Code + DeepSeek (무료 LLM)",
         "📺 YouTube 채널 (@helena_phone)",
         "📝 GitHub 계정 (helena751107)",
         "💬 Discord 서버 + Telegram 봇",
@@ -102,7 +102,7 @@ Termux + proot Ubuntu + Claude Code + DeepSeek Radar.
     "steps": [
         "Termux 설치하기 — F-Droid에서 다운로드. Play Store 버전은 업데이트 중단됐으니 F-Droid만 사용하세요.",
         "proot Ubuntu 올리기 — `proot-distro install ubuntu` 한 줄이면 끝. 5분 소요.",
-        "Claude Code 얹기 — npm으로 Claude Code 설치. DeepSeek Radar로 API 비용 우회 (0원!).",
+        "Claude Code 얹기 — npm으로 Claude Code 설치. DeepSeek로 API 비용 우회 (0원!).",
         "GitHub 연결하기 — 레포 5개 생성. Pages + Giscus + WidgetBot 자동 활성화.",
         "폰 통제 MCP 올리기 — phone-mcp-server로 SMS·배터리·GPS·카메라 원격 제어. 루트 없이 18개 도구.",
         "건강 검진 자동화 — phone-health.sh로 27개 항목 진단. 배터리·WiFi·센서·카메라 전부 체크.",

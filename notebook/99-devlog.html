@@ -52,7 +52,7 @@
 <ul>
 <li><a href="#day-1-2026-07-23">DAY 1 — 2026-07-23</a><ul>
 <li><a href="#1">1. 기반 구축</a></li>
-<li><a href="#2-claude-code-deepseek-radar-anthropic">2. Claude Code + DeepSeek Radar (Anthropic 과금 바이패스)</a></li>
+<li><a href="#2-claude-code-deepseek-radar-anthropic">2. Claude Code + DeepSeek (Anthropic 과금 바이패스)</a></li>
 <li><a href="#3-github-pages">3. GitHub Pages 개통</a></li>
 <li><a href="#4-s21-work-helena_phone">4. 레포 개명 s21-work → helena_phone</a></li>
 <li><a href="#5-discussions-giscus">5. Discussions + Giscus 댓글 활성화</a></li>
@@ -168,7 +168,7 @@
   <article class="wz-prose" id="wzProse" data-app="doc">
     <blockquote>
 <p>구축 기간: 2026-07-23 ~ 2026-07-24<br>
-환경: Termux → proot Ubuntu → Claude Code (DeepSeek Radar)</p>
+환경: Termux → proot Ubuntu → Claude Code (DeepSeek)</p>
 </blockquote>
 <hr>
 <h2 id="day-1-2026-07-23">DAY 1 — 2026-07-23</h2>
@@ -179,7 +179,7 @@
 <li>GitHub 레포 <code>s21-work</code> 생성 → <code>helena751107/s21-work</code></li>
 <li>GitHub 연결 + push 파이프 개통</li>
 </ul>
-<h3 id="2-claude-code-deepseek-radar-anthropic">2. Claude Code + DeepSeek Radar (Anthropic 과금 바이패스)</h3>
+<h3 id="2-claude-code-deepseek-radar-anthropic">2. Claude Code + DeepSeek (Anthropic 과금 바이패스)</h3>
 <pre><code class="language-env">ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
 ANTHROPIC_MODEL=deepseek-chat
 </code></pre>
@@ -400,7 +400,7 @@ _notebook/ = History + Making film + 로고 아카이브
 <h2 id="_1">현재 인프라 전체 구성</h2>
 <pre><code>📱 폰 (Android + Termux)
 ├── proot Ubuntu 컨테이너
-│   ├── Claude Code (DeepSeek Radar) ← 현재 너
+│   ├── Claude Code (DeepSeek) ← 현재 너
 │   ├── Aider v0.86.2
 │   ├── phone-mcp-server (18 도구) ← 📲 폰 통제 가능
 │   └── Git → GitHub
@@ -1140,7 +1140,7 @@ alias agent='proot-distro login ubuntu -- bash -c &quot;agent&quot;'
 <p><strong>우리 폰의 AI 도구 3종:</strong><br>
 | 도구 | 엔진 | 역할 | 비용 |<br>
 |------|------|------|------|<br>
-| Claude Code | DeepSeek Radar | 코드·문서·자동화·GitHub | $0 |<br>
+| Claude Code | DeepSeek | 코드·문서·자동화·GitHub | $0 |<br>
 | Grok CLI | xAI (SuperGrok) | 시각·네이버·에이전트·이미지 | 45,000원/월 |<br>
 | Aider | DeepSeek | 보조 코딩 | $0 |</p>
 <p><strong>Grok CLI vs grok_api.py 분리:</strong><br>

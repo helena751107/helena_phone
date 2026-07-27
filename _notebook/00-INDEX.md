@@ -1,7 +1,7 @@
 # 📖 S21 Phone 업무 수첩
 
 > 구축: 2026-07-23 ~ 2026-07-26  
-> 환경: Galaxy S21 → Termux → proot Ubuntu → Claude Code (DeepSeek Radar) + Grok CLI (xAI SuperGrok) + Aider  
+> 환경: Galaxy S21 → Termux → proot Ubuntu → Claude Code (DeepSeek) + Grok CLI (xAI SuperGrok) + Aider  
 > **에이전트 마크:** 신규 메모는 파일명 접미 `_Grok` / `_Claude` / `_Aider` / `_Boss` / `_Shared`  
 > 규약: [`30-agent-file-marks.md`](./30-agent-file-marks.md)
 

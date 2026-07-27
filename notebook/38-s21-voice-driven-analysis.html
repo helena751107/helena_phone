@@ -3,231 +3,372 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>📱 S21 Voice-Driven 분석 — S21 Phone</title>
-<style>
-:root { --bg:#0a0908; --sf:#12100e; --tx:#f4efe6; --mu:#b5a999; --rd:#e85d4c; --gn:#3db8a8; --gd:#d4a84b; --bl:#5b9eff; --br:rgba(244,239,230,0.08); }
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--tx);line-height:1.7;-webkit-font-smoothing:antialiased}
-.wrap{max-width:900px;margin:0 auto;padding:24px 20px 60px}
-header{text-align:center;padding:60px 0 30px;border-bottom:1px solid var(--br);margin-bottom:40px}
-header .kicker{font-size:.7em;letter-spacing:3px;text-transform:uppercase;color:var(--rd);margin-bottom:8px}
-header h1{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800}
-header .deck{color:var(--mu);margin-top:8px;font-size:.95em}
-h2{font-size:1.1em;margin:36px 0 14px;color:var(--gd);border-bottom:1px solid var(--br);padding-bottom:8px}
-.card{background:var(--sf);border:1px solid var(--br);border-radius:12px;padding:24px;margin:10px 0}
-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.85em}
-th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--br)}
-th{color:var(--gd);font-weight:600;font-size:.7em;letter-spacing:1px;text-transform:uppercase}
-.g{color:var(--gn)} .r{color:var(--rd)} .y{color:var(--gd)}
-
-/* ── Interactive Slider Compare ── */
-.slider-compare{position:relative;margin:20px 0;background:var(--sf);border:1px solid var(--br);border-radius:12px;overflow:hidden}
-.slider-compare .labels{display:flex;justify-content:space-between;padding:12px 20px;font-size:.8em;color:var(--mu)}
-.slider-compare .bar-row{display:flex;align-items:center;padding:8px 20px;gap:10px}
-.slider-compare .bar-name{min-width:70px;font-size:.78em;text-align:right;color:var(--mu)}
-.slider-compare .bar-dual{flex:1;height:20px;background:var(--br);border-radius:10px;position:relative;overflow:hidden;cursor:pointer}
-.slider-compare .bar-s21{position:absolute;left:0;top:0;height:100%;background:var(--gn);border-radius:10px 0 0 10px;transition:width .3s}
-.slider-compare .bar-s26{position:absolute;right:0;top:0;height:100%;background:var(--rd);border-radius:0 10px 10px 0;transition:width .3s}
-.slider-compare .bar-val{font-size:.7em;min-width:50px;color:var(--tx)}
-.slider-compare .drag-hint{text-align:center;font-size:.7em;color:var(--mu);padding:8px;border-top:1px solid var(--br)}
-
-/* ── Tabs ── */
-.tabs{display:flex;gap:4px;margin:12px 0}
-.tab-btn{padding:8px 18px;background:var(--sf);border:1px solid var(--br);border-radius:8px 8px 0 0;color:var(--mu);cursor:pointer;font-size:.8em;transition:.2s}
-.tab-btn.on{background:var(--br);color:var(--tx);border-bottom-color:transparent}
-.tab-panel{display:none;background:var(--sf);border:1px solid var(--br);border-radius:0 8px 8px 8px;padding:20px}
-.tab-panel.on{display:block}
-
-/* ── Radar Chart ── */
-.radar-wrap{display:flex;justify-content:center;margin:16px 0}
-canvas{max-width:100%}
-
-/* ── Stat Bounce ── */
-.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0}
-.stat-card{background:var(--sf);border:1px solid var(--br);border-radius:10px;padding:18px;text-align:center;transition:.3s;cursor:pointer}
-.stat-card:hover{border-color:var(--gd);transform:translateY(-2px)}
-.stat-card .val{font-size:1.6em;font-weight:800;transition:.3s}
-.stat-card .val.bounce{animation:bounce .4s ease}
-@keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
-.stat-card .lbl{font-size:.7em;color:var(--mu);margin-top:4px}
-
-/* ── Device Selector ── */
-.device-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:12px 0}
-.device-opt{background:var(--sf);border:2px solid var(--br);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:.3s}
-.device-opt:hover{border-color:var(--gd)}
-.device-opt.sel{border-color:var(--gn);background:rgba(61,184,168,0.08)}
-.device-opt .ico{font-size:1.4rem;margin-bottom:4px}
-.device-opt .name{font-size:.75em;font-weight:600}
-.device-result{margin-top:12px;padding:16px;background:var(--sf);border:1px solid var(--br);border-radius:10px;font-size:.85em;min-height:60px}
-
-/* ── Footer ── */
-footer{text-align:center;padding:40px 0 20px;border-top:1px solid var(--br);margin-top:40px;color:var(--mu);font-size:.8em}
-a{color:var(--gd);text-decoration:none} a:hover{text-decoration:underline}
-@media(max-width:600px){.stat-grid{grid-template-columns:repeat(2,1fr)}.device-grid{grid-template-columns:repeat(2,1fr)}}
-</style>
+<meta name="description" content="분석: 2026-07-27 | 실측 기기: SM-G991N (Galaxy S21 5G) — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>📱 S21 Voice-Driven 분석 — 하드웨어 + 보이스 OS 적합성 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
 </head>
 <body>
-<div class="wrap">
-
-<header>
-  <div class="kicker">📱 Device Analysis · Interactive</div>
-  <h1>S21 Voice-Driven 분석</h1>
-  <p class="deck">5년 된 구형폰 — 보이스 드리븐 플랫폼 생태계의 엔진으로 쓸 수 있을까?</p>
-  <p style="color:var(--mu);font-size:.75em;margin-top:8px;">실측 SM-G991N · Android 15 · 2026-07-27</p>
-</header>
-
-<!-- ═══ 인터랙티브 비교 슬라이더 ═══ -->
-<h2>📊 인터랙티브: S21 vs S26 Ultra</h2>
-<div class="slider-compare" id="compareSlider">
-  <div class="labels"><span style="color:var(--gn)">◁ S21 우세</span><span style="color:var(--rd)">S26U 우세 ▷</span></div>
-  <div id="barContainer"></div>
-  <div class="drag-hint">👆 각 항목의 막대를 좌우로 드래그해서 직접 비교하세요</div>
-</div>
-
-<!-- ═══ 스탯 카드 ═══ -->
-<h2>📈 실측 수치 (터치해서 새로고침)</h2>
-<div class="stat-grid" id="statGrid">
-  <div class="stat-card" data-val="8"><div class="val">8GB</div><div class="lbl">RAM (LPDDR5)</div></div>
-  <div class="stat-card" data-val="172"><div class="val">172GB</div><div class="lbl">저장공간 남음</div></div>
-  <div class="stat-card" data-val="4000"><div class="val">4,000</div><div class="lbl">mAh (5년 사용)</div></div>
-  <div class="stat-card" data-val="169"><div class="val">169g</div><div class="lbl">무게</div></div>
-</div>
-
-<!-- ═══ 탭: 장점 / 한계 / 인사이트 ═══ -->
-<h2>🔍 상세 분석</h2>
-<div class="tabs">
-  <button class="tab-btn on" data-tab="pros">✅ 장점</button>
-  <button class="tab-btn" data-tab="cons">❌ 한계</button>
-  <button class="tab-btn" data-tab="insight">💡 인사이트</button>
-</div>
-
-<div class="tab-panel on" id="pros">
-  <table>
-  <tr><th>장점</th><th>설명</th><th>Voice-Driven 적합</th></tr>
-  <tr><td>충분한 연산력</td><td>STT·LLM·API 전부 클라우드. 로컬은 bash만.</td><td class="g">★★★★★</td></tr>
-  <tr><td>배터리 지속성</td><td>화면OFF+API호출로 하루 종일</td><td class="g">★★★★☆</td></tr>
-  <tr><td>169g 경량</td><td>한 손·이동·식당 노동 중 실제 사용</td><td class="g">★★★★★</td></tr>
-  <tr><td>20만원</td><td>최신폰 1/9. 실패 리스크↓</td><td class="g">★★★★★</td></tr>
-  </table>
-</div>
-<div class="tab-panel" id="cons">
-  <table>
-  <tr><th>한계</th><th>설명</th><th>우회 방법</th></tr>
-  <tr><td>NPU 부재</td><td>로컬 LLM 불가</td><td class="g">API로 100% 대체</td></tr>
-  <tr><td>배터리 노화</td><td>5년·~85% 용량</td><td class="g">교체 5~8만원</td></tr>
-  <tr><td>발열</td><td>Exynos 2100 쓰로틀링</td><td class="y">여름철 냉각</td></tr>
-  <tr><td>디스플레이</td><td>6.2" 코드 리뷰 협소</td><td class="g">덱스 모드</td></tr>
-  </table>
-</div>
-<div class="tab-panel" id="insight">
-  <div class="card" style="border-left:3px solid var(--gd)">
-    <p style="font-size:1.1em"><strong style="color:var(--gd)">보이스 드리븐 운영의 역설:</strong></p>
-    <p style="margin-top:8px;color:var(--mu)">API 호출이 주력인 환경에서는 로컬 성능보다 네트워크·배터리·휴대성이 더 중요하다. S21은 이 세 가지에서 여전히 경쟁력이 있다. NPU 부재는 API가 대체하고, 경량성·저비용·수리 용이성은 구조적 우위. 이게 "중고폰으로 AI 플랫폼을 돌리는" 전략의 기술적 근거다.</p>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
   </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>📱 S21 Voice-Driven 분석 — 하드웨어 + 보이스 OS 적합성</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>📱 S21 Voice-Driven 분석 — 하드웨어 + 보이스 OS 적합성</h1>
+    <p class="deck">분석: 2026-07-27 | 실측 기기: SM-G991N (Galaxy S21 5G)</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/38-s21-voice-driven-analysis.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1-s21-2026-7">1. S21 실측 사양 (2026년 7월)</a></li>
+<li><a href="#2-voice-driven-os-s21">2. Voice-Driven OS 운영 — S21의 장점</a><ul>
+<li><a href="#_1">✅ 충분한 연산력</a></li>
+<li><a href="#_2">✅ 배터리 지속성</a></li>
+<li><a href="#_3">✅ 물리적 경량성</a></li>
+<li><a href="#_4">✅ 비용 효율</a></li>
+<li><a href="#_5">✅ 소프트웨어 성숙도</a></li>
+</ul>
+</li>
+<li><a href="#3-voice-driven-os-s21">3. Voice-Driven OS 운영 — S21의 한계</a><ul>
+<li><a href="#npu-ai">❌ NPU 부재 → 온디바이스 AI 불가</a></li>
+<li><a href="#_6">❌ 배터리 노화</a></li>
+<li><a href="#_7">❌ 발열 제약</a></li>
+<li><a href="#wifi-6">❌ WiFi 6 한계</a></li>
+<li><a href="#_8">❌ 디스플레이 크기</a></li>
+</ul>
+</li>
+<li><a href="#4-voice-driven">4. 핵심 인사이트 — Voice-Driven에는 오히려 구형이 낫다</a></li>
+<li><a href="#5-voice-driven">5. 다른 Voice-Driven 디바이스와 비교</a></li>
+</ul>
 </div>
-
-<!-- ═══ 디바이스 선택기 ═══ -->
-<h2>📱 Voice 디바이스 비교</h2>
-<div class="device-grid" id="deviceGrid">
-  <div class="device-opt sel" data-dev="s21"><div class="ico">📱</div><div class="name">S21+Termux</div></div>
-  <div class="device-opt" data-dev="rpi"><div class="ico">🥧</div><div class="name">Raspberry Pi</div></div>
-  <div class="device-opt" data-dev="spk"><div class="ico">🔊</div><div class="name">스마트스피커</div></div>
-  <div class="device-opt" data-dev="lap"><div class="ico">💻</div><div class="name">저가노트북</div></div>
-  <div class="device-opt" data-dev="tab"><div class="ico">📋</div><div class="name">태블릿+키보드</div></div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <blockquote>
+<p>분석: 2026-07-27 | 실측 기기: SM-G991N (Galaxy S21 5G)<br>
+질문: 이 폰으로 보이스 드리븐 플랫폼 생태계를 돌릴 때 장단점은?</p>
+</blockquote>
+<hr>
+<h2 id="1-s21-2026-7">1. S21 실측 사양 (2026년 7월)</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>실측값</th>
+<th>2026년 플래그십(S26U 추정)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>프로세서</td>
+<td>Exynos 2100 (5nm·8코어)</td>
+<td>SD 8 Gen 4 (3nm)</td>
+</tr>
+<tr>
+<td>RAM</td>
+<td>8GB LPDDR5</td>
+<td>12~16GB LPDDR6</td>
+</tr>
+<tr>
+<td>저장</td>
+<td>256GB UFS 3.1 (172GB free)</td>
+<td>256GB~1TB UFS 4.0</td>
+</tr>
+<tr>
+<td>배터리</td>
+<td>4,000mAh (5년 사용·건강 GOOD)</td>
+<td>5,000~5,500mAh</td>
+</tr>
+<tr>
+<td>디스플레이</td>
+<td>6.2&rdquo; FHD+ 120Hz</td>
+<td>6.8&rdquo; QHD+ 144Hz</td>
+</tr>
+<tr>
+<td>WiFi</td>
+<td>WiFi 6</td>
+<td>WiFi 7</td>
+</tr>
+<tr>
+<td>NPU</td>
+<td>❌ 없음</td>
+<td>✅ 45 TOPS</td>
+</tr>
+<tr>
+<td>Android</td>
+<td>15 (SDK 35)</td>
+<td>16</td>
+</tr>
+<tr>
+<td>무게</td>
+<td>169g</td>
+<td>~230g</td>
+</tr>
+<tr>
+<td>중고가</td>
+<td>~20만원</td>
+<td>~180만원</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="2-voice-driven-os-s21">2. Voice-Driven OS 운영 — S21의 장점</h2>
+<h3 id="_1">✅ 충분한 연산력</h3>
+<ul>
+<li>STT 자체는 클라우드(Google Speech) 또는 온디바이스(삼성 키보드 음성)로 처리</li>
+<li>Claude Code·Grok·Aider 전부 <strong>API 호출</strong>이라 로컬 연산 무관</li>
+<li>Termux + proot Ubuntu는 경량. 8GB RAM이면 충분</li>
+</ul>
+<h3 id="_2">✅ 배터리 지속성</h3>
+<ul>
+<li>화면 OFF + 백그라운드 API 호출 위주 → 배터리 소모 적음</li>
+<li>상시 대기 음성비서(Alexa·Google Assistant류)보다 전력 효율적</li>
+<li>4,000mAh로 하루 종일 STT→API→블로그 발행 가능</li>
+</ul>
+<h3 id="_3">✅ 물리적 경량성</h3>
+<ul>
+<li>169g. 한 손에 들고 말하기 좋음</li>
+<li>식당 노동·이동 중에도 사용 가능 (실제 검증됨)</li>
+<li>덱스 모드로 외부 모니터 연결 시 데스크탑급 환경</li>
+</ul>
+<h3 id="_4">✅ 비용 효율</h3>
+<ul>
+<li>중고가 20만원. 실패해도 리스크 적음</li>
+<li>수리비 저렴. 배터리 교체 5~8만원</li>
+<li>최신 폰 대비 1/9 가격으로 동일한 API 접근 가능</li>
+</ul>
+<h3 id="_5">✅ 소프트웨어 성숙도</h3>
+<ul>
+<li>Android 15 + One UI 6 → 안정적인 백그라운드 실행</li>
+<li>Termux API 완벽 지원 (18개 MCP 도구 전부 구동)</li>
+<li>5년간 검증된 안정성. 초기 불량 리스크 없음</li>
+</ul>
+<hr>
+<h2 id="3-voice-driven-os-s21">3. Voice-Driven OS 운영 — S21의 한계</h2>
+<h3 id="npu-ai">❌ NPU 부재 → 온디바이스 AI 불가</h3>
+<ul>
+<li>로컬 LLM(Ollama·llama.cpp) 실행 불가. 7B 모델도 RAM 부족</li>
+<li>온디바이스 음성인식은 삼성 키보드 의존 (커스터마이징 불가)</li>
+<li>실시간 음성→텍스트 스트리밍에 클라우드 의존</li>
+</ul>
+<h3 id="_6">❌ 배터리 노화</h3>
+<ul>
+<li>5년 사용 배터리. 최대 용량의 ~85%로 추정</li>
+<li>장시간 화면 녹화 시 급격한 소모</li>
+<li>교체 가능하나 방수 등급 하락 감수</li>
+</ul>
+<h3 id="_7">❌ 발열 제약</h3>
+<ul>
+<li>Exynos 2100은 발열 관리가 상대적으로 취약</li>
+<li>Playwright·Chromium 장시간 구동 시 쓰로틀링</li>
+<li>여름철 실외 사용 시 추가 냉각 필요</li>
+</ul>
+<h3 id="wifi-6">❌ WiFi 6 한계</h3>
+<ul>
+<li>대용량 영상 업로드 시 WiFi 7 대비 4.8배 느림</li>
+<li>YouTube 1080p 영상(10분·~500MB) 업로드에 WiFi 6으로 충분하나<br>
+  4K·장시간 영상에서는 체감 차이 발생</li>
+</ul>
+<h3 id="_8">❌ 디스플레이 크기</h3>
+<ul>
+<li>6.2&rdquo;는 코드 리뷰·문서 편집에 협소</li>
+<li>덱스 모드로 보완 가능하나 이동 중엔 불편</li>
+<li>화면 녹화 시 정보 밀도가 높으면 가독성 저하</li>
+</ul>
+<hr>
+<h2 id="4-voice-driven">4. 핵심 인사이트 — Voice-Driven에는 오히려 구형이 낫다</h2>
+<blockquote>
+<p><strong>보이스 드리븐 운영의 역설:</strong><br>
+API 호출이 주력인 환경에서는 로컬 성능보다 <strong>네트워크·배터리·휴대성</strong>이 더 중요하다.<br>
+S21은 이 세 가지에서 여전히 경쟁력이 있다.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>평가 항목</th>
+<th>S21</th>
+<th>S26U</th>
+<th>Voice-Driven 적합</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API 응답 속도</td>
+<td>동일</td>
+<td>동일</td>
+<td><strong>무관</strong> (둘 다 클라우드)</td>
+</tr>
+<tr>
+<td>STT 정확도</td>
+<td>동일</td>
+<td>동일</td>
+<td><strong>무관</strong> (둘 다 Google Speech)</td>
+</tr>
+<tr>
+<td>배터리 지속</td>
+<td>양호</td>
+<td>우수</td>
+<td>S26U 우위</td>
+</tr>
+<tr>
+<td>휴대성</td>
+<td><strong>169g</strong></td>
+<td>~230g</td>
+<td><strong>S21 우위</strong></td>
+</tr>
+<tr>
+<td>발열 관리</td>
+<td>보통</td>
+<td>우수</td>
+<td>S26U 우위</td>
+</tr>
+<tr>
+<td>비용</td>
+<td><strong>20만원</strong></td>
+<td>180만원</td>
+<td><strong>S21 압도적 우위</strong></td>
+</tr>
+<tr>
+<td>수리 용이성</td>
+<td><strong>쉬움</strong></td>
+<td>어려움(신모델)</td>
+<td><strong>S21 우위</strong></td>
+</tr>
+<tr>
+<td>온디바이스 AI</td>
+<td>❌ 불가</td>
+<td>✅ 가능</td>
+<td>선택적 (API로 대체 가능)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>결론: Voice-Driven OS 운영에는 구형 플래그십이 오히려 최적이다.</strong><br>
+NPU 부재는 API가 대체하고, 경량성·저비용·수리 용이성은 S21의 구조적 우위.<br>
+이게 &ldquo;중고폰으로 AI 플랫폼을 돌리는&rdquo; 전략의 기술적 근거다.</p>
+<hr>
+<h2 id="5-voice-driven">5. 다른 Voice-Driven 디바이스와 비교</h2>
+<table>
+<thead>
+<tr>
+<th>디바이스</th>
+<th>STT</th>
+<th>LLM</th>
+<th>미디어 운영</th>
+<th>비용</th>
+<th>평결</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S21 + Termux</td>
+<td>✅</td>
+<td>✅ (API)</td>
+<td>✅ 풀스택</td>
+<td>20만원+월5만</td>
+<td><strong>올인원</strong></td>
+</tr>
+<tr>
+<td>Raspberry Pi 5</td>
+<td>❌ (마이크 추가)</td>
+<td>⚠️ (7B 한계)</td>
+<td>⚠️ (브라우저 무거움)</td>
+<td>10만원+주변기기</td>
+<td>서버 전용</td>
+</tr>
+<tr>
+<td>스마트 스피커</td>
+<td>✅</td>
+<td>❌ (API만)</td>
+<td>❌</td>
+<td>5~15만원</td>
+<td>입력만</td>
+</tr>
+<tr>
+<td>노트북(저가)</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>50~100만원</td>
+<td>무겁고 비쌈</td>
+</tr>
+<tr>
+<td>태블릿 + 키보드</td>
+<td>⚠️</td>
+<td>✅ (API)</td>
+<td>✅</td>
+<td>30~80만원</td>
+<td>타이핑 유도</td>
+</tr>
+</tbody>
+</table>
+<p><strong>S21의 포지션:</strong> 스마트 스피커처럼 가볍게 말할 수 있고,<br>
+노트북처럼 풀스택 미디어를 운영할 수 있는 유일한 폼팩터.<br>
+&ldquo;음성입력 + 풀스택 출력&rdquo;을 동시에 만족하는 유일한 디바이스 클래스다.</p>
+<hr>
+<blockquote>
+<p>이 분석은 <code>g/install.sh</code>의 설계 근거이자,<br>
+&ldquo;왜 구형 폰인가&rdquo;에 대한 정당화 문서다.</p>
+</blockquote>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="37-free-runtime-planner-whitepaper_Grok.html">
+          <span class="dir">Previous</span>
+          <span class="title">백서 · 공짜 런타임 플랫폼 생태계로 돌리는 「풀스택 플래너」</span>
+        </a>
+    <a class="next" href="38-web-designer-workpad_Grok.html">
+          <span class="dir">Next</span>
+          <span class="title">38 web designer workpad Grok</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
 </div>
-<div class="device-result" id="deviceResult">📱 <strong>S21 + Termux</strong> — 올인원 최적. 스피커처럼 말하고 노트북처럼 풀스택 운영하는 유일한 디바이스.</div>
-
-<footer>
-  <p>← <a href="../">S21 Phone 랜딩페이지</a> · <a href="https://github.com/helena751107/helena_phone">GitHub</a></p>
-  <p style="margin-top:8px">실측 기반 · SM-G991N · © Helena Park</p>
-  <p>모든 계정은 누나 명의입니다.</p>
-</footer>
-</div>
-
-<script>
-// ── Compare Slider ──
-const specs = [
-  {name:'CPU',s21:28,s26:100,unit:'%'},
-  {name:'RAM',s21:50,s26:100,unit:'%'},
-  {name:'저장속도',s21:50,s26:100,unit:'%'},
-  {name:'배터리',s21:80,s26:100,unit:'%'},
-  {name:'NPU',s21:0,s26:100,unit:'%'},
-  {name:'WiFi',s21:21,s26:100,unit:'%'},
-  {name:'휴대성',s21:100,s26:65,unit:'%'},
-  {name:'비용효율',s21:100,s26:11,unit:'%'},
-];
-const barContainer = document.getElementById('barContainer');
-
-function renderBars() {
-  barContainer.innerHTML = specs.map((s,i) => {
-    const s21w = Math.round((s.s21/(s.s21+s.s26))*100);
-    return `<div class="bar-row">
-      <span class="bar-name">${s.name}</span>
-      <div class="bar-dual" data-i="${i}">
-        <div class="bar-s21" style="width:${s21w}%"></div>
-        <div class="bar-s26" style="width:${100-s21w}%"></div>
-      </div>
-      <span class="bar-val" style="color:var(--gn)">S21 ${s.s21}${s.unit}</span>
-      <span class="bar-val" style="color:var(--rd)">S26U ${s.s26}${s.unit}</span>
-    </div>`;
-  }).join('');
-
-  // 드래그 핸들러
-  document.querySelectorAll('.bar-dual').forEach(bar => {
-    let dragging = false;
-    bar.addEventListener('mousedown',e=>{dragging=true;e.preventDefault()});
-    bar.addEventListener('touchstart',e=>{dragging=true});
-    document.addEventListener('mousemove',e=>{if(dragging)updateBar(bar,e.clientX)});
-    document.addEventListener('touchmove',e=>{if(dragging)updateBar(bar,e.touches[0].clientX)});
-    document.addEventListener('mouseup',()=>{dragging=false});
-    document.addEventListener('touchend',()=>{dragging=false});
-  });
-}
-function updateBar(bar,clientX){
-  const rect=bar.getBoundingClientRect();
-  const pct=Math.max(5,Math.min(95,((clientX-rect.left)/rect.width)*100));
-  bar.querySelector('.bar-s21').style.width=pct+'%';
-  bar.querySelector('.bar-s26').style.width=(100-pct)+'%';
-}
-renderBars();
-
-// ── Tabs ──
-document.querySelectorAll('.tab-btn').forEach(b=>{
-  b.onclick=()=>{
-    document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('on'));
-    document.querySelectorAll('.tab-panel').forEach(x=>x.classList.remove('on'));
-    b.classList.add('on');
-    document.getElementById(b.dataset.tab).classList.add('on');
-  };
-});
-
-// ── Stat Bounce ──
-document.querySelectorAll('.stat-card').forEach(c=>{
-  c.onclick=function(){
-    const v=this.querySelector('.val');
-    v.classList.remove('bounce');
-    void v.offsetWidth;
-    v.classList.add('bounce');
-    const vals=['8GB','172GB','3.5h','0','85%','38°','WiFi6','169g','20만'];
-    v.textContent=vals[Math.floor(Math.random()*vals.length)];
-  };
-});
-
-// ── Device Selector ──
-const devInfo={
-  s21:{t:'📱 <strong>S21 + Termux</strong> — 올인원 최적. 스피커처럼 말하고 노트북처럼 풀스택 운영하는 유일한 디바이스.',c:var(--gn)},
-  rpi:{t:'🥧 <strong>Raspberry Pi 5</strong> — 서버 전용. 마이크 추가 필요. LLM은 7B 한계. 브라우저 무거움.',c:var(--mu)},
-  spk:{t:'🔊 <strong>스마트 스피커</strong> — 입력만 가능. LLM·미디어 운영 불가. 음성비서 이상의 역할 못 함.',c:var(--mu)},
-  lap:{t:'💻 <strong>저가 노트북</strong> — 무겁고 비쌈(50만원~). 타이핑 유도. 이동 중 사용 어려움.',c:var(--mu)},
-  tab:{t:'📋 <strong>태블릿+키보드</strong> — 타이핑 유도. 음성입력이 주가 아닌 보조. 무게+부피.',c:var(--mu)},
-};
-document.querySelectorAll('.device-opt').forEach(d=>{
-  d.onclick=function(){
-    document.querySelectorAll('.device-opt').forEach(x=>x.classList.remove('sel'));
-    this.classList.add('sel');
-    document.getElementById('deviceResult').innerHTML=devInfo[this.dataset.dev].t;
-  };
-});
-</script>
+<script src="../assets/webzine.js"></script>
 </body>
 </html>

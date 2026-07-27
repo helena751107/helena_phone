@@ -38,7 +38,7 @@ S21 Phone — 플랫폼별 최적 AI
 ┌──────────────────────────────────────────┐
 │                                          │
 │  GitHub · 코드 · 터미널 · 자동화          │
-│  └── Claude Code (DeepSeek Radar)        │
+│  └── Claude Code (DeepSeek)        │
 │      • git commit/push                   │
 │      • shell scripts                     │
 │      • API 자동화 (YouTube·Telegram)      │
