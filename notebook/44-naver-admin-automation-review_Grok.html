@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="2026-07-27 · Claude pts/0 마지막 지시 재검토 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>Naver Admin 자동화 — Claude 지시 리뷰 + 방법 지도 (_Grok) — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>Naver Admin 자동화 — Claude 지시 리뷰 + 방법 지도 (_Grok)</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>Naver Admin 자동화 — Claude 지시 리뷰 + 방법 지도 (_Grok)</h1>
+    <p class="deck">2026-07-27 · Claude pts/0 마지막 지시 재검토</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/44-naver-admin-automation-review_Grok.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#0-claude">0. Claude에게 시킨 것 (복기)</a></li>
+<li><a href="#1">1. 판정 한 줄</a></li>
+<li><a href="#2-claude">2. Claude가 맞은 것</a></li>
+<li><a href="#3-claude">3. Claude가 틀린/위험한 것</a></li>
+<li><a href="#4">4. 쓰레기통에서 건진 방법 (우선순위)</a><ul>
+<li><a href="#a-1-storagestate">A. 사람 1회 로그인 → storageState (최강 반쪽)</a></li>
+<li><a href="#b-1">B. 카테고리 “추가” 1회 스크립트 (권장 도전 범위)</a></li>
+<li><a href="#c">C. 네트워크 가로채기 (있으면 잭팟)</a></li>
+<li><a href="#d">D. 글 발행 시 카테고리만 지정 (이미 있음)</a></li>
+<li><a href="#e-metaweblog-api">E. MetaWeblog / 글쓰기 API (레거시 확인 과제)</a></li>
+<li><a href="#f">F. 주간 퀼트 발행 (정본 유지)</a></li>
+<li><a href="#g">G. 상업 “슈퍼봇” / 멤버십 매크로</a></li>
+</ul>
+</li>
+<li><a href="#5-3">5. 권장 아키텍처 (3층)</a></li>
+<li><a href="#6">6. “도전” 체크리스트 (하면 이 순서로)</a></li>
+<li><a href="#7">7. 레포에 이미 있는 자산</a></li>
+<li><a href="#8-boss">8. 최종 답 (Boss 질문)</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <blockquote>
+<p>2026-07-27 · Claude pts/0 마지막 지시 재검토<br>
+Boss: “방법 없는 매제 찾아봐” → 되는 것 / 반쪽 / 쓰레기 분리</p>
+</blockquote>
+<hr>
+<h2 id="0-claude">0. Claude에게 시킨 것 (복기)</h2>
+<pre><code>Grok 퀼트 패키지 확인 + 도전?
+→ 네이버 PC 관리 화면이면 클릭/콘솔로 다 될 것 같다
+→ Playwright로 좌표 찍으면 파이썬 자동화
+→ 모바일 GUI는 나중에 APK 손가락
+→ 카테고리 관리 등 손으로는 너무 어려움 (드래그 안 됨)
+→ 커뮤니티 리서치
+</code></pre>
+<p>Claude 답 (<code>e4b9886</code> / 중복 §91):</p>
+<ul>
+<li>Tistory ≠ Naver (KOE006 없음, ID 로그인 가능)</li>
+<li>1회성 admin 설정은 Playwright 가치 있음</li>
+<li>주간 발행은 Paste Pipeline 유지</li>
+<li><strong>“좌표 클릭으로 해결 가능”</strong> ← 여기가 과함</li>
+</ul>
+<hr>
+<h2 id="1">1. 판정 한 줄</h2>
+<table>
+<thead>
+<tr>
+<th>영역</th>
+<th>판정</th>
+<th>이유</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>주간 본문 발행 풀오토</td>
+<td>❌ 비권장</td>
+<td>SE ONE·품질·정책·퀼트 브랜드 붕괴</td>
+</tr>
+<tr>
+<td>1회성 카테고리 <strong>추가</strong></td>
+<td>⚠️ 반쪽 가능</td>
+<td>쿠키 세션 + locator (좌표 X)</td>
+</tr>
+<tr>
+<td>카테고리 <strong>드래그 정렬</strong></td>
+<td>⚠️ 매우 어려움</td>
+<td>DnD·지연 반영 (공식 안내: 글 많으면 시간 소요)</td>
+</tr>
+<tr>
+<td>글쓰기 시 카테고리 <strong>선택</strong></td>
+<td>✅ 이미 코드 있음</td>
+<td><code>post.py</code> select#categoryId</td>
+</tr>
+<tr>
+<td>쿠키 기반 글쓰기 봇</td>
+<td>⚠️ 기술 가능, 운영 위험</td>
+<td>커뮤니티에 사례 다수 · ncaptcha·계정 리스크</td>
+</tr>
+<tr>
+<td>스킨 CSS / 서식</td>
+<td>✅ 손 1회</td>
+<td>Marine Quilt 정본</td>
+</tr>
+<tr>
+<td>MetaWeblog 글쓰기 API</td>
+<td>⚠️ 레거시</td>
+<td>계정별 활성 여부 확인 필요 · 관리 카테고리 생성 API 아님</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="2-claude">2. Claude가 맞은 것</h2>
+<ol>
+<li><strong>Tistory와 전선이 다르다</strong> — Kakao OAuth / KOE006 지옥이 아님.  </li>
+<li><strong>1회성 설정 vs 매주 발행 분리</strong> — Boss 판단과 일치, 브랜드(퀼트)와도 일치.  </li>
+<li><strong>모바일 카테고리 UI는 지옥</strong> — 공식도 PC 경로 위주. 드래그 정렬은 폰에서 사실상 포기 수준.</li>
+</ol>
+<hr>
+<h2 id="3-claude">3. Claude가 틀린/위험한 것</h2>
+<table>
+<thead>
+<tr>
+<th>주장</th>
+<th>교정</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“좌표 찍어서 자동화”</td>
+<td><strong>절대 좌표 금지.</strong> 해상도·배율·A/B UI에 즉시 깨짐. <code>get_by_role</code> / <code>get_by_text("카테고리 추가")</code></td>
+</tr>
+<tr>
+<td>“DOM 안정적”</td>
+<td>관리자·SE는 자주 바뀜. <strong>locator + 재녹화</strong>가 정석</td>
+</tr>
+<tr>
+<td>“ID+PW만 있으면 된다”</td>
+<td><strong>ncaptcha</strong> 있음. 레포 <code>NAVER_WORKBOOK</code>도 RustDesk로 사람 캡차 우회 설계</td>
+</tr>
+<tr>
+<td>풀 GUI = 모든 관리 가능</td>
+<td><strong>DnD 정렬·주제분류 팝업·2단 구조</strong>는 실패율 높음</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4">4. 쓰레기통에서 건진 방법 (우선순위)</h2>
+<h3 id="a-1-storagestate">A. 사람 1회 로그인 → storageState (최강 반쪽)</h3>
+<pre><code>headed Chrome/Playwright
+  → 네이버 로그인 (캡차는 사람)
+  → storageState 저장 (login.cjs 이미 있음)
+  → 이후 headless/headed 재사용
+</code></pre>
+<ul>
+<li>이미 있음: <code>tistory-naver/login.cjs</code>, <code>post.cjs</code>, <code>post.py</code></li>
+<li>매일 비번 자동 입력 ❌ → <strong>쿠키 수명 끝날 때만 사람 재로그인</strong></li>
+</ul>
+<h3 id="b-1">B. 카테고리 “추가” 1회 스크립트 (권장 도전 범위)</h3>
+<p>PC 경로 (공식 고객센터):</p>
+<pre><code>관리 → 메뉴·글·동영상 관리 → 메뉴 관리 → 블로그
+→ [카테고리 추가] → 이름·공개·주제분류 → 저장
+</code></pre>
+<p>Playwright 전략 (좌표 아님):</p>
+<ol>
+<li>저장된 쿠키로 admin URL 진입  </li>
+<li><code>get_by_text("카테고리 추가")</code> 클릭  </li>
+<li>이름 입력 필드 fill  </li>
+<li>확인/저장  </li>
+<li>스크린샷 + 실패 시 TG 알림 → 사람이 이어서</li>
+</ol>
+<p><strong>드래그로 2단/순서</strong> 는 1차 범위에서 <strong>제외</strong>. 사람은 5분, 봇은 이틀 삽질.</p>
+<h3 id="c">C. 네트워크 가로채기 (있으면 잭팟)</h3>
+<p>카테고리 추가 한 번 수동으로 하면서 DevTools Network 캡처:</p>
+<ul>
+<li>XHR에 <code>category</code> / <code>menulist</code> 류 요청 있으면  </li>
+<li>같은 쿠키로 <code>fetch</code> 재현 → UI 클릭 불필요  </li>
+<li><strong>없으면</strong> B로 후퇴</li>
+</ul>
+<h3 id="d">D. 글 발행 시 카테고리만 지정 (이미 있음)</h3>
+<p><code>tistory-naver/post.py</code>:</p>
+<pre><code class="language-python">select#categoryId / select[name='categoryId']
+→ select_option(label=cat)
+</code></pre>
+<p>카테고리 <strong>이름만 미리 사람/1회봇이 만들어 두면</strong>, 이후 글봇·또는 손발행에서 선택만 하면 됨.</p>
+<h3 id="e-metaweblog-api">E. MetaWeblog / 글쓰기 API (레거시 확인 과제)</h3>
+<ul>
+<li>관리 → 글쓰기 API 설정 → 암호 발급  </li>
+<li>외부 툴 newPost 시 <strong>기본 카테고리 프리셋</strong> 가능 (문서상)  </li>
+<li>카테고리 <strong>목록 생성</strong> 용이 아님  </li>
+<li>2026년 계정별로 막혀 있을 수 있음 → helena1975에서 <strong>1회 프로브</strong>만</li>
+</ul>
+<h3 id="f">F. 주간 퀼트 발행 (정본 유지)</h3>
+<pre><code>TG 패키지 → 서식 불러오기 → 손 붙여넣기 → 발행
+</code></pre>
+<p>여기 Playwright 넣는 순간 <strong>수공예 퀼트 브랜드 자살</strong>.<br>
+기술적으로 가능해도 <strong>전략적으로 안 함</strong>.</p>
+<h3 id="g">G. 상업 “슈퍼봇” / 멤버십 매크로</h3>
+<ul>
+<li>커뮤니티에 많음  </li>
+<li>계정 제재·스팸 지수·브랜드 오염  </li>
+<li><strong>쓰레기통에 도로 넣음</strong></li>
+</ul>
+<hr>
+<h2 id="5-3">5. 권장 아키텍처 (3층)</h2>
+<pre><code>┌─────────────────────────────────────────┐
+│ L0  1회 사람 게이트                      │
+│  로그인 캡차 · 스킨 CSS · 서식 저장       │
+│  카테고리 이름 5~10개 (손 or 1회 봇)      │
+└─────────────────┬───────────────────────┘
+                  │ storageState
+┌─────────────────▼───────────────────────┐
+│ L1  반자동 (선택)                         │
+│  admin_category_seed.py  (추가만)         │
+│  cookie 수명 모니터링 → TG &quot;재로그인&quot;      │
+│  (글 대량 백필 시에만 post.cjs — 비정기)   │
+└─────────────────┬───────────────────────┘
+                  │
+┌─────────────────▼───────────────────────┐
+│ L2  매주 정본                             │
+│  Marine Quilt Paste Pipeline              │
+│  자동화 0 · 손맛 100                      │
+└─────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h2 id="6">6. “도전” 체크리스트 (하면 이 순서로)</h2>
+<ol>
+<li>[ ] <code>login.cjs</code> 로 helena1975 storageState 확보 (headed, 캡차 손)  </li>
+<li>[ ] 수동 1회: 카테고리 추가 클릭하면서 <strong>Network HAR 저장</strong>  </li>
+<li>[ ] XHR 재현 가능? → API 스크립트 / 불가? → locator 클릭 스크립트  </li>
+<li>[ ] 시드 목록 예: <code>주간퀼트 / 시범강의 / 설치 / 판단 / 링크</code>  </li>
+<li>[ ] 드래그 정렬은 <strong>손으로 1분</strong> 하고 끝  </li>
+<li>[ ] 주간 발행 자동화 <strong>금지</strong> 재확인  </li>
+</ol>
+<hr>
+<h2 id="7">7. 레포에 이미 있는 자산</h2>
+<table>
+<thead>
+<tr>
+<th>파일</th>
+<th>용도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tistory-naver/login.cjs</code></td>
+<td>쿠키·storageState</td>
+</tr>
+<tr>
+<td><code>tistory-naver/post.cjs</code></td>
+<td>SE 글쓰기 Playwright</td>
+</tr>
+<tr>
+<td><code>tistory-naver/post.py</code></td>
+<td>카테고리 선택 포함 포스팅</td>
+</tr>
+<tr>
+<td><code>tistory-naver/NAVER_WORKBOOK_AUTOMATION.md</code></td>
+<td>캡차·RustDesk 교훈</td>
+</tr>
+<tr>
+<td><code>naver/quilt/*</code></td>
+<td>주간 손바느질 정본</td>
+</tr>
+<tr>
+<td><code>_notebook/23</code>, <code>24</code></td>
+<td>웹진·Paste 원칙</td>
+</tr>
+</tbody>
+</table>
+<p><strong>없는 것:</strong> <code>admin_category_seed</code> — 만들 가치는 1회성 범위로만.</p>
+<hr>
+<h2 id="8-boss">8. 최종 답 (Boss 질문)</h2>
+<blockquote>
+<p>방법 없는 매제 찾아봐</p>
+</blockquote>
+<ul>
+<li><strong>완전 무방법 아님.</strong>  </li>
+<li><strong>매주 풀오토는 방법 있어도 안 한다</strong> (퀼트·정책).  </li>
+<li><strong>1회 카테고리 시드는 방법 있음:</strong> 쿠키 + locator (+ 가능하면 XHR).  </li>
+<li><strong>좌표·비번 무한 재시도·상업봇 = 쓰레기.</strong>  </li>
+<li>Claude 방향(1회 admin / 매주 paste)은 <strong>전략적으로 맞고</strong>, 전술(“좌표”)만 고쳐라.</li>
+</ul>
+<p><em>agent _Grok · 2026-07-27</em></p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="43-ui-less-architect.html">
+          <span class="dir">Previous</span>
+          <span class="title">🎯 메뉴를 몰라도 되는 이유 — AI 시대의 진정한 사용자</span>
+        </a>
+    <div></div>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

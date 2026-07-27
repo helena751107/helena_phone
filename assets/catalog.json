@@ -640,6 +640,14 @@
     "deck": "Gemini 분석 | 2026-07-27"
   },
   {
+    "src": "_notebook/44-naver-admin-automation-review_Grok.md",
+    "out": "notebook/44-naver-admin-automation-review_Grok.html",
+    "title": "Naver Admin 자동화 — Claude 지시 리뷰 + 방법 지도 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-07-27 · Claude pts/0 마지막 지시 재검토"
+  },
+  {
     "src": "g/install.sh",
     "out": "g/install.html",
     "title": "install.sh · 고급 설치기",
