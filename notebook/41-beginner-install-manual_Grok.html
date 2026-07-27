@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="**대상:** 처음 보는 사람 · 누나 폰에 깔아 주는 Boss · 핸드오프 받는 사람 — S21 Phone Webzine">
+<meta name="description" content="**리버스 엔지니어링 결론:** — S21 Phone Webzine">
 <meta name="theme-color" content="#0a0908">
 <meta name="application-name" content="S21 Phone">
-<title>🔰 초심자 설치 매뉴얼 — 낡은 폰에서 헬레나 생태계까지 — S21 Phone Webzine</title>
+<title>초심자 설치 — 딱 3화면 — S21 Phone Webzine</title>
 <link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
@@ -36,12 +36,12 @@
   <div class="wz-crumb">
     <a href="../index.html">Webzine</a><span class="sep">/</span>
     <span>Notebook</span><span class="sep">/</span>
-    <span>🔰 초심자 설치 매뉴얼 — 낡은 폰에서 헬레나 생태계까지</span>
+    <span>초심자 설치 — 딱 3화면</span>
   </div>
   <header class="wz-hero">
     <div class="wz-kicker">Notebook · Vol.01</div>
-    <h1>🔰 초심자 설치 매뉴얼 — 낡은 폰에서 헬레나 생태계까지</h1>
-    <p class="deck">**대상:** 처음 보는 사람 · 누나 폰에 깔아 주는 Boss · 핸드오프 받는 사람</p>
+    <h1>초심자 설치 — 딱 3화면</h1>
+    <p class="deck">**리버스 엔지니어링 결론:**</p>
     <div class="wz-meta">
       <span>Source · _notebook/41-beginner-install-manual_Grok.md</span>
       <span>Kind · markdown</span>
@@ -50,23 +50,18 @@
   </header>
   <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
 <ul>
-<li><a href="#0">0. 한 장으로 보는 전체 동선</a></li>
-<li><a href="#1">1. 준비물 체크리스트</a></li>
-<li><a href="#2">2. 변수표 — 누나 계정 변수화</a></li>
-<li><a href="#3">3. 단계별 설치 (복사 붙여넣기)</a><ul>
-<li><a href="#3-a-termux">3-A. 폰에 Termux</a></li>
-<li><a href="#3-b-ubuntu">3-B. Ubuntu 컨테이너</a></li>
-<li><a href="#3-c-1">3-C. 변수 넣고 1줄 설치기</a></li>
-<li><a href="#3-d">3-D. 매일 출근 루틴</a></li>
-<li><a href="#3-e">3-E. 웹 표면 확인</a></li>
-<li><a href="#3-f">3-F. 문서 → 웹 다시 빌드 (작업 폰에서)</a></li>
+<li><a href="#1">화면 1 — 앱 두 개만</a></li>
+<li><a href="#2">화면 2 — 한 줄만 붙여넣기</a></li>
+<li><a href="#3_1">화면 3 — 됐는지 확인</a><ul>
+<li><a href="#a">A) 터미널 (매일 쓰는 주문)</a></li>
+<li><a href="#b">B) 브라우저 (눈으로 확인)</a></li>
 </ul>
 </li>
-<li><a href="#4">4. 핸드오프 시나리오 (누나 폰에 깔 때)</a></li>
-<li><a href="#5">5. 고장 났을 때</a></li>
-<li><a href="#6">6. 동선 ↔ 문서 지도 (파싱 요약)</a></li>
-<li><a href="#7-install">7. 랜딩 #install 과 관계</a></li>
-<li><a href="#8">8. 체크리스트 — “여기까지 왔다”</a></li>
+<li><a href="#_1">끝. 오늘은 여기까지.</a></li>
+<li><a href="#_2">(나중) 필요할 때만 — 고급</a></li>
+<li><a href="#_3">고장 표 (짧게)</a></li>
+<li><a href="#_4">왜 이렇게 짧아졌나 (리버스)</a></li>
+<li><a href="#_5">관련 링크</a></li>
 </ul>
 </div>
 </nav>
@@ -78,408 +73,202 @@
   </div>
   <article class="wz-prose" id="wzProse" data-app="doc">
     <blockquote>
-<p><strong>대상:</strong> 처음 보는 사람 · 누나 폰에 깔아 주는 Boss · 핸드오프 받는 사람<br>
-<strong>기기:</strong> Galaxy S21급 중고 안드로이드 (다른 기종도 가능)<br>
-<strong>시간:</strong> 첫 세팅 2~4시간 (한 번에 안 해도 됨)<br>
-<strong>비용:</strong> 런타임 대부분 $0 · (선택) DeepSeek/Grok 구독<br>
-<strong>관련:</strong> <code>g/install.sh</code> v3 · 랜딩 <code>#install</code> · <code>GUIDE.md</code> · Voice 분석 · 플래너 백서  </p>
+<p><strong>리버스 엔지니어링 결론:</strong><br>
+초심자가 막히는 지점은 “변수·OWNER/WORK·두 번 설치·선택지”다.<br>
+<strong>앱 2개 → 붙여넣기 1번 → 브라우저로 확인</strong> 이 최단 경로다.</p>
 </blockquote>
-<p><strong>에이전트:</strong> <code>_Grok</code> 디자이너 레인에서 동선 정리 · 2026-07-27</p>
+<p>명의 기본값(큰누나): <code>helena751107</code><br>
+스크립트: <code>g/easy.sh</code> (쉬움) · <code>g/install.sh</code> (고급)</p>
 <hr>
-<h2 id="0">0. 한 장으로 보는 전체 동선</h2>
-<pre><code>[낡은 폰]
-    │  F-Droid → Termux + Termux:API
-    ▼
-[Termux] pkg: proot-distro git curl
-    │  proot-distro install ubuntu
-    ▼
-[proot Ubuntu] /root/work = helena_phone
-    │  git clone · deepseek.env · claude/grok/ds
-    ▼
-[에이전트 3레인] 코드 · 시각 · 패치
-    │  push · Pages
-    ▼
-[공개 표면] helena_phone + 위성 4 (log/faith/piano/psycare)
-    │
-    ▼
-[운영] tg 보고 · phone-health · care 데몬 · 문서 웹진
+<h2 id="1">화면 1 — 앱 두 개만</h2>
+<ol>
+<li>폰 브라우저에서 <strong>F-Droid</strong> 설치<br>
+   https://f-droid.org/</li>
+<li>F-Droid 앱 열고 검색:<br>
+   - <strong>Termux</strong> 설치<br>
+   - <strong>Termux:API</strong> 설치 (이름 비슷, <strong>둘 다</strong>)</li>
+<li><strong>Termux</strong> 아이콘 눌러 실행 (검은 화면 = 정상)</li>
+</ol>
+<p>☐ 여기까지 됐으면 화면 2</p>
+<hr>
+<h2 id="2">화면 2 — 한 줄만 붙여넣기</h2>
+<p>Termux 검은 화면에 <strong>아래 전체를 길게 눌러 붙여넣기</strong> 후 Enter.</p>
+<pre><code class="language-bash">bash &lt;(curl -sL https://raw.githubusercontent.com/helena751107/helena_phone/main/g/easy.sh)
 </code></pre>
-<p><strong>명의 규칙 (중요)</strong><br>
-- 공개 GitHub·Pages의 <strong>OWNER(명의)</strong> = 큰누나 계정 (기본 <code>helena751107</code>)<br>
-- 평소 개발 push 는 <strong>WORK</strong> 계정(콜라보)일 수 있음<br>
-- 변수로 분리해 두었음 → 아래 §2</p>
+<ul>
+<li>처음이면 Ubuntu 깔리면서 <strong>몇 분</strong> 걸림. 가만히 둔다.  </li>
+<li><code>✅ 쉬운 설치 끝</code> 이 보이면 성공.  </li>
+<li>중간에 저장소 권한 팝업 → <strong>허용</strong>.</li>
+</ul>
+<p>☐ 성공 문구 봤으면 화면 3</p>
 <hr>
-<h2 id="1">1. 준비물 체크리스트</h2>
+<h2 id="3_1">화면 3 — 됐는지 확인</h2>
+<h3 id="a">A) 터미널 (매일 쓰는 주문)</h3>
+<pre><code class="language-bash">proot-distro login ubuntu
+cd /root/work
+cat S21-START.txt
+</code></pre>
+<p><code>S21-START.txt</code> 가 읽히면 워크스페이스 준비 완료.</p>
+<h3 id="b">B) 브라우저 (눈으로 확인)</h3>
+<p>폰 브라우저 주소창:</p>
+<pre><code>https://helena751107.github.io/helena_phone/
+</code></pre>
+<p>페이지가 열리면 <strong>설치 성공</strong>이다.<br>
+(위성)<br>
+https://helena751107.github.io/helana_log/<br>
+https://helena751107.github.io/helana-faith/<br>
+https://helena751107.github.io/helena-piano/<br>
+https://helena751107.github.io/helena-psycare/</p>
+<hr>
+<h2 id="_1">끝. 오늘은 여기까지.</h2>
+<p>키 발급, 토큰, Claude, Grok, 푸시는 <strong>오늘 안 해도 됨.</strong><br>
+사이트만 보이면 1단계 통과.</p>
+<hr>
+<h2 id="_2">(나중) 필요할 때만 — 고급</h2>
+<p>푸시·에이전트·텔레그램이 필요해지면:</p>
+<pre><code class="language-bash">proot-distro login ubuntu
+cd /root/work
+export GITHUB_USER=&quot;작업계정&quot;
+export GITHUB_TOKEN=&quot;ghp_xxx&quot;
+export DEEPSEEK_API_KEY=&quot;sk-xxx&quot;
+bash g/install.sh
+</code></pre>
+<p>변수 설명:</p>
 <table>
 <thead>
 <tr>
-<th>#</th>
-<th>준비</th>
-<th>완료</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>안드로이드 폰 + 충전기</td>
-<td>☐</td>
-</tr>
-<tr>
-<td>2</td>
-<td>안정 Wi-Fi</td>
-<td>☐</td>
-</tr>
-<tr>
-<td>3</td>
-<td>저장 여유 <strong>5GB+</strong></td>
-<td>☐</td>
-</tr>
-<tr>
-<td>4</td>
-<td>GitHub 계정 (OWNER 또는 WORK)</td>
-<td>☐</td>
-</tr>
-<tr>
-<td>5</td>
-<td>(권장) PAT 토큰 <code>repo</code> 권한</td>
-<td>☐</td>
-</tr>
-<tr>
-<td>6</td>
-<td>(권장) DeepSeek API 키</td>
-<td>☐</td>
-</tr>
-<tr>
-<td>7</td>
-<td>(선택) Telegram 봇 토큰·chat_id</td>
-<td>☐</td>
-</tr>
-<tr>
-<td>8</td>
-<td>F-Droid 설치 가능 (플레이 스토어 Termux 비권장)</td>
-<td>☐</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h2 id="2">2. 변수표 — 누나 계정 변수화</h2>
-<p>복사해서 메모장에 값을 채우세요. <strong>토큰은 채팅에 올리지 마세요.</strong></p>
-<pre><code class="language-bash"># ═══ 헬레나 생태계 변수 (예시) ═══
-export OWNER_GITHUB=&quot;helena751107&quot;     # 명의 · 공개 레포 주인 (큰누나)
-export OWNER_NAME=&quot;큰누나&quot;               # 표시용
-export WORK_GITHUB=&quot;dtslib1979&quot;        # 실제 작업·push 계정 (Boss 등)
-export GITHUB_USER=&quot;$WORK_GITHUB&quot;      # install.sh 가 쓰는 작업 유저
-export GITHUB_REPO=&quot;helena_phone&quot;      # 워크스페이스 레포 이름
-export TEMPLATE_REPO=&quot;helena751107/helena_phone&quot;  # 클론 원본
-export WORK_DIR=&quot;/root/work&quot;           # proot 안 작업 경로
-
-export GITHUB_TOKEN=&quot;ghp_여기에넣지말고_로컬만&quot;   # PAT
-export DEEPSEEK_API_KEY=&quot;sk-...&quot;       # 선택
-export TG_TOKEN=&quot;&quot;                     # 선택
-export TG_CHAT=&quot;&quot;                      # 선택
-
-# 옵션
-export SKIP_CLAUDE=0                   # 1=클로드 설치 스킵
-export SKIP_MCP=0
-export CLONE_SATELLITES=0              # 1=위성 4레포 /root/sites 클론
-</code></pre>
-<table>
-<thead>
-<tr>
-<th>변수</th>
-<th>의미</th>
-<th>초심자 기본</th>
+<th>이름</th>
+<th>뜻</th>
+<th>초심자</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>OWNER_GITHUB</code></td>
-<td>명의·Pages 주인</td>
-<td><code>helena751107</code></td>
+<td>명의·공개 주인</td>
+<td>기본 <code>helena751107</code> (안 바꿔도 됨)</td>
 </tr>
 <tr>
-<td><code>WORK_GITHUB</code> / <code>GITHUB_USER</code></td>
-<td>push 하는 손</td>
-<td>본인 또는 콜라보</td>
+<td><code>GITHUB_USER</code></td>
+<td>푸시하는 손</td>
+<td>나중에</td>
+</tr>
+<tr>
+<td><code>GITHUB_TOKEN</code></td>
+<td>비밀번호 대신</td>
+<td>나중에</td>
 </tr>
 <tr>
 <td><code>TEMPLATE_REPO</code></td>
-<td>배울 원본 레포</td>
-<td><code>helena751107/helena_phone</code></td>
-</tr>
-<tr>
-<td><code>GITHUB_REPO</code></td>
-<td>내 포크/워크 이름</td>
-<td><code>helena_phone</code></td>
-</tr>
-<tr>
-<td><code>WORK_DIR</code></td>
-<td>디스크 위치</td>
-<td><code>/root/work</code></td>
+<td>클론 원본</td>
+<td>기본 그대로</td>
 </tr>
 </tbody>
 </table>
 <hr>
-<h2 id="3">3. 단계별 설치 (복사 붙여넣기)</h2>
-<h3 id="3-a-termux">3-A. 폰에 Termux</h3>
-<ol>
-<li><strong>F-Droid</strong> 설치 → <strong>Termux</strong> + <strong>Termux:API</strong> 설치  </li>
-<li>Termux 실행 → 아래 붙여넣기</li>
-</ol>
-<pre><code class="language-bash">pkg update -y &amp;&amp; pkg install -y proot-distro git curl termux-api
-termux-setup-storage
-</code></pre>
-<h3 id="3-b-ubuntu">3-B. Ubuntu 컨테이너</h3>
-<pre><code class="language-bash">proot-distro install ubuntu
-proot-distro login ubuntu
-</code></pre>
-<p>Ubuntu 안에서:</p>
-<pre><code class="language-bash">apt update &amp;&amp; apt install -y git curl ca-certificates python3 python3-pip nodejs npm
-</code></pre>
-<h3 id="3-c-1">3-C. 변수 넣고 1줄 설치기</h3>
-<p>Ubuntu 셸에서 (값은 본인 것으로):</p>
-<pre><code class="language-bash">export OWNER_GITHUB=&quot;helena751107&quot;
-export GITHUB_USER=&quot;YOUR_WORK_USER&quot;
-export GITHUB_REPO=&quot;helena_phone&quot;
-export GITHUB_TOKEN=&quot;ghp_xxx&quot;
-export DEEPSEEK_API_KEY=&quot;sk-xxx&quot;   # 없으면 생략
-export TG_TOKEN=&quot;&quot; TG_CHAT=&quot;&quot;      # 없으면 생략
-
-bash &lt;(curl -sL https://raw.githubusercontent.com/helena751107/helena_phone/main/g/install.sh)
-</code></pre>
-<p>토큰 없이 <strong>읽기 전용 클론</strong>만:</p>
-<pre><code class="language-bash">export OWNER_GITHUB=&quot;helena751107&quot;
-export GITHUB_USER=&quot;helena751107&quot;
-bash &lt;(curl -sL https://raw.githubusercontent.com/helena751107/helena_phone/main/g/install.sh)
-</code></pre>
-<h3 id="3-d">3-D. 매일 출근 루틴</h3>
-<pre><code class="language-bash"># Termux
-proot-distro login ubuntu
-cd /root/work
-source configs/deepseek.env 2&gt;/dev/null
-source configs/helena-env.example.sh 2&gt;/dev/null
-
-# 에이전트 (있는 것부터)
-claude          # 코드 레인
-# grok          # 디자이너 레인 (설치 후)
-# bash scripts/ds.sh   # 반장 레인
-
-bash phone-health.sh
-bash tg.sh '✅ 세션 시작'
-</code></pre>
-<h3 id="3-e">3-E. 웹 표면 확인</h3>
-<p>브라우저에서:</p>
-<pre><code>https://OWNER_GITHUB.github.io/helena_phone/
-https://OWNER_GITHUB.github.io/helana_log/
-https://OWNER_GITHUB.github.io/helana-faith/
-https://OWNER_GITHUB.github.io/helena-piano/
-https://OWNER_GITHUB.github.io/helena-psycare/
-</code></pre>
-<p><code>OWNER_GITHUB</code> 를 실제 아이디로 바꿔서 엽니다.</p>
-<h3 id="3-f">3-F. 문서 → 웹 다시 빌드 (작업 폰에서)</h3>
-<pre><code class="language-bash">cd /root/work
-python3 scripts/build_webzine.py
-python3 scripts/check_webpages_Grok.py
-python3 scripts/build_satellite_docs_Grok.py   # 위성 문서 html
-</code></pre>
-<hr>
-<h2 id="4">4. 핸드오프 시나리오 (누나 폰에 깔 때)</h2>
+<h2 id="_3">고장 표 (짧게)</h2>
 <table>
 <thead>
 <tr>
-<th>단계</th>
-<th>누가</th>
-<th>무엇을</th>
+<th>보이면</th>
+<th>할 일</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>1</td>
-<td>Boss</td>
-<td>누나 폰에 Termux 설치</td>
+<td>curl: not found</td>
+<td><code>pkg install curl</code> 후 easy 한 줄 다시</td>
 </tr>
 <tr>
-<td>2</td>
-<td>Boss</td>
-<td><code>OWNER_GITHUB=helena751107</code> 고정</td>
+<td>proot-distro 없음</td>
+<td><code>pkg install proot-distro</code></td>
 </tr>
 <tr>
-<td>3</td>
-<td>Boss</td>
-<td>WORK 토큰은 <strong>Boss 세션에만</strong>, 누나 폰에는 최소 권한</td>
+<td>저장 공간</td>
+<td>사진/앱 지워 5GB 확보</td>
 </tr>
 <tr>
-<td>4</td>
-<td>Boss</td>
-<td><code>install.sh</code> 실행 · health 확인</td>
+<td>클론 실패</td>
+<td>Wi-Fi 확인 후 easy 한 줄 다시</td>
 </tr>
 <tr>
-<td>5</td>
-<td>둘</td>
-<td>랜딩·Pages 같이 열어 “내 명의 사이트” 확인</td>
-</tr>
-<tr>
-<td>6</td>
-<td>Boss</td>
-<td>막힌 지점 → 교재/일지에 기록</td>
+<td>Pages 안 열림</td>
+<td>주소 오타 · 나중에 다시</td>
 </tr>
 </tbody>
 </table>
-<p><strong>성공 정의 (헌법):</strong> 누나가 “이 폰·이 계정” 위에서 나중에 혼자 열 수 있을 것.</p>
 <hr>
-<h2 id="5">5. 고장 났을 때</h2>
+<h2 id="_4">왜 이렇게 짧아졌나 (리버스)</h2>
 <table>
 <thead>
 <tr>
-<th>증상</th>
-<th>확인</th>
+<th>예전</th>
+<th>문제</th>
+<th>지금</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>proot-distro: not found</code></td>
-<td>Termux에서 <code>pkg install proot-distro</code></td>
+<td>변수 잔뜩</td>
+<td>초심자 포기</td>
+<td>easy는 <strong>질문 없음</strong></td>
 </tr>
 <tr>
-<td>clone 403</td>
-<td>토큰·USER·REPO 이름</td>
+<td>Termux / Ubuntu 두 번 설치</td>
+<td>어디서 치는지 모름</td>
+<td><strong>한 줄이 알아서 넘김</strong></td>
 </tr>
 <tr>
-<td>claude 안 됨</td>
-<td><code>source configs/deepseek.env</code> · API 키</td>
+<td>OWNER/WORK 설명 먼저</td>
+<td>개념 과부하</td>
+<td><strong>사이트 연 다음에</strong> 설명</td>
 </tr>
 <tr>
-<td>Pages 404</td>
-<td>GitHub repo Settings → Pages → main / root</td>
-</tr>
-<tr>
-<td>저장공간</td>
-<td><code>df -h</code> · 5GB 비우기</td>
-</tr>
-<tr>
-<td>배터리</td>
-<td>충전 · <code>phone-health.sh</code></td>
+<td>install.sh 만</td>
+<td>선택지 많음</td>
+<td><strong>easy → 성공 경험 먼저</strong></td>
 </tr>
 </tbody>
 </table>
-<pre><code class="language-bash"># 재설치 없이 레포만 갱신
-cd /root/work &amp;&amp; git pull --ff-only
-</code></pre>
 <hr>
-<h2 id="6">6. 동선 ↔ 문서 지도 (파싱 요약)</h2>
+<h2 id="_5">관련 링크</h2>
 <table>
 <thead>
 <tr>
-<th>단계</th>
-<th>산출</th>
-<th>문서/URL</th>
+<th>무엇</th>
+<th>URL</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>왜 구형 폰</td>
-<td>하드웨어 근거</td>
-<td><code>38-s21-voice-driven-analysis</code></td>
+<td>이 매뉴얼</td>
+<td>https://helena751107.github.io/helena_phone/install-guide.html</td>
 </tr>
 <tr>
-<td>왜 STT·0원</td>
-<td>스택 정당화</td>
-<td><code>34-stt-zero-cost-justification</code></td>
+<td>랜딩 Install</td>
+<td>https://helena751107.github.io/helena_phone/#install</td>
 </tr>
 <tr>
-<td>왜 레포 체계</td>
-<td>플래너 백서</td>
-<td><code>37-free-runtime-planner-whitepaper_Grok</code></td>
+<td>easy 소스</td>
+<td>https://raw.githubusercontent.com/helena751107/helena_phone/main/g/easy.sh</td>
 </tr>
 <tr>
-<td>단계 로드맵</td>
-<td>GUIDE 5단계</td>
-<td><code>GUIDE.md</code> / <code>guide.html</code></td>
-</tr>
-<tr>
-<td>1줄 설치</td>
-<td>스크립트</td>
-<td><code>g/install.sh</code></td>
-</tr>
-<tr>
-<td>헌법·실무</td>
-<td>규칙</td>
-<td><code>CONSTITUTION.md</code> · <code>CLAUDE.md</code></td>
-</tr>
-<tr>
-<td>위성 표면</td>
-<td>4 웹진</td>
-<td>log/faith/piano/psycare</td>
-</tr>
-<tr>
-<td>디자이너 현황</td>
-<td>브릿지</td>
-<td><code>38-web-designer-workpad_Grok</code></td>
+<td>허브</td>
+<td>https://helena751107.github.io/helena_phone/</td>
 </tr>
 </tbody>
 </table>
-<hr>
-<h2 id="7-install">7. 랜딩 <code>#install</code> 과 관계</h2>
-<p>랜딩 터미널에 보이는 한 줄은 <strong>요약 진입점</strong>이다.<br>
-초심자는 <strong>이 매뉴얼(계정·변수·순서)</strong> 을 먼저 보고,<br>
-익숙해지면 한 줄 설치기만 돌린다.</p>
-<p>권장 한 줄 (복사):</p>
-<pre><code class="language-bash">export OWNER_GITHUB=&quot;helena751107&quot; GITHUB_USER=&quot;YOUR_USER&quot; GITHUB_TOKEN=&quot;ghp_xxx&quot;
-bash &lt;(curl -sL https://raw.githubusercontent.com/helena751107/helena_phone/main/g/install.sh)
-</code></pre>
-<hr>
-<h2 id="8">8. 체크리스트 — “여기까지 왔다”</h2>
-<table>
-<thead>
-<tr>
-<th>#</th>
-<th>상태</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Termux + Ubuntu 진입</td>
-<td>☐</td>
-</tr>
-<tr>
-<td><code>/root/work</code> 에 helena_phone</td>
-<td>☐</td>
-</tr>
-<tr>
-<td><code>git remote -v</code> 확인</td>
-<td>☐</td>
-</tr>
-<tr>
-<td>deepseek.env 또는 키</td>
-<td>☐</td>
-</tr>
-<tr>
-<td>에이전트 1종 이상 실행</td>
-<td>☐</td>
-</tr>
-<tr>
-<td>Pages 허브 200</td>
-<td>☐</td>
-</tr>
-<tr>
-<td>(선택) tg 테스트 메시지</td>
-<td>☐</td>
-</tr>
-<tr>
-<td>(선택) 위성 pages 열림</td>
-<td>☐</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<p><em>초심자 설치 매뉴얼 · install-guide · agent </em><em>_Grok</em><em> · 2026-07-27</em></p>
+<p><em>초심자 3화면 · agent _Grok · 2026-07-27</em></p>
   </article>
   <nav class="wz-pager">
     <a class="" href="40-lecture-draft-s21-voice-vol0_Grok.html">
           <span class="dir">Previous</span>
           <span class="title">강의 초안 전문 · Vol.0</span>
         </a>
-    <div></div>
+    <a class="next" href="41-naver-blog-intro-final.html">
+          <span class="dir">Next</span>
+          <span class="title">41 naver blog intro final</span>
+        </a>
   </nav>
   <div class="wz-related">
           <h2>같은 섹션</h2>

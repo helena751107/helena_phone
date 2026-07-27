@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Source viewer · g/easy.sh — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>easy.sh · 초심자 1줄 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Scripts</span><span class="sep">/</span>
+    <span>easy.sh · 초심자 1줄</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Scripts · Vol.01</div>
+    <h1>easy.sh · 초심자 1줄</h1>
+    <p class="deck">Source viewer · g/easy.sh</p>
+    <div class="wz-meta">
+      <span>Source · g/easy.sh</span>
+      <span>Kind · code</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    
+<div class="wz-code-head">
+  <span class="path">g/easy.sh</span>
+  <button type="button" data-copy="#codeBody">Copy</button>
+</div>
+<pre id="codeBody"><code class="language-sh">#!/usr/bin/env bash
+# ==============================================================================
+# g/easy.sh — 초심자 전용 · 리버스 엔지니어링 최단 경로
+# ==============================================================================
+# 목표: 결정 최소화. 앱 2개 설치 후, Termux에 이 한 줄만.
+#
+#   bash &lt;(curl -sL https://raw.githubusercontent.com/helena751107/helena_phone/main/g/easy.sh)
+#
+# 기본 동작 (질문 거의 없음):
+#   1) Termux 패키지
+#   2) Ubuntu proot (없으면 설치)
+#   3) Ubuntu 안에서 /root/work 에 helena_phone 클론
+#   4) 시작 치트시트 출력 + 저장
+#
+# 명의 기본값 = 큰누나 계정 (변수로 변경 가능)
+#   OWNER_GITHUB  WORK_DIR  TEMPLATE_REPO
+# ==============================================================================
+
+set -euo pipefail
+
+OWNER_GITHUB=&quot;${OWNER_GITHUB:-helena751107}&quot;
+TEMPLATE_REPO=&quot;${TEMPLATE_REPO:-helena751107/helena_phone}&quot;
+WORK_DIR=&quot;${WORK_DIR:-/root/work}&quot;
+# 초심자: 토큰 없이 public clone (나중에 push 할 때만 토큰)
+
+G() { printf &#x27;\033[0;32m✅ %s\033[0m\n&#x27; &quot;$*&quot;; }
+Y() { printf &#x27;\033[1;33m⚠️  %s\033[0m\n&#x27; &quot;$*&quot;; }
+B() { printf &#x27;\033[0;34m📌 %s\033[0m\n&#x27; &quot;$*&quot;; }
+R() { printf &#x27;\033[0;31m❌ %s\033[0m\n&#x27; &quot;$*&quot;; }
+
+banner() {
+  cat &lt;&lt; EOF
+
+══════════════════════════════════════
+  📱 S21 쉬운 설치 (easy)
+  앱 2개 깐 뒤 → 이 스크립트 1번
+  명의 템플릿: ${TEMPLATE_REPO}
+══════════════════════════════════════
+
+EOF
+}
+
+need_termux() {
+  if [ -z &quot;${PREFIX:-}&quot; ] &amp;&amp; [ ! -d /data/data/com.termux ]; then
+    R &quot;Termux 앱 안에서 실행하세요.&quot;
+    echo &quot;  1) F-Droid 설치: https://f-droid.org/&quot;
+    echo &quot;  2) Termux 검색 → 설치&quot;
+    echo &quot;  3) Termux:API 도 설치&quot;
+    echo &quot;  4) Termux 열고 아래 한 줄 다시:&quot;
+    echo &quot;     bash &lt;(curl -sL https://raw.githubusercontent.com/helena751107/helena_phone/main/g/easy.sh)&quot;
+    exit 1
+  fi
+}
+
+step_termux_host() {
+  B &quot;Termux 패키지…&quot;
+  pkg update -y 2&gt;/dev/null || true
+  pkg install -y proot-distro git curl termux-api 2&gt;/dev/null || pkg install -y proot-distro git curl
+  G &quot;패키지 OK&quot;
+
+  if command -v termux-setup-storage &gt;/dev/null 2&gt;&amp;1; then
+    termux-setup-storage 2&gt;/dev/null || true
+    G &quot;저장소 권한 (팝업 뜨면 허용)&quot;
+  fi
+
+  if proot-distro list 2&gt;/dev/null | grep -qi ubuntu; then
+    G &quot;Ubuntu 이미 있음&quot;
+  else
+    B &quot;Ubuntu 설치 중 (몇 분, 화면 가만히)…&quot;
+    proot-distro install ubuntu
+    G &quot;Ubuntu OK&quot;
+  fi
+}
+
+# runs inside ubuntu via proot-distro login
+ubuntu_bootstrap() {
+  set -e
+  export DEBIAN_FRONTEND=noninteractive
+  apt-get update -qq
+  apt-get install -y -qq git curl ca-certificates python3 2&gt;/dev/null || apt-get install -y git curl ca-certificates python3
+
+  WORK_DIR=&quot;${WORK_DIR:-/root/work}&quot;
+  TEMPLATE_REPO=&quot;${TEMPLATE_REPO:-helena751107/helena_phone}&quot;
+  OWNER_GITHUB=&quot;${OWNER_GITHUB:-helena751107}&quot;
+
+  if [ -d &quot;$WORK_DIR/.git&quot; ]; then
+    echo &quot;✅ 이미 워크스페이스 있음: $WORK_DIR&quot;
+    git -C &quot;$WORK_DIR&quot; pull --ff-only 2&gt;/dev/null || true
+  else
+    echo &quot;📌 클론 ${TEMPLATE_REPO} → ${WORK_DIR}&quot;
+    git clone --depth 1 &quot;https://github.com/${TEMPLATE_REPO}.git&quot; &quot;$WORK_DIR&quot;
+  fi
+
+  mkdir -p &quot;$WORK_DIR/configs&quot;
+  cat &gt; &quot;$WORK_DIR/S21-START.txt&quot; &lt;&lt; EOF
+════════════════════════════════════
+S21 시작 쪽지 (초심자)
+════════════════════════════════════
+명의(OWNER) 템플릿: ${OWNER_GITHUB}
+폴더: ${WORK_DIR}
+
+매일 하는 일:
+  1) Termux 실행
+  2) 입력:  proot-distro login ubuntu
+  3) 입력:  cd /root/work
+  4) 웹 보기(폰 브라우저):
+     https://${OWNER_GITHUB}.github.io/helena_phone/
+
+나중에 필요할 때만 (필수로 안 함):
+  · GitHub 토큰, DeepSeek 키
+  · bash g/install.sh   ← 고급 설치
+  · claude / grok
+
+도움말:
+  cat /root/work/install-guide.html   (웹)
+  cat /root/work/S21-START.txt
+════════════════════════════════════
+EOF
+
+  # tiny env example without secrets
+  cat &gt; &quot;$WORK_DIR/configs/easy-env.sh&quot; &lt;&lt; EOF
+# 초심자용 — 나중에 키 넣을 때만 수정
+export OWNER_GITHUB=&quot;${OWNER_GITHUB}&quot;
+export TEMPLATE_REPO=&quot;${TEMPLATE_REPO}&quot;
+export WORK_DIR=&quot;${WORK_DIR}&quot;
+# export GITHUB_USER=&quot;작업계정&quot;
+# export GITHUB_TOKEN=&quot;ghp_...&quot;
+# export DEEPSEEK_API_KEY=&quot;sk-...&quot;
+EOF
+
+  echo &quot;&quot;
+  echo &quot;══════════════════════════════════════&quot;
+  echo &quot;  ✅ 쉬운 설치 끝&quot;
+  echo &quot;══════════════════════════════════════&quot;
+  echo &quot;&quot;
+  cat &quot;$WORK_DIR/S21-START.txt&quot;
+  echo &quot;&quot;
+  echo &quot;지금 바로:&quot;
+  echo &quot;  cd ${WORK_DIR} &amp;&amp; ls&quot;
+  echo &quot;브라우저:&quot;
+  echo &quot;  https://${OWNER_GITHUB}.github.io/helena_phone/&quot;
+  echo &quot;&quot;
+}
+
+# ── MAIN ───────────────────────────────────────────────────────────────────
+banner
+
+# Already inside Ubuntu proot?
+if [ -f /etc/os-release ] &amp;&amp; grep -qi ubuntu /etc/os-release &amp;&amp; [ ! -d /data/data/com.termux ]; then
+  B &quot;Ubuntu 안에서 실행 중 → 워크스페이스만 준비&quot;
+  ubuntu_bootstrap
+  exit 0
+fi
+
+need_termux
+step_termux_host
+
+B &quot;Ubuntu 들어가서 레포 준비…&quot;
+# export vars into ubuntu
+proot-distro login ubuntu -- bash -lc &quot;
+  export WORK_DIR=&#x27;${WORK_DIR}&#x27;
+  export TEMPLATE_REPO=&#x27;${TEMPLATE_REPO}&#x27;
+  export OWNER_GITHUB=&#x27;${OWNER_GITHUB}&#x27;
+  $(declare -f ubuntu_bootstrap)
+  ubuntu_bootstrap
+&quot;
+
+cat &lt;&lt; EOF
+
+▶ 다음 한 줄만 기억하세요 (매일):
+
+   proot-distro login ubuntu
+   cd /root/work
+   cat S21-START.txt
+
+▶ 웹 (성공 확인):
+
+   https://${OWNER_GITHUB}.github.io/helena_phone/
+
+▶ 키·푸시·에이전트는 나중에:
+   매뉴얼 install-guide.html 또는 g/install.sh
+
+EOF
+</code></pre>
+<p style="margin-top:1.5em;color:var(--ink-mute);font-size:.9rem">원본 파일: <code>g/easy.sh</code> · Webzine code viewer (no execution)</p>
+
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="install.html">
+          <span class="dir">Previous</span>
+          <span class="title">install.sh · 고급 설치기</span>
+        </a>
+    <a class="next" href="../care/care-daemon.html">
+          <span class="dir">Next</span>
+          <span class="title">care-daemon.sh</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="install.html"><strong>install.sh · 고급 설치기</strong>Scripts</a><a href="../care/care-daemon.html"><strong>care-daemon.sh</strong>Scripts</a><a href="../care/care-setup.html"><strong>care-setup.sh</strong>Scripts</a><a href="../care/care-conf.html"><strong>care.conf</strong>Scripts</a><a href="../phone-health.html"><strong>phone-health.sh</strong>Scripts</a><a href="../scripts/tg.html"><strong>tg.sh · Telegram</strong>Scripts</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

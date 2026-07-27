@@ -164,7 +164,8 @@ for md_path in sorted((ROOT / "_notebook").glob("*.md")):
 
 # Code / config viewers
 CODE_PAGES = [
-    ("g/install.sh", "g/install.html", "install.sh · 1줄 설치기", "Scripts"),
+    ("g/install.sh", "g/install.html", "install.sh · 고급 설치기", "Scripts"),
+    ("g/easy.sh", "g/easy.html", "easy.sh · 초심자 1줄", "Scripts"),
     ("care/care-daemon.sh", "care/care-daemon.html", "care-daemon.sh", "Scripts"),
     ("care/care-setup.sh", "care/care-setup.html", "care-setup.sh", "Scripts"),
     ("care/care.conf", "care/care-conf.html", "care.conf", "Scripts"),

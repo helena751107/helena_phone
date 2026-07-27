@@ -58,7 +58,7 @@
   {
     "src": "install-guide.md",
     "out": "install-guide.html",
-    "title": "🔰 초심자 설치 매뉴얼 — 낡은 폰에서 헬레나 생태계까지",
+    "title": "초심자 설치 — 딱 3화면",
     "section": "Core",
     "kind": "md",
     "deck": "낡은 폰→헬레나 전체 동선 · 변수화"
@@ -584,6 +584,14 @@
     "deck": ""
   },
   {
+    "src": "_notebook/40-definitive-dev-whitepaper.md",
+    "out": "notebook/40-definitive-dev-whitepaper.html",
+    "title": "S21 Phone — 개발 백서 (완결판)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "© 2026 Helena Park · 대필작가-간병인"
+  },
+  {
     "src": "_notebook/40-lecture-draft-s21-voice-vol0_Grok.md",
     "out": "notebook/40-lecture-draft-s21-voice-vol0_Grok.html",
     "title": "강의 초안 전문 · Vol.0",
@@ -594,15 +602,31 @@
   {
     "src": "_notebook/41-beginner-install-manual_Grok.md",
     "out": "notebook/41-beginner-install-manual_Grok.html",
-    "title": "🔰 초심자 설치 매뉴얼 — 낡은 폰에서 헬레나 생태계까지",
+    "title": "초심자 설치 — 딱 3화면",
     "section": "Notebook",
     "kind": "md",
-    "deck": "**대상:** 처음 보는 사람 · 누나 폰에 깔아 주는 Boss · 핸드오프 받는 사람"
+    "deck": "**리버스 엔지니어링 결론:**"
+  },
+  {
+    "src": "_notebook/41-naver-blog-intro-final.md",
+    "out": "notebook/41-naver-blog-intro-final.html",
+    "title": "Naver 블로그 소개글 — 최종",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "최종 확정: 2026-07-27 | Boss 직전 수작업"
   },
   {
     "src": "g/install.sh",
     "out": "g/install.html",
-    "title": "install.sh · 1줄 설치기",
+    "title": "install.sh · 고급 설치기",
+    "section": "Scripts",
+    "kind": "code",
+    "deck": ""
+  },
+  {
+    "src": "g/easy.sh",
+    "out": "g/easy.html",
+    "title": "easy.sh · 초심자 1줄",
     "section": "Scripts",
     "kind": "code",
     "deck": ""

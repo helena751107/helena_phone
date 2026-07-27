@@ -1088,44 +1088,41 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   </section>
 
   <!-- INSTALL -->
-  <section class="chapter" id="install">
+    <section class="chapter" id="install">
     <div class="ch-label"><span class="num">07</span> Install <span class="line"></span></div>
-    <h2 class="ch-title">한 줄로 <em>부팅</em></h2>
+    <h2 class="ch-title">초심자 · <em>3화면</em></h2>
     <p class="ch-deck">
-      낡은 폰 → Termux → Ubuntu → 워크스페이스. 명의는 <strong style="color:var(--ink)">OWNER_GITHUB</strong>(큰누나), 손은 <strong style="color:var(--ink)">GITHUB_USER</strong>.
-      초심자는 반드시
-      <a href="install-guide.html" style="color:var(--gd)">🔰 설치 매뉴얼</a>
-      ·
-      <a href="notebook/41-beginner-install-manual_Grok.html" style="color:var(--gd)">동선 전문</a>
-      을 먼저 보세요.
+      <strong style="color:var(--ink)">앱 2개 → 붙여넣기 1번 → 브라우저 확인.</strong>
+      자세한 글은
+      <a href="install-guide.html" style="color:var(--gd)">🔰 3화면 매뉴얼</a>.
+      고급(토큰·에이전트)만
+      <a href="g/install.html" style="color:var(--gd)">install.sh</a>.
     </p>
-    <div class="ed-card reveal" style="margin-bottom:18px;padding:18px;border:1px solid var(--rule);background:var(--paper-2)">
-      <div class="eyebrow" style="font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px">Variables · 누나 명의</div>
-      <pre id="envBlock" style="margin:0;font-family:var(--mono);font-size:.72rem;color:var(--ink-dim);white-space:pre-wrap;line-height:1.5;overflow-x:auto">export OWNER_GITHUB="helena751107"
-export GITHUB_USER="YOUR_WORK_USER"
-export GITHUB_REPO="helena_phone"
-export GITHUB_TOKEN="ghp_xxx"
-export DEEPSEEK_API_KEY="sk-xxx"   # optional
-# export TG_TOKEN="" TG_CHAT=""</pre>
-      <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px">
-        <button type="button" class="btn btn-line" style="padding:10px 14px;font-size:.72rem" id="copyEnv" data-cursor>Copy env</button>
-        <a class="btn btn-line" style="padding:10px 14px;font-size:.72rem" href="g/install.html" data-cursor>install.sh source</a>
-      </div>
+    <div class="ed-card reveal" style="margin-bottom:16px;padding:16px;border:1px solid var(--rule);background:var(--paper-2)">
+      <div style="font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-weight:600">Screen 1 · 앱</div>
+      <p style="color:var(--ink-dim);font-weight:300;font-size:.9rem;margin:0 0 8px">F-Droid → <b style="color:var(--ink)">Termux</b> + <b style="color:var(--ink)">Termux:API</b> 설치 후 Termux 실행</p>
+      <div style="font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:14px 0 10px;font-weight:600">Screen 2 · Termux에 한 줄</div>
     </div>
     <div class="terminal reveal" id="terminal">
       <div class="terminal-bar">
         <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-        <span class="title">ubuntu@s21 — install v3</span>
+        <span class="title">termux — easy install</span>
       </div>
       <div class="terminal-body" id="termBody">
         <span class="p">$</span> <span class="c" id="termCmd"></span><span class="cursor-blink" id="termCursor"></span>
       </div>
       <div class="terminal-actions">
-        <button type="button" class="primary" id="copyInstall" data-cursor>Copy command</button>
+        <button type="button" class="primary" id="copyInstall" data-cursor>Copy easy command</button>
         <button type="button" id="replayType" data-cursor>Replay</button>
-        <a class="btn btn-line" style="padding:10px 16px;font-size:.72rem" href="install-guide.html" data-cursor>Install manual</a>
-        <a class="btn btn-line" style="padding:10px 16px;font-size:.72rem" href="guide.html" data-cursor>5-step guide</a>
+        <a class="btn btn-line" style="padding:10px 16px;font-size:.72rem" href="install-guide.html" data-cursor>3-screen manual</a>
       </div>
+    </div>
+    <div class="ed-card reveal" style="margin-top:16px;padding:16px;border:1px solid var(--rule);background:var(--paper-2)">
+      <div style="font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-weight:600">Screen 3 · 확인</div>
+      <pre style="margin:0 0 10px;font-family:var(--mono);font-size:.72rem;color:var(--ink-dim);white-space:pre-wrap">proot-distro login ubuntu
+cd /root/work
+cat S21-START.txt</pre>
+      <p style="color:var(--ink-dim);font-weight:300;font-size:.85rem;margin:0">브라우저: <a href="https://helena751107.github.io/helena_phone/" style="color:var(--teal)">helena751107.github.io/helena_phone</a> 열리면 성공.</p>
     </div>
   </section>
 
@@ -1790,7 +1787,7 @@ export DEEPSEEK_API_KEY="sk-xxx"   # optional
     if (b) { const o=b.textContent; b.textContent='Copied'; setTimeout(()=>b.textContent=o,1200); }
   });
 
-  const CMD = 'export OWNER_GITHUB="helena751107" GITHUB_USER="YOUR_USER" GITHUB_TOKEN="ghp_xxx"\nbash <(curl -sL https://raw.githubusercontent.com/helena751107/helena_phone/main/g/install.sh)';
+  const CMD = 'bash <(curl -sL https://raw.githubusercontent.com/helena751107/helena_phone/main/g/easy.sh)';
   const termCmd = $('#termCmd');
   const termCursor = $('#termCursor');
   let typeTimer;

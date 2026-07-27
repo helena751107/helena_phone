@@ -1,9 +1,9 @@
 {
-  "generated": "2026-07-27T11:49:25Z",
+  "generated": "2026-07-27T12:26:08Z",
   "agent": "_Grok",
-  "notebook_md_count": 51,
-  "notebook_html_count": 54,
-  "catalog_count": 93,
+  "notebook_md_count": 53,
+  "notebook_html_count": 56,
+  "catalog_count": 96,
   "missing_html": [],
   "orphan_html": [
     "notebook/40-lecture-chalkboard-vol0.html",
