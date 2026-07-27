@@ -2273,3 +2273,120 @@ YouTube: "다음 훈련으로 넘어간다."
 | 차별점 = 없음 | 차별점 = 극단적·기억에 남음 |
 
 **결론:** 컨셉이 생겼다. 이제 브랜드다.
+
+### 91. 초심자 경로 리버스 엔지니어링 — easy.sh + 3화면 (2026-07-27)
+
+**Boss 지시:** "리버스 엔지니어링. 시가 완벽하게 초심자 기준으로 아주 쉽게 설치… 그거대로 구현."
+
+**문제(리버스 결론):**
+초심자가 막히는 지점은 기능이 아니라 **변수·OWNER/WORK·Termux/Ubuntu 두 번 설치·선택지·토큰 day-1 강제**다.
+
+**완료 (커밋 `ecdcc0e` 계열 + 후속):**
+
+| 산출물 | 역할 |
+|--------|------|
+| `g/easy.sh` | 질문 없음. Termux 패키지 → Ubuntu proot → public clone → `S21-START.txt` |
+| `install-guide.md` / `install-guide.html` | **딱 3화면** (앱2 → 한 줄 → 확인) |
+| `index.html` `#install` | CMD = `bash <(curl -sL …/g/easy.sh)` 만 |
+| `_notebook/41-beginner-install-manual_Grok.md` | 초심자 매뉴얼 노트 |
+| 명의 기본 | `OWNER_GITHUB=helena751107` (토큰 day-1 강제 없음) |
+| 고급 | `g/install.sh` 는 나중 (푸시·키·에이전트) |
+
+**성공 기준:**
+1. Pages 열림  
+2. `/root/work` 있음  
+3. `S21-START.txt` 읽힘  
+4. 키·푸시·에이전트 = 나중에
+
+**한 줄 주문:**
+```bash
+bash <(curl -sL https://raw.githubusercontent.com/helena751107/helena_phone/main/g/easy.sh)
+```
+
+**교훈:**
+리버스 엔지니어링 = 스택을 더 설명하는 게 아니라 **실패 마찰을 제거한 최단 경로**를 코드·문서로 박는 것.
+
+---
+
+### 92. Marine Quilt — 네이버 스킨·서식 디자인 패키지 (2026-07-27)
+
+**Boss 지시:**
+"커뮤니티 리서치하고 쓰레기통 다 뒤져서 솔루션 가구 들어오고,
+최고의 디자인 요소로 템플릿 만들어봐. 너가 최고의 디자이너잖아."
+
+**브랜드 확정 (이어받음 §89–90):**
+
+| 채널 | 역할 | 톤 |
+|------|------|-----|
+| YouTube | 해병대 조교 | 각 잡고 들어와 · 장비 탓 마라 · 시범→따라→실전 |
+| Naver | 수공예 퀼트 장인 | 한 땀 한 땀 · 템플릿+TG배달+손조립 |
+
+**플랫폼 제약 재확인 (쓰레기통 리서치):**
+
+| 시도 | 결과 |
+|------|------|
+| raw HTML 포스트 | ❌ 스마트에디터 ONE HTML 모드 없음 |
+| 홈페이지형 투명위젯 5개 | ❌ 초심자·주간 운영에 부적합 (쓰레기) |
+| 스킨 CSS 1회 | ✅ |
+| 서식(스냅샷) 재사용 | ✅ |
+| YouTube URL → 카드 | ✅ |
+| Paste Pipeline (TG→손붙여넣기) | ✅ 정본 |
+
+**디자인 시스템 (구조=해병 · 표면=퀼트):**
+
+```
+--mq-deep #0F1C18 · --mq-crimson #9B1B1B · --mq-khaki #C4A574
+--mq-thread #D4A84B · --mq-cream #F6F1E7 · --mq-patch #EDE6D9
+--mq-patch-mint #DCE5DC · stitch = 점선 1px
+```
+
+주간 서식 골격: MAST → TITLE → 한 줄 → 시범(YT) → 따라하기(3단) → 실전 체크 → 판단 → 링크 패치 → 푸터  
+슬롯 문법: `【 】` = 손바느질 자리. 따라하기 **3단계 고정**.
+
+**납품 파일 (`naver/quilt/` · 커밋 `d24b009`):**
+
+| 파일 | 용도 |
+|------|------|
+| `BOSS-CARD.md` | Boss 3분 설치 카드 |
+| `design-system.md` | 리서치 요약 + 토큰 + 버릴 것 |
+| `skin-custom.css` | 스킨 CSS 1회 붙여넣기 |
+| `skin-widgets.html` | 프로필/공지 위젯 참고 (선택) |
+| `weekly-seosik-preview.html` | 서식 시각 기준 (Pages 라이브) |
+| `weekly-seosik-paste.txt` | 에디터 서식 저장용 텍스트 |
+| `sample-week-filled.txt` | easy 설치 주 샘플 (채운 예시) |
+| `tg-package-template.md` | Claude → TG 배달 포맷 |
+| `blocks/01~08` | mast·oneline·demo·follow·drill·judgment·links·foot |
+| `README.md` | 패키지 지도 |
+
+**연동·문서:**
+- `_notebook/42-marine-quilt-naver-design_Grok.md` + notebook HTML
+- `_notebook/23-naver-webzine-solution.md` 정본 경로를 `naver/quilt/` 로 갱신
+- `03-broadcast/naver-auto.md` → Marine Quilt 손바느질 발행으로 재정의
+- `scripts/naver_template.html` → LEGACY 표시 (HTML 모드 전제 폐기)
+- `index.html` 라이브러리 카드: Marine Quilt 미리보기 + vol.42
+- `00-INDEX` / `build_webzine.py` 등록
+
+**퀼트 제작 파이프 (확정):**
+```
+① Claude Code → TG 주간 콘텐츠 패키지
+② Boss → Naver 서식 「Marine Quilt 주간」 불러오기
+③ TG 내용 → 【슬롯】 한 땀 붙여넣기
+④ YouTube 링크 · 이미지 삽입
+⑤ 발행 → 한 주의 퀼트 완성
+```
+
+**라이브 URL:**
+- 서식 미리보기: https://helena751107.github.io/helena_phone/naver/quilt/weekly-seosik-preview.html
+- 디자인 노트: https://helena751107.github.io/helena_phone/notebook/42-marine-quilt-naver-design_Grok.html
+- 스킨 CSS raw: https://raw.githubusercontent.com/helena751107/helena_phone/main/naver/quilt/skin-custom.css
+
+**한 줄 평:**
+브랜드(§89)를 **파일·CSS·서식·TG 포맷**까지 박았다.  
+자동화 티 내는 UI 없음. 스킨 1회 + 서식 1회 + 매주 손바느질.
+
+---
+
+### 93. _Grok 세션 산출물 개발일지 기록 (2026-07-27)
+
+이 절(§91–92)은 agent _Grok 작업분을 개발일지 SSOT에 귀화시킨 기록이다.  
+이후 변경은 `naver/quilt/` · `g/easy.sh` · install-guide 를 정본으로 본다.
