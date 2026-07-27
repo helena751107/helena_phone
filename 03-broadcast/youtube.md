@@ -3,7 +3,7 @@
 > 방송탑 워크센터 — 강의·수익화 송신 인프라
 
 ## 개요
-S21 Phone의 **방송탑**은 YouTube Data API + OAuth로 운영한다. 채널 계정은 큰누나 명의.
+S21 Phone의 **방송탑**은 YouTube Data API + OAuth로 운영한다. 채널 계정은 누나 명의.
 
 ## 관련 문서
 - [notebook YouTube](../_notebook/06-youtube.md)

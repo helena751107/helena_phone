@@ -46,7 +46,7 @@
 | **역할** | 코드 + 문서의 SSOT (Single Source of Truth) |
 | **투입** | STT 음성 → Claude Code → git commit |
 | **산출** | 코드·문서·설정·devlog·헌법 |
-| **소유** | helena751107 (큰누나 명의) |
+| **소유** | helena751107 (누나 명의) |
 | **협업자** | dtslib1979 (admin) |
 | **공개** | 전체 공개 (Public) |
 | **알림** | push → TG 보고 |
@@ -150,7 +150,7 @@
 | **역할** | 이미지 중심 교차홍보 — "이번 주 픽" 발행 |
 | **투입** | 각 채널의 주간 대표 콘텐츠 (이미지 + 링크) |
 | **산출** | 네이버 블로그 포스트 (그림첩 형식) |
-| **계정** | helena1975 (큰누나 명의) |
+| **계정** | helena1975 (누나 명의) |
 | **URL** | m.blog.naver.com/helena1975 |
 | **발행** | Playwright headless — scripts/publish.py |
 | **빈도** | 주 1회 (매주 일요일) |
