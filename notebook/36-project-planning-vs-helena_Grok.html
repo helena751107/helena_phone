@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="한 줄: 콘텐츠 플래닝으로 시작했지만, **비즈니스 플랜 + PM + 핸드오프 설계**가 같은 레포 구조 안에 이미 겹쳐 있다. — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>일반 프로젝트 플래닝 vs 헬레나 생태계 플래닝 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>일반 프로젝트 플래닝 vs 헬레나 생태계 플래닝</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>일반 프로젝트 플래닝 vs 헬레나 생태계 플래닝</h1>
+    <p class="deck">한 줄: 콘텐츠 플래닝으로 시작했지만, **비즈니스 플랜 + PM + 핸드오프 설계**가 같은 레포 구조 안에 이미 겹쳐 있다.</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/36-project-planning-vs-helena_Grok.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1">1. 한눈에 비교</a></li>
+<li><a href="#2">2. 콘텐츠 플래닝 ↔ 비즈니스 플래닝</a></li>
+<li><a href="#3-pm">3. PM 역할 매핑 (하는 일 기준)</a></li>
+<li><a href="#4">4. 일반 플랜과 다른 점 (차별 · 의도)</a></li>
+<li><a href="#5">5. 아직 비는 칸 (명시 사업계획 기준)</a></li>
+<li><a href="#6">6. 요약 명제</a></li>
+<li><a href="#7">7. 링크</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <hr>
+<p>date: 2026-07-27<br>
+agent: Grok<br>
+mark: _Grok<br>
+type: summary-comparison<br>
+status: active</p>
+<hr>
+<h1 id="vs">일반 프로젝트 플래닝 vs 헬레나 생태계 플래닝</h1>
+<blockquote>
+<p>한 줄: 콘텐츠 플래닝으로 시작했지만, <strong>비즈니스 플랜 + PM + 핸드오프 설계</strong>가 같은 레포 구조 안에 이미 겹쳐 있다.<br>
+직함은 “PM”이 아니라 <strong>대필작가-간병인 · 시스템 설계</strong>로 적혀 있을 뿐, 하는 일의 집합은 PM·PO·일부 COO에 가깝다.</p>
+</blockquote>
+<hr>
+<h2 id="1">1. 한눈에 비교</h2>
+<table>
+<thead>
+<tr>
+<th>영역</th>
+<th>일반 프로젝트 플래닝</th>
+<th>헬레나 (S21 · 5레포)</th>
+<th>대응 여부</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>목적 / 비전</strong></td>
+<td>비전·목표·성공 정의</td>
+<td>돌봄 깨지지 않게 · 소망 세상에 닿게 · 큰누나 명의</td>
+<td>✅ 헌법·트랙1/2</td>
+</tr>
+<tr>
+<td><strong>스코프</strong></td>
+<td>In/Out of scope</td>
+<td>5레포 경계, 의료·법률 대행 아님, 행정 대화록 범위</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>WBS · 산출물</strong></td>
+<td>산출물 목록·마일스톤</td>
+<td>랜딩·manifest·docs·수첩·웹진 81p·커버리지 0갭</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>일정</strong></td>
+<td>로드맵·스프린트</td>
+<td>단기간 대량 커밋·일지 §50–74 스프린트성 추진</td>
+<td>✅ (문서 KPI는 약함)</td>
+</tr>
+<tr>
+<td><strong>역할 RACI</strong></td>
+<td>PM/PO/Dev/QA</td>
+<td>Grok 디자이너·커버리지 / Aider 반장 / Claude 감사(예정) / Boss 최종</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>리스크</strong></td>
+<td>리스크 등록부</td>
+<td>토큰·개인정보·돌봄 우선·혼자 지속 어려움</td>
+<td>✅ 구조로 완화</td>
+</tr>
+<tr>
+<td><strong>이해관계자</strong></td>
+<td>스폰서·유저·팀</td>
+<td>누나(명의·검증)·Boss(판단)·에이전트(실행)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>핸드오프</strong></td>
+<td>인수인계 계획</td>
+<td>명의=누나, 콜라보, 방문 설치, g/install.sh</td>
+<td>✅ 구조적</td>
+</tr>
+<tr>
+<td><strong>품질</strong></td>
+<td>QA·Definition of Done</td>
+<td>Playwright, 모바일 거터, gap check, 아코디언</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>커뮤니케이션</strong></td>
+<td>회의·슬랙·주간보고</td>
+<td>Telegram · Discord · 개발일지 · RSS 리마인더</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>비즈니스 모델</strong></td>
+<td>수익·원가·채널</td>
+<td>네이버 유입 → YouTube 깊이, 월 에이전트 원가, 5브랜드 라인</td>
+<td>△ 연결됨·숫자 약함</td>
+</tr>
+<tr>
+<td><strong>시장·페르소나</strong></td>
+<td>TAM·ICP</td>
+<td>“복합 돌봄 가정 + 창작 핸드오프” 서사</td>
+<td>△ 암시·미문서</td>
+</tr>
+<tr>
+<td><strong>KPI</strong></td>
+<td>OKR·매출·리텐션</td>
+<td>발행 리듬·gap_count·설치 성공 암시</td>
+<td>△ 명시 KPI 약함</td>
+</tr>
+</tbody>
+</table>
+<p><strong>범례:</strong> ✅ 이미 구조/문서에 있음 · △ 연결은 되나 한 장 사업화 부족</p>
+<hr>
+<h2 id="2">2. 콘텐츠 플래닝 ↔ 비즈니스 플래닝</h2>
+<table>
+<thead>
+<tr>
+<th>콘텐츠 설계</th>
+<th>비즈니스 대응</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5레포 = Phone · Log · Faith · Piano · PsyCare</td>
+<td>브랜드 라인업 · 포트폴리오</td>
+</tr>
+<tr>
+<td>네이버 칠판 · 웹진 티저</td>
+<td>퍼널 입구 (인지·유입)</td>
+</tr>
+<tr>
+<td>YouTube 강의·연주·기록</td>
+<td>수익·권위 레이어</td>
+</tr>
+<tr>
+<td>GitHub Pages / 수첩 SSOT</td>
+<td>IP·운영 매뉴얼·자산</td>
+</tr>
+<tr>
+<td>행정 대화록 · PsyCare 트랙1</td>
+<td>문제 공간·신뢰 자본</td>
+</tr>
+<tr>
+<td>Grok 80% + Aider 시공</td>
+<td>생산 원가 구조</td>
+</tr>
+<tr>
+<td>Paste Pipeline</td>
+<td>발행 SOP (API 없는 채널)</td>
+</tr>
+<tr>
+<td>듀얼 폰 · 누나 명의</td>
+<td>지속성·핸드오프·거버넌스</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>콘텐츠 캘린더만 짠 게 아니라, go-to-market · delivery · continuity 가 같은 설계에 묶여 있다.</strong></p>
+<hr>
+<h2 id="3-pm">3. PM 역할 매핑 (하는 일 기준)</h2>
+<table>
+<thead>
+<tr>
+<th>일반 PM 일</th>
+<th>헬레나에서 실제로 한 일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>스코프 고정</td>
+<td>트랙1/2, 레포 정체성, “상담소 아님” 경계</td>
+</tr>
+<tr>
+<td>WBS</td>
+<td>위성 랜딩·아이콘·docs·웹진 빌드 파이프</td>
+</tr>
+<tr>
+<td>일정 추진</td>
+<td>4일 전후 대량 산출·일지 바텀업</td>
+</tr>
+<tr>
+<td>역할 배분</td>
+<td>cc/ds/gr + 직함 3종</td>
+</tr>
+<tr>
+<td>리스크 관리</td>
+<td>돌봄 우선, 시크릿, 커버리지 가디언</td>
+</tr>
+<tr>
+<td>이해관계자</td>
+<td>누나 환경=테스트+미래 운영</td>
+</tr>
+<tr>
+<td>품질 게이트</td>
+<td>모바일·아코디언·Playwright</td>
+</tr>
+<tr>
+<td>종료/이관</td>
+<td>명의·콜라보·방문 강제 설치 4중 장치</td>
+</tr>
+</tbody>
+</table>
+<p><strong>한 줄:</strong> Boss(+에이전트) = <strong>콘텐츠 PM + 프로덕트 오너 + 일부 운영(COO) 스캐폴드</strong>.</p>
+<hr>
+<h2 id="4">4. 일반 플랜과 다른 점 (차별 · 의도)</h2>
+<table>
+<thead>
+<tr>
+<th>일반 프로젝트</th>
+<th>헬레나</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>산출물 납품이 끝인 경우 많음</td>
+<td><strong>핸드오프가 목표</strong> (명의·폰·교재)</td>
+</tr>
+<tr>
+<td>감성은 부록</td>
+<td><strong>감성 → 구조 번역</strong> (계정·방문·install)</td>
+</tr>
+<tr>
+<td>PM 문서가 중심</td>
+<td><strong>레포·사이트가 살아있는 플랜</strong></td>
+</tr>
+<tr>
+<td>팀 채용 전제</td>
+<td><strong>에이전트 3레인 + 월 고정비</strong></td>
+</tr>
+<tr>
+<td>실패 = 일정 지연</td>
+<td>실패 = 돌봄 깨짐 → 트랙1 절대 기준</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="5">5. 아직 비는 칸 (명시 사업계획 기준)</h2>
+<ol>
+<li>수익 모델 1순위와 월 숫자 가정  </li>
+<li>페르소나·시장 한 단락  </li>
+<li>3/6/12개월 KPI (발행·설치·핸드오프)  </li>
+<li>수익 귀속·세무 절차 (철학은 명의에 있음)  </li>
+<li>공식 “중단/축소” 조건  </li>
+</ol>
+<p>→ <strong>연결은 됐고, 1-pager 사업계획 문장만 안 뽑힌 상태.</strong></p>
+<hr>
+<h2 id="6">6. 요약 명제</h2>
+<ol>
+<li>콘텐츠 플래닝 <strong>맞음</strong>.  </li>
+<li>비즈니스 플래닝과 <strong>연결됨</strong> (퍼널·원가·라인업·지속 장치).  </li>
+<li>PM 역할 <strong>상당 부분 수행 중</strong> (이름만 다름).  </li>
+<li>다음 한 걸음: 위 §5를 <strong>1페이지 Business Plan</strong>으로 고정하면 “일반 플랜 문서”와도 1:1 대조 가능.</li>
+</ol>
+<hr>
+<h2 id="7">7. 링크</h2>
+<ul>
+<li>허브: https://helena751107.github.io/helena_phone/  </li>
+<li>아카이브: https://helena751107.github.io/helena_phone/archive.html  </li>
+<li>이 문서(빌드 후): https://helena751107.github.io/helena_phone/notebook/36-project-planning-vs-helena_Grok.html  </li>
+<li>직함: <code>31-agent-roles_Grok.md</code> · 커버리지: <code>33-webpage-coverage_Grok.md</code></li>
+</ul>
+<p><em>agent: _Grok · 2026-07-27</em></p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="35-ecosystem-whitepaper-v1.1.html">
+          <span class="dir">Previous</span>
+          <span class="title">S21 Phone 생태계 백서 v1.1</span>
+        </a>
+    <div></div>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

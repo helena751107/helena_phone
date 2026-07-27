@@ -504,6 +504,38 @@
     "deck": ""
   },
   {
+    "src": "_notebook/33-hybrid-image-video-whitepaper.md",
+    "out": "notebook/33-hybrid-image-video-whitepaper.html",
+    "title": "솔루션 백서: 1인 창작자를 위한 이미지·영상 생성 하이브리드 워크플로우",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "Grok Imagine (드래프트) + ComfyUI GPU (프로 마감) 운영 가이드"
+  },
+  {
+    "src": "_notebook/34-stt-zero-cost-justification.md",
+    "out": "notebook/34-stt-zero-cost-justification.html",
+    "title": "말 하나로 미디어 플랫폼을 짓다",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": ""
+  },
+  {
+    "src": "_notebook/35-ecosystem-whitepaper-v1.1.md",
+    "out": "notebook/35-ecosystem-whitepaper-v1.1.html",
+    "title": "S21 Phone 생태계 백서 v1.1",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-07-26 | @S21Phone_Bot 전송 완료"
+  },
+  {
+    "src": "_notebook/36-project-planning-vs-helena_Grok.md",
+    "out": "notebook/36-project-planning-vs-helena_Grok.html",
+    "title": "일반 프로젝트 플래닝 vs 헬레나 생태계 플래닝",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "한 줄: 콘텐츠 플래닝으로 시작했지만, **비즈니스 플랜 + PM + 핸드오프 설계**가 같은 레포 구조 안에 이미 겹쳐 있다."
+  },
+  {
     "src": "g/install.sh",
     "out": "g/install.html",
     "title": "install.sh · 1줄 설치기",
