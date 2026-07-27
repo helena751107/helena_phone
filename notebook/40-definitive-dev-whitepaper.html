@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="© 2026 Helena Park · 대필작가-간병인 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>S21 Phone — 개발 백서 (완결판) — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>S21 Phone — 개발 백서 (완결판)</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>S21 Phone — 개발 백서 (완결판)</h1>
+    <p class="deck">© 2026 Helena Park · 대필작가-간병인</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/40-definitive-dev-whitepaper.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1">1. 개요</a></li>
+<li><a href="#2-55-naver">2. 5×5 생태계 — 하나의 Naver 블로그로 수렴</a></li>
+<li><a href="#3-8">3. 8개 워크센터</a></li>
+<li><a href="#4">4. 기술 스택</a></li>
+<li><a href="#5">5. 핵심 방법론</a></li>
+<li><a href="#6-id">6. 독자성 ID — 제약을 설계로</a></li>
+<li><a href="#7">7. 주요 수치</a></li>
+<li><a href="#8">8. 설치</a></li>
+<li><a href="#9-3">9. 3층 최종 출판 구조</a></li>
+<li><a href="#10">10. 링크</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <p><strong>버전 2.0 | 2026-07-27 | 5일·145커밋·265파일·46,650줄</strong></p>
+<hr>
+<h2 id="1">1. 개요</h2>
+<p>구형 Galaxy S21(2021년·중고가 20만원) 1대로 풀스택 AI 개발·방송·출판 미니 스튜디오를 구축한 프로젝트. 100% STT 음성입력. 비용 0원. 대필작가-간병인 모델.</p>
+<pre><code>STT 음성 → Claude Code(코드) + Grok(시각) + Aider(보조)
+         → GitHub(공장) → Naver(칠판) → YouTube(강의) → 수익(누나)
+</code></pre>
+<hr>
+<h2 id="2-55-naver">2. 5×5 생태계 — 하나의 Naver 블로그로 수렴</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>GitHub (누나 명의)</th>
+<th>티스토리</th>
+<th>YouTube</th>
+<th>테마</th>
+<th>한국 이해 축</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>helena_phone</td>
+<td>galaxys21-pwuser</td>
+<td>@helena_phone</td>
+<td>📱 폰 최적화 바이블</td>
+<td>IT·기술</td>
+</tr>
+<tr>
+<td>2</td>
+<td>helana_log</td>
+<td>mynote11605</td>
+<td>추후</td>
+<td>🗃️ 행정 대화록</td>
+<td><strong>행정·복지</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td>helena-faith</td>
+<td>helana-christianity</td>
+<td>추후</td>
+<td>✝️ 가족 신앙사</td>
+<td><strong>문화·종교</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td>helena-piano</td>
+<td>helena-piano</td>
+<td>추후</td>
+<td>🎹 피아노·AI음원</td>
+<td><strong>음악·예술</strong></td>
+</tr>
+<tr>
+<td>5</td>
+<td>helena-psycare</td>
+<td>helena-psycare</td>
+<td>추후</td>
+<td>🧠 정신의학·분석</td>
+<td><strong>정신건강·돌봄</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>모든 콘텐츠는 Naver helena1975 웹진으로 수렴.</strong><br>
+한국어 귀화 시험 준비생에게 5개 축의 진짜 한국을 보여주는 교재.</p>
+<hr>
+<h2 id="3-8">3. 8개 워크센터</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>워크센터</th>
+<th>플랫폼</th>
+<th>주체</th>
+<th>가동</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①</td>
+<td>공장</td>
+<td>GitHub</td>
+<td>Claude Code</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td>②</td>
+<td>전시장</td>
+<td>GitHub Pages</td>
+<td>자동배포</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td>③</td>
+<td>방송탑</td>
+<td>YouTube @helena_phone</td>
+<td>Claude Code</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td>④</td>
+<td>인터컴</td>
+<td>Telegram @S21Phone_Bot</td>
+<td>tg.sh</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td>⑤</td>
+<td>업무일지</td>
+<td>티스토리</td>
+<td>사람</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>⑥</td>
+<td>웹진·칠판</td>
+<td>Naver helena1975</td>
+<td>사람+Grok</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>⑦</td>
+<td>로비</td>
+<td>Discord</td>
+<td>WidgetBot</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td>⑧</td>
+<td>기억복원루프</td>
+<td>티스토리 RSS</td>
+<td>Claude Code</td>
+<td>🟢</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4">4. 기술 스택</h2>
+<pre><code>Galaxy S21 5G (SM-G991N·Android 15)
+├── Termux + proot Ubuntu 26.04
+├── Claude Code (DeepSeek·$0)
+├── Grok CLI (xAI SuperGrok·45,000원/월)
+├── Aider (DeepSeek·$0)
+├── phone-mcp-server (18도구·루트 없음)
+├── phone-health.sh (27항목 건강검진)
+├── care-daemon.sh (트랙1 돌봄·AI 의존성 제로)
+├── g/install.sh v2 (사용자 변수화·1줄 설치)
+├── scripts/yt_upload.py (YouTube OAuth)
+├── scripts/grok_api.py (Grok 연동)
+└── Playwright + Chromium headless
+</code></pre>
+<hr>
+<h2 id="5">5. 핵심 방법론</h2>
+<table>
+<thead>
+<tr>
+<th>방법론</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>칠판 모델</strong></td>
+<td>Naver=AI가 정리한 사고의 공개 작업 공간 (§59)</td>
+</tr>
+<tr>
+<td><strong>Paste Pipeline</strong></td>
+<td>API 없는 플랫폼: Claude→TG→복사→발행 (§24)</td>
+</tr>
+<tr>
+<td><strong>액자식 메타</strong></td>
+<td>만드는 과정 자체가 교재 (§57)</td>
+</tr>
+<tr>
+<td><strong>AI가 독자다</strong></td>
+<td>사람보다 AI 에이전트 파싱에 최적화 (§58)</td>
+</tr>
+<tr>
+<td><strong>이중 칠판</strong></td>
+<td>YouTube 녹화 시 Naver(무엇)+Pages(어떻게) (§64)</td>
+</tr>
+<tr>
+<td><strong>역방향 글로벌</strong></td>
+<td>해외→한국어학습→Naver로 진입 (§80)</td>
+</tr>
+<tr>
+<td><strong>귀화 교재</strong></td>
+<td>5레포=한국 이해의 5개 축 (§81)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="6-id">6. 독자성 ID — 제약을 설계로</h2>
+<table>
+<thead>
+<tr>
+<th>제약</th>
+<th>대부분 반응</th>
+<th>이 프로젝트</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>돈 없음</td>
+<td>포기</td>
+<td>$0 스택 설계</td>
+</tr>
+<tr>
+<td>키보드 못 씀</td>
+<td>좌절</td>
+<td>100% STT</td>
+</tr>
+<tr>
+<td>돌봄 병행</td>
+<td>개발 중단</td>
+<td>핸드오프=성공</td>
+</tr>
+<tr>
+<td>API 없음</td>
+<td>자동화 포기</td>
+<td>Paste Pipeline</td>
+</tr>
+<tr>
+<td>LLM이 학습</td>
+<td>저작권 방어</td>
+<td>홍보 채널로 역이용</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="7">7. 주요 수치</h2>
+<table>
+<thead>
+<tr>
+<th>지표</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>구축 기간</td>
+<td>5일 (2026-07-23~27)</td>
+</tr>
+<tr>
+<td>커밋</td>
+<td>145회</td>
+</tr>
+<tr>
+<td>파일</td>
+<td>265개</td>
+</tr>
+<tr>
+<td>코드+문서</td>
+<td>46,650줄</td>
+</tr>
+<tr>
+<td>문서 분량</td>
+<td>국판 500페이지+</td>
+</tr>
+<tr>
+<td>AI 에이전트</td>
+<td>3종</td>
+</tr>
+<tr>
+<td>워크센터</td>
+<td>8개</td>
+</tr>
+<tr>
+<td>GitHub 레포</td>
+<td>5개</td>
+</tr>
+<tr>
+<td>Pages 사이트</td>
+<td>5개</td>
+</tr>
+<tr>
+<td>YouTube 채널</td>
+<td>2개</td>
+</tr>
+<tr>
+<td>텔레그램 봇</td>
+<td>6개</td>
+</tr>
+<tr>
+<td>총 플랫폼 계정</td>
+<td>25개</td>
+</tr>
+<tr>
+<td>월 운영비</td>
+<td>~55,000원 (프로모 ~15,000원)</td>
+</tr>
+<tr>
+<td>입력 방식</td>
+<td>100% STT 음성</td>
+</tr>
+<tr>
+<td>개발일지</td>
+<td>81섹션</td>
+</tr>
+<tr>
+<td>업무수첩</td>
+<td>40종</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="8">8. 설치</h2>
+<pre><code class="language-bash"># 변수 지정
+GITHUB_USER=&quot;내아이디&quot; GITHUB_TOKEN=&quot;ghp_...&quot; bash &lt;(curl -sL https://raw.github.com/helena751107/helena_phone/main/g/install.sh)
+
+# 또는 대화형
+bash &lt;(curl -sL https://raw.github.com/helena751107/helena_phone/main/g/install.sh)
+</code></pre>
+<p>상세: <code>install-guide.html</code></p>
+<hr>
+<h2 id="9-3">9. 3층 최종 출판 구조</h2>
+<pre><code>Naver (한국 칠판·검색·AI 원천)
+  │  백서·원칙·구조·한국 독자
+  ▼
+YouTube (글로벌 강의·수익)
+  │  튜토리얼·멤버십·광고
+  ▼
+GitHub Pages (자체 IP 플랫폼)
+  │  PWA·대시보드·인터랙티브·CDN·$0
+  ▼
+GitHub (원본·코드·SSOT)
+</code></pre>
+<hr>
+<h2 id="10">10. 링크</h2>
+<table>
+<thead>
+<tr>
+<th>플랫폼</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>📱 포털</td>
+<td>helena751107.github.io/helena_phone</td>
+</tr>
+<tr>
+<td>💻 GitHub</td>
+<td>github.com/helena751107/helena_phone</td>
+</tr>
+<tr>
+<td>📺 YouTube</td>
+<td>youtube.com/@helena_phone</td>
+</tr>
+<tr>
+<td>🌐 Naver</td>
+<td>m.blog.naver.com/helena1975</td>
+</tr>
+<tr>
+<td>📝 티스토리</td>
+<td>galaxys21-pwuser.tistory.com</td>
+</tr>
+<tr>
+<td>💬 Discord</td>
+<td>discord.gg/JTYSZv2WQE</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<blockquote>
+<p>© 2026 Helena Park · 대필작가-간병인<br>
+모든 계정은 누나 명의입니다.<br>
+이 백서는 S21 Phone 개발일지 §1~81을 1장으로 압축한 완결판입니다.</p>
+</blockquote>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="39-self-platform-justification.html">
+          <span class="dir">Previous</span>
+          <span class="title">39 self platform justification</span>
+        </a>
+    <a class="next" href="40-lecture-draft-s21-voice-vol0_Grok.html">
+          <span class="dir">Next</span>
+          <span class="title">40 lecture draft s21 voice vol0 Grok</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>
