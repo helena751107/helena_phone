@@ -568,6 +568,14 @@
     "deck": "네이버 블로그용 **강의 소개글 + 강의 스크립트 골격**"
   },
   {
+    "src": "_notebook/40-lecture-draft-s21-voice-vol0_Grok.md",
+    "out": "notebook/40-lecture-draft-s21-voice-vol0_Grok.html",
+    "title": "강의 초안 전문 · Vol.0",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "**용도:** 화면 공유 / 칠판(웹·슬라이드) 보면서 **화면 녹화**"
+  },
+  {
     "src": "g/install.sh",
     "out": "g/install.html",
     "title": "install.sh · 1줄 설치기",

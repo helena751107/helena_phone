@@ -1,11 +1,12 @@
 {
-  "generated": "2026-07-27T04:25:14Z",
+  "generated": "2026-07-27T04:34:51Z",
   "agent": "_Grok",
-  "notebook_md_count": 48,
-  "notebook_html_count": 50,
-  "catalog_count": 89,
+  "notebook_md_count": 49,
+  "notebook_html_count": 52,
+  "catalog_count": 90,
   "missing_html": [],
   "orphan_html": [
+    "notebook/40-lecture-chalkboard-vol0.html",
     "notebook/53-self-eval.html"
   ],
   "catalog_missing_on_disk": [],

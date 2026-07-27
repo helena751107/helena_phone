@@ -92,3 +92,4 @@
 |------|------|
 | `naver-intro-article.md` | 네이버 첫 글 소개 아티클 |
 | `99-devlog.md` | 전체 개발일지 (§1–61+, §50– = _Grok) |
+| `40-lecture-draft-s21-voice-vol0_Grok.md` | **강의 초안 전문** Vol.0 칠판+대본 (_Grok) |

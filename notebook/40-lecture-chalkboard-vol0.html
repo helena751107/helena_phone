@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vol.0 칠판 · 화면녹화용 — S21 Voice</title>
+<style>
+:root { --bg:#0b0a09; --fg:#f4efe6; --mu:#9a9084; --ac:#d4a84b; --te:#3db8a8; --line:rgba(244,239,230,.12); }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; background: var(--bg); color: var(--fg);
+  font-family: "Noto Sans KR", "DM Sans", system-ui, sans-serif; }
+.deck { height: 100%; display: flex; flex-direction: column; }
+.top {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  padding: 10px max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left));
+  border-bottom: 1px solid var(--line); font-size: .78rem; color: var(--mu); flex-shrink: 0;
+}
+.top b { color: var(--ac); }
+.stage {
+  flex: 1; display: grid; place-items: center; padding: max(20px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) 24px max(24px, env(safe-area-inset-left));
+  overflow: auto;
+}
+.slide {
+  display: none; width: min(960px, 100%);
+  white-space: pre-wrap; font-size: clamp(1.15rem, 2.8vw, 1.75rem);
+  line-height: 1.55; letter-spacing: -.01em; font-weight: 500;
+}
+.slide.on { display: block; animation: in .25s ease; }
+@keyframes in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.slide .t { color: var(--ac); font-size: .75em; letter-spacing: .14em; text-transform: uppercase; margin-bottom: .8em; font-weight: 700; }
+.slide .big { font-family: "Cormorant Garamond", Georgia, serif; font-size: 1.25em; font-weight: 600; line-height: 1.25; margin: .4em 0; }
+.slide .hl { color: var(--te); }
+.slide .star { color: var(--ac); }
+.bar {
+  flex-shrink: 0; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center;
+  padding: 12px max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  border-top: 1px solid var(--line); background: #12100e;
+}
+button {
+  min-height: 44px; min-width: 44px; padding: 8px 16px; border: 1px solid var(--line);
+  background: #1a1714; color: var(--fg); font: inherit; font-size: .85rem; cursor: pointer; border-radius: 4px;
+}
+button:hover { border-color: var(--ac); color: var(--ac); }
+button.primary { background: var(--ac); color: #1a1508; border-color: var(--ac); font-weight: 700; }
+.script {
+  max-height: 28vh; overflow: auto; width: min(960px, 100%); margin-top: 18px;
+  padding: 14px 16px; background: #12100e; border: 1px solid var(--line); border-radius: 8px;
+  font-size: clamp(.9rem, 2vw, 1.05rem); line-height: 1.65; color: var(--mu); white-space: pre-wrap;
+}
+.script b { color: var(--fg); font-weight: 600; }
+.hint { font-size: .72rem; color: var(--mu); }
+@media (max-width: 600px) {
+  .slide { font-size: 1.05rem; }
+  .script { max-height: 32vh; }
+}
+</style>
+</head>
+<body>
+<div class="deck">
+  <div class="top">
+    <span><b>Vol.0</b> 칠판 · 화면녹화</span>
+    <span id="pos">1 / 13</span>
+    <span class="hint">← → 또는 버튼 · S 대본 토글 · F 전체화면</span>
+  </div>
+  <div class="stage">
+    <div id="board" class="slide on"></div>
+    <div id="script" class="script" hidden></div>
+  </div>
+  <div class="bar">
+    <button type="button" id="prev">← 이전</button>
+    <button type="button" class="primary" id="next">다음 →</button>
+    <button type="button" id="toggle">대본 ON/OFF</button>
+    <button type="button" id="fs">전체화면</button>
+    <a href="./40-lecture-draft-s21-voice-vol0_Grok.html" style="color:var(--ac);font-size:.8rem;margin-left:8px">전문 초안</a>
+  </div>
+</div>
+<script>
+const slides = [
+  {
+    b: `<div class="t">Slide 00</div><div class="big">S21 Voice OS 입문 · Vol.0</div>\n\n왜 5년 된 폰인가\n<span class="hl">보이스 드리븐의 역설</span>\n\n실측 SM-G991N · 2026-07`,
+    s: `안녕하세요.\n오늘은 시리즈 영번째, 왜 하필 갤럭시 S21인가만 붙잡습니다.\n최신 폰이 있어야 AI를 한다는 말, 실측 숫자로 한 번 흔들어 보겠습니다.`
+  },
+  {
+    b: `<div class="t">Slide 01 · 질문</div><div class="big">API가 일을 하는 세상에서도\n최신 플래그십이 필수인가?</div>\n\n오늘 답:\n「보이스 드리븐에는 구형 플래그십이\n <span class="hl">오히려 엔진이 될 수 있다</span>」`,
+    s: `질문 하나만 던지겠습니다.\n클라우드에 말을 보내고, 클라우드에서 코드를 받고, 깃허브에 올리는 구조라면— 로컬 CPU가 최신이어야 할까요?\n오늘 결론을 미리 말합니다. 보이스 드리븐에서는 구형 플래그십이 오히려 엔진이 될 수 있다.`
+  },
+  {
+    b: `<div class="t">Slide 02 · 실측</div><div class="big">S21 실측 숫자</div>\n\nCPU     Exynos 2100\nRAM     8GB LPDDR5\n저장    256GB · 여유 172GB\n배터리  4,000mAh (5년)\nNPU     <span class="star">없음</span>\n무게    <span class="hl">169g</span>\n중고    <span class="hl">약 20만 원</span>\nAndroid 15`,
+    s: `제 손의 기기는 갤럭시 S21, 모델 G991N.\n램 팔 기가, 배터리 사천, 무게 백육십구 그램.\n엔피유는 없습니다. 로컬 거대 모델용이 아닙니다.\n이십만, 백육십구 그램, 엔피유 없음— 이 숫자만 외우셔도 오늘 반은 갑니다.`
+  },
+  {
+    b: `<div class="t">Slide 03 · 정의</div><div class="big">Voice-Driven =</div>\n\n입  →  STT (음성→글)\n뇌  →  에이전트 (API)\n손  →  플랫폼 (배포·발행)\n\n키보드 최소 · <span class="hl">말이 주 입력</span>`,
+    s: `보이스 드리븐을 짧게 정의합니다.\n입은 말이 글이 되고, 뇌는 에이전트가 API로 생각하고, 손은 깃허브·페이지스·유튜브·네이버로 나갑니다.\n주 입력이 말이라는 뜻입니다. 무거운 연산은 폰 안이 아니라 구름에 있습니다.`
+  },
+  {
+    b: `<div class="t">Slide 04 · 핵심</div><div class="big star">★ 보이스 드리븐의 역설</div>\n\nAPI가 주력이면\n로컬 성능  &lt;  <span class="hl">네트워크 · 배터리 · 휴대성</span>\n\nS21이 아직 이기는 축\n· 169g  ·  ~20만  ·  수리 쉬움\n· 하루 API 루프 가능한 배터리`,
+    s: `핵심입니다. 별표.\n에이피아이가 주력이면 로컬 성능보다 네트워크, 배터리, 휴대성이 엔진입니다.\n실패해도 이십만 원. 최신 실패는 백팔십만 원. 실험 비용이 아홉 배 차이— 이게 전략입니다.`
+  },
+  {
+    b: `<div class="t">Slide 05 · 표</div><div class="big">채점표</div>\n\nAPI 속도     동일 (클라우드) → 무관\nSTT 정확도   동일 → 무관\n휴대성       <span class="hl">S21 169g 승</span>\n비용         <span class="hl">S21 20만 승</span>\n수리         S21 승\n온디바이스AI 최신 승 → API로 대체`,
+    s: `표로 보겠습니다. API와 STT는 클라우드면 기기 차이가 거의 없습니다.\n한 손으로 들고 말하면 백육십구 그램이 이깁니다. 비용과 수리는 말할 것도 없고요.\n온디바이스는 최신이 이깁니다. 우리는 에이피이로 대체한다고 설계했습니다.`
+  },
+  {
+    b: `<div class="t">Slide 06 · 장점</div><div class="big">장점 다섯</div>\n\n1 연산: API면 충분 · 8GB Termux\n2 배터리: 화면 끄고 API → 하루\n3 무게: 169g 한 손·노동 중\n4 비용: 20만 · 배터리 교체 5~8만\n5 성숙: Android 15 · Termux 안정`,
+    s: `장점 다섯 줄.\n연산은 API면 충분. 배터리는 화면 끄고 호출 위주. 무게는 실제로 들고 말합니다.\n비용은 망해도 이십만. 소프트웨어는 이미 익었습니다.`
+  },
+  {
+    b: `<div class="t">Slide 07 · 한계</div><div class="big">한계 → 우회</div>\n\nNPU 없음     → API · 클라우드 STT\n배터리 노화  → 교체 · 녹화 짧게\n발열         → 장시간 Chromium 주의\nWiFi 6       → 4K 장시간만 체감\n6.2"         → DeX · 외부 모니터`,
+    s: `광고가 아닙니다. 한계도 말합니다.\n엔피유 없음— 로컬 LLM 안 합니다. 배터리 늙음— 갈아 끼웁니다.\n완벽한 폰이 아니라, 이 제약 안의 최적 엔진입니다.`
+  },
+  {
+    b: `<div class="t">Slide 08 · 스택</div><div class="big">입 · 뇌 · 손</div>\n\n입  음성 → 클립보드 → Termux\n뇌  cc 코드 · gr 시각 · ds 패치\n손  GitHub · Pages · YT · Naver · TG\n\n런타임 $0 축 + 구독 1레인\n= 풀스택 미디어 파이프`,
+    s: `흐름을 외우세요. 입, 뇌, 손.\n말은 글이 되어 터먹스로, 에이전트 셋이 분업하고, 무료 플랫폼으로 나갑니다.\n다음 강에서 스택을 깔아 보겠습니다.`
+  },
+  {
+    b: `<div class="t">Slide 09 · 비교</div><div class="big">왜 폰인가</div>\n\nS21+Termux   말하기✅ 풀스택✅ → <span class="hl">올인원</span>\n라즈베리파이  서버 쪽\n스마트스피커  입력만\n저가 노트북   무겁고 비쌈\n\n스피커처럼 말하고\n노트북처럼 배포하는 폼팩터`,
+    s: `파이, 스피커, 노트북과 견줍니다.\n에스이십일은 말하면서 풀스택을 운영하는 거의 유일한 일상 폼팩터입니다.`
+  },
+  {
+    b: `<div class="t">Slide 10 · 위치</div><div class="big">이 분석의 자리</div>\n\n· g/install.sh 설계 근거\n· “왜 구형 폰인가” 정당화\n· 공짜 런타임 플래너의 하드웨어 층\n· 핸드오프: 저위험 실험\n\n증거 = 스펙표 + 돌아가는 Pages`,
+    s: `이 분석은 감성 에세이가 아닙니다.\n설치 스크립트와 구형 폰 전략의 바닥 도면입니다.\n증거는 표와 함께 실제로 떠 있는 깃허브 페이지입니다.`
+  },
+  {
+    b: `<div class="t">Slide 11 · 결론</div><div class="big hl">결론</div>\n\n보이스 드리븐 OS에는\n구형 플래그십이 오히려 최적일 수 있다.\n\nNPU 부재 = API가 대체\n경량 · 저비용 · 수리 = 구조적 우위\n\n「중고폰으로 AI 플랫폼」의 기술적 근거`,
+    s: `결론 다시 읽습니다.\n보이스 드리븐에는 구형 플래그십이 오히려 최적일 수 있다.\n이게 중고폰 전략의 기술적 근거입니다.`
+  },
+  {
+    b: `<div class="t">Slide 12 · 다음</div><div class="big">Vol.1 예고 · CTA</div>\n\n다음: 말 하나로 미디어를 짓다\nSTT · 에이전트 3 · $0 런타임\n\n숙제\n1 교재 페이지 · 막대 만져보기\n2 내 폰 무게·연식 적기\n3 메모: “1강”\n\n교재 38-s21-voice-driven-analysis`,
+    s: `다음 시간에는 말 한마디로 미디어를 짓는 스택을 깔아 봅니다.\n숙제 셋— 교재 열기, 내 폰 적어 보기, 일강이라고 메모.\n여기까지 Vol.0이었습니다. 감사합니다.`
+  }
+];
+
+let i = 0;
+const board = document.getElementById('board');
+const scriptEl = document.getElementById('script');
+const pos = document.getElementById('pos');
+
+function show() {
+  const s = slides[i];
+  board.innerHTML = s.b;
+  board.classList.add('on');
+  scriptEl.textContent = s.s;
+  pos.textContent = (i + 1) + ' / ' + slides.length;
+}
+function next() { if (i < slides.length - 1) { i++; show(); } }
+function prev() { if (i > 0) { i--; show(); } }
+
+document.getElementById('next').onclick = next;
+document.getElementById('prev').onclick = prev;
+document.getElementById('toggle').onclick = () => {
+  scriptEl.hidden = !scriptEl.hidden;
+};
+document.getElementById('fs').onclick = () => {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+  else document.exitFullscreen?.();
+};
+addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prev(); }
+  if (e.key === 's' || e.key === 'S') scriptEl.hidden = !scriptEl.hidden;
+  if (e.key === 'f' || e.key === 'F') document.getElementById('fs').click();
+});
+show();
+</script>
+</body>
+</html>
