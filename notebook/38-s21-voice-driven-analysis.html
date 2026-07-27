@@ -1,125 +1,120 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><title>S21 Voice-Driven 분석</title></head><body><pre>
-# 📱 S21 Voice-Driven 분석 — 하드웨어 + 보이스 OS 적합성
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📱 S21 Voice-Driven 분석 — S21 Phone</title>
+<style>
+:root {
+  --bg: #0a0908; --surface: #12100e; --text: #f4efe6; --muted: #b5a999;
+  --red: #e85d4c; --green: #3db8a8; --gold: #d4a84b; --blue: #5b9eff;
+  --border: rgba(244,239,230,0.08); --sans: 'DM Sans','Noto Sans KR',sans-serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:var(--sans); background:var(--bg); color:var(--text); line-height:1.7; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:900px; margin:0 auto; padding:40px 20px; }
+header { text-align:center; padding:60px 0 40px; border-bottom:1px solid var(--border); margin-bottom:40px; }
+header .kicker { font-size:0.7em; letter-spacing:3px; text-transform:uppercase; color:var(--red); margin-bottom:8px; }
+header h1 { font-size:clamp(1.8rem,4vw,2.4rem); font-weight:700; }
+header .deck { color:var(--muted); margin-top:8px; }
+h2 { font-size:1.15em; margin:36px 0 14px; color:var(--gold); border-bottom:1px solid var(--border); padding-bottom:8px; }
+h3 { font-size:0.95em; margin:18px 0 8px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:20px; margin:8px 0; }
+table { width:100%; border-collapse:collapse; margin:12px 0; font-size:0.85em; }
+th,td { padding:10px 14px; text-align:left; border-bottom:1px solid var(--border); }
+th { color:var(--gold); font-weight:600; font-size:0.72em; letter-spacing:1px; text-transform:uppercase; }
+.yes { color:var(--green); } .no { color:var(--red); }
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.pro { border-left:3px solid var(--green); } .pro h3 { color:var(--green); }
+.con { border-left:3px solid var(--red); } .con h3 { color:var(--red); }
+.bar-wrap { margin:4px 0; display:flex; align-items:center; gap:8px; font-size:0.8em; }
+.bar-label { min-width:85px; text-align:right; color:var(--muted); }
+.bar-track { flex:1; height:6px; background:var(--border); border-radius:3px; overflow:hidden; }
+.bar-fill { height:100%; border-radius:3px; transition:width 1.5s ease; }
+.insight-box { background:rgba(212,168,75,0.05); border:1px solid rgba(212,168,75,0.15); border-radius:10px; padding:24px; margin:24px 0; }
+.insight-box strong { color:var(--gold); }
+.comp-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:8px; margin:16px 0; }
+.comp-card { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:16px; text-align:center; }
+.comp-card .icon { font-size:1.4rem; margin-bottom:4px; }
+.comp-card .name { font-weight:600; font-size:0.82em; }
+.comp-card .verdict { font-size:0.72em; color:var(--muted); margin-top:4px; }
+footer { text-align:center; padding:40px 0 20px; border-top:1px solid var(--border); margin-top:40px; color:var(--muted); font-size:0.8em; }
+a { color:var(--gold); text-decoration:none; } a:hover { text-decoration:underline; }
+@media (max-width:600px) { .grid2 { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
 
-> 분석: 2026-07-27 | 실측 기기: SM-G991N (Galaxy S21 5G)
-> 질문: 이 폰으로 보이스 드리븐 플랫폼 생태계를 돌릴 때 장단점은?
+<header>
+  <div class="kicker">📱 Device Analysis</div>
+  <h1>S21 Voice-Driven 분석</h1>
+  <p class="deck">5년 된 구형폰으로 보이스 드리븐 플랫폼 생태계를 돌릴 때 — 장점과 한계</p>
+  <p style="color:var(--muted);font-size:0.78em;margin-top:8px;">실측: SM-G991N · Android 15 · 2026-07-27</p>
+</header>
 
----
+<h2>1. 실측 사양</h2>
+<div class="card">
+<table>
+<tr><th>항목</th><th>S21 (2021)</th><th>S26 Ultra (2026 추정)</th><th>갭</th></tr>
+<tr><td>프로세서</td><td>Exynos 2100 5nm</td><td>SD 8 Gen 4 3nm</td><td>~3.5×</td></tr>
+<tr><td>RAM</td><td>8GB LPDDR5</td><td>12~16GB LPDDR6</td><td>1.5~2×</td></tr>
+<tr><td>저장</td><td>256GB (172GB free)</td><td>256GB~1TB UFS 4.0</td><td>속도 2×</td></tr>
+<tr><td>배터리</td><td>4,000mAh (5년·GOOD)</td><td>5,000mAh (신품)</td><td>체감 2×</td></tr>
+<tr><td>NPU</td><td class="no">❌ 없음</td><td class="yes">✅ 45 TOPS</td><td>∞</td></tr>
+<tr><td>WiFi</td><td>WiFi 6</td><td>WiFi 7</td><td>4.8×</td></tr>
+<tr><td>무게</td><td class="yes">169g</td><td>~230g</td><td>S21 승</td></tr>
+<tr><td>중고가</td><td class="yes">~20만원</td><td>~180만원</td><td>1/9</td></tr>
+</table>
+</div>
 
-## 1. S21 실측 사양 (2026년 7월)
+<h2>2. Voice-Driven OS — 장점</h2>
+<div class="grid2">
+  <div class="card pro"><h3>✅ 충분한 연산력</h3><p style="font-size:0.82em;color:var(--muted);">STT·LLM·API 전부 클라우드. 8GB RAM으로 Claude Code·Grok·Aider 동시 구동. 로컬은 경량 bash만.</p></div>
+  <div class="card pro"><h3>✅ 배터리 지속성</h3><p style="font-size:0.82em;color:var(--muted);">화면 OFF + API 호출 위주. 상시 음성비서보다 효율적. 식당 노동 중 하루 OK.</p></div>
+  <div class="card pro"><h3>✅ 경량성 (169g)</h3><p style="font-size:0.82em;color:var(--muted);">한 손에 들고 말하기 좋음. 이동·노동 중 실제 사용 검증. 덱스 모드로 데스크탑 전환.</p></div>
+  <div class="card pro"><h3>✅ 비용 효율</h3><p style="font-size:0.82em;color:var(--muted);">중고 20만원. 최신폰 1/9. 실패 리스크↓ 배터리 교체 5~8만원.</p></div>
+</div>
 
-| 항목 | 실측값 | 2026년 플래그십(S26U 추정) |
-|------|--------|-------------------------|
-| 프로세서 | Exynos 2100 (5nm·8코어) | SD 8 Gen 4 (3nm) |
-| RAM | 8GB LPDDR5 | 12~16GB LPDDR6 |
-| 저장 | 256GB UFS 3.1 (172GB free) | 256GB~1TB UFS 4.0 |
-| 배터리 | 4,000mAh (5년 사용·건강 GOOD) | 5,000~5,500mAh |
-| 디스플레이 | 6.2" FHD+ 120Hz | 6.8" QHD+ 144Hz |
-| WiFi | WiFi 6 | WiFi 7 |
-| NPU | ❌ 없음 | ✅ 45 TOPS |
-| Android | 15 (SDK 35) | 16 |
-| 무게 | 169g | ~230g |
-| 중고가 | ~20만원 | ~180만원 |
+<h2>3. Voice-Driven OS — 한계</h2>
+<div class="grid2">
+  <div class="card con"><h3>❌ NPU 부재</h3><p style="font-size:0.82em;color:var(--muted);">로컬 LLM·온디바이스 STT 커스터마이징 불가. <strong>하지만 API가 모든 걸 대체</strong>한다.</p></div>
+  <div class="card con"><h3>❌ 배터리 노화</h3><p style="font-size:0.82em;color:var(--muted);">5년 사용·~85% 용량. 장시간 녹화 시 급격 소모. 교체 가능하나 방수↓</p></div>
+  <div class="card con"><h3>❌ 발열 제약</h3><p style="font-size:0.82em;color:var(--muted);">Exynos 2100 발열↑ Playwright 장시간 시 쓰로틀링. 여름철 냉각 필요.</p></div>
+  <div class="card con"><h3>❌ 디스플레이 크기</h3><p style="font-size:0.82em;color:var(--muted);">6.2" 코드 리뷰 협소. 화면 녹화 시 고밀도 가독성↓ 덱스 모드 보완.</p></div>
+</div>
 
----
+<div class="insight-box">
+  <h2 style="margin-top:0;border:none;color:var(--gold);">4. 핵심 인사이트</h2>
+  <p style="font-size:1.05em;"><strong>보이스 드리븐 운영의 역설: API 기반이면 구형이 오히려 낫다.</strong></p>
+  <p style="margin-top:12px;color:var(--muted);">NPU 부재는 API가 대체. 경량성·저비용·수리 용이성은 구조적 우위. "중고폰 AI 플랫폼"의 기술적 근거.</p>
+  <div style="margin-top:18px;">
+    <div class="bar-wrap"><span class="bar-label">API 응답</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--muted)"></div></div><span style="font-size:0.7em;color:var(--muted);">S21=S26U</span></div>
+    <div class="bar-wrap"><span class="bar-label">휴대성</span><div class="bar-track"><div class="bar-fill" style="width:95%;background:var(--green)"></div></div><span style="font-size:0.7em;color:var(--green);">S21 승</span></div>
+    <div class="bar-wrap"><span class="bar-label">비용</span><div class="bar-track"><div class="bar-fill" style="width:95%;background:var(--green)"></div></div><span style="font-size:0.7em;color:var(--green);">S21 1/9</span></div>
+    <div class="bar-wrap"><span class="bar-label">적합도</span><div class="bar-track"><div class="bar-fill" style="width:92%;background:var(--green)"></div></div><span style="font-size:0.7em;color:var(--green);">S21 우위</span></div>
+  </div>
+</div>
 
-## 2. Voice-Driven OS 운영 — S21의 장점
+<h2>5. Voice 디바이스 비교</h2>
+<div class="comp-grid">
+  <div class="comp-card"><div class="icon">📱</div><div class="name">S21+Termux</div><div class="verdict" style="color:var(--green);">올인원 최적</div></div>
+  <div class="comp-card"><div class="icon">🥧</div><div class="name">Raspberry Pi 5</div><div class="verdict">서버 전용</div></div>
+  <div class="comp-card"><div class="icon">🔊</div><div class="name">스마트 스피커</div><div class="verdict">입력만</div></div>
+  <div class="comp-card"><div class="icon">💻</div><div class="name">저가 노트북</div><div class="verdict">무겁고 비쌈</div></div>
+  <div class="comp-card"><div class="icon">📋</div><div class="name">태블릿+키보드</div><div class="verdict">타이핑 유도</div></div>
+</div>
+<p style="font-size:0.82em;color:var(--muted);text-align:center;">S21 = 스피커처럼 말하고, 노트북처럼 풀스택 운영하는 유일한 디바이스.</p>
 
-### ✅ 충분한 연산력
-- STT 자체는 클라우드(Google Speech) 또는 온디바이스(삼성 키보드 음성)로 처리
-- Claude Code·Grok·Aider 전부 **API 호출**이라 로컬 연산 무관
-- Termux + proot Ubuntu는 경량. 8GB RAM이면 충분
+<footer>
+  <p>← <a href="../">S21 Phone 랜딩페이지</a> · <a href="https://github.com/helena751107/helena_phone">GitHub</a></p>
+  <p style="margin-top:8px;">실측 기반 · SM-G991N · © Helena Park</p>
+  <p>모든 계정은 누나 명의입니다.</p>
+</footer>
 
-### ✅ 배터리 지속성
-- 화면 OFF + 백그라운드 API 호출 위주 → 배터리 소모 적음
-- 상시 대기 음성비서(Alexa·Google Assistant류)보다 전력 효율적
-- 4,000mAh로 하루 종일 STT→API→블로그 발행 가능
-
-### ✅ 물리적 경량성
-- 169g. 한 손에 들고 말하기 좋음
-- 식당 노동·이동 중에도 사용 가능 (실제 검증됨)
-- 덱스 모드로 외부 모니터 연결 시 데스크탑급 환경
-
-### ✅ 비용 효율
-- 중고가 20만원. 실패해도 리스크 적음
-- 수리비 저렴. 배터리 교체 5~8만원
-- 최신 폰 대비 1/9 가격으로 동일한 API 접근 가능
-
-### ✅ 소프트웨어 성숙도
-- Android 15 + One UI 6 → 안정적인 백그라운드 실행
-- Termux API 완벽 지원 (18개 MCP 도구 전부 구동)
-- 5년간 검증된 안정성. 초기 불량 리스크 없음
-
----
-
-## 3. Voice-Driven OS 운영 — S21의 한계
-
-### ❌ NPU 부재 → 온디바이스 AI 불가
-- 로컬 LLM(Ollama·llama.cpp) 실행 불가. 7B 모델도 RAM 부족
-- 온디바이스 음성인식은 삼성 키보드 의존 (커스터마이징 불가)
-- 실시간 음성→텍스트 스트리밍에 클라우드 의존
-
-### ❌ 배터리 노화
-- 5년 사용 배터리. 최대 용량의 ~85%로 추정
-- 장시간 화면 녹화 시 급격한 소모
-- 교체 가능하나 방수 등급 하락 감수
-
-### ❌ 발열 제약
-- Exynos 2100은 발열 관리가 상대적으로 취약
-- Playwright·Chromium 장시간 구동 시 쓰로틀링
-- 여름철 실외 사용 시 추가 냉각 필요
-
-### ❌ WiFi 6 한계
-- 대용량 영상 업로드 시 WiFi 7 대비 4.8배 느림
-- YouTube 1080p 영상(10분·~500MB) 업로드에 WiFi 6으로 충분하나
-  4K·장시간 영상에서는 체감 차이 발생
-
-### ❌ 디스플레이 크기
-- 6.2"는 코드 리뷰·문서 편집에 협소
-- 덱스 모드로 보완 가능하나 이동 중엔 불편
-- 화면 녹화 시 정보 밀도가 높으면 가독성 저하
-
----
-
-## 4. 핵심 인사이트 — Voice-Driven에는 오히려 구형이 낫다
-
-> **보이스 드리븐 운영의 역설:**
-> API 호출이 주력인 환경에서는 로컬 성능보다 **네트워크·배터리·휴대성**이 더 중요하다.
-> S21은 이 세 가지에서 여전히 경쟁력이 있다.
-
-| 평가 항목 | S21 | S26U | Voice-Driven 적합 |
-|-----------|-----|------|------------------|
-| API 응답 속도 | 동일 | 동일 | **무관** (둘 다 클라우드) |
-| STT 정확도 | 동일 | 동일 | **무관** (둘 다 Google Speech) |
-| 배터리 지속 | 양호 | 우수 | S26U 우위 |
-| 휴대성 | **169g** | ~230g | **S21 우위** |
-| 발열 관리 | 보통 | 우수 | S26U 우위 |
-| 비용 | **20만원** | 180만원 | **S21 압도적 우위** |
-| 수리 용이성 | **쉬움** | 어려움(신모델) | **S21 우위** |
-| 온디바이스 AI | ❌ 불가 | ✅ 가능 | 선택적 (API로 대체 가능) |
-
-**결론: Voice-Driven OS 운영에는 구형 플래그십이 오히려 최적이다.**
-NPU 부재는 API가 대체하고, 경량성·저비용·수리 용이성은 S21의 구조적 우위.
-이게 "중고폰으로 AI 플랫폼을 돌리는" 전략의 기술적 근거다.
-
----
-
-## 5. 다른 Voice-Driven 디바이스와 비교
-
-| 디바이스 | STT | LLM | 미디어 운영 | 비용 | 평결 |
-|---------|-----|-----|----------|------|------|
-| S21 + Termux | ✅ | ✅ (API) | ✅ 풀스택 | 20만원+월5만 | **올인원** |
-| Raspberry Pi 5 | ❌ (마이크 추가) | ⚠️ (7B 한계) | ⚠️ (브라우저 무거움) | 10만원+주변기기 | 서버 전용 |
-| 스마트 스피커 | ✅ | ❌ (API만) | ❌ | 5~15만원 | 입력만 |
-| 노트북(저가) | ✅ | ✅ | ✅ | 50~100만원 | 무겁고 비쌈 |
-| 태블릿 + 키보드 | ⚠️ | ✅ (API) | ✅ | 30~80만원 | 타이핑 유도 |
-
-**S21의 포지션:** 스마트 스피커처럼 가볍게 말할 수 있고,
-노트북처럼 풀스택 미디어를 운영할 수 있는 유일한 폼팩터.
-"음성입력 + 풀스택 출력"을 동시에 만족하는 유일한 디바이스 클래스다.
-
----
-
-> 이 분석은 `g/install.sh`의 설계 근거이자,
-> "왜 구형 폰인가"에 대한 정당화 문서다.
-</pre></body></html>
+</div>
+<script>
+new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.bar-fill').forEach(b=>{const w=b.style.width;b.style.width='0%';setTimeout(()=>b.style.width=w,100)})}}),{threshold:0.3}).observe(document.querySelector('.insight-box'));
+</script>
+</body>
+</html>
