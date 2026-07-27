@@ -71,6 +71,7 @@
 | `32-ecosystem-whitepaper.md` | 생태계 백서 v1.0 |
 | `33-webpage-coverage_Grok.md` | **웹페이지 커버리지 상시 체크** (_Grok 역할) |
 | `36-project-planning-vs-helena_Grok.md` | **일반 PM/사업계획 vs 헬레나** 비교표 (_Grok) |
+| `37-free-runtime-planner-whitepaper_Grok.md` | **백서** 공짜 런타임으로 풀스택 플래너 (_Grok) |
 | `session-2026-07-26_Grok.md` | 세션 메모 — 웹진·아이콘·행정대화록 (_Grok) |
 | `ai-agents-cc-ds-grok-comparison-2026-07-25.md` | cc/ds/grok 비교 (날짜 스냅샷) |
 | `supergrok-community-research-2026-07-25.md` | SuperGrok 커뮤니티 리서치 |

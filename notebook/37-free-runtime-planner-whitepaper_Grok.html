@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="**명제** — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>백서 · 공짜 런타임 플랫폼 생태계로 돌리는 「풀스택 플래너」 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>백서 · 공짜 런타임 플랫폼 생태계로 돌리는 「풀스택 플래너」</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>백서 · 공짜 런타임 플랫폼 생태계로 돌리는 「풀스택 플래너」</h1>
+    <p class="deck">**명제**</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/37-free-runtime-planner-whitepaper_Grok.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#s21-phone-5-repo-3">S21 Phone · 5-Repo · 에이전트 3레인</a></li>
+<li><a href="#0-executive">0. 한 페이지 요약 (Executive)</a></li>
+<li><a href="#1">1. 문제 정의</a></li>
+<li><a href="#2">2. 「공짜 런타임 플랫폼 생태계」란</a><ul>
+<li><a href="#21">2.1 계층</a></li>
+<li><a href="#22">2.2 “공짜”의 정확한 의미</a></li>
+</ul>
+</li>
+<li><a href="#3-3">3. 플래닝 3종을 이 생태계가 어떻게 담당하나</a><ul>
+<li><a href="#31">3.1 프로젝트 플래닝 → 레포 운용</a></li>
+<li><a href="#32">3.2 콘텐츠 플래닝 → 채널·톤·파이프</a></li>
+<li><a href="#33">3.3 비즈니스 플래닝 → 퍼널·원가·거버넌스</a></li>
+</ul>
+</li>
+<li><a href="#4">4. 레포가 곧 플래너다</a></li>
+<li><a href="#5">5. 기능 커버리지 매트릭스</a></li>
+<li><a href="#6">6. 운영 루프 (플래닝이 도는 방식)</a></li>
+<li><a href="#7">7. 비용·제약 · 정직 고지</a><ul>
+<li><a href="#_2">된다</a></li>
+<li><a href="#_3">공짜 런타임만으로 한계</a></li>
+<li><a href="#_4">리스크</a></li>
+</ul>
+</li>
+<li><a href="#8">8. 다른 “올인원 플래너”와의 포지션</a></li>
+<li><a href="#9">9. 결론 · 주장</a></li>
+<li><a href="#10">10. 바로 쓰는 명령 · 링크</a></li>
+<li><a href="#11">11. 관련 문서</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <hr>
+<p>date: 2026-07-27<br>
+agent: Grok<br>
+mark: _Grok<br>
+type: whitepaper<br>
+status: active<br>
+version: 1.0</p>
+<hr>
+<h1 id="_1">백서 · 공짜 런타임 플랫폼 생태계로 돌리는 「풀스택 플래너」</h1>
+<h2 id="s21-phone-5-repo-3">S21 Phone · 5-Repo · 에이전트 3레인</h2>
+<blockquote>
+<p><strong>명제</strong><br>
+이 레포지토리(및 위성 4종)를 통해, <strong>유료 전용 런타임·비싼 PM SaaS 없이</strong><br>
+<strong>프로젝트 · 콘텐츠 · 비즈니스 플래닝</strong>에 필요한 기능을<br>
+<strong>공짜·저비용 플랫폼 생태계 + 에이전트</strong>로 거의 전부 수행할 수 있다.  </p>
+<p>플래너는 사람(Boss)이고, <strong>런타임은 플랫폼 조합</strong>이며, <strong>실행 근육은 에이전트 3레인</strong>이다.</p>
+</blockquote>
+<hr>
+<h2 id="0-executive">0. 한 페이지 요약 (Executive)</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>무엇을</strong></td>
+<td>돌봄(트랙1) + 소망/콘텐츠(트랙2) 핸드오프 가능한 생태계</td>
+</tr>
+<tr>
+<td><strong>어디서</strong></td>
+<td>Galaxy S21 · Termux · proot · GitHub · Pages · TG/Discord · (선택) 네이버/유튜브</td>
+</tr>
+<tr>
+<td><strong>얼마에</strong></td>
+<td>핵심 런타임 <strong>$0 축</strong> + SuperGrok 등 <strong>구독 1개 수준</strong> (토큰 과금 회피 설계)</td>
+</tr>
+<tr>
+<td><strong>누가</strong></td>
+<td>명의·유저 = 큰누나 / 기획·판단 = Boss / 실행 = cc·ds·gr</td>
+</tr>
+<tr>
+<td><strong>어떻게 계획하나</strong></td>
+<td>레포=스코프, 일지=WBS·결정, 웹진=산출물, 퍼널=비즈, gap check=품질</td>
+</tr>
+<tr>
+<td><strong>결론</strong></td>
+<td><strong>플래닝 기능 = 별도 툴이 아니라 이 생태계의 운용 방식 자체</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="1">1. 문제 정의</h2>
+<p>일반 창작자·돌봄 가정·1인 팀은 보통 이렇게 갈린다.</p>
+<ol>
+<li><strong>Notion / Asana / Jira</strong> — 계획 툴은 있는데 실행 런타임이 따로  </li>
+<li><strong>ChatGPT 구독만</strong> — 말은 되는데 레포·배포·핸드오프가 없음  </li>
+<li><strong>클라우드 서버</strong> — 월 비용·운영 부담  </li>
+<li><strong>에이전시·PM 외주</strong> — 케어 맥락·명의·속도가 안 맞음  </li>
+</ol>
+<p>헬레나 명제는 반대다.</p>
+<blockquote>
+<p><strong>버려지는 폰 + 공개 플랫폼 + 저원가 LLM 레인</strong>으로<br>
+계획·실행·배포·기록·핸드오프를 <strong>한 줄로</strong> 묶는다.</p>
+</blockquote>
+<hr>
+<h2 id="2">2. 「공짜 런타임 플랫폼 생태계」란</h2>
+<p>여기서 <strong>런타임</strong> = 코드·문서·봇·페이지가 <em>실제로 돌아가는 자리</em>.</p>
+<h3 id="21">2.1 계층</h3>
+<pre><code>[판단] Boss
+   │
+[에이전트 레인]  gr 디자이너 · ds 반장 · cc(감사 예약)
+   │
+[워크스페이스]   /root/work = helena_phone SSOT
+   │
+[런타임 $0 축]
+   ├─ Termux + proot Ubuntu     ← 로컬 실행
+   ├─ GitHub (git/Issues/Actions 선택)
+   ├─ GitHub Pages              ← 웹 표면
+   ├─ Telegram / Discord        ← 신호·보고
+   └─ (선택) RSS·정적 호스팅
+   │
+[저비용 가속]
+   └─ SuperGrok 등 월정액 1레인 (시각·파싱·드래프트)
+   │
+[유통 표면]
+   ├─ Naver 칠판 (유입)
+   └─ YouTube (깊이·수익 레이어)
+</code></pre>
+<h3 id="22">2.2 “공짜”의 정확한 의미</h3>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>공짜에 가깝다</strong></td>
+<td>Pages, git, Termux, 상당수 API free tier, DeepSeek 경유 코딩 레인</td>
+</tr>
+<tr>
+<td><strong>완전 0원은 아니다</strong></td>
+<td>폰 전기·데이터, (선택) X/Grok 구독, 도메인 없음(github.io)</td>
+</tr>
+<tr>
+<td><strong>비싼 걸 안 산다</strong></td>
+<td>상시 클라우드 VM, 토큰 무제한 프리미엄 스택, 상용 PM 스위트 필수화 안 함</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>「공짜 런타임」= 월 고정 인프라를 거의 0에 두고, 지능은 구독 1개+오픈 레인으로 때운다.</strong></p>
+<hr>
+<h2 id="3-3">3. 플래닝 3종을 이 생태계가 어떻게 담당하나</h2>
+<h3 id="31">3.1 프로젝트 플래닝 → 레포 운용</h3>
+<table>
+<thead>
+<tr>
+<th>일반 PM 기능</th>
+<th>이 생태계에서의 구현</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>비전·원칙</td>
+<td><code>CONSTITUTION.md</code> · 트랙1/2</td>
+</tr>
+<tr>
+<td>스코프</td>
+<td>5 레포 경계 · “상담소 아님”</td>
+</tr>
+<tr>
+<td>WBS·산출물</td>
+<td>커밋 단위 · <code>99-devlog</code> · Pages 산출물</td>
+</tr>
+<tr>
+<td>역할</td>
+<td><code>_Grok</code> / <code>_Aider</code> / <code>_Claude</code> · CLI <code>gr</code>/<code>ds</code>/<code>cc</code></td>
+</tr>
+<tr>
+<td>리스크</td>
+<td>시크릿 정책 · 돌봄 우선 · 커버리지 가디언</td>
+</tr>
+<tr>
+<td>품질</td>
+<td>Playwright · gap_count · 모바일 거터</td>
+</tr>
+<tr>
+<td>핸드오프</td>
+<td>명의=누나 · 콜라보 · <code>g/install.sh</code> · 방문 세션</td>
+</tr>
+<tr>
+<td>커뮤니케이션</td>
+<td><code>tg.sh</code> · Discord · 일지</td>
+</tr>
+</tbody>
+</table>
+<p><strong>도구 비용:</strong> Jira 대신 <strong>git + md + 일지 + TG</strong>.</p>
+<h3 id="32">3.2 콘텐츠 플래닝 → 채널·톤·파이프</h3>
+<table>
+<thead>
+<tr>
+<th>콘텐츠 기능</th>
+<th>구현</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>브랜드 라인</td>
+<td>Phone · Log · Faith · Piano · PsyCare</td>
+</tr>
+<tr>
+<td>톤·경계</td>
+<td>각 랜딩 헌장 · 대화록 템플릿</td>
+</tr>
+<tr>
+<td>제작 파이프</td>
+<td>받음→초안(_Grok)→시공(_Aider)→감사(_Claude)→발행</td>
+</tr>
+<tr>
+<td>유통</td>
+<td>Naver 드래프트 · YT 깊이 · Pages 원본</td>
+</tr>
+<tr>
+<td>아카이브</td>
+<td><code>_notebook</code> → <code>notebook/*.html</code> 자동 빌드</td>
+</tr>
+</tbody>
+</table>
+<p><strong>도구 비용:</strong> 전용 CMS 대신 <strong>md + build_webzine + 웹진 랜딩</strong>.</p>
+<h3 id="33">3.3 비즈니스 플래닝 → 퍼널·원가·거버넌스</h3>
+<table>
+<thead>
+<tr>
+<th>비즈 기능</th>
+<th>구현</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>제품 포트폴리오</td>
+<td>5 공개 표면 + 문서 IP</td>
+</tr>
+<tr>
+<td>유입</td>
+<td>네이버·웹진·홈 화면 아이콘</td>
+</tr>
+<tr>
+<td>전환·깊이</td>
+<td>YouTube · 교재 · install</td>
+</tr>
+<tr>
+<td>원가</td>
+<td>에이전트 레인 월 구조 (토큰 과금 회피 설계)</td>
+</tr>
+<tr>
+<td>거버넌스</td>
+<td>큰누나 명의 · 듀얼 폰 · 4중 강제 장치</td>
+</tr>
+<tr>
+<td>지속성</td>
+<td>방문 설치 = 강제 스프린트 + 초심자 검증</td>
+</tr>
+</tbody>
+</table>
+<p><strong>도구 비용:</strong> 피치덱 SaaS 대신 <strong>구조가 피치</strong>.</p>
+<hr>
+<h2 id="4">4. 레포가 곧 플래너다</h2>
+<pre><code>helena_phone          ← 플래너 SSOT · 헌법 · 수첩 · 웹진 공장
+ helana_log           ← 행정·현장 문제 공간 (신뢰·니즈)
+ helana-faith         ← 소망·신앙 콘텐츠 라인
+ helena-piano         ← 연습·방송 라인
+ helena-psycare       ← 트랙1 안전망 라인
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>플래너 UI (일반)</th>
+<th>여기 대체물</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>로드맵 보드</td>
+<td>개발일지 § · 백로그 섹션 · archive.html</td>
+</tr>
+<tr>
+<td>위키</td>
+<td><code>_notebook</code> + Pages</td>
+</tr>
+<tr>
+<td>디자인 시안</td>
+<td>랜딩 웹진 · 아이콘 · Grok 드래프트</td>
+</tr>
+<tr>
+<td>배포 파이프</td>
+<td>git push → Pages</td>
+</tr>
+<tr>
+<td>알림</td>
+<td>Telegram / Discord</td>
+</tr>
+<tr>
+<td>감사 로그</td>
+<td>commits · DevLog_*_Grok · coverage JSON</td>
+</tr>
+</tbody>
+</table>
+<p><strong>핵심 문장:</strong>  </p>
+<blockquote>
+<p>플래닝 소프트웨어를 사는 게 아니라,<br>
+<strong>플래닝이 가능한 런타임 생태계를 조립한다.</strong></p>
+</blockquote>
+<hr>
+<h2 id="5">5. 기능 커버리지 매트릭스</h2>
+<table>
+<thead>
+<tr>
+<th>플래닝 기능</th>
+<th>커버</th>
+<th>런타임 요소</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>목표·원칙 고정</td>
+<td>✅</td>
+<td>CONSTITUTION · CLAUDE</td>
+</tr>
+<tr>
+<td>작업 분해·추적</td>
+<td>✅</td>
+<td>git · 99-devlog · 이슈(선택)</td>
+</tr>
+<tr>
+<td>역할·위임</td>
+<td>✅</td>
+<td>에이전트 마크 · 직함 3종</td>
+</tr>
+<tr>
+<td>문서화</td>
+<td>✅</td>
+<td>md → HTML 자동</td>
+</tr>
+<tr>
+<td>공개 표면</td>
+<td>✅</td>
+<td>Pages 5사이트</td>
+</tr>
+<tr>
+<td>콘텐츠 캘린더 골격</td>
+<td>✅</td>
+<td>레포별 장르 · 파이프 5단</td>
+</tr>
+<tr>
+<td>비즈니스 퍼널</td>
+<td>✅</td>
+<td>Naver→YT·Hub</td>
+</tr>
+<tr>
+<td>원가 통제</td>
+<td>✅</td>
+<td>$0 런타임 + 구독 1레인 철학</td>
+</tr>
+<tr>
+<td>품질 게이트</td>
+<td>✅</td>
+<td>check_webpages · Playwright</td>
+</tr>
+<tr>
+<td>이해관계자 신호</td>
+<td>✅</td>
+<td>TG 보고</td>
+</tr>
+<tr>
+<td>핸드오프·지속</td>
+<td>✅</td>
+<td>명의·듀얼·install</td>
+</tr>
+<tr>
+<td>재무 모델 숫자</td>
+<td>△</td>
+<td>구조만 · 1-pager 숫자 보강 여지</td>
+</tr>
+<tr>
+<td>시장 조사 상시</td>
+<td>△</td>
+<td>리서치 세션성 · 자동화 여지</td>
+</tr>
+<tr>
+<td>실험(A/B) 루프</td>
+<td>△</td>
+<td>수동 · 향후 캘린더화</td>
+</tr>
+</tbody>
+</table>
+<p><strong>판정:</strong> 플래너로서 <strong>필수 기능은 커버</strong>.<br>
+빠진 것은 “플래너 부재”가 아니라 <strong>재무·실험의 명시 레이어</strong>.</p>
+<hr>
+<h2 id="6">6. 운영 루프 (플래닝이 도는 방식)</h2>
+<pre><code>1) Boss 방향
+2) _Grok 시안·문서·랜딩·비교표·백서
+3) _Aider 패치·루프 시공
+4) _Claude 감사 (설치 시) / 없으면 Boss 간이 감사
+5) git push → Pages 런타임 반영
+6) tg.sh 보고 → 사람 확인
+7) check_webpages_Grok → gap 0 유지
+8) (주기) 누나 폰 설치 = 초심자 검증 = 교재 = 다음 플랜 입력
+</code></pre>
+<p>이 루프 자체가 <strong>계획 → 실행 → 배포 → 학습</strong>의 PDCA다.<br>
+별도 PM 툴의 스프린트 보드와 동형이다.</p>
+<hr>
+<h2 id="7">7. 비용·제약 · 정직 고지</h2>
+<h3 id="_2">된다</h3>
+<ul>
+<li>계획 문서화, 다중 브랜드 표면, 배포, 알림, 에이전트 분업, 핸드오프 설계  </li>
+<li>콘텐츠·프로젝트·비즈 <strong>구조 플래닝</strong> 전부  </li>
+</ul>
+<h3 id="_3">공짜 런타임만으로 한계</h3>
+<ul>
+<li>초저지연 글로벌 서버, 대규모 동시접속 SaaS  </li>
+<li>법률·의료 책임 대행 (의도적으로 안 함)  </li>
+<li>구독 0원으로 최상단 멀티모달 무제한 (Grok 등은 선택 투자)  </li>
+</ul>
+<h3 id="_4">리스크</h3>
+<ul>
+<li>플랫폼 정책 변경 (GH·TG·네이버)  </li>
+<li>1인 병목 → 듀얼·방문 강제 장치로 완화  </li>
+<li>문서 과다 → coverage 가디언·아코디언·검색으로 완화  </li>
+</ul>
+<hr>
+<h2 id="8">8. 다른 “올인원 플래너”와의 포지션</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Notion 올인원</th>
+<th>에이전시</th>
+<th><strong>헬레나 생태계</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>계획 문서</td>
+<td>강함</td>
+<td>강함</td>
+<td>강함 (md+웹진)</td>
+</tr>
+<tr>
+<td>실행 런타임</td>
+<td>약함</td>
+<td>외주</td>
+<td><strong>폰 로컬+Pages</strong></td>
+</tr>
+<tr>
+<td>월 인프라비</td>
+<td>구독</td>
+<td>높음</td>
+<td><strong>~$0 + 선택 1구독</strong></td>
+</tr>
+<tr>
+<td>핸드오프</td>
+<td>파일 전달</td>
+<td>계약</td>
+<td><strong>명의·폰·install 구조</strong></td>
+</tr>
+<tr>
+<td>돌봄 맥락</td>
+<td>없음</td>
+<td>흔치 않음</td>
+<td><strong>트랙1 최상위</strong></td>
+</tr>
+<tr>
+<td>콘텐츠 유통</td>
+<td>링크</td>
+<td>캠페인</td>
+<td><strong>퍼널 내장</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="9">9. 결론 · 주장</h2>
+<ol>
+<li><strong>이 레포 체계 = 공짜(에 가까운) 런타임 플랫폼 생태계</strong>다.  </li>
+<li>그 위에서 <strong>프로젝트 · 콘텐츠 · 비즈니스 플래닝 기능을 실제로 수행</strong>하고 있다.  </li>
+<li>플래닝은 앱 하나가 아니라 <strong>헌법 + 레포 + 에이전트 + 퍼널 + 보고 루프</strong>의 합이다.  </li>
+<li>남은 일은 “플래너 구매”가 아니라 <strong>재무·KPI·실험 루프를 같은 런타임에 한 장씩 더 박는 것</strong>이다.  </li>
+<li>돌봄을 깨지 않는 한, 이 모델은 <strong>1인·가족 단위 플랫폼 사업의 최소 실행 가능 플래너</strong>가 된다.</li>
+</ol>
+<hr>
+<h2 id="10">10. 바로 쓰는 명령 · 링크</h2>
+<pre><code class="language-bash"># 문서→웹 커버리지 (플랜 산출물 누락 검사)
+python3 scripts/check_webpages_Grok.py
+
+# 전체 웹진 빌드 (계획 산출물 배포)
+python3 scripts/build_webzine.py
+
+# 텔레그램 보고
+bash tg.sh '✅ 플랜 산출 보고'
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>허브</td>
+<td>https://helena751107.github.io/helena_phone/</td>
+</tr>
+<tr>
+<td>본 백서(빌드 후)</td>
+<td>https://helena751107.github.io/helena_phone/notebook/37-free-runtime-planner-whitepaper_Grok.html</td>
+</tr>
+<tr>
+<td>비교표</td>
+<td>https://helena751107.github.io/helena_phone/notebook/36-project-planning-vs-helena_Grok.html</td>
+</tr>
+<tr>
+<td>커버리지 앱</td>
+<td>https://helena751107.github.io/helena_phone/notebook/webpage-coverage.html</td>
+</tr>
+<tr>
+<td>아카이브</td>
+<td>https://helena751107.github.io/helena_phone/archive.html</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="11">11. 관련 문서</h2>
+<ul>
+<li><code>36-project-planning-vs-helena_Grok.md</code> — 일반 PM/사업계획 대조  </li>
+<li><code>31-agent-roles_Grok.md</code> — 디자이너·반장·감사  </li>
+<li><code>33-webpage-coverage_Grok.md</code> — 문서-페이지 가디언  </li>
+<li><code>99-devlog.md</code> §50–74 — 구축·듀얼·구조=감성  </li>
+</ul>
+<hr>
+<p><em>Whitepaper v1.0 · agent </em><em>_Grok</em><em> · 2026-07-27 · Helena ecosystem</em><br>
+<em>모든 공개 계정은 큰누나 명의.</em></p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="36-project-planning-vs-helena_Grok.html">
+          <span class="dir">Previous</span>
+          <span class="title">일반 프로젝트 플래닝 vs 헬레나 생태계 플래닝</span>
+        </a>
+    <div></div>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>
