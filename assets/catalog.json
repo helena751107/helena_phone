@@ -56,6 +56,14 @@
     "deck": "판단층 + 실행층"
   },
   {
+    "src": "install-guide.md",
+    "out": "install-guide.html",
+    "title": "🔰 초심자 설치 매뉴얼 — 낡은 폰에서 헬레나 생태계까지",
+    "section": "Core",
+    "kind": "md",
+    "deck": "낡은 폰→헬레나 전체 동선 · 변수화"
+  },
+  {
     "src": "01-foundation/termux-setup.md",
     "out": "foundation/termux-setup.html",
     "title": "1.1 Termux 설치",
@@ -568,12 +576,28 @@
     "deck": "네이버 블로그용 **강의 소개글 + 강의 스크립트 골격**"
   },
   {
+    "src": "_notebook/39-self-platform-justification.md",
+    "out": "notebook/39-self-platform-justification.html",
+    "title": "39 self platform justification",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": ""
+  },
+  {
     "src": "_notebook/40-lecture-draft-s21-voice-vol0_Grok.md",
     "out": "notebook/40-lecture-draft-s21-voice-vol0_Grok.html",
     "title": "강의 초안 전문 · Vol.0",
     "section": "Notebook",
     "kind": "md",
     "deck": "**용도:** 화면 공유 / 칠판(웹·슬라이드) 보면서 **화면 녹화**"
+  },
+  {
+    "src": "_notebook/41-beginner-install-manual_Grok.md",
+    "out": "notebook/41-beginner-install-manual_Grok.html",
+    "title": "🔰 초심자 설치 매뉴얼 — 낡은 폰에서 헬레나 생태계까지",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "**대상:** 처음 보는 사람 · 누나 폰에 깔아 주는 Boss · 핸드오프 받는 사람"
   },
   {
     "src": "g/install.sh",

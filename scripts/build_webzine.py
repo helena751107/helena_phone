@@ -58,6 +58,7 @@ add("GUIDE.md", "guide.html", "5단계 GUIDE", "Core", deck="Termux부터 방송
 add("CHRONICLE.md", "chronicle.html", "CHRONICLE · 연대기", "Core", deck="DAY 1–2 개발 기록")
 add("GIFT.md", "gift.html", "GIFT · dtslib 선물", "Core", deck="선물 패키지 분석")
 add("_textbook/index.md", "textbook.html", "완결판 교재", "Core", deck="판단층 + 실행층")
+add("install-guide.md", "install-guide.html", "초심자 설치 매뉴얼", "Core", deck="낡은 폰→헬레나 전체 동선 · 변수화")
 
 # Foundation
 for name, title in [
