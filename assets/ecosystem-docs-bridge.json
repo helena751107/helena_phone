@@ -1,0 +1,42 @@
+{
+  "agent": "_Grok",
+  "date": "2026-07-27",
+  "repos": {
+    "helana_log": {
+      "md": 14,
+      "html": 17,
+      "missing_md_html": []
+    },
+    "helana-faith": {
+      "md": 2,
+      "html": 4,
+      "missing_md_html": []
+    },
+    "helena-piano": {
+      "md": 2,
+      "html": 4,
+      "missing_md_html": []
+    },
+    "helena-psycare": {
+      "md": 2,
+      "html": 4,
+      "missing_md_html": []
+    }
+  },
+  "helena_phone": {
+    "generated": "2026-07-27T03:58:09Z",
+    "agent": "_Grok",
+    "notebook_md_count": 46,
+    "notebook_html_count": 48,
+    "catalog_count": 87,
+    "missing_html": [],
+    "orphan_html": [
+      "notebook/53-self-eval.html"
+    ],
+    "catalog_missing_on_disk": [],
+    "gap_count": 0,
+    "ok": true,
+    "policy": "Every _notebook/*.md must have notebook/<same-stem>.html. Run: python3 scripts/build_webzine.py",
+    "live_app": "https://helena751107.github.io/helena_phone/notebook/webpage-coverage.html"
+  }
+}

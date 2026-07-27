@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Boss 요청: 문서↔웹페이지 브릿지 + 5레포 통일 웹 표면. — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>웹 디자이너 업무 수첩 · `_Grok` — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>웹 디자이너 업무 수첩 · `_Grok`</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>웹 디자이너 업무 수첩 · `_Grok`</h1>
+    <p class="deck">Boss 요청: 문서↔웹페이지 브릿지 + 5레포 통일 웹 표면.</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/38-web-designer-workpad_Grok.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1">1. 역할 리마인드</a></li>
+<li><a href="#2-5-2026-07-27">2. 5레포 현황 (2026-07-27 감사)</a><ul>
+<li><a href="#helena_phone">helena_phone (허브)</a></li>
+<li><a href="#helana_log">helana_log (행정 대화록)</a></li>
+<li><a href="#helana-faith-helena-piano-helena-psycare">helana-faith / helena-piano / helena-psycare</a></li>
+</ul>
+</li>
+<li><a href="#3">3. 브릿지 규칙 (통일성)</a></li>
+<li><a href="#4-url">4. 라이브 URL 맵</a></li>
+<li><a href="#5">5. 이번 작업 체크</a></li>
+<li><a href="#6">6. 다음 (백로그)</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <hr>
+<p>date: 2026-07-27<br>
+agent: Grok<br>
+mark: _Grok<br>
+type: designer-workpad<br>
+status: active<br>
+role: 웹 디자이너 업무 수첩</p>
+<hr>
+<h1 id="_grok">웹 디자이너 업무 수첩 · <code>_Grok</code></h1>
+<blockquote>
+<p>Boss 요청: 문서↔웹페이지 브릿지 + 5레포 통일 웹 표면.<br>
+이 파일이 <strong>디자이너 레인 현황판(workpad)</strong> 이다.</p>
+</blockquote>
+<hr>
+<h2 id="1">1. 역할 리마인드</h2>
+<table>
+<thead>
+<tr>
+<th>직함</th>
+<th>마크</th>
+<th>이 수첩에서</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>웹 디자이너</strong></td>
+<td><code>_Grok</code></td>
+<td>랜딩·문서 HTML·톤·아이콘·커버리지·브릿지</td>
+</tr>
+<tr>
+<td>작업 반장</td>
+<td><code>_Aider</code></td>
+<td>패치 루프 시공</td>
+</tr>
+<tr>
+<td>감사</td>
+<td><code>_Claude</code></td>
+<td>(미설치) 품질 반려</td>
+</tr>
+</tbody>
+</table>
+<p>명령:</p>
+<pre><code class="language-bash">python3 scripts/check_webpages_Grok.py      # phone 수첩 갭
+python3 scripts/build_webzine.py            # phone md→html
+python3 scripts/build_satellite_docs_Grok.py  # 위성 4종 md→html
+</code></pre>
+<hr>
+<h2 id="2-5-2026-07-27">2. 5레포 현황 (2026-07-27 감사)</h2>
+<h3 id="helena_phone">helena_phone (허브)</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>랜딩</td>
+<td>✅ A급 웹진 · 아코디언 접힘 · 모바일 거터 22px</td>
+</tr>
+<tr>
+<td>수첩 <code>_notebook</code></td>
+<td>✅ <strong>gap_count=0</strong> (45 md → html)</td>
+</tr>
+<tr>
+<td>웹진 catalog</td>
+<td>✅ ~86 페이지</td>
+</tr>
+<tr>
+<td>커버리지 앱</td>
+<td>✅ <code>notebook/webpage-coverage.html</code></td>
+</tr>
+<tr>
+<td>디자이너 문서</td>
+<td>✅ 31 roles · 33 coverage · 36 PM비교 · 37 백서 · <strong>38 workpad(본문)</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="helana_log">helana_log (행정 대화록)</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>랜딩</td>
+<td>✅ 초A · teal</td>
+</tr>
+<tr>
+<td>docs/*</td>
+<td>✅ <strong>통일 문서 웹페이지</strong> (IDENTITY, METHOD, tracks, dialogue…)</td>
+</tr>
+<tr>
+<td>Docs hub</td>
+<td>✅ <code>docs/index.html</code></td>
+</tr>
+<tr>
+<td>Pages bridge</td>
+<td>✅ <code>pages/index.html</code></td>
+</tr>
+<tr>
+<td>CLAUDE / logs</td>
+<td>✅ html 브릿지</td>
+</tr>
+</tbody>
+</table>
+<h3 id="helana-faith-helena-piano-helena-psycare">helana-faith / helena-piano / helena-psycare</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>랜딩</td>
+<td>✅ 각 브랜드 초A</td>
+</tr>
+<tr>
+<td>README · CLAUDE</td>
+<td>✅ html</td>
+</tr>
+<tr>
+<td>Pages bridge</td>
+<td>✅ <code>pages/index.html</code></td>
+</tr>
+<tr>
+<td>추가 본문 docs</td>
+<td>△ 아직 md 적음 (랜딩이 주 표면)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3">3. 브릿지 규칙 (통일성)</h2>
+<ol>
+<li><strong>md가 생기면 같은 stem의 html</strong> (phone: <code>build_webzine</code> / 위성: <code>build_satellite_docs_Grok</code>)  </li>
+<li>문서 HTML 공통: dark/light · spine · 검색 · h2 접기 · 모바일 gutter 22px · 허브 링크  </li>
+<li>액센트: Log teal · Faith gold · Piano lilac · PsyCare coral · Phone gold  </li>
+<li>랜딩 nav에 <strong>Docs / pages</strong> 링크  </li>
+<li>보고: 갭 있으면 빌드 후 <code>tg.sh</code></li>
+</ol>
+<hr>
+<h2 id="4-url">4. 라이브 URL 맵</h2>
+<table>
+<thead>
+<tr>
+<th>레포</th>
+<th>Landing</th>
+<th>Docs bridge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>phone</td>
+<td><a href="https://helena751107.github.io/helena_phone/">/helena_phone/</a></td>
+<td><a href="https://helena751107.github.io/helena_phone/archive.html">archive</a> · <a href="https://helena751107.github.io/helena_phone/notebook/webpage-coverage.html">coverage app</a></td>
+</tr>
+<tr>
+<td>log</td>
+<td><a href="https://helena751107.github.io/helana_log/">/helana_log/</a></td>
+<td><a href="https://helena751107.github.io/helana_log/docs/">docs/</a> · <a href="https://helena751107.github.io/helana_log/pages/">pages/</a></td>
+</tr>
+<tr>
+<td>faith</td>
+<td><a href="https://helena751107.github.io/helana-faith/">/helana-faith/</a></td>
+<td><a href="https://helena751107.github.io/helana-faith/pages/">pages/</a></td>
+</tr>
+<tr>
+<td>piano</td>
+<td><a href="https://helena751107.github.io/helena-piano/">/helena-piano/</a></td>
+<td><a href="https://helena751107.github.io/helena-piano/pages/">pages/</a></td>
+</tr>
+<tr>
+<td>psycare</td>
+<td><a href="https://helena751107.github.io/helena-psycare/">/helena-psycare/</a></td>
+<td><a href="https://helena751107.github.io/helena-psycare/pages/">pages/</a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="5">5. 이번 작업 체크</h2>
+<ul>
+<li>[x] 5레포 md 인벤토리  </li>
+<li>[x] phone gap 0 유지  </li>
+<li>[x] log docs 전부 html  </li>
+<li>[x] faith/piano/psycare README·CLAUDE html  </li>
+<li>[x] 통일 템플릿 빌더 스크립트  </li>
+<li>[x] 디자이너 workpad 문서화  </li>
+<li>[ ] 텔레그램 보고 (전송)  </li>
+<li>[ ] push 위성 4 + phone  </li>
+</ul>
+<hr>
+<h2 id="6">6. 다음 (백로그)</h2>
+<ul>
+<li>위성에 본문 docs가 늘면 같은 빌더로 재생성  </li>
+<li>phone 랜딩 library에 위성 Docs 카드  </li>
+<li>orphan <code>53-self-eval.html</code> 정리 여부 Boss 결정  </li>
+</ul>
+<p><em>웹 디자이너 업무 수첩 · _Grok · 2026-07-27</em></p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="37-free-runtime-planner-whitepaper_Grok.html">
+          <span class="dir">Previous</span>
+          <span class="title">백서 · 공짜 런타임 플랫폼 생태계로 돌리는 「풀스택 플래너」</span>
+        </a>
+    <div></div>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>
