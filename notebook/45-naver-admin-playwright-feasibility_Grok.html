@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="저장일: 2026-07-27 · agent _Grok — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>Naver Admin 자동화 가능 여부 — 폰 Playwright 1회 시드 (_Grok) — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>Naver Admin 자동화 가능 여부 — 폰 Playwright 1회 시드 (_Grok)</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>Naver Admin 자동화 가능 여부 — 폰 Playwright 1회 시드 (_Grok)</h1>
+    <p class="deck">저장일: 2026-07-27 · agent _Grok</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/45-naver-admin-playwright-feasibility_Grok.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1">1. 결론 먼저</a></li>
+<li><a href="#2">2. 폰 안 자동화 = 두 갈래</a><ul>
+<li><a href="#2026-07-27">환경 확인 (2026-07-27)</a></li>
+</ul>
+</li>
+<li><a href="#3">3. “한 번만”의 정확한 의미</a></li>
+<li><a href="#4">4. 가능한 것 / 빡센 것</a></li>
+<li><a href="#5">5. 권장 파이프</a><ul>
+<li><a href="#3_1">3층 구조</a></li>
+</ul>
+</li>
+<li><a href="#6">6. 관련 문서</a></li>
+<li><a href="#7">7. 미구현 (다음 작업 후보)</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <blockquote>
+<p>저장일: 2026-07-27 · agent _Grok<br>
+Boss 질문: “꼭 수동이냐? 자동화 방법 찾아라. 폰 안 GUI/Playwright 되냐? 한 번만 하면 되는 거 아니냐?”</p>
+</blockquote>
+<hr>
+<h2 id="1">1. 결론 먼저</h2>
+<table>
+<thead>
+<tr>
+<th>질문</th>
+<th>답</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>매번 손으로만 해야 하냐?</td>
+<td><strong>아니요.</strong> 카테고리 추가는 스크립트로 반복 가능</td>
+</tr>
+<tr>
+<td>Playwright로 되냐?</td>
+<td><strong>된다.</strong> 이 폰 Ubuntu에 Playwright + Chromium <strong>이미 있음</strong></td>
+</tr>
+<tr>
+<td>폰 안에서 GUI 오토 되냐?</td>
+<td><strong>브라우저(웹) 기준 된다.</strong> 네이버 <strong>앱 화면 터치 자동화</strong>는 다른 판 (더 빡셈, 비추)</td>
+</tr>
+<tr>
+<td>한 번만 하면 되냐?</td>
+<td><strong>구조 한 번 짜면</strong>, 이후는 스크립트 재실행. 단 <strong>쿠키 죽으면 로그인만 사람 1회</strong></td>
+</tr>
+<tr>
+<td>매주 발행까지 오토?</td>
+<td><strong>기술은 반쯤, 전략적으로 비추</strong> (퀼트·계정 리스크). <strong>관리 1회 시드</strong>와 분리</td>
+</tr>
+</tbody>
+</table>
+<p><strong>한 줄:</strong> 완전 수동 아님 · 완전 무인 아님 · <strong>1회 시드 + 스크립트 재사용 = YES.</strong></p>
+<hr>
+<h2 id="2">2. 폰 안 자동화 = 두 갈래</h2>
+<pre><code>① 웹 Playwright (권장)          ② 안드로이드 앱 GUI
+   proot Ubuntu                  네이버 블로그 APK 터치
+   Chromium + Playwright         UIAutomator / Appium / 손가락 APK
+   PC 버전 관리 페이지 클릭       좌표·뷰 계층 깨지기 쉬움
+   ✅ 이 폰에 도구 이미 있음      ❌ 유지비 지옥 · 비추
+</code></pre>
+<p>카테고리 관리·스킨·글쓰기 관리 = <strong>전부 웹 관리자</strong><br>
+→ <strong>①만으로 충분.</strong> 네이버 앱을 누르는 자동화가 아니다.<br>
+폰에서 <strong>웹 Playwright</strong>를 돌리는 것이다.</p>
+<h3 id="2026-07-27">환경 확인 (2026-07-27)</h3>
+<ul>
+<li><code>node</code> + <code>playwright</code> 패키지: OK (<code>/root/work/node_modules/playwright</code>)</li>
+<li>Chromium 브라우저 캐시: OK (<code>~/.cache/ms-playwright</code>)</li>
+<li>기존 자산: <code>tistory-naver/login.cjs</code>, <code>post.cjs</code>, <code>post.py</code></li>
+</ul>
+<hr>
+<h2 id="3">3. “한 번만”의 정확한 의미</h2>
+<pre><code>[1회 설계]
+  login (사람: 캡차) → storageState 저장
+  category_seed 스크립트 작성 (이름 목록)
+  실행 → 카테고리 5~10개 생성
+
+[이후]
+  스크립트만 다시 돌림 (같은 쿠키)
+  쿠키 만료/로그아웃 때만 login 다시 (사람 1분)
+  드래그 정렬은 여전히 손 30초~1분이 이득
+</code></pre>
+<p>Boss 감: “나중에 다 스크립트로 짜 버리면 된다”<br>
+→ <strong>카테고리 시드·설정 쪽은 YES.</strong></p>
+<hr>
+<h2 id="4">4. 가능한 것 / 빡센 것</h2>
+<table>
+<thead>
+<tr>
+<th>작업</th>
+<th>폰 Playwright</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>로그인 후 쿠키 저장</td>
+<td>✅</td>
+<td>캡차 뜨면 <strong>headed + 손</strong> (<code>login.cjs</code> 패턴)</td>
+</tr>
+<tr>
+<td>카테고리 <strong>추가</strong> (이름·공개)</td>
+<td>✅</td>
+<td><code>get_by_text("카테고리 추가")</code> 등 locator</td>
+</tr>
+<tr>
+<td>글쓸 때 카테고리 <strong>선택</strong></td>
+<td>✅</td>
+<td><code>post.py</code> 이미 있음</td>
+</tr>
+<tr>
+<td>카테고리 <strong>드래그 순서</strong></td>
+<td>⚠️</td>
+<td>가능은 한데 실패율↑ → 손 추천</td>
+</tr>
+<tr>
+<td>스킨 CSS 붙여넣기</td>
+<td>⚠️</td>
+<td>1회라 손도 OK</td>
+</tr>
+<tr>
+<td>서식 저장</td>
+<td>⚠️</td>
+<td>SE 내부 UI 복잡 → 손 1회 추천</td>
+</tr>
+<tr>
+<td>매주 본문 자동 발행</td>
+<td>⚠️기술 / ❌전략</td>
+<td>퀼트 손맛·정책</td>
+</tr>
+</tbody>
+</table>
+<p><strong>좌표 클릭 = 금지.</strong> 해상도·배율에 즉시 깨짐. locator / (가능하면) XHR 재현.</p>
+<hr>
+<h2 id="5">5. 권장 파이프</h2>
+<pre><code>1) node login.cjs  (headed, 캡차 손)     ← 사람 게이트
+2) node admin_category_seed.cjs \
+     --names &quot;주간퀼트,시범,설치,판단,링크&quot;
+3) 끝. 다음부터 2)만 재실행 or 새 이름만 추가
+4) 주간 글 = Marine Quilt 손바느질 (정본)
+</code></pre>
+<h3 id="3_1">3층 구조</h3>
+<pre><code>L0 사람: 캡차 로그인 · 스킨 · 서식 · (카테고리 이름 시드)
+L1 반자동: 쿠키로 카테고리 &quot;추가&quot; 스크립트 · 쿠키 만료 시 TG &quot;재로그인&quot;
+L2 매주: Marine Quilt Paste Pipeline only  ← 봇 넣지 마
+</code></pre>
+<hr>
+<h2 id="6">6. 관련 문서</h2>
+<table>
+<thead>
+<tr>
+<th>문서</th>
+<th>역할</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_notebook/44-naver-admin-automation-review_Grok.md</code></td>
+<td>Claude 지시 리뷰 + 방법 지도 (상세)</td>
+</tr>
+<tr>
+<td><code>_notebook/45-naver-admin-playwright-feasibility_Grok.md</code></td>
+<td><strong>이 문서</strong> — 가능 여부 Q&amp;A</td>
+</tr>
+<tr>
+<td><code>_notebook/23-naver-webzine-solution.md</code></td>
+<td>웹진·서식 원칙</td>
+</tr>
+<tr>
+<td><code>_notebook/24-paste-pipeline.md</code></td>
+<td>주간 손 발행</td>
+</tr>
+<tr>
+<td><code>naver/quilt/BOSS-CARD.md</code></td>
+<td>퀼트 3분 설치</td>
+</tr>
+<tr>
+<td><code>tistory-naver/login.cjs</code></td>
+<td>쿠키·storageState</td>
+</tr>
+<tr>
+<td><code>tistory-naver/post.cjs</code> / <code>post.py</code></td>
+<td>글쓰기 Playwright</td>
+</tr>
+</tbody>
+</table>
+<p>개발일지: <code>99-devlog.md</code> §94 (Claude 분석 + Grok 리뷰)</p>
+<hr>
+<h2 id="7">7. 미구현 (다음 작업 후보)</h2>
+<ul>
+<li>[ ] <code>tistory-naver/admin_category_seed.cjs</code> (또는 <code>.py</code>) — 이름 배열 → 카테고리 추가</li>
+<li>[ ] 쿠키 만료 감지 → TG 알림</li>
+<li>[ ] helena1975 storageState 1회 확보 (headed 로그인)</li>
+</ul>
+<p><em>한 땀 한 땀 · 1회 시드는 기계, 매주 퀼트는 손 · _Grok</em></p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="44-naver-admin-automation-review_Grok.html">
+          <span class="dir">Previous</span>
+          <span class="title">Naver Admin 자동화 — Claude 지시 리뷰 + 방법 지도 (_Grok)</span>
+        </a>
+    <div></div>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

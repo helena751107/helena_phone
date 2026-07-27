@@ -648,6 +648,14 @@
     "deck": "2026-07-27 · Claude pts/0 마지막 지시 재검토"
   },
   {
+    "src": "_notebook/45-naver-admin-playwright-feasibility_Grok.md",
+    "out": "notebook/45-naver-admin-playwright-feasibility_Grok.html",
+    "title": "Naver Admin 자동화 가능 여부 — 폰 Playwright 1회 시드 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "저장일: 2026-07-27 · agent _Grok"
+  },
+  {
     "src": "g/install.sh",
     "out": "g/install.html",
     "title": "install.sh · 고급 설치기",

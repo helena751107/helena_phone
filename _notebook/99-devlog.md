@@ -2422,3 +2422,13 @@ bash <(curl -sL https://raw.githubusercontent.com/helena751107/helena_phone/main
 
 **Boss 판단(유지):** 1회 설정 자동화 가치 있음 / 매주 발행은 손.  
 **교정:** 좌표 말고 locator·XHR 스니프·캡차 사람 게이트.
+
+### 95. Naver Admin 폰 Playwright 가능 여부 — 저장 (2026-07-27)
+
+**Boss:** 꼭 수동이냐? 자동화·폰 GUI/Playwright 가능하냐? 한 번만 짜면 되냐?
+
+**답 요약:** 완전 수동 아님 · 완전 무인 아님 · **웹 Playwright 1회 시드 + 스크립트 재사용 YES.**  
+앱 터치 GUI 비추. 캡차 로그인만 사람. 주간 발행은 퀼트 손 유지.
+
+**저장 문서:** `_notebook/45-naver-admin-playwright-feasibility_Grok.md`  
+(상세 리뷰는 `44-naver-admin-automation-review_Grok.md`)
