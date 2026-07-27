@@ -138,7 +138,7 @@
   {
     "src": "03-broadcast/naver-auto.md",
     "out": "broadcast/naver-auto.html",
-    "title": "네이버 블로그 자동 포스팅",
+    "title": "네이버 블로그 — Marine Quilt (손바느질 발행)",
     "section": "Broadcast",
     "kind": "md",
     "deck": "웹진 워크센터 — 미끼·티저 퍼널 입구"
@@ -536,6 +536,38 @@
     "deck": ""
   },
   {
+    "src": "_notebook/42-marine-quilt-naver-design_Grok.md",
+    "out": "notebook/42-marine-quilt-naver-design_Grok.html",
+    "title": "Marine Quilt — 네이버 디자인 패키지 (리서치→템플릿)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "agent _Grok · 2026-07-27"
+  },
+  {
+    "src": "_notebook/41-beginner-install-manual_Grok.md",
+    "out": "notebook/41-beginner-install-manual_Grok.html",
+    "title": "초심자 설치 — 딱 3화면",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "**리버스 엔지니어링 결론:**"
+  },
+  {
+    "src": "_notebook/39-naver-lecture-s21-voice-intro_Grok.md",
+    "out": "notebook/39-naver-lecture-s21-voice-intro_Grok.html",
+    "title": "[강의 시리즈 예고] 5년 된 갤럭시로 AI 플랫폼을 돌린다 — S21 Voice-Driven 입문",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "네이버 블로그용 **강의 소개글 + 강의 스크립트 골격**"
+  },
+  {
+    "src": "_notebook/40-lecture-draft-s21-voice-vol0_Grok.md",
+    "out": "notebook/40-lecture-draft-s21-voice-vol0_Grok.html",
+    "title": "강의 초안 전문 · Vol.0",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "**용도:** 화면 공유 / 칠판(웹·슬라이드) 보면서 **화면 녹화**"
+  },
+  {
     "src": "_notebook/36-project-planning-vs-helena_Grok.md",
     "out": "notebook/36-project-planning-vs-helena_Grok.html",
     "title": "일반 프로젝트 플래닝 vs 헬레나 생태계 플래닝",
@@ -568,14 +600,6 @@
     "deck": "Boss 요청: 문서↔웹페이지 브릿지 + 5레포 통일 웹 표면."
   },
   {
-    "src": "_notebook/39-naver-lecture-s21-voice-intro_Grok.md",
-    "out": "notebook/39-naver-lecture-s21-voice-intro_Grok.html",
-    "title": "[강의 시리즈 예고] 5년 된 갤럭시로 AI 플랫폼을 돌린다 — S21 Voice-Driven 입문",
-    "section": "Notebook",
-    "kind": "md",
-    "deck": "네이버 블로그용 **강의 소개글 + 강의 스크립트 골격**"
-  },
-  {
     "src": "_notebook/39-self-platform-justification.md",
     "out": "notebook/39-self-platform-justification.html",
     "title": "39 self platform justification",
@@ -592,28 +616,28 @@
     "deck": "© 2026 Helena Park · 대필작가-간병인"
   },
   {
-    "src": "_notebook/40-lecture-draft-s21-voice-vol0_Grok.md",
-    "out": "notebook/40-lecture-draft-s21-voice-vol0_Grok.html",
-    "title": "강의 초안 전문 · Vol.0",
-    "section": "Notebook",
-    "kind": "md",
-    "deck": "**용도:** 화면 공유 / 칠판(웹·슬라이드) 보면서 **화면 녹화**"
-  },
-  {
-    "src": "_notebook/41-beginner-install-manual_Grok.md",
-    "out": "notebook/41-beginner-install-manual_Grok.html",
-    "title": "초심자 설치 — 딱 3화면",
-    "section": "Notebook",
-    "kind": "md",
-    "deck": "**리버스 엔지니어링 결론:**"
-  },
-  {
     "src": "_notebook/41-naver-blog-intro-final.md",
     "out": "notebook/41-naver-blog-intro-final.html",
     "title": "Naver 블로그 소개글 — 최종",
     "section": "Notebook",
     "kind": "md",
     "deck": "최종 확정: 2026-07-27 | Boss 직전 수작업"
+  },
+  {
+    "src": "_notebook/42-hq-affiliate-architecture.md",
+    "out": "notebook/42-hq-affiliate-architecture.html",
+    "title": "🏢 본사-어필리에이트 아키텍처 — 1인 지주회사 구조",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "Gemini 분석 + Boss 검증 | 2026-07-27"
+  },
+  {
+    "src": "_notebook/43-ui-less-architect.md",
+    "out": "notebook/43-ui-less-architect.html",
+    "title": "🎯 메뉴를 몰라도 되는 이유 — AI 시대의 진정한 사용자",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "Gemini 분석 | 2026-07-27"
   },
   {
     "src": "g/install.sh",

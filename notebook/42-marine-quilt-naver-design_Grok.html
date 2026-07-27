@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="agent _Grok · 2026-07-27 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>Marine Quilt — 네이버 디자인 패키지 (리서치→템플릿) — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>Marine Quilt — 네이버 디자인 패키지 (리서치→템플릿)</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>Marine Quilt — 네이버 디자인 패키지 (리서치→템플릿)</h1>
+    <p class="deck">agent _Grok · 2026-07-27</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/42-marine-quilt-naver-design_Grok.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1">1. 왜 이걸 만들었나</a></li>
+<li><a href="#2">2. 쓰레기통에서 건진 것 / 버린 것</a></li>
+<li><a href="#3">3. 디자인 핵심 (디자이너 결정)</a></li>
+<li><a href="#4">4. 납품 파일</a></li>
+<li><a href="#5">5. 퀼트 제작 파이프 (확정)</a></li>
+<li><a href="#6">6. 성공 기준</a></li>
+<li><a href="#7">7. 다음 (선택)</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <blockquote>
+<p>agent _Grok · 2026-07-27<br>
+확정 톤: <strong>해병대 조교(YouTube) + 수공예 퀼트(Naver)</strong></p>
+</blockquote>
+<hr>
+<h2 id="1">1. 왜 이걸 만들었나</h2>
+<p>Boss 지시: 커뮤니티·쓰레기통을 뒤져 솔루션을 모으고,<br>
+<strong>최고의 디자인 요소로 템플릿을 만들어라.</strong></p>
+<p>이전 상태:<br>
+- <code>scripts/naver_template.html</code> — 예쁨, 그러나 <strong>스마트에디터 ONE HTML 모드 없음</strong> → 실전 불가<br>
+- 홈페이지형 스킨 커뮤니티 — 투명 위젯 5개 + 이미지맵 → <strong>초심자·주간 운영에 쓰레기</strong><br>
+- Paste Pipeline 문서는 있음 → <strong>시각 시스템·서식 골격이 약함</strong></p>
+<hr>
+<h2 id="2">2. 쓰레기통에서 건진 것 / 버린 것</h2>
+<table>
+<thead>
+<tr>
+<th>건짐</th>
+<th>버림</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>스킨 CSS 1회 주입</td>
+<td>풀 홈페이지형 이미지맵 스킨</td>
+</tr>
+<tr>
+<td>서식(스냅샷) 재사용</td>
+<td>raw HTML 포스트</td>
+</tr>
+<tr>
+<td>YouTube URL → 카드</td>
+<td>유료 CDN·AI 삽화 남발</td>
+</tr>
+<tr>
+<td>TG 배달 + 손 붙여넣기</td>
+<td>매크로·Playwright 발행 집착</td>
+</tr>
+<tr>
+<td>1단·여백·타이포 중심</td>
+<td>위젯 광고 밀집 레이아웃</td>
+</tr>
+<tr>
+<td>시범→따라→실전 교범 구조</td>
+<td>옵션·변수 폭주 문서</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3">3. 디자인 핵심 (디자이너 결정)</h2>
+<p><strong>구조 = 해병대, 표면 = 퀼트.</strong></p>
+<ul>
+<li>Deep olive / crimson badge / khaki thread / cream linen</li>
+<li>점선 = 바느질 선 (섹션 경계)</li>
+<li>패치 블록 = 한 줄·판단·링크</li>
+<li>따라하기 <strong>3단계 고정</strong> (4+ 는 다음 주)</li>
+<li>슬롯 문법 <code>【 】</code> = 손바느질 자리</li>
+</ul>
+<p>상세 토큰: <code>naver/quilt/design-system.md</code></p>
+<hr>
+<h2 id="4">4. 납품 파일</h2>
+<pre><code>naver/quilt/
+  README.md
+  BOSS-CARD.md
+  design-system.md
+  skin-custom.css
+  skin-widgets.html
+  weekly-seosik-preview.html
+  weekly-seosik-paste.txt
+  tg-package-template.md
+  blocks/ 01~08
+</code></pre>
+<p>Pages 배포 후 미리보기 예:<br>
+<code>https://helena751107.github.io/helena_phone/naver/quilt/weekly-seosik-preview.html</code></p>
+<hr>
+<h2 id="5">5. 퀼트 제작 파이프 (확정)</h2>
+<pre><code>① Claude Code → TG 주간 콘텐츠 패키지
+② Boss → Naver 서식 「Marine Quilt 주간」 불러오기
+③ TG 내용 → 서식 슬롯 한 땀 붙여넣기
+④ YouTube 링크 · 이미지 삽입
+⑤ 발행 → 한 주의 퀼트 완성
+</code></pre>
+<hr>
+<h2 id="6">6. 성공 기준</h2>
+<ul>
+<li>[ ] 스킨 CSS 적용 후 본문 톤이 린넨·스티치로 읽힘</li>
+<li>[ ] 서식 1회 저장 완료</li>
+<li>[ ] 샘플 1편 손바느질 발행 &lt; 10분</li>
+<li>[ ] HTML/매크로 시도 0</li>
+</ul>
+<hr>
+<h2 id="7">7. 다음 (선택)</h2>
+<ul>
+<li>TG 봇이 <code>tg-package-template</code> 형식으로 자동 발송</li>
+<li>주간 VOL 번호 카운터 (레포 파일 한 줄)</li>
+<li>미리보기 PNG를 Pages에 스냅샷</li>
+</ul>
+<p><em>한 땀 한 땀 · 장비 탓 하지 마라</em></p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="naver-intro-article.html">
+          <span class="dir">Previous</span>
+          <span class="title">갤럭시 S21, AI 워크스테이션이 되다</span>
+        </a>
+    <a class="next" href="41-beginner-install-manual_Grok.html">
+          <span class="dir">Next</span>
+          <span class="title">초심자 설치 매뉴얼</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

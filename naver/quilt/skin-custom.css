@@ -1,0 +1,265 @@
+/* ==========================================================================
+   Marine Quilt — 네이버 블로그 스킨 커스텀 CSS
+   --------------------------------------------------------------------------
+   설치 (1회):
+     블로그 관리 → 스킨 편집 / 디자인 설정 → HTML/CSS 편집
+     → CSS(또는 추가 CSS) 칸 맨 아래에 이 파일 전체 붙여넣기 → 저장·적용
+
+   디자인 의도:
+     YouTube = 해병대 조교  /  Naver = 수공예 퀼트
+     구조는 군기, 표면은 린넨·스티치·패치
+
+   주의:
+     - 네이버 스킨 버전에 따라 선택자 적용 범위가 다를 수 있음
+     - !important 는 플랫폼 기본 스타일 덮기용 최소 사용
+     - 깨지면 이 블록만 지우면 원복
+   ========================================================================== */
+
+:root {
+  --mq-deep: #0F1C18;
+  --mq-olive: #2C4035;
+  --mq-crimson: #9B1B1B;
+  --mq-khaki: #C4A574;
+  --mq-thread: #D4A84B;
+  --mq-cream: #F6F1E7;
+  --mq-patch: #EDE6D9;
+  --mq-patch-mint: #DCE5DC;
+  --mq-stitch: #8B7355;
+  --mq-ink: #1C1917;
+  --mq-mute: #6B6560;
+  --mq-rule: rgba(15, 28, 24, 0.12);
+  --mq-serif: "Noto Serif KR", "Apple SD Gothic Neo", Georgia, serif;
+  --mq-sans: "Noto Sans KR", "Apple SD Gothic Neo", -apple-system, sans-serif;
+}
+
+/* ── 전체 배경 톤 (가능한 컨테이너) ─────────────────────────── */
+body,
+#wrap,
+.wrap,
+#container,
+.blog_container,
+.blog2_container {
+  background-color: var(--mq-cream) !important;
+}
+
+/* ── 본문 영역: 린넨 종이 ───────────────────────────────────── */
+.se-main-container,
+#postViewArea,
+.post-view,
+.se_component_wrap,
+.se-viewer {
+  font-family: var(--mq-sans) !important;
+  color: var(--mq-ink) !important;
+  line-height: 1.85 !important;
+  letter-spacing: -0.01em;
+}
+
+.se-main-container {
+  max-width: 740px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 단락 */
+.se-text-paragraph,
+.se-module-text p,
+#postViewArea p {
+  font-size: 16px !important;
+  line-height: 1.9 !important;
+  color: var(--mq-ink) !important;
+  margin: 0.55em 0 !important;
+}
+
+/* 제목 계층 — 해병 딥 + 퀼트 여백 */
+.se-title-text,
+.se-section-documentTitle,
+.pcol1 {
+  font-family: var(--mq-sans) !important;
+  color: var(--mq-deep) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em;
+}
+
+.se-section-text h2,
+.se-module-text h2,
+#postViewArea h2 {
+  font-size: 1.25em !important;
+  color: var(--mq-deep) !important;
+  border-bottom: 1px dashed var(--mq-stitch) !important;
+  padding-bottom: 0.4em !important;
+  margin: 1.6em 0 0.75em !important;
+  font-weight: 700 !important;
+}
+
+.se-section-text h3,
+.se-module-text h3,
+#postViewArea h3 {
+  font-size: 1.08em !important;
+  color: var(--mq-olive) !important;
+  margin: 1.3em 0 0.5em !important;
+  font-weight: 700 !important;
+}
+
+/* 인용 = 판단 패치 */
+.se-quote,
+.se-quotation,
+blockquote,
+.se-section-quotation {
+  background: var(--mq-patch) !important;
+  border-left: 4px solid var(--mq-crimson) !important;
+  border-radius: 0 10px 10px 0 !important;
+  padding: 14px 18px !important;
+  color: var(--mq-ink) !important;
+  font-style: normal !important;
+}
+
+/* 링크 — 금실 */
+.se-main-container a,
+#postViewArea a,
+.se-link {
+  color: var(--mq-olive) !important;
+  text-decoration: underline !important;
+  text-decoration-color: var(--mq-thread) !important;
+  text-underline-offset: 3px !important;
+  font-weight: 600 !important;
+}
+
+.se-main-container a:hover,
+#postViewArea a:hover {
+  color: var(--mq-crimson) !important;
+}
+
+/* 코드/로그 패치 */
+.se-main-container pre,
+.se-main-container code,
+#postViewArea pre,
+#postViewArea code {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace !important;
+  background: var(--mq-patch) !important;
+  color: var(--mq-deep) !important;
+  border: 1px dashed var(--mq-stitch) !important;
+  border-radius: 8px !important;
+}
+
+.se-main-container pre,
+#postViewArea pre {
+  padding: 14px 16px !important;
+  overflow-x: auto !important;
+  font-size: 0.88em !important;
+  line-height: 1.55 !important;
+}
+
+.se-main-container code,
+#postViewArea code {
+  padding: 0.1em 0.35em !important;
+  font-size: 0.92em !important;
+}
+
+/* 구분선 — 스티치 */
+.se-section-horizontalLine hr,
+.se-hr,
+hr {
+  border: 0 !important;
+  border-top: 1px dashed var(--mq-stitch) !important;
+  margin: 1.5em 0 !important;
+  background: transparent !important;
+  height: 0 !important;
+}
+
+/* 이미지 — 패치 액자 */
+.se-main-container img,
+#postViewArea img,
+.se-image-resource {
+  border-radius: 6px !important;
+  box-shadow: 0 1px 0 var(--mq-rule), 0 8px 24px rgba(15, 28, 24, 0.06) !important;
+}
+
+/* 표 — 작업 로그 패치 */
+.se-table-content,
+.se-main-container table,
+#postViewArea table {
+  border-collapse: collapse !important;
+  width: 100% !important;
+  font-size: 0.92em !important;
+  background: #fffefb !important;
+  border: 1px solid var(--mq-rule) !important;
+}
+
+.se-main-container th,
+#postViewArea th {
+  background: var(--mq-deep) !important;
+  color: var(--mq-cream) !important;
+  font-weight: 600 !important;
+  padding: 10px 12px !important;
+  text-align: left !important;
+}
+
+.se-main-container td,
+#postViewArea td {
+  padding: 10px 12px !important;
+  border-bottom: 1px dashed var(--mq-rule) !important;
+  color: var(--mq-ink) !important;
+}
+
+/* 목록 */
+.se-main-container ul,
+.se-main-container ol,
+#postViewArea ul,
+#postViewArea ol {
+  padding-left: 1.35em !important;
+  margin: 0.6em 0 1em !important;
+}
+
+.se-main-container li,
+#postViewArea li {
+  margin: 0.35em 0 !important;
+}
+
+/* ── 글 목록 / 카드 (있을 때) ──────────────────────────────── */
+.item,
+.post_item,
+.list_post li,
+.blog2_list li {
+  border-bottom: 1px dashed var(--mq-stitch) !important;
+}
+
+/* ── 사이드/공통 텍스트 톤 ─────────────────────────────────── */
+.pcol2,
+.blog2_series,
+.category_title {
+  color: var(--mq-mute) !important;
+}
+
+/* 버튼·강조 영역 힌트 */
+.btn_arr,
+.btn_menu,
+a.btn {
+  border-radius: 4px !important;
+}
+
+/* ── 모바일 가독 ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .se-text-paragraph,
+  .se-module-text p,
+  #postViewArea p {
+    font-size: 15.5px !important;
+    line-height: 1.88 !important;
+  }
+
+  .se-main-container {
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+}
+
+/* ── 인쇄 ─────────────────────────────────────────────────── */
+@media print {
+  body {
+    background: #fff !important;
+  }
+  .se-main-container a {
+    text-decoration: none !important;
+  }
+}
+
+/* END Marine Quilt skin-custom.css */

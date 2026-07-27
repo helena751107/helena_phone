@@ -105,9 +105,16 @@ YouTube @helena_phone 업로드
 
 | 파일 | 용도 |
 |------|------|
-| `scripts/naver_template.html` | (참고용) HTML 템플릿 — 스마트에디터에서 직접 사용 불가 |
+| **`naver/quilt/`** | **정본 · Marine Quilt 스킨+서식+TG 패키지 (2026-07-27)** |
+| `naver/quilt/BOSS-CARD.md` | Boss 3분 설치 카드 |
+| `naver/quilt/skin-custom.css` | 스킨 CSS 1회 |
+| `naver/quilt/weekly-seosik-preview.html` | 서식 시각 기준 |
+| `naver/quilt/weekly-seosik-paste.txt` | 서식 저장용 텍스트 |
+| `naver/quilt/tg-package-template.md` | Claude→TG 배달 포맷 |
+| `scripts/naver_template.html` | (레거시 참고) HTML — 스마트에디터 직접 사용 불가 |
 | `scripts/naver_recipe.py` | (참고용) 요리레시피 메타포 생성기 |
-| `_notebook/23-naver-webzine-solution.md` | 이 문서 — 최종 솔루션 |
+| `_notebook/23-naver-webzine-solution.md` | 이 문서 — 솔루션 원칙 |
+| `_notebook/42-marine-quilt-naver-design_Grok.md` | 디자인 패키지 노트 |
 
 ---
 

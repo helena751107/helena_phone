@@ -142,6 +142,10 @@ NOTEBOOK_TITLES = {
     "ai-agents-cc-ds-grok-comparison-2026-07-25.md": "cc vs ds vs grok",
     "supergrok-community-research-2026-07-25.md": "SuperGrok 리서치",
     "naver-intro-article.md": "네이버 소개 아티클",
+    "42-marine-quilt-naver-design_Grok.md": "Marine Quilt 네이버 디자인",
+    "41-beginner-install-manual_Grok.md": "초심자 설치 매뉴얼",
+    "39-naver-lecture-s21-voice-intro_Grok.md": "S21 보이스 네이버 강의",
+    "40-lecture-draft-s21-voice-vol0_Grok.md": "강의 초안 Vol.0",
 }
 
 # Auto-discover every _notebook/*.md (overrides in NOTEBOOK_TITLES)
