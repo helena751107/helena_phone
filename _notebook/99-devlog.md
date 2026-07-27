@@ -2390,3 +2390,31 @@ bash <(curl -sL https://raw.githubusercontent.com/helena751107/helena_phone/main
 
 이 절(§91–92)은 agent _Grok 작업분을 개발일지 SSOT에 귀화시킨 기록이다.  
 이후 변경은 `naver/quilt/` · `g/easy.sh` · install-guide 를 정본으로 본다.
+
+### 91. Naver Admin Playwright 자동화 — Tistory와 다른 상황 (2026-07-27)
+
+**Boss 질문:** "네이버 블로그 관리자 PC 버전에서 Playwright로 GUI 자동화 가능?"
+
+**핵심 차이:**
+
+| | Tistory | Naver Blog Admin |
+|---|---------|-----------------|
+| 로그인 방식 | Kakao OAuth | **Naver ID 직접 로그인** |
+| KOE006 | ❌ 막힘 | **해당 없음** |
+| 자동 로그인 | 불가 | **가능 (Naver ID+PW)** |
+| 관리자 페이지 | SPA (JS) | SPA (JS) — Playwright 필요 |
+| 카테고리 생성 | — | ✅ 1회성 자동화 가치 있음 |
+
+**Tistory에서 배운 교훈:**
+- 북마크릿은 Chrome이 막음 (플랫폼 문제)
+- Kakao OAuth는 KOE006 서버 오류 (우리 통제 불가)
+- "API 없는 GUI 자동화는 치킨게임" → 포기 결정 (§44)
+
+**그러나 Naver Admin은 다르다:**
+- Naver ID 직접 로그인 → Playwright로 가능
+- 카테고리 생성·편집은 **1회성 작업** (매번 하는 게 아님)
+- 수작업은 모바일에서 매우 어려움 (드래그 안 됨)
+- Playwright로 PC 버전 관리자 접근 → 좌표 클릭으로 해결 가능
+
+**Boss 판단:** "한 번만 자동화하면 되는 건 할 가치가 있다.
+매주 하는 발행은 Paste Pipeline으로, 1회성 설정은 Playwright로."
