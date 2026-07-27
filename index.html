@@ -1091,7 +1091,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   <section class="chapter" id="install">
     <div class="ch-label"><span class="num">07</span> Install <span class="line"></span></div>
     <h2 class="ch-title">한 줄로 <em>부팅</em></h2>
-    <p class="ch-deck">타이핑 애니메이션이 끝난 뒤 복사하세요. F-Droid Termux + termux-api 전제.</p>
+    <p class="ch-deck">GITHUB_USER와 GITHUB_TOKEN을 본인 걸로 바꾸세요. F-Droid Termux + termux-api 전제. 변수 없으면 대화형으로 물어봅니다.</p>
     <div class="terminal reveal" id="terminal">
       <div class="terminal-bar">
         <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
@@ -1760,7 +1760,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   drawCostPie();
 
   /* —— Terminal typewriter —— */
-  const CMD = 'curl -sL https://raw.github.com/helena751107/helena_phone/main/g/install.sh | bash';
+  const CMD = 'GITHUB_USER="내아이디" GITHUB_TOKEN="ghp_..." bash <(curl -sL https://raw.github.com/helena751107/helena_phone/main/g/install.sh)';
   const termCmd = $('#termCmd');
   const termCursor = $('#termCursor');
   let typeTimer;
