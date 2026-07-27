@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔰 설치 가이드 — S21 Phone</title>
+<style>
+:root { --bg:#0a0908; --sf:#12100e; --tx:#f4efe6; --mu:#b5a999; --rd:#e85d4c; --gn:#3db8a8; --gd:#d4a84b; --bl:#5b9eff; --br:rgba(244,239,230,0.08); }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--tx);line-height:1.7}
+.wrap{max-width:780px;margin:0 auto;padding:40px 20px 80px}
+header{text-align:center;padding:60px 0 30px;border-bottom:1px solid var(--br);margin-bottom:40px}
+header h1{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800}
+header .deck{color:var(--mu);margin-top:8px}
+.step{border-left:3px solid var(--gd);padding-left:20px;margin:32px 0}
+.step-num{font-size:.7em;letter-spacing:2px;color:var(--gd);text-transform:uppercase;margin-bottom:4px}
+.step h2{font-size:1.1em;margin-bottom:8px}
+.step p{color:var(--mu);font-size:.88em;margin-bottom:10px}
+.code-box{background:var(--sf);border:1px solid var(--br);border-radius:8px;padding:14px 18px;margin:10px 0;position:relative;display:flex;align-items:center;gap:10px}
+.code-box code{flex:1;font-family:'JetBrains Mono',monospace;font-size:.82em;color:var(--gn);overflow-x:auto;white-space:pre-wrap;word-break:break-all}
+.copy-btn{background:var(--gd);color:#0a0908;border:none;padding:6px 14px;border-radius:6px;font-size:.75em;font-weight:600;cursor:pointer;white-space:nowrap;transition:.2s}
+.copy-btn:hover{background:#f0c75e}
+.copy-btn.copied{background:var(--gn)}
+.warn-box{background:rgba(232,93,76,0.06);border:1px solid rgba(232,93,76,0.2);border-radius:8px;padding:14px 18px;margin:10px 0;font-size:.85em}
+.warn-box strong{color:var(--rd)}
+.info-box{background:rgba(91,158,255,0.06);border:1px solid rgba(91,158,255,0.2);border-radius:8px;padding:14px 18px;margin:10px 0;font-size:.85em}
+.checklist{margin:8px 0;padding-left:20px}
+.checklist li{margin:4px 0;font-size:.85em;color:var(--mu)}
+.checklist li.done{color:var(--gn)}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.85em}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--br)}
+th{color:var(--gd);font-size:.72em;letter-spacing:1px}
+a{color:var(--gd)}
+footer{text-align:center;padding:40px 0 20px;border-top:1px solid var(--br);margin-top:40px;color:var(--mu);font-size:.8em}
+@media(max-width:600px){.step{padding-left:14px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>🔰 초심자 설치 가이드</h1>
+  <p class="deck">구형 안드로이드 폰 하나로 AI 워크스테이션을 세팅하는 전체 과정.<br>준비물: 폰 + WiFi + 이메일 주소. <strong style="color:var(--rd)">비용 0원.</strong></p>
+  <p style="color:var(--mu);font-size:.78em;margin-top:8px">이 가이드는 실제 helena751107의 구축 과정을 초심자용으로 재구성했습니다.</p>
+</header>
+
+<!-- STEP 0 -->
+<div class="step">
+  <div class="step-num">Step 0</div>
+  <h2>📱 구형 안드로이드 폰 준비</h2>
+  <p>Android 10 이상, 저장공간 10GB 이상이면 충분. Galaxy S21 기준으로 작성됐지만 다른 폰도 가능. <strong>삼성폰이면 루팅하지 마세요</strong> (삼성페이·뱅킹앱 망가집니다).</p>
+  <ul class="checklist">
+    <li>WiFi 연결 확인</li>
+    <li>저장공간 10GB 이상 확보</li>
+    <li>배터리 50% 이상</li>
+  </ul>
+</div>
+
+<!-- STEP 1 -->
+<div class="step">
+  <div class="step-num">Step 1</div>
+  <h2>📦 Termux 설치 (F-Droid 버전!)</h2>
+  <p><strong>⚠️ Play Store 버전은 업데이트가 중단됐습니다. 반드시 F-Droid에서 설치하세요.</strong></p>
+  <p>폰 브라우저 → <a href="https://f-droid.org" target="_blank">f-droid.org</a> → F-Droid APK 다운로드·설치 → F-Droid 앱에서 "Termux" 검색 → 설치</p>
+  <div class="code-box">
+    <code># 설치 후 Termux 앱을 열고 아래 명령어를 한 줄씩 입력하세요</code>
+  </div>
+</div>
+
+<!-- STEP 2 -->
+<div class="step">
+  <div class="step-num">Step 2</div>
+  <h2>🔑 DeepSeek API 키 발급</h2>
+  <p>Claude Code를 무료로 돌리기 위한 엔진입니다. Anthropic 정품 대신 DeepSeek를 씁니다.</p>
+  <ol style="font-size:.85em;color:var(--mu);margin:8px 0;padding-left:20px">
+    <li>폰 브라우저 → <a href="https://platform.deepseek.com" target="_blank">platform.deepseek.com</a></li>
+    <li>회원가입 (이메일 또는 Google 계정)</li>
+    <li>왼쪽 메뉴 → "API Keys" → "Create new key"</li>
+    <li>키 복사 (<code>sk-...</code> 형식)</li>
+  </ol>
+  <div class="code-box">
+    <code># 발급받은 키를 메모해두세요. 나중에 필요합니다.
+# 형식: sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</code>
+    <button class="copy-btn" onclick="copyText(this,'sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')">복사</button>
+  </div>
+  <div class="info-box">💡 <strong>비용:</strong> DeepSeek는 API 호출당 과금이지만, 소량 사용이면 한 달에 만 원도 안 나옵니다. 신규 가입 시 무료 크레딧도 줍니다.</div>
+</div>
+
+<!-- STEP 3 -->
+<div class="step">
+  <div class="step-num">Step 3</div>
+  <h2>🐙 GitHub 계정 + 토큰 발급</h2>
+  <p>코드 저장·웹사이트 호스팅·AI 작업 기록을 위한 필수 계정입니다.</p>
+  <ol style="font-size:.85em;color:var(--mu);margin:8px 0;padding-left:20px">
+    <li><a href="https://github.com/signup" target="_blank">github.com/signup</a> → 계정 생성 (무료)</li>
+    <li>로그인 → 우측 상단 프로필 → Settings</li>
+    <li>왼쪽 메뉴 맨 아래 → Developer settings → Personal access tokens → Tokens (classic)</li>
+    <li>"Generate new token (classic)"</li>
+    <li>Note: "s21-phone" / Expiration: "No expiration"</li>
+    <li>권한 선택: <strong>repo</strong> (전체), <strong>workflow</strong></li>
+    <li>"Generate token" → 토큰 복사 (<code>ghp_...</code> 형식)</li>
+  </ol>
+  <div class="warn-box"><strong>⚠️ 중요:</strong> 이 토큰은 <strong>비밀번호</strong>입니다. 절대 다른 사람에게 공유하지 마세요. 복사해서 안전한 곳에 보관하세요.</div>
+</div>
+
+<!-- STEP 4 -->
+<div class="step">
+  <div class="step-num">Step 4</div>
+  <h2>🐧 proot Ubuntu 설치</h2>
+  <p>Termux 안에 Ubuntu 리눅스를 올립니다. 이 위에서 Claude Code가 돌아갑니다.</p>
+  <div class="code-box">
+    <code>pkg update -y && pkg install -y proot-distro
+proot-distro install ubuntu</code>
+    <button class="copy-btn" onclick="copyText(this,'pkg update -y && pkg install -y proot-distro\nproot-distro install ubuntu')">복사</button>
+  </div>
+  <p style="font-size:.8em;color:var(--mu)">※ 설치에 3~5분 걸립니다. 커피 한 잔 하세요.</p>
+</div>
+
+<!-- STEP 5 -->
+<div class="step">
+  <div class="step-num">Step 5</div>
+  <h2>⚡ 1줄 설치 실행</h2>
+  <p>아래 명령어에서 <strong>GITHUB_USER</strong>와 <strong>GITHUB_TOKEN</strong>을 본인 걸로 바꾸고 실행하세요.</p>
+  <div class="code-box">
+    <code>GITHUB_USER="내아이디" GITHUB_TOKEN="ghp_..." DEEPSEEK_API_KEY="sk-..." bash <(curl -sL https://raw.github.com/helena751107/helena_phone/main/g/install.sh)</code>
+    <button class="copy-btn" onclick="copyText(this,'GITHUB_USER=\"내아이디\" GITHUB_TOKEN=\"ghp_...\" DEEPSEEK_API_KEY=\"sk-...\" bash <(curl -sL https://raw.github.com/helena751107/helena_phone/main/g/install.sh)')">복사</button>
+  </div>
+  <p style="font-size:.8em;color:var(--mu)">변수를 안 넣으면 대화형으로 하나씩 물어봅니다. 초심자면 그냥 엔터 치고 대화형으로 진행하세요.</p>
+</div>
+
+<div class="step">
+  <div class="step-num">Step 5b (선택)</div>
+  <h2>변수 없이 대화형으로 설치</h2>
+  <div class="code-box">
+    <code>bash <(curl -sL https://raw.github.com/helena751107/helena_phone/main/g/install.sh)</code>
+    <button class="copy-btn" onclick="copyText(this,'bash <(curl -sL https://raw.github.com/helena751107/helena_phone/main/g/install.sh)')">복사</button>
+  </div>
+</div>
+
+<!-- STEP 6 -->
+<div class="step">
+  <div class="step-num">Step 6</div>
+  <h2>🤖 Telegram 봇 설정 (선택)</h2>
+  <p>AI 작업 완료 알림을 텔레그램으로 받습니다. 없어도 Claude Code는 잘 돌아갑니다.</p>
+  <ol style="font-size:.85em;color:var(--mu);margin:8px 0;padding-left:20px">
+    <li>Telegram 앱 → @BotFather 검색 → /newbot</li>
+    <li>봇 이름·유저네임 설정 → 토큰 복사</li>
+    <li>새 봇에게 아무 말이나 1회 전송</li>
+    <li>브라우저: <code>https://api.telegram.org/bot[토큰]/getUpdates</code></li>
+    <li>응답에서 <code>"chat":{"id":숫자}</code> 확인</li>
+  </ol>
+  <div class="code-box">
+    <code>echo 'export TG_TOKEN="봇토큰"' >> ~/.bashrc
+echo 'export TG_CHAT="챗ID"' >> ~/.bashrc
+source ~/.bashrc</code>
+    <button class="copy-btn" onclick="copyText(this,'echo \'export TG_TOKEN=\"봇토큰\"\' >> ~/.bashrc\necho \'export TG_CHAT=\"챗ID\"\' >> ~/.bashrc\nsource ~/.bashrc')">복사</button>
+  </div>
+</div>
+
+<!-- STEP 7 -->
+<div class="step">
+  <div class="step-num">Step 7</div>
+  <h2>🏥 건강 검진 실행</h2>
+  <div class="code-box">
+    <code>bash ~/work/phone-health.sh</code>
+    <button class="copy-btn" onclick="copyText(this,'bash ~/work/phone-health.sh')">복사</button>
+  </div>
+  <p>27개 항목을 자동 진단합니다. A등급 이상이면 정상입니다.</p>
+</div>
+
+<!-- STEP 8 -->
+<div class="step">
+  <div class="step-num">Step 8</div>
+  <h2>🚀 Claude Code 첫 실행</h2>
+  <div class="code-box">
+    <code>proot-distro login ubuntu
+cd /root/work
+claude</code>
+    <button class="copy-btn" onclick="copyText(this,'proot-distro login ubuntu\ncd /root/work\nclaude')">복사</button>
+  </div>
+  <p>이제 말로 코딩하세요. "구구단 출력하는 파이썬 코드 만들어줘"라고 말해보세요.</p>
+</div>
+
+<!-- 완료 -->
+<div style="text-align:center;padding:40px 0">
+  <h2 style="color:var(--gn);margin-bottom:12px">🎉 설치 완료!</h2>
+  <p style="color:var(--mu)">이제 당신의 구형 안드로이드 폰이 AI 워크스테이션입니다.</p>
+  <table style="margin:20px auto;max-width:400px">
+  <tr><th>당신이 방금 설치한 것</th><th>비용</th></tr>
+  <tr><td>Claude Code (AI 코딩)</td><td style="color:var(--gn)">$0</td></tr>
+  <tr><td>phone-mcp-server (18도구)</td><td style="color:var(--gn)">$0</td></tr>
+  <tr><td>phone-health.sh (건강검진)</td><td style="color:var(--gn)">$0</td></tr>
+  <tr><td>GitHub Pages (웹호스팅)</td><td style="color:var(--gn)">$0</td></tr>
+  <tr><td>DeepSeek API</td><td style="color:var(--gd)">~1만원/월</td></tr>
+  </table>
+  <p style="margin-top:16px"><a href="index.html" style="color:var(--gd)">← 랜딩페이지로 돌아가기</a></p>
+</div>
+
+<footer>
+  <p>© Helena Park · <a href="https://github.com/helena751107/helena_phone">GitHub</a></p>
+  <p style="margin-top:4px">이 가이드는 helena751107의 실제 구축 과정을 기반으로 합니다.</p>
+</footer>
+
+</div>
+
+<script>
+function copyText(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '복사됨!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>
