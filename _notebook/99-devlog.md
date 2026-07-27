@@ -2128,3 +2128,29 @@ Discord 서버                소통하는 방식
 
 **총평:** 28레포·1.4GB+. parksy 계열(로그·이미지·오디오)이 핵심.
 dtslib-apk-lab + termux-bridge는 우리 인프라에 직접 통합 가능.
+
+### 86. dtslib1979 28레포 전체 재평가 — 전부 다 쓸모 있다 (2026-07-27)
+
+**Boss 판단:** "나머지 방송국, 유니버시티, 브랜치, 헤드쿼터 구조 다 괜찮다. 다 쓸모 있다."
+
+**전체 구조 (28레포·2.7GB):**
+
+| 카테고리 | 개수 | 핵심 자산 |
+|---------|------|---------|
+| 🎬 방송·미디어 | 10 | gohsy 3레인·espiritu-tango·parksy-audio(963MB) |
+| 🏗️ 본사·인프라 | 7 | dtslib-localpc·branch·apk-lab·termux-bridge |
+| 🤖 AI·MCP | 7 | parksy-image(863MB)·logs(29MB)·OrbitPrompt |
+| 🌐 웹·PWA | 1 | eae.kr — PWA Books |
+| 📚 교육 | 1 | eae-univ — YouTube+PWA 교재 |
+| 👗 비즈니스 | 1 | namoneygoal |
+| 🏢 로컬·공간 | 1 | obokzip — 물리 스튜디오 |
+
+**Boss의 조직 구조:**
+- 🎬 gohsy 계열 = 방송국 (3레인 스튜디오)
+- 🏗️ dtslib 계열 = 본사·인프라
+- 🤖 parksy 계열 = AI 연구소
+- 📚 eae 계열 = 교육·출판
+- 🏢 obokzip = 오프라인 베이스
+
+**총평:** 28레포 전부 DTSLIB 생태계의 유기적 구성요소.
+개별 레포가 아니라 하나의 분산형 미디어·기술·비즈니스 그룹.
