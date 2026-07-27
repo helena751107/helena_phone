@@ -2102,3 +2102,29 @@ Discord 서버                소통하는 방식
 
 **핵심:** 폴더 정리하는 기술이 아니라, 말을 구조화된 지식으로 바꾸는 파이프라인을 갖추는 것.
 이게 AI 시대의 진짜 지식 관리다.
+
+### 85. dtslib1979 28레포 자산 감사 — 쓸 만한 것 12종 (2026-07-27)
+
+**🔥 즉시 활용 가능:**
+
+| 레포 | 유형 | 용량 | 활용처 |
+|------|------|------|--------|
+| parksy-logs | Python | 29MB | 박씨캡처 텍스트 아카이브 — 대화 데이터 |
+| parksy-image | Python | 883MB | AI 썸네일·영상 시드 — Grok+ComfyUI 연동 |
+| parksy-audio | HTML | 986MB | 나레이션·사운드 에셋 — YouTube 제작 |
+| dtslib-apk-lab | Dart | 2MB | APK 빌드·테스트 — MCP 도구화 |
+| termux-bridge | HTML | 4MB | PC↔Termux QA·CDP — 모바일 테스트 |
+| dtslib-localpc | Python | 19MB | 로컬 자동화·오프라인 워크플로우 |
+| OrbitPrompt | HTML | 10MB | AI 프롬프트 생성 엔진 |
+
+**🔧 구조 참고:**
+
+| 레포 | 참고 포인트 |
+|------|----------|
+| gohsy-production | 3레인 스튜디오 (News/Recording/Stage) — 워크센터와 유사 |
+| eae.kr | PWA Books (React+Vite+MDX) — Pages 출판 |
+| dtslib-branch | 보일러플레이트 개발 모델 |
+| parksy.kr | 디지털 지식 아카이브 |
+
+**총평:** 28레포·1.4GB+. parksy 계열(로그·이미지·오디오)이 핵심.
+dtslib-apk-lab + termux-bridge는 우리 인프라에 직접 통합 가능.
