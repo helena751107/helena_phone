@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Grok Imagine (드래프트) + ComfyUI GPU (프로 마감) 운영 가이드 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>솔루션 백서: 1인 창작자를 위한 이미지·영상 생성 하이브리드 워크플로우 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>솔루션 백서: 1인 창작자를 위한 이미지·영상 생성 하이브리드 워크플로우</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>솔루션 백서: 1인 창작자를 위한 이미지·영상 생성 하이브리드 워크플로우</h1>
+    <p class="deck">Grok Imagine (드래프트) + ComfyUI GPU (프로 마감) 운영 가이드</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/33-hybrid-image-video-whitepaper.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1_1">1. 개요 및 목적</a></li>
+<li><a href="#2">2. 문제 정의</a></li>
+<li><a href="#3-2">3. 하이브리드 2단계 구조</a></li>
+<li><a href="#4">4. 상세 비교</a></li>
+<li><a href="#5">5. 권장 워크플로우</a></li>
+<li><a href="#6">6. 기대 효과</a></li>
+<li><a href="#7">7. 리스크 및 대응</a></li>
+<li><a href="#8">8. 결론 및 운영 원칙</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <blockquote>
+<p>Grok Imagine (드래프트) + ComfyUI GPU (프로 마감) 운영 가이드<br>
+버전: 1.0 | 2026.07.26</p>
+</blockquote>
+<h2 id="1_1">1. 개요 및 목적</h2>
+<p>제한된 자원(시간·비용·모바일 환경) 속에서 고품질 이미지와 영상을 안정적으로 생산해야 하는 1인 창작자를 위한 실전 솔루션.</p>
+<p>핵심 원칙은 <strong>역할 분리</strong>:<br>
+- 방향 결정과 빠른 검증 → Grok Imagine<br>
+- 최종 퀄리티와 정밀 통제 → ComfyUI + GPU</p>
+<h2 id="2">2. 문제 정의</h2>
+<ul>
+<li>처음부터 ComfyUI로 시작하면 세팅·수정 비용이 과도하게 발생</li>
+<li>대화형 AI만 사용하면 최종 디테일과 일관성이 부족</li>
+<li>모바일 중심 환경에서 무거운 GPU 작업을 상시 돌리기 어려움</li>
+<li>실패 비용(시간+돈)이 누적되면 실험 자체가 위축</li>
+</ul>
+<h2 id="3-2">3. 하이브리드 2단계 구조</h2>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>도구</th>
+<th>역할</th>
+<th>목표</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1단계 드래프트</td>
+<td>Grok Imagine</td>
+<td>컨셉·분위기·빠른 수정·방향 확정</td>
+<td>속도와 실험 비용 최소화</td>
+</tr>
+<tr>
+<td>2단계 프로 마감</td>
+<td>ComfyUI+GPU</td>
+<td>디테일·일관성·모션·최종 렌더</td>
+<td>품질 극대화</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4">4. 상세 비교</h2>
+<ul>
+<li>품질: ComfyUI가 디테일·얼굴·스타일 일관성 우위. Grok은 분위기·구도 강점</li>
+<li>속도: 반복 수정은 Grok 압도적. 최종 렌더는 ComfyUI</li>
+<li>비용: Grok 구독 고정, ComfyUI GPU 시간당. 방향 확정 후에만 GPU</li>
+<li>통제력: ComfyUI 노드 기반 정밀 제어, Grok 자연어 기반 빠른 제어</li>
+</ul>
+<h2 id="5">5. 권장 워크플로우</h2>
+<ol>
+<li>의도 정의 — &ldquo;무엇을 보여줄 것인가&rdquo; 한 문장</li>
+<li>Grok 드래프트 — 여러 버전 빠르게 생성·수정. 레퍼런스 확정</li>
+<li>핸드오프 — 레퍼런스+프롬프트+&rdquo;절대 바꾸지 말 것&rdquo; 리스트 전달</li>
+<li>ComfyUI 마감 — 레퍼런스 고정+고해상도/모션 제어</li>
+<li>로그 기록 — 성공/실패 원인 짧게 남기기</li>
+</ol>
+<h2 id="6">6. 기대 효과</h2>
+<ul>
+<li>드래프트 단계 시간·비용 대폭 절감</li>
+<li>최종 퀄리티는 타협하지 않음</li>
+<li>모바일 환경에서도 의사결정 속도 유지</li>
+<li>실험 실패에 대한 심리적·금전적 부담 감소</li>
+<li>1인 기준 지속 가능한 생산 리듬 확보</li>
+</ul>
+<h2 id="7">7. 리스크 및 대응</h2>
+<table>
+<thead>
+<tr>
+<th>리스크</th>
+<th>대응</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>핸드오프 시 스타일 불일치</td>
+<td>핵심 유지 요소 명시적 기록</td>
+</tr>
+<tr>
+<td>GPU 비용 누적</td>
+<td>확정된 작업만 넘김</td>
+</tr>
+<tr>
+<td>컨텍스트 손실</td>
+<td>작업 종료 시 간단한 로그</td>
+</tr>
+<tr>
+<td>도구 간 퀄리티 갭</td>
+<td>드래프트 단계에서 충분히 방향 확정</td>
+</tr>
+</tbody>
+</table>
+<h2 id="8">8. 결론 및 운영 원칙</h2>
+<ol>
+<li>방향이 흔들릴 때는 절대 GPU를 쓰지 않는다</li>
+<li>&ldquo;이 정도면 됐다&rdquo; 판단되는 순간 즉시 ComfyUI로 전환</li>
+<li>모든 드래프트는 레퍼런스와 유지 요소를 남기고 종료</li>
+</ol>
+<p>이 하이브리드 구조는 완벽한 단일 도구를 찾는 대신, 도구의 강점을 역할에 맞게 배치하는 방식이다.</p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="33-webpage-coverage_Grok.html">
+          <span class="dir">Previous</span>
+          <span class="title">웹페이지 커버리지 체크 — `_Grok` 상시 역할</span>
+        </a>
+    <a class="next" href="34-stt-zero-cost-justification.html">
+          <span class="dir">Next</span>
+          <span class="title">STT 0원 풀스택 정당화</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

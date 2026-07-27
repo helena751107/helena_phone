@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="말 하나로 미디어 플랫폼을 짓다 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>말 하나로 미디어 플랫폼을 짓다 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>말 하나로 미디어 플랫폼을 짓다</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>말 하나로 미디어 플랫폼을 짓다</h1>
+    
+    <div class="wz-meta">
+      <span>Source · _notebook/34-stt-zero-cost-justification.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#s21-phone-stt-0-ai">S21 Phone — STT 기반 0원 풀스택 AI 워크스테이션 정당화 문서</a></li>
+<li><a href="#1">1. 이게 가능한가? — 가능하다. 증거가 여기 있다.</a></li>
+<li><a href="#2">2. 이걸 가능하게 하는 기술 스택 — 전부 무료</a></li>
+<li><a href="#3-3">3. 왜 이게 정당한가 — 3개의 증명</a><ul>
+<li><a href="#1_1">증명 ①: 제약 속에서 실제로 구축했다</a></li>
+<li><a href="#2-api">증명 ②: API가 없는 플랫폼도 우회하지 않고 다룬다</a></li>
+<li><a href="#3">증명 ③: 핸드오프를 전제로 설계됐다</a></li>
+</ul>
+</li>
+<li><a href="#4">4. 차별점 — 액자식 뫼비우스 띠</a></li>
+<li><a href="#5">5. 주요 수치</a></li>
+<li><a href="#6">6. 결론</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <h2 id="s21-phone-stt-0-ai">S21 Phone — STT 기반 0원 풀스택 AI 워크스테이션 정당화 문서</h2>
+<p><strong>버전 1.0 | 2026.07.26 | Boss + Claude Code</strong></p>
+<hr>
+<h2 id="1">1. 이게 가능한가? — 가능하다. 증거가 여기 있다.</h2>
+<table>
+<thead>
+<tr>
+<th>질문</th>
+<th>답</th>
+<th>증거</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>키보드 없이 가능한가?</td>
+<td><strong>100% STT</strong></td>
+<td>41커밋·96파일·11,727줄 전부 음성으로</td>
+</tr>
+<tr>
+<td>PC 없이 가능한가?</td>
+<td><strong>중고폰 1대로</strong></td>
+<td>Galaxy S21 (2021년 출시·중고가 20만원)</td>
+</tr>
+<tr>
+<td>돈 들지 않는가?</td>
+<td><strong>월 55,000원</strong></td>
+<td>DeepSeek $0 + Grok 45,000원 = AI 3종 풀스택</td>
+</tr>
+<tr>
+<td>초보자가 가능한가?</td>
+<td><strong>1줄 설치</strong></td>
+<td><code>curl -sL .../install.sh | bash</code></td>
+</tr>
+<tr>
+<td>혼자 가능한가?</td>
+<td><strong>AI 3종이 분업</strong></td>
+<td>Claude Code(코드) + Grok(시각) + Aider(보조)</td>
+</tr>
+<tr>
+<td>지속 가능한가?</td>
+<td><strong>핸드오프 설계</strong></td>
+<td>돌봄 데몬은 AI 의존성 제로</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2">2. 이걸 가능하게 하는 기술 스택 — 전부 무료</h2>
+<pre><code>입 (STT 음성)
+  │
+  ▼
+Android 음성인식 → 클립보드 → Termux
+  │
+  ▼
+뇌 (AI 에이전트 3종·월 55,000원)
+├── Claude Code → 코드·문서·git·API
+├── Grok CLI   → 이미지·영상·Naver
+└── Aider      → 반복 작업·패치
+  │
+  ▼
+손 (플랫폼·전부 무료)
+├── GitHub      → 코드 저장·$0
+├── GitHub Pages → 웹 호스팅·$0
+├── YouTube     → 영상 CDN·$0
+├── Naver       → 블로그·한국 독자·$0
+├── Tistory     → 업무일지·$0
+├── Discord     → 커뮤니티·$0
+└── Telegram    → 내부 보고·$0
+</code></pre>
+<p><strong>단 한 가지 유료: Grok 45,000원/월.</strong> 이미지·영상 생성용.<br>
+나머지 전부 $0. 합계 월 55,000원 — 커피값으로 풀스택 AI 스튜디오.</p>
+<h2 id="3-3">3. 왜 이게 정당한가 — 3개의 증명</h2>
+<h3 id="1_1">증명 ①: 제약 속에서 실제로 구축했다</h3>
+<p>이 프로젝트의 작성자는:<br>
+- 안드로이드 폰 1대<br>
+- 100% STT 음성입력 (키보드 0회)<br>
+- 식당 육체노동 병행 (풀집중 불가능)<br>
+- 돌봄 가정 (조현병 누나·치매 어머니)</p>
+<p>이 제약들은 &ldquo;할 수 없는 이유&rdquo;가 아니라 <strong>&ldquo;이 제약에서도 가능하다는 증거&rdquo;</strong> 다.</p>
+<h3 id="2-api">증명 ②: API가 없는 플랫폼도 우회하지 않고 다룬다</h3>
+<p>티스토리 API 2024년 종료. 네이버 API 없음.<br>
+→ Paste Pipeline: AI가 원고 작성 → TG 배달 → 사람이 복사붙여넣기 (5분)</p>
+<p>이건 &ldquo;플랫폼 정책을 위반하는 자동화&rdquo;가 아니다.<br>
+<strong>플랫폼이 의도한 사용법을 그대로 따르면서 AI의 생산성을 결합한 방식</strong>이다.</p>
+<h3 id="3">증명 ③: 핸드오프를 전제로 설계됐다</h3>
+<p>이 시스템의 주인은 작성자가 아니다. <strong>큰누나</strong>다.<br>
+작성자는 대필작가-간병인으로서, 누나가 언젠가 이 폰으로<br>
+STT만으로 시스템을 스스로 운영할 수 있게 하는 것이 목표다.</p>
+<p>CONSTITUTION.md 제7조: &ldquo;핸드오프가 곧 성공이다.&rdquo;</p>
+<h2 id="4">4. 차별점 — 액자식 뫼비우스 띠</h2>
+<p>일반적인 국책·교육 콘텐츠:<br>
+→ 특권층이 약자를 &ldquo;도와주는&rdquo; 시혜적 프레임</p>
+<p>이 프로젝트:<br>
+→ 당사자가 직접 만든다<br>
+→ 만드는 과정 자체가 콘텐츠다<br>
+→ 콘텐츠의 첫 학습자도 당사자(누나)다<br>
+→ 가르치는 사람 = 배우는 사람 = 같은 제약 조건</p>
+<p><strong>이게 액자식 메타 구조다.</strong><br>
+이런 구조의 실증 사례는 공개된 바가 거의 없다.</p>
+<h2 id="5">5. 주요 수치</h2>
+<table>
+<thead>
+<tr>
+<th>지표</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>구축 시간</td>
+<td>36시간</td>
+</tr>
+<tr>
+<td>커밋</td>
+<td>41회</td>
+</tr>
+<tr>
+<td>코드+문서</td>
+<td>11,727줄 (국판 500페이지)</td>
+</tr>
+<tr>
+<td>월 운영비</td>
+<td>~55,000원</td>
+</tr>
+<tr>
+<td>입력 방식</td>
+<td>100% STT 음성</td>
+</tr>
+<tr>
+<td>플랫폼</td>
+<td>25개 계정·7개 워크센터</td>
+</tr>
+<tr>
+<td>AI 에이전트</td>
+<td>3종 (Claude Code·Grok·Aider)</td>
+</tr>
+<tr>
+<td>설치 소요</td>
+<td>curl 1줄 → 10분</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6">6. 결론</h2>
+<p><strong>&ldquo;말만 할 수 있다면, 누구나 풀스택 AI 미디어 플랫폼을 운영할 수 있다.&rdquo;</strong></p>
+<p>이건 이론이 아니라 실증이다.<br>
+중고폰·무료 도구·음성입력만으로 36시간 만에 구축된<br>
+생태계가 그 증거다.</p>
+<p>가르치는 사람과 배우는 사람이 같은 제약을 공유할 때,<br>
+교재는 설명서가 아니라 <strong>살아있는 증거</strong>가 된다.</p>
+<hr>
+<p>📱 helena751107.github.io/helena_phone<br>
+📺 youtube.com/@helena_phone<br>
+🌐 m.blog.naver.com/helena1975<br>
+© 2026 Helena Park · 대필작가-간병인<br>
+모든 계정은 큰누나 명의입니다.</p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="33-hybrid-image-video-whitepaper.html">
+          <span class="dir">Previous</span>
+          <span class="title">솔루션 백서: 1인 창작자를 위한 이미지·영상 생성 하이브리드 워크플로우</span>
+        </a>
+    <a class="next" href="35-ecosystem-whitepaper-v1.1.html">
+          <span class="dir">Next</span>
+          <span class="title">생태계 백서 v1.1</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 큰누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>
