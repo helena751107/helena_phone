@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="네이버 블로그용 **강의 소개글 + 강의 스크립트 골격** — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>[강의 시리즈 예고] 5년 된 갤럭시로 AI 플랫폼을 돌린다 — S21 Voice-Driven 입문 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>[강의 시리즈 예고] 5년 된 갤럭시로 AI 플랫폼을 돌린다 — S21 Voice-Driven 입문</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>[강의 시리즈 예고] 5년 된 갤럭시로 AI 플랫폼을 돌린다 — S21 Voice-Driven 입문</h1>
+    <p class="deck">네이버 블로그용 **강의 소개글 + 강의 스크립트 골격**</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/39-naver-lecture-s21-voice-intro_Grok.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#_1">메타 (발행 시 복붙)</a></li>
+<li><a href="#_2">네이버 본문 (강의 소개 + 스크립트)</a><ul>
+<li><a href="#15">🎬 오프닝 멘트 (15초 쇼츠 / 블로그 도입)</a></li>
+<li><a href="#01">🖼 이미지 프롬프트 01 — 썸네일 / 표지</a></li>
+<li><a href="#_3">📚 이 강의 시리즈가 다루는 것 (커리큘럼 예고)</a></li>
+<li><a href="#1">🎓 강의 본론 ① — 실측 숫자로 말하기</a></li>
+<li><a href="#02">🖼 이미지 프롬프트 02 — 비교 인포그래픽</a></li>
+<li><a href="#2">🎓 강의 본론 ② — 보이스 드리븐의 역설</a></li>
+<li><a href="#03">🖼 이미지 프롬프트 03 — 역설 칠판</a></li>
+<li><a href="#3-0">🎓 강의 본론 ③ — 입·뇌·손 스택 (0원 런타임)</a></li>
+<li><a href="#04">🖼 이미지 프롬프트 04 — 스택 다이어그램</a></li>
+<li><a href="#4">🎓 강의 본론 ④ — 다른 디바이스와 비교 (왜 폰인가)</a></li>
+<li><a href="#05">🖼 이미지 프롬프트 05 — 폼팩터 비교</a></li>
+<li><a href="#5">🎓 강의 본론 ⑤ — 한계도 정직하게 (신뢰)</a></li>
+<li><a href="#06">🖼 이미지 프롬프트 06 — 한계 카드</a></li>
+<li><a href="#cta">🎓 클로징 — 시리즈 약속 · CTA</a></li>
+<li><a href="#07">🖼 이미지 프롬프트 07 — 엔딩 카드</a></li>
+</ul>
+</li>
+<li><a href="#3">강의 촬영용 원테이크 스크립트 (3분 요약)</a></li>
+<li><a href="#paste-pipeline">제작 체크리스트 (Paste Pipeline)</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <hr>
+<p>date: 2026-07-27<br>
+agent: Grok<br>
+mark: _Grok<br>
+type: naver-lecture-intro<br>
+source:<br>
+  - 38-s21-voice-driven-analysis.md<br>
+  - 34-stt-zero-cost-justification.md<br>
+  - 37-free-runtime-planner-whitepaper_Grok.md<br>
+  - 33-hybrid-image-video-whitepaper.md<br>
+  - 36-project-planning-vs-helena_Grok.md<br>
+status: draft-for-naver</p>
+<hr>
+<h1 id="5-ai-s21-voice-driven">[강의 시리즈 예고] 5년 된 갤럭시로 AI 플랫폼을 돌린다 — S21 Voice-Driven 입문</h1>
+<blockquote>
+<p>네이버 블로그용 <strong>강의 소개글 + 강의 스크립트 골격</strong><br>
+기초 문서: S21 Voice-Driven 실측 분석 · STT 0원 정당화 · 공짜 런타임 플래너 백서 · 이미지·영상 하이브리드<br>
+형식: 강의 톤 · 중간 <strong>이미지 프롬프트</strong> · <strong>영상 프롬프트</strong> 삽입 (Grok Imagine / 쇼츠용)</p>
+</blockquote>
+<hr>
+<h2 id="_1">메타 (발행 시 복붙)</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>제목</td>
+<td>5년 된 S21로 AI를 돌린다 — 보이스 드리븐 플랫폼 강의 예고</td>
+</tr>
+<tr>
+<td>카테고리</td>
+<td>IT·인터넷 / 생활 팁 / 자기계발 (택1)</td>
+</tr>
+<tr>
+<td>태그</td>
+<td>#S21 #Termux #STT #보이스드리븐 #중고폰AI #헬레나 #GitHubPages #Claude #Grok</td>
+</tr>
+<tr>
+<td>시리즈명</td>
+<td><strong>S21 Voice OS 입문</strong> (가제) Vol.0 예고</td>
+</tr>
+<tr>
+<td>CTA</td>
+<td>댓글에 “1강 알림” / 저장해두기 / 유튜브·Pages 링크</td>
+</tr>
+</tbody>
+</table>
+<p><strong>원문·인터랙티브 분석 (강의 교재):</strong><br>
+https://helena751107.github.io/helena_phone/notebook/38-s21-voice-driven-analysis.html</p>
+<hr>
+<h2 id="_2">네이버 본문 (강의 소개 + 스크립트)</h2>
+<h3 id="15">🎬 오프닝 멘트 (15초 쇼츠 / 블로그 도입)</h3>
+<p>안녕하세요.<br>
+오늘은 “최신 폰이 있어야 AI를 한다”는 말을 <strong>실측으로 깨는</strong> 이야기입니다.</p>
+<p>2021년 갤럭시 S21, 중고 약 20만 원.<br>
+RAM 8GB, 배터리 4,000mAh, 무게 169g.<br>
+<strong>NPU 없어요.</strong> 로컬 거대 모델도 못 돌립니다.</p>
+<p>그런데 이 폰으로<br>
+<strong>말 한마디 → 코드 → 문서 → 웹페이지 → 블로그·유튜브 파이프</strong><br>
+까지 잇는 플랫폼을 굴리고 있습니다.</p>
+<p>질문 하나만 남길게요.</p>
+<blockquote>
+<p>API가 일을 하는 세상에서도, 정말 최신 플래그십이 필요할까요?</p>
+</blockquote>
+<hr>
+<h3 id="01">🖼 이미지 프롬프트 01 — 썸네일 / 표지</h3>
+<pre><code>Prompt (KO/EN mix OK for Grok Imagine):
+Dark cinematic flat-lay of a worn Galaxy S21 on a black desk,
+Termux green terminal glow reflecting on the glass screen,
+small sticky note &quot;20만 원&quot;, soft gold rim light, teal accent UI particles,
+editorial product photo, 16:9, high detail, no watermark, no logo text clutter
+Negative: cartoon, blurry, multiple phones, Apple device
+</code></pre>
+<p><strong>영상 프롬프트 01 — 오프닝 3초</strong></p>
+<pre><code>Slow push-in on Galaxy S21 screen lighting up Termux,
+cursor blinking, ambient dark room, subtle dust motes,
+soft whoosh SFX later, 9:16 vertical, 3 seconds, realistic
+</code></pre>
+<hr>
+<h3 id="_3">📚 이 강의 시리즈가 다루는 것 (커리큘럼 예고)</h3>
+<table>
+<thead>
+<tr>
+<th>회차</th>
+<th>제목 (가제)</th>
+<th>기초 문서</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0 (오늘)</strong></td>
+<td>왜 S21인가 — 보이스 드리븐 적합성</td>
+<td>38 Voice-Driven 분석</td>
+</tr>
+<tr>
+<td>1</td>
+<td>말 하나로 미디어를 짓는다 — STT 0원 스택</td>
+<td>34 STT 정당화</td>
+</tr>
+<tr>
+<td>2</td>
+<td>공짜 런타임으로 플래너 돌리기</td>
+<td>37 플래너 백서</td>
+</tr>
+<tr>
+<td>3</td>
+<td>프로젝트·콘텐츠·비즈니스 플랜이 한 레포에</td>
+<td>36 비교표</td>
+</tr>
+<tr>
+<td>4</td>
+<td>이미지·영상은 드래프트(Grok)→마감(Comfy)</td>
+<td>33 하이브리드 백서</td>
+</tr>
+<tr>
+<td>5</td>
+<td>5개 레포 생태계 · 핸드오프(누나 명의)</td>
+<td>생태계 백서·헌법</td>
+</tr>
+</tbody>
+</table>
+<p>오늘 글은 <strong>0강 예고 + 핵심 논리</strong>입니다.<br>
+교재는 이미 웹에 올려 두었습니다. (위 링크)</p>
+<hr>
+<h3 id="1">🎓 강의 본론 ① — 실측 숫자로 말하기</h3>
+<p>(스크립트)</p>
+<p>“스펙 자랑 말고 표부터 보시죠.<br>
+이건 2026년 7월, SM-G991N 실측입니다.”</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>S21 실측</th>
+<th>최신 플래그십 대비 감각</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU</td>
+<td>Exynos 2100</td>
+<td>느림</td>
+</tr>
+<tr>
+<td>RAM</td>
+<td>8GB</td>
+<td>절반 수준</td>
+</tr>
+<tr>
+<td>NPU</td>
+<td>없음</td>
+<td>최신은 수십 TOPS</td>
+</tr>
+<tr>
+<td>무게</td>
+<td><strong>169g</strong></td>
+<td>플래그십은 더 무거움</td>
+</tr>
+<tr>
+<td>중고가</td>
+<td><strong>~20만</strong></td>
+<td>최신 ~180만 (약 1/9)</td>
+</tr>
+<tr>
+<td>남는 저장</td>
+<td>172GB</td>
+<td>실사용 충분</td>
+</tr>
+</tbody>
+</table>
+<p><strong>강의 포인트:</strong><br>
+보이스 드리븐의 주력은 <strong>STT·LLM·API</strong>입니다.<br>
+로컬에서 무거운 모델을 안 돌리면, <strong>네트워크·배터리·무게·가격</strong>이 더 중요합니다.</p>
+<hr>
+<h3 id="02">🖼 이미지 프롬프트 02 — 비교 인포그래픽</h3>
+<pre><code>Clean dark infographic split screen:
+LEFT teal &quot;S21&quot; with icons: light weight 169g, 20만원, WiFi, battery,
+RIGHT red &quot;S26 Ultra&quot; with icons: NPU chip, heavier phone, 180만원,
+center bold Korean text &quot;API가 같으면?&quot;, minimal Swiss editorial style,
+4K, sharp, blog header 1200x630
+</code></pre>
+<p><strong>영상 프롬프트 02 — 비교 슬라이드 5초</strong></p>
+<pre><code>Animated bar chart S21 vs flagship:
+bars for portability and cost grow for S21,
+NPU bar empty on S21, full on flagship,
+smooth motion graphics, dark UI, 5 seconds, 16:9
+</code></pre>
+<hr>
+<h3 id="2">🎓 강의 본론 ② — 보이스 드리븐의 역설</h3>
+<p>(스크립트)</p>
+<p>“여기가 핵심입니다. 메모해 두세요.”</p>
+<blockquote>
+<p><strong>역설:</strong> API 호출이 주력이면, 로컬 성능보다<br>
+<strong>네트워크 · 배터리 · 휴대성</strong>이 엔진이다.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>S21</th>
+<th>최신폰</th>
+<th>Voice에 중요한가</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API 속도</td>
+<td>동일(클라우드)</td>
+<td>동일</td>
+<td>무관</td>
+</tr>
+<tr>
+<td>STT 정확도</td>
+<td>동일(클라우드)</td>
+<td>동일</td>
+<td>무관</td>
+</tr>
+<tr>
+<td>휴대성 169g</td>
+<td>우위</td>
+<td>무거움</td>
+<td><strong>중요</strong></td>
+</tr>
+<tr>
+<td>비용</td>
+<td>압도적 우위</td>
+<td>고가</td>
+<td><strong>중요</strong></td>
+</tr>
+<tr>
+<td>수리</td>
+<td>쉬움</td>
+<td>어려움</td>
+<td><strong>중요</strong></td>
+</tr>
+<tr>
+<td>온디바이스 LLM</td>
+<td>불가</td>
+<td>가능</td>
+<td>API로 대체 가능</td>
+</tr>
+</tbody>
+</table>
+<p><strong>결론 한 줄 (칠판에 쓸 문장):</strong><br>
+<strong>「중고 플래그십 + 클라우드 에이전트 = 보이스 OS 엔진」</strong></p>
+<hr>
+<h3 id="03">🖼 이미지 프롬프트 03 — 역설 칠판</h3>
+<pre><code>Chalkboard style dark classroom,
+Korean chalk text: &quot;보이스 드리븐의 역설&quot;
+and &quot;네트워크 · 배터리 · 휴대성&quot;,
+small S21 sketch in corner, warm tungsten light,
+cinematic still, 3:2
+</code></pre>
+<p><strong>영상 프롬프트 03 — 손 필기 느낌 4초</strong></p>
+<pre><code>Top-down hand writing Korean on black tablet with stylus,
+text appears: &quot;API 주력이면 구형도 엔진&quot;,
+soft desk lamp, ASMR-like quiet, 4 seconds, 9:16
+</code></pre>
+<hr>
+<h3 id="3-0">🎓 강의 본론 ③ — 입·뇌·손 스택 (0원 런타임)</h3>
+<p>(스크립트)</p>
+<p>“장비가 아니라 <strong>흐름</strong>입니다.”</p>
+<pre><code>입  STT 음성 → 클립보드 → Termux
+뇌  Claude Code · Grok · Aider  (분업)
+손  GitHub · Pages · YouTube · Naver · TG · Discord
+</code></pre>
+<ul>
+<li>코딩·문서·git → 코드 레인  </li>
+<li>이미지·네이버 드래프트 → Grok 레인  </li>
+<li>반복 패치 → Aider 레인  </li>
+<li>호스팅 대부분 <strong>$0</strong>  </li>
+<li>유료는 보통 <strong>구독 1개 수준</strong> (토큰 지옥 대신 월정액 설계)</li>
+</ul>
+<p>이건 강의 2강·3강에서 플래너 백서로 깊게 갑니다.<br>
+오늘은 “가능하냐?”에 <strong>예, 증거 있다</strong>만 심으면 됩니다.</p>
+<hr>
+<h3 id="04">🖼 이미지 프롬프트 04 — 스택 다이어그램</h3>
+<pre><code>Vertical flowchart infographic dark mode:
+Mouth icon → Android STT → Termux terminal →
+three agent cards (code / vision / patch) →
+platform row GitHub Pages YouTube Naver Telegram,
+teal and gold accents, clean Korean labels, 1080x1920 story size
+</code></pre>
+<p><strong>영상 프롬프트 04 — 흐름 애니메이션 6초</strong></p>
+<pre><code>Motion graphics: glowing particle travels mouth → phone → cloud agents →
+websites lighting up one by one, futuristic but warm, 6s, 9:16
+</code></pre>
+<hr>
+<h3 id="4">🎓 강의 본론 ④ — 다른 디바이스와 비교 (왜 폰인가)</h3>
+<table>
+<thead>
+<tr>
+<th>디바이스</th>
+<th>말하기</th>
+<th>풀스택 운영</th>
+<th>평결</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S21+Termux</td>
+<td>✅</td>
+<td>✅</td>
+<td><strong>올인원</strong></td>
+</tr>
+<tr>
+<td>라즈베리파이</td>
+<td>마이크 추가</td>
+<td>서버 쪽</td>
+<td>서버 전용</td>
+</tr>
+<tr>
+<td>스마트 스피커</td>
+<td>✅</td>
+<td>❌</td>
+<td>입력만</td>
+</tr>
+<tr>
+<td>저가 노트북</td>
+<td>✅</td>
+<td>✅</td>
+<td>무겁고 비쌈</td>
+</tr>
+</tbody>
+</table>
+<p><strong>멘트:</strong><br>
+“스피커처럼 말하고, 노트북처럼 배포하는 폼팩터.<br>
+그게 이 시리즈가 폰을 붙잡는 이유입니다.”</p>
+<hr>
+<h3 id="05">🖼 이미지 프롬프트 05 — 폼팩터 비교</h3>
+<pre><code>Five devices silhouette line-up on dark gradient:
+S21 highlighted in gold glow, Pi, smart speaker, laptop, tablet,
+label under S21 in Korean &quot;올인원&quot;, others muted gray, minimal poster
+</code></pre>
+<p><strong>영상 프롬프트 05 — 디바이스 탭 3초</strong></p>
+<pre><code>Quick cuts: hand holding light phone speaking,
+vs heavy laptop on desk,
+caption pop &quot;169g&quot;, upbeat but calm, 3s, 9:16
+</code></pre>
+<hr>
+<h3 id="5">🎓 강의 본론 ⑤ — 한계도 정직하게 (신뢰)</h3>
+<p>(스크립트)</p>
+<p>“광고 아닙니다. 한계도 말합니다.”</p>
+<ul>
+<li>NPU 없음 → 로컬 LLM 대신 <strong>API</strong>  </li>
+<li>배터리 노화 → 교체 5~8만, 화면 장시간 녹화는 부담  </li>
+<li>발열 → Playwright 장시간 시 쓰로틀  </li>
+<li>6.2&rdquo; → 코드 리뷰는 덱스·외부 모니터  </li>
+<li>WiFi 6 → 4K 장시간 업로드는 체감 차이  </li>
+</ul>
+<p><strong>멘트:</strong><br>
+“완벽한 폰이 아니라, <strong>이 제약 안에서의 최적 엔진</strong>입니다.”</p>
+<hr>
+<h3 id="06">🖼 이미지 프롬프트 06 — 한계 카드</h3>
+<pre><code>Dark UI cards layout titled &quot;한계와 우회&quot;,
+four cards: No NPU→API, Battery→replace, Heat→throttle note,
+Small screen→DeX, flat design, coral warning accents, Korean text clear
+</code></pre>
+<hr>
+<h3 id="cta">🎓 클로징 — 시리즈 약속 · CTA</h3>
+<p>(스크립트)</p>
+<p>“다음 강의에서는<br>
+말 한마디로 미디어를 짓는 <strong>STT 풀스택</strong>을 깔아 보겠습니다.<br>
+설치 한 줄, 에이전트 셋, 공짜 런타임.</p>
+<p>오늘은 이 문장만 가져가세요.”</p>
+<blockquote>
+<p><strong>보이스 드리븐에는, 구형 플래그십이 오히려 맞을 수 있다.</strong><br>
+증거는 스펙표가 아니라 <strong>돌아가는 플랫폼</strong>이다.</p>
+</blockquote>
+<p><strong>CTA</strong><br>
+1. 이 글 저장<br>
+2. 교재 페이지 열어보기 (링크)<br>
+3. 댓글: <code>1강</code> 이라고 남겨 주시면 시리즈 알림 기준으로 씁니다  </p>
+<p>교재(인터랙티브):<br>
+https://helena751107.github.io/helena_phone/notebook/38-s21-voice-driven-analysis.html  </p>
+<p>허브:<br>
+https://helena751107.github.io/helena_phone/</p>
+<hr>
+<h3 id="07">🖼 이미지 프롬프트 07 — 엔딩 카드</h3>
+<pre><code>End card dark gradient, Korean text:
+&quot;5년 된 폰으로 AI 플랫폼을 돌린다&quot;
+subtitle &quot;S21 Voice OS 입문 · Vol.0&quot;,
+small S21 outline, gold and teal, clean YouTube end-screen safe margins
+</code></pre>
+<p><strong>영상 프롬프트 07 — 엔드 5초</strong></p>
+<pre><code>Logo-style text fade in, soft ambient music bed,
+URL appears at bottom, hold 5 seconds, 16:9 and 9:16 versions
+</code></pre>
+<hr>
+<h2 id="3">강의 촬영용 원테이크 스크립트 (3분 요약)</h2>
+<ol>
+<li>(0:00) 썸네일 질문 — 최신폰 필수?  </li>
+<li>(0:20) S21 실측 숫자 3개: 20만, 169g, NPU 없음  </li>
+<li>(0:50) 역설 칠판: 네트워크·배터리·휴대성  </li>
+<li>(1:30) 입·뇌·손 스택 한 장  </li>
+<li>(2:10) 한계 정직 고지 15초  </li>
+<li>(2:30) 시리즈 예고 + 교재 URL  </li>
+<li>(2:50) CTA 댓글 <code>1강</code></li>
+</ol>
+<hr>
+<h2 id="paste-pipeline">제작 체크리스트 (Paste Pipeline)</h2>
+<ul>
+<li>[ ] 이미지 01~07 Grok Imagine 생성 → 네이버 본문 배치  </li>
+<li>[ ] 쇼츠용 01,03,04,05 세로 렌더  </li>
+<li>[ ] 본문 복붙 (이 md § 네이버 본문)  </li>
+<li>[ ] 링크 2개 확인  </li>
+<li>[ ] 발행 후 TG로 URL 보고  </li>
+</ul>
+<hr>
+<p><em>강의 시리즈 예고 원고 · 기초: 38 Voice 분석 + 34 STT + 37 플래너 + 33 하이브리드 + 36 비교</em><br>
+<em>agent: </em><em>_Grok</em><em> · 2026-07-27</em></p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="38-web-designer-workpad_Grok.html">
+          <span class="dir">Previous</span>
+          <span class="title">웹 디자이너 업무 수첩 · `_Grok`</span>
+        </a>
+    <div></div>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

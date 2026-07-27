@@ -73,6 +73,7 @@
 | `36-project-planning-vs-helena_Grok.md` | **일반 PM/사업계획 vs 헬레나** 비교표 (_Grok) |
 | `37-free-runtime-planner-whitepaper_Grok.md` | **백서** 공짜 런타임으로 풀스택 플래너 (_Grok) |
 | `38-web-designer-workpad_Grok.md` | **웹 디자이너 업무 수첩** 5레포 브릿지 현황 (_Grok) |
+| `39-naver-lecture-s21-voice-intro_Grok.md` | **네이버 강의예고** S21 Voice 소개+이미지·영상 프롬프트 (_Grok) |
 | `session-2026-07-26_Grok.md` | 세션 메모 — 웹진·아이콘·행정대화록 (_Grok) |
 | `ai-agents-cc-ds-grok-comparison-2026-07-25.md` | cc/ds/grok 비교 (날짜 스냅샷) |
 | `supergrok-community-research-2026-07-25.md` | SuperGrok 커뮤니티 리서치 |
