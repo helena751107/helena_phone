@@ -59,9 +59,10 @@
 </li>
 <li><a href="#_1">끝. 오늘은 여기까지.</a></li>
 <li><a href="#_2">(나중) 필요할 때만 — 고급</a></li>
-<li><a href="#_3">고장 표 (짧게)</a></li>
-<li><a href="#_4">왜 이렇게 짧아졌나 (리버스)</a></li>
-<li><a href="#_5">관련 링크</a></li>
+<li><a href="#_3">🔧 설치자용 체크리스트 (사회복지사·가족)</a></li>
+<li><a href="#_4">고장 표 (짧게)</a></li>
+<li><a href="#_5">왜 이렇게 짧아졌나 (리버스)</a></li>
+<li><a href="#_6">관련 링크</a></li>
 </ul>
 </div>
 </nav>
@@ -77,8 +78,14 @@
 초심자가 막히는 지점은 “변수·OWNER/WORK·두 번 설치·선택지”다.<br>
 <strong>앱 2개 → 붙여넣기 1번 → 브라우저로 확인</strong> 이 최단 경로다.</p>
 </blockquote>
-<p>명의 기본값(큰누나): <code>helena751107</code><br>
+<p>명의 기본값: <code>helena751107</code><br>
 스크립트: <code>g/easy.sh</code> (쉬움) · <code>g/install.sh</code> (고급)</p>
+<blockquote>
+<p>🔧 <strong>다른 사람 계정으로 설치할 때:</strong><br>
+<code>OWNER_GITHUB=클라이언트명 bash &lt;(curl -sL ...)</code><br>
+이렇게 env만 앞에 붙이면 <code>S21-START.txt</code>와 Pages 주소가 그 사람 명의로 바뀐다.<br>
+토큰 없이 public clone만 하니까 키 발급 불필요.</p>
+</blockquote>
 <hr>
 <h2 id="1">화면 1 — 앱 두 개만</h2>
 <ol>
@@ -166,7 +173,21 @@ bash g/install.sh
 </tbody>
 </table>
 <hr>
-<h2 id="_3">고장 표 (짧게)</h2>
+<h2 id="_3">🔧 설치자용 체크리스트 (사회복지사·가족)</h2>
+<blockquote>
+<p>남의 폰에 깔아줄 때 — <strong>설치 전</strong> 확인 4가지:</p>
+</blockquote>
+<pre><code>☐ Android 버전: 10 이상 (설정 → 휴대전화 정보 → 소프트웨어 정보)
+☐ 저장공간: 5GB 이상 여유 (설정 → 디바이스 케어 → 저장공간)
+☐ Wi-Fi: 연결됨 (Ubuntu 200MB+ 다운로드)
+☐ F-Droid APK: https://f-droid.org/ 에서 미리 받아둘 것
+</code></pre>
+<p>설치 중 주의:<br>
+- <strong>Ubuntu 다운로드 3~7분</strong> — 이 구간은 가만히. &ldquo;멈췄다&rdquo;고 끄면 안 됨.<br>
+- <strong>저장소 권한 팝업</strong> — 반드시 <strong>허용</strong>. 안 뜨면 괜찮음.<br>
+- <strong>끝난 후:</strong> <code>pkg install termux-api -y</code> 한 번 더 (MCP 도구용 — devlog §16)</p>
+<hr>
+<h2 id="_4">고장 표 (짧게)</h2>
 <table>
 <thead>
 <tr>
@@ -195,10 +216,14 @@ bash g/install.sh
 <td>Pages 안 열림</td>
 <td>주소 오타 · 나중에 다시</td>
 </tr>
+<tr>
+<td>termux-api ENOENT</td>
+<td><code>pkg install termux-api -y</code> (devlog §16)</td>
+</tr>
 </tbody>
 </table>
 <hr>
-<h2 id="_4">왜 이렇게 짧아졌나 (리버스)</h2>
+<h2 id="_5">왜 이렇게 짧아졌나 (리버스)</h2>
 <table>
 <thead>
 <tr>
@@ -231,7 +256,7 @@ bash g/install.sh
 </tbody>
 </table>
 <hr>
-<h2 id="_5">관련 링크</h2>
+<h2 id="_6">관련 링크</h2>
 <table>
 <thead>
 <tr>
@@ -261,13 +286,13 @@ bash g/install.sh
 <p><em>초심자 3화면 · agent _Grok · 2026-07-27</em></p>
   </article>
   <nav class="wz-pager">
-    <a class="" href="40-lecture-draft-s21-voice-vol0_Grok.html">
+    <a class="" href="42-marine-quilt-naver-design_Grok.html">
           <span class="dir">Previous</span>
-          <span class="title">강의 초안 전문 · Vol.0</span>
+          <span class="title">Marine Quilt — 네이버 디자인 패키지 (리서치→템플릿)</span>
         </a>
-    <a class="next" href="41-naver-blog-intro-final.html">
+    <a class="next" href="39-naver-lecture-s21-voice-intro_Grok.html">
           <span class="dir">Next</span>
-          <span class="title">41 naver blog intro final</span>
+          <span class="title">S21 보이스 네이버 강의</span>
         </a>
   </nav>
   <div class="wz-related">

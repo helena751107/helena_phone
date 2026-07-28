@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="2026-07-28 · 내일 미팅 · 형(CS 박사) 폰에 helena_phone 수동 설치 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>첫 설치 케이스 스터디 — 형 폰에 직접 설치 (_Boss) — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>첫 설치 케이스 스터디 — 형 폰에 직접 설치 (_Boss)</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>첫 설치 케이스 스터디 — 형 폰에 직접 설치 (_Boss)</h1>
+    <p class="deck">2026-07-28 · 내일 미팅 · 형(CS 박사) 폰에 helena_phone 수동 설치</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/46-first-install-case-study-meeting-prep_Boss.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1">1. 배경</a></li>
+<li><a href="#2">2. 사전 준비</a><ul>
+<li><a href="#_1">형이 오늘 할 것 (연락)</a></li>
+<li><a href="#boss">Boss 챙겨갈 것</a></li>
+</ul>
+</li>
+<li><a href="#3-31">3. 설치 시퀀스 (3+1 화면)</a><ul>
+<li><a href="#1-5">화면 1 — 앱 확인 (5분)</a></li>
+<li><a href="#2-1020">화면 2 — 한 줄 (10~20분)</a></li>
+<li><a href="#3-5">화면 3 — 확인 (5분)</a></li>
+<li><a href="#4-15">화면 4 — 고급 (형 전용, 15분)</a></li>
+</ul>
+</li>
+<li><a href="#4">4. 예상 장애</a></li>
+<li><a href="#5">5. 기록 템플릿 (현장에서 채울 것)</a></li>
+<li><a href="#6">6. 이 케이스의 의미</a></li>
+<li><a href="#7">7. 용역비 참고 (사회복지사 설치 모델)</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <blockquote>
+<p>2026-07-28 · 내일 미팅 · 형(CS 박사) 폰에 helena_phone 수동 설치<br>
+이 기록 → 사회복지사 교육자료 1챕터로 전환 예정</p>
+</blockquote>
+<hr>
+<h2 id="1">1. 배경</h2>
+<p><strong>Boss 구상:</strong><br>
+사회복지사·공무원한테 가르쳐서 그 사람들이 클라이언트 폰에 설치해주는 모델.</p>
+<p><strong>첫 실전:</strong> 내일 형(CS 박사) 미팅에서 직접 깔아주기.</p>
+<p><strong>왜 형이 먼저냐:</strong><br>
+- CS 박사 → 기술적 질문이 사회복지사보다 깊을 것<br>
+- 형 폰에서 막히는 지점 = 사회복지사가 막힐 지점의 상위집합<br>
+- 형이 납득하면 시스템 검증 완료</p>
+<hr>
+<h2 id="2">2. 사전 준비</h2>
+<h3 id="_1">형이 오늘 할 것 (연락)</h3>
+<pre><code>☐ 폰 저장공간 5GB 이상 확보 (사진·앱 정리)
+☐ Wi-Fi 연결된 상태로 오기
+☐ F-Droid APK 미리 설치: https://f-droid.org/
+   → F-Droid에서 &quot;Termux&quot; + &quot;Termux:API&quot; 검색해서 미리 설치
+   → ⚠ Play Store 말고 F-Droid. Play Store 버전은 업데이트 중단됨.
+☐ 네이버 계정 있는지 확인
+☐ GitHub 계정 있는지 확인 (없으면 현장 생성)
+</code></pre>
+<h3 id="boss">Boss 챙겨갈 것</h3>
+<pre><code>☐ git pull 최신 (easy.sh 검증)
+☐ install-guide.html 링크 작동 확인
+☐ DeepSeek API 키 준비
+☐ phone-health.sh 실행 가능한지 포트 3456 확인
+☐ 형 폰 모델 확인 (S21 아니어도 Android 10+면 OK)
+</code></pre>
+<hr>
+<h2 id="3-31">3. 설치 시퀀스 (3+1 화면)</h2>
+<h3 id="1-5">화면 1 — 앱 확인 (5분)</h3>
+<pre><code>Termux 열림? → 검은 화면 정상 → OK
+Termux:API 설치됐는지: pkg list | grep termux-api
+</code></pre>
+<h3 id="2-1020">화면 2 — 한 줄 (10~20분)</h3>
+<pre><code class="language-bash">bash &lt;(curl -sL https://raw.githubusercontent.com/helena751107/helena_phone/main/g/easy.sh)
+</code></pre>
+<ul>
+<li>Ubuntu 다운로드 3~7분. 이 구간 침묵 → &ldquo;멈춘 거 아님&rdquo; 미리 말해둘 것</li>
+<li>저장소 권한 팝업 뜨면 허용</li>
+</ul>
+<h3 id="3-5">화면 3 — 확인 (5분)</h3>
+<pre><code class="language-bash">proot-distro login ubuntu
+cd /root/work
+cat S21-START.txt
+</code></pre>
+<p>브라우저로 <code>helena751107.github.io/helena_phone/</code> 열리면 성공.</p>
+<h3 id="4-15">화면 4 — 고급 (형 전용, 15분)</h3>
+<pre><code class="language-bash">export GITHUB_USER=&quot;형계정&quot;
+export GITHUB_TOKEN=&quot;ghp_...&quot;
+export DEEPSEEK_API_KEY=&quot;sk-...&quot;
+bash g/install.sh
+</code></pre>
+<p>CS 박사니까 여기까지. <code>claude</code> 명령어로 Claude Code 실행되는 것까지 보여주면 감동 포인트.</p>
+<hr>
+<h2 id="4">4. 예상 장애</h2>
+<table>
+<thead>
+<tr>
+<th>장애</th>
+<th>대처</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>curl: not found</td>
+<td><code>pkg install curl</code></td>
+</tr>
+<tr>
+<td>proot-distro 설치 중 멈춤</td>
+<td>인내. 200MB+. 몇 분 걸림</td>
+</tr>
+<tr>
+<td>저장공간 부족</td>
+<td>5GB 미만 시 실패</td>
+</tr>
+<tr>
+<td>termux-api ENOENT</td>
+<td><code>pkg install termux-api -y</code> (§16)</td>
+</tr>
+<tr>
+<td>Pages 안 열림</td>
+<td>DNS 지연. 1분 후 새로고침</td>
+</tr>
+<tr>
+<td>Android 9 이하</td>
+<td>proot-distro 불가능 가능성</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="5">5. 기록 템플릿 (현장에서 채울 것)</h2>
+<pre><code>☐ 형 폰 기종 / Android 버전:
+☐ easy.sh 시작 시각:
+☐ easy.sh 완료 시각:
+☐ 총 소요 시간:
+☐ 막힌 지점 (뭐 때문에 / 어떻게 해결):
+☐ 형이 한 질문:
+☐ 성공 후 형 반응:
+☐ 개선할 점:
+</code></pre>
+<hr>
+<h2 id="6">6. 이 케이스의 의미</h2>
+<table>
+<thead>
+<tr>
+<th>관점</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>기술 검증</strong></td>
+<td>easy.sh가 남의 폰에서도 도는가</td>
+</tr>
+<tr>
+<td><strong>UX 검증</strong></td>
+<td>3화면으로 실제 비전문가가 따라 할 수 있는가</td>
+</tr>
+<tr>
+<td><strong>교육자료</strong></td>
+<td>이 기록 = 사회복지사 트레이닝 1챕터</td>
+</tr>
+<tr>
+<td><strong>비즈니스</strong></td>
+<td>첫 설치가 10분 안에 되면 용역 모델 증명</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="7">7. 용역비 참고 (사회복지사 설치 모델)</h2>
+<table>
+<thead>
+<tr>
+<th>타입</th>
+<th>가격</th>
+<th>대상</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A: 설치만</td>
+<td>15~20만원</td>
+<td>개발자</td>
+</tr>
+<tr>
+<td><strong>B: 워크스테이션 구축</strong></td>
+<td><strong>40~60만원</strong></td>
+<td>비개발자 창작자</td>
+</tr>
+<tr>
+<td>C: 돌봄 패키지</td>
+<td>80~120만원</td>
+<td>노인/장애인 가족</td>
+</tr>
+</tbody>
+</table>
+<p><strong>핵심:</strong> 니가 파는 건 &ldquo;설치&rdquo;가 아니라 <strong>AI 워크스테이션 구축 컨설팅</strong>이다.<br>
+easy.sh가 10분이니까 15만원 받으면 안 된다. 설계·판단·구조가 상품이다.</p>
+<hr>
+<p><em>첫 설치 케이스 스터디 · _Boss · 2026-07-28</em></p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="45-naver-admin-playwright-feasibility_Grok.html">
+          <span class="dir">Previous</span>
+          <span class="title">Naver Admin 자동화 가능 여부 — 폰 Playwright 1회 시드 (_Grok)</span>
+        </a>
+    <div></div>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

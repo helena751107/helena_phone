@@ -656,6 +656,14 @@
     "deck": "저장일: 2026-07-27 · agent _Grok"
   },
   {
+    "src": "_notebook/46-first-install-case-study-meeting-prep_Boss.md",
+    "out": "notebook/46-first-install-case-study-meeting-prep_Boss.html",
+    "title": "첫 설치 케이스 스터디 — 형 폰에 직접 설치 (_Boss)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-07-28 · 내일 미팅 · 형(CS 박사) 폰에 helena_phone 수동 설치"
+  },
+  {
     "src": "g/install.sh",
     "out": "g/install.html",
     "title": "install.sh · 고급 설치기",
