@@ -27,8 +27,8 @@ import argparse
 import asyncio
 
 # ── 설정 ───────────────────────────────────────────
-DEFAULT_VOICE = "ko-KR-SunHiNeural"   # 한국어 여성, 밝은 톤
-FALLBACK_VOICE = "ko-KR-InJoonNeural" # 한국어 남성
+DEFAULT_VOICE = "ko-KR-InJoonNeural"   # 한국어 남성 (기본)
+ALT_VOICE = "ko-KR-SunHiNeural"       # 한국어 여성, 밝은 톤
 PLAYER = "ffplay"                      # 또는 termux-media-player
 
 # ── Edge TTS ───────────────────────────────────────
@@ -151,9 +151,9 @@ async def main():
         ok = await edge_speak(text, args.voice, tmp_path)
         if not ok:
             # 폴백 음성으로 재시도
-            if args.voice != FALLBACK_VOICE:
-                print(f"⚠️ {args.voice} 실패 → {FALLBACK_VOICE}로 재시도")
-                ok = await edge_speak(text, FALLBACK_VOICE, tmp_path)
+            if args.voice != ALT_VOICE:
+                print(f"⚠️ {args.voice} 실패 → {ALT_VOICE}로 재시도")
+                ok = await edge_speak(text, ALT_VOICE, tmp_path)
 
         if not ok:
             # 안드로이드 TTS 최후 폴백

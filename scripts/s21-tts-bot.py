@@ -49,13 +49,13 @@ TG_TOKEN = load_token()
 TG_API = f"https://api.telegram.org/bot{TG_TOKEN}"
 
 VOICES = {
+    "injoon": "ko-KR-InJoonNeural",   # 남성 (기본)
     "sunhi":  "ko-KR-SunHiNeural",    # 여성, 밝은 톤
-    "injoon": "ko-KR-InJoonNeural",   # 남성
     "jimin":  "ko-KR-JiMinNeural",    # 여성, 차분
     "seohyun":"ko-KR-SeoHyeonNeural", # 여성, 뉴스톤
     "bora":   "ko-KR-YuBoraNeural",   # 여성, 또렷
 }
-DEFAULT_VOICE = "sunhi"
+DEFAULT_VOICE = "injoon"
 RUNNING = True
 
 # ── Edge TTS ───────────────────────────────────────
