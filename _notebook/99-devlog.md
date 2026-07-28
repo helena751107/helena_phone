@@ -1,5 +1,11 @@
 # 📋 S21 Phone — 전체 개발일지
 
+## 🔓 OPEN — Termux 기능키 최적화 (_Claude, 2026-07-27)
+- **이슈 폴더:** `_notebook/termux-keyboard-optimization/`
+- **배경:** 음성 입력 + 터미널 작업 시 필수 키 식별 → 삼성 Keys Cafe로 전용 자판 설계
+- **할 일:** ① 필수 키 판단 ② Termux extra-keys 세팅 ③ Keys Cafe 편집 ④ 패스워드/반복문 매크로 등록
+- **상태:** 오픈 — 시간 날 때 진행
+
 > 구축 기간: 2026-07-23 ~ 2026-07-24
 > 환경: Termux → proot Ubuntu → Claude Code (DeepSeek)
 
@@ -2432,3 +2438,17 @@ bash <(curl -sL https://raw.githubusercontent.com/helena751107/helena_phone/main
 
 **저장 문서:** `_notebook/45-naver-admin-playwright-feasibility_Grok.md`  
 (상세 리뷰는 `44-naver-admin-automation-review_Grok.md`)
+
+### 96. 네이버 템플릿 실사용 솔루션 보강 — 커뮤니티 클릭 경로 (2026-07-28)
+
+**Boss 지적:** 디자인 파일만 있고, 커뮤니티 리서치 기반 "네이버 템플에 어떻게 쓰냐" 솔루션이 약했다.
+
+**인정:** Marine Quilt 패키지는 원단(미리보기·paste·CSS) 중심이었고,  
+SE ONE **「내 템플릿 / 현재 글 추가」** 실클릭 솔루션이 문서화 부족.
+
+**보강:**
+- `naver/quilt/HOW-TO-USE-NAVER-TEMPLATE.md` — 공식+커뮤니티(추천/부분/내 템플릿) 사용법
+- BOSS-CARD · README 에 실사용 경로 연결
+
+**핵심 솔루션 한 줄:**  
+paste.txt로 글 구성 → **템플릿→내 템플릿→현재 글 추가** → 이름 `Marine Quilt 주간` → 매주 불러와 슬롯만 교체.

@@ -18,14 +18,17 @@
 
 ---
 
-## B. 서식 (1회)
+## B. 내 템플릿 (1회) — 네이버 실사용 경로
 
-1. 미리보기 눈으로 보기:  
-   `naver/quilt/weekly-seosik-preview.html`
-2. `weekly-seosik-paste.txt` 전체 복사
-3. 네이버 **글쓰기** → 본문 붙여넣기
-4. 굵게 / 구분선 / 인용 박스만 취향껏 (과하지 않게)
-5. **서식으로 저장** → 이름: `Marine Quilt 주간`
+> 자세한 클릭 순서·커뮤니티 주의:  
+> **`naver/quilt/HOW-TO-USE-NAVER-TEMPLATE.md`**
+
+1. 미리보기: `weekly-seosik-preview.html`
+2. `weekly-seosik-paste.txt` 복사
+3. 네이버 PC **글쓰기** → 본문 붙여넣기 → 인용구·구분선·목록 손질
+4. **[템플릿] → [내 템플릿] → [+ 현재 글 추가]**  
+   이름: `Marine Quilt 주간`
+5. 테스트: 새 글 → 같은 템플릿 불러오기 1회
 
 ---
 

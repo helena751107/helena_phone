@@ -7,10 +7,11 @@ YouTube 조교 · Naver 장인 · Paste Pipeline 손바느질.
 
 | 순서 | 파일 | 행동 |
 |------|------|------|
+| 0 | **[HOW-TO-USE-NAVER-TEMPLATE.md](./HOW-TO-USE-NAVER-TEMPLATE.md)** | **실사용 솔루션 (클릭 경로·커뮤니티)** |
 | 1 | [BOSS-CARD.md](./BOSS-CARD.md) | 3분 설치 카드 |
 | 2 | [skin-custom.css](./skin-custom.css) | 스킨 CSS 1회 붙여넣기 |
 | 3 | [weekly-seosik-preview.html](./weekly-seosik-preview.html) | 서식 시각 기준 |
-| 4 | [weekly-seosik-paste.txt](./weekly-seosik-paste.txt) | 서식 1회 저장용 텍스트 |
+| 4 | [weekly-seosik-paste.txt](./weekly-seosik-paste.txt) | **내 템플릿** 등록용 원단 |
 | 5 | [tg-package-template.md](./tg-package-template.md) | 매주 TG 배달 포맷 |
 
 ## 파이프
