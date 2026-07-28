@@ -50,6 +50,15 @@
   </header>
   <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
 <ul>
+<li><a href="#open-termux-_claude-2026-07-27">🔓 OPEN — Termux 기능키 최적화 (_Claude, 2026-07-27)</a></li>
+<li><a href="#day-3-2026-07-28">DAY 3 — 2026-07-28</a><ul>
+<li><a href="#96-playwright-e2e-_claude">96. 랜딩페이지 설치 플로우 Playwright E2E 검증 (_Claude)</a></li>
+<li><a href="#97-_claude">97. 설치 가이드 보강 — 설치자 관점 + 사회복지사 체크리스트 (_Claude)</a></li>
+<li><a href="#98-cs-_claude-boss">98. 첫 설치 케이스 스터디 — 형(CS 박사) 미팅 준비 (_Claude + Boss)</a></li>
+<li><a href="#99-_claude">99. 용역비 산정 + 사회복지사 설치 모델 (_Claude)</a></li>
+<li><a href="#100-marine-quilt-_claude">100. Marine Quilt 네이버 템플릿 활용 전략 수립 (_Claude)</a></li>
+</ul>
+</li>
 <li><a href="#day-1-2026-07-23">DAY 1 — 2026-07-23</a><ul>
 <li><a href="#1">1. 기반 구축</a></li>
 <li><a href="#2-claude-code-deepseek-anthropic">2. Claude Code + DeepSeek (Anthropic 과금 바이패스)</a></li>
@@ -174,6 +183,7 @@
 <li><a href="#93-_grok-2026-07-27">93. _Grok 세션 산출물 개발일지 기록 (2026-07-27)</a></li>
 <li><a href="#94-naver-admin-playwright-claude-_grok-2026-07-27">94. Naver Admin Playwright — Claude 분석 + _Grok 리뷰 (2026-07-27)</a></li>
 <li><a href="#95-naver-admin-playwright-2026-07-27">95. Naver Admin 폰 Playwright 가능 여부 — 저장 (2026-07-27)</a></li>
+<li><a href="#96-2026-07-28">96. 네이버 템플릿 실사용 솔루션 보강 — 커뮤니티 클릭 경로 (2026-07-28)</a></li>
 </ul>
 </li>
 </ul>
@@ -186,10 +196,69 @@
     <button type="button" id="wzCopy" data-cursor>본문 복사</button>
   </div>
   <article class="wz-prose" id="wzProse" data-app="doc">
-    <blockquote>
+    <h2 id="open-termux-_claude-2026-07-27">🔓 OPEN — Termux 기능키 최적화 (_Claude, 2026-07-27)</h2>
+<ul>
+<li><strong>이슈 폴더:</strong> <code>_notebook/termux-keyboard-optimization/</code></li>
+<li><strong>배경:</strong> 음성 입력 + 터미널 작업 시 필수 키 식별 → 삼성 Keys Cafe로 전용 자판 설계</li>
+<li><strong>할 일:</strong> ① 필수 키 판단 ② Termux extra-keys 세팅 ③ Keys Cafe 편집 ④ 패스워드/반복문 매크로 등록</li>
+<li><strong>상태:</strong> 오픈 — 시간 날 때 진행</li>
+</ul>
+<blockquote>
 <p>구축 기간: 2026-07-23 ~ 2026-07-24<br>
 환경: Termux → proot Ubuntu → Claude Code (DeepSeek)</p>
 </blockquote>
+<hr>
+<h2 id="day-3-2026-07-28">DAY 3 — 2026-07-28</h2>
+<h3 id="96-playwright-e2e-_claude">96. 랜딩페이지 설치 플로우 Playwright E2E 검증 (_Claude)</h3>
+<p><strong>Boss 지시:</strong> &ldquo;Playwright로 랜딩페이지에 저거 진짜 웹페이지 잘 돌아가는지 확인해 봐.&rdquo;</p>
+<ul>
+<li><code>scripts/playwright_landing_check.py</code> 작성 — Galaxy S21(384×854) 에뮬, 8개 섹션 32개 항목</li>
+<li><strong>최종: 32/32 통과 ✅</strong></li>
+<li>검증 항목: 랜딩 HTTP 200 · <code>#install</code> 3화면 · CMD 변수 · Copy 버튼 · <code>install-guide.html</code> · <code>foundation/</code> 제네릭 검증 · <code>g/easy.html</code> 파라미터화 · 깨진 링크</li>
+<li>스크린샷: <code>_notebook/playwright-check-landing-full.png</code> · <code>playwright-check-install.png</code></li>
+</ul>
+<h3 id="97-_claude">97. 설치 가이드 보강 — 설치자 관점 + 사회복지사 체크리스트 (_Claude)</h3>
+<p><strong>발견된 이슈:</strong><br>
+| 이슈 | 수정 |<br>
+|------|------|<br>
+| <code>OWNER_GITHUB</code> 변경법 설명 없음 | <code>OWNER_GITHUB=클라이언트명 bash &lt;(curl ...)</code> env override 추가 |<br>
+| 설치자용(사회복지사·가족) 체크리스트 부재 | Android 버전·저장공간·Wi-Fi·F-Droid 사전체크 4항목 + 설치 중 주의 3항목 |<br>
+| <code>termux-api ENOENT</code> 대처 없음 | 고장 표에 <code>pkg install termux-api -y</code> (devlog §16) 추가 |</p>
+<p><strong>중복 발견:</strong> <code>install-guide.md</code> ≡ <code>_notebook/41-beginner-install-manual_Grok.md</code> (MD5 동일). 지금은 동기화됐지만 장기적으로 한쪽을 정본으로 지정 필요.</p>
+<p><strong>적용:</strong> <code>install-guide.md</code> + <code>_notebook/41-...</code> 둘 다 수정 → <code>build_webzine.py</code> 재생성 → 0갭 확인 → push <code>073f018</code></p>
+<h3 id="98-cs-_claude-boss">98. 첫 설치 케이스 스터디 — 형(CS 박사) 미팅 준비 (_Claude + Boss)</h3>
+<p><strong>Boss 구상:</strong> &ldquo;사회복지사나 공무원한테 가르쳐 주고 그 사람들이 설치해 주면 되는 거다.&rdquo;</p>
+<p><strong>신규 문서:</strong> <code>_notebook/46-first-install-case-study-meeting-prep_Boss.md</code><br>
+- 사전 준비물 (형 폰: F-Droid·Termux·5GB·Wi-Fi)<br>
+- 설치 시퀀스 3+1 화면 (easy.sh → verify → install.sh 고급)<br>
+- 예상 장애 5종 + 대처<br>
+- 현장 기록 템플릿<br>
+- 용역비 3단계 참고 (A: 15~20 / B: 40~60 / C: 80~120만원)</p>
+<p><strong>핵심 판단:</strong> &ldquo;니가 파는 건 설치가 아니라 AI 워크스테이션 구축 컨설팅이다. easy.sh가 10분이니까 15만원 받으면 안 된다.&rdquo;</p>
+<h3 id="99-_claude">99. 용역비 산정 + 사회복지사 설치 모델 (_Claude)</h3>
+<p><strong>3단계 가격:</strong><br>
+| 타입 | 가격 | 대상 |<br>
+|------|------|------|<br>
+| A: 설치만 | 15~20만원 | 개발자 |<br>
+| B: 워크스테이션 구축 | 40~60만원 | 비개발자 창작자·유튜버 |<br>
+| C: 돌봄 패키지 | 80~120만원 | 노인/장애인 가족 |</p>
+<p><strong>논리:</strong> easy.sh 한 줄이 10분이니까 &ldquo;설치 대행&rdquo;이라 부르면 돈 못 받는다. 진짜 상품은 Termux+proot+DeepSeek+MCP+TG+Discord 7종 통합 설계 + STT 워크플로우 + 트랙 분리 + 생태계 5중 통신망 + 브랜드 전략.</p>
+<p><strong>확장 모델:</strong> 사회복지사·공무원 교육 → 그들이 클라이언트 폰에 설치. <code>46-first-install-case-study-meeting-prep_Boss.md</code>에 설치자용 체크리스트 포함.</p>
+<h3 id="100-marine-quilt-_claude">100. Marine Quilt 네이버 템플릿 활용 전략 수립 (_Claude)</h3>
+<p><strong>Boss 지시:</strong> &ldquo;네이버 템플릿 어떻게 잘 사용할 수 있을지 아이디어 내봐. 커뮤니티 리서치도 하고.&rdquo;</p>
+<p><strong>리서치 결론:</strong><br>
+- Naver C-Rank·DIA+는 개인 창작자 말투를 기업 콘텐츠보다 우선 → &ldquo;수공예 퀼트&rdquo; 컨셉이 알고리즘과 정확히 일치<br>
+- 서식(snapshot) 기능을 주간 발행 파이프라인으로 쓰는 사람은 커뮤니티 전체에 없음 → 방법론 특허 수준<br>
+- 주 1회 = 최소 권장, 신규 블로그는 더 자주</p>
+<p><strong>7가지 아이디어 (우선순위):</strong><br>
+| 순위 | 아이디어 |<br>
+|------|---------|<br>
+| 🔴 당장 | 첫 발행 실전 테스트 (sample-week-filled.txt → 진짜 발행) |<br>
+| 🟡 금주 | Claude &ldquo;이번 주 퀼트&rdquo; 명령어 → TG 자동 발송 |<br>
+| 🟡 다음 주 | 3종 콘텐츠 타입 서식 분기 (기본/공방/판단) |<br>
+| 🟢 이번 달 | blocks/ 동적 조합 + &ldquo;퀼트 바늘집&rdquo; 부품 축적 |<br>
+| 🟢 분기 목표 | Naver Mate IT·테크 부문 인증 |</p>
+<p><strong>한 줄 판단:</strong> &ldquo;시스템 완성도 90%. 나머지 10%는 발행 1회로 채워진다.&rdquo;</p>
 <hr>
 <h2 id="day-1-2026-07-23">DAY 1 — 2026-07-23</h2>
 <h3 id="1">1. 기반 구축</h3>
@@ -3679,6 +3748,15 @@ YouTube: &quot;다음 훈련으로 넘어간다.&quot;
 앱 터치 GUI 비추. 캡차 로그인만 사람. 주간 발행은 퀼트 손 유지.</p>
 <p><strong>저장 문서:</strong> <code>_notebook/45-naver-admin-playwright-feasibility_Grok.md</code><br>
 (상세 리뷰는 <code>44-naver-admin-automation-review_Grok.md</code>)</p>
+<h3 id="96-2026-07-28">96. 네이버 템플릿 실사용 솔루션 보강 — 커뮤니티 클릭 경로 (2026-07-28)</h3>
+<p><strong>Boss 지적:</strong> 디자인 파일만 있고, 커뮤니티 리서치 기반 &ldquo;네이버 템플에 어떻게 쓰냐&rdquo; 솔루션이 약했다.</p>
+<p><strong>인정:</strong> Marine Quilt 패키지는 원단(미리보기·paste·CSS) 중심이었고,<br>
+SE ONE <strong>「내 템플릿 / 현재 글 추가」</strong> 실클릭 솔루션이 문서화 부족.</p>
+<p><strong>보강:</strong><br>
+- <code>naver/quilt/HOW-TO-USE-NAVER-TEMPLATE.md</code> — 공식+커뮤니티(추천/부분/내 템플릿) 사용법<br>
+- BOSS-CARD · README 에 실사용 경로 연결</p>
+<p><strong>핵심 솔루션 한 줄:</strong><br>
+paste.txt로 글 구성 → <strong>템플릿→내 템플릿→현재 글 추가</strong> → 이름 <code>Marine Quilt 주간</code> → 매주 불러와 슬롯만 교체.</p>
   </article>
   <nav class="wz-pager">
     <a class="" href="session-2026-07-26_Grok.html">

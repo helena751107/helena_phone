@@ -11,6 +11,78 @@
 
 ---
 
+## DAY 3 — 2026-07-28
+
+### 96. 랜딩페이지 설치 플로우 Playwright E2E 검증 (_Claude)
+
+**Boss 지시:** "Playwright로 랜딩페이지에 저거 진짜 웹페이지 잘 돌아가는지 확인해 봐."
+
+- `scripts/playwright_landing_check.py` 작성 — Galaxy S21(384×854) 에뮬, 8개 섹션 32개 항목
+- **최종: 32/32 통과 ✅**
+- 검증 항목: 랜딩 HTTP 200 · `#install` 3화면 · CMD 변수 · Copy 버튼 · `install-guide.html` · `foundation/` 제네릭 검증 · `g/easy.html` 파라미터화 · 깨진 링크
+- 스크린샷: `_notebook/playwright-check-landing-full.png` · `playwright-check-install.png`
+
+### 97. 설치 가이드 보강 — 설치자 관점 + 사회복지사 체크리스트 (_Claude)
+
+**발견된 이슈:**
+| 이슈 | 수정 |
+|------|------|
+| `OWNER_GITHUB` 변경법 설명 없음 | `OWNER_GITHUB=클라이언트명 bash <(curl ...)` env override 추가 |
+| 설치자용(사회복지사·가족) 체크리스트 부재 | Android 버전·저장공간·Wi-Fi·F-Droid 사전체크 4항목 + 설치 중 주의 3항목 |
+| `termux-api ENOENT` 대처 없음 | 고장 표에 `pkg install termux-api -y` (devlog §16) 추가 |
+
+**중복 발견:** `install-guide.md` ≡ `_notebook/41-beginner-install-manual_Grok.md` (MD5 동일). 지금은 동기화됐지만 장기적으로 한쪽을 정본으로 지정 필요.
+
+**적용:** `install-guide.md` + `_notebook/41-...` 둘 다 수정 → `build_webzine.py` 재생성 → 0갭 확인 → push `073f018`
+
+### 98. 첫 설치 케이스 스터디 — 형(CS 박사) 미팅 준비 (_Claude + Boss)
+
+**Boss 구상:** "사회복지사나 공무원한테 가르쳐 주고 그 사람들이 설치해 주면 되는 거다."
+
+**신규 문서:** `_notebook/46-first-install-case-study-meeting-prep_Boss.md`
+- 사전 준비물 (형 폰: F-Droid·Termux·5GB·Wi-Fi)
+- 설치 시퀀스 3+1 화면 (easy.sh → verify → install.sh 고급)
+- 예상 장애 5종 + 대처
+- 현장 기록 템플릿
+- 용역비 3단계 참고 (A: 15~20 / B: 40~60 / C: 80~120만원)
+
+**핵심 판단:** "니가 파는 건 설치가 아니라 AI 워크스테이션 구축 컨설팅이다. easy.sh가 10분이니까 15만원 받으면 안 된다."
+
+### 99. 용역비 산정 + 사회복지사 설치 모델 (_Claude)
+
+**3단계 가격:**
+| 타입 | 가격 | 대상 |
+|------|------|------|
+| A: 설치만 | 15~20만원 | 개발자 |
+| B: 워크스테이션 구축 | 40~60만원 | 비개발자 창작자·유튜버 |
+| C: 돌봄 패키지 | 80~120만원 | 노인/장애인 가족 |
+
+**논리:** easy.sh 한 줄이 10분이니까 "설치 대행"이라 부르면 돈 못 받는다. 진짜 상품은 Termux+proot+DeepSeek+MCP+TG+Discord 7종 통합 설계 + STT 워크플로우 + 트랙 분리 + 생태계 5중 통신망 + 브랜드 전략.
+
+**확장 모델:** 사회복지사·공무원 교육 → 그들이 클라이언트 폰에 설치. `46-first-install-case-study-meeting-prep_Boss.md`에 설치자용 체크리스트 포함.
+
+### 100. Marine Quilt 네이버 템플릿 활용 전략 수립 (_Claude)
+
+**Boss 지시:** "네이버 템플릿 어떻게 잘 사용할 수 있을지 아이디어 내봐. 커뮤니티 리서치도 하고."
+
+**리서치 결론:**
+- Naver C-Rank·DIA+는 개인 창작자 말투를 기업 콘텐츠보다 우선 → "수공예 퀼트" 컨셉이 알고리즘과 정확히 일치
+- 서식(snapshot) 기능을 주간 발행 파이프라인으로 쓰는 사람은 커뮤니티 전체에 없음 → 방법론 특허 수준
+- 주 1회 = 최소 권장, 신규 블로그는 더 자주
+
+**7가지 아이디어 (우선순위):**
+| 순위 | 아이디어 |
+|------|---------|
+| 🔴 당장 | 첫 발행 실전 테스트 (sample-week-filled.txt → 진짜 발행) |
+| 🟡 금주 | Claude "이번 주 퀼트" 명령어 → TG 자동 발송 |
+| 🟡 다음 주 | 3종 콘텐츠 타입 서식 분기 (기본/공방/판단) |
+| 🟢 이번 달 | blocks/ 동적 조합 + "퀼트 바늘집" 부품 축적 |
+| 🟢 분기 목표 | Naver Mate IT·테크 부문 인증 |
+
+**한 줄 판단:** "시스템 완성도 90%. 나머지 10%는 발행 1회로 채워진다."
+
+---
+
 ## DAY 1 — 2026-07-23
 
 ### 1. 기반 구축
