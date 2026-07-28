@@ -2524,3 +2524,52 @@ SE ONE **「내 템플릿 / 현재 글 추가」** 실클릭 솔루션이 문서
 
 **핵심 솔루션 한 줄:**  
 paste.txt로 글 구성 → **템플릿→내 템플릿→현재 글 추가** → 이름 `Marine Quilt 주간` → 매주 불러와 슬롯만 교체.
+
+---
+
+## 2026-07-28 (화) — helena-piano BGM Studio 구축 + parksy-audio 전수조사 (_Claude)
+
+### 배경
+
+helena-piano 웹진(https://helena751107.github.io/helena-piano/)에 
+실제 피아노 음원·배경음악 파이프를 연결하려는 시도.
+
+### parksy-audio 냉장고 전수조사
+
+- dtslib1979 소유 28개 private 레포 + helena751107 소유 6개 = **34종 전체 파악**
+- `parksy-audio` (986MB): MIDI→렌더링→YouTube 풀스택
+  - steal.py: YouTube→demucs→basic-pitch→MIDI 추출
+  - local-agent/bot.py: TG 봇 (36KB)
+  - pipeline/: 작곡·편곡·인간화·마스터링
+  - YouTube 39개 영상 실적 (채널 "뮤지션 박씨")
+- 조사 결과를 `helena-piano/fridge/` (6종)에 저장
+
+### BGM Studio 구현
+
+- `bgm/midi/` → push → GitHub Actions 자동 렌더링 → `bgm/output/*.mp3`
+- 6번의 시행착오 끝에 파이프 완성:
+  - v1~v3: ALSA 오디오 장치 문제 → `-F fast-render`로 해결
+  - v4: 142MB SoundFont 다운로드 타임아웃 → actions/cache로 해결
+  - v5: github-actions[bot] push 권한 → `permissions: contents: write`
+  - v6: **전체 성공** ✅
+- 로컬 S21 proot Ubuntu에서도 렌더링 파이프 검증 완료
+
+### Salamander Grand Piano 추적
+
+- Internet Archive CDN 전면 장애 (모든 파일 404)
+- MuseScore General (215MB, Steinway 피아노)로 대체 렌더링
+- Bach Prelude BWV 846 + Chopin Nocturne Op.9 No.2 → TG 전송 완료 (msg 15~17)
+
+### 교훈 — Boss 판단
+
+**한이 너무 커졌다.** 음원 렌더링부터 시작하니 WSL·proot 제약·SoundFont 라이선스·
+Internet Archive 장애 등 예측 불가능한 변수가 쏟아졌다.
+
+**핸드폰에서 확실히 되는 것부터 시작해야 한다:**
+1. 출판·방송 (웹진 + YouTube 연동) — 이미 검증됨
+2. MIDI 소싱 (bitmidi·Mutopia·steal.py) — 경로 확인됨
+3. GitHub Actions 자동화 — 캐시+렌더링 파이프 작동 확인
+4. BGM 렌더링은 **보류** — Salamander 입수 시 재개
+
+BGM Studio 파이프 자체는 증명됐으니, 실제 콘텐츠(찬양·연습곡)를
+먼저 채우고, 기술적 완성도는 그 다음이다.
