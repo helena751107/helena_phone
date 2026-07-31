@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="2026-07-31 · 목적: 하이테크 제품 튜토리얼 / 에이전트급 데모 영상 기준 정립 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>Director 수준 상향 — 커뮤니티·프로 제품 리서치 (_Grok) — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>Director 수준 상향 — 커뮤니티·프로 제품 리서치 (_Grok)</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>Director 수준 상향 — 커뮤니티·프로 제품 리서치 (_Grok)</h1>
+    <p class="deck">2026-07-31 · 목적: 하이테크 제품 튜토리얼 / 에이전트급 데모 영상 기준 정립</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/49-director-community-research_Grok.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1">1. 업계·커뮤니티에서 반복되는 패턴</a><ul>
+<li><a href="#a-playwright-rplaywright">A. Playwright + 데모 영상 (r/Playwright 등)</a></li>
+<li><a href="#b-screen-studio">B. 프로 제품 데모 툴 (Screen Studio / 유사 계열)</a></li>
+<li><a href="#c-arcade-storylane-navattic">C. Arcade / Storylane / Navattic (인터랙티브 데모)</a></li>
+<li><a href="#d-playwright-agents-mcp-microsoft">D. Playwright Agents / MCP (Microsoft 문서 축)</a></li>
+</ul>
+</li>
+<li><a href="#2">2. 우리가 빠져 있던 것 (이전 산출)</a></li>
+<li><a href="#3-pro_v2">3. 적용 스펙 (pro_v2)</a></li>
+<li><a href="#4-mcp">4. MCP?</a></li>
+<li><a href="#5">5. 출처 축 (요지)</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <blockquote>
+<p>2026-07-31 · 목적: 하이테크 제품 튜토리얼 / 에이전트급 데모 영상 기준 정립</p>
+</blockquote>
+<hr>
+<h2 id="1">1. 업계·커뮤니티에서 반복되는 패턴</h2>
+<h3 id="a-playwright-rplaywright">A. Playwright + 데모 영상 (r/Playwright 등)</h3>
+<ul>
+<li><strong>스크립트 먼저 → 녹화</strong> (즉흥 클릭 금지)</li>
+<li>Playwright로 <strong>결정론 데모 영상</strong> 생성 후 AI 보이스 오버</li>
+<li>에이전트 3단 (공식 Playwright Test Agents 사상과 유사):</li>
+<li><strong>Planner</strong> = 앱 탐색·플랜</li>
+<li><strong>Generator</strong> = 실행 스크립트</li>
+<li><strong>Healer</strong> = 실패 셀렉터 수정</li>
+</ul>
+<p>→ 우리 맵핑: Scout=Planner, scenario+shoot=Generator, enforce 실패 시 재시도=Healer 자리</p>
+<h3 id="b-screen-studio">B. 프로 제품 데모 툴 (Screen Studio / 유사 계열)</h3>
+<ul>
+<li><strong>커서 궤적 + 클릭 리플</strong></li>
+<li><strong>포커스 링 / 스포트라이트(주변 딤)</strong></li>
+<li>의도적 <strong>느린 페이스</strong></li>
+<li>하단 캡션 · 상단 스텝 칩</li>
+<li>부드러운 줌/팬 (Ken Burns) — 선택</li>
+</ul>
+<h3 id="c-arcade-storylane-navattic">C. Arcade / Storylane / Navattic (인터랙티브 데모)</h3>
+<ul>
+<li>스텝마다 <strong>하이라이트 한 요소만</strong></li>
+<li>“지금 어디를 보라”가 프레임마다 명확</li>
+<li>클릭 가능한 UI = 스토리 비트</li>
+</ul>
+<h3 id="d-playwright-agents-mcp-microsoft">D. Playwright Agents / MCP (Microsoft 문서 축)</h3>
+<ul>
+<li>탐색 → 플랜 MD → 실행 코드</li>
+<li><strong>환각 셀렉터 방지 = 라이브 검증</strong></li>
+<li>MCP는 도구 입구; <strong>품질은 검증 루프</strong></li>
+</ul>
+<hr>
+<h2 id="2">2. 우리가 빠져 있던 것 (이전 산출)</h2>
+<table>
+<thead>
+<tr>
+<th>프로 기준</th>
+<th>이전 Director</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>스포트라이트 포커스</td>
+<td>없음 (스크롤만)</td>
+</tr>
+<tr>
+<td>클릭 시각 언어</td>
+<td>약함</td>
+</tr>
+<tr>
+<td>Planner→Execute→Heal</td>
+<td>Scout만 약함</td>
+</tr>
+<tr>
+<td>고정 fps / 안정 타임라인</td>
+<td>불안정</td>
+</tr>
+<tr>
+<td>강제 계약</td>
+<td>optional 남발</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3-pro_v2">3. 적용 스펙 (pro_v2)</h2>
+<ol>
+<li>Overlay v2: hole spotlight + gold ring + cursor SVG + ripple  </li>
+<li><code>demoClick(el)</code> 시퀀스: focus → move → ripple → click  </li>
+<li>policy <code>tutorial_v1</code> + enforce (이미) + spotlight 필수 플래그  </li>
+<li>30fps 인코드  </li>
+<li>Healer 1회: 클릭 실패 시 CSS path 완화 재시도  </li>
+</ol>
+<hr>
+<h2 id="4-mcp">4. MCP?</h2>
+<ul>
+<li><strong>강제 본체 = policy + enforce + actions_log</strong> (이미)</li>
+<li>MCP = 외부 에이전트에게 <code>director.run(url, policy=tutorial_v1)</code> 만 열어 주는 <strong>입구</strong></li>
+<li>리서치 결론: MCP 먼저 만들면 안 됨. <strong>파이프 품질 먼저.</strong></li>
+</ul>
+<hr>
+<h2 id="5">5. 출처 축 (요지)</h2>
+<ul>
+<li>Playwright Test Agents (planner/generator/healer) — playwright.dev  </li>
+<li>r/Playwright: Playwright → polished product demo + voiceover  </li>
+<li>제품 데모 UX: Screen Studio 계열 커서/줌 관습  </li>
+<li>인터랙티브 데모: Arcade/Storylane 스텝 하이라이트</li>
+</ul>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="48-director-video-recurrence_Grok.html">
+          <span class="dir">Previous</span>
+          <span class="title">재발일지 — Director 소개 영상 품질 사고 (_Grok)</span>
+        </a>
+    <a class="next" href="allocation-rate-2026-07-28.html">
+          <span class="dir">Next</span>
+          <span class="title">allocation rate 2026 07 28</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>
