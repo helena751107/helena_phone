@@ -2601,3 +2601,204 @@ AI 3중주(Grok·Aider·Claude)는 증폭기, Pages·YouTube·Naver는 외부 �
 **핵심 인사이트:** 중앙일보 기자가 쓰는 CMS와 기능적으로 동일한 스택을,
 S21 폰 하나로 돌리고 있다. 차이는 규모가 아니라 **프로토콜의 방향** —
 회사가 노드를 소유하는 게 아니라, 노드가 노드를 연합한다.
+
+---
+
+## 2026-07-31 (목) — 냉장고 아키텍처 정식 선언 (_Claude)
+
+### 97. dtslib1979 → helena751107 콜라보레이터 전면 확인 (_Claude)
+
+**Boss 지시:** dtslib1979 레포지토리 전부 helena751107 콜라보 등록돼 있으니 전수 확인.
+
+**검증 결과:**
+- dtslib1979 총 레포: **28개** (검색 API `total_count: 28`)
+- helena751107 콜라보 등록: **28/28 (100%)**
+- 권한: 전부 **RW** (admin collaborator)
+- 가시성: 27개 🔒 private + 1개 🌐 public (`dtslib-apk-lab`)
+- 실제 접근: `gh api` · `gh repo clone` 전부 정상
+
+**28종 목록:**
+`abraham` · `alexandria-sanctuary` · `artrew` · `buckleychang.com` ·
+`buddies.kr` · `dtslib-apk-lab` · `dtslib-branch` · `dtslib-cloud-appstore` ·
+`dtslib-localpc` · `dtslib-papyrus` · `dtslib.kr` · `eae-univ` · `eae.kr` ·
+`espiritu-tango` · `gohsy` · `gohsy-fashion` · `gohsy-production` ·
+`hoyadang.com` · `koosy` · `namoneygoal` · `OrbitPrompt` · `papafly` ·
+`parksy-audio` · `parksy-image` · `parksy-logs` · `parksy.kr` ·
+`phoneparis` · `termux-bridge`
+
+**초기 실수:** `gh api /users/dtslib1979/repos` 기본 쿼리는 public만 반환함.
+콜라보 등록된 private repo는 `/user/repos?affiliation=collaborator`로 접근해야 함.
+Claude가 이 차이를 인지하지 못하고 "1개"라고 잘못 보고. Boss 직격 지도 후 수정.
+
+### 98. 냉장고(Fridge) 아키텍처 — 개념 정식 선언 (_Boss + _Claude)
+
+**정의:**
+> **냉장고(Fridge)** 란, dtslib1979(창작자)가 구축한 모든 코드·에셋·실험·템플릿을
+> helena751107(수혜자·누나)에게 **콜라보레이터로 즉시 공유**하는 자산 전달 체계다.
+
+**왜 "냉장고"인가:**
+- 포크(fork)가 아니다 — 포크는 원본과 분리된 내 사본. 냉장고는 **원본에 직접 접근.**
+- PR이 아니다 — PR은 기여자→소유자 단방향. 냉장고는 **쌍방 RW 공동소유.**
+- "필요한 거 꺼내 써" — 레시피(아이디어)가 아니라 **완성된 식재료(코드·템플릿·파이프)** 를 바로 투입 가능.
+
+**구조:**
+
+```
+dtslib1979 (창작자)                    helena751107 (수혜자·대필작가)
+  │                                        │
+  ├── 28개 레포 (27🔒 + 1🌐)              ├── 6개 레포 (전부 🌐)
+  │   · parksy-audio (986MB 음원)          │   · helena_phone (워크스페이스)
+  │   · parksy-image (썸네일·AI시드)       │   · helana_log (기술로그)
+  │   · parksy-logs (캡처 아카이브)        │   · helena-piano (피아노)
+  │   · termux-bridge (PC↔Termux)         │   · helena-faith (신앙)
+  │   · dtslib-papyrus (선물 원산지)       │   · helena-psycare (멘탈케어)
+  │   · dtslib-cloud-appstore (배포)      │
+  │   · dtslib-localpc (로컬 실행)         │
+  │   · gohsy-* (방송 스튜디오 3종)       │   ←── 상호 콜라보 ──→
+  │   · OrbitPrompt (다중쿼리→AI)         │
+  │   · ... 외 18종                        │
+  │                                        │
+  └──────── helena751107 콜라보 ──────────→ 34종 전체 자산 풀
+                 (RW, admin)
+```
+
+**헌법적 근거:**
+- CONSTITUTION.md **제2조 (코드는 선물):** "이 프로젝트에서 생산된 모든 코드는 선물(gift)이다."
+  냉장고는 이 선물을 **물리적으로 전달하는 인프라** — 선언이 아니라 실물 메커니즘.
+- **제6조 (판단력만이 희소 자산):** "코드는 인스턴스, 사고 서식이 자산."
+  냉장고는 자산(사고 서식의 실물)을 공유하는 창구.
+
+**기존 forking/PR과의 차이:**
+
+| | Fork | PR | 냉장고 (콜라보레이터) |
+|---|---|---|---|
+| 방향 | 단방향 복사 | 단방향 제안 | **쌍방향 공동소유** |
+| 접근 | 내 사본만 | 원본에 제안 | **원본 직접 RW** |
+| 갱신 | upstream pull 필요 | merge 기다림 | **즉시 최신** |
+| 자산 성격 | "빌려 씀" | "기여함" | **"내 것도 네 것"** |
+| AI 에이전트 | fork 따로 clone | PR 따로 생성 | **단일 작업공간에서 양쪽 다 접근** |
+
+**Claude Code가 냉장고를 쓰는 법:**
+```bash
+# 어떤 자산이든 즉시 접근
+gh repo clone dtslib1979/parksy-audio /root/fridge/parksy-audio
+gh api repos/dtslib1979/termux-bridge/contents/app/ --jq '.[].name'
+
+# 28개 전체 인덱싱 (필요 시)
+for r in $(gh api /user/repos --jq '[.[]|select(.owner.login=="dtslib1979")].name[]'); do
+  echo "📦 $r: $(gh api repos/dtslib1979/$r --jq '.description')"
+done
+```
+
+**Boss 한 마디:**
+> "내가 만든 자산을 공유하는 거야. 필요한 거 갖고 와서 써."
+
+**의의:**
+이 아키텍처는 단순한 GitHub Collaborator 설정 이상이다.
+dtslib1979의 창작물 전체가 helena751107의 **운영 자산**으로 편입되고,
+AI 에이전트(Claude·Aider·Grok)는 이 34종 자산 풀 위에서 작업한다.
+
+창작자와 수혜자가 **같은 냉장고를 열고, 같은 식재료로 각자의 요리를 하는** 구조.
+이것이 제2조 "코드는 선물"의 실물 구현이다.
+
+**관련 문서:** `_notebook/46-fridge-architecture_Claude.md` (전문)
+
+---
+
+## 2026-07-31 (목) — Demo Pipeline 삽질 + DeepSeek 비전 리버스 엔지니어링 (_Claude)
+
+### 99. 빅테크 튜토리얼 데모 파이프라인 개발기
+
+**목표:** helena_phone 랜딩페이지를 빅테크 수준의 제품 튜토리얼 영상으로 자동 생성.
+
+**시도한 접근:**
+
+| 시도 | 방법 | 결과 |
+|------|------|------|
+| 1 | PWA + Web Speech API (브라우저 TTS) | Boss: "PWA 따위 필요 없고 Python으로 만들어" |
+| 2 | `webpage_to_video.py` — Playwright 스크린샷 + Edge TTS | 스크린샷 정지화상, "실제 페이지 연출" 아님 |
+| 3 | `record_demo.py` — Playwright recordVideo | 커서 없음, 흰 화면, 클릭 안 보임 |
+| 4 | `demo_director.py` — 자동 씬구성 + 클릭 | 클릭 셀렉터 불일치, TTS 싱크 부정확 |
+| 5 | v2 — 커서·리플·커튼·스무스 스크롤 추가 | 13개 인터랙티브 중 4개만 클릭 성공 |
+
+**Boss의 핵심 요구:**
+- 실제 웹페이지를 사람처럼 스크롤하며 연출
+- 모든 버튼·아코디언·인터랙티브 요소 클릭
+- TTS 성우 내레이션, 타이밍 정확히 동기화
+- 빅테크(Apple·Stripe·Google) 제품 데모 수준
+
+**리서치로 찾은 업계 표준 도구:**
+- `playwright-recast`: trace → TTS sync + cursor overlay + click ripple
+- `argo-video/cli`: Kokoro TTS + narration marks timestamp sync
+- `demovid`: live TTS playback during recording
+- `screencast-studio`: Playwright + ffmpeg declarative scripts
+
+### 100. DeepSeek Vision 리버스 엔지니어링 — "눈이 없다" (_Claude)
+
+**근본 원인 규명:**
+
+```
+DeepSeek v4-pro/v4-flash (hosted API)
+  ├── chat/completions (native)     → ❌ image_data 무시됨 ("이미지가 아직 보이지 않아요")
+  ├── anthropic/messages (호환)     → ❌ image type unknown variant
+  └── 결론: DeepSeek hosted API는 텍스트 전용, 비전 미지원
+
+DeepSeek vision (VL2, Janus)
+  └── self-hosting 필요, API로 제공 안 됨
+```
+
+**Claude Code가 DeepSeek 통해 이미지를 볼 수 없는 이유:**
+- Claude Code → `ANTHROPIC_BASE_URL` → DeepSeek Anthropic 호환 엔드포인트
+- 이 엔드포인트는 이미지 콘텐츠 블록을 지원하지 않음
+- `image_data` 필드도 API가 받기는 하나 모델이 무시함
+- ds(flash)로 바꿔도 동일 — API 경로 문제이지 모델 문제가 아님
+
+**테스트 결과 (2026-07-31):**
+```
+image_data 필드: 200 OK → 모델 응답: "이미지가 아직 보이지 않아요"
+image_url (OpenAI): 400 → unknown variant
+image (Anthropic): 모델 thinking: "Image unsupported, cannot see"
+```
+
+**시사점:**
+- Claude Code + DeepSeek 조합에서는 시각 피드백 루프 불가능
+- Grok (비전 O)이 현재 유일한 시각 QA 수단
+- Playwright + recordVideo로 녹화는 되나, 결과 시각 검증은 사람이나 Grok이 해야 함
+- "Claude in Chrome" 확장기능도 Max 플랜 필요 + 속도 느림 + 조기 중단 문제
+
+**현재 최선의 파이프:**
+```
+Claude(DeepSeek) → demo_director.py → 영상 생성 → TG 전송
+  → Grok이 영상 보고 시각 QA → 텍스트 피드백 → Claude 수정
+```
+
+**Boss의 ds/cc 전환 아이디어 검증:**
+- ds(DeepSeek Flash via Aider)도 결국 DeepSeek API 사용
+- 동일한 API 제한 적용 → 비전 불가
+- Aider 자체도 비전 기능 없음 (텍스트 전용 도구)
+
+**업계 표준 MCP 브라우저 도구 (참고):**
+- `@playwright/mcp`: 34 tools, accessibility tree 기반, browser_take_screenshot
+- `agent-browser` (Vercel): headless, snapshot-ref, video recording
+- `browser-agent-mcp` (imprvhub): 자율 브라우저 자동화
+
+→ 이 MCP 도구들도 실제 "시각 검증"은 Claude(정품, vision O)에서만 가능.
+DeepSeek 백엔드로는 스크린샷 찍어도 AI가 못 본다.
+
+**결론: 지금 구조에서 Claude Code가 이미지를 보는 방법은 없다.
+Grok이 눈, Claude가 손. 이 피드백 루프가 현재 유일한 실용적 해결책.**
+
+### 101. Helena Studio 파이프라인 6종 완성 (_Claude)
+
+레포: `helena751107/helena-programming`
+
+| 스크립트 | 기능 | 입력 | 출력 |
+|----------|------|------|------|
+| `make_page.py` | 프리미엄 HTML 생성 | .md | .html (글래스·아코디언·Mermaid) |
+| `webpage_to_video.py` | 정적 영상 생성 | .md/URL | .mp4 (Edge TTS·Playwright·FFmpeg) |
+| `make_video.py` | 대화형 CLI | .md | .mp4 |
+| `record_demo.py` | Playwright 녹화 | .html | .webm (recordVideo) |
+| `demo_director.py` | 자동 씬연출+TTS동기화 | URL | .mp4 (커서·리플·커튼) |
+| `demo_interactive.py` | 섹션별 캡처 | .md | .mp4 |
+
+페이지: https://helena751107.github.io/helena-programming/

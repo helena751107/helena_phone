@@ -1,6 +1,7 @@
 #!/bin/bash
-# Telegram 보고 스크립트
+# Telegram 보고 스크립트 (with TTS 버튼)
 # 사용법: bash ~/work/tg.sh "메시지 내용"
+#         bash ~/work/tg.sh --no-button "메시지"  # 버튼 없이 전송
 # 환경변수: TG_TOKEN, TG_CHAT
 
 TOKEN="${TG_TOKEN:-}"
@@ -11,18 +12,36 @@ if [ -z "$TOKEN" ] || [ -z "$CHAT" ]; then
   exit 1
 fi
 
+# ── 옵션 파싱 ──────────────────────────────────────
+NO_BUTTON=false
+if [ "$1" = "--no-button" ]; then
+  NO_BUTTON=true
+  shift
+fi
+
 MESSAGE="$*"
 if [ -z "$MESSAGE" ]; then
   echo "❌ 메시지를 입력하세요. 사용법: bash ~/work/tg.sh '메시지'" >&2
   exit 1
 fi
 
-# API 호출
-RESPONSE=$(curl -s -X POST "https://api.telegram.org/bot${TOKEN}/sendMessage" \
-  -d chat_id="$CHAT" \
-  -d text="$MESSAGE" \
-  -d parse_mode="HTML" \
-  -w "\n%{http_code}")
+# ── API 호출 ───────────────────────────────────────
+if $NO_BUTTON; then
+  RESPONSE=$(curl -s -X POST "https://api.telegram.org/bot${TOKEN}/sendMessage" \
+    -d chat_id="$CHAT" \
+    -d text="$MESSAGE" \
+    -d parse_mode="HTML" \
+    -w "\n%{http_code}")
+else
+  # 🔊 읽어주기 버튼 포함
+  KEYBOARD='{"inline_keyboard":[[{"text":"🔊 읽어주기","callback_data":"tts_read"}]]}'
+  RESPONSE=$(curl -s -X POST "https://api.telegram.org/bot${TOKEN}/sendMessage" \
+    -d chat_id="$CHAT" \
+    -d text="$MESSAGE" \
+    -d parse_mode="HTML" \
+    -d reply_markup="$KEYBOARD" \
+    -w "\n%{http_code}")
+fi
 
 HTTP_CODE=$(echo "$RESPONSE" | tail -1)
 BODY=$(echo "$RESPONSE" | sed '$d')
