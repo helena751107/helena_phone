@@ -2844,7 +2844,13 @@ S21 단독으로 웹페이지→영상 변환하는 **3단계 품질 트랙**.
 |------|------|------|------|------|
 | **1** | Claude(DeepSeek) + Edge TTS + Playwright | PPT·리포트 수준 | 💰 0원 | 빠른 개발일지·문서 영상화 |
 | **2** | Grok(Scout) + FFmpeg + 커서·리플 | 빅테크 튜토리얼 | 💰 45,000원/월 | 제품 데모·랜딩페이지·마케팅 |
-| **3** | ComfyUI + RunPod (GPU 종량제) | 프로 마감·AI VFX | 💰 사용량만큼 | 고급 트랜지션·비주얼 이펙트·최종본 |
+| **3** | ComfyUI + 로컬GPU(WSL) / RunPod(클라우드) | 프로 마감·AI VFX | 💰 GPU 보유=0원 / 미보유=종량제 | 고급 트랜지션·비주얼 이펙트·최종본 |
+
+**트랙 3 상세:**
+- 드라이버: **ComfyUI** (워크플로우 엔진)
+- 실행 위치: 집 PC WSL에 GPU 있으면 로컬, 없으면 RunPod으로 GPU 대여
+- S21 → Tailscale → WSL로 ComfyUI API 호출 / 또는 RunPod API
+- Boss가 WSL 셋업 끝내면 트랙 3 활성화
 
 **구조 원칙:**
 - 전부 S21 한 대에서 제어 (Termux→proot Ubuntu)
