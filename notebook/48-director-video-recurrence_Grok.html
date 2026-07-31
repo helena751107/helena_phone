@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="작성: 2026-07-31 · 에이전트: Grok 디자이너 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>재발일지 — Director 소개 영상 품질 사고 (_Grok) — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>재발일지 — Director 소개 영상 품질 사고 (_Grok)</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>재발일지 — Director 소개 영상 품질 사고 (_Grok)</h1>
+    <p class="deck">작성: 2026-07-31 · 에이전트: Grok 디자이너</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/48-director-video-recurrence_Grok.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1">1. 증상 (사용자 보고)</a></li>
+<li><a href="#2">2. 재현</a></li>
+<li><a href="#3-root-cause">3. 원인 분석 (Root Cause)</a></li>
+<li><a href="#4">4. 왜 재발했는가 (프로세스)</a></li>
+<li><a href="#5">5. 재발 방지 대책 (구현 의무)</a></li>
+<li><a href="#6-dod">6. 완료 정의 (DoD · 만점)</a></li>
+<li><a href="#7">7. 관련 파일</a></li>
+<li><a href="#8">8. 서명</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <blockquote>
+<p>작성: 2026-07-31 · 에이전트: Grok 디자이너<br>
+대상: <code>helena-programming/director</code> · 샘플 URL <code>helena_phone</code><br>
+등급: <strong>P1 (시청 불가 구간 발생)</strong> → 수정 후 <strong>재발 금지 게이트</strong> 적용</p>
+</blockquote>
+<hr>
+<h2 id="1">1. 증상 (사용자 보고)</h2>
+<ol>
+<li><strong>영상 앞부분 텍스트 깨짐</strong> (□□□ 토푸)</li>
+<li><strong>처음 화면이 안 나오는 것처럼 보임</strong> (검정/빈 화면)</li>
+</ol>
+<hr>
+<h2 id="2">2. 재현</h2>
+<ul>
+<li>파이프: Scout → edge-tts → Playwright record → FFmpeg intro concat</li>
+<li>산출: <code>helena_phone_scout_intro.mp4</code> (~121s)</li>
+<li>프레임 추출:</li>
+<li><code>intro_card</code> 첫 프레임: 영문만 정상, <strong>한글 자막 전부 □</strong></li>
+<li><code>page.mp4</code> 0–3s: <strong>완전 검정</strong> (PNG ~5.5KB)</li>
+<li><code>page.mp4</code> ~8s 이후: 실제 웹 UI 정상 (한글 포함)</li>
+</ul>
+<hr>
+<h2 id="3-root-cause">3. 원인 분석 (Root Cause)</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>증상</th>
+<th>원인</th>
+<th>계층</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>R1</strong></td>
+<td>텍스트 깨짐</td>
+<td>인트로를 FFmpeg <code>drawtext</code>로 그림. 폰트 후보에 Noto KR 없음 → <strong>DejaVuSans 폴백(라틴 only)</strong></td>
+<td>Intro</td>
+</tr>
+<tr>
+<td><strong>R2</strong></td>
+<td>앞 검정</td>
+<td>Playwright <code>record_video</code>가 <strong>about:blank / 첫 페인트 전</strong>부터 타임라인 시작. <code>domcontentloaded</code>+2s만으로는 부족</td>
+<td>Shoot</td>
+</tr>
+<tr>
+<td><strong>R3</strong></td>
+<td>체감 악화</td>
+<td>사이트 배경 <code>#0a0908</code> + 긴 커버 나레이션(~19s) → 검정 구간이 “영원히” 느껴짐</td>
+<td>Direct/Write</td>
+</tr>
+<tr>
+<td><strong>R4</strong></td>
+<td>품질 관리 부재</td>
+<td>렌더 후 <strong>첫 프레임·토푸·블랙 검출 게이트 없음</strong>. 삽질 산출물을 그대로 TG 전송</td>
+<td>QA</td>
+</tr>
+</tbody>
+</table>
+<p><strong>한 줄:</strong> 웹진이 깨진 게 아니라 <strong>(1) 인트로 폰트 경로 실패 + (2) 녹화 헤드 블랙 프레임 + (3) 무검증 배포</strong>다.</p>
+<hr>
+<h2 id="4">4. 왜 재발했는가 (프로세스)</h2>
+<ul>
+<li>“일단 나오게” MVP를 TG까지 밀어붙임</li>
+<li>Intro를 웹 렌더가 아닌 <strong>drawtext 숏컷</strong>으로 처리</li>
+<li>Shoot을 <strong>로드 완료 계약</strong> 없이 녹화</li>
+<li><strong>품질 게이트(만점 체크리스트)</strong> 없이 배달</li>
+</ul>
+<hr>
+<h2 id="5">5. 재발 방지 대책 (구현 의무)</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>대책</th>
+<th>검증</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1</td>
+<td>Intro = <strong>HTML → Playwright 스크린샷 → mp4</strong> (시스템 CJK 폰트 / Noto)</td>
+<td>인트로 PNG에 한글 글리프 존재</td>
+</tr>
+<tr>
+<td>C2</td>
+<td>Shoot: <code>load</code> + <code>document.fonts.ready</code> + 커버 셀렉터 visible 후 <strong>준비 완료 플래그</strong></td>
+<td>블랙 검출 길이 &lt; 0.4s 또는 트리밍</td>
+</tr>
+<tr>
+<td>C3</td>
+<td>Edit: <code>blackdetect</code>로 <strong>선두 검정 자동 트림</strong></td>
+<td>최종 첫 프레임 평균 휘도 게이트</td>
+</tr>
+<tr>
+<td>C4</td>
+<td>Writer: beat 나레이션 <strong>글자/초 상한</strong> (커버 과장 금지)</td>
+<td>beat audio ≤ 12s 권장</td>
+</tr>
+<tr>
+<td>C5</td>
+<td><code>quality_gate.py</code> 실패 시 <strong>TG 전송 금지·exit 2</strong></td>
+<td>CI/로컬 동일</td>
+</tr>
+<tr>
+<td>C6</td>
+<td>재발일지 + <code>director/QUALITY.md</code> 체크리스트 상시</td>
+<td>문서</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="6-dod">6. 완료 정의 (DoD · 만점)</h2>
+<ul>
+<li>[ ] 인트로 한글 깨짐 0</li>
+<li>[ ] 최종 mp4 첫 0.5s 검정 비율 &lt; 5% (또는 의미 있는 픽셀 존재)</li>
+<li>[ ] Scout 셀렉터로 아코디언/섹션 클릭 최소 1회 이상 성공 로그</li>
+<li>[ ] TTS·화면 길이 싱크 (shortest 전 audio/video 차이 리포트)</li>
+<li>[ ] TG 전송 전 quality_gate PASS 로그</li>
+</ul>
+<hr>
+<h2 id="7">7. 관련 파일</h2>
+<ul>
+<li><code>helena-programming/director/run_director.py</code></li>
+<li><code>helena-programming/director/scout.py</code></li>
+<li><code>helena-programming/director/intro.py</code> (신설)</li>
+<li><code>helena-programming/director/quality.py</code> (신설)</li>
+<li><code>helena-programming/director/QUALITY.md</code></li>
+</ul>
+<hr>
+<h2 id="8">8. 서명</h2>
+<ul>
+<li>분석·대책·구현: <strong>_Grok</strong> (2026-07-31)</li>
+<li>Boss 검수: <em>대기</em></li>
+</ul>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="47-human-ai-dialogue-crisis.html">
+          <span class="dir">Previous</span>
+          <span class="title">47 — 인간-AI 대화 위기 (Crisis)</span>
+        </a>
+    <a class="next" href="allocation-rate-2026-07-28.html">
+          <span class="dir">Next</span>
+          <span class="title">allocation rate 2026 07 28</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>
