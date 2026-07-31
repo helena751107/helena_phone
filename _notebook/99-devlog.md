@@ -1,5 +1,22 @@
 # 📋 S21 Phone — 전체 개발일지
 
+## DAY — 2026-07-31
+
+### Director 영상 품질 재발일지 + 만점 게이트 (_Grok)
+
+**증상:** 인트로 한글 □□ 깨짐 + 영상 선두 검정 화면  
+**원인:** FFmpeg drawtext 라틴 폰트 폴백 · Playwright 녹화 헤드 블랙 · 품질 게이트 부재  
+**대책 구현:**
+- 재발일지 `_notebook/48-director-video-recurrence_Grok.md`
+- Intro = HTML→Playwright→mp4 (Noto CJK)
+- Shoot readiness 계약 + lead black trim
+- `quality.gate_output` 실패 시 ship 거부 (exit 2)
+- Scout 나레이션 상한 (짧은 비트)
+
+**레포:** `helena-programming/director/` · QUALITY.md
+
+---
+
 ## 🔓 OPEN — Termux 기능키 최적화 (_Claude, 2026-07-27)
 - **이슈 폴더:** `_notebook/termux-keyboard-optimization/`
 - **배경:** 음성 입력 + 터미널 작업 시 필수 키 식별 → 삼성 Keys Cafe로 전용 자판 설계
@@ -2818,6 +2835,24 @@ Grok이 눈, Claude가 손. 이 피드백 루프가 현재 유일한 실용적 �
 - Grok이 Scout로 페이지 분석·시나리오 생성·시각 QA
 - Claude가 스크립트 실행·인코딩·배포 자동화
 - 두 에이전트가 TG를 통해 중간 결과물 주고받기
+
+### 103. 3트랙 비디오 아키텍처 — Boss 선언 (_Boss + _Claude)
+
+S21 단독으로 웹페이지→영상 변환하는 **3단계 품질 트랙**.
+
+| 트랙 | 엔진 | 품질 | 비용 | 용도 |
+|------|------|------|------|------|
+| **1** | Claude(DeepSeek) + Edge TTS + Playwright | PPT·리포트 수준 | 💰 0원 | 빠른 개발일지·문서 영상화 |
+| **2** | Grok(Scout) + FFmpeg + 커서·리플 | 빅테크 튜토리얼 | 💰 45,000원/월 | 제품 데모·랜딩페이지·마케팅 |
+| **3** | ComfyUI + RunPod (GPU 종량제) | 프로 마감·AI VFX | 💰 사용량만큼 | 고급 트랜지션·비주얼 이펙트·최종본 |
+
+**구조 원칙:**
+- 전부 S21 한 대에서 제어 (Termux→proot Ubuntu)
+- 돈에 따라 트랙 선택: 0원→구독→종량제
+- CONSTITUTION.md 제3조(스캐폴드 우선)와 일치: 트랙1로 시작, 필요하면 트랙2, 프로 마감은 트랙3
+- Boss가 각 트랙의 방아쇠를 당김 — 자동 발행 아님
+
+**Boss 한 마디:** "돈이 없으면 PPT 수준, 돈 좀 있으면 빅테크 튜토리얼, 진짜 프로 마감은 ComfyUI+RunPod"
 
 ### 102. Grok 병렬 작업 — Scout 파이프라인 (_Claude 관측)
 
