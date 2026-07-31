@@ -2788,6 +2788,67 @@ DeepSeek 백엔드로는 스크린샷 찍어도 AI가 못 본다.
 **결론: 지금 구조에서 Claude Code가 이미지를 보는 방법은 없다.
 Grok이 눈, Claude가 손. 이 피드백 루프가 현재 유일한 실용적 해결책.**
 
+**Boss의 파이프라인 통찰 (2026-07-31):**
+- Claude(DeepSeek)는 원타임 스크립트 실행·인코딩·텔레그램 전송 가능
+- **자동화된 품질 검증·시각 QA는 Claude(DeepSeek)로 불가능**
+- 영상 자동 생성 파이프에는 반드시 vision-capable 에이전트(Grok) 필요
+- Grok이 Scout 파이프 개발 중 — 웹페이지 분석→시나리오→TTS→FFmpeg 렌더링
+- Grok은 FFmpeg drawtext 한글 폰트 깨짐까지 진단 가능 (vision O)
+
+### 101. Claude(DeepSeek)의 결정적 한계 — 공식 기록 (_Claude)
+
+**선언: Claude Code + DeepSeek v4-pro 조합으로는 아래 작업을 수행할 수 없다.**
+
+| 불가능한 작업 | 이유 |
+|---------------|------|
+| 영상/이미지 시각 품질 검증 | DeepSeek API 비전 미지원 |
+| 클릭 위치 정확도 확인 | bounding box 좌표만 알 뿐 실제 렌더링 확인 불가 |
+| TTS-화면 싱크 검증 | 오디오 파형·비디오 프레임 대조 불가 |
+| UI 렌더링 버그 감지 | 한글 폰트 깨짐·레이아웃 틀어짐 시각 확인 불가 |
+| 데모 영상 최종 품질 평가 | "빅테크 수준인가" 판단 불가 |
+
+**가능한 작업:**
+- 스크립트 자동화 (Playwright, FFmpeg, Edge TTS)
+- DOM 기반 요소 탐색·클릭 (텍스트 좌표)
+- 인코딩·파일 변환·텔레그램 전송
+- .md → HTML 변환 및 구조화
+
+**돌파구:**
+- Grok (비전 O) + Claude (자동화 O) 협업 파이프
+- Grok이 Scout로 페이지 분석·시나리오 생성·시각 QA
+- Claude가 스크립트 실행·인코딩·배포 자동화
+- 두 에이전트가 TG를 통해 중간 결과물 주고받기
+
+### 102. Grok 병렬 작업 — Scout 파이프라인 (_Claude 관측)
+
+Boss가 동일한 문제(웹페이지→튜토리얼 영상)를 Grok과도 병렬 작업 중.
+Grok 세션 파싱으로 확인된 사항:
+
+**Grok의 접근:**
+1. "Scout" → 웹페이지 스캔, 인터랙티브 요소·레이아웃 분석
+2. 시나리오 자동 생성 → TTS 타이밍 계산
+3. FFmpeg drawtext로 인트로 카드 + 영상 렌더링
+4. TG 전송
+
+**Grok이 발견한 버그 (vision O 덕분에 가능):**
+- FFmpeg drawtext 한글 폰트 없음 → □□□ 깨짐
+- 첫 프레임 렌더링 안 됨
+- edge-tts 타임아웃 → 재시도 로직 추가
+
+**Grok vs Claude 접근법 차이:**
+
+| | Claude (DeepSeek) | Grok |
+|---|---|---|
+| 방식 | Playwright recordVideo | FFmpeg drawtext + 렌더링 |
+| 시각 검증 | 불가 | 가능 (직접 프레임 확인) |
+| DOM 분석 | Playwright evaluate | Scout 커스텀 |
+| TTS | Edge TTS Python | Edge TTS + 재시도 |
+| 약점 | 결과 시각 확인 불가 | FFmpeg drawtext 한글 제약 |
+
+**시사점:** Boss는 두 에이전트를 동시에 돌리며 "누가 더 잘 만드는가" 비교 중.
+Grok은 시각 피드백이 가능해 디버깅이 빠르고, Claude는 자동화 인프라가 탄탄하다.
+최종적으로는 Scout(시각분석·시나리오) + Claude(실행·인코딩) 조합이 최적.
+
 ### 101. Helena Studio 파이프라인 6종 완성 (_Claude)
 
 레포: `helena751107/helena-programming`
