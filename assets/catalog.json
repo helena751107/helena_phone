@@ -664,6 +664,46 @@
     "deck": "2026-07-28 · 내일 미팅 · 형(CS 박사) 폰에 helena_phone 수동 설치"
   },
   {
+    "src": "_notebook/46-fridge-architecture_Claude.md",
+    "out": "notebook/46-fridge-architecture_Claude.html",
+    "title": "냉장고(Fridge) 아키텍처 — dtslib1979 ⇄ helena751107 자산 공유 체계",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "선언: 2026-07-31 (_Claude, Boss 승인)"
+  },
+  {
+    "src": "_notebook/46-node-protocol-architecture.md",
+    "out": "notebook/46-node-protocol-architecture.html",
+    "title": "46 — 노드 프로토콜 아키텍처",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "작성: 2026-07-28 · _Boss + _Claude"
+  },
+  {
+    "src": "_notebook/47-human-ai-dialogue-crisis.md",
+    "out": "notebook/47-human-ai-dialogue-crisis.html",
+    "title": "47 — 인간-AI 대화 위기 (Crisis)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-07-28 · Helena Park + Claude Code (DeepSeek)"
+  },
+  {
+    "src": "_notebook/48-director-video-recurrence_Grok.md",
+    "out": "notebook/48-director-video-recurrence_Grok.html",
+    "title": "재발일지 — Director 소개 영상 품질 사고 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "작성: 2026-07-31 · 에이전트: Grok 디자이너"
+  },
+  {
+    "src": "_notebook/allocation-rate-2026-07-28.md",
+    "out": "notebook/allocation-rate-2026-07-28.html",
+    "title": "Allocation Rate — 2026-07-28",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "S21 Phone 전체 자산 배분율 + 저장소 메커니즘 분석"
+  },
+  {
     "src": "g/install.sh",
     "out": "g/install.html",
     "title": "install.sh · 고급 설치기",

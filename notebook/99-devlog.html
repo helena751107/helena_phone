@@ -50,6 +50,10 @@
   </header>
   <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
 <ul>
+<li><a href="#day-2026-07-31">DAY — 2026-07-31</a><ul>
+<li><a href="#director-_grok">Director 영상 품질 재발일지 + 만점 게이트 (_Grok)</a></li>
+</ul>
+</li>
 <li><a href="#open-termux-_claude-2026-07-27">🔓 OPEN — Termux 기능키 최적화 (_Claude, 2026-07-27)</a></li>
 <li><a href="#day-3-2026-07-28">DAY 3 — 2026-07-28</a><ul>
 <li><a href="#96-playwright-e2e-_claude">96. 랜딩페이지 설치 플로우 Playwright E2E 검증 (_Claude)</a></li>
@@ -186,6 +190,29 @@
 <li><a href="#96-2026-07-28">96. 네이버 템플릿 실사용 솔루션 보강 — 커뮤니티 클릭 경로 (2026-07-28)</a></li>
 </ul>
 </li>
+<li><a href="#2026-07-28-helena-piano-bgm-studio-parksy-audio-_claude">2026-07-28 (화) — helena-piano BGM Studio 구축 + parksy-audio 전수조사 (_Claude)</a><ul>
+<li><a href="#_4">배경</a></li>
+<li><a href="#parksy-audio">parksy-audio 냉장고 전수조사</a></li>
+<li><a href="#bgm-studio">BGM Studio 구현</a></li>
+<li><a href="#salamander-grand-piano">Salamander Grand Piano 추적</a></li>
+<li><a href="#boss">교훈 — Boss 판단</a></li>
+<li><a href="#_boss-_claude">아키텍처 선언 — &ldquo;프로덕은 나 자신, 노드의 프로토콜&rdquo; (_Boss + _Claude)</a></li>
+</ul>
+</li>
+<li><a href="#2026-07-31-_claude">2026-07-31 (목) — 냉장고 아키텍처 정식 선언 (_Claude)</a><ul>
+<li><a href="#97-dtslib1979-helena751107-_claude">97. dtslib1979 → helena751107 콜라보레이터 전면 확인 (_Claude)</a></li>
+<li><a href="#98-fridge-_boss-_claude">98. 냉장고(Fridge) 아키텍처 — 개념 정식 선언 (_Boss + _Claude)</a></li>
+</ul>
+</li>
+<li><a href="#2026-07-31-demo-pipeline-deepseek-_claude">2026-07-31 (목) — Demo Pipeline 삽질 + DeepSeek 비전 리버스 엔지니어링 (_Claude)</a><ul>
+<li><a href="#99">99. 빅테크 튜토리얼 데모 파이프라인 개발기</a></li>
+<li><a href="#100-deepseek-vision-_claude">100. DeepSeek Vision 리버스 엔지니어링 — &ldquo;눈이 없다&rdquo; (_Claude)</a></li>
+<li><a href="#101-claudedeepseek-_claude">101. Claude(DeepSeek)의 결정적 한계 — 공식 기록 (_Claude)</a></li>
+<li><a href="#103-3-boss-_boss-_claude">103. 3트랙 비디오 아키텍처 — Boss 선언 (_Boss + _Claude)</a></li>
+<li><a href="#102-grok-scout-_claude">102. Grok 병렬 작업 — Scout 파이프라인 (_Claude 관측)</a></li>
+<li><a href="#101-helena-studio-6-_claude">101. Helena Studio 파이프라인 6종 완성 (_Claude)</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </nav>
@@ -196,7 +223,19 @@
     <button type="button" id="wzCopy" data-cursor>본문 복사</button>
   </div>
   <article class="wz-prose" id="wzProse" data-app="doc">
-    <h2 id="open-termux-_claude-2026-07-27">🔓 OPEN — Termux 기능키 최적화 (_Claude, 2026-07-27)</h2>
+    <h2 id="day-2026-07-31">DAY — 2026-07-31</h2>
+<h3 id="director-_grok">Director 영상 품질 재발일지 + 만점 게이트 (_Grok)</h3>
+<p><strong>증상:</strong> 인트로 한글 □□ 깨짐 + 영상 선두 검정 화면<br>
+<strong>원인:</strong> FFmpeg drawtext 라틴 폰트 폴백 · Playwright 녹화 헤드 블랙 · 품질 게이트 부재<br>
+<strong>대책 구현:</strong><br>
+- 재발일지 <code>_notebook/48-director-video-recurrence_Grok.md</code><br>
+- Intro = HTML→Playwright→mp4 (Noto CJK)<br>
+- Shoot readiness 계약 + lead black trim<br>
+- <code>quality.gate_output</code> 실패 시 ship 거부 (exit 2)<br>
+- Scout 나레이션 상한 (짧은 비트)</p>
+<p><strong>레포:</strong> <code>helena-programming/director/</code> · QUALITY.md</p>
+<hr>
+<h2 id="open-termux-_claude-2026-07-27">🔓 OPEN — Termux 기능키 최적화 (_Claude, 2026-07-27)</h2>
 <ul>
 <li><strong>이슈 폴더:</strong> <code>_notebook/termux-keyboard-optimization/</code></li>
 <li><strong>배경:</strong> 음성 입력 + 터미널 작업 시 필수 키 식별 → 삼성 Keys Cafe로 전용 자판 설계</li>
@@ -3757,6 +3796,476 @@ SE ONE <strong>「내 템플릿 / 현재 글 추가」</strong> 실클릭 솔루
 - BOSS-CARD · README 에 실사용 경로 연결</p>
 <p><strong>핵심 솔루션 한 줄:</strong><br>
 paste.txt로 글 구성 → <strong>템플릿→내 템플릿→현재 글 추가</strong> → 이름 <code>Marine Quilt 주간</code> → 매주 불러와 슬롯만 교체.</p>
+<hr>
+<h2 id="2026-07-28-helena-piano-bgm-studio-parksy-audio-_claude">2026-07-28 (화) — helena-piano BGM Studio 구축 + parksy-audio 전수조사 (_Claude)</h2>
+<h3 id="_4">배경</h3>
+<p>helena-piano 웹진(https://helena751107.github.io/helena-piano/)에 <br>
+실제 피아노 음원·배경음악 파이프를 연결하려는 시도.</p>
+<h3 id="parksy-audio">parksy-audio 냉장고 전수조사</h3>
+<ul>
+<li>dtslib1979 소유 28개 private 레포 + helena751107 소유 6개 = <strong>34종 전체 파악</strong></li>
+<li><code>parksy-audio</code> (986MB): MIDI→렌더링→YouTube 풀스택</li>
+<li>steal.py: YouTube→demucs→basic-pitch→MIDI 추출</li>
+<li>local-agent/bot.py: TG 봇 (36KB)</li>
+<li>pipeline/: 작곡·편곡·인간화·마스터링</li>
+<li>YouTube 39개 영상 실적 (채널 &ldquo;뮤지션 박씨&rdquo;)</li>
+<li>조사 결과를 <code>helena-piano/fridge/</code> (6종)에 저장</li>
+</ul>
+<h3 id="bgm-studio">BGM Studio 구현</h3>
+<ul>
+<li><code>bgm/midi/</code> → push → GitHub Actions 자동 렌더링 → <code>bgm/output/*.mp3</code></li>
+<li>6번의 시행착오 끝에 파이프 완성:</li>
+<li>v1~v3: ALSA 오디오 장치 문제 → <code>-F fast-render</code>로 해결</li>
+<li>v4: 142MB SoundFont 다운로드 타임아웃 → actions/cache로 해결</li>
+<li>v5: github-actions[bot] push 권한 → <code>permissions: contents: write</code></li>
+<li>v6: <strong>전체 성공</strong> ✅</li>
+<li>로컬 S21 proot Ubuntu에서도 렌더링 파이프 검증 완료</li>
+</ul>
+<h3 id="salamander-grand-piano">Salamander Grand Piano 추적</h3>
+<ul>
+<li>Internet Archive CDN 전면 장애 (모든 파일 404)</li>
+<li>MuseScore General (215MB, Steinway 피아노)로 대체 렌더링</li>
+<li>Bach Prelude BWV 846 + Chopin Nocturne Op.9 No.2 → TG 전송 완료 (msg 15~17)</li>
+</ul>
+<h3 id="boss">교훈 — Boss 판단</h3>
+<p><strong>한이 너무 커졌다.</strong> 음원 렌더링부터 시작하니 WSL·proot 제약·SoundFont 라이선스·<br>
+Internet Archive 장애 등 예측 불가능한 변수가 쏟아졌다.</p>
+<p><strong>핸드폰에서 확실히 되는 것부터 시작해야 한다:</strong><br>
+1. 출판·방송 (웹진 + YouTube 연동) — 이미 검증됨<br>
+2. MIDI 소싱 (bitmidi·Mutopia·steal.py) — 경로 확인됨<br>
+3. GitHub Actions 자동화 — 캐시+렌더링 파이프 작동 확인<br>
+4. BGM 렌더링은 <strong>보류</strong> — Salamander 입수 시 재개</p>
+<p>BGM Studio 파이프 자체는 증명됐으니, 실제 콘텐츠(찬양·연습곡)를<br>
+먼저 채우고, 기술적 완성도는 그 다음이다.</p>
+<h3 id="_boss-_claude">아키텍처 선언 — &ldquo;프로덕은 나 자신, 노드의 프로토콜&rdquo; (_Boss + _Claude)</h3>
+<p>오늘 대화에서 핵심 아키텍처가 정리됐다.</p>
+<p><strong>이것은 프로덕(생산물)을 만드는 프로젝트가 아니다.</strong><br>
+Helena Park 자체가 프로덕이다. S21은 신경계, 34개 레포는 기억·사고·표현 체계,<br>
+AI 3중주(Grok·Aider·Claude)는 증폭기, Pages·YouTube·Naver는 외부 접점.</p>
+<p><strong>이 노드의 본질: AI 시대 1인 미디어회사의 참조 구현체.</strong><br>
+- 기자 = 월급받는 사람이 아니라, 출판 능력이 있는 개인 노드<br>
+- 중앙일보·JTBC = 전통 미디어 프로토콜을 가진 거대 노드<br>
+- 연동 = 개인 노드 ↔ 대형 노드 간 콘텐츠 프로토콜 레이어<br>
+- 기존 미디어가 개인을 고용하는 구조 → <strong>개인이 인프라를 갖고 연합하는 구조로 역전</strong></p>
+<p><strong>강박사(첫 기술 공동체 노드) + 이철이형(중앙일보·JTBC 등기이사, 미디어 브릿지)</strong><br>
+이 두 축이 연합체의 초기 링크다. 개인 노드들이 모여 지식인 연합체가 되는 구도.</p>
+<p><strong>현재 노드의 출력 채널:</strong><br>
+- parksy-audio → 음원 제작·송출<br>
+- helena-piano → 웹진 출판<br>
+- Naver·Tistory 파이프 → 텍스트 유통<br>
+- YouTube (@helena_phone, @HelenaPark-e7c) → 영상 방송<br>
+- TG 봇 → 구독자 직접 배달</p>
+<p><strong>핵심 인사이트:</strong> 중앙일보 기자가 쓰는 CMS와 기능적으로 동일한 스택을,<br>
+S21 폰 하나로 돌리고 있다. 차이는 규모가 아니라 <strong>프로토콜의 방향</strong> —<br>
+회사가 노드를 소유하는 게 아니라, 노드가 노드를 연합한다.</p>
+<hr>
+<h2 id="2026-07-31-_claude">2026-07-31 (목) — 냉장고 아키텍처 정식 선언 (_Claude)</h2>
+<h3 id="97-dtslib1979-helena751107-_claude">97. dtslib1979 → helena751107 콜라보레이터 전면 확인 (_Claude)</h3>
+<p><strong>Boss 지시:</strong> dtslib1979 레포지토리 전부 helena751107 콜라보 등록돼 있으니 전수 확인.</p>
+<p><strong>검증 결과:</strong><br>
+- dtslib1979 총 레포: <strong>28개</strong> (검색 API <code>total_count: 28</code>)<br>
+- helena751107 콜라보 등록: <strong>28/28 (100%)</strong><br>
+- 권한: 전부 <strong>RW</strong> (admin collaborator)<br>
+- 가시성: 27개 🔒 private + 1개 🌐 public (<code>dtslib-apk-lab</code>)<br>
+- 실제 접근: <code>gh api</code> · <code>gh repo clone</code> 전부 정상</p>
+<p><strong>28종 목록:</strong><br>
+<code>abraham</code> · <code>alexandria-sanctuary</code> · <code>artrew</code> · <code>buckleychang.com</code> ·<br>
+<code>buddies.kr</code> · <code>dtslib-apk-lab</code> · <code>dtslib-branch</code> · <code>dtslib-cloud-appstore</code> ·<br>
+<code>dtslib-localpc</code> · <code>dtslib-papyrus</code> · <code>dtslib.kr</code> · <code>eae-univ</code> · <code>eae.kr</code> ·<br>
+<code>espiritu-tango</code> · <code>gohsy</code> · <code>gohsy-fashion</code> · <code>gohsy-production</code> ·<br>
+<code>hoyadang.com</code> · <code>koosy</code> · <code>namoneygoal</code> · <code>OrbitPrompt</code> · <code>papafly</code> ·<br>
+<code>parksy-audio</code> · <code>parksy-image</code> · <code>parksy-logs</code> · <code>parksy.kr</code> ·<br>
+<code>phoneparis</code> · <code>termux-bridge</code></p>
+<p><strong>초기 실수:</strong> <code>gh api /users/dtslib1979/repos</code> 기본 쿼리는 public만 반환함.<br>
+콜라보 등록된 private repo는 <code>/user/repos?affiliation=collaborator</code>로 접근해야 함.<br>
+Claude가 이 차이를 인지하지 못하고 &ldquo;1개&rdquo;라고 잘못 보고. Boss 직격 지도 후 수정.</p>
+<h3 id="98-fridge-_boss-_claude">98. 냉장고(Fridge) 아키텍처 — 개념 정식 선언 (_Boss + _Claude)</h3>
+<p><strong>정의:</strong></p>
+<blockquote>
+<p><strong>냉장고(Fridge)</strong> 란, dtslib1979(창작자)가 구축한 모든 코드·에셋·실험·템플릿을<br>
+helena751107(수혜자·누나)에게 <strong>콜라보레이터로 즉시 공유</strong>하는 자산 전달 체계다.</p>
+</blockquote>
+<p><strong>왜 &ldquo;냉장고&rdquo;인가:</strong><br>
+- 포크(fork)가 아니다 — 포크는 원본과 분리된 내 사본. 냉장고는 <strong>원본에 직접 접근.</strong><br>
+- PR이 아니다 — PR은 기여자→소유자 단방향. 냉장고는 <strong>쌍방 RW 공동소유.</strong><br>
+- &ldquo;필요한 거 꺼내 써&rdquo; — 레시피(아이디어)가 아니라 <strong>완성된 식재료(코드·템플릿·파이프)</strong> 를 바로 투입 가능.</p>
+<p><strong>구조:</strong></p>
+<pre><code>dtslib1979 (창작자)                    helena751107 (수혜자·대필작가)
+  │                                        │
+  ├── 28개 레포 (27🔒 + 1🌐)              ├── 6개 레포 (전부 🌐)
+  │   · parksy-audio (986MB 음원)          │   · helena_phone (워크스페이스)
+  │   · parksy-image (썸네일·AI시드)       │   · helana_log (기술로그)
+  │   · parksy-logs (캡처 아카이브)        │   · helena-piano (피아노)
+  │   · termux-bridge (PC↔Termux)         │   · helena-faith (신앙)
+  │   · dtslib-papyrus (선물 원산지)       │   · helena-psycare (멘탈케어)
+  │   · dtslib-cloud-appstore (배포)      │
+  │   · dtslib-localpc (로컬 실행)         │
+  │   · gohsy-* (방송 스튜디오 3종)       │   ←── 상호 콜라보 ──→
+  │   · OrbitPrompt (다중쿼리→AI)         │
+  │   · ... 외 18종                        │
+  │                                        │
+  └──────── helena751107 콜라보 ──────────→ 34종 전체 자산 풀
+                 (RW, admin)
+</code></pre>
+<p><strong>헌법적 근거:</strong><br>
+- CONSTITUTION.md <strong>제2조 (코드는 선물):</strong> &ldquo;이 프로젝트에서 생산된 모든 코드는 선물(gift)이다.&rdquo;<br>
+  냉장고는 이 선물을 <strong>물리적으로 전달하는 인프라</strong> — 선언이 아니라 실물 메커니즘.<br>
+- <strong>제6조 (판단력만이 희소 자산):</strong> &ldquo;코드는 인스턴스, 사고 서식이 자산.&rdquo;<br>
+  냉장고는 자산(사고 서식의 실물)을 공유하는 창구.</p>
+<p><strong>기존 forking/PR과의 차이:</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Fork</th>
+<th>PR</th>
+<th>냉장고 (콜라보레이터)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>방향</td>
+<td>단방향 복사</td>
+<td>단방향 제안</td>
+<td><strong>쌍방향 공동소유</strong></td>
+</tr>
+<tr>
+<td>접근</td>
+<td>내 사본만</td>
+<td>원본에 제안</td>
+<td><strong>원본 직접 RW</strong></td>
+</tr>
+<tr>
+<td>갱신</td>
+<td>upstream pull 필요</td>
+<td>merge 기다림</td>
+<td><strong>즉시 최신</strong></td>
+</tr>
+<tr>
+<td>자산 성격</td>
+<td>&ldquo;빌려 씀&rdquo;</td>
+<td>&ldquo;기여함&rdquo;</td>
+<td><strong>&ldquo;내 것도 네 것&rdquo;</strong></td>
+</tr>
+<tr>
+<td>AI 에이전트</td>
+<td>fork 따로 clone</td>
+<td>PR 따로 생성</td>
+<td><strong>단일 작업공간에서 양쪽 다 접근</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Claude Code가 냉장고를 쓰는 법:</strong></p>
+<pre><code class="language-bash"># 어떤 자산이든 즉시 접근
+gh repo clone dtslib1979/parksy-audio /root/fridge/parksy-audio
+gh api repos/dtslib1979/termux-bridge/contents/app/ --jq '.[].name'
+
+# 28개 전체 인덱싱 (필요 시)
+for r in $(gh api /user/repos --jq '[.[]|select(.owner.login==&quot;dtslib1979&quot;)].name[]'); do
+  echo &quot;📦 $r: $(gh api repos/dtslib1979/$r --jq '.description')&quot;
+done
+</code></pre>
+<p><strong>Boss 한 마디:</strong></p>
+<blockquote>
+<p>&ldquo;내가 만든 자산을 공유하는 거야. 필요한 거 갖고 와서 써.&rdquo;</p>
+</blockquote>
+<p><strong>의의:</strong><br>
+이 아키텍처는 단순한 GitHub Collaborator 설정 이상이다.<br>
+dtslib1979의 창작물 전체가 helena751107의 <strong>운영 자산</strong>으로 편입되고,<br>
+AI 에이전트(Claude·Aider·Grok)는 이 34종 자산 풀 위에서 작업한다.</p>
+<p>창작자와 수혜자가 <strong>같은 냉장고를 열고, 같은 식재료로 각자의 요리를 하는</strong> 구조.<br>
+이것이 제2조 &ldquo;코드는 선물&rdquo;의 실물 구현이다.</p>
+<p><strong>관련 문서:</strong> <code>_notebook/46-fridge-architecture_Claude.md</code> (전문)</p>
+<hr>
+<h2 id="2026-07-31-demo-pipeline-deepseek-_claude">2026-07-31 (목) — Demo Pipeline 삽질 + DeepSeek 비전 리버스 엔지니어링 (_Claude)</h2>
+<h3 id="99">99. 빅테크 튜토리얼 데모 파이프라인 개발기</h3>
+<p><strong>목표:</strong> helena_phone 랜딩페이지를 빅테크 수준의 제품 튜토리얼 영상으로 자동 생성.</p>
+<p><strong>시도한 접근:</strong></p>
+<table>
+<thead>
+<tr>
+<th>시도</th>
+<th>방법</th>
+<th>결과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>PWA + Web Speech API (브라우저 TTS)</td>
+<td>Boss: &ldquo;PWA 따위 필요 없고 Python으로 만들어&rdquo;</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>webpage_to_video.py</code> — Playwright 스크린샷 + Edge TTS</td>
+<td>스크린샷 정지화상, &ldquo;실제 페이지 연출&rdquo; 아님</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>record_demo.py</code> — Playwright recordVideo</td>
+<td>커서 없음, 흰 화면, 클릭 안 보임</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>demo_director.py</code> — 자동 씬구성 + 클릭</td>
+<td>클릭 셀렉터 불일치, TTS 싱크 부정확</td>
+</tr>
+<tr>
+<td>5</td>
+<td>v2 — 커서·리플·커튼·스무스 스크롤 추가</td>
+<td>13개 인터랙티브 중 4개만 클릭 성공</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Boss의 핵심 요구:</strong><br>
+- 실제 웹페이지를 사람처럼 스크롤하며 연출<br>
+- 모든 버튼·아코디언·인터랙티브 요소 클릭<br>
+- TTS 성우 내레이션, 타이밍 정확히 동기화<br>
+- 빅테크(Apple·Stripe·Google) 제품 데모 수준</p>
+<p><strong>리서치로 찾은 업계 표준 도구:</strong><br>
+- <code>playwright-recast</code>: trace → TTS sync + cursor overlay + click ripple<br>
+- <code>argo-video/cli</code>: Kokoro TTS + narration marks timestamp sync<br>
+- <code>demovid</code>: live TTS playback during recording<br>
+- <code>screencast-studio</code>: Playwright + ffmpeg declarative scripts</p>
+<h3 id="100-deepseek-vision-_claude">100. DeepSeek Vision 리버스 엔지니어링 — &ldquo;눈이 없다&rdquo; (_Claude)</h3>
+<p><strong>근본 원인 규명:</strong></p>
+<pre><code>DeepSeek v4-pro/v4-flash (hosted API)
+  ├── chat/completions (native)     → ❌ image_data 무시됨 (&quot;이미지가 아직 보이지 않아요&quot;)
+  ├── anthropic/messages (호환)     → ❌ image type unknown variant
+  └── 결론: DeepSeek hosted API는 텍스트 전용, 비전 미지원
+
+DeepSeek vision (VL2, Janus)
+  └── self-hosting 필요, API로 제공 안 됨
+</code></pre>
+<p><strong>Claude Code가 DeepSeek 통해 이미지를 볼 수 없는 이유:</strong><br>
+- Claude Code → <code>ANTHROPIC_BASE_URL</code> → DeepSeek Anthropic 호환 엔드포인트<br>
+- 이 엔드포인트는 이미지 콘텐츠 블록을 지원하지 않음<br>
+- <code>image_data</code> 필드도 API가 받기는 하나 모델이 무시함<br>
+- ds(flash)로 바꿔도 동일 — API 경로 문제이지 모델 문제가 아님</p>
+<p><strong>테스트 결과 (2026-07-31):</strong></p>
+<pre><code>image_data 필드: 200 OK → 모델 응답: &quot;이미지가 아직 보이지 않아요&quot;
+image_url (OpenAI): 400 → unknown variant
+image (Anthropic): 모델 thinking: &quot;Image unsupported, cannot see&quot;
+</code></pre>
+<p><strong>시사점:</strong><br>
+- Claude Code + DeepSeek 조합에서는 시각 피드백 루프 불가능<br>
+- Grok (비전 O)이 현재 유일한 시각 QA 수단<br>
+- Playwright + recordVideo로 녹화는 되나, 결과 시각 검증은 사람이나 Grok이 해야 함<br>
+- &ldquo;Claude in Chrome&rdquo; 확장기능도 Max 플랜 필요 + 속도 느림 + 조기 중단 문제</p>
+<p><strong>현재 최선의 파이프:</strong></p>
+<pre><code>Claude(DeepSeek) → demo_director.py → 영상 생성 → TG 전송
+  → Grok이 영상 보고 시각 QA → 텍스트 피드백 → Claude 수정
+</code></pre>
+<p><strong>Boss의 ds/cc 전환 아이디어 검증:</strong><br>
+- ds(DeepSeek Flash via Aider)도 결국 DeepSeek API 사용<br>
+- 동일한 API 제한 적용 → 비전 불가<br>
+- Aider 자체도 비전 기능 없음 (텍스트 전용 도구)</p>
+<p><strong>업계 표준 MCP 브라우저 도구 (참고):</strong><br>
+- <code>@playwright/mcp</code>: 34 tools, accessibility tree 기반, browser_take_screenshot<br>
+- <code>agent-browser</code> (Vercel): headless, snapshot-ref, video recording<br>
+- <code>browser-agent-mcp</code> (imprvhub): 자율 브라우저 자동화</p>
+<p>→ 이 MCP 도구들도 실제 &ldquo;시각 검증&rdquo;은 Claude(정품, vision O)에서만 가능.<br>
+DeepSeek 백엔드로는 스크린샷 찍어도 AI가 못 본다.</p>
+<p><strong>결론: 지금 구조에서 Claude Code가 이미지를 보는 방법은 없다.<br>
+Grok이 눈, Claude가 손. 이 피드백 루프가 현재 유일한 실용적 해결책.</strong></p>
+<p><strong>Boss의 파이프라인 통찰 (2026-07-31):</strong><br>
+- Claude(DeepSeek)는 원타임 스크립트 실행·인코딩·텔레그램 전송 가능<br>
+- <strong>자동화된 품질 검증·시각 QA는 Claude(DeepSeek)로 불가능</strong><br>
+- 영상 자동 생성 파이프에는 반드시 vision-capable 에이전트(Grok) 필요<br>
+- Grok이 Scout 파이프 개발 중 — 웹페이지 분석→시나리오→TTS→FFmpeg 렌더링<br>
+- Grok은 FFmpeg drawtext 한글 폰트 깨짐까지 진단 가능 (vision O)</p>
+<h3 id="101-claudedeepseek-_claude">101. Claude(DeepSeek)의 결정적 한계 — 공식 기록 (_Claude)</h3>
+<p><strong>선언: Claude Code + DeepSeek v4-pro 조합으로는 아래 작업을 수행할 수 없다.</strong></p>
+<table>
+<thead>
+<tr>
+<th>불가능한 작업</th>
+<th>이유</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>영상/이미지 시각 품질 검증</td>
+<td>DeepSeek API 비전 미지원</td>
+</tr>
+<tr>
+<td>클릭 위치 정확도 확인</td>
+<td>bounding box 좌표만 알 뿐 실제 렌더링 확인 불가</td>
+</tr>
+<tr>
+<td>TTS-화면 싱크 검증</td>
+<td>오디오 파형·비디오 프레임 대조 불가</td>
+</tr>
+<tr>
+<td>UI 렌더링 버그 감지</td>
+<td>한글 폰트 깨짐·레이아웃 틀어짐 시각 확인 불가</td>
+</tr>
+<tr>
+<td>데모 영상 최종 품질 평가</td>
+<td>&ldquo;빅테크 수준인가&rdquo; 판단 불가</td>
+</tr>
+</tbody>
+</table>
+<p><strong>가능한 작업:</strong><br>
+- 스크립트 자동화 (Playwright, FFmpeg, Edge TTS)<br>
+- DOM 기반 요소 탐색·클릭 (텍스트 좌표)<br>
+- 인코딩·파일 변환·텔레그램 전송<br>
+- .md → HTML 변환 및 구조화</p>
+<p><strong>돌파구:</strong><br>
+- Grok (비전 O) + Claude (자동화 O) 협업 파이프<br>
+- Grok이 Scout로 페이지 분석·시나리오 생성·시각 QA<br>
+- Claude가 스크립트 실행·인코딩·배포 자동화<br>
+- 두 에이전트가 TG를 통해 중간 결과물 주고받기</p>
+<h3 id="103-3-boss-_boss-_claude">103. 3트랙 비디오 아키텍처 — Boss 선언 (_Boss + _Claude)</h3>
+<p>S21 단독으로 웹페이지→영상 변환하는 <strong>3단계 품질 트랙</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>트랙</th>
+<th>엔진</th>
+<th>품질</th>
+<th>비용</th>
+<th>용도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td>Claude(DeepSeek) + Edge TTS + Playwright</td>
+<td>PPT·리포트 수준</td>
+<td>💰 0원</td>
+<td>빠른 개발일지·문서 영상화</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>Grok(Scout) + FFmpeg + 커서·리플</td>
+<td>빅테크 튜토리얼</td>
+<td>💰 45,000원/월</td>
+<td>제품 데모·랜딩페이지·마케팅</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>ComfyUI + 로컬GPU(WSL) / RunPod(클라우드)</td>
+<td>프로 마감·AI VFX</td>
+<td>💰 GPU 보유=0원 / 미보유=종량제</td>
+<td>고급 트랜지션·비주얼 이펙트·최종본</td>
+</tr>
+</tbody>
+</table>
+<p><strong>트랙 3 상세:</strong><br>
+- 드라이버: <strong>ComfyUI</strong> (워크플로우 엔진)<br>
+- 실행 위치: 집 PC WSL에 GPU 있으면 로컬, 없으면 RunPod으로 GPU 대여<br>
+- S21 → Tailscale → WSL로 ComfyUI API 호출 / 또는 RunPod API<br>
+- Boss가 WSL 셋업 끝내면 트랙 3 활성화</p>
+<p><strong>구조 원칙:</strong><br>
+- 전부 S21 한 대에서 제어 (Termux→proot Ubuntu)<br>
+- 돈에 따라 트랙 선택: 0원→구독→종량제<br>
+- CONSTITUTION.md 제3조(스캐폴드 우선)와 일치: 트랙1로 시작, 필요하면 트랙2, 프로 마감은 트랙3<br>
+- Boss가 각 트랙의 방아쇠를 당김 — 자동 발행 아님</p>
+<p><strong>Boss 한 마디:</strong> &ldquo;돈이 없으면 PPT 수준, 돈 좀 있으면 빅테크 튜토리얼, 진짜 프로 마감은 ComfyUI+RunPod&rdquo;</p>
+<h3 id="102-grok-scout-_claude">102. Grok 병렬 작업 — Scout 파이프라인 (_Claude 관측)</h3>
+<p>Boss가 동일한 문제(웹페이지→튜토리얼 영상)를 Grok과도 병렬 작업 중.<br>
+Grok 세션 파싱으로 확인된 사항:</p>
+<p><strong>Grok의 접근:</strong><br>
+1. &ldquo;Scout&rdquo; → 웹페이지 스캔, 인터랙티브 요소·레이아웃 분석<br>
+2. 시나리오 자동 생성 → TTS 타이밍 계산<br>
+3. FFmpeg drawtext로 인트로 카드 + 영상 렌더링<br>
+4. TG 전송</p>
+<p><strong>Grok이 발견한 버그 (vision O 덕분에 가능):</strong><br>
+- FFmpeg drawtext 한글 폰트 없음 → □□□ 깨짐<br>
+- 첫 프레임 렌더링 안 됨<br>
+- edge-tts 타임아웃 → 재시도 로직 추가</p>
+<p><strong>Grok vs Claude 접근법 차이:</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Claude (DeepSeek)</th>
+<th>Grok</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>방식</td>
+<td>Playwright recordVideo</td>
+<td>FFmpeg drawtext + 렌더링</td>
+</tr>
+<tr>
+<td>시각 검증</td>
+<td>불가</td>
+<td>가능 (직접 프레임 확인)</td>
+</tr>
+<tr>
+<td>DOM 분석</td>
+<td>Playwright evaluate</td>
+<td>Scout 커스텀</td>
+</tr>
+<tr>
+<td>TTS</td>
+<td>Edge TTS Python</td>
+<td>Edge TTS + 재시도</td>
+</tr>
+<tr>
+<td>약점</td>
+<td>결과 시각 확인 불가</td>
+<td>FFmpeg drawtext 한글 제약</td>
+</tr>
+</tbody>
+</table>
+<p><strong>시사점:</strong> Boss는 두 에이전트를 동시에 돌리며 &ldquo;누가 더 잘 만드는가&rdquo; 비교 중.<br>
+Grok은 시각 피드백이 가능해 디버깅이 빠르고, Claude는 자동화 인프라가 탄탄하다.<br>
+최종적으로는 Scout(시각분석·시나리오) + Claude(실행·인코딩) 조합이 최적.</p>
+<h3 id="101-helena-studio-6-_claude">101. Helena Studio 파이프라인 6종 완성 (_Claude)</h3>
+<p>레포: <code>helena751107/helena-programming</code></p>
+<table>
+<thead>
+<tr>
+<th>스크립트</th>
+<th>기능</th>
+<th>입력</th>
+<th>출력</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>make_page.py</code></td>
+<td>프리미엄 HTML 생성</td>
+<td>.md</td>
+<td>.html (글래스·아코디언·Mermaid)</td>
+</tr>
+<tr>
+<td><code>webpage_to_video.py</code></td>
+<td>정적 영상 생성</td>
+<td>.md/URL</td>
+<td>.mp4 (Edge TTS·Playwright·FFmpeg)</td>
+</tr>
+<tr>
+<td><code>make_video.py</code></td>
+<td>대화형 CLI</td>
+<td>.md</td>
+<td>.mp4</td>
+</tr>
+<tr>
+<td><code>record_demo.py</code></td>
+<td>Playwright 녹화</td>
+<td>.html</td>
+<td>.webm (recordVideo)</td>
+</tr>
+<tr>
+<td><code>demo_director.py</code></td>
+<td>자동 씬연출+TTS동기화</td>
+<td>URL</td>
+<td>.mp4 (커서·리플·커튼)</td>
+</tr>
+<tr>
+<td><code>demo_interactive.py</code></td>
+<td>섹션별 캡처</td>
+<td>.md</td>
+<td>.mp4</td>
+</tr>
+</tbody>
+</table>
+<p>페이지: https://helena751107.github.io/helena-programming/</p>
   </article>
   <nav class="wz-pager">
     <a class="" href="session-2026-07-26_Grok.html">

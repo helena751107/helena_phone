@@ -62,9 +62,15 @@
   <button type="button" data-copy="#codeBody">Copy</button>
 </div>
 <pre id="codeBody"><code class="language-sh">#!/bin/bash
-# Telegram 보고 스크립트
-# 사용법: bash ~/work/tg.sh &quot;메시지 내용&quot;
+# Telegram 보고 스크립트 (+ 음성 읽기)
+# 사용법:
+#   bash tg.sh &quot;메시지&quot;              # 텍스트만
+#   bash tg.sh --voice &quot;메시지&quot;      # 텍스트 + 음성 읽기
+#   bash tg.sh --speak &quot;메시지&quot;      # 음성만
 # 환경변수: TG_TOKEN, TG_CHAT
+
+SCRIPT_DIR=&quot;$(cd &quot;$(dirname &quot;$0&quot;)&quot; &amp;&amp; pwd)&quot;
+TTS_SCRIPT=&quot;$SCRIPT_DIR/tts-speak.py&quot;
 
 TOKEN=&quot;${TG_TOKEN:-}&quot;
 CHAT=&quot;${TG_CHAT:-}&quot;
@@ -74,28 +80,62 @@ if [ -z &quot;$TOKEN&quot; ] || [ -z &quot;$CHAT&quot; ]; then
   exit 1
 fi
 
+MODE=&quot;text&quot;
+if [ &quot;$1&quot; = &quot;--voice&quot; ] || [ &quot;$1&quot; = &quot;-v&quot; ]; then
+  MODE=&quot;both&quot;
+  shift
+elif [ &quot;$1&quot; = &quot;--speak&quot; ] || [ &quot;$1&quot; = &quot;-s&quot; ]; then
+  MODE=&quot;voice&quot;
+  shift
+fi
+
 MESSAGE=&quot;$*&quot;
 if [ -z &quot;$MESSAGE&quot; ]; then
-  echo &quot;❌ 메시지를 입력하세요. 사용법: bash ~/work/tg.sh &#x27;메시지&#x27;&quot; &gt;&amp;2
+  echo &quot;❌ 메시지를 입력하세요. 사용법: bash tg.sh [--voice] &#x27;메시지&#x27;&quot; &gt;&amp;2
   exit 1
 fi
 
-# API 호출
-RESPONSE=$(curl -s -X POST &quot;https://api.telegram.org/bot${TOKEN}/sendMessage&quot; \
-  -d chat_id=&quot;$CHAT&quot; \
-  -d text=&quot;$MESSAGE&quot; \
-  -d parse_mode=&quot;HTML&quot; \
-  -w &quot;\n%{http_code}&quot;)
+# ── 텍스트 전송 ──────────────────────────────────
+if [ &quot;$MODE&quot; = &quot;text&quot; ] || [ &quot;$MODE&quot; = &quot;both&quot; ]; then
+  RESPONSE=$(curl -s -X POST &quot;https://api.telegram.org/bot${TOKEN}/sendMessage&quot; \
+    -d chat_id=&quot;$CHAT&quot; \
+    -d text=&quot;$MESSAGE&quot; \
+    -d parse_mode=&quot;HTML&quot; \
+    -w &quot;\n%{http_code}&quot;)
 
-HTTP_CODE=$(echo &quot;$RESPONSE&quot; | tail -1)
-BODY=$(echo &quot;$RESPONSE&quot; | sed &#x27;$d&#x27;)
+  HTTP_CODE=$(echo &quot;$RESPONSE&quot; | tail -1)
+  BODY=$(echo &quot;$RESPONSE&quot; | sed &#x27;$d&#x27;)
 
-if [ &quot;$HTTP_CODE&quot; = &quot;200&quot; ]; then
-  echo &quot;✅ 텔레그램 전송 성공&quot;
-else
-  echo &quot;❌ 텔레그램 전송 실패 (HTTP $HTTP_CODE)&quot;
-  echo &quot;$BODY&quot;
-  exit 1
+  if [ &quot;$HTTP_CODE&quot; = &quot;200&quot; ]; then
+    echo &quot;✅ 텍스트 전송 성공&quot;
+  else
+    echo &quot;❌ 실패 (HTTP $HTTP_CODE)&quot;
+    echo &quot;$BODY&quot;
+    exit 1
+  fi
+fi
+
+# ── 음성 전송 ────────────────────────────────────
+if [ &quot;$MODE&quot; = &quot;voice&quot; ] || [ &quot;$MODE&quot; = &quot;both&quot; ]; then
+  if [ -f &quot;$TTS_SCRIPT&quot; ]; then
+    # HTML 태그 제거한 순수 텍스트로 TTS
+    CLEAN=$(echo &quot;$MESSAGE&quot; | sed &#x27;s/&lt;[^&gt;]*&gt;//g&#x27;)
+    TTS_MP3=$(python3 &quot;$TTS_SCRIPT&quot; --output /tmp/tg_voice_$$.mp3 &quot;$CLEAN&quot; 2&gt;&amp;1 | grep &quot;✅ 저장:&quot; | awk &#x27;{print $NF}&#x27; || echo &quot;/tmp/tg_voice_$$.mp3&quot;)
+    MP3_FILE=&quot;/tmp/tg_voice_$$.mp3&quot;
+
+    if [ -f &quot;$MP3_FILE&quot; ] &amp;&amp; [ -s &quot;$MP3_FILE&quot; ]; then
+      curl -s -X POST &quot;https://api.telegram.org/bot${TOKEN}/sendVoice&quot; \
+        -F &quot;chat_id=$CHAT&quot; \
+        -F &quot;voice=@$MP3_FILE&quot; \
+        -F &quot;caption=🔊 음성 읽기&quot; &gt; /dev/null
+      rm -f &quot;$MP3_FILE&quot;
+      echo &quot;✅ 음성 전송 성공&quot;
+    else
+      echo &quot;⚠️ TTS 변환 실패 — 텍스트만 전송됨&quot;
+    fi
+  else
+    echo &quot;⚠️ tts-speak.py 없음 — pip install edge-tts 필요&quot;
+  fi
 fi
 </code></pre>
 <p style="margin-top:1.5em;color:var(--ink-mute);font-size:.9rem">원본 파일: <code>scripts/tg.sh</code> · Webzine code viewer (no execution)</p>

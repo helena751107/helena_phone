@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="S21 Phone 전체 자산 배분율 + 저장소 메커니즘 분석 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>Allocation Rate — 2026-07-28 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>Allocation Rate — 2026-07-28</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>Allocation Rate — 2026-07-28</h1>
+    <p class="deck">S21 Phone 전체 자산 배분율 + 저장소 메커니즘 분석</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/allocation-rate-2026-07-28.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1">1. 폰 상태</a></li>
+<li><a href="#2">2. 문서 자산</a><ul>
+<li><a href="#_1">파일 타입 분포</a></li>
+</ul>
+</li>
+<li><a href="#3">3. 저장소 메커니즘</a></li>
+<li><a href="#4-allocation-rate">4. 할당률 (Allocation Rate)</a><ul>
+<li><a href="#_2">저장공간 할당</a></li>
+<li><a href="#_3">노력·집중도 할당</a></li>
+<li><a href="#github-pages">GitHub Pages 배분</a></li>
+</ul>
+</li>
+<li><a href="#5">5. 병목·제약</a></li>
+<li><a href="#6">6. 권장: 출판·방송 우선</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <blockquote>
+<p>S21 Phone 전체 자산 배분율 + 저장소 메커니즘 분석<br>
+작성: _Claude (2026-07-28)</p>
+</blockquote>
+<hr>
+<h2 id="1">1. 폰 상태</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>모델</td>
+<td>Samsung Galaxy S21 (aarch64)</td>
+</tr>
+<tr>
+<td>OS</td>
+<td>Android + Termux + proot Ubuntu 26.04</td>
+</tr>
+<tr>
+<td>배터리</td>
+<td>60%, 34.3°C, DISCHARGING</td>
+</tr>
+<tr>
+<td>디스크</td>
+<td>169GB free / 225G total (75% 사용가능)</td>
+</tr>
+<tr>
+<td>건강등급</td>
+<td><strong>B</strong> — WiFi 약함, 마이크 권한, 클립보드</td>
+</tr>
+<tr>
+<td>GitHub Pages</td>
+<td>6/6 정상 (HTTP 200)</td>
+</tr>
+<tr>
+<td>parksy-audio</td>
+<td>private, 986MB, 접근 가능</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="2">2. 문서 자산</h2>
+<table>
+<thead>
+<tr>
+<th>위치</th>
+<th>파일 수</th>
+<th>용량</th>
+<th>유형</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_notebook/</code></td>
+<td>69</td>
+<td>1.7MB</td>
+<td>업무수첩 (Markdown 원본)</td>
+</tr>
+<tr>
+<td><code>notebook/</code></td>
+<td>62</td>
+<td>992KB</td>
+<td>웹진 (HTML 변환본)</td>
+</tr>
+<tr>
+<td><code>_textbook/</code></td>
+<td>-</td>
+<td>32KB</td>
+<td>완결판 교재</td>
+</tr>
+<tr>
+<td>합계</td>
+<td>~131</td>
+<td>~2.7MB</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_1">파일 타입 분포</h3>
+<table>
+<thead>
+<tr>
+<th>타입</th>
+<th>개수</th>
+<th>비율</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HTML</td>
+<td>115</td>
+<td>37%</td>
+</tr>
+<tr>
+<td>Markdown</td>
+<td>106</td>
+<td>34%</td>
+</tr>
+<tr>
+<td>PNG (아이콘·스크린샷)</td>
+<td>30</td>
+<td>10%</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>23</td>
+<td>7%</td>
+</tr>
+<tr>
+<td>JSON (설정·맵)</td>
+<td>18</td>
+<td>6%</td>
+</tr>
+<tr>
+<td>Shell</td>
+<td>17</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>JS (Node)</td>
+<td>10</td>
+<td>3%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>문서가 전체의 71%</strong> — 코딩보다 문서화·기록 비중이 높다.</p>
+<hr>
+<h2 id="3">3. 저장소 메커니즘</h2>
+<pre><code>helena_phone/ (메인 레포)
+├── 📁 _notebook/    1.7MB  업무수첩 원본 (69 md)
+├── 📁 notebook/     992KB  웹진 HTML (62개)
+├── 📁 assets/       5.1MB  정적 리소스
+├── 📁 scripts/      263KB  자동화 스크립트
+├── 📁 mcp-servers/  156KB  phone-mcp-server (18도구)
+├── 📁 care/         64KB   트랙1 돌봄 데몬
+├── 📁 configs/      68KB   설정·템플릿
+├── 📁 g/            64KB   install.sh
+├── 📁 icons/        388KB  PWA 아이콘
+├── 📁 naver/        115KB  네이버 파이프
+├── 📁 tistory-naver/84KB   티스토리·네이버
+├── 📁 ecosystem/    85KB   생태계 맵
+├── 📁 google-api/   64KB   Google OAuth
+├── 📁 01~05/        124KB  GUIDE.md 챕터
+├── 📁 broadcast/    36KB   방송
+├── 📁 network/      36KB   네트워크
+├── 📁 phone-control/36KB   폰 제어
+├── 📁 optimization/ 36KB   최적화
+├── 📁 foundation/   44KB   기초
+└── 📁 helana_log/   1.3MB  로그 서브모듈
+
+helena-piano/ (별도 레포)
+├── 📁 bgm/          BGM Studio (MIDI + 렌더 파이프)
+├── 📁 fridge/       parksy-audio 전수조사
+├── 📁 pages/        문서 브릿지
+├── 📁 icons/        PWA 아이콘
+├── 📁 youtube/      YT 자동화 스크립트
+└── 📄 index.html    55KB  메인 웹진
+
+dtslib1979/parksy-audio/ (외부, 콜라보 접근)
+├── 986MB, 39개 YT 영상 실적
+├── steal.py (YouTube→MIDI)
+├── pipeline/ (작곡·편곡·인간화)
+├── local-agent/ (S21 TG 봇)
+└── docs/ (27종 건축 문서)
+</code></pre>
+<hr>
+<h2 id="4-allocation-rate">4. 할당률 (Allocation Rate)</h2>
+<h3 id="_2">저장공간 할당</h3>
+<table>
+<thead>
+<tr>
+<th>영역</th>
+<th>용량</th>
+<th>비율</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🎨 <strong>문서·웹진</strong></td>
+<td>2.1MB</td>
+<td>7%</td>
+<td>md+html, 업무수첩+웹진</td>
+</tr>
+<tr>
+<td>🎵 <strong>오디오·BGM</strong></td>
+<td>18KB</td>
+<td>0%</td>
+<td>parksy-audio는 외부, 헬레나 내엔 없음</td>
+</tr>
+<tr>
+<td>🖼️ <strong>에셋·아이콘</strong></td>
+<td>5.5MB</td>
+<td>18%</td>
+<td>PNG·SVG·정적 리소스</td>
+</tr>
+<tr>
+<td>⚙️ <strong>스크립트·자동화</strong></td>
+<td>5.3MB</td>
+<td>18%</td>
+<td>Python·Shell·MCP·CI</td>
+</tr>
+<tr>
+<td>📦 <strong>외부 의존성</strong></td>
+<td>18MB</td>
+<td>60%</td>
+<td>node_modules</td>
+</tr>
+<tr>
+<td>합계 (순수)</td>
+<td>~13MB</td>
+<td>—</td>
+<td>node_modules 제외</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_3">노력·집중도 할당</h3>
+<table>
+<thead>
+<tr>
+<th>영역</th>
+<th>집중도</th>
+<th>증거</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>📝 <strong>기록·문서화</strong></td>
+<td>████████ 40%</td>
+<td>131개 md+html, 일지·수첩·웹진</td>
+</tr>
+<tr>
+<td>🎬 <strong>출판·방송</strong></td>
+<td>██████ 30%</td>
+<td>YouTube·네이버·티스토리·랜딩</td>
+</tr>
+<tr>
+<td>🔧 <strong>인프라·자동화</strong></td>
+<td>████ 20%</td>
+<td>MCP·CI·스크립트·TG 봇</td>
+</tr>
+<tr>
+<td>🎵 <strong>오디오·음원</strong></td>
+<td>██ 10%</td>
+<td>parksy-audio (외부), BGM Studio (초기)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="github-pages">GitHub Pages 배분</h3>
+<table>
+<thead>
+<tr>
+<th>페이지</th>
+<th>상태</th>
+<th>역할</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>helena_phone</code></td>
+<td>🟢</td>
+<td>메인 허브 — 모든 것의 관문</td>
+</tr>
+<tr>
+<td><code>helana_log</code></td>
+<td>🟢</td>
+<td>업무일지 — 시간축 기록</td>
+</tr>
+<tr>
+<td><code>helana-faith</code></td>
+<td>🟢</td>
+<td>신앙사 — 가족·비교종교</td>
+</tr>
+<tr>
+<td><code>helena-piano</code></td>
+<td>🟢</td>
+<td>피아노 스튜디오 — 웹진·BGM</td>
+</tr>
+<tr>
+<td><code>helena-psycare</code></td>
+<td>🟢</td>
+<td>심리 케어</td>
+</tr>
+<tr>
+<td><code>parksy-audio</code></td>
+<td>🔒</td>
+<td>오디오 엔진 — 외부(private)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="5">5. 병목·제약</h2>
+<table>
+<thead>
+<tr>
+<th>제약</th>
+<th>영향</th>
+<th>대응</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>proot Ubuntu 휘발성</td>
+<td>재설치 시 패키지 증발</td>
+<td>복구 스크립트 (<code>bgm/scripts/render.sh</code>)</td>
+</tr>
+<tr>
+<td>GitHub Actions 냉시동</td>
+<td>첫 실행 5분+</td>
+<td>actions/cache@v4 (v6 검증)</td>
+</tr>
+<tr>
+<td>Internet Archive 장애</td>
+<td>Salamander SF2 다운로드 불가</td>
+<td>MuseScore General 대체, IA 복구 대기</td>
+</tr>
+<tr>
+<td>206MB SoundFont git 불가</td>
+<td>bgm/salamander.sf2 추적 불가</td>
+<td>.gitignore + CI 캐시</td>
+</tr>
+<tr>
+<td>S21 배터리 60%</td>
+<td>장시간 렌더링 제한</td>
+<td>GitHub Actions로 오프로드</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="6">6. 권장: 출판·방송 우선</h2>
+<p><strong>음원 렌더링은 기술적으로 증명됐지만, 콘텐츠가 먼저다.</strong></p>
+<table>
+<thead>
+<tr>
+<th>순서</th>
+<th>액션</th>
+<th>의존성</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>YouTube 채널 콘텐츠 기획 (@HelenaPark-e7c)</td>
+<td>없음</td>
+</tr>
+<tr>
+<td>2</td>
+<td>웹진에 실제 세션 로그 채우기</td>
+<td>없음</td>
+</tr>
+<tr>
+<td>3</td>
+<td>MIDI 라이브러리 구축 (Public Domain)</td>
+<td>bitmidi·Mutopia</td>
+</tr>
+<tr>
+<td>4</td>
+<td>GitHub Actions BGM 자동화 실사용</td>
+<td>3 완료 후</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Salamander SF2 입수 + 적용</td>
+<td>IA 복구 또는 수동 빌드</td>
+</tr>
+</tbody>
+</table>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="48-director-video-recurrence_Grok.html">
+          <span class="dir">Previous</span>
+          <span class="title">재발일지 — Director 소개 영상 품질 사고 (_Grok)</span>
+        </a>
+    <div></div>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>
