@@ -83,6 +83,123 @@
 
 **원칙:** Grok은 Boss가 "이번 건 고급으로" 했을 때만 켜는 프리미엄 옵션. 평시 기본값 = DeepSeek + 무료 티어 조합.
 
+---
+
+### 🎬 YouTube = 공짜 CDN 전략 (_Boss)
+
+**Boss 아이디어:** 정지사진을 ffmpeg으로 영상화하고, YouTube에 올려서 CDN으로 쓴다.
+
+| 호스팅 | 비용 | 대역폭 | 스트리밍 | 임베드 |
+|--------|------|--------|----------|--------|
+| GitHub Pages | 무료 | 1GB 제한 | ❌ | `<video>` |
+| 직접 서빙 | 비쌈 | 종량제 | 수동 | 직접 구현 |
+| **YouTube** | **무료** | **무제한** | **적응형 비트레이트** | **iframe 1줄** |
+
+**YouTube CDN 장점:**
+- 무제한 저장소 + 전 세계 엣지 캐싱
+- 적응형 비트레이트 (144p~4K 자동)
+- 랜딩페이지에 `<iframe>` 1줄이면 GitHub Pages 1GB 제한 우회
+- YouTube Shorts로 숏폼 노출 별도 채널
+- 조회수·시청 시간 분석 제공
+
+**파이프 구체화:**
+```
+AI 이미지 생성 (Grok Aurora / Bing / Gemini)
+  → ffmpeg Ken Burns (정지→움직임, 5~8초/장)
+  → ffmpeg concat (크로스페이드)
+  → TTS + 자막 번인 (기존 voice_engine.py, subtitles.py)
+  → 배경음악 믹싱
+  → YouTube Data API upload
+  → URL 발행 → 랜딩·TG·네이버·티스토리 임베드
+```
+
+기존 Director 모듈(voice_engine, subtitles, enforce) 그대로 재사용. `ken_burns.py` + YouTube 업로더만 추가.
+
+---
+
+### 📱 Samsung Gallery 자동화 — 불가, ffmpeg으로 대체 (_Boss)
+
+**결론: Gallery 앱은 CLI 제어 불가. API 없음. UI 터치 외 방법 전무.**
+
+갤러리 기능별 대체:
+
+| Gallery 기능 | 대체 기술 | 가능 |
+|-------------|----------|------|
+| 사진 여러 장 → 슬라이드쇼 | `ffmpeg concat + fade` | ✅ |
+| 사진 1장 → 줌/팬 움직임 | `ffmpeg zoompan` (Ken Burns) | ✅ |
+| 모션 포토 → mp4 추출 | `ffmpeg`로 JPEG 내장 비디오 분리 | ✅ |
+| AI 모션 효과 (3D 시차) | Depth-Anything-V2 + parallax | ⚠️ PC GPU 필요 |
+| 자막·타이틀 오버레이 | `ffmpeg drawtext` | ✅ |
+| 배경음악 믹싱 | `ffmpeg amix` | ✅ |
+
+**원칙:** Gallery는 수동 소비자 앱. CLI 파이프에서는 ffmpeg이 Gallery의 90%를 대체. AI 3D 모션 효과만 V3(PC)로.
+
+---
+
+### 🚫 PWA/APK 개발 — 하지 마라 (_Boss)
+
+**Boss 판단:** 이미 CLI 파이프 + Boss→Grok 대화로 충분. GUI 앱 개발은 오버킬.
+
+| 이유 | 설명 |
+|------|------|
+| CLI 파이프 완비 | `perfect_ship.py` 한 줄이 클릭 100번 대체 |
+| APK = 감옥 | 안드로이드 패키징·심사·업데이트·권한 — 1인 개발자 부담 과다 |
+| PWA = 오버킬 | 이미 CLI 도구 있는데 웹 UI 만드는 건 같은 일 두 번 |
+| 니가 싫은 건 "클릭 노가다"지 "CLI"가 아님 | 인터페이스 문제 아님. 자동화 문제. |
+
+**진짜 필요한 인터페이스:** Boss 한마디 → Grok → CLI 실행 → TG 보고. 이미 다 있다.
+
+---
+
+### 🔌 MCP On-Demand 아키텍처 — stdio 전환 (_Boss)
+
+**현재 문제:** `phone-mcp-server` (18개 도구, Node.js, port 3456)가 24시간 상시 대기. 폰 RAM 낭비.
+
+**목표:** Agent가 필요할 때만 MCP 서버 spawn, 사용 후 자동 종료.
+
+**현재 (낭비):**
+```
+phone-mcp-server (Node.js, port 3456) ← 24시간 대기
+        ↑ HTTP
+   Claude Code
+```
+
+**목표 (On-Demand):**
+```
+Claude Code가 MCP 툴 필요할 때
+  → spawn('node', ['server.js', '--stdio'])
+  → stdin/stdout 통신 (포트 없음)
+  → Claude Code 종료 → 프로세스 자동 사망
+```
+
+**구현 경로:**
+1. **오늘 당장:** 세션 시작 시 `node server.js &`, 종료 시 `kill`. 세션 중에만 동작 (24시간→수 분).
+2. **이번 주:** phone-mcp-server에 `--stdio` 모드 30줄 추가. MCP SDK에 `StdioServerTransport` 이미 내장.
+3. **완료 시:** `.claude/settings.json` 을 `command` + `stdio` 로 변경. Claude Code가 알아서 lifecycle 관리.
+
+**의미:** proot Ubuntu를 깔았던 이유(Python·Node.js 온전히, PC 같은 환경)가 MCP on-demand까지 자연스럽게 연결된다.
+
+---
+
+### 📋 오늘 전체 세션 요약 — 2026-08-02 (_Boss + _Claude)
+
+**Grok 3일 작업 파싱 (7/31~8/2):**
+- Director PRO v3→v8: visual proof → Vision QA → 5막 연출 → 만점 → perfect_ship → community A-bar
+- Scout v2: ARIA snapshot + getByRole live verify (CSS 수프 탈출)
+- perfect_ship L0–L9 사다리: 유일 진입점, remediation_map, SHIP 게이트
+- 영상 3트랙 정본: V1(PPT·0원) / V2(Grok 파이프·5만원) / V3(ComfyUI·GPU)
+- 백서: Grok 영상 프로세스 정본 — Grok=손·눈(설계·비전), 로컬=카메라·편집실
+
+**Boss 결론 6종:**
+1. **V2 천장:** 폰+Grok으로 빅테크 튜토리얼 불가. V3는 PC 연동 필수.
+2. **이미지 생성:** 폰 NPU(Exynos 2100)로 SD 로컬 추론 불가. Grok Aurora + Bing/Gemini/Leonardo 무료 티어 오케스트레이션.
+3. **LLM 비용:** Grok 49,000원 = 옵션. 기본은 DeepSeek API ~1만원 + 무료 티어 + YouTube CDN.
+4. **CDN:** YouTube = 공짜 무제한 CDN. 모든 영상 여기에 + 랜딩에 iframe.
+5. **Gallery:** 자동화 불가. ffmpeg으로 90% 대체. 3D 모션만 PC로.
+6. **MCP:** stdio 전환으로 On-Demand. 세션 중에만 서버 동작.
+
+**오늘의 진짜 수확:** "폰 안에서 어떻게든"이 아니라, **폰=지휘본부, 외부=렌더팜** 으로 페러다임 전환. 이걸 3일 부딪혀서 몸으로 깨달은 게 가장 큰 자산.
+
 ### Director PRO v8 소원 풀이 (_Grok)
 
 **Boss:** 진짜 프로급, 이전 TG보다 훨씬 잘.  
