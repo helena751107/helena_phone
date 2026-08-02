@@ -59,6 +59,37 @@ cp /sdcard/DCIM/Screenshots/Screenshot_* ~/   # Termux에서
 
 **이 다리 하나로 Director v1→v8 같은 진화가 이미지 파이프에서도 가능해짐.**
 
+### 💾 proot/Termux 데이터 생존성 분석 (_Boss)
+
+**질문: 폰 재부팅하거나 Termux 지우면 설정 날아가나?**
+
+| 상황 | proot | 스크립트 | repos | 설정 | 파이프 |
+|------|-------|----------|-------|------|--------|
+| **폰 재부팅** | ✅ 유지 | ✅ 유지 | ✅ 유지 | ✅ 유지 | ⚠️ 상시 프로세스만 재시작 |
+| **Termux 강제종료** | ✅ 유지 | ✅ 유지 | ✅ 유지 | ✅ 유지 | ⚠️ 동일 |
+| **Termux 캐시 삭제** | ✅ 유지 | ✅ 유지 | ✅ 유지 | ✅ 유지 | ✅ |
+| **Termux 앱 삭제** | ❌ 전부 날아감 | ❌ | ❌ | ❌ | ❌ |
+| **공장 초기화** | ❌ 전부 날아감 | ❌ | ❌ | ❌ | ❌ |
+
+**원리:**
+- proot 우분투는 `/data/data/com.termux/files/` 아래 파일 시스템으로 저장
+- 앱 데이터 영역이라 재부팅·강제종료에도 유지
+- Termux 앱 삭제 시에만 통째로 증발
+
+**방지책:**
+- 모든 코드는 GitHub에 푸시 완료 → `git clone` 한 번이면 복구
+- proot 우분투는 `install.sh`로 재설치 가능
+- `.bashrc` 설정(TG_TOKEN 등)만 별도 백업하면 완전 복구
+```bash
+tar -czf /sdcard/termux-backup-$(date +%Y%m%d).tar.gz \
+  /data/data/com.termux/files/home/.bashrc \
+  /data/data/com.termux/files/home/.profile \
+  /root/.bashrc
+```
+- `/sdcard/`는 Termux 삭제와 무관하게 보존됨 → 거기에 백업 저장
+
+**결론: 재부팅 걱정 마라. Termux만 지우지 마라.**
+
 ### 🕐 proot Ubuntu 시계 → 한국 시간(KST) 고정 (_Grok)
 
 **배경:** 세션 로그·`ls` mtime이 `5:52 PM` 등으로 찍혀 헷갈림. proot Ubuntu가 기본 **UTC(`Etc/UTC`)** 였고, Android/Termux는 이미 `Asia/Seoul`.
