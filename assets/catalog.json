@@ -696,6 +696,94 @@
     "deck": "작성: 2026-07-31 · 에이전트: Grok 디자이너"
   },
   {
+    "src": "_notebook/49-director-community-research_Grok.md",
+    "out": "notebook/49-director-community-research_Grok.html",
+    "title": "Director 수준 상향 — 커뮤니티·프로 제품 리서치 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-07-31 · 목적: 하이테크 제품 튜토리얼 / 에이전트급 데모 영상 기준 정립"
+  },
+  {
+    "src": "_notebook/50-director-pro-v3-visual-proof_Grok.md",
+    "out": "notebook/50-director-pro-v3-visual-proof_Grok.html",
+    "title": "Director PRO v3 — Visual Proof 강제 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-08-01 · 목적: **가짜 SHIP PASS 종식** — 클릭 카운트만 통과하는 산출 차단"
+  },
+  {
+    "src": "_notebook/51-scout-v2-community-research_Grok.md",
+    "out": "notebook/51-scout-v2-community-research_Grok.html",
+    "title": "Scout v2 — 커뮤니티 리서치 → ARIA Planner급 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-08-01 · Boss: “Claude Chrome보다 스카우트가 더 나을 수 있다. 커뮤니티 방법 있다.”"
+  },
+  {
+    "src": "_notebook/52-director-vision-qa-loop_Grok.md",
+    "out": "notebook/52-director-vision-qa-loop_Grok.html",
+    "title": "Director Vision QA 루프 — 만점까지 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-08-01 · Boss: 비전 셀프 QA 넣고 클로드급 튜토리얼 바까지 올려라. 중간 TG 보고."
+  },
+  {
+    "src": "_notebook/53-director-plan-settings_Grok.md",
+    "out": "notebook/53-director-plan-settings_Grok.html",
+    "title": "연출 설정 — Director Plan First (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-08-01 · Boss: “빛이 따로 놀아. 플랜 자체가 없어. 연출 설정부터 만들어.”"
+  },
+  {
+    "src": "_notebook/54-director-pro-v5-five-act_Grok.md",
+    "out": "notebook/54-director-pro-v5-five-act_Grok.html",
+    "title": "Director PRO v5 — 연출 5막 shoot 연주 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-08-02 · URL: https://helena751107.github.io/helena_phone/"
+  },
+  {
+    "src": "_notebook/55-director-pro-v6-perfect_Grok.md",
+    "out": "notebook/55-director-pro-v6-perfect_Grok.html",
+    "title": "Director PRO v6 — 만점 솔루션 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-08-02 · Boss: 초A급 올려라. 솔루션."
+  },
+  {
+    "src": "_notebook/56-director-perfect-ship-process_Grok.md",
+    "out": "notebook/56-director-perfect-ship-process_Grok.html",
+    "title": "Director Perfect Ship — 만점 프로세스 코드화 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-08-02 · Boss: 만점 올릴 때 쓰던 프로세스 자체를 솔루션·코드로 고정. 매번 마음대로 하지 마라."
+  },
+  {
+    "src": "_notebook/57-director-community-a-bar_Grok.md",
+    "out": "notebook/57-director-community-a-bar_Grok.html",
+    "title": "Director Community A-bar — 구현 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-08-02 · 커뮤니티 리서치(recast / Purple Owl / Screencast) → 코드 고정"
+  },
+  {
+    "src": "_notebook/58-video-three-tracks_Grok.md",
+    "out": "notebook/58-video-three-tracks_Grok.html",
+    "title": "영상 3트랙 — PPT → Grok 파이프 → ComfyUI 프로 마감 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "선언: Boss 2026-07-31 (§103) · 정리·현행화: 2026-08-02 (_Grok)"
+  },
+  {
+    "src": "_notebook/59-grok-video-process-whitepaper_Grok.md",
+    "out": "notebook/59-grok-video-process-whitepaper_Grok.html",
+    "title": "백서: Grok으로 제품 투어 영상 만들기",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "**S21 Phone · Helena Director / Perfect Ship**"
+  },
+  {
     "src": "_notebook/allocation-rate-2026-07-28.md",
     "out": "notebook/allocation-rate-2026-07-28.html",
     "title": "Allocation Rate — 2026-07-28",
