@@ -2,6 +2,42 @@
 
 ## DAY — 2026-08-02
 
+### ⚡ 임계점 선언 — V2 천장 도달, V3는 폰 밖에서 (_Boss)
+
+**Boss 판단:** 폰 + Grok(49,000원) + Director/perfect_ship으로 **문서급 제품 투어(A−)** 까지는 도달했다.  
+그러나 **빅테크 수준의 런칭 필름·튜토리얼**은 핸드폰 안에서는 절대 안 된다.
+
+**이유 (3일 직접 부딪힌 결론):**
+1. **TTS 천장** — edge-tts/tts-1-hd 모두 기계 소리. 성우 디렉팅은 대체 불가.
+2. **모션 디자인** — CSS 애니메이션은 After Effects/Rive의 10%도 못 따라잡음.
+3. **편집** — ffmpeg concat + setpts로는 컬러 그레이딩·오디오 스위트닝·트랜지션 불가.
+4. **GPU** — ComfyUI·Blender·DaVinci 모두 폰에서 실행 자체가 안 됨.
+5. **원샷 한계** — Playwright 단일 촬영. 멀티테이크·베스트픽 없음.
+
+**아키텍처 방향:**
+```
+📱 S21 (워크센터)                      🖥️ PC (렌더팜)
+┌─────────────────────────┐      ┌─────────────────────────┐
+│ Boss 지시                │      │ DaVinci Resolve (컬러)   │
+│ Grok 설계·시나리오·연출   │──API──▶│ ComfyUI (AI 모션·VFX)     │
+│ perfect_ship 사다리 감독  │◀─결과─│ Remotion/Blender (합성)  │
+│ TG 수령·배포              │      │ FFmpeg 마스터링           │
+└─────────────────────────┘      └─────────────────────────┘
+         Tailscale / API 방아쇠
+```
+
+**원칙:**
+- V1·V2 = **폰 자급자족** (문서·내부용·빠른 데모)
+- V3 = **폰이 PC에 작업 지시 → PC가 렌더 → 폰이 수령·배포**
+- PyAutoGUI 같은 GUI 클릭 자동화는 **절대 금지** (유리몸 파이프). API 있는 도구만 쓸 것.
+- 후보: DaVinci Resolve(무료+Python API), Remotion(React 코드), Blender VSE, ComfyUI API
+
+**이 임계점이 중요한 이유:** 더 이상 "폰 안에서 어떻게든"이 아니라 **워크센터 연동 아키텍처**로 페러다임 전환해야 한다.
+
+**관련:** `58-video-three-tracks_Grok.md` · `59-grok-video-process-whitepaper_Grok.md` · `60-director-pro-v8-wish_Grok.md`
+
+---
+
 ### Director PRO v8 소원 풀이 (_Grok)
 
 **Boss:** 진짜 프로급, 이전 TG보다 훨씬 잘.  
