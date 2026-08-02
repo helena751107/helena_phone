@@ -2,6 +2,63 @@
 
 ## DAY — 2026-08-03
 
+### 🔓 proot ↔ Android 저장소 다리 개통 — 사진→영상→TG 파이프 최초 성공 (_Boss + _Claude)
+
+**돌파구:** Termux `~/` = proot `/data/data/com.termux/files/home/` = **공유 영역**
+```bash
+cp /sdcard/DCIM/Screenshots/Screenshot_* ~/   # Termux에서
+```
+→ proot에서 바로 ffmpeg 처리 → TG 전송 성공.
+
+**의미:**
+- **터치 노동 탈피:** 갤러리·편집앱·저장버튼 없이 CPU/GPU 직행 연산
+- **폰 = 1인 제작 서버:** 입력(사진)→전송→로컬연산(ffmpeg)→인코딩→배포(TG) 자동화
+- **샌드박스 파괴:** Android 파일시스템 ↔ proot 우분투 파이프 연결
+
+**검증:**
+- 스크린샷 2장 → ffmpeg 슬라이드쇼 (6초, 720p, 323KB) → TG 전송 완료
+- TG 토큰 갱신 (`.bashrc` 업데이트)
+
+**Gemini 평가:** "터치 노동으로 하던 일을 폰 내부의 자율 연산 파이프라인으로 전환. 구조 변화 자체가 엄청난 포인트."
+
+### 📋 proot ↔ Termux 다리로 풀리는 팬딩 이슈들 (_Boss)
+
+**이전까지 막혔던 것 — proot가 Android 샌드박스에 갇혀서:**
+1. DCIM/Camera 사진 자동 처리 — ❌ proot에서 `/sdcard` 접근 불가
+2. 스크린샷 → 영상 → 배포 — ❌ 동일
+3. 카메라 촬영 → ffmpeg 직결 — ❌
+4. 다운로드 폴더 감시 — ❌
+5. Android 알림 → proot 트리거 — ❌
+
+**이제 되는 것 (Termux `~/` 중계):**
+
+| # | 새로 가능한 것 | 방법 |
+|---|-------------|------|
+| 1 | **사진 찍으면 자동 영상화** | Termux `inotifywait ~/` → 새 파일 감지 → ffmpeg → TG |
+| 2 | **스크린샷 → 블로그·TG 자동** | `cp /sdcard/DCIM/Screenshots/* ~/` → 처리 파이프 |
+| 3 | **termux-camera-photo → ffmpeg → YouTube** | Termux:API 카메라 → `~/` 저장 → proot 처리 |
+| 4 | **클립보드 브릿지** | `termux-clipboard-get/set` → proot 파이프 입력 |
+| 5 | **Android 알림 발행** | `termux-notification` → 파이프 완료 시 폰 알림 |
+| 6 | **TTS 읽어주기** | `termux-tts-speak` → TG 보고 도착 시 음성 알림 |
+| 7 | **문자·통화 로그 수집** | `termux-sms-list` · `termux-call-log` → proot 분석 |
+| 8 | **배터리·센서 모니터링** | `termux-battery-status` · `termux-sensor` → 대시보드 |
+| 9 | **홈 화면 위젯 트리거** | `~/.shortcuts/` 스크립트 → 터치 한 번으로 파이프 가동 |
+| 10 | **공유 메뉴 → proot 직결** | Termux:API 공유 수신 → `~/` 저장 → 자동 처리 |
+
+**아키텍처:**
+```
+📱 Android (센서·카메라·저장소·알림)
+        │
+        ▼ Termux ~/ (공유 브릿지)
+        │
+🖥️ proot Ubuntu (ffmpeg·Director·Python·Claude Code)
+        │
+        ▼
+🌐 배포 (TG·YouTube·블로그)
+```
+
+**이 다리 하나로 Director v1→v8 같은 진화가 이미지 파이프에서도 가능해짐.**
+
 ### 🕐 proot Ubuntu 시계 → 한국 시간(KST) 고정 (_Grok)
 
 **배경:** 세션 로그·`ls` mtime이 `5:52 PM` 등으로 찍혀 헷갈림. proot Ubuntu가 기본 **UTC(`Etc/UTC`)** 였고, Android/Termux는 이미 `Asia/Seoul`.
