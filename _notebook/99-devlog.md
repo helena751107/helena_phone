@@ -38,6 +38,23 @@
 
 ---
 
+---
+
+### 🖼️ 이미지 생성 전략 — 공짜 티어 오케스트레이션 (_Boss)
+
+**전제: 폰 NPU로 로컬 SD 추론 불가.**
+- 실제 스펙: Exynos 2100 · RAM 7.0GB (proot) · 가용 ~2GB
+- Stable Diffusion 최소 퀀타이즈도 4~6GB 필요 → OOM 튕김
+- NPU는 2021년 설계, 확산 모델 연산자 미지원. CPU/GPU로만 돌면 수 분 + 발열.
+
+**결론: 이미지도 영상과 같은 패턴 — 폰은 지휘, 외부는 렌더.**
+- 무료 티어 여러 LLM을 돌려가며 하루 필요량 확보
+- Grok Aurora(구독, 1차 양산) + Bing Copilot(DALL·E 3, 15장/일) + Gemini(Imagen, 3~5장/일) + Leonardo(150 tokens/일)
+- 계정 여러 개 파는 노가다보다 **서비스 다양화**가 더 안정적. ToS 위반 리스크 없고 전화번호 인증 필요 없음.
+- 향후: `perfect_ship.py`처럼 이미지 생성 라우터 스크립트화 (quota 확인 → 서비스 선택 → 결과 저장)
+
+**관련:** `58-video-three-tracks_Grok.md` · V3 PC 연동 논의 · `33-hybrid-image-video-whitepaper.md`
+
 ### Director PRO v8 소원 풀이 (_Grok)
 
 **Boss:** 진짜 프로급, 이전 TG보다 훨씬 잘.  
