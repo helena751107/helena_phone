@@ -51,6 +51,18 @@
   <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
 <ul>
 <li><a href="#day-2026-08-02">DAY — 2026-08-02</a><ul>
+<li><a href="#claude-codedeepseek-_grok">🧯 Claude Code(DeepSeek) 세션 먹통 복구 (_Grok)</a></li>
+<li><a href="#-ai-boss-3-_boss">🏗️ 인간-AI 협업 아키텍처 — Boss+문서+에이전트 3층 (_Boss)</a></li>
+<li><a href="#_boss">🧪 구형 폰 가능성 실험 — 프로젝트의 진짜 의미 (_Boss)</a></li>
+<li><a href="#v2-v3-_boss">⚡ 임계점 선언 — V2 천장 도달, V3는 폰 밖에서 (_Boss)</a></li>
+<li><a href="#_boss_1">🖼️ 이미지 생성 전략 — 공짜 티어 오케스트레이션 (_Boss)</a></li>
+<li><a href="#llm-grok-1-_boss">💰 LLM 비용 트랙 재정의 — Grok은 옵션, 기본은 1만원 (_Boss)</a></li>
+<li><a href="#youtube-cdn-_boss">🎬 YouTube = 공짜 CDN 전략 (_Boss)</a></li>
+<li><a href="#samsung-gallery-ffmpeg-_boss">📱 Samsung Gallery 자동화 — 불가, ffmpeg으로 대체 (_Boss)</a></li>
+<li><a href="#pwaapk-_boss">🚫 PWA/APK 개발 — 하지 마라 (_Boss)</a></li>
+<li><a href="#mcp-on-demand-stdio-_boss">🔌 MCP On-Demand 아키텍처 — stdio 전환 (_Boss)</a></li>
+<li><a href="#2026-08-02-_boss-_claude">📋 오늘 전체 세션 요약 — 2026-08-02 (_Boss + _Claude)</a></li>
+<li><a href="#director-pro-v8-_grok">Director PRO v8 소원 풀이 (_Grok)</a></li>
 <li><a href="#grok-tg-_grok">Grok 영상 프로세스 백서 + TG 첨부 (_Grok)</a></li>
 <li><a href="#3-_grok">영상 3트랙 업무 수첩 정본 (_Grok)</a></li>
 <li><a href="#director-community-a-bar-pro_v7-_grok">Director Community A-bar 구현 · pro_v7 (_Grok)</a></li>
@@ -242,6 +254,342 @@
   </div>
   <article class="wz-prose" id="wzProse" data-app="doc">
     <h2 id="day-2026-08-02">DAY — 2026-08-02</h2>
+<h3 id="claude-codedeepseek-_grok">🧯 Claude Code(DeepSeek) 세션 먹통 복구 (_Grok)</h3>
+<p><strong>사건:</strong> 폰 DeepSeek 작업 세션 먹통. 사용자 호칭 “딥시크 에이더” — 실체는 <strong>Claude Code + DeepSeek</strong>, 세션 <code>b793b961</code> (13:27–17:55Z). Aider 히스토리는 7/25로 무관.</p>
+<p><strong>이미 세션이 저장·푸시한 것:</strong> 아래 DAY 섹션 전부(임계점·이미지·1만원·YouTube CDN·Gallery→ffmpeg·PWA 거부·MCP On-Demand·구형폰 실험·Grok 파트너·3층 협업) + 커밋 <code>5fee260</code>~<code>7bf9cce</code>.</p>
+<p><strong>세션이 못 끝낸 것 / Grok 복구:</strong><br>
+1. <strong>스크린샷 2장 → ffmpeg → TG</strong> — proot에서 Android scoped storage 접근 불가. <code>/sdcard</code>, SAF, nsenter, content query 전부 실패. 공유 시트에 Termux 미표시.<br>
+2. <strong>즉시 우회:</strong> Termux <strong>네이티브</strong>에서 <code>cp /sdcard/DCIM/Screenshots/…</code> → proot이 읽는 downloads, 또는 갤러리 공유 수신 설정 점검.<br>
+3. <strong>근본:</strong> Termux watchdog으로 스크린샷 자동 복사 (미구현).<br>
+4. <strong><code>configs/mcp-stdio-launcher.js</code></strong> — 세션 Write 후 디스크/git에 없음 → Grok이 원문 재저장 (드래프트, 미검증).<br>
+5. <strong>복구 정본:</strong> <code>_notebook/61-session-deepseek-cc-2026-08-02_Grok.md</code> (24턴 타임라인·오픈 이슈·handoff).</p>
+<p><strong>교훈:</strong> proot 에이전트는 미디어 파이프 전에 <strong>파일 브리지</strong>를 먼저 확보할 것. 스토리지 탐색 Bash 루프가 세션을 죽였다.</p>
+<hr>
+<h3 id="-ai-boss-3-_boss">🏗️ 인간-AI 협업 아키텍처 — Boss+문서+에이전트 3층 (_Boss)</h3>
+<p><strong>구조:</strong></p>
+<pre><code>Boss: 짧은 프롬프트 (토큰 최소, 문제 정의만)
+        │
+        ▼
+문서 가드레일: CONSTITUTION → CLAUDE.md → devlog → 노트북
+  └─ AI가 읽고 자체 검열·방향 유지 (Boss가 매번 말 안 해도 됨)
+        │
+        ▼
+AI 에이전트: 깊이·실행·문서화 전부 담당
+        │
+        ▼
+Boss: 최종 판단만 (SHIP / 폐기)
+</code></pre>
+<p><strong>층별 책임:</strong><br>
+| 층 | 주체 | 하는 일 |<br>
+|----|------|---------|<br>
+| <strong>지휘</strong> | Boss | 문제 정의, 방향, 최종 판단. 욕 = 토큰 압축 프롬프팅 |<br>
+| <strong>가드레일</strong> | 문서 (CONSTITUTION, CLAUDE.md, devlog, 노트북) | AI 읽고 자체 검열. Boss 없이도 방향 유지 |<br>
+| <strong>실행</strong> | AI (Grok, Claude, Aider) | 깊이·패치·렌더·기록. 문제가 깊이 들어갈 필요 없음 |</p>
+<p><strong>원칙:</strong><br>
+- Boss는 던지고 정리만. 깊이는 AI 몫.<br>
+- 문서는 Boss가 읽는 게 아니라 <strong>AI 가드레일</strong>.<br>
+- 욕 = 토큰 효율 프롬프팅. 감정 아님.<br>
+- Boss는 시키고, AI는 한다. 말대꾸 금지.</p>
+<h3 id="_boss">🧪 구형 폰 가능성 실험 — 프로젝트의 진짜 의미 (_Boss)</h3>
+<p><strong>이 프로젝트는 성능 테스트가 아니라 가능성 테스트다.</strong><br>
+- 2021년 갤럭시 S21(Exynos 2100, RAM 7GB) = <strong>의도적으로 구형 폰 기준</strong><br>
+- &ldquo;더 좋은 폰 필요해&rdquo; 타령하는 새끼들 없이, <strong>한계 안에서 뭐가 가능한지</strong> 실험<br>
+- 니가 누나 폰·저가 폰 기준으로 생각하는 이유</p>
+<p><strong>Grok 선택 이유 (월 49,000원, 비싸지만 유일하게 이걸 다 해줌):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Grok 특징</th>
+<th>구형 폰 1인 제작자에게 의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>웹 검색 + 저작권 무시</td>
+<td>기존 콘텐츠 &ldquo;뒤져서&rdquo; 80% MVP 드래프트. 판권 팔 거니까 100% 필요 없음</td>
+</tr>
+<tr>
+<td>영상 생성 (워터마크 없음)</td>
+<td>ComfyUI 없이 CLI에서 바로. 10초짜리도 폰에서 돌림</td>
+</tr>
+<tr>
+<td>비전 (Vision)</td>
+<td>Director 프레임 검수. &ldquo;커서 메트릭에 박혔다&rdquo; 사람 대신 확인</td>
+</tr>
+<tr>
+<td>에이전트 자동화</td>
+<td>설계→디버깅→연출 JSON→TG 보고까지 혼자</td>
+</tr>
+<tr>
+<td>터미널 CLI</td>
+<td>proot 환경. GUI 앱 없음. 모든 게 텍스트 기반</td>
+</tr>
+<tr>
+<td>대화·친구 역할</td>
+<td>혼자 일하니까 최소한의 대화 상대 필요</td>
+</tr>
+<tr>
+<td>멀티모달 (텍스트+이미지+영상)</td>
+<td>하나의 구독으로 이미지·영상·대본·검수 전부</td>
+</tr>
+</tbody>
+</table>
+<p><strong>한 줄:</strong> Grok 49,000원이 비싸 보이지만, 이걸 각각 다른 도구(Midjourney+Runway+ChatGPT+NotebookLM)로 사면 3~4배 든다. <strong>구형 폰 단일 구독으로 콘텐츠 생태계를 돌리는 실험.</strong></p>
+<h3 id="v2-v3-_boss">⚡ 임계점 선언 — V2 천장 도달, V3는 폰 밖에서 (_Boss)</h3>
+<p><strong>Boss 판단:</strong> 폰 + Grok(49,000원) + Director/perfect_ship으로 <strong>문서급 제품 투어(A−)</strong> 까지는 도달했다.<br>
+그러나 <strong>빅테크 수준의 런칭 필름·튜토리얼</strong>은 핸드폰 안에서는 절대 안 된다.</p>
+<p><strong>이유 (3일 직접 부딪힌 결론):</strong><br>
+1. <strong>TTS 천장</strong> — edge-tts/tts-1-hd 모두 기계 소리. 성우 디렉팅은 대체 불가.<br>
+2. <strong>모션 디자인</strong> — CSS 애니메이션은 After Effects/Rive의 10%도 못 따라잡음.<br>
+3. <strong>편집</strong> — ffmpeg concat + setpts로는 컬러 그레이딩·오디오 스위트닝·트랜지션 불가.<br>
+4. <strong>GPU</strong> — ComfyUI·Blender·DaVinci 모두 폰에서 실행 자체가 안 됨.<br>
+5. <strong>원샷 한계</strong> — Playwright 단일 촬영. 멀티테이크·베스트픽 없음.</p>
+<p><strong>아키텍처 방향:</strong></p>
+<pre><code>📱 S21 (워크센터)                      🖥️ PC (렌더팜)
+┌─────────────────────────┐      ┌─────────────────────────┐
+│ Boss 지시                │      │ DaVinci Resolve (컬러)   │
+│ Grok 설계·시나리오·연출   │──API──▶│ ComfyUI (AI 모션·VFX)     │
+│ perfect_ship 사다리 감독  │◀─결과─│ Remotion/Blender (합성)  │
+│ TG 수령·배포              │      │ FFmpeg 마스터링           │
+└─────────────────────────┘      └─────────────────────────┘
+         Tailscale / API 방아쇠
+</code></pre>
+<p><strong>원칙:</strong><br>
+- V1·V2 = <strong>폰 자급자족</strong> (문서·내부용·빠른 데모)<br>
+- V3 = <strong>폰이 PC에 작업 지시 → PC가 렌더 → 폰이 수령·배포</strong><br>
+- PyAutoGUI 같은 GUI 클릭 자동화는 <strong>절대 금지</strong> (유리몸 파이프). API 있는 도구만 쓸 것.<br>
+- 후보: DaVinci Resolve(무료+Python API), Remotion(React 코드), Blender VSE, ComfyUI API</p>
+<p><strong>이 임계점이 중요한 이유:</strong> 더 이상 &ldquo;폰 안에서 어떻게든&rdquo;이 아니라 <strong>워크센터 연동 아키텍처</strong>로 페러다임 전환해야 한다.</p>
+<p><strong>관련:</strong> <code>58-video-three-tracks_Grok.md</code> · <code>59-grok-video-process-whitepaper_Grok.md</code> · <code>60-director-pro-v8-wish_Grok.md</code></p>
+<hr>
+<hr>
+<h3 id="_boss_1">🖼️ 이미지 생성 전략 — 공짜 티어 오케스트레이션 (_Boss)</h3>
+<p><strong>전제: 폰 NPU로 로컬 SD 추론 불가.</strong><br>
+- 실제 스펙: Exynos 2100 · RAM 7.0GB (proot) · 가용 ~2GB<br>
+- Stable Diffusion 최소 퀀타이즈도 4~6GB 필요 → OOM 튕김<br>
+- NPU는 2021년 설계, 확산 모델 연산자 미지원. CPU/GPU로만 돌면 수 분 + 발열.</p>
+<p><strong>결론: 이미지도 영상과 같은 패턴 — 폰은 지휘, 외부는 렌더.</strong><br>
+- 무료 티어 여러 LLM을 돌려가며 하루 필요량 확보<br>
+- Grok Aurora(구독, 1차 양산) + Bing Copilot(DALL·E 3, 15장/일) + Gemini(Imagen, 3~5장/일) + Leonardo(150 tokens/일)<br>
+- 계정 여러 개 파는 노가다보다 <strong>서비스 다양화</strong>가 더 안정적. ToS 위반 리스크 없고 전화번호 인증 필요 없음.<br>
+- 향후: <code>perfect_ship.py</code>처럼 이미지 생성 라우터 스크립트화 (quota 확인 → 서비스 선택 → 결과 저장)</p>
+<p><strong>관련:</strong> <code>58-video-three-tracks_Grok.md</code> · V3 PC 연동 논의 · <code>33-hybrid-image-video-whitepaper.md</code></p>
+<hr>
+<h3 id="llm-grok-1-_boss">💰 LLM 비용 트랙 재정의 — Grok은 옵션, 기본은 1만원 (_Boss)</h3>
+<p><strong>Boss 원칙:</strong> 가난한 사람 기준으로 돌아가야 한다. Grok 49,000원은 옵션이지 필수가 아니다.</p>
+<p><strong>3트랙 × LLM 비용:</strong></p>
+<table>
+<thead>
+<tr>
+<th>트랙</th>
+<th>LLM</th>
+<th>월 비용</th>
+<th>영상 품질</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>무료</strong></td>
+<td>DeepSeek 무료 티어 + Claude 무료</td>
+<td><strong>0원</strong></td>
+<td>V1 (PPT·문서·내부용)</td>
+</tr>
+<tr>
+<td><strong>1만원</strong></td>
+<td>DeepSeek API (종량)</td>
+<td><strong>~5,000~10,000원</strong></td>
+<td>V2 (제품 투어 기본)</td>
+</tr>
+<tr>
+<td><strong>5만원</strong></td>
+<td>Grok 구독</td>
+<td><strong>49,000원</strong></td>
+<td>V2+ (Vision QA 사람급)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>왜 Grok 없이도 돌아가나:</strong><br>
+- <code>perfect_ship.py</code> 본체는 LLM을 안 탐 — Playwright + ffmpeg + edge-tts 로컬 렌더<br>
+- DeepSeek으로 충분한 것: 시나리오 대본, 연출 JSON, Scout 분석, 디버깅·패치, 커뮤니티 리서치<br>
+- 유일한 Grok 의존 지점: Vision QA 사람 눈 프레임 검수. 이건 auto VQA(V1–V8)로 타협 가능.</p>
+<p><strong>1만원 파이프 감각:</strong><br>
+- DeepSeek API 종량: 시나리오 ~0.03원/건, 연출 ~0.05원/건, 패치 ~0.10원/세션<br>
+- 이미지: 0원 (Grok Aurora → Bing/Gemini/Leonardo 무료 티어)<br>
+- CDN: 0원 (YouTube)<br>
+- 렌더: 0원 (로컬)<br>
+- <strong>월 10,000원으로 모든 콘텐츠 생산 가능</strong></p>
+<p><strong>원칙:</strong> Grok은 Boss가 &ldquo;이번 건 고급으로&rdquo; 했을 때만 켜는 프리미엄 옵션. 평시 기본값 = DeepSeek + 무료 티어 조합.</p>
+<hr>
+<h3 id="youtube-cdn-_boss">🎬 YouTube = 공짜 CDN 전략 (_Boss)</h3>
+<p><strong>Boss 아이디어:</strong> 정지사진을 ffmpeg으로 영상화하고, YouTube에 올려서 CDN으로 쓴다.</p>
+<table>
+<thead>
+<tr>
+<th>호스팅</th>
+<th>비용</th>
+<th>대역폭</th>
+<th>스트리밍</th>
+<th>임베드</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GitHub Pages</td>
+<td>무료</td>
+<td>1GB 제한</td>
+<td>❌</td>
+<td><code>&lt;video&gt;</code></td>
+</tr>
+<tr>
+<td>직접 서빙</td>
+<td>비쌈</td>
+<td>종량제</td>
+<td>수동</td>
+<td>직접 구현</td>
+</tr>
+<tr>
+<td><strong>YouTube</strong></td>
+<td><strong>무료</strong></td>
+<td><strong>무제한</strong></td>
+<td><strong>적응형 비트레이트</strong></td>
+<td><strong>iframe 1줄</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>YouTube CDN 장점:</strong><br>
+- 무제한 저장소 + 전 세계 엣지 캐싱<br>
+- 적응형 비트레이트 (144p~4K 자동)<br>
+- 랜딩페이지에 <code>&lt;iframe&gt;</code> 1줄이면 GitHub Pages 1GB 제한 우회<br>
+- YouTube Shorts로 숏폼 노출 별도 채널<br>
+- 조회수·시청 시간 분석 제공</p>
+<p><strong>파이프 구체화:</strong></p>
+<pre><code>AI 이미지 생성 (Grok Aurora / Bing / Gemini)
+  → ffmpeg Ken Burns (정지→움직임, 5~8초/장)
+  → ffmpeg concat (크로스페이드)
+  → TTS + 자막 번인 (기존 voice_engine.py, subtitles.py)
+  → 배경음악 믹싱
+  → YouTube Data API upload
+  → URL 발행 → 랜딩·TG·네이버·티스토리 임베드
+</code></pre>
+<p>기존 Director 모듈(voice_engine, subtitles, enforce) 그대로 재사용. <code>ken_burns.py</code> + YouTube 업로더만 추가.</p>
+<hr>
+<h3 id="samsung-gallery-ffmpeg-_boss">📱 Samsung Gallery 자동화 — 불가, ffmpeg으로 대체 (_Boss)</h3>
+<p><strong>결론: Gallery 앱은 CLI 제어 불가. API 없음. UI 터치 외 방법 전무.</strong></p>
+<p>갤러리 기능별 대체:</p>
+<table>
+<thead>
+<tr>
+<th>Gallery 기능</th>
+<th>대체 기술</th>
+<th>가능</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>사진 여러 장 → 슬라이드쇼</td>
+<td><code>ffmpeg concat + fade</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td>사진 1장 → 줌/팬 움직임</td>
+<td><code>ffmpeg zoompan</code> (Ken Burns)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>모션 포토 → mp4 추출</td>
+<td><code>ffmpeg</code>로 JPEG 내장 비디오 분리</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>AI 모션 효과 (3D 시차)</td>
+<td>Depth-Anything-V2 + parallax</td>
+<td>⚠️ PC GPU 필요</td>
+</tr>
+<tr>
+<td>자막·타이틀 오버레이</td>
+<td><code>ffmpeg drawtext</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td>배경음악 믹싱</td>
+<td><code>ffmpeg amix</code></td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p><strong>원칙:</strong> Gallery는 수동 소비자 앱. CLI 파이프에서는 ffmpeg이 Gallery의 90%를 대체. AI 3D 모션 효과만 V3(PC)로.</p>
+<hr>
+<h3 id="pwaapk-_boss">🚫 PWA/APK 개발 — 하지 마라 (_Boss)</h3>
+<p><strong>Boss 판단:</strong> 이미 CLI 파이프 + Boss→Grok 대화로 충분. GUI 앱 개발은 오버킬.</p>
+<table>
+<thead>
+<tr>
+<th>이유</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CLI 파이프 완비</td>
+<td><code>perfect_ship.py</code> 한 줄이 클릭 100번 대체</td>
+</tr>
+<tr>
+<td>APK = 감옥</td>
+<td>안드로이드 패키징·심사·업데이트·권한 — 1인 개발자 부담 과다</td>
+</tr>
+<tr>
+<td>PWA = 오버킬</td>
+<td>이미 CLI 도구 있는데 웹 UI 만드는 건 같은 일 두 번</td>
+</tr>
+<tr>
+<td>니가 싫은 건 &ldquo;클릭 노가다&rdquo;지 &ldquo;CLI&rdquo;가 아님</td>
+<td>인터페이스 문제 아님. 자동화 문제.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>진짜 필요한 인터페이스:</strong> Boss 한마디 → Grok → CLI 실행 → TG 보고. 이미 다 있다.</p>
+<hr>
+<h3 id="mcp-on-demand-stdio-_boss">🔌 MCP On-Demand 아키텍처 — stdio 전환 (_Boss)</h3>
+<p><strong>현재 문제:</strong> <code>phone-mcp-server</code> (18개 도구, Node.js, port 3456)가 24시간 상시 대기. 폰 RAM 낭비.</p>
+<p><strong>목표:</strong> Agent가 필요할 때만 MCP 서버 spawn, 사용 후 자동 종료.</p>
+<p><strong>현재 (낭비):</strong></p>
+<pre><code>phone-mcp-server (Node.js, port 3456) ← 24시간 대기
+        ↑ HTTP
+   Claude Code
+</code></pre>
+<p><strong>목표 (On-Demand):</strong></p>
+<pre><code>Claude Code가 MCP 툴 필요할 때
+  → spawn('node', ['server.js', '--stdio'])
+  → stdin/stdout 통신 (포트 없음)
+  → Claude Code 종료 → 프로세스 자동 사망
+</code></pre>
+<p><strong>구현 경로:</strong><br>
+1. <strong>오늘 당장:</strong> 세션 시작 시 <code>node server.js &amp;</code>, 종료 시 <code>kill</code>. 세션 중에만 동작 (24시간→수 분).<br>
+2. <strong>이번 주:</strong> phone-mcp-server에 <code>--stdio</code> 모드 30줄 추가. MCP SDK에 <code>StdioServerTransport</code> 이미 내장.<br>
+3. <strong>완료 시:</strong> <code>.claude/settings.json</code> 을 <code>command</code> + <code>stdio</code> 로 변경. Claude Code가 알아서 lifecycle 관리.</p>
+<p><strong>의미:</strong> proot Ubuntu를 깔았던 이유(Python·Node.js 온전히, PC 같은 환경)가 MCP on-demand까지 자연스럽게 연결된다.</p>
+<hr>
+<h3 id="2026-08-02-_boss-_claude">📋 오늘 전체 세션 요약 — 2026-08-02 (_Boss + _Claude)</h3>
+<p><strong>Grok 3일 작업 파싱 (7/31~8/2):</strong><br>
+- Director PRO v3→v8: visual proof → Vision QA → 5막 연출 → 만점 → perfect_ship → community A-bar<br>
+- Scout v2: ARIA snapshot + getByRole live verify (CSS 수프 탈출)<br>
+- perfect_ship L0–L9 사다리: 유일 진입점, remediation_map, SHIP 게이트<br>
+- 영상 3트랙 정본: V1(PPT·0원) / V2(Grok 파이프·5만원) / V3(ComfyUI·GPU)<br>
+- 백서: Grok 영상 프로세스 정본 — Grok=손·눈(설계·비전), 로컬=카메라·편집실</p>
+<p><strong>Boss 결론 6종:</strong><br>
+1. <strong>V2 천장:</strong> 폰+Grok으로 빅테크 튜토리얼 불가. V3는 PC 연동 필수.<br>
+2. <strong>이미지 생성:</strong> 폰 NPU(Exynos 2100)로 SD 로컬 추론 불가. Grok Aurora + Bing/Gemini/Leonardo 무료 티어 오케스트레이션.<br>
+3. <strong>LLM 비용:</strong> Grok 49,000원 = 옵션. 기본은 DeepSeek API ~1만원 + 무료 티어 + YouTube CDN.<br>
+4. <strong>CDN:</strong> YouTube = 공짜 무제한 CDN. 모든 영상 여기에 + 랜딩에 iframe.<br>
+5. <strong>Gallery:</strong> 자동화 불가. ffmpeg으로 90% 대체. 3D 모션만 PC로.<br>
+6. <strong>MCP:</strong> stdio 전환으로 On-Demand. 세션 중에만 서버 동작.</p>
+<p><strong>오늘의 진짜 수확:</strong> &ldquo;폰 안에서 어떻게든&rdquo;이 아니라, <strong>폰=지휘본부, 외부=렌더팜</strong> 으로 페러다임 전환. 이걸 3일 부딪혀서 몸으로 깨달은 게 가장 큰 자산.</p>
+<h3 id="director-pro-v8-_grok">Director PRO v8 소원 풀이 (_Grok)</h3>
+<p><strong>Boss:</strong> 진짜 프로급, 이전 TG보다 훨씬 잘.<br>
+<strong>솔루션:</strong> overlay v5 approach+KenBurns · pro 대본 · CRF17 · 배속 상한 0.72+atempo · 줌 스크롤 버그 수정<br>
+<strong>SHIP:</strong> <code>helena_phone_pro_v8.mp4</code> · VQA 100 · TG 전송<br>
+<strong>문서:</strong> <code>_notebook/60-director-pro-v8-wish_Grok.md</code></p>
+<hr>
 <h3 id="grok-tg-_grok">Grok 영상 프로세스 백서 + TG 첨부 (_Grok)</h3>
 <p><strong>산출:</strong> <code>_notebook/59-grok-video-process-whitepaper_Grok.md</code><br>
 <strong>내용:</strong> V2 파이프 정본 · Grok 손/눈 vs 로컬 카메라 · perfect_ship L0–L9 · 치트시트 · SHIP 규칙<br>

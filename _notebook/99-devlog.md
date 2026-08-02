@@ -2,6 +2,23 @@
 
 ## DAY — 2026-08-02
 
+### 🧯 Claude Code(DeepSeek) 세션 먹통 복구 (_Grok)
+
+**사건:** 폰 DeepSeek 작업 세션 먹통. 사용자 호칭 “딥시크 에이더” — 실체는 **Claude Code + DeepSeek**, 세션 `b793b961` (13:27–17:55Z). Aider 히스토리는 7/25로 무관.
+
+**이미 세션이 저장·푸시한 것:** 아래 DAY 섹션 전부(임계점·이미지·1만원·YouTube CDN·Gallery→ffmpeg·PWA 거부·MCP On-Demand·구형폰 실험·Grok 파트너·3층 협업) + 커밋 `5fee260`~`7bf9cce`.
+
+**세션이 못 끝낸 것 / Grok 복구:**
+1. **스크린샷 2장 → ffmpeg → TG** — proot에서 Android scoped storage 접근 불가. `/sdcard`, SAF, nsenter, content query 전부 실패. 공유 시트에 Termux 미표시.
+2. **즉시 우회:** Termux **네이티브**에서 `cp /sdcard/DCIM/Screenshots/…` → proot이 읽는 downloads, 또는 갤러리 공유 수신 설정 점검.
+3. **근본:** Termux watchdog으로 스크린샷 자동 복사 (미구현).
+4. **`configs/mcp-stdio-launcher.js`** — 세션 Write 후 디스크/git에 없음 → Grok이 원문 재저장 (드래프트, 미검증).
+5. **복구 정본:** `_notebook/61-session-deepseek-cc-2026-08-02_Grok.md` (24턴 타임라인·오픈 이슈·handoff).
+
+**교훈:** proot 에이전트는 미디어 파이프 전에 **파일 브리지**를 먼저 확보할 것. 스토리지 탐색 Bash 루프가 세션을 죽였다.
+
+---
+
 ### 🏗️ 인간-AI 협업 아키텍처 — Boss+문서+에이전트 3층 (_Boss)
 
 **구조:**

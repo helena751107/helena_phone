@@ -784,6 +784,22 @@
     "deck": "**S21 Phone · Helena Director / Perfect Ship**"
   },
   {
+    "src": "_notebook/60-director-pro-v8-wish_Grok.md",
+    "out": "notebook/60-director-pro-v8-wish_Grok.html",
+    "title": "Director PRO v8 — 프로급 소원 풀이 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-08-02 · Boss: 진짜 프로급, 이전 TG보다 훨씬 잘"
+  },
+  {
+    "src": "_notebook/61-session-deepseek-cc-2026-08-02_Grok.md",
+    "out": "notebook/61-session-deepseek-cc-2026-08-02_Grok.html",
+    "title": "61 — Claude Code(DeepSeek) 세션 복구 · 2026-08-02 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "**상황:** 폰에서 DeepSeek 백엔드 Claude Code 세션이 먹통."
+  },
+  {
     "src": "_notebook/allocation-rate-2026-07-28.md",
     "out": "notebook/allocation-rate-2026-07-28.html",
     "title": "Allocation Rate — 2026-07-28",
