@@ -93,7 +93,19 @@
 
 **MCP:** 강제 수단의 필수는 아님. 결정론 정책 파일이 본체. MCP는 툴 래퍼 단계.
 
-## 9. 서명
+## 9. 3차 — PRO v2 가짜 SHIP PASS (2026-08-01)
+
+| 단점 | 보완 (pro_v3) |
+|------|----------------|
+| 클릭 후 링 즉시 소멸 | holdFocus for full beat |
+| expand-all로 클릭 무효과 | collapse-first |
+| gold/teal 게이트 없음 | visual_proof + G7 |
+| PNG 필터 미해독 | png_decode_rgb |
+
+상세: `_notebook/50-director-pro-v3-visual-proof_Grok.md`
+
+## 10. 서명
 
 - 분석·대책·구현: **_Grok** (2026-07-31)
+- v3 visual proof: **_Grok** (2026-08-01)
 - Boss 검수: _대기_

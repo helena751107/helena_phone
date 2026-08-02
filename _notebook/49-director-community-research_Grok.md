@@ -51,19 +51,32 @@
 
 ---
 
-## 3. 적용 스펙 (pro_v2)
+## 3. 적용 스펙 (pro_v2 → **pro_v3**)
 
+### v2 (2026-07-31, 메트릭 PASS / 시각 FAIL)
 1. Overlay v2: hole spotlight + gold ring + cursor SVG + ripple  
 2. `demoClick(el)` 시퀀스: focus → move → ripple → click  
-3. policy `tutorial_v1` + enforce (이미) + spotlight 필수 플래그  
+3. policy `tutorial_v1` + enforce + spotlight 필수 플래그  
 4. 30fps 인코드  
 5. Healer 1회: 클릭 실패 시 CSS path 완화 재시도  
+
+### v3 (2026-08-01, **visual proof 강제**) — 상세 `_notebook/50-director-pro-v3-visual-proof_Grok.md`
+1. Overlay **v3**: 44px cursor · triple ripple · pulse ring · dim 0.36 · holdFocus  
+2. **collapse-all 후** 비트별 open (expand-all 금지 — 클릭이 보여야 함)  
+3. 클릭 직후 `clearFocus` **금지** — 나레이션 hold 동안 링 유지  
+4. proof PNG per click · gold≥80 teal≥20 · `visual_proof_pass` enforce  
+5. G7: 최종 영상 5샘플 중 2+ overlay accents  
+6. PNG filter unfilter (가짜 0-count 차단)  
+7. CTA 외부 링크 `preventDefault` (투어 이탈 방지)
+
+**프로 v3 산출:** `helena-programming/director/out/helena_phone_pro_v3.mp4`  
+클릭 8/0 · proof 16/16 · G7 5/5 · 56s · SHIP PASS (진짜)
 
 ---
 
 ## 4. MCP?
 
-- **강제 본체 = policy + enforce + actions_log** (이미)
+- **강제 본체 = policy + enforce + actions_log + visual_proof** (v3)
 - MCP = 외부 에이전트에게 `director.run(url, policy=tutorial_v1)` 만 열어 주는 **입구**
 - 리서치 결론: MCP 먼저 만들면 안 됨. **파이프 품질 먼저.**
 

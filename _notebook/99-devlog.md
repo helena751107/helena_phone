@@ -1,5 +1,165 @@
 # 📋 S21 Phone — 전체 개발일지
 
+## DAY — 2026-08-02
+
+### Director PRO v8 소원 풀이 (_Grok)
+
+**Boss:** 진짜 프로급, 이전 TG보다 훨씬 잘.  
+**솔루션:** overlay v5 approach+KenBurns · pro 대본 · CRF17 · 배속 상한 0.72+atempo · 줌 스크롤 버그 수정  
+**SHIP:** `helena_phone_pro_v8.mp4` · VQA 100 · TG 전송  
+**문서:** `_notebook/60-director-pro-v8-wish_Grok.md`
+
+---
+
+### Grok 영상 프로세스 백서 + TG 첨부 (_Grok)
+
+**산출:** `_notebook/59-grok-video-process-whitepaper_Grok.md`  
+**내용:** V2 파이프 정본 · Grok 손/눈 vs 로컬 카메라 · perfect_ship L0–L9 · 치트시트 · SHIP 규칙  
+**전송:** Telegram `sendDocument` 마크다운 첨부 + 안내 메시지
+
+---
+
+### 영상 3트랙 업무 수첩 정본 (_Grok)
+
+**Boss:** 투트랙이냐 3트랙이냐 — PPT / Grok 구독 파이프 / PC+ComfyUI 프로 마감.
+
+**정본:** **3트랙 (V1·V2·V3)**  
+- V1: PPT·리포트 · DeepSeek+Playwright 단순 · ~0원  
+- V2: Grok 구독 → Director/`perfect_ship` 제품 투어  
+- V3: ComfyUI + GPU/RunPod 프로 마감  
+
+헌법 돌봄/소망 투트랙과 **별개 축**.  
+**문서:** `_notebook/58-video-three-tracks_Grok.md`
+
+---
+
+### Director Community A-bar 구현 · pro_v7 (_Grok)
+
+**리서치:** playwright-recast · Purple Owl · Playwright Screencast  
+**구현:** autoZoom · TTS-first freeze/speed-compress · voice_engine · 1080p · --subs  
+**SHIP:** `out/helena_phone_pro_v7.mp4` 1080×1920 · zoom ✓ · 8 clicks · VQA 100 · perfect_ship 10/10  
+**진입:** `perfect_ship.py --format shorts_1080 --subs`  
+**문서:** `_notebook/57-director-community-a-bar_Grok.md`
+
+---
+
+### Director Perfect Ship 프로세스 코드화 (_Grok)
+
+**Boss:** 만점 올리는 프로세스 자체를 솔루션·코드로. 매번 마음대로 하지 마라.
+
+**고정:**
+- `process/perfect_ship_v1.json` — L0–L9 사다리 + remediation_map
+- `perfect_ship.py` — 유일한 진입점
+- `policy/tutorial_v1.json` v2 — cursor_on_primary · all_declared_clicks · tts_humanize · VQA≥100
+- `enforce.py` + `run_director --process` 연동
+
+**검증:** pro_v6 `--verify-only` → SHIP 10/10  
+**문서:** `_notebook/56-director-perfect-ship-process_Grok.md`  
+**진입:** `python3 perfect_ship.py --scenario … --out …`
+
+---
+
+### Director PRO v6 · 만점 솔루션 (_Grok)
+
+**Boss:** 초A 올려라. 솔루션.
+
+**죽인 버그:** 커서 메트릭 주차 · multi-click 증발 · 기계 TTS · lead 8s  
+**수정:** overlay v4 cursor-lock + soft zoom · multi-click pad · TTS humanize · result hold  
+
+**SHIP:** `out/helena_phone_pro_v6.mp4`  
+클릭 **8/0** · proof **16/16** · VQA **100 S** · cursor_on_primary · TG 전송  
+**문서:** `_notebook/55-director-pro-v6-perfect_Grok.md`
+
+---
+
+### Director PRO v5 · 5막 shoot 연주 + TG (_Grok)
+
+**이어하기:** helena_phone 영상 TG 이력 파싱 → pro_v4 다음 미완(5막 shoot) 구현.
+
+**TG 이력 (확인됨):** intro → scout_intro → pro → tutorial → pro_v2 → pro_v3 → pro_v4 → **pro_v5**
+
+**구현:**
+- `shoot()` = establish→focus→act→hold→release (product_tour_v1)
+- `phases_played[]` + enforce `require_phases_played`
+- 비트 시계 = VO 길이 (오버런 방지)
+- intro/body 이음 검정 프레임 스킵
+
+**SHIP:** `out/helena_phone_pro_v5.mp4` · VQA **100/100 S** · clicks 6 · proof 12/12 · TG 전송  
+**문서:** `_notebook/54-director-pro-v5-five-act_Grok.md`  
+**다음:** multi-click 비트 시간 배분 · dtslib Air action_mapper 이식
+
+---
+
+## DAY — 2026-08-01
+
+### 연출 설정 First — product_tour_v1 (_Grok)
+
+**Boss:** 빛이 따로 놈. 플랜 자체가 없다. 연출 설정부터.
+
+**권위:** `directing/product_tour_v1.json` > policy > scenario > shoot  
+**5막:** establish → focus → act → hold → release (VO 시계)  
+**enforce:** `scenario.directing` 없으면 pre_shoot 거부  
+**문서:** `_notebook/53-director-plan-settings_Grok.md`  
+**다음:** shoot()가 5막 연주 (매직넘버 제거) → pro_v5
+
+---
+
+### Director Vision QA 루프 · pro_v4 만점 (_Grok)
+
+**Boss:** 비전 셀프 QA + 클로드급 튜토리얼 바까지. 중간 TG.
+
+**루프:**
+1. pro_v3 사람 비전 — 검정 seam · CTA #install 이탈 · 거대 링  
+2. 수정: nav-lock · concat re-encode · ring cap · VQA ship gate  
+3. pro_v4: **auto VQA 100/100 S** · 사람 A+ · TG SHIP 보고
+
+**모듈:** `director/vision_qa.py` · policy `vision_qa_pass_score:85`  
+**산출:** `out/helena_phone_pro_v4.mp4`  
+**문서:** `_notebook/52-director-vision-qa-loop_Grok.md`
+
+---
+
+### Scout v2 · ARIA Planner급 커뮤니티 리서치 (_Grok)
+
+**Boss:** Claude Chrome보다 스카우트 더 나을 수 있다 — 커뮤니티 방법 있다.
+
+**리서치 축:** Playwright Test Agents (Planner/Generator/Healer) · MCP a11y snapshots · getByRole 1순위 · live verify
+
+**구현:**
+- `page.aria_snapshot()` + DOM + `getByRole` 라이브 검증
+- `demo_score` 랭킹 · `scout_plan.md` (Planner 산출)
+- shoot: role locator 우선 → CSS healer
+
+**실측 helena_phone:** aria 7345c · live-verify 28/28 · verified 36/40 interactives  
+**문서:** `_notebook/51-scout-v2-community-research_Grok.md`
+
+---
+
+### Director PRO v3 · Visual Proof 강제 (_Grok)
+
+**Boss 질타:** PRO v2 `클릭 8/0 · SHIP PASS` 는 가짜. 클릭·효과·합성이 화면에 안 보임.
+
+**감사 결과 (v2):**
+- 클릭 후 `clearFocus` → 링 ~1초만 존재
+- expand-all 뒤 아코디언 클릭 = 상태변화 약함
+- quality gate가 PNG 필터 미해제로 gold/teal=0 을 통과시킴
+- 메트릭 PASS ≠ 시청 가능
+
+**솔루션 (v3):**
+- Overlay v3: big cursor · multi-ripple · holdFocus · lighter dim
+- collapse-first → beat open · proof PNG · G7 accents
+- policy `require_visual_proof` + min_overlay_version 3
+- PNG unfilter 디코더
+
+**SHIP (진짜):**
+- `helena-programming/director/out/helena_phone_pro_v3.mp4`
+- 클릭 8/0 · proof **16/16** · G7 **5/5** · 56s · ~3.5MB · ~317s render
+- 문서: `_notebook/50-director-pro-v3-visual-proof_Grok.md` · 49 갱신
+
+**다음 갭:** Ken Burns / 커서 스플라인 / A-V 비트 타임라인 / 카드 클릭 비트
+
+---
+
 ## DAY — 2026-07-31
 
 ### Director 영상 품질 재발일지 + 만점 게이트 (_Grok)

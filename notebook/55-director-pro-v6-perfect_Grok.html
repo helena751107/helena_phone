@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="2026-08-02 · Boss: 초A급 올려라. 솔루션. — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>Director PRO v6 — 만점 솔루션 (_Grok) — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>Director PRO v6 — 만점 솔루션 (_Grok)</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>Director PRO v6 — 만점 솔루션 (_Grok)</h1>
+    <p class="deck">2026-08-02 · Boss: 초A급 올려라. 솔루션.</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/55-director-pro-v6-perfect_Grok.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1-v5">1. v5 감사에서 죽인 버그</a></li>
+<li><a href="#2">2. 구현</a><ul>
+<li><a href="#overlaysjs-v4">overlays.js v4</a></li>
+<li><a href="#shoot">shoot</a></li>
+<li><a href="#voice">voice</a></li>
+</ul>
+</li>
+<li><a href="#3-ship">3. SHIP 성적</a></li>
+<li><a href="#4">4. 사람 비전 (프레임)</a></li>
+<li><a href="#5">5. 서명</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <blockquote>
+<p>2026-08-02 · Boss: 초A급 올려라. 솔루션.<br>
+URL: https://helena751107.github.io/helena_phone/<br>
+산출: <code>helena-programming/director/out/helena_phone_pro_v6.mp4</code></p>
+</blockquote>
+<hr>
+<h2 id="1-v5">1. v5 감사에서 죽인 버그</h2>
+<table>
+<thead>
+<tr>
+<th>버그</th>
+<th>원인</th>
+<th>v6 수정</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>커서가 FILES 메트릭 위</td>
+<td><code>focus</code>/<code>holdFocus</code>가 커서를 안 옮김. park=화면 55%=메트릭 밴드</td>
+<td><strong>cursor always tracks primary</strong></td>
+</tr>
+<tr>
+<td>2차 클릭 증발</td>
+<td>시간 예산에 <code>break</code></td>
+<td>multi-click 보장 + 비트 pad 확장</td>
+</tr>
+<tr>
+<td>클릭 결과 안 보임</td>
+<td>act 직후 다음으로 점프</td>
+<td>result hold 280–700ms</td>
+</tr>
+<tr>
+<td>기계 TTS</td>
+<td>edge-tts raw</td>
+<td>ffmpeg broadcast humanize</td>
+</tr>
+<tr>
+<td>lead black 8s</td>
+<td>부트 과다</td>
+<td>trim 1.8s · boot 단축</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="2">2. 구현</h2>
+<h3 id="overlaysjs-v4">overlays.js v4</h3>
+<ul>
+<li><code>focus</code> / <code>holdFocus</code> → <code>moveCursorTo(primary)</code> 필수</li>
+<li><code>_resolveTarget</code> — stats/metric 금지, CTA·acc-head·node 우선</li>
+<li>soft zoom <code>body scale(1.06)</code> origin=target</li>
+<li>parkCursor y=38% (메트릭 밴드 회피)</li>
+<li><code>version: 4</code></li>
+</ul>
+<h3 id="shoot">shoot</h3>
+<ul>
+<li>multi-click 전부 실행 (arch node · workcenter)</li>
+<li>hold 중 1.1s마다 primary re-lock</li>
+<li>demoClick <code>await</code> Promise</li>
+</ul>
+<h3 id="voice">voice</h3>
+<ul>
+<li>multi-click 비트 pad += 1.65s × (n-1)</li>
+<li>loudnorm + presence EQ humanize</li>
+</ul>
+<hr>
+<h2 id="3-ship">3. SHIP 성적</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>v5</th>
+<th><strong>v6</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>clicks</td>
+<td>6</td>
+<td><strong>8/0</strong></td>
+</tr>
+<tr>
+<td>proof</td>
+<td>12/12</td>
+<td><strong>16/16</strong></td>
+</tr>
+<tr>
+<td>overlay</td>
+<td>3</td>
+<td><strong>4</strong></td>
+</tr>
+<tr>
+<td>cursor_on_primary</td>
+<td>—</td>
+<td><strong>True</strong></td>
+</tr>
+<tr>
+<td>VQA</td>
+<td>100 S</td>
+<td><strong>100 S</strong></td>
+</tr>
+<tr>
+<td>lead trim</td>
+<td>~8s</td>
+<td><strong>1.8s</strong></td>
+</tr>
+<tr>
+<td>사람 프레임</td>
+<td>커서 메트릭</td>
+<td><strong>CTA·아코디언 링</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4">4. 사람 비전 (프레임)</h2>
+<ul>
+<li>t10: 커서 <strong>INSTALL IN ONE LINE</strong> + CTA 콜아웃 + 골드링 ✅  </li>
+<li>t26: 아코디언 <strong>돌봄과 소망</strong> 오픈 연출 ✅  </li>
+<li>t42: System Map 펼침 + 다이어그램 노드 노출 ✅  </li>
+</ul>
+<hr>
+<h2 id="5">5. 서명</h2>
+<ul>
+<li>솔루션·렌더·TG: <strong>_Grok</strong> (2026-08-02)</li>
+</ul>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="54-director-pro-v5-five-act_Grok.html">
+          <span class="dir">Previous</span>
+          <span class="title">Director PRO v5 — 연출 5막 shoot 연주 (_Grok)</span>
+        </a>
+    <a class="next" href="56-director-perfect-ship-process_Grok.html">
+          <span class="dir">Next</span>
+          <span class="title">56 director perfect ship process Grok</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

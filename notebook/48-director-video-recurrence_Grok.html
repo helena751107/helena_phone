@@ -57,7 +57,9 @@
 <li><a href="#5">5. 재발 방지 대책 (구현 의무)</a></li>
 <li><a href="#6-dod">6. 완료 정의 (DoD · 만점)</a></li>
 <li><a href="#7">7. 관련 파일</a></li>
-<li><a href="#8">8. 서명</a></li>
+<li><a href="#8-2-pro">8. 2차 — 자체 파싱 단점 (PRO 산출 재감사)</a></li>
+<li><a href="#9-3-pro-v2-ship-pass-2026-08-01">9. 3차 — PRO v2 가짜 SHIP PASS (2026-08-01)</a></li>
+<li><a href="#10">10. 서명</a></li>
 </ul>
 </div>
 </nav>
@@ -198,9 +200,71 @@
 <li><code>helena-programming/director/QUALITY.md</code></li>
 </ul>
 <hr>
-<h2 id="8">8. 서명</h2>
+<h2 id="8-2-pro">8. 2차 — 자체 파싱 단점 (PRO 산출 재감사)</h2>
+<p>게이트 PASS여도 하이테크 튜토리얼 기준으로는 부족했던 점:</p>
+<table>
+<thead>
+<tr>
+<th>단점</th>
+<th>보완 (tutorial_v1)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>클릭이 눈에 안 띔</td>
+<td><code>overlays.js</code> 커서 이동+펄스</td>
+</tr>
+<tr>
+<td>optional 클릭 스킵</td>
+<td>optional 금지 + min 4 성공 클릭</td>
+</tr>
+<tr>
+<td>멘트 템플릿 반복</td>
+<td>forbid_phrases</td>
+</tr>
+<tr>
+<td>LLM 자유 연출</td>
+<td><code>policy</code> + <code>enforce</code> 단계 게이트</td>
+</tr>
+<tr>
+<td>ship 전 증거 없음</td>
+<td><code>actions_log.json</code> 필수</td>
+</tr>
+</tbody>
+</table>
+<p><strong>MCP:</strong> 강제 수단의 필수는 아님. 결정론 정책 파일이 본체. MCP는 툴 래퍼 단계.</p>
+<h2 id="9-3-pro-v2-ship-pass-2026-08-01">9. 3차 — PRO v2 가짜 SHIP PASS (2026-08-01)</h2>
+<table>
+<thead>
+<tr>
+<th>단점</th>
+<th>보완 (pro_v3)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>클릭 후 링 즉시 소멸</td>
+<td>holdFocus for full beat</td>
+</tr>
+<tr>
+<td>expand-all로 클릭 무효과</td>
+<td>collapse-first</td>
+</tr>
+<tr>
+<td>gold/teal 게이트 없음</td>
+<td>visual_proof + G7</td>
+</tr>
+<tr>
+<td>PNG 필터 미해독</td>
+<td>png_decode_rgb</td>
+</tr>
+</tbody>
+</table>
+<p>상세: <code>_notebook/50-director-pro-v3-visual-proof_Grok.md</code></p>
+<h2 id="10">10. 서명</h2>
 <ul>
 <li>분석·대책·구현: <strong>_Grok</strong> (2026-07-31)</li>
+<li>v3 visual proof: <strong>_Grok</strong> (2026-08-01)</li>
 <li>Boss 검수: <em>대기</em></li>
 </ul>
   </article>
@@ -209,9 +273,9 @@
           <span class="dir">Previous</span>
           <span class="title">47 — 인간-AI 대화 위기 (Crisis)</span>
         </a>
-    <a class="next" href="allocation-rate-2026-07-28.html">
+    <a class="next" href="49-director-community-research_Grok.html">
           <span class="dir">Next</span>
-          <span class="title">allocation rate 2026 07 28</span>
+          <span class="title">49 director community research Grok</span>
         </a>
   </nav>
   <div class="wz-related">

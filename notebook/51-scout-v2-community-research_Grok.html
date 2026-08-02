@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="2026-08-01 · Boss: “Claude Chrome보다 스카우트가 더 나을 수 있다. 커뮤니티 방법 있다.” — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>Scout v2 — 커뮤니티 리서치 → ARIA Planner급 (_Grok) — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>Scout v2 — 커뮤니티 리서치 → ARIA Planner급 (_Grok)</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>Scout v2 — 커뮤니티 리서치 → ARIA Planner급 (_Grok)</h1>
+    <p class="deck">2026-08-01 · Boss: “Claude Chrome보다 스카우트가 더 나을 수 있다. 커뮤니티 방법 있다.”</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/51-scout-v2-community-research_Grok.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1">1. 결론 (한 줄)</a></li>
+<li><a href="#2">2. 커뮤니티·공식 축</a><ul>
+<li><a href="#playwright-agents">Playwright Agents (공식)</a></li>
+<li><a href="#mcp-agent-cli">MCP / Agent CLI 베스트 프랙티스</a></li>
+</ul>
+</li>
+<li><a href="#3-scout-v1-claude">3. 이전 Scout v1 한계 (Claude급 휴리스틱)</a></li>
+<li><a href="#4-scout-v2">4. Scout v2 설계</a><ul>
+<li><a href="#_1">산출 필드 (신규)</a></li>
+<li><a href="#shoot">Shoot 연동</a></li>
+</ul>
+</li>
+<li><a href="#5-helena_phone-2026-08-01">5. helena_phone 실측 (2026-08-01)</a></li>
+<li><a href="#6-claude-chrome-vs-scout-v2">6. Claude Chrome vs Scout v2</a></li>
+<li><a href="#7">7. 파일</a></li>
+<li><a href="#8-1-scout">8. 다음 (초1급 Scout)</a></li>
+<li><a href="#9">9. 서명</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <blockquote>
+<p>2026-08-01 · Boss: “Claude Chrome보다 스카우트가 더 나을 수 있다. 커뮤니티 방법 있다.”</p>
+</blockquote>
+<hr>
+<h2 id="1">1. 결론 (한 줄)</h2>
+<p><strong>맞다.</strong> Claude-in-Chrome / 순수 CSS DOM 훑기보다<br>
+<strong>Playwright 공식 Agents·MCP 스택(ARIA snapshot + getByRole + live verify)</strong> 이 Scout에 정답에 가깝다.</p>
+<hr>
+<h2 id="2">2. 커뮤니티·공식 축</h2>
+<table>
+<thead>
+<tr>
+<th>출처</th>
+<th>패턴</th>
+<th>우리 맵핑</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://playwright.dev/docs/test-agents">Playwright Test Agents</a></td>
+<td>Planner → Generator → Healer</td>
+<td>Scout → Shoot → enforce/healer</td>
+</tr>
+<tr>
+<td><a href="https://playwright.dev/mcp/snapshots">Playwright MCP Snapshots</a></td>
+<td><strong>refs / a11y tree</strong>, CSS 말고 스냅샷</td>
+<td><code>page.aria_snapshot()</code></td>
+</tr>
+<tr>
+<td><a href="https://playwright.dev/docs/aria-snapshots">ARIA Snapshots docs</a></td>
+<td>YAML accessibility tree</td>
+<td><code>scout.aria.yml</code></td>
+</tr>
+<tr>
+<td><a href="https://playwright.dev/docs/locators">Locators guide</a></td>
+<td><strong>getByRole(+name) 1순위</strong></td>
+<td><code>locator: {by:role, role, name}</code></td>
+</tr>
+<tr>
+<td>Generator 산출물 관습</td>
+<td>라이브로 셀렉터 검증하며 코드 생성</td>
+<td><code>live_verify_role()</code></td>
+</tr>
+<tr>
+<td>Healer</td>
+<td>실패 시 동등 요소 재탐색</td>
+<td>CSS variants + role fallback in shoot</td>
+</tr>
+<tr>
+<td>Arcade/Storylane</td>
+<td>스텝당 한 포커스</td>
+<td><code>demo_score</code> 랭킹</td>
+</tr>
+</tbody>
+</table>
+<h3 id="playwright-agents">Playwright Agents (공식)</h3>
+<ol>
+<li><strong>Planner</strong> — 앱 탐색 → Markdown 테스트 플랜 (<code>specs/…md</code>)</li>
+<li><strong>Generator</strong> — 플랜 → <code>getByRole</code> 테스트, <strong>실행하며 검증</strong></li>
+<li><strong>Healer</strong> — 실패 재현 → 동등 로케이터 패치</li>
+</ol>
+<h3 id="mcp-agent-cli">MCP / Agent CLI 베스트 프랙티스</h3>
+<ol>
+<li>Use <strong>refs / a11y</strong>, not brittle CSS  </li>
+<li>Re-snapshot after navigation  </li>
+<li>Limit depth / scope to section  </li>
+<li>Combine snapshot + screenshot when visual needed  </li>
+</ol>
+<hr>
+<h2 id="3-scout-v1-claude">3. 이전 Scout v1 한계 (Claude급 휴리스틱)</h2>
+<pre><code>DOM querySelectorAll('button.acc-head, .pillar, .node, …')
+  → cssPath()
+  → sections[]
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>약점</th>
+<th>결과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>사이트 전용 클래스 의존</td>
+<td>다른 랜딩에서 붕괴</td>
+</tr>
+<tr>
+<td>접근 이름 무시</td>
+<td>“01 Dual Track…” 시맨틱 유실</td>
+</tr>
+<tr>
+<td>검증 없음</td>
+<td>깨진 셀렉터를 시나리오에 실어 보냄</td>
+</tr>
+<tr>
+<td>랭킹 없음</td>
+<td>메뉴/테마 버튼 = CTA 동급</td>
+</tr>
+<tr>
+<td>플랜 산출 없음</td>
+<td>Planner MD 없음</td>
+</tr>
+</tbody>
+</table>
+<p>Chrome 비전 모델이 화면을 “보고” 클릭 후보를 고르는 것과 비교하면,<br>
+v1은 <strong>CSS 수프</strong>에 가깝고 에이전트급이 아니었다.</p>
+<hr>
+<h2 id="4-scout-v2">4. Scout v2 설계</h2>
+<pre><code>load + fonts-ready
+  │
+  ├─① DOM pass (cssPath, section geometry)     ← 카메라 스크롤용
+  ├─② page.aria_snapshot() YAML                ← Planner 시야
+  ├─③ parse roles/names → demo_score rank
+  ├─④ live_verify getByRole(role, name)        ← Generator 계약
+  ├─⑤ merge DOM↔ARIA (strict text match)
+  └─⑥ artifacts: scout.json + scout.aria.yml + scout_plan.md
+</code></pre>
+<h3 id="_1">산출 필드 (신규)</h3>
+<pre><code class="language-json">{
+  &quot;scout_version&quot;: 2,
+  &quot;scout_engine&quot;: &quot;aria+dom+live_verify&quot;,
+  &quot;aria_snapshot_chars&quot;: 7345,
+  &quot;verified_count&quot;: 36,
+  &quot;interactives&quot;: [{
+    &quot;selector&quot;: &quot;#tracks-head&quot;,
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;name&quot;: &quot;01 Dual Track 돌봄과 소망을 동시에&quot;,
+    &quot;locator&quot;: {&quot;by&quot;: &quot;role&quot;, &quot;role&quot;: &quot;button&quot;, &quot;name&quot;: &quot;…&quot;},
+    &quot;demo_score&quot;: 137,
+    &quot;verified&quot;: true,
+    &quot;source&quot;: &quot;dom+aria&quot;
+  }]
+}
+</code></pre>
+<h3 id="shoot">Shoot 연동</h3>
+<p><code>run_director.do_clicks</code> 후보 순서:</p>
+<ol>
+<li><code>getByRole(role, name)</code> (Scout 검증 로케이터)</li>
+<li>CSS healer variants (<code>#id</code>, 말단 조각)</li>
+</ol>
+<p>오버레이 <code>demoClick</code>은 <strong>element handle</strong> 기준 → role locator도 링/커서 가능.</p>
+<hr>
+<h2 id="5-helena_phone-2026-08-01">5. helena_phone 실측 (2026-08-01)</h2>
+<table>
+<thead>
+<tr>
+<th>메트릭</th>
+<th>Scout v2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARIA snapshot</td>
+<td><strong>7345 chars</strong></td>
+</tr>
+<tr>
+<td>live-verify roles</td>
+<td><strong>28/28</strong></td>
+</tr>
+<tr>
+<td>sections</td>
+<td>10</td>
+</tr>
+<tr>
+<td>interactives</td>
+<td>40</td>
+</tr>
+<tr>
+<td>verified (merged)</td>
+<td><strong>36</strong></td>
+</tr>
+<tr>
+<td>plan</td>
+<td><code>out/scout_plan.md</code></td>
+</tr>
+</tbody>
+</table>
+<p>Top demo_score 예:</p>
+<ol>
+<li>Install accordion / CTA (~160)</li>
+<li>Dual Track accordion (137)</li>
+<li>Centers / System / Agents heads (122+)</li>
+<li>Workcenter listbox buttons (①공장 …)</li>
+</ol>
+<hr>
+<h2 id="6-claude-chrome-vs-scout-v2">6. Claude Chrome vs Scout v2</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Claude-in-Chrome (비전)</th>
+<th>Scout v2 (이 구현)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>입력</td>
+<td>스크린샷 + DOM 일부</td>
+<td><strong>a11y tree + DOM + live API</strong></td>
+</tr>
+<tr>
+<td>재현성</td>
+<td>세션/모델 의존</td>
+<td><strong>결정론 JSON</strong></td>
+</tr>
+<tr>
+<td>셀렉터</td>
+<td>환각 가능</td>
+<td><strong>count()&gt;0 검증 후 채택</strong></td>
+</tr>
+<tr>
+<td>비용</td>
+<td>토큰·비전 비쌈</td>
+<td>Playwright 로컬 1회</td>
+</tr>
+<tr>
+<td>플랜</td>
+<td>대화형</td>
+<td><code>scout_plan.md</code> 고정 산출</td>
+</tr>
+<tr>
+<td>데모 적합성</td>
+<td>사람 지시 의존</td>
+<td><code>demo_score</code> 자동 랭크</td>
+</tr>
+</tbody>
+</table>
+<p><strong>비전 없이도</strong> 튜토리얼 후보를 더 안정적으로 뽑는다.<br>
+비전은 “애매한 아이콘/차트 노드” 보강용으로 남기면 된다 (다음 단계).</p>
+<hr>
+<h2 id="7">7. 파일</h2>
+<ul>
+<li><code>helena-programming/director/scout.py</code> — v2 본체  </li>
+<li><code>helena-programming/director/run_director.py</code> — role-first click  </li>
+<li>산출 예: <code>director/out/scout_v2.json</code>, <code>scout.aria.yml</code>, <code>scout_plan.md</code>  </li>
+<li>선행: <code>_notebook/49-director-community-research_Grok.md</code>, <code>50-…visual-proof…</code></li>
+</ul>
+<hr>
+<h2 id="8-1-scout">8. 다음 (초1급 Scout)</h2>
+<ol>
+<li>Section-scoped <code>locator.aria_snapshot()</code> (depth limit)  </li>
+<li>SVG diagram nodes: aria 없는 경우 geometry+label 휴리스틱  </li>
+<li>Multi-page crawl (nav href 따라 1-hop)  </li>
+<li>Scout diff (aria.yml git) = 회귀 감지  </li>
+<li>선택: 비전 1컷으로 diagram-only 보강  </li>
+</ol>
+<hr>
+<h2 id="9">9. 서명</h2>
+<ul>
+<li>리서치·구현·실측: <strong>_Grok</strong> (2026-08-01)  </li>
+<li>Boss 검수: <em>대기</em></li>
+</ul>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="50-director-pro-v3-visual-proof_Grok.html">
+          <span class="dir">Previous</span>
+          <span class="title">Director PRO v3 — Visual Proof 강제 (_Grok)</span>
+        </a>
+    <a class="next" href="52-director-vision-qa-loop_Grok.html">
+          <span class="dir">Next</span>
+          <span class="title">52 director vision qa loop Grok</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

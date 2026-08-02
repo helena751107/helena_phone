@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="2026-08-01 · Boss: “빛이 따로 놀아. 플랜 자체가 없어. 연출 설정부터 만들어.” — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>연출 설정 — Director Plan First (_Grok) — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>연출 설정 — Director Plan First (_Grok)</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>연출 설정 — Director Plan First (_Grok)</h1>
+    <p class="deck">2026-08-01 · Boss: “빛이 따로 놀아. 플랜 자체가 없어. 연출 설정부터 만들어.”</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/53-director-plan-settings_Grok.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1">1. 문제 (왜 영상이 미쳤는가)</a></li>
+<li><a href="#2-authority">2. 권위 순서 (Authority)</a></li>
+<li><a href="#3">3. 한 줄 철학</a></li>
+<li><a href="#4-5-beat">4. 비트 5막 (모든 beat 동일)</a></li>
+<li><a href="#5-light-language">5. 빛 (Light language)</a></li>
+<li><a href="#6">6. 커서</a></li>
+<li><a href="#7-hud">7. 크롬 (HUD)</a></li>
+<li><a href="#8">8. 파일</a></li>
+<li><a href="#9">9. 다음 구현 순서</a></li>
+<li><a href="#10">10. 서명</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <blockquote>
+<p>2026-08-01 · Boss: “빛이 따로 놀아. 플랜 자체가 없어. 연출 설정부터 만들어.”</p>
+</blockquote>
+<hr>
+<h2 id="1">1. 문제 (왜 영상이 미쳤는가)</h2>
+<p>지금까지 파이프:</p>
+<pre><code>scenario(대사·셀렉터) + policy(게이트) + shoot(매직넘버)
+</code></pre>
+<p>빠진 층:</p>
+<pre><code>DIRECTING PLAN = 한 프레임에 무엇을 보게 할 것인가의 문법
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>증상</th>
+<th>원인</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>빛·커서 따로 놈</td>
+<td>오버레이가 “클릭할 때만” 반짝, VO와 무관</td>
+</tr>
+<tr>
+<td>STEP vs 화면 불일치</td>
+<td>비트 경계 없이 카메라/클릭 남발</td>
+</tr>
+<tr>
+<td>CTA 후 화면 날아감</td>
+<td>연출 규칙 없이 실클릭</td>
+</tr>
+<tr>
+<td>hold 중 링 증발 / 거대 링</td>
+<td>clearFocus·섹션 전체 focus 임의</td>
+</tr>
+</tbody>
+</table>
+<p><strong>결론:</strong> 품질 게이트를 올려도, <strong>연출 악보가 없으면</strong> 연주가 매번 다르다.</p>
+<hr>
+<h2 id="2-authority">2. 권위 순서 (Authority)</h2>
+<pre><code>1) directing/product_tour_v1.json   ← 연출 성경 (이 문서의 본체)
+2) policy/tutorial_v1.json           ← ship 금지 조건
+3) scenarios/*.json                  ← 대사·목적지
+4) run_director.shoot                ← 악보 연주
+5) vision_qa                         ← 연주 녹음 검수
+</code></pre>
+<p><strong>시나리오는 대본이다. 디렉팅은 카메라·조명·큐 시트다.</strong><br>
+대본만 있으면 연극이 안 된다.</p>
+<hr>
+<h2 id="3">3. 한 줄 철학</h2>
+<blockquote>
+<p><strong>한 프레임 = 한 의도.</strong><br>
+VO가 시계를 잡고, 화면(빛·커서·카메라)이 따른다. 반대 금지.</p>
+</blockquote>
+<hr>
+<h2 id="4-5-beat">4. 비트 5막 (모든 beat 동일)</h2>
+<table>
+<thead>
+<tr>
+<th>막</th>
+<th>frac</th>
+<th>하는 일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>establish</strong></td>
+<td>12%</td>
+<td>카메라 도착 · chip/caption · 빛 ON (클릭 전)</td>
+</tr>
+<tr>
+<td><strong>focus</strong></td>
+<td>15%</td>
+<td>커서 이동 · 콜아웃</td>
+</tr>
+<tr>
+<td><strong>act</strong></td>
+<td>22%</td>
+<td>demoClick · (비-nav만) 실클릭 · proof</td>
+</tr>
+<tr>
+<td><strong>hold</strong></td>
+<td>43%</td>
+<td>결과 유지 · VO 의미 전달 · 추가 난사 금지</td>
+</tr>
+<tr>
+<td><strong>release</strong></td>
+<td>8%</td>
+<td>clearFocus · 다음 비트 준비</td>
+</tr>
+</tbody>
+</table>
+<p>시계: <code>phase_budget_ms(audio_sec + pad)</code> — <strong>hold가 나머지 흡수</strong>.<br>
+예전의 “클릭 애니 다 돌린 뒤 audio 전체를 또 hold” 금지.</p>
+<hr>
+<h2 id="5-light-language">5. 빛 (Light language)</h2>
+<ul>
+<li>dim <strong>0.36</strong> · gold ring <strong>3px</strong> · max height <strong>55vh / 420px</strong></li>
+<li>primary = 첫 클릭 타깃, 없으면 섹션 헤딩</li>
+<li><strong>hold 중 끄지 말 것</strong> (release 막에서만 OFF)</li>
+<li>섹션 전체 링 금지 → 내부 h1/button으로 축소</li>
+</ul>
+<hr>
+<h2 id="6">6. 커서</h2>
+<ul>
+<li>이동 580ms · 리플 700ms · 클릭 후 freeze 350ms</li>
+<li>항상 primary 위에서 끝남</li>
+<li>메트릭 그리드에 방치 금지</li>
+<li><code>#</code> / http 링크 = <strong>visual only</strong></li>
+</ul>
+<hr>
+<h2 id="7-hud">7. 크롬 (HUD)</h2>
+<ul>
+<li>chip: <code>{i}/{n} · PRODUCT TOUR</code> — <strong>비트 경계에서만</strong> 변경</li>
+<li>caption: STEP kicker + 현재 섹션 이름</li>
+<li>progress: i/n</li>
+</ul>
+<hr>
+<h2 id="8">8. 파일</h2>
+<table>
+<thead>
+<tr>
+<th>경로</th>
+<th>역할</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>director/directing/product_tour_v1.json</code></td>
+<td>연출 설정 (canonical)</td>
+</tr>
+<tr>
+<td><code>director/directing.py</code></td>
+<td>load · phase budget · chrome · primary</td>
+</tr>
+<tr>
+<td><code>director/policy/tutorial_v1.json</code></td>
+<td>ship 게이트 (directing id 필수 예정)</td>
+</tr>
+<tr>
+<td><code>director/scenarios/helena_phone.json</code></td>
+<td>대본</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="9">9. 다음 구현 순서</h2>
+<ol>
+<li>✅ 연출 설정 JSON + loader (이번 커밋)</li>
+<li>⬜ <code>shoot()</code> 가 5막을 그대로 연주 (매직넘버 제거)</li>
+<li>⬜ actions_log에 <code>phases_played[]</code> 기록 → enforce</li>
+<li>⬜ 재렌더 pro_v5 (연출 악보 준수) + Vision QA</li>
+</ol>
+<hr>
+<h2 id="10">10. 서명</h2>
+<ul>
+<li>연출 설정 설계: <strong>_Grok</strong> (2026-08-01)  </li>
+<li>Boss 검수: <em>대기</em></li>
+</ul>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="52-director-vision-qa-loop_Grok.html">
+          <span class="dir">Previous</span>
+          <span class="title">Director Vision QA 루프 — 만점까지 (_Grok)</span>
+        </a>
+    <a class="next" href="54-director-pro-v5-five-act_Grok.html">
+          <span class="dir">Next</span>
+          <span class="title">54 director pro v5 five act Grok</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

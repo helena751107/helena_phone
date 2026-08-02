@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="2026-08-01 · 목적: **가짜 SHIP PASS 종식** — 클릭 카운트만 통과하는 산출 차단 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>Director PRO v3 — Visual Proof 강제 (_Grok) — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>Director PRO v3 — Visual Proof 강제 (_Grok)</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>Director PRO v3 — Visual Proof 강제 (_Grok)</h1>
+    <p class="deck">2026-08-01 · 목적: **가짜 SHIP PASS 종식** — 클릭 카운트만 통과하는 산출 차단</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/50-director-pro-v3-visual-proof_Grok.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1-boss">1. Boss 지적 (정당한 실패)</a></li>
+<li><a href="#2-root-cause-v2-v3">2. Root Cause (v2 → v3)</a></li>
+<li><a href="#3-pipeline">3. Pipeline (강제 본체)</a></li>
+<li><a href="#4-overlay-v3">4. Overlay v3 스펙</a></li>
+<li><a href="#5-pro_v3">5. 이번 산출 (pro_v3)</a></li>
+<li><a href="#6-tutorial_v1">6. 정책 변경 (tutorial_v1)</a></li>
+<li><a href="#7-1">7. 아직 남은 갭 (초1급 다음)</a></li>
+<li><a href="#8">8. 관련 파일</a></li>
+<li><a href="#9">9. 서명</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <blockquote>
+<p>2026-08-01 · 목적: <strong>가짜 SHIP PASS 종식</strong> — 클릭 카운트만 통과하는 산출 차단<br>
+산출: <code>helena-programming/director/out/helena_phone_pro_v3.mp4</code></p>
+</blockquote>
+<hr>
+<h2 id="1-boss">1. Boss 지적 (정당한 실패)</h2>
+<p>PRO v2 텔레그램 보고: <code>클릭 8/0 · SHIP PASS · ~79s</code></p>
+<p>실제 프레임 감사 결과:</p>
+<table>
+<thead>
+<tr>
+<th>증상</th>
+<th>사실</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>클릭이 안 보임</td>
+<td>Playwright <code>force=True</code> 로그만 성공. 아코디언은 <strong>expand-all 이후</strong> 토글이라 상태 변화 약함</td>
+</tr>
+<tr>
+<td>효과가 안 보임</td>
+<td>클릭 직후 <code>clearFocus()</code> → gold ring <strong>~1초</strong>만 존재. 118s 중 거의 무</td>
+</tr>
+<tr>
+<td>합성 없음</td>
+<td>Screen Studio급 후처리 없이 CSS 오버레이만. 게이트가 픽셀 검증 안 함</td>
+</tr>
+<tr>
+<td>가짜 PASS</td>
+<td>G3가 <code>black_ratio 0.92</code> 도 통과. PNG 필터 미해제로 gold/teal 카운트 <strong>0</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>한 줄:</strong> 메트릭 PASS ≠ 시청 가능. 게이트가 눈을 속였다.</p>
+<hr>
+<h2 id="2-root-cause-v2-v3">2. Root Cause (v2 → v3)</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>원인</th>
+<th>v3 대책</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td><code>clearFocus()</code> after every click</td>
+<td><strong>holdFocus</strong> for full beat hold</td>
+</tr>
+<tr>
+<td>R2</td>
+<td>expand-all before tour</td>
+<td><strong>collapse-all</strong> → open per beat (visible state change)</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>Overlay dim 0.58 + tiny cursor</td>
+<td>Overlay <strong>v3</strong>: dim 0.36, 44px cursor, triple ripple, pulse ring</td>
+</tr>
+<tr>
+<td>R4</td>
+<td>Quality gate = file size only</td>
+<td><strong>G7</strong> mid-video gold/teal samples ≥2/5</td>
+</tr>
+<tr>
+<td>R5</td>
+<td>actions_log has no pixel proof</td>
+<td><strong>visual_proof</strong> PNG per click + gold≥80 teal≥20</td>
+</tr>
+<tr>
+<td>R6</td>
+<td>PNG filter not unfiltered</td>
+<td><code>png_decode_rgb</code> filter types 0–4</td>
+</tr>
+<tr>
+<td>R7</td>
+<td>Scout merge duplicate clicks</td>
+<td>head/acc detect + selector dedupe</td>
+</tr>
+<tr>
+<td>R8</td>
+<td>CTA navigates away</td>
+<td>init_script preventDefault on external links</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3-pipeline">3. Pipeline (강제 본체)</h2>
+<pre><code>Scout (Planner)
+  → Scenario stamp + policy enforce (pre_shoot)
+  → Voice (edge-tts)
+  → Intro HTML/CJK
+  → Shoot v3 (overlay + demoClick + proof frames)
+  → enforce post_shoot (clicks + visual_proof_pass)
+  → Edit (ffmpeg 30fps + intro concat)
+  → Quality G1–G7
+  → enforce pre_ship
+  → SHIP
+</code></pre>
+<p>MCP는 여전히 <strong>입구만</strong>. 본체 = <code>policy/tutorial_v1.json</code> + <code>enforce.py</code> + proof PNG.</p>
+<hr>
+<h2 id="4-overlay-v3">4. Overlay v3 스펙</h2>
+<ul>
+<li>Hole spotlight (box-shadow cutout, dim 36%)</li>
+<li>Gold focus ring 3px + live pulse</li>
+<li>Teal outline on hole</li>
+<li>Cursor SVG 44px + gold stroke, park center</li>
+<li>Multi-ripple ×3 (teal / gold / white)</li>
+<li>CLICK badge</li>
+<li>STEP caption + PRODUCT TOUR chip + progress bar</li>
+<li><code>demoClick</code>: focus → moveCursor(580ms) → ripple → <strong>holdFocus</strong> (no clear)</li>
+</ul>
+<hr>
+<h2 id="5-pro_v3">5. 이번 산출 (pro_v3)</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>파일</td>
+<td><code>out/helena_phone_pro_v3.mp4</code></td>
+</tr>
+<tr>
+<td>길이</td>
+<td><strong>56.0s</strong> · ~3.5MB</td>
+</tr>
+<tr>
+<td>클릭</td>
+<td><strong>8 OK / 0 FAIL</strong></td>
+</tr>
+<tr>
+<td>Proof</td>
+<td><strong>16/16 PASS</strong> (gold 782–5678, teal 1078–1667)</td>
+</tr>
+<tr>
+<td>G7 accents</td>
+<td><strong>5/5</strong> samples hit</td>
+</tr>
+<tr>
+<td>overlay_version</td>
+<td><strong>3</strong></td>
+</tr>
+<tr>
+<td>policy</td>
+<td>tutorial_v1</td>
+</tr>
+<tr>
+<td>렌더 시간</td>
+<td>~317s</td>
+</tr>
+</tbody>
+</table>
+<p>Proof 샘플 (사람 눈 확인):</p>
+<ul>
+<li>CTA: gold ring + callout <code>CTA</code> + cursor on INSTALL</li>
+<li>Tracks: gold ring on accordion + callout + STEP 2/6</li>
+<li>Diagram node: spotlight on S21 DEV node</li>
+</ul>
+<hr>
+<h2 id="6-tutorial_v1">6. 정책 변경 (tutorial_v1)</h2>
+<pre><code class="language-json">&quot;min_overlay_version&quot;: 3,
+&quot;require_visual_proof&quot;: true,
+&quot;min_visual_proof_pass&quot;: 4,
+&quot;collapse_before_tour&quot;: true,
+&quot;expand_all_before_tour&quot;: false
+</code></pre>
+<p><code>enforce_actions</code>가 <code>visual_proof_pass</code> 없으면 <strong>post_shoot FAIL (exit 4)</strong>.</p>
+<hr>
+<h2 id="7-1">7. 아직 남은 갭 (초1급 다음)</h2>
+<ol>
+<li><strong>A/V 싱크 정밀화</strong> — 클릭 애니메이션 시간만큼 hold 보정은 0.85 계수 근사. beat-level timeline 테이블 필요  </li>
+<li><strong>Ken Burns / soft zoom</strong> — 후처리 compositor (ffmpeg zoompan) 미구현  </li>
+<li><strong>커서 궤적 스플라인</strong> — CSS transition만. 베지어 경로 녹화는 다음  </li>
+<li><strong>에이전트 카드 클릭</strong> — 레이더 전환 비트를 시나리오에 명시 클릭으로  </li>
+<li><strong>네이버/유튜브 업로드 파이프</strong> — 렌더 ≠ 발행</li>
+</ol>
+<hr>
+<h2 id="8">8. 관련 파일</h2>
+<ul>
+<li><code>helena-programming/director/overlays.js</code> (v3)</li>
+<li><code>helena-programming/director/run_director.py</code> (shoot + proof)</li>
+<li><code>helena-programming/director/quality.py</code> (G7 + PNG unfilter)</li>
+<li><code>helena-programming/director/enforce.py</code></li>
+<li><code>helena-programming/director/policy/tutorial_v1.json</code></li>
+<li><code>helena-programming/director/scenarios/helena_phone.json</code></li>
+<li>리서치: <code>_notebook/49-director-community-research_Grok.md</code></li>
+<li>재발: <code>_notebook/48-director-video-recurrence_Grok.md</code></li>
+</ul>
+<hr>
+<h2 id="9">9. 서명</h2>
+<ul>
+<li>분석·수정·재렌더·문서: <strong>_Grok</strong> (2026-08-01)</li>
+<li>Boss 검수: <em>대기</em></li>
+</ul>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="49-director-community-research_Grok.html">
+          <span class="dir">Previous</span>
+          <span class="title">Director 수준 상향 — 커뮤니티·프로 제품 리서치 (_Grok)</span>
+        </a>
+    <a class="next" href="51-scout-v2-community-research_Grok.html">
+          <span class="dir">Next</span>
+          <span class="title">51 scout v2 community research Grok</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

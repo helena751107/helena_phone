@@ -58,7 +58,11 @@
 </ul>
 </li>
 <li><a href="#2">2. 우리가 빠져 있던 것 (이전 산출)</a></li>
-<li><a href="#3-pro_v2">3. 적용 스펙 (pro_v2)</a></li>
+<li><a href="#3-pro_v2-pro_v3">3. 적용 스펙 (pro_v2 → pro_v3)</a><ul>
+<li><a href="#v2-2026-07-31-pass-fail">v2 (2026-07-31, 메트릭 PASS / 시각 FAIL)</a></li>
+<li><a href="#v3-2026-08-01-visual-proof-_notebook50-director-pro-v3-visual-proof_grokmd">v3 (2026-08-01, visual proof 강제) — 상세 _notebook/50-director-pro-v3-visual-proof_Grok.md</a></li>
+</ul>
+</li>
 <li><a href="#4-mcp">4. MCP?</a></li>
 <li><a href="#5">5. 출처 축 (요지)</a></li>
 </ul>
@@ -139,18 +143,31 @@
 </tbody>
 </table>
 <hr>
-<h2 id="3-pro_v2">3. 적용 스펙 (pro_v2)</h2>
+<h2 id="3-pro_v2-pro_v3">3. 적용 스펙 (pro_v2 → <strong>pro_v3</strong>)</h2>
+<h3 id="v2-2026-07-31-pass-fail">v2 (2026-07-31, 메트릭 PASS / 시각 FAIL)</h3>
 <ol>
 <li>Overlay v2: hole spotlight + gold ring + cursor SVG + ripple  </li>
 <li><code>demoClick(el)</code> 시퀀스: focus → move → ripple → click  </li>
-<li>policy <code>tutorial_v1</code> + enforce (이미) + spotlight 필수 플래그  </li>
+<li>policy <code>tutorial_v1</code> + enforce + spotlight 필수 플래그  </li>
 <li>30fps 인코드  </li>
 <li>Healer 1회: 클릭 실패 시 CSS path 완화 재시도  </li>
 </ol>
+<h3 id="v3-2026-08-01-visual-proof-_notebook50-director-pro-v3-visual-proof_grokmd">v3 (2026-08-01, <strong>visual proof 강제</strong>) — 상세 <code>_notebook/50-director-pro-v3-visual-proof_Grok.md</code></h3>
+<ol>
+<li>Overlay <strong>v3</strong>: 44px cursor · triple ripple · pulse ring · dim 0.36 · holdFocus  </li>
+<li><strong>collapse-all 후</strong> 비트별 open (expand-all 금지 — 클릭이 보여야 함)  </li>
+<li>클릭 직후 <code>clearFocus</code> <strong>금지</strong> — 나레이션 hold 동안 링 유지  </li>
+<li>proof PNG per click · gold≥80 teal≥20 · <code>visual_proof_pass</code> enforce  </li>
+<li>G7: 최종 영상 5샘플 중 2+ overlay accents  </li>
+<li>PNG filter unfilter (가짜 0-count 차단)  </li>
+<li>CTA 외부 링크 <code>preventDefault</code> (투어 이탈 방지)</li>
+</ol>
+<p><strong>프로 v3 산출:</strong> <code>helena-programming/director/out/helena_phone_pro_v3.mp4</code><br>
+클릭 8/0 · proof 16/16 · G7 5/5 · 56s · SHIP PASS (진짜)</p>
 <hr>
 <h2 id="4-mcp">4. MCP?</h2>
 <ul>
-<li><strong>강제 본체 = policy + enforce + actions_log</strong> (이미)</li>
+<li><strong>강제 본체 = policy + enforce + actions_log + visual_proof</strong> (v3)</li>
 <li>MCP = 외부 에이전트에게 <code>director.run(url, policy=tutorial_v1)</code> 만 열어 주는 <strong>입구</strong></li>
 <li>리서치 결론: MCP 먼저 만들면 안 됨. <strong>파이프 품질 먼저.</strong></li>
 </ul>
@@ -168,9 +185,9 @@
           <span class="dir">Previous</span>
           <span class="title">재발일지 — Director 소개 영상 품질 사고 (_Grok)</span>
         </a>
-    <a class="next" href="allocation-rate-2026-07-28.html">
+    <a class="next" href="50-director-pro-v3-visual-proof_Grok.html">
           <span class="dir">Next</span>
-          <span class="title">allocation rate 2026 07 28</span>
+          <span class="title">50 director pro v3 visual proof Grok</span>
         </a>
   </nav>
   <div class="wz-related">
