@@ -55,6 +55,34 @@
 
 **관련:** `58-video-three-tracks_Grok.md` · V3 PC 연동 논의 · `33-hybrid-image-video-whitepaper.md`
 
+---
+
+### 💰 LLM 비용 트랙 재정의 — Grok은 옵션, 기본은 1만원 (_Boss)
+
+**Boss 원칙:** 가난한 사람 기준으로 돌아가야 한다. Grok 49,000원은 옵션이지 필수가 아니다.
+
+**3트랙 × LLM 비용:**
+
+| 트랙 | LLM | 월 비용 | 영상 품질 |
+|------|-----|---------|----------|
+| **무료** | DeepSeek 무료 티어 + Claude 무료 | **0원** | V1 (PPT·문서·내부용) |
+| **1만원** | DeepSeek API (종량) | **~5,000~10,000원** | V2 (제품 투어 기본) |
+| **5만원** | Grok 구독 | **49,000원** | V2+ (Vision QA 사람급) |
+
+**왜 Grok 없이도 돌아가나:**
+- `perfect_ship.py` 본체는 LLM을 안 탐 — Playwright + ffmpeg + edge-tts 로컬 렌더
+- DeepSeek으로 충분한 것: 시나리오 대본, 연출 JSON, Scout 분석, 디버깅·패치, 커뮤니티 리서치
+- 유일한 Grok 의존 지점: Vision QA 사람 눈 프레임 검수. 이건 auto VQA(V1–V8)로 타협 가능.
+
+**1만원 파이프 감각:**
+- DeepSeek API 종량: 시나리오 ~0.03원/건, 연출 ~0.05원/건, 패치 ~0.10원/세션
+- 이미지: 0원 (Grok Aurora → Bing/Gemini/Leonardo 무료 티어)
+- CDN: 0원 (YouTube)
+- 렌더: 0원 (로컬)
+- **월 10,000원으로 모든 콘텐츠 생산 가능**
+
+**원칙:** Grok은 Boss가 "이번 건 고급으로" 했을 때만 켜는 프리미엄 옵션. 평시 기본값 = DeepSeek + 무료 티어 조합.
+
 ### Director PRO v8 소원 풀이 (_Grok)
 
 **Boss:** 진짜 프로급, 이전 TG보다 훨씬 잘.  
