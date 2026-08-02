@@ -59,6 +59,34 @@ cp /sdcard/DCIM/Screenshots/Screenshot_* ~/   # Termux에서
 
 **이 다리 하나로 Director v1→v8 같은 진화가 이미지 파이프에서도 가능해짐.**
 
+### 🤖 auto_image_pipe.sh — 사진→영상→TG 완전 자동화 (_Boss + _Claude)
+
+**풀파이프 최초 성공:** 수신함에 사진 넣으면 → ffmpeg 슬라이드쇼 → TG 자동 전송 → 처리 완료.
+
+**사용법:**
+```bash
+# 1회 실행 (inbox 처리 후 종료)
+bash ~/work/scripts/auto_image_pipe.sh
+
+# 감시 모드 (새 파일 생기면 자동 처리)
+bash ~/work/scripts/auto_image_pipe.sh --watch
+```
+
+**파이프:**
+```
+📥 ~/inbox/ (Termux 공유 홈)
+  → 🎬 ffmpeg concat (720p, 각 3초)
+  → 📤 TG sendVideo
+  → 📦 ~/processed/ (완료 보관)
+```
+
+**테스트 결과:**
+- 스크린샷 3장 → 212KB mp4 → TG 전송 성공
+- 공백 포함된 한글 파일명 정상 처리
+- `--watch` 모드: `inotifywait`으로 새 파일 실시간 감지
+
+**파일:** `scripts/auto_image_pipe.sh`
+
 ### 💾 proot/Termux 데이터 생존성 분석 (_Boss)
 
 **질문: 폰 재부팅하거나 Termux 지우면 설정 날아가나?**
