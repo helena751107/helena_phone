@@ -1,5 +1,37 @@
 # 📋 S21 Phone — 전체 개발일지
 
+## DAY — 2026-08-03
+
+### 🕐 proot Ubuntu 시계 → 한국 시간(KST) 고정 (_Grok)
+
+**배경:** 세션 로그·`ls` mtime이 `5:52 PM` 등으로 찍혀 헷갈림. proot Ubuntu가 기본 **UTC(`Etc/UTC`)** 였고, Android/Termux는 이미 `Asia/Seoul`.
+
+**조치 (영구):**
+| 항목 | 값 |
+|------|-----|
+| `/etc/localtime` | `Asia/Seoul` |
+| `/etc/timezone` | `Asia/Seoul` |
+| `/etc/environment` | `TZ=Asia/Seoul` |
+| `~/.bashrc`, `~/.profile` | `export TZ=Asia/Seoul` |
+
+**적용 범위:**
+| 층 | 시계 | 비고 |
+|----|------|------|
+| Android | 원래 KST | 변경 없음 |
+| Termux 네이티브 | 원래 KST | 안드로이드 따라감 |
+| **proot Ubuntu** | **KST 고정** | `grok`/`cc`/`ds`/셸/`date`/`ls` mtime 전부 |
+
+**예외 (헷갈리지 말 것):**
+- Claude 세션 JSONL 등 앱이 `…T17:55:23.541Z`처럼 **UTC 문자열로 저장**하는 포맷은 그대로일 수 있음 (OS 시계와 별개).
+- 클라우드/API 서버 타임스탬프는 보통 UTC.
+- `TZ=UTC` 강제 스크립트·별도 컨테이너는 예외.
+
+**검증:** `date` → `KST +0900`. 재부팅·proot 재진입 후에도 `/etc/localtime`으로 유지.
+
+**관련:** 2026-08-02 DeepSeek 세션 파싱 시 타임스탬프가 UTC로 읽히던 혼선 → 이 설정으로 해소.
+
+---
+
 ## DAY — 2026-08-02
 
 ### 🧯 Claude Code(DeepSeek) 세션 먹통 복구 (_Grok)

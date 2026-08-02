@@ -50,6 +50,10 @@
   </header>
   <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
 <ul>
+<li><a href="#day-2026-08-03">DAY — 2026-08-03</a><ul>
+<li><a href="#proot-ubuntu-kst-_grok">🕐 proot Ubuntu 시계 → 한국 시간(KST) 고정 (_Grok)</a></li>
+</ul>
+</li>
 <li><a href="#day-2026-08-02">DAY — 2026-08-02</a><ul>
 <li><a href="#claude-codedeepseek-_grok">🧯 Claude Code(DeepSeek) 세션 먹통 복구 (_Grok)</a></li>
 <li><a href="#-ai-boss-3-_boss">🏗️ 인간-AI 협업 아키텍처 — Boss+문서+에이전트 3층 (_Boss)</a></li>
@@ -253,7 +257,30 @@
     <button type="button" id="wzCopy" data-cursor>본문 복사</button>
   </div>
   <article class="wz-prose" id="wzProse" data-app="doc">
-    <h2 id="day-2026-08-02">DAY — 2026-08-02</h2>
+    <h2 id="day-2026-08-03">DAY — 2026-08-03</h2>
+<h3 id="proot-ubuntu-kst-_grok">🕐 proot Ubuntu 시계 → 한국 시간(KST) 고정 (_Grok)</h3>
+<p><strong>배경:</strong> 세션 로그·<code>ls</code> mtime이 <code>5:52 PM</code> 등으로 찍혀 헷갈림. proot Ubuntu가 기본 <strong>UTC(<code>Etc/UTC</code>)</strong> 였고, Android/Termux는 이미 <code>Asia/Seoul</code>.</p>
+<p><strong>조치 (영구):</strong><br>
+| 항목 | 값 |<br>
+|------|-----|<br>
+| <code>/etc/localtime</code> | <code>Asia/Seoul</code> |<br>
+| <code>/etc/timezone</code> | <code>Asia/Seoul</code> |<br>
+| <code>/etc/environment</code> | <code>TZ=Asia/Seoul</code> |<br>
+| <code>~/.bashrc</code>, <code>~/.profile</code> | <code>export TZ=Asia/Seoul</code> |</p>
+<p><strong>적용 범위:</strong><br>
+| 층 | 시계 | 비고 |<br>
+|----|------|------|<br>
+| Android | 원래 KST | 변경 없음 |<br>
+| Termux 네이티브 | 원래 KST | 안드로이드 따라감 |<br>
+| <strong>proot Ubuntu</strong> | <strong>KST 고정</strong> | <code>grok</code>/<code>cc</code>/<code>ds</code>/셸/<code>date</code>/<code>ls</code> mtime 전부 |</p>
+<p><strong>예외 (헷갈리지 말 것):</strong><br>
+- Claude 세션 JSONL 등 앱이 <code>…T17:55:23.541Z</code>처럼 <strong>UTC 문자열로 저장</strong>하는 포맷은 그대로일 수 있음 (OS 시계와 별개).<br>
+- 클라우드/API 서버 타임스탬프는 보통 UTC.<br>
+- <code>TZ=UTC</code> 강제 스크립트·별도 컨테이너는 예외.</p>
+<p><strong>검증:</strong> <code>date</code> → <code>KST +0900</code>. 재부팅·proot 재진입 후에도 <code>/etc/localtime</code>으로 유지.</p>
+<p><strong>관련:</strong> 2026-08-02 DeepSeek 세션 파싱 시 타임스탬프가 UTC로 읽히던 혼선 → 이 설정으로 해소.</p>
+<hr>
+<h2 id="day-2026-08-02">DAY — 2026-08-02</h2>
 <h3 id="claude-codedeepseek-_grok">🧯 Claude Code(DeepSeek) 세션 먹통 복구 (_Grok)</h3>
 <p><strong>사건:</strong> 폰 DeepSeek 작업 세션 먹통. 사용자 호칭 “딥시크 에이더” — 실체는 <strong>Claude Code + DeepSeek</strong>, 세션 <code>b793b961</code> (13:27–17:55Z). Aider 히스토리는 7/25로 무관.</p>
 <p><strong>이미 세션이 저장·푸시한 것:</strong> 아래 DAY 섹션 전부(임계점·이미지·1만원·YouTube CDN·Gallery→ffmpeg·PWA 거부·MCP On-Demand·구형폰 실험·Grok 파트너·3층 협업) + 커밋 <code>5fee260</code>~<code>7bf9cce</code>.</p>
