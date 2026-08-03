@@ -1,0 +1,1 @@
+proot Ubuntu가 Android 위에서 어떻게 돌아가는가. Termux가 다리 역할을 하고, 그 위에 우분투가 올라간다.

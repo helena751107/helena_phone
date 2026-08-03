@@ -1,114 +1,81 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>E04: 헌법을 쓴 AI — S21 Phone Series</title>
 <style>
-:root { --bg:#0a0908; --surface:#141312; --text:#e8e6e3; --muted:#8b8680; --gold:#c9a84c; --teal:#2ec4b6; --red:#e63946; --radius:12px; }
-* { margin:0; padding:0; box-sizing:border-box; }
-body { background:var(--bg); color:var(--text); font-family:'Segoe UI',system-ui,sans-serif; line-height:1.6; }
-.nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(10,9,8,0.9); backdrop-filter:blur(10px); padding:0.8rem 2rem; display:flex; justify-content:space-between; border-bottom:1px solid #1a1a1a; }
-.nav-logo { font-weight:900; color:var(--gold); }
-.hero { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem; }
-.hero-chip { background:var(--teal); color:var(--bg); padding:4px 14px; border-radius:20px; font-size:0.8rem; font-weight:700; letter-spacing:0.1em; margin-bottom:1.5rem; }
-.hero h1 { font-size:clamp(2rem,6vw,4rem); line-height:1.15; }
-.hero h1 span { color:var(--gold); }
-.section { max-width:900px; margin:0 auto; padding:4rem 2rem; }
-.section h2 { font-size:2rem; margin-bottom:1.5rem; border-left:4px solid var(--gold); padding-left:1rem; }
-
-.track-dual { display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin:2rem 0; }
-.track-card { background:var(--surface); border-radius:var(--radius); padding:2rem; cursor:pointer; transition:all 0.3s; border:2px solid transparent; text-align:center; }
-.track-card:hover { border-color:var(--gold); }
-.track-card.active { border-color:var(--teal); }
-.track-card.icon { font-size:3rem; margin-bottom:1rem; }
-.track-card h3 { margin-bottom:0.5rem; }
-.track-card .detail { display:none; margin-top:1rem; font-size:0.9rem; color:var(--muted); text-align:left; }
-.track-card.active .detail { display:block; }
-
-.principles { margin:2rem 0; }
-.principle { background:var(--surface); border-radius:var(--radius); padding:1.2rem 1.5rem; margin:0.5rem 0; cursor:pointer; transition:all 0.3s; border-left:3px solid transparent; }
-.principle:hover { border-left-color:var(--gold); }
-.principle.active { border-left-color:var(--teal); background:#0f1d1b; }
-.principle h4 { margin-bottom:0.3rem; }
-.principle .detail { display:none; font-size:0.85rem; color:var(--muted); margin-top:0.5rem; }
-.principle.active .detail { display:block; }
-.principle-num { color:var(--teal); font-weight:900; margin-right:0.5rem; }
-
-.callout { background:linear-gradient(135deg,#1a1810,#141312); border:1px solid var(--gold); border-radius:var(--radius); padding:1.5rem; margin:2rem 0; }
-.callout strong { color:var(--gold); }
-
-@media(max-width:600px) { .track-dual { grid-template-columns:1fr; } }
-</style>
-</head>
-<body>
+:root{--bg:#0a0908;--surface:#141312;--text:#e8e6e3;--muted:#8b8680;--gold:#c9a84c;--teal:#2ec4b6;--red:#e63946;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,9,8,0.9);backdrop-filter:blur(10px);padding:.8rem 2rem;display:flex;justify-content:space-between;border-bottom:1px solid #1a1a1a}
+.nav-logo{font-weight:900;color:var(--gold)}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem}
+.hero-chip{background:var(--teal);color:var(--bg);padding:4px 14px;border-radius:20px;font-size:.8rem;font-weight:700;letter-spacing:.1em;margin-bottom:1.5rem}
+.hero h1{font-size:clamp(2rem,6vw,4rem);line-height:1.15}
+.hero h1 span{color:var(--gold)}
+.section{max-width:900px;margin:0 auto;padding:4rem 2rem}
+.section h2{font-size:2rem;margin-bottom:1.5rem;border-left:4px solid var(--gold);padding-left:1rem}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin:2rem 0}
+.stat{background:var(--surface);border-radius:var(--radius);padding:1.5rem;text-align:center;border:2px solid transparent;cursor:pointer;transition:all .3s}
+.stat:hover{border-color:var(--gold)}
+.stat-val{font-size:2rem;font-weight:900;color:var(--teal)}
+.stat-label{font-size:.75rem;color:var(--muted);text-transform:uppercase;margin-top:.3rem}
+.track-dual{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin:2rem 0}
+.track-card{background:var(--surface);border-radius:var(--radius);padding:2rem;cursor:pointer;transition:all .3s;border:2px solid transparent;text-align:center}
+.track-card:hover{border-color:var(--gold)}
+.track-card.active{border-color:var(--teal);background:#0f1d1b}
+.track-card .icon{font-size:3rem;margin-bottom:1rem}
+.track-card h3{margin-bottom:.5rem}
+.track-card .detail{display:none;margin-top:1rem;font-size:.9rem;color:var(--muted);text-align:left}
+.track-card.active .detail{display:block}
+.principles{margin:2rem 0}
+.principle{background:var(--surface);border-radius:var(--radius);padding:1.2rem 1.5rem;margin:.5rem 0;cursor:pointer;transition:all .3s;border-left:3px solid transparent}
+.principle:hover{border-left-color:var(--gold)}
+.principle.active{border-left-color:var(--teal);background:#0f1d1b}
+.principle h4{margin-bottom:.3rem}
+.principle .detail{display:none;font-size:.85rem;color:var(--muted);margin-top:.5rem}
+.principle.active .detail{display:block}
+.principle-num{color:var(--teal);font-weight:900;margin-right:.5rem}
+.callout{background:linear-gradient(135deg,#1a1810,#141312);border:1px solid var(--gold);border-radius:var(--radius);padding:1.5rem;margin:2rem 0}
+.callout strong{color:var(--gold)}
+@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}.track-dual{grid-template-columns:1fr}}
+</style></head><body>
 
 <nav class="nav"><span class="nav-logo">S21 PHONE</span><span>Ch1 · E04 — 헌법을 쓴 AI</span></nav>
 
 <section class="hero">
   <div class="hero-chip">EPISODE 04</div>
   <h1>헌법을 <span>쓴</span><br>AI</h1>
-  <p style="color:var(--muted);max-width:500px;">CONSTITUTION.md — AI 에이전트를 통제하는 불변의 원칙. 코드보다 위에 있는 문서.</p>
+  <p style="color:var(--muted);max-width:500px">CONSTITUTION.md — AI 에이전트를 통제하는 불변의 원칙. 코드보다 위에 있는 문서.</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-val">2</div><div class="stat-label">트랙</div></div>
+    <div class="stat"><div class="stat-val">4</div><div class="stat-label">불변 원칙</div></div>
+    <div class="stat"><div class="stat-val">9</div><div class="stat-label">헌법 섹션</div></div>
+    <div class="stat"><div class="stat-val">v4</div><div class="stat-label">현재 버전</div></div>
+  </div>
 </section>
 
 <section class="section">
   <h2>투트랙: 돌봄과 소망</h2>
-  <p>두 카드를 클릭하면 각 트랙의 설명이 펼쳐집니다.</p>
-  <div class="track-dual" id="tracks">
-    <div class="track-card active" data-click-target data-track="care">
-      <div class="icon">🛡️</div><h3>트랙 1 · 돌봄</h3><div style="color:var(--muted);">절대 안 깨지는 안전망</div>
-      <div class="detail">• 건강 검진 데몬<br>• 배터리·저장소 모니터링<br>• 오류 발생 시 즉시 TG 알림<br>• "깨지면 실패" — 완벽함이 유일한 기준<br>• psycare 레포 연동</div>
-    </div>
-    <div class="track-card" data-click-target data-track="wish">
-      <div class="icon">✨</div><h3>트랙 2 · 소망</h3><div style="color:var(--muted);">목소리를 세상에 세우는 스튜디오</div>
-      <div class="detail">• GitHub Pages 콘텐츠 발행<br>• Director 영상 제작<br>• YouTube·Naver·Tistory 배포<br>• "깨져도 괜찮다" — 실험·반복 허용<br>• 빠른 프로토타입 → 점진적 개선</div>
-    </div>
+  <p style="color:var(--muted);margin-bottom:1rem">두 카드를 클릭하면 각 트랙의 설명이 펼쳐집니다.</p>
+  <div class="track-dual">
+    <div class="track-card active" data-click-target data-track="care"><div class="icon">🛡️</div><h3>트랙 1 · 돌봄</h3><p style="color:var(--muted)">절대 안 깨지는 안전망</p><div class="detail">• 건강 검진 데몬 24/7 가동<br>• 배터리·저장소·네트워크 모니터링<br>• 오류 발생 즉시 TG 알림<br>• "깨지면 실패" — 100%가 유일한 기준<br>• psycare 레포 연동</div></div>
+    <div class="track-card" data-click-target data-track="wish"><div class="icon">✨</div><h3>트랙 2 · 소망</h3><p style="color:var(--muted)">목소리를 세상에 세우는 스튜디오</p><div class="detail">• GitHub Pages 콘텐츠 발행<br>• Director 영상 제작 파이프<br>• YouTube·Naver·Tistory 배포<br>• "깨져도 괜찮다" — 실험·반복 허용<br>• 80% MVP → 점진적 개선</div></div>
   </div>
 </section>
 
 <section class="section">
   <h2>4대 불변 원칙</h2>
-  <p>각 원칙을 클릭하면 상세가 펼쳐집니다.</p>
-  <div class="principles" id="principles">
-    <div class="principle active" data-click-target data-pr="1">
-      <h4><span class="principle-num">I</span> 인간의 판단이 최종이다</h4>
-      <div class="detail">AI의 모든 출력은 1차 가설. 검증 없이 수용하지 않는다. 최종 판단은 항상 Boss의 몫. "SHIP" 결정은 사람만이 내릴 수 있다.</div>
-    </div>
-    <div class="principle" data-click-target data-pr="2">
-      <h4><span class="principle-num">II</span> 트랙 1은 절대 깨지지 않는다</h4>
-      <div class="detail">돌봄 데몬의 실패 = 시스템의 실패. 99.9%가 아니라 100%가 기준. 깨지면 트랙 2 이전에 트랙 1부터 복구.</div>
-    </div>
-    <div class="principle" data-click-target data-pr="3">
-      <h4><span class="principle-num">III</span> 가난한 사람 기준을 지킨다</h4>
-      <div class="detail">구형 폰, 무료 도구, 최소 비용. "더 좋은 게 필요해"라는 말은 금지. 제약 안에서 가능성을 증명하는 게 목표.</div>
-    </div>
-    <div class="principle" data-click-target data-pr="4">
-      <h4><span class="principle-num">IV</span> 문서가 가드레일이다</h4>
-      <div class="detail">CONSTITUTION.md → CLAUDE.md → devlog → 노트북. AI는 매 세션 이 문서들을 먼저 읽는다. Boss가 매번 말하지 않아도 방향이 유지된다.</div>
-    </div>
+  <div class="principles">
+    <div class="principle active" data-click-target data-pr="1"><h4><span class="principle-num">I</span> 인간의 판단이 최종이다</h4><div class="detail">AI의 모든 출력은 1차 가설. 검증 없이 수용하지 않는다. 최종 판단은 항상 Boss의 몫. "SHIP" 결정은 사람만이 내릴 수 있다.</div></div>
+    <div class="principle" data-click-target data-pr="2"><h4><span class="principle-num">II</span> 트랙 1은 절대 깨지지 않는다</h4><div class="detail">돌봄 데몬의 실패 = 시스템의 실패. 99.9%가 아니라 100%가 기준. 깨지면 트랙 2 이전에 트랙 1부터 복구한다.</div></div>
+    <div class="principle" data-click-target data-pr="3"><h4><span class="principle-num">III</span> 가난한 사람 기준을 지킨다</h4><div class="detail">구형 폰, 무료 도구, 최소 비용. "더 좋은 게 필요해"라는 말은 금지. 제약 안에서 가능성을 증명하는 게 목표다.</div></div>
+    <div class="principle" data-click-target data-pr="4"><h4><span class="principle-num">IV</span> 문서가 가드레일이다</h4><div class="detail">CONSTITUTION.md → CLAUDE.md → devlog → 노트북. AI는 매 세션 이 문서들을 먼저 읽는다. Boss가 매번 말하지 않아도 방향이 유지된다.</div></div>
   </div>
-</section>
-
-<section class="section">
-  <div class="callout">
-    <strong>이 헌법이 필요한 이유:</strong> AI는 세션마다 초기화된다. 어제 말한 것을 오늘 기억하지 못한다. 문서가 AI의 영구 기억이다. 이 헌법이 없으면 매번 "다시 설명"해야 한다.
-  </div>
+  <div class="callout"><strong>이 헌법이 필요한 이유:</strong> AI는 세션마다 초기화된다. 어제 말한 것을 오늘 기억하지 못한다. 문서가 AI의 영구 기억이다. 이 헌법이 없으면 매번 "다시 설명"해야 한다.</div>
 </section>
 
 <script>
-document.querySelectorAll('[data-click-target]').forEach(el => {
-  el.addEventListener('click', function() {
-    const track = this.dataset.track;
-    const pr = this.dataset.pr;
-    if (track) {
-      document.querySelectorAll('.track-card').forEach(c => c.classList.remove('active'));
-      this.classList.add('active');
-    }
-    if (pr) {
-      document.querySelectorAll('.principle').forEach(p => p.classList.remove('active'));
-      this.classList.add('active');
-    }
-  });
-});
-</script>
-</body>
-</html>
+document.querySelectorAll('[data-click-target]').forEach(el=>{el.addEventListener('click',function(){
+  const t=this.dataset.track,p=this.dataset.pr;
+  if(t){document.querySelectorAll('.track-card').forEach(c=>c.classList.remove('active'));this.classList.add('active')}
+  if(p){document.querySelectorAll('.principle').forEach(x=>x.classList.remove('active'));this.classList.add('active')}
+})});
+</script></body></html>

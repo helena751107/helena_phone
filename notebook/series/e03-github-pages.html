@@ -1,98 +1,83 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>E03: 공짜 서버를 찾아서 — S21 Phone Series</title>
 <style>
-:root { --bg:#0a0908; --surface:#141312; --text:#e8e6e3; --muted:#8b8680; --gold:#c9a84c; --teal:#2ec4b6; --radius:12px; }
-* { margin:0; padding:0; box-sizing:border-box; }
-body { background:var(--bg); color:var(--text); font-family:'Segoe UI',system-ui,sans-serif; line-height:1.6; }
-.nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(10,9,8,0.9); backdrop-filter:blur(10px); padding:0.8rem 2rem; display:flex; justify-content:space-between; border-bottom:1px solid #1a1a1a; }
-.nav-logo { font-weight:900; color:var(--gold); }
-.hero { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem; }
-.hero-chip { background:var(--teal); color:var(--bg); padding:4px 14px; border-radius:20px; font-size:0.8rem; font-weight:700; letter-spacing:0.1em; margin-bottom:1.5rem; }
-.hero h1 { font-size:clamp(2rem,6vw,4rem); line-height:1.15; }
-.hero h1 span { color:var(--gold); }
-.section { max-width:900px; margin:0 auto; padding:4rem 2rem; }
-.section h2 { font-size:2rem; margin-bottom:1.5rem; border-left:4px solid var(--gold); padding-left:1rem; }
-
-.eco-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; margin:2rem 0; }
-.eco-card { background:var(--surface); border-radius:var(--radius); padding:1.5rem; cursor:pointer; transition:all 0.3s; border:2px solid transparent; text-align:center; }
-.eco-card:hover { border-color:var(--gold); }
-.eco-card.active { border-color:var(--teal); }
-.eco-card .icon { font-size:2rem; margin-bottom:0.5rem; }
-.eco-card .detail { display:none; margin-top:1rem; font-size:0.85rem; color:var(--muted); text-align:left; }
-.eco-card.active .detail { display:block; }
-
-.free-table { width:100%; border-collapse:collapse; margin:2rem 0; font-size:0.9rem; }
-.free-table th { text-align:left; padding:0.8rem; border-bottom:1px solid #222; color:var(--muted); }
-.free-table td { padding:0.8rem; border-bottom:1px solid #1a1a1a; }
-.free-table .cost { color:var(--teal); font-weight:700; }
-
-.callout { background:linear-gradient(135deg,#1a1810,#141312); border:1px solid var(--gold); border-radius:var(--radius); padding:1.5rem; margin:2rem 0; }
-.callout strong { color:var(--gold); }
-</style>
-</head>
-<body>
+:root{--bg:#0a0908;--surface:#141312;--text:#e8e6e3;--muted:#8b8680;--gold:#c9a84c;--teal:#2ec4b6;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,9,8,0.9);backdrop-filter:blur(10px);padding:.8rem 2rem;display:flex;justify-content:space-between;border-bottom:1px solid #1a1a1a}
+.nav-logo{font-weight:900;color:var(--gold)}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem}
+.hero-chip{background:var(--teal);color:var(--bg);padding:4px 14px;border-radius:20px;font-size:.8rem;font-weight:700;letter-spacing:.1em;margin-bottom:1.5rem}
+.hero h1{font-size:clamp(2rem,6vw,4rem);line-height:1.15}
+.hero h1 span{color:var(--gold)}
+.section{max-width:900px;margin:0 auto;padding:4rem 2rem}
+.section h2{font-size:2rem;margin-bottom:1.5rem;border-left:4px solid var(--gold);padding-left:1rem}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin:2rem 0}
+.stat{background:var(--surface);border-radius:var(--radius);padding:1.5rem;text-align:center;transition:all .3s;border:2px solid transparent;cursor:pointer}
+.stat:hover{border-color:var(--gold)}
+.stat-val{font-size:2rem;font-weight:900;color:var(--teal)}
+.stat-label{font-size:.75rem;color:var(--muted);text-transform:uppercase;margin-top:.3rem}
+.eco-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin:2rem 0}
+.eco-card{background:var(--surface);border-radius:var(--radius);padding:1.5rem;cursor:pointer;transition:all .3s;border:2px solid transparent;text-align:center}
+.eco-card:hover{border-color:var(--gold)}
+.eco-card.active{border-color:var(--teal);background:#0f1d1b}
+.eco-card .icon{font-size:2rem;margin-bottom:.5rem}
+.eco-card h4{margin-bottom:.3rem}
+.eco-card .detail{display:none;margin-top:1rem;font-size:.85rem;color:var(--muted);text-align:left}
+.eco-card.active .detail{display:block}
+.free-table{width:100%;border-collapse:collapse;margin:2rem 0;font-size:.9rem;background:var(--surface);border-radius:var(--radius);overflow:hidden}
+.free-table th{text-align:left;padding:1rem;border-bottom:2px solid #222;color:var(--gold);background:#1a1816}
+.free-table td{padding:1rem;border-bottom:1px solid #1a1a1a}
+.free-table .cost{color:var(--teal);font-weight:700}
+.callout{background:linear-gradient(135deg,#1a1810,#141312);border:1px solid var(--gold);border-radius:var(--radius);padding:1.5rem;margin:2rem 0}
+.callout strong{color:var(--gold)}
+@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}.eco-grid{grid-template-columns:1fr}}
+</style></head><body>
 
 <nav class="nav"><span class="nav-logo">S21 PHONE</span><span>Ch1 · E03 — 공짜 서버를 찾아서</span></nav>
 
 <section class="hero">
   <div class="hero-chip">EPISODE 03</div>
   <h1>공짜 <span>서버</span>를<br>찾아서</h1>
-  <p style="color:var(--muted);max-width:500px;">GitHub Pages, YouTube, Telegram — 한 달 0원으로 5개 레포지토리 생태계를 구축하다.</p>
-</section>
-
-<section class="section">
-  <h2>5개 레포 생태계</h2>
-  <p>각 카드를 클릭하면 상세가 펼쳐집니다.</p>
-  <div class="eco-grid" id="ecos">
-    <div class="eco-card active" data-click-target data-repo="main">
-      <div class="icon">📡</div><h4>helena_phone</h4><div style="color:var(--muted);font-size:0.8rem;">포털·웹진</div>
-      <div class="detail">메인 랜딩 포털. 노트북 → HTML 웹진 자동 빌드. CONSTITUTION.md 헌법. Claude Code 작업 디렉토리.</div>
-    </div>
-    <div class="eco-card" data-click-target data-repo="faith">
-      <div class="icon">✝️</div><h4>helana-faith</h4><div style="color:var(--muted);font-size:0.8rem;">신앙 허브</div>
-      <div class="detail">콘텐츠 채널 #1. 신앙 관련 노트·묵상·자료. 독립 레포로 분리 — 관심사별 구독 가능.</div>
-    </div>
-    <div class="eco-card" data-click-target data-repo="log">
-      <div class="icon">📝</div><h4>helana_log</h4><div style="color:var(--muted);font-size:0.8rem;">학습 로그</div>
-      <div class="detail">대한민국 행정 대화록. AI와의 학습·토론 기록. 텍스트 기반 — 빠른 로드·검색.</div>
-    </div>
-    <div class="eco-card" data-click-target data-repo="piano">
-      <div class="icon">🎹</div><h4>helena-piano</h4><div style="color:var(--muted);font-size:0.8rem;">연주 스튜디오</div>
-      <div class="detail">피아노 연주·녹음·악보. Web Audio API 인터랙티브. YouTube 연동.</div>
-    </div>
-    <div class="eco-card" data-click-target data-repo="psycare">
-      <div class="icon">🛡️</div><h4>helena-psycare</h4><div style="color:var(--muted);font-size:0.8rem;">돌봄 허브</div>
-      <div class="detail">트랙 1(돌봄) 전용. 심리·안전망·복지 정보. 절대 안 깨지는 게 유일한 기준.</div>
-    </div>
+  <p style="color:var(--muted);max-width:500px">GitHub Pages, YouTube, Telegram — 한 달 0원으로 5개 레포지토리 생태계를 구축하다.</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-val">5</div><div class="stat-label">레포지토리</div></div>
+    <div class="stat"><div class="stat-val">0원</div><div class="stat-label">호스팅 비용</div></div>
+    <div class="stat"><div class="stat-val">73</div><div class="stat-label">내부 페이지</div></div>
+    <div class="stat"><div class="stat-val">∞</div><div class="stat-label">CDN 대역폭</div></div>
   </div>
 </section>
 
 <section class="section">
-  <h2>공짜 인프라</h2>
+  <h2>5개 레포 생태계</h2>
+  <p style="color:var(--muted);margin-bottom:1rem">각 카드를 클릭하면 상세가 펼쳐집니다.</p>
+  <div class="eco-grid">
+    <div class="eco-card active" data-click-target data-repo="main"><div class="icon">📡</div><h4>helena_phone</h4><p style="color:var(--muted);font-size:.8rem">포털·웹진</p><div class="detail">메인 랜딩 포털. 노트북→HTML 웹진 자동 빌드. CONSTITUTION.md 헌법. Claude Code 작업 디렉토리. 24편 시리즈 페이지.</div></div>
+    <div class="eco-card" data-click-target data-repo="faith"><div class="icon">✝️</div><h4>helana-faith</h4><p style="color:var(--muted);font-size:.8rem">신앙 허브</p><div class="detail">콘텐츠 채널. 신앙 관련 노트·묵상·자료. 관심사별 구독 가능하도록 독립 레포로 분리.</div></div>
+    <div class="eco-card" data-click-target data-repo="log"><div class="icon">📝</div><h4>helana_log</h4><p style="color:var(--muted);font-size:.8rem">학습 로그</p><div class="detail">대한민국 행정 대화록. AI와의 학습·토론 기록. 텍스트 기반으로 빠른 로드·검색.</div></div>
+    <div class="eco-card" data-click-target data-repo="piano"><div class="icon">🎹</div><h4>helena-piano</h4><p style="color:var(--muted);font-size:.8rem">연주 스튜디오</p><div class="detail">피아노 연주·녹음·악보. Web Audio API 인터랙티브. YouTube 채널과 연동.</div></div>
+    <div class="eco-card" data-click-target data-repo="psycare"><div class="icon">🛡️</div><h4>helena-psycare</h4><p style="color:var(--muted);font-size:.8rem">돌봄 허브</p><div class="detail">트랙 1(돌봄) 전용. 심리·안전망·복지 정보. 절대 안 깨지는 게 유일한 기준.</div></div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>공짜 인프라 비교</h2>
   <table class="free-table">
-    <tr><th>서비스</th><th>용도</th><th class="cost">월 비용</th></tr>
-    <tr><td>GitHub Pages</td><td>5개 정적 사이트 호스팅</td><td class="cost">0원</td></tr>
-    <tr><td>YouTube</td><td>무제한 영상 CDN</td><td class="cost">0원</td></tr>
-    <tr><td>Telegram Bot API</td><td>보고·알림·파일 전송</td><td class="cost">0원</td></tr>
-    <tr><td>Giscus</td><td>GitHub Discussions 기반 댓글</td><td class="cost">0원</td></tr>
-    <tr><td>WidgetBot</td><td>Discord 임베드 채팅</td><td class="cost">0원</td></tr>
-    <tr><td>edge-tts</td><td>무료 TTS (한국어 지원)</td><td class="cost">0원</td></tr>
-    <tr><td>DeepSeek API</td><td>메인 LLM (종량제)</td><td class="cost">~10,000원</td></tr>
+    <tr><th>서비스</th><th>용도</th><th>제한</th><th class="cost">월 비용</th></tr>
+    <tr><td>GitHub Pages</td><td>5개 정적 사이트 호스팅</td><td>1GB 저장소·100GB 대역폭</td><td class="cost">0원</td></tr>
+    <tr><td>YouTube</td><td>무제한 영상 CDN</td><td>없음 (15분/영상)</td><td class="cost">0원</td></tr>
+    <tr><td>Telegram Bot API</td><td>보고·알림·파일 전송</td><td>50MB/파일</td><td class="cost">0원</td></tr>
+    <tr><td>Giscus</td><td>GitHub Discussions 댓글</td><td>없음</td><td class="cost">0원</td></tr>
+    <tr><td>edge-tts</td><td>한국어 TTS (SunHi)</td><td>무제한</td><td class="cost">0원</td></tr>
+    <tr><td>Playwright</td><td>브라우저 자동화</td><td>로컬 실행</td><td class="cost">0원</td></tr>
+    <tr><td>FFmpeg</td><td>영상 인코딩·합성</td><td>CPU 소프트웨어</td><td class="cost">0원</td></tr>
+    <tr><td>DeepSeek API</td><td>메인 LLM</td><td>종량제</td><td class="cost">~10,000원</td></tr>
   </table>
-  <div class="callout"><strong>LLM 외 전부 0원.</strong> 오픈소스 + 무료 티어 조합으로 월 10,000원이면 풀스택 운영 가능.</div>
+  <div class="callout"><strong>LLM 외 전부 0원.</strong> 오픈소스 + 무료 티어 조합으로 월 1만원이면 풀스택 운영이 가능하다.</div>
 </section>
 
 <script>
-document.querySelectorAll('[data-click-target]').forEach(el => {
-  el.addEventListener('click', function() {
-    document.querySelectorAll('.eco-card').forEach(c => c.classList.remove('active'));
-    this.classList.add('active');
-  });
-});
-</script>
-</body>
-</html>
+document.querySelectorAll('[data-click-target]').forEach(el=>{el.addEventListener('click',function(){
+  document.querySelectorAll('.eco-card').forEach(c=>c.classList.remove('active'));this.classList.add('active')
+})});
+</script></body></html>
