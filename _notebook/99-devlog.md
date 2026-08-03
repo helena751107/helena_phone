@@ -1,5 +1,16 @@
 # 📋 S21 Phone — 전체 개발일지
 
+### 🎬 E01 제작 완료 — 스마트폰에 리눅스를? (_Boss + _Claude)
+
+**최초 시리즈 영상 제작 성공.**
+
+| 항목 | 값 |
+|------|-----|
+| 파이프 | `perfect_ship.py --url helena_phone --format shorts_1080 --subs --tts auto` |
+| TTS | edge-tts + humanize (b0_cover~b3_agents 4비트) |
+| 전송 | TG message_id 177 |
+| 교훈 | `head -N` = SIGPIPE 사망. CRF 17 → 폰에선 23~28 타협 |
+
 ## 📚 YouTube 교재 — 5챕터 플레이리스트 구조 (_Boss)
 
 **각 챕터 = YouTube 플레이리스트 1개. 챕터 순차 제작·공개.**
