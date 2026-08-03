@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EPISODE 19 — S21 Phone Series</title>
+<style>
+:root { --bg:#0a0908; --surface:#141312; --text:#e8e6e3; --muted:#8b8680; --gold:#c9a84c; --teal:#2ec4b6; --radius:12px; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:'Segoe UI',system-ui,sans-serif; line-height:1.6; }
+.nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(10,9,8,0.9); backdrop-filter:blur(10px); padding:0.8rem 2rem; display:flex; justify-content:space-between; border-bottom:1px solid #1a1a1a; }
+.nav-logo { font-weight:900; color:var(--gold); }
+.hero { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem; }
+.hero-chip { background:var(--teal); color:var(--bg); padding:4px 14px; border-radius:20px; font-size:0.8rem; font-weight:700; letter-spacing:0.1em; margin-bottom:1.5rem; }
+.hero h1 { font-size:clamp(2rem,6vw,4rem); line-height:1.15; }
+.hero h1 span { color:var(--gold); }
+.section { max-width:900px; margin:0 auto; padding:4rem 2rem; }
+.section h2 { font-size:2rem; margin-bottom:1.5rem; border-left:4px solid var(--gold); padding-left:1rem; }
+.flow-step { display:flex; align-items:flex-start; gap:1rem; padding:1rem; cursor:pointer; border-radius:8px; transition:all 0.3s; margin:0.3rem 0; }
+.flow-step:hover { background:var(--surface); }
+.flow-num { width:36px; height:36px; border-radius:50%; background:var(--surface); display:flex; align-items:center; justify-content:center; font-weight:900; flex-shrink:0; border:2px solid #333; }
+.flow-step.active .flow-num { background:var(--teal); border-color:var(--teal); color:var(--bg); }
+.flow-body { flex:1; }
+.flow-title { font-weight:700; }
+.flow-detail { display:none; font-size:0.85rem; color:var(--muted); margin-top:0.5rem; }
+.flow-step.active .flow-detail { display:block; }
+</style></head><body>
+<nav class="nav"><span class="nav-logo">S21 PHONE</span><span>19 · EPISODE 19</span></nav>
+<section class="hero"><div class="hero-chip">EPISODE 19</div><h1>Grok은 <span>옵션</span>이다</h1><p style="color:var(--muted);max-width:500px;">0원(무료티어)→1만원(DeepSeek)→5만원(Grok). 가난한 사람부터.</p></section>
+<section class="section"><h2>LLM 비용 3트랙</h2><div class="flow-step active" data-click-target>
+<div class="flow-num">1</div><div class="flow-body"><div class="flow-title">무료</div>
+<div class="flow-detail">DeepSeek 무료 티어 + Claude 무료. V1 PPT.</div></div></div><div class="flow-step " data-click-target>
+<div class="flow-num">2</div><div class="flow-body"><div class="flow-title">1만원</div>
+<div class="flow-detail">DeepSeek API 종량제. V2 제품 투어.</div></div></div><div class="flow-step " data-click-target>
+<div class="flow-num">3</div><div class="flow-body"><div class="flow-title">5만원</div>
+<div class="flow-detail">Grok 구독. V2+ Vision QA.</div></div></div></section>
+<script>
+document.querySelectorAll('.flow-step').forEach(el => {
+  el.addEventListener('click', function() { document.querySelectorAll('.flow-step').forEach(s => s.classList.remove('active')); this.classList.add('active'); });
+});
+</script></body></html>
