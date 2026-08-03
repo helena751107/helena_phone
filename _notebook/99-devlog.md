@@ -1,5 +1,86 @@
 # 📋 S21 Phone — 전체 개발일지
 
+## 🎬 YouTube 시리즈 — 제작 계획서 (_Boss)
+
+**상태: 제작 대기. 모든 파이프 준비 완료. Boss "찍어" 한마디면 시작.**
+
+### 제작 파이프 (기보유)
+
+```bash
+# 찌라시/PPT 영상 (2~3분, TTS 나레이션)
+perfect_ship.py --url <대상URL> --out <출력> --format shorts_1080 --subs --tts auto
+
+# 스크린샷 → 슬라이드쇼
+auto_image_pipe.sh
+
+# TG 배포
+tg.sh "✅ 새 영상: https://youtube.com/shorts/xxx"
+```
+
+### 제작 가능 편수
+
+| 유형 | 편수 | 소스 |
+|------|------|------|
+| **리포 소개** | 1편 | `index.html` 랜딩페이지 |
+| **헌법 해설** | 9편 | `CONSTITUTION.md` 9섹션 |
+| **설치 가이드** | 1편 | `install-guide.html` |
+| **기능 소개** | 10편+ | Director, auto_image_pipe, health, MCP 등 |
+| **시즌 1~5 본편** | 24편 | 기술 진화 연대기 |
+| **주간 하이라이트** | 주1편 | devlog 요약 |
+| **계** | **50편+** | |
+
+### 콘텐츠 소스 맵
+
+| 시즌 | 편 | 소스 문서/URL |
+|------|----|--------------|
+| S1E1 | 스마트폰에 리눅스를 | `01-proot-setup/` · devlog §1 |
+| S1E2 | AI에게 위임하라 | `41-beginner-install-manual_Grok.md` · devlog §2 |
+| S1E3 | 공짜 서버를 찾아서 | `index.html` · devlog §3~10 |
+| S1E4 | 헌법을 쓴 AI | `CONSTITUTION.md` · devlog §30 |
+| S2E5 | 마크다운이 웹진이 된다 | `33-webpage-coverage_Grok.md` · devlog §11 |
+| S2E6 | 건강 검진하는 폰 | `phone-health.sh` · devlog §17 |
+| S2E7 | 텔레그램으로 모든 걸 | `tg.sh` · devlog §7 |
+| S2E8 | AI 3종의 직함 | `31-agent-roles_Grok.md` · devlog §62~63 |
+| S3E9 | 영상이 깨졌다 | `48-director-video-recurrence_Grok.md` |
+| S3E10 | 눈속임을 잡아라 | `50-director-pro-v3-visual-proof_Grok.md` |
+| S3E11 | AI의 눈 | `52-director-vision-qa-loop_Grok.md` |
+| S3E12 | 연출을 코드로 | `53-director-plan-settings_Grok.md` · `54` |
+| S3E13 | 만점의 알고리즘 | `56-director-perfect-ship-process_Grok.md` |
+| S3E14 | 커뮤니티 수준까지 | `57-director-community-a-bar_Grok.md` |
+| S4E15 | 여기까지다 | devlog §임계점 |
+| S4E16 | NPU의 거짓말 | devlog §이미지 전략 |
+| S4E17 | Gallery는 API가 없다 | devlog §Gallery |
+| S4E18 | YouTube = 공짜 CDN | devlog §CDN |
+| S4E19 | Grok은 옵션이다 | devlog §비용 트랙 |
+| S5E20 | 샌드박스의 벽 | devlog §브릿지 |
+| S5E21 | 다리 | devlog §auto_image_pipe |
+| S5E22 | 터치 노동의 종말 | `auto_image_pipe.sh` · devlog §자동화 |
+| S5E23 | 말이 곧 명령이다 | devlog §음성 명령 |
+| S5E24 | 폰이 곧 서버다 | 전체 아키텍처 회고 |
+
+### 제작 순서 (우선순위)
+
+1. **리포 소개 (찌라시)** — 3분. 랜딩페이지 투어. "와서 볼래요"
+2. **S1E1 스마트폰에 리눅스를** — 설치 과정. 초심자 타겟
+3. **S2E5 마크다운이 웹진이 된다** — 자동화 가시적 성과
+4. **S3E9 영상이 깨졌다** — 드라마틱한 실패 에피소드
+5. **S5E21 다리** — 오늘의 돌파구
+6. 이후 순차 제작
+
+### 필요 리소스
+
+| 항목 | 현재 | 비고 |
+|------|------|------|
+| 콘텐츠 소스 | ✅ 100개+ 문서·노트북 | GitHub Pages에 전부 라이브 |
+| 영상 제작 파이프 | ✅ `perfect_ship.py` | V2 수준 자동화 |
+| TTS | ✅ edge-tts (무료) | OpenAI 키 있으면 고품질 |
+| 촬영 | ✅ Playwright | 페이지 캡처 자동 |
+| 편집 | ✅ ffmpeg | concat·자막·트랜지션 |
+| 배포 | ✅ YouTube Data API | OAuth 완료 |
+| 호스팅 | ✅ YouTube 무료 | 공짜 CDN |
+
+**결론: 기술적 장애물 없음. Boss "찍어" 결정만 남음.**
+
 ## 🎬 YouTube 시리즈 기획 — Helena Phone 기술 진화 5시즌 (_Boss)
 
 **제약: PC/WSL 없음. 2021년 갤럭시 S21(Exynos 2100, RAM 7GB) + proot Ubuntu 단독.**
