@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E01: 스마트폰에 리눅스를? — S21 Phone Series</title>
+<style>
+:root {
+  --bg: #0a0908;
+  --surface: #141312;
+  --text: #e8e6e3;
+  --muted: #8b8680;
+  --gold: #c9a84c;
+  --teal: #2ec4b6;
+  --red: #e63946;
+  --blue: #457b9d;
+  --radius: 12px;
+  --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:var(--font); line-height:1.6; overflow-x:hidden; }
+
+/* Hero */
+.hero { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem; position:relative; }
+.hero-chip { background:var(--teal); color:var(--bg); padding:4px 14px; border-radius:20px; font-size:0.8rem; font-weight:700; letter-spacing:0.1em; margin-bottom:1.5rem; }
+.hero h1 { font-size:clamp(2rem,6vw,4rem); line-height:1.15; margin-bottom:1rem; }
+.hero h1 span { color:var(--gold); }
+.hero p { color:var(--muted); max-width:500px; margin-bottom:2rem; }
+.hero-stats { display:flex; gap:2rem; flex-wrap:wrap; justify-content:center; }
+.stat { text-align:center; }
+.stat-val { font-size:2rem; font-weight:900; color:var(--teal); }
+.stat-label { font-size:0.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; }
+
+/* Section */
+.section { max-width:900px; margin:0 auto; padding:4rem 2rem; }
+.section h2 { font-size:2rem; margin-bottom:1.5rem; border-left:4px solid var(--gold); padding-left:1rem; }
+.section h3 { color:var(--teal); margin:1.5rem 0 0.5rem; }
+
+/* Architecture Diagram - Interactive */
+.arch-diagram { background:var(--surface); border-radius:var(--radius); padding:2rem; margin:2rem 0; position:relative; }
+.arch-layer { display:flex; align-items:center; gap:1rem; padding:0.8rem 1rem; margin:0.3rem 0; border-radius:8px; cursor:pointer; transition:all 0.3s; border:1px solid transparent; position:relative; }
+.arch-layer:hover { border-color:var(--gold); background:#1a1816; }
+.arch-layer.active { border-color:var(--teal); background:#0f1d1b; }
+.arch-layer-icon { width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0; }
+.arch-layer-info { flex:1; }
+.arch-layer-name { font-weight:700; }
+.arch-layer-desc { font-size:0.8rem; color:var(--muted); }
+.arch-layer-badge { font-size:0.7rem; padding:2px 8px; border-radius:10px; }
+.arch-arrow { text-align:center; color:var(--gold); font-size:1.2rem; padding:0.2rem 0; }
+.arch-detail { display:none; padding:1rem; margin-top:0.5rem; background:#0a0f0e; border-radius:8px; font-size:0.9rem; border-left:3px solid var(--teal); }
+.arch-layer.active .arch-detail { display:block; }
+.arch-layer.active .arch-layer-name { color:var(--teal); }
+
+/* Terminal */
+.terminal { background:#0d0d0d; border-radius:var(--radius); padding:1.5rem; font-family:'Courier New',monospace; font-size:0.85rem; margin:2rem 0; border:1px solid #222; overflow-x:auto; }
+.terminal .prompt { color:var(--teal); }
+.terminal .cmd { color:var(--text); }
+.terminal .out { color:var(--muted); }
+.terminal .highlight { color:var(--gold); }
+.terminal .cursor { animation:blink 1s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* Spec comparison - Interactive toggle */
+.spec-compare { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:2rem 0; }
+.spec-card { background:var(--surface); border-radius:var(--radius); padding:1.5rem; cursor:pointer; transition:all 0.3s; border:2px solid transparent; text-align:center; }
+.spec-card:hover { border-color:var(--gold); }
+.spec-card.selected { border-color:var(--teal); }
+.spec-card h4 { font-size:1.5rem; margin-bottom:0.5rem; }
+.spec-card .specs { font-size:0.85rem; color:var(--muted); }
+.spec-card .verdict { margin-top:1rem; font-weight:700; display:none; }
+.spec-card.selected .verdict { display:block; color:var(--teal); }
+
+/* Flow steps - Interactive */
+.flow-steps { display:flex; flex-direction:column; gap:0; margin:2rem 0; }
+.flow-step { display:flex; align-items:flex-start; gap:1rem; padding:1rem; cursor:pointer; border-radius:8px; transition:all 0.3s; position:relative; }
+.flow-step:hover { background:var(--surface); }
+.flow-step-num { width:36px; height:36px; border-radius:50%; background:var(--surface); display:flex; align-items:center; justify-content:center; font-weight:900; font-size:0.9rem; flex-shrink:0; border:2px solid #333; transition:all 0.3s; }
+.flow-step:hover .flow-step-num { border-color:var(--gold); color:var(--gold); }
+.flow-step.active .flow-step-num { background:var(--teal); border-color:var(--teal); color:var(--bg); }
+.flow-step-body { flex:1; }
+.flow-step-title { font-weight:700; margin-bottom:0.2rem; }
+.flow-step-detail { display:none; font-size:0.85rem; color:var(--muted); margin-top:0.5rem; }
+.flow-step.active .flow-step-detail { display:block; }
+
+/* Callout */
+.callout { background:linear-gradient(135deg, #1a1810, #141312); border:1px solid var(--gold); border-radius:var(--radius); padding:1.5rem; margin:2rem 0; }
+.callout strong { color:var(--gold); }
+
+/* Nav */
+.nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(10,9,8,0.9); backdrop-filter:blur(10px); padding:0.8rem 2rem; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #1a1a1a; }
+.nav-logo { font-weight:900; color:var(--gold); }
+.nav-series { font-size:0.8rem; color:var(--muted); }
+
+/* Responsive */
+@media(max-width:600px) {
+  .spec-compare { grid-template-columns:1fr; }
+  .hero-stats { gap:1rem; }
+}
+
+[data-click-target] { cursor:pointer; position:relative; }
+[data-click-target]:hover::after { content:''; position:absolute; inset:-3px; border:2px solid var(--gold); border-radius:12px; pointer-events:none; animation:pulse 1.5s infinite; }
+@keyframes pulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <span class="nav-logo">S21 PHONE</span>
+  <span class="nav-series">Ch1 · E01 — PC 없는 코딩</span>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-chip">EPISODE 01</div>
+  <h1>스마트폰에<br><span>리눅스</span>를?</h1>
+  <p>5년 된 갤럭시 S21 하나로 풀스택 개발 환경을 구축하다. PC 없이, WSL 없이, 오직 폰 하나로.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-val">2021</div><div class="stat-label">출시 연도</div></div>
+    <div class="stat"><div class="stat-val">7GB</div><div class="stat-label">RAM</div></div>
+    <div class="stat"><div class="stat-val">Exynos</div><div class="stat-label">2100</div></div>
+    <div class="stat"><div class="stat-val">0원</div><div class="stat-label">추가 비용</div></div>
+  </div>
+</section>
+
+<!-- Architecture: Proot Stack -->
+<section class="section">
+  <h2>폰 안의 리눅스</h2>
+  <p>proot Ubuntu가 Android 위에서 어떻게 돌아가는가. <span class="muted">각 레이어를 클릭하면 상세 설명이 펼쳐집니다.</span></p>
+
+  <div class="arch-diagram" id="archStack">
+    <div class="arch-layer" data-click-target data-layer="app">
+      <div class="arch-layer-icon" style="background:#1a1a2e">📱</div>
+      <div class="arch-layer-info">
+        <div class="arch-layer-name">Android 13 · One UI 5.1</div>
+        <div class="arch-layer-desc">Galaxy S21 (SM-G991N) 기본 OS</div>
+      </div>
+      <div class="arch-layer-badge" style="background:#333">Host</div>
+      <div class="arch-detail">Samsung One UI 5.1 기반. Linux 커널 5.10. 안드로이드 보안 샌드박스가 모든 앱을 격리. Termux는 이 위에서 사용자 권한으로 실행됨.</div>
+    </div>
+    <div class="arch-arrow">↓</div>
+    <div class="arch-layer" data-click-target data-layer="termux">
+      <div class="arch-layer-icon" style="background:#0d1b0d">⬛</div>
+      <div class="arch-layer-info">
+        <div class="arch-layer-name">Termux</div>
+        <div class="arch-layer-desc">Android 터미널 에뮬레이터 · 패키지 매니저</div>
+      </div>
+      <div class="arch-layer-badge" style="background:#2a2">Bridge</div>
+      <div class="arch-detail">F-Droid에서 설치. apt 기반 패키지 관리. Node.js, Python, FFmpeg, Git 등 5000+ 패키지 제공. termux-api로 Android 센서·카메라·알림과 연동.</div>
+    </div>
+    <div class="arch-arrow">↓</div>
+    <div class="arch-layer" data-click-target data-layer="proot">
+      <div class="arch-layer-icon" style="background:#1a1010">🐧</div>
+      <div class="arch-layer-info">
+        <div class="arch-layer-name">proot Ubuntu</div>
+        <div class="arch-layer-desc">루트 권한 없이 돌아가는 완전한 Linux 사용자 공간</div>
+      </div>
+      <div class="arch-layer-badge" style="background:#c44">Engine</div>
+      <div class="arch-detail">chroot를 사용자 권한으로 구현. Ubuntu 24.04 ARM64. apt로 60,000+ 패키지 설치 가능. Claude Code, Grok CLI, Aider, Playwright 모두 이 위에서 실행. /data/data/com.termux/files/home/ 아래에 파일시스템 저장 → 재부팅해도 유지.</div>
+    </div>
+    <div class="arch-arrow">↓</div>
+    <div class="arch-layer" data-click-target data-layer="agents">
+      <div class="arch-layer-icon" style="background:#0d1a1a">🤖</div>
+      <div class="arch-layer-info">
+        <div class="arch-layer-name">AI Agent 3종</div>
+        <div class="arch-layer-desc">Claude Code · Grok · Aider — 설계·시공·감사</div>
+      </div>
+      <div class="arch-layer-badge" style="background:#28a">AI</div>
+      <div class="arch-detail">Claude Code(DeepSeek 기반): 메인 코딩 에이전트. Grok(xAI SuperGrok): 디자이너·비전 검수·영상 기획. Aider(DeepSeek): 패치 큐·반복 시공. 3종이 proot 위에서 협업.</div>
+    </div>
+    <div class="arch-arrow">↓</div>
+    <div class="arch-layer" data-click-target data-layer="output">
+      <div class="arch-layer-icon" style="background:#1a1a10">🌐</div>
+      <div class="arch-layer-info">
+        <div class="arch-layer-name">GitHub Pages · YouTube · TG</div>
+        <div class="arch-layer-desc">결과물이 세상에 나가는 통로</div>
+      </div>
+      <div class="arch-layer-badge" style="background:#a82">Output</div>
+      <div class="arch-detail">모든 소스는 GitHub에 Push → Pages로 자동 배포. 영상은 YouTube Data API로 업로드. 알림·보고는 Telegram Bot으로. 폰 하나로 촬영부터 배포까지.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Spec Comparison -->
+<section class="section">
+  <h2>왜 이 폰인가</h2>
+  <p>최신 폰이 아니다. 일부러 구형 폰으로 실험한다. <span class="muted">아래 카드를 클릭해 비교하세요.</span></p>
+
+  <div class="spec-compare" id="specCompare">
+    <div class="spec-card selected" data-click-target data-spec="old">
+      <h4>📱 2021 S21</h4>
+      <div class="specs">Exynos 2100 · 7GB RAM · 128GB<br>중고 20만원 · One UI 5.1</div>
+      <div class="verdict">✅ 실제 실험 대상</div>
+    </div>
+    <div class="spec-card" data-click-target data-spec="new">
+      <h4>🆕 2026 최신</h4>
+      <div class="specs">Snapdragon 8 Elite · 16GB RAM<br>신품 150만원 · One UI 8</div>
+      <div class="verdict">누구나 할 수 있다. 실험 가치 없음.</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>실험의 철학:</strong> "더 좋은 폰이 필요해"라고 말하는 순간, 이 프로젝트의 의미는 사라진다. 가난한 사람도, 오래된 폰으로도, AI 에이전트와 함께 풀스택 개발을 할 수 있다는 것을 증명하는 게 목표다.
+  </div>
+</section>
+
+<!-- Install Flow -->
+<section class="section">
+  <h2>설치 4단계</h2>
+  <p>처음부터 끝까지, 터미널 명령어 5줄. <span class="muted">각 단계를 클릭하면 상세 명령어가 표시됩니다.</span></p>
+
+  <div class="flow-steps" id="installFlow">
+    <div class="flow-step" data-click-target data-step="1">
+      <div class="flow-step-num">1</div>
+      <div class="flow-step-body">
+        <div class="flow-step-title">F-Droid에서 Termux 설치</div>
+        <div class="flow-step-detail">
+          <div class="terminal"><span class="prompt">$</span> <span class="cmd">f-droid.org → Termux → 설치</span><br><span class="out"># 또는 직접 APK 다운로드</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="flow-step" data-click-target data-step="2">
+      <div class="flow-step-num">2</div>
+      <div class="flow-step-body">
+        <div class="flow-step-title">Termux:API + 기본 패키지</div>
+        <div class="flow-step-detail">
+          <div class="terminal"><span class="prompt">$</span> <span class="cmd">pkg install termux-api nodejs python git</span><br><span class="out"># Android 센서 · 카메라 · 알림 접근 권한</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="flow-step" data-click-target data-step="3">
+      <div class="flow-step-num">3</div>
+      <div class="flow-step-body">
+        <div class="flow-step-title">proot Ubuntu 설치</div>
+        <div class="flow-step-detail">
+          <div class="terminal"><span class="prompt">$</span> <span class="cmd">bash g/install.sh</span><br><span class="out"># Ubuntu 24.04 ARM64 · Python3 · FFmpeg · Playwright</span><br><span class="highlight"># 10분 소요. 재부팅해도 유지.</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="flow-step" data-click-target data-step="4">
+      <div class="flow-step-num">4</div>
+      <div class="flow-step-body">
+        <div class="flow-step-title">AI 에이전트 연결</div>
+        <div class="flow-step-detail">
+          <div class="terminal"><span class="prompt">$</span> <span class="cmd">claude</span><br><span class="out"># DeepSeek API → Claude Code 세션 시작</span><br><span class="prompt">$</span> <span class="cmd">grok "안녕"</span><br><span class="out"># Grok CLI · xAI SuperGrok 구독</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Key breakthrough -->
+<section class="section">
+  <h2>돌파구</h2>
+  <div class="callout">
+    <strong>2026-08-03:</strong> Termux <code>~/</code> = proot <code>~/</code> 공유 디렉토리 발견.<br>
+    Android 카메라·스크린샷·저장소가 CLI 파이프의 직접 입력이 된다.<br>
+    <span style="color:var(--teal)">cp /sdcard/DCIM/Screenshots/* ~/ → proot에서 ffmpeg → TG 전송. 터치 0회.</span>
+  </div>
+</section>
+
+<script>
+// Interactive layer click
+document.querySelectorAll('[data-click-target]').forEach(el => {
+  el.addEventListener('click', function() {
+    const layer = this.dataset.layer;
+    const step = this.dataset.step;
+    const spec = this.dataset.spec;
+
+    if (layer) {
+      // Toggle arch layer
+      document.querySelectorAll('.arch-layer').forEach(l => l.classList.remove('active'));
+      this.classList.add('active');
+    }
+    if (step) {
+      // Toggle flow step
+      document.querySelectorAll('.flow-step').forEach(s => s.classList.remove('active'));
+      this.classList.add('active');
+    }
+    if (spec) {
+      // Toggle spec comparison
+      document.querySelectorAll('.spec-card').forEach(c => c.classList.remove('selected'));
+      this.classList.add('selected');
+    }
+  });
+});
+
+// Initial state: show first layers
+document.querySelector('[data-layer="termux"]').classList.add('active');
+document.querySelector('[data-step="1"]').classList.add('active');
+</script>
+
+</body>
+</html>
