@@ -1,5 +1,24 @@
 # 📋 S21 Phone — 전체 개발일지
 
+### 🏭 시리즈 제작 표준 파이프 확정 (_Boss)
+
+**원칙: 매번 달라지지 말 것. 모든 에피소드 동일 프로세스.**
+
+**표준 파이프:** `scripts/episode_produce.sh <에피소드> <URL> <제목>`
+
+**4단계 고정:**
+1. Playwright 페이지 스크린샷 (4구간)
+2. 페이지 h1/h2/p → TTS 대본 자동 추출 → edge-tts
+3. ffmpeg 클립 인코딩 + concat (720p, CRF 28, ultrafast)
+4. TG sendVideo 전송
+
+**페이지 표준:** 각 에피소드 전용 페이지 필요 (notebook/series/e01~e24.html)
+- 인터랙티브 요소 (data-click-target)
+- 클릭 아코디언 (flow-step)
+- S21 Phone 브랜드 스타일 (gold·teal·dark)
+
+**MCP화 계획:** 추후 `episode-produce` MCP 도구로 등록 → Claude Code가 스위치 온 → 표준 파이프 실행 → 자동 종료. 서버 상시 대기 불필요.
+
 ### 🎬 E01 제작 완료 — 스마트폰에 리눅스를? (_Boss + _Claude)
 
 **최초 시리즈 영상 제작 성공.**
