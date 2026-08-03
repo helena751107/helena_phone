@@ -118,6 +118,62 @@ tar -czf /sdcard/termux-backup-$(date +%Y%m%d).tar.gz \
 
 **결론: 재부팅 걱정 마라. Termux만 지우지 마라.**
 
+### 🗣️ 음성 명령 아키텍처 — Boss 말 한마디로 전부 (_Boss)
+
+**목표: Termux 화면에서 말로 요청하면 모든 작업이 자동 실행.**
+
+**현재 완성된 음성→파이프 맵:**
+
+| Boss 말 | 실행 파이프 | 상태 |
+|---------|-----------|------|
+| "영상 만들어" | `perfect_ship.py` (Director L0–L9) | ✅ |
+| "이 사진 영상으로" | `auto_image_pipe.sh` | ✅ 오늘 완성 |
+| "TG로 보고해" | `tg.sh` | ✅ |
+| "건강 검진해" | `phone-health.sh` | ✅ |
+| "깃헙에 올려" | git add/commit/push | ✅ |
+| "이미지 만들어" | Grok Aurora / Bing / Gemini | ✅ |
+| "유튜브에 올려" | YouTube Data API | ⏳ |
+| "자막 넣어" | `subtitles.py` 연동 | ⏳ |
+| "목소리 입혀" | `voice_engine.py` 연동 | ⏳ |
+| "블로그 발행해" | Paste Pipeline | ⏳ |
+| "매일 아침 보고" | Cron + TG | ⏳ |
+
+**아키텍처:**
+```
+Boss 음성/텍스트 명령
+        │
+        ▼
+   Claude Code (판단·라우팅)
+        │
+        ▼
+   CLI 파이프 (ffmpeg, Director, git, TG API)
+        │
+        ▼
+   📤 TG로 결과 배달
+```
+
+**핵심:** 폰은 듣고 있는 서버. Boss 목소리가 유일한 인터페이스. 터치 노동 개입 없음.
+
+### 📋 2026-08-03 세션 총정리 (_Boss + _Claude)
+
+**오늘 뚫은 것 3가지:**
+
+1. **proot ↔ Android 저장소 다리**
+   - Termux `~/` = proot `~/` 공유 영역 발견
+   - `/sdcard` 샌드박스 우회. `cp` 한 줄로 데이터 직결
+
+2. **사진→영상→TG 풀파이프**
+   - `auto_image_pipe.sh`: 수신함 감지 → ffmpeg → TG → 보관
+   - 1회 실행 + `--watch` 실시간 감시 모드
+
+3. **음성→파이프 아키텍처 확립**
+   - Boss 말 한마디 → Claude Code 판단 → CLI 파이프 실행 → TG 결과
+   - 터치 0회. 폰 = 1인 제작 서버
+
+**팬딩 7종:** YouTube 업로드, 자막, TTS, 블로그 발행, Cron 자동화, MCP stdio 전환, PC V3 연동
+
+**커밋:** 32d3652 (auto_image_pipe.sh), 6e14403 (데이터 생존성), 0fbf2b3 (브릿지 개통)
+
 ### 🕐 proot Ubuntu 시계 → 한국 시간(KST) 고정 (_Grok)
 
 **배경:** 세션 로그·`ls` mtime이 `5:52 PM` 등으로 찍혀 헷갈림. proot Ubuntu가 기본 **UTC(`Etc/UTC`)** 였고, Android/Termux는 이미 `Asia/Seoul`.
