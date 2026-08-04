@@ -3727,7 +3727,7 @@ Grok은 시각 피드백이 가능해 디버깅이 빠르고, Claude는 자동�
 | `demo_director.py` | 자동 씬연출+TTS동기화 | URL | .mp4 (커서·리플·커튼) |
 | `demo_interactive.py` | 섹션별 캡처 | .md | .mp4 |
 
-페이지: https://helena751107.github.io/helena-programming/
+페이지: https://helena-programming.vercel.app/
 
 ### 104. 커뮤니티 리서치 — "너 같은 새끼 있냐" (_Claude)
 
