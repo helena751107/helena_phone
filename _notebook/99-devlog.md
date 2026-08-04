@@ -3898,3 +3898,21 @@ Boss "올려" → Claude Code HTML 작성(SVG·표·구조) → TG 배달 → HT
 - 나중에 네이버 iframe 임베디드 소스로 활용
 - 기존 업무수첩보다 훨씬 나은 방향
 
+
+### 🔄 순환 파이프 — 기자(Boss)+편집자(Claude) 신문사 구조 (_Boss)
+
+**티스토리 = Claude Code 관여 없는 자유기고 공간.**
+Boss + 외부 LLM(Grok/ChatGPT)이 대화 → 요약 → HTML 코딩 → 티스토리 복붙 발행.
+
+**순환:**
+1. Boss ↔ 외부 LLM 대화 → 요약 + HTML 생성
+2. 티스토리 HTML 모드 복붙 → 발행
+3. RSS 생성
+4. Claude Code가 RSS 파싱 → 기고문 리뷰
+5. 좋은 글 → GitHub Pages 정식 출판 / 부족한 글 → 피드백
+
+**구조:**
+- 티스토리: 기자들의 자유기고 (Claude 관여 없음)
+- GitHub Pages: 편집자 Claude가 검토 후 승격
+- 네이버: 쇼윈도. 최종 임베디드
+
