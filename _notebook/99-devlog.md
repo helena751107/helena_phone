@@ -3916,3 +3916,19 @@ Boss + 외부 LLM(Grok/ChatGPT)이 대화 → 요약 → HTML 코딩 → 티스�
 - GitHub Pages: 편집자 Claude가 검토 후 승격
 - 네이버: 쇼윈도. 최종 임베디드
 
+
+### 📰 티스토리 RSS → helana_log 동기화 파이프 (_Boss)
+
+**tistory_sync.sh: 5개 티스토리 RSS → helana_log/기자/ 폴더로 자동 수집**
+
+**흐름:**
+1. Boss가 5개 티스토리에 HTML 모드로 기고
+2. 티스토리 RSS 생성
+3. tistory_sync.sh가 RSS 파싱 → `.md` 파일로 변환
+4. helana_log/기자/ 폴더에 저장
+5. git push → GitHub Pages 자동 발행
+6. Claude Code가 기자/ 폴더 리뷰 → 좋은 글 승격
+
+**티스토리는 Claude Code 관여 없는 Boss 자유 공간.**
+**helana_log/기자/는 그걸 한곳에 모아 보는 편집 데스크.**
+
