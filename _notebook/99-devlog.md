@@ -3832,3 +3832,27 @@ Grok은 시각 피드백이 가능해 디버깅이 빠르고, Claude는 자동�
 - 모든 게 DeepSeek 1만원 + 무료 도구로 돌아감
 - Grok은 옵션. 필요할 때만.
 
+
+### 💀 PC 없는 콘텐츠 공장 — 난이도 평가 (_Boss)
+
+**핵심: PC를 핸드폰으로 대체했다.**
+
+| PC가 하던 것 | 폰으로 대체 |
+|-------------|-----------|
+| Windows/macOS | proot Ubuntu |
+| VS Code | Claude Code + vim |
+| Adobe Premiere | ffmpeg |
+| 성우 녹음 | edge-tts |
+| 수동 편집 | Playwright 자동 촬영 |
+| CDN 서버 | YouTube 무료 |
+| 파일 서버 | GitHub Pages |
+| 보고·알림 | Telegram Bot |
+
+**왜 어려운가:**
+1. 폰=소비기기라는 고정관념을 깸
+2. 7GB RAM, ARM CPU, 샌드박스, proot 격리 — 제약 투성이
+3. 전 세계에 레퍼런스 없음 (구형폰+proot+AI에이전트+영상자동화)
+4. 모든 걸 직접 연결 (Termux↔proot 브릿지, Playwright↔ffmpeg↔TG)
+
+**증명:** 2021년 중고폰 20만원 + DeepSeek 월 1만원 = 24편 영상 + 77개 웹페이지 + 5개 레포 + TG 보고. 이게 쉬웠으면 다른 사람이 먼저 했다.
+
