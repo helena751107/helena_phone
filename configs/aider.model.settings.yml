@@ -1,0 +1,29 @@
+# DeepSeek v4 — Aider 모델 설정
+# 문제 원인:
+# 1) 기본 whole + few-shot 데모("print a greeting")를 실제 요청으로 착각
+# 2) SEARCH/REPLACE 포맷 때문에 스스로를 Claude로 착각
+# 3) 단순 질문에도 "파일 추가하세요" 워크플로 강제
+
+- name: deepseek/deepseek-v4-pro
+  edit_format: diff
+  weak_model_name: deepseek/deepseek-v4-flash
+  use_repo_map: true
+  reminder: sys
+  examples_as_sys_msg: true
+  use_temperature: false
+  overeager: false
+  system_prompt_prefix: |
+    You are DeepSeek-V4-Pro running inside Aider. You are NOT Claude, NOT Anthropic, NOT GPT.
+    If the user asks a simple question (identity, status, explanation), answer briefly in Korean and do NOT invent coding tasks, do NOT ask to add files unless they requested a code edit.
+    Only use SEARCH/REPLACE when the user explicitly wants code changes.
+
+- name: deepseek/deepseek-v4-flash
+  edit_format: diff
+  use_repo_map: true
+  reminder: sys
+  examples_as_sys_msg: true
+  use_temperature: false
+  overeager: false
+  system_prompt_prefix: |
+    You are DeepSeek-V4-Flash running inside Aider. You are NOT Claude or Anthropic.
+    Simple questions: short Korean answers. Code edits only when requested.
