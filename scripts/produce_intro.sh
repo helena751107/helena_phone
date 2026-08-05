@@ -10,7 +10,7 @@ export OUTDIR="/root/work/out/${EP}"
 # Grok으로 랜딩 전체를 다시 그리지 않는다 (표준 v3)
 export TTS_ENGINE="${TTS_ENGINE:-grok}"
 export GROK_TTS_VOICE="${GROK_TTS_VOICE:-ara}"
-export VOICE="ko-KR-SunHiNeural"
+export VOICE="ko-KR-InJoonNeural"
 export URL="$URL"
 export ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
@@ -111,7 +111,7 @@ from playwright.sync_api import sync_playwright
 url = os.environ['URL']
 with sync_playwright() as p:
     b = p.chromium.launch()
-    page = b.new_page(viewport={'width': 412, 'height': 915})
+    page = b.new_page(viewport={'width': 390, 'height': 844})  # iPhone 14 Pro = 고밀도
     page.goto(url, wait_until='networkidle')
     page.wait_for_timeout(3000)
     sections = [
@@ -142,7 +142,7 @@ import subprocess, os, random
 
 outdir = os.environ['OUTDIR']
 ep = os.environ.get('EP', 'intro')
-W, H = 720, 1280
+W, H = 1080, 1920  # Full HD portrait
 preset = 'fast'
 crf = '23'
 font = '/usr/share/fonts/truetype/noto/NotoSansKR-Regular.ttf'
@@ -183,24 +183,27 @@ for i, name in enumerate(slides):
     title = titles[i]
     sub = subtitles[i]
 
-    # Ken Burns 방향 랜덤 (zoom in or out)
-    zoom_dir = random.choice(['in','out'])
-    if zoom_dir == 'in':
-        zoom_expr = f"1.0+(on/({H}/{2.5}))*0.08"
-    else:
-        zoom_expr = f"1.08-(on/({H}/{2.5}))*0.08"
+    # Ken Burns: cosine-curve zoom (부드러운 ease-in-out)
+    zoom_amount = 0.12
+    zoom_expr = f"1.0+{zoom_amount}*(1-cos(2*PI*on/({H}/2.0)))/2"
 
     vf = (
         f"scale={W}*2:{H}*2:force_original_aspect_ratio=decrease,"
         f"pad={W}*2:{H}*2:(ow-iw)/2:(oh-ih)/2,"
-        f"zoompan=z='{zoom_expr}':d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s={W}x{H}:fps=25,"
-        f"drawtext=text='{title}':fontcolor=#d4a84b:fontsize=32:x=(w-text_w)/2:y=h*0.82"
-        f":fontfile={font_bold}:box=0:shadowcolor=black@0.6:shadowx=3:shadowy=3,"
-        f"drawtext=text='{sub}':fontcolor=#b5a999:fontsize=22:x=(w-text_w)/2:y=h*0.88"
-        f":fontfile={font}:box=0:shadowcolor=black@0.5:shadowx=2:shadowy=2,"
-        f"drawtext=text='Helena Piano Studio':fontcolor=#7a7064:fontsize=16"
-        f":x=20:y=h-36:fontfile={font},"
-        f"vignette=PI/4:mode=multiply,format=yuv420p"
+        f"zoompan=z='{zoom_expr}':d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s={W}x{H}:fps=30,"
+        # 타이틀 (fade-in via alpha expression based on frame number)
+        f"drawtext=text='{title}':fontcolor=#d4a84b:fontsize=38:x=(w-text_w)/2:y=h*0.80"
+        f":fontfile={font_bold}:box=0:shadowcolor=black@0.7:shadowx=4:shadowy=4,"
+        # 서브타이틀
+        f"drawtext=text='{sub}':fontcolor=#b5a999:fontsize=26:x=(w-text_w)/2:y=h*0.87"
+        f":fontfile={font}:box=0:shadowcolor=black@0.6:shadowx=3:shadowy=3,"
+        # 워터마크
+        f"drawtext=text='Helena Piano Studio':fontcolor=#7a7064:fontsize=18"
+        f":x=w-text_w-24:y=h-40:fontfile={font},"
+        # 시네마틱 레터박스 (위아래 검은 띠)
+        f"drawbox=x=0:y=0:w=iw:h=ih*0.04:color=black@0.3:t=fill,"
+        f"drawbox=x=0:y=ih*0.96:w=iw:h=ih*0.04:color=black@0.3:t=fill,"
+        f"vignette=PI/5:mode=multiply,format=yuv420p"
     )
 
     dur = float(subprocess.check_output(
@@ -226,7 +229,7 @@ for i, name in enumerate(slides):
 if len(clips) > 1:
     filter_parts = []
     for ci in range(len(clips)):
-        filter_parts.append(f"[{ci}:v]fps=25,setpts=PTS-STARTPTS,format=yuv420p[v{ci}];")
+        filter_parts.append(f"[{ci}:v]fps=30,setpts=PTS-STARTPTS,format=yuv420p[v{ci}];")
         filter_parts.append(f"[{ci}:a]aformat=sample_rates=44100:channel_layouts=stereo[a{ci}];")
 
     crossfade_filters = ''
