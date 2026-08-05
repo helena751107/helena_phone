@@ -222,8 +222,7 @@ for i, name in enumerate(slides):
     ], capture_output=True)
     clips.append(clip)
     clip_durations.append(dur + 0.5)
-    print(f'  🎞️  {name} ({zoom_dir}, {dur:.1f}s)')
-    random.seed()
+    print(f'  🎞️  {name} (cosine zoom, {dur:.1f}s)')
 
 # 크로스페이드 concat
 if len(clips) > 1:
