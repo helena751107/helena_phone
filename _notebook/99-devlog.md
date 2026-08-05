@@ -3964,3 +3964,26 @@ Boss+무료LLM 대화 → 요약·HTML 조각 → 티스토리 HTML 모드 복�
 **5채널:**
 galaxys21-pwuser(개발)·helena-metalcare(돌봄)·helena-piano(연주)·helana-christianity(신앙)·mynote11605(노트)
 
+
+### 🖥️ PC-WSL 3중 에이전트 셋업 설계 (_Boss, _Claude) — 2026-08-05
+
+**결정: Windows Native + WSL 양쪽에 Aider(DeepSeek) 설치.**
+Phone의 Claude Code(cc) + Windows ds + WSL ds = 3중 에이전트.
+
+- **Windows ds**: PowerShell 자동화, GUI 도구 연동, 윈도우 전용 파일
+- **WSL ds**: Git 레포, 리눅스 서버, SSH 서버, Docker, 빌드
+- **Phone cc**: 감사·기획, 모바일에서 원격 제어
+
+**연결:** Tailscale mesh → Phone → SSH → WSL → 작업 → Git push/pull
+**상태:** Phone SSH 키 생성 완료, 가이드·스크립트 4종 작성 완료, PC는 아직 미설치.
+
+### 🔄 PC 부트스트랩 재설계 — Aider 선설치 → 전량 위임 (_Boss, _Claude) — 2026-08-05
+
+**기존 접근(폐기):** Boss가 WSL·Tailscale·SSH 전부 수동 셋업 → ❌ 자판 노동
+
+**새 접근:**
+1. Boss: `winget install Python` + `pip install aider-chat` (2줄, 5분)
+2. Aider에 `aider-bootstrap-prompt.txt` 붙여넣기
+3. Aider가 11단계 전체 자동 실행
+
+**핵심:** Boss는 방향만 주고 AI가 시공한다. 이게 CONSTITUTION.md의 파이프다.
