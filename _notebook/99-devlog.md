@@ -4069,3 +4069,24 @@ helena-programming 레포(public→Actions 무제한)에 3종 파이프 추가:
 
 **PC 설치: winget 4줄로 끝.** Tailscale, OpenSSH, ADB, Git.
 4GB로 충분. Windows만 돌리면 2GB 남는다.
+
+### 🎹 피아노 BGM 파이프라인 구축 (_Boss, _Claude) — 2026-08-05
+
+**성과:**
+- Mutopia Project → MIDI → FluidSynth+Salamander Grand Piano 렌더링 (폰에서 30초)
+- PD 피아노 컬렉션: Debussy Clair de Lune, Satie Gymnopédie 1+3
+- YouTube→MIDI 파이프: yt-dlp↓ → basic-pitch(Actions) → smart filter → Salamander
+- Lakmé Flower Duet: 7045음 → PRO 마스터링 438음 60s
+
+**시행착오:**
+- librosa CQT 추출: 피아노에 부적합 (자오락)
+- basic-pitch: Actions에서 작동, YouTube IP 차단→GitHub Release 우회
+- piano_transcription (ByteDance): CPU 추론 12분+ → 실전 불가
+- 폰 aarch64에 TF/PyTorch 설치 불가
+
+**결론: 좋은 MIDI 구해서 렌더링만 하는 게 최선.**
+폰에서 FluidSynth+Salamander는 완벽하게 돌아간다.
+MIDI 소싱: Mutopia → IMSLP → (필요시) basic-pitch Actions
+
+**저장소:** helena-piano/bgm/ → midi/ + output/ + scripts/
+**CDN:** https://helena751107.github.io/helena-piano/bgm/output/
