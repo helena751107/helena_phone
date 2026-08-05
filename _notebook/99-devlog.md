@@ -3945,3 +3945,22 @@ Boss + 외부 LLM(Grok/ChatGPT)이 대화 → 요약 → HTML 코딩 → 티스�
 
 RSS 동기화 → helana_log/기자/ 폴더로 수집 → Claude Code 리뷰.
 
+
+### 📰 티스토리 전략 최종 — 공짜 LLM 대화의 박제·공유 파이프 (_Boss)
+
+**전환:**
+쓰레기통(스크린샷 덤프) → HTML 조각 박물관(인터랙티브 웹문서)
+
+**핵심:**
+Boss+무료LLM 대화 → 요약·HTML 조각 → 티스토리 HTML 모드 복붙 → RSS → helana_log 동기화 → Claude Code 리뷰 → GitHub Pages 승격
+
+**왜 괜찮은가:**
+- 공짜 LLM 대화가 증발하지 않음
+- HTML 모드 = SVG·표·구조 자유로운 캔버스
+- JS 포기해도 충분한 인터랙티브
+- RSS로 자동 수집 → 한곳에서 리뷰
+- 티스토리 = 공짜 무제한 CMS
+
+**5채널:**
+galaxys21-pwuser(개발)·helena-metalcare(돌봄)·helena-piano(연주)·helana-christianity(신앙)·mynote11605(노트)
+
