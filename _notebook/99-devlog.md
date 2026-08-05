@@ -4042,3 +4042,20 @@ Phone의 Claude Code(cc) + Windows ds + WSL ds = 3중 에이전트.
 - ✅ DeepSeek API
 
 **나중에:** 공인IP·Docker·상시DB 중 하나라도 진짜 막히면 → Hetzner.
+
+### 🔧 CPU 파이프라인 — helena-programming에 Actions 클라우드 구축 (_Boss, _Claude) — 2026-08-05
+
+**결정: PC 없이 GitHub Actions로 모든 CPU 작업 처리.**
+helena-programming 레포(public→Actions 무제한)에 3종 파이프 추가:
+
+| 파이프 | 용도 | 워크플로우 |
+|--------|------|-----------|
+| 오디오 | FFmpeg + Reaper 렌더링 | render-audio.yml |
+| CAD | FreeCAD 파라메트릭 | render-cad.yml |
+| 컴퓨트 | 범용 Python·Shell | compute.yml |
+
+**스펙:** Actions 2코어 7GB RAM Ubuntu — APK 빌드 Gradle 4GB도 충분.
+**트리거:** 해당 디렉토리 push → 자동, 또는 Actions 탭에서 수동.
+**비용:** Public repo = 0원.
+
+이제 폰은 오케스트레이션만. 무거운 건 Actions가.
