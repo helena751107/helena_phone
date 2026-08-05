@@ -1,0 +1,77 @@
+{
+  "id": "video_plugin_standard_v1",
+  "name": "Helena Grok Plugin Video — A-bar Standard",
+  "version": 1,
+  "status": "canonical",
+  "updated": "2026-08-05",
+  "one_liner": "공장(FFmpeg·intro 파이프) 유지 + Grok 스틸/모션/성우 플러그인. VO-first. edge는 폴백만.",
+
+  "community_sources": [
+    "Purple Owl / recast — TTS-first, auto-zoom, captions (internal 57-director-community-a-bar)",
+    "Vivideo 2026 AI video workflow — voice first, then time visuals to VO",
+    "Vidico / Demopolish 2026 product demo — 60-90s landing, value in first 10s",
+    "LTX short-form 2026 — 9:16, safe zone center 80%, captions",
+    "FFmpeg community — xfade + acrossfade + loudnorm + amix weights",
+    "xAI TTS docs — punctuation, speech tags, ara storytelling / altair premium"
+  ],
+
+  "quality_bar": {
+    "grade_target": "A-",
+    "resolution": "1080:1920",
+    "fps": 30,
+    "format": "shorts_1080",
+    "duration_landing_sec": [60, 90],
+    "hook_sec": 3,
+    "max_silence_gap_sec": 0.8,
+    "min_live_ui_shots": 0,
+    "require_subs": true,
+    "require_grok_tts": true,
+    "edge_tts_allowed": "fallback_only",
+    "still_only_allowed": "rehearsal_only",
+    "bgm_volume_range": [0.05, 0.10],
+    "xfade_sec": 0.45,
+    "crf": 20,
+    "preset": "veryfast",
+    "audio": {
+      "narration_loudnorm": "I=-14:TP=-1.5:LRA=9",
+      "final_loudnorm": "I=-15:TP=-1.3:LRA=10",
+      "bgm_weight": 0.28,
+      "nar_weight": 1.0
+    }
+  },
+
+  "pipeline_order": [
+    "L0_manifest",
+    "L1_grok_tts_first",
+    "L2_pad_or_trim_to_clip_sec",
+    "L3_visuals_stills_or_motion",
+    "L4_kenburns_or_copy_motion",
+    "L5_subs_ass",
+    "L6_xfade_concat",
+    "L7_bgm_duck_mix",
+    "L8_gate",
+    "L9_tg_ship"
+  ],
+
+  "gate_fail_if": [
+    "tts_provider != grok",
+    "any_slide silence_after_vo > 1.0s without intent",
+    "missing subs when require_subs",
+    "resolution below 720p",
+    "final duration outside [45, 120] for landing id"
+  ],
+
+  "entrypoints": {
+    "plugin": "bash scripts/produce_plugin.sh <plugin_dir>",
+    "tts_cli": "python3 scripts/grok_tts.py --file t.txt --out t.mp3 --voice ara --lang ko",
+    "intro_compat": "TTS_ENGINE=grok PLUGIN_STILLS=... bash scripts/produce_intro.sh"
+  },
+
+  "default_voice": {
+    "provider": "grok",
+    "voice_id": "ara",
+    "lang": "ko",
+    "speed": 0.95,
+    "notes": "ara=storytelling; altair=premium close; eve=upbeat hook optional"
+  }
+}

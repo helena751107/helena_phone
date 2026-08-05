@@ -616,6 +616,22 @@
     "deck": "© 2026 Helena Park · 대필작가-간병인"
   },
   {
+    "src": "_notebook/40-pc-wsl-setup_Boss.md",
+    "out": "notebook/40-pc-wsl-setup_Boss.html",
+    "title": "🏠 누나 PC — 최종 (WSL 없음, Windows Native) — Boss 2026-08-05",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": ""
+  },
+  {
+    "src": "_notebook/41-github-free-maxout_Boss.md",
+    "out": "notebook/41-github-free-maxout_Boss.html",
+    "title": "🆓 GitHub 공짜 생태계 끝까지 쥐어짜기 — Boss 2026-08-05",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": ""
+  },
+  {
     "src": "_notebook/41-naver-blog-intro-final.md",
     "out": "notebook/41-naver-blog-intro-final.html",
     "title": "Naver 블로그 소개글 — 최종",
@@ -630,6 +646,14 @@
     "section": "Notebook",
     "kind": "md",
     "deck": "Gemini 분석 + Boss 검증 | 2026-07-27"
+  },
+  {
+    "src": "_notebook/42-pc-sapjil-postmortem_Boss.md",
+    "out": "notebook/42-pc-sapjil-postmortem_Boss.html",
+    "title": "🔥 PC 삽질 포스트모템 — 왜 폰 하나로 다 하는가",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-08-05. Boss + Claude Code 4시간 논쟁의 기록."
   },
   {
     "src": "_notebook/43-ui-less-architect.md",
@@ -792,12 +816,92 @@
     "deck": "2026-08-02 · Boss: 진짜 프로급, 이전 TG보다 훨씬 잘"
   },
   {
+    "src": "_notebook/61-landing-6clip-bgm-plan_Grok.md",
+    "out": "notebook/61-landing-6clip-bgm-plan_Grok.html",
+    "title": "61 · 랜딩 6샷 디렉터 파이프 — 개발 계획서 (_Grok) **v2 정정**",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "작성: 2026-08-05 · 디렉터: Grok"
+  },
+  {
     "src": "_notebook/61-session-deepseek-cc-2026-08-02_Grok.md",
     "out": "notebook/61-session-deepseek-cc-2026-08-02_Grok.html",
     "title": "61 — Claude Code(DeepSeek) 세션 복구 · 2026-08-02 (_Grok)",
     "section": "Notebook",
     "kind": "md",
     "deck": "**상황:** 폰에서 DeepSeek 백엔드 Claude Code 세션이 먹통."
+  },
+  {
+    "src": "_notebook/62-grok-plugin-video-pipe_Grok.md",
+    "out": "notebook/62-grok-plugin-video-pipe_Grok.html",
+    "title": "62 · Grok 플러그인 영상 파이프 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-08-05 · Boss 지시: **이미 돌아가는 솔루션 위에** Grok 예쁜 이미지 + Grok 성우만 꽂아라."
+  },
+  {
+    "src": "_notebook/63-video-plugin-standard-v1_Grok.md",
+    "out": "notebook/63-video-plugin-standard-v1_Grok.html",
+    "title": "63 · Video Plugin Standard v1 — 커뮤니티 A-bar 코드 고정 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-08-05 · Boss: 파이프 스탠다드 맞냐? 품질 더 올려. 커뮤니티 리서치."
+  },
+  {
+    "src": "_notebook/64-process-80-squeeze_Grok.md",
+    "out": "notebook/64-process-80-squeeze_Grok.html",
+    "title": "64 · 프로세스 80% 쥐어짜기 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "Boss: 80점까지. 구독 풀가동. 아이디어·프로세스 올려."
+  },
+  {
+    "src": "_notebook/65-video-playable-encode-fix_Grok.md",
+    "out": "notebook/65-video-playable-encode-fix_Grok.html",
+    "title": "65 · 재생 안 됨 인코딩 버그 수정 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-08-05 · 증상: 스크럽 미리보기는 보이는데 **재생 시 화면 검정** / 다운로드 후도 동일"
+  },
+  {
+    "src": "_notebook/66-grok-pd-voice-bridge-not-page-raster_Grok.md",
+    "out": "notebook/66-grok-pd-voice-bridge-not-page-raster_Grok.html",
+    "title": "66 · Grok 역할 정정 — PD · 성우 · 브릿지 (페이지 재래스터 금지) (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "Boss 2026-08-05"
+  },
+  {
+    "src": "_notebook/67-grok-subscribe-voice-bgm-hurdle_Grok.md",
+    "out": "notebook/67-grok-subscribe-voice-bgm-hurdle_Grok.html",
+    "title": "67 · 소개 영상 허들: 성우 · BGM — Super Grok 구독 이유 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "저장: 2026-08-06 · 에이전트: _Grok"
+  },
+  {
+    "src": "_notebook/68-imagine-prompt-standard-v1_Grok.md",
+    "out": "notebook/68-imagine-prompt-standard-v1_Grok.html",
+    "title": "68 · Imagine 프롬프트 표준 v1 — 초A 브릿지 스틸 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-08-06 · Boss: 대충 프롬프트 금지. 포토그래퍼·예술 작품 수준. 버전 올리며 실험."
+  },
+  {
+    "src": "_notebook/69-session-resume-pd-bridge-v1_Grok.md",
+    "out": "notebook/69-session-resume-pd-bridge-v1_Grok.html",
+    "title": "69 · 세션 리줌 — PD 브릿지 v1 재조립 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-08-06 · 끊긴 세션 이어서 완료"
+  },
+  {
+    "src": "_notebook/69-voice-engine-plugin-final_Grok.md",
+    "out": "notebook/69-voice-engine-plugin-final_Grok.html",
+    "title": "69 · 성우 플러그인 최종 — Grok 정식 vs Edge 함정 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-08-06 · Boss 판단: 비수익화여도 Edge 쓰지 않는다. 채널이 날아가면 억울하다."
   },
   {
     "src": "_notebook/allocation-rate-2026-07-28.md",

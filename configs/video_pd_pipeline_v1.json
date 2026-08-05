@@ -1,0 +1,86 @@
+{
+  "id": "video_pd_pipeline_v1",
+  "name": "S21 Intro PD Pipeline — Aider baseline + Grok PD/Voice/Bridge",
+  "version": 1,
+  "status": "canonical",
+  "updated": "2026-08-06",
+  "baseline_source": {
+    "agent": "DeepSeek Aider (ds)",
+    "commits": [
+      "8e53ec3 feat: 만점 비디오 — Ken Burns + 1080p + BGM 완성",
+      "3a3df31 feat: produce_intro — 1080p + cosine easing + InJoon TTS + cinematic",
+      "02cf518 feat: produce_intro.sh 만점 업그레이드 — Ken Burns + 크로스페이드 + BGM"
+    ],
+    "files": [
+      "scripts/produce_intro.sh",
+      "scripts/_render_video.py"
+    ],
+    "ship_example": {
+      "path": "out/shorts/s21_shorts.mp4",
+      "spec": "1080x1920 yuv420p High, ~60s, ~7.5MB, page stills + Ken Burns + BGM"
+    },
+    "bgm_golden": {
+      "youtube_shorts": "https://youtube.com/shorts/Vv4sZkZgTws",
+      "local_fallback": "helena-piano/bgm/output/satie_gymnopedie1.mp3",
+      "volume": 0.025,
+      "note": "Gymnopédie/Boss Shorts · 들릴락 말락 은은 · 상수 BGM_VOLUME=0.025",
+      "script_default": "scripts/produce_pd.sh + scripts/_render_video.py"
+    },
+  "bridge_fx": {
+    "script": "scripts/bridge_fx.sh",
+    "effects": ["zoom open/close", "gold double frame", "vignette", "fade in/out", "eq warmth"],
+    "usage": "bash scripts/bridge_fx.sh in.jpg out.mp4 open|close [sec]"
+  }
+  },
+
+  "layers": {
+    "L_factory_free": {
+      "owner": "Aider/DeepSeek baseline + FFmpeg",
+      "tools": ["Playwright", "produce_intro.sh", "_render_video.py", "ffmpeg"],
+      "job": "웹페이지 캡처 · Ken Burns · concat · BGM amix · yuv420p 인코딩 · TG",
+      "do_not": "Grok 토큰 소모"
+    },
+    "L_pd_grok": {
+      "owner": "Grok SuperGrok",
+      "tools": ["shot_bible", "image_gen", "image_to_video", "grok_tts.py", "frame QA"],
+      "job": "PD(스토리·감정·순서) · 성우 · 브릿지 컷(소수) · 비전 검수",
+      "do_not": "페이지 전체 재래스터 · FFmpeg 대신 조립"
+    }
+  },
+
+  "runtime_mix": {
+    "page_capture_pct": "≥70",
+    "grok_bridge_pct": "0–30",
+    "vo": "100% Grok TTS (fallback edge InJoon only if API fail)"
+  },
+
+  "constants": {
+    "RESOLUTION": "1080:1920",
+    "PIX_FMT": "yuv420p",
+    "H264_PROFILE": "high",
+    "H264_LEVEL": "4.0",
+    "AUDIO_RATE": 48000,
+    "BGM_VOLUME": 0.025,
+    "BRIDGE_FX": "zoom+fade+vignette+gold_edge (FFmpeg)",
+    "BGM_SOURCE_PRIORITY": [
+      "plugin/bgm.m4a",
+      "configs or env BGM_PATH",
+      "helena-piano/bgm/output/satie_gymnopedie1.mp3",
+      "clair_de_lune.mp3"
+    ],
+    "VO_GAP_MAX_SEC": 1.0
+  },
+
+  "pipeline_steps": [
+    "P0 PD bible → out/<ep>/shot_bible.json",
+    "P1 Factory: Playwright capture page beats → stills/",
+    "P2 Grok TTS-first → voice/*.m4a",
+    "P3 Grok bridges only if bible.bridge[] non-empty → bridge/*.mp4",
+    "P4 FFmpeg: live KenBurns + insert bridges + xfade + short caps + BGM@0.06 + yuv420p",
+    "P5 Gate: profile/pix_fmt/playable + gap",
+    "P6 TG ship 720p + keep 1080 master"
+  ],
+
+  "entry": "bash scripts/produce_pd.sh [ep_id] [page_url]",
+  "fail_if_worse_than": "out/shorts/s21_shorts.mp4 baseline (same page tour quality)"
+}

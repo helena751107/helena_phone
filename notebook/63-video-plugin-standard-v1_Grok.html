@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="2026-08-05 · Boss: 파이프 스탠다드 맞냐? 품질 더 올려. 커뮤니티 리서치. — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>63 · Video Plugin Standard v1 — 커뮤니티 A-bar 코드 고정 (_Grok) — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>63 · Video Plugin Standard v1 — 커뮤니티 A-bar 코드 고정 (_Grok)</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>63 · Video Plugin Standard v1 — 커뮤니티 A-bar 코드 고정 (_Grok)</h1>
+    <p class="deck">2026-08-05 · Boss: 파이프 스탠다드 맞냐? 품질 더 올려. 커뮤니티 리서치.</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/63-video-plugin-standard-v1_Grok.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#0">0. 솔직 상태 (이전)</a></li>
+<li><a href="#1-a">1. 커뮤니티에서 가져온 A 규칙</a></li>
+<li><a href="#2">2. 스탠다드 산출물 (코드)</a></li>
+<li><a href="#3">3. 파이프 사다리 (고정 순서)</a></li>
+<li><a href="#4">4. 게이트</a></li>
+<li><a href="#5-a">5. 아직 A 풀스택 아닌 것 (다음)</a></li>
+<li><a href="#6">6. 서명</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <blockquote>
+<p>2026-08-05 · Boss: 파이프 스탠다드 맞냐? 품질 더 올려. 커뮤니티 리서치.</p>
+</blockquote>
+<h2 id="0">0. 솔직 상태 (이전)</h2>
+<table>
+<thead>
+<tr>
+<th>질문</th>
+<th>답</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>코드로 다 설정됐나?</td>
+<td><strong>부분.</strong> <code>grok_tts.py</code> + <code>produce_plugin.sh</code> 초안만 있음</td>
+</tr>
+<tr>
+<td>스탠다드였나?</td>
+<td><strong>아니오.</strong> 원샷 파일럿. A-bar 게이트 없음</td>
+</tr>
+<tr>
+<td>품질</td>
+<td>정지 슬라이드 + 짧은 VO + 침묵 패딩 = <strong>C+~B−</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="1-a">1. 커뮤니티에서 가져온 A 규칙</h2>
+<table>
+<thead>
+<tr>
+<th>규칙</th>
+<th>출처</th>
+<th>코드 반영</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>TTS-first</strong> (VO가 시계)</td>
+<td>Purple Owl / recast · Vivideo 2026</td>
+<td>L1 Grok TTS → 그다음 비주얼</td>
+</tr>
+<tr>
+<td>랜딩 <strong>60–90s</strong>, 훅 3–10s</td>
+<td>Vidico / Demopolish 2026</td>
+<td>clip 6×10 + xfade ≈ 58s</td>
+</tr>
+<tr>
+<td><strong>9:16 · 1080</strong></td>
+<td>recast · LTX short-form</td>
+<td>default <code>1080:1920</code></td>
+</tr>
+<tr>
+<td><strong>Captions</strong></td>
+<td>short-form 2026 트렌드</td>
+<td>ASS 번인 · safe zone</td>
+</tr>
+<tr>
+<td><strong>xfade</strong></td>
+<td>FFmpeg 커뮤니티</td>
+<td><code>xfade</code> + <code>acrossfade</code></td>
+</tr>
+<tr>
+<td><strong>loudnorm + duck</strong></td>
+<td>broadcast / Mux FFmpeg</td>
+<td>weights 1 : 0.28</td>
+</tr>
+<tr>
+<td><strong>Grok TTS</strong> punctuation · tags</td>
+<td>xAI TTS docs</td>
+<td><code>ara</code> storytelling, speed 0.94</td>
+</tr>
+<tr>
+<td>stills need motion</td>
+<td>AI video workflow</td>
+<td><strong>Ken Burns</strong> zoompan</td>
+</tr>
+<tr>
+<td>edge 금지</td>
+<td>Boss / SuperGrok 가치</td>
+<td><code>allow_edge_fallback: false</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="2">2. 스탠다드 산출물 (코드)</h2>
+<table>
+<thead>
+<tr>
+<th>경로</th>
+<th>역할</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>configs/video_plugin_standard_v1.json</code></td>
+<td><strong>정본 스펙</strong></td>
+</tr>
+<tr>
+<td><code>scripts/produce_plugin.sh</code></td>
+<td>A-bar 엔트리 (게이트·자막·xfade·KenBurns)</td>
+</tr>
+<tr>
+<td><code>scripts/grok_tts.py</code></td>
+<td>xAI TTS</td>
+</tr>
+<tr>
+<td><code>director/voice_engine.py</code></td>
+<td>grok → openai → edge</td>
+</tr>
+<tr>
+<td><code>out/plugins/&lt;id&gt;/manifest.json</code></td>
+<td>에피소드 플러그인</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-bash">bash scripts/produce_plugin.sh /root/work/out/plugins/landing6
+# → out/landing6_a/landing6_a_final.mp4
+# → out/landing6_a/ship_report.json
+</code></pre>
+<h2 id="3">3. 파이프 사다리 (고정 순서)</h2>
+<pre><code>L0 manifest
+L1 Grok TTS-first + loudnorm
+L2 pad to clip_sec (gap 측정)
+L3 still|motion resolve
+L4 Ken Burns or motion normalize
+L5 ASS 자막
+L6 xfade + acrossfade
+L7 BGM duck + final loudnorm
+L8 gate → ship_report.json
+L9 TG
+</code></pre>
+<h2 id="4">4. 게이트</h2>
+<ul>
+<li>Grok TTS 아니면 경고</li>
+<li>VO gap &gt; 1.0s → 경고 (대본 밀도 올리기)</li>
+<li>subs 필수</li>
+<li>duration / resolution 검사</li>
+<li><code>strict_gate: true</code> 면 fail exit 2</li>
+</ul>
+<h2 id="5-a">5. 아직 A 풀스택 아닌 것 (다음)</h2>
+<ul>
+<li>실 랜딩 Playwright 2샷 강제 슬롯</li>
+<li>Imagine <code>image_to_video</code> motion/ 자동 채움</li>
+<li>sidechaincompress 진짜 덕킹</li>
+<li>xfade 타임라인에 ASS 정확 재매핑</li>
+<li>Vision QA 자동 루프</li>
+</ul>
+<h2 id="6">6. 서명</h2>
+<p>구현·리서치: <strong>_Grok</strong> · standard v1</p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="62-grok-plugin-video-pipe_Grok.html">
+          <span class="dir">Previous</span>
+          <span class="title">62 · Grok 플러그인 영상 파이프 (_Grok)</span>
+        </a>
+    <a class="next" href="64-process-80-squeeze_Grok.html">
+          <span class="dir">Next</span>
+          <span class="title">64 process 80 squeeze Grok</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+{
+  "id": "video_plugin_standard_v3",
+  "name": "Grok PD + Voice + Bridge · Free factory for page visuals",
+  "version": 3,
+  "status": "canonical",
+  "updated": "2026-08-05",
+  "replaces": ["video_plugin_standard_v1", "video_plugin_standard_v2"],
+  "boss_verdict": "공짜 웹페이지 파이프보다 못하면 실패. Grok 토큰은 PD·성우·브릿지에만.",
+
+  "role_split": {
+    "free_factory": {
+      "who": "Playwright · produce_intro · episode_produce · FFmpeg",
+      "does": [
+        "웹페이지 스크린샷/구간 캡처 (이미 예쁜 페이지 그대로)",
+        "클립 인코딩 · concat · xfade · BGM amix · 자막 burn",
+        "TG 전송 · 파일 경로 관리"
+      ],
+      "must_not": ["Grok API 호출", "페이지를 AI로 다시 그리기"]
+    },
+    "grok_paid": {
+      "who": "Grok SuperGrok (이 구독)",
+      "does": [
+        "PD: 스토리라인 · 감정 아크 · 샷 순서 · 대본",
+        "성우: xAI TTS (ara/altair/…) — edge 금지 기본",
+        "브릿지 컷만: 이어 붙일 때 필요한 예쁜 이미지/짧은 모션 (오프닝·전환·엔딩 등 소수)",
+        "비전 QA: 프레임 보고 반려/수정 지시"
+      ],
+      "must_not": [
+        "웹페이지 전체 재래스터/재연출을 본편 전부로 쓰기",
+        "FFmpeg 조립 대신 토큰으로 이어 붙이기",
+        "공짜 프로세스 결과보다 못한 최종본 출고"
+      ]
+    }
+  },
+
+  "token_budget_priority": [
+    "1_PD_shot_bible_and_script",
+    "2_Grok_TTS_full_VO",
+    "3_bridge_keyframes_and_short_I2V_only_where_needed",
+    "4_frame_QA_review",
+    "never_full_page_reimagine_as_main_reel"
+  ],
+
+  "shot_mix_rule_v3": {
+    "main_visuals": "live page capture ≥ 70% of runtime",
+    "grok_bridge": "0–30% only (hook / transition / close)",
+    "fail_if": "final looks worse than free produce_intro still+edge pipeline on same page"
+  },
+
+  "pipeline": {
+    "L0": "PD (Grok): shot_bible.json — emotion, order, VO text, which beats are live vs bridge",
+    "L1": "Free: Playwright capture live stills/clips for page beats",
+    "L2": "Grok TTS-first: all VO audio",
+    "L3": "Grok optional: only bridge stills/I2V listed in bible",
+    "L4": "FFmpeg: pad · kenburns on live · xfade · ass short caps · bgm · yuv420p High",
+    "L5": "Gate: playable encode + VO gap + not-worse-than-free check",
+    "L6": "TG ship"
+  },
+
+  "encode_lock_phone_playable": {
+    "video": "libx264 -profile:v high -level 4.0 -pix_fmt yuv420p",
+    "audio": "aac -ar 48000 -ac 2",
+    "forbidden": ["yuv444p", "High 4:4:4 Predictive", "96000 Hz AAC"]
+  },
+
+  "entrypoints": {
+    "page_main": "bash scripts/produce_intro.sh  or  episode_produce.sh  (+ TTS_ENGINE=grok)",
+    "plugin_hybrid": "bash scripts/produce_plugin.sh <plugin_dir>  with manifest.mode=page_first",
+    "tts_only": "python3 scripts/grok_tts.py"
+  }
+}

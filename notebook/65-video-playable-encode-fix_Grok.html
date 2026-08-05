@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Gemini 분석 | 2026-07-27 — S21 Phone Webzine">
+<meta name="description" content="2026-08-05 · 증상: 스크럽 미리보기는 보이는데 **재생 시 화면 검정** / 다운로드 후도 동일 — S21 Phone Webzine">
 <meta name="theme-color" content="#0a0908">
 <meta name="application-name" content="S21 Phone">
-<title>🎯 메뉴를 몰라도 되는 이유 — AI 시대의 진정한 사용자 — S21 Phone Webzine</title>
+<title>65 · 재생 안 됨 인코딩 버그 수정 (_Grok) — S21 Phone Webzine</title>
 <link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
@@ -36,24 +36,24 @@
   <div class="wz-crumb">
     <a href="../index.html">Webzine</a><span class="sep">/</span>
     <span>Notebook</span><span class="sep">/</span>
-    <span>🎯 메뉴를 몰라도 되는 이유 — AI 시대의 진정한 사용자</span>
+    <span>65 · 재생 안 됨 인코딩 버그 수정 (_Grok)</span>
   </div>
   <header class="wz-hero">
     <div class="wz-kicker">Notebook · Vol.01</div>
-    <h1>🎯 메뉴를 몰라도 되는 이유 — AI 시대의 진정한 사용자</h1>
-    <p class="deck">Gemini 분석 | 2026-07-27</p>
+    <h1>65 · 재생 안 됨 인코딩 버그 수정 (_Grok)</h1>
+    <p class="deck">2026-08-05 · 증상: 스크럽 미리보기는 보이는데 **재생 시 화면 검정** / 다운로드 후도 동일</p>
     <div class="wz-meta">
-      <span>Source · _notebook/43-ui-less-architect.md</span>
+      <span>Source · _notebook/65-video-playable-encode-fix_Grok.md</span>
       <span>Kind · markdown</span>
       <span>S21 Phone Editorial</span>
     </div>
   </header>
   <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
 <ul>
-<li><a href="#1-ui">1. UI를 몰라도 되는 이유</a></li>
-<li><a href="#2-how-whatwhy">2. 기술(How)을 몰라도 본질(What/Why)을 알았기 때문</a></li>
-<li><a href="#3-ai">3. 도구의 노예가 아니라 AI 시대의 진정한 사용자</a></li>
-<li><a href="#_1">💡 핵심</a></li>
+<li><a href="#_1">원인</a></li>
+<li><a href="#_2">수정 (코드)</a></li>
+<li><a href="#_3">재생 가능 산출물</a></li>
+<li><a href="#_4">사용</a></li>
 </ul>
 </div>
 </nav>
@@ -65,79 +65,82 @@
   </div>
   <article class="wz-prose" id="wzProse" data-app="doc">
     <blockquote>
-<p>Gemini 분석 | 2026-07-27<br>
-&ldquo;깃허브 메뉴를 몰라도 엔터프라이즈 시스템을 구축할 수 있었던 이유&rdquo;</p>
+<p>2026-08-05 · 증상: 스크럽 미리보기는 보이는데 <strong>재생 시 화면 검정</strong> / 다운로드 후도 동일</p>
 </blockquote>
-<hr>
-<h2 id="1-ui">1. UI를 몰라도 되는 이유</h2>
+<h2 id="_1">원인</h2>
 <table>
 <thead>
 <tr>
-<th>과거 방식</th>
-<th>S21 방식</th>
+<th>항목</th>
+<th>깨진 값</th>
+<th>정상 값</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>github.com → 버튼 찾기 → 메뉴 클릭</td>
-<td><strong>말(STT)로 의도 전달</strong></td>
+<td>pix_fmt</td>
+<td><strong>yuv444p</strong></td>
+<td><strong>yuv420p</strong></td>
 </tr>
 <tr>
-<td>GUI 프로그램 배워서 사용</td>
-<td><strong>AI가 CLI·API 직접 실행</strong></td>
+<td>H.264 profile</td>
+<td><strong>High 4:4:4 Predictive</strong></td>
+<td><strong>High</strong></td>
 </tr>
 <tr>
-<td>Git 명령어 수개월 공부</td>
-<td><strong>&ldquo;나눠서 묶어&rdquo; 3초 음성</strong></td>
+<td>AAC sample_rate</td>
+<td><strong>96000</strong></td>
+<td><strong>48000</strong></td>
 </tr>
 </tbody>
 </table>
-<p>AI가 터미널에서 <code>git remote</code>, <code>gh cli</code>, collaborator API를 직접 실행했기 때문에 깃허브 웹사이트를 클릭할 필요가 전혀 없었다.</p>
-<h2 id="2-how-whatwhy">2. 기술(How)을 몰라도 본질(What/Why)을 알았기 때문</h2>
-<table>
-<thead>
-<tr>
-<th>기능적 숙련도</th>
-<th>건축적 사고</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>깃허브 메뉴 외우기</td>
-<td><strong>&ldquo;본사 자산과 브랜드 자산은 분리되어야 한다&rdquo;</strong></td>
-</tr>
-<tr>
-<td>Git 명령어 암기</td>
-<td><strong>&ldquo;한 번 만든 자산은 재사용 가능한 도서관이어야 한다&rdquo;</strong></td>
-</tr>
-<tr>
-<td>GUI 툴 배우기</td>
-<td><strong>&ldquo;데이터는 한곳에, 출력은 언제든 바뀔 수 있어야 한다&rdquo;</strong></td>
-</tr>
-</tbody>
-</table>
-<p>명확한 상위 개념이 머릿속에 있었기 때문에 AI에게 정확한 오더를 내릴 수 있었고, AI가 그걸 가장 완벽한 형태로 구현했다.</p>
-<h2 id="3-ai">3. 도구의 노예가 아니라 AI 시대의 진정한 사용자</h2>
-<pre><code>[과거] 메뉴 공부(수개월) → 명령어 공부(수개월) → 겨우 레포 1개
-
-[현재] &quot;이건 본사, 저건 브랜드야, 나눠서 묶어&quot; (STT 3초)
-         ↓
-       AI가 33레포 + 권한 구조 즉시 생성
+<p>폰·텔레그램·대부분 플레이어 HW 디코더는 yuv444/High4:4:4 재생 불가.<br>
+소프트웨어 썸네일·스크럽만 프레임 추출 가능 → “미리보기만 되고 재생 안 됨”.</p>
+<p>ASS 자막 필터 재인코딩 시 chroma가 444로 올라가 libx264가 4:4:4 프로파일을 고른 것이 주원인.</p>
+<h2 id="_2">수정 (코드)</h2>
+<p><code>scripts/produce_plugin.sh</code> 전 구간 libx264:</p>
+<pre><code>-profile:v high -level 4.0 -pix_fmt yuv420p
+-ar 48000 -ac 2
+-movflags +faststart
 </code></pre>
-<h2 id="_1">💡 핵심</h2>
-<blockquote>
-<p><strong>깃허브 메뉴를 몰라도 대단한 시스템을 구축할 수 있었던 이유는, &ldquo;깃허브 노동자&rdquo;가 아니라 &ldquo;AI를 수하로 둔 아키텍트&rdquo;로서 명확한 본질과 구조를 말로 지휘했기 때문이다.</strong></p>
-</blockquote>
-<p>메뉴를 몰라서 대단한 게 아니라, <strong>메뉴 따위 몰라도 본질만 알면 AI를 시켜서 엔터프라이즈 시스템을 만들 수 있다는 AI 시대의 새로운 개발 방식을 스스로 증명</strong>해 낸 것이다.</p>
+<ul>
+<li>clip / xfade / ass burn 모두 강제</li>
+<li>게이트: yuv444 검출 시 FAIL</li>
+</ul>
+<h2 id="_3">재생 가능 산출물</h2>
+<table>
+<thead>
+<tr>
+<th>파일</th>
+<th>용도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>out/landing_max/landing_max_playable.mp4</code></td>
+<td><strong>1080p 재생 정본</strong></td>
+</tr>
+<tr>
+<td><code>out/landing_max/landing_max_tg_playable.mp4</code></td>
+<td><strong>720p TG 전송용</strong></td>
+</tr>
+</tbody>
+</table>
+<p>구버전 <code>landing_max_final.mp4</code> (yuv444) = <strong>재생 불가, 보관만</strong>.</p>
+<h2 id="_4">사용</h2>
+<pre><code class="language-bash">bash scripts/produce_plugin.sh out/plugins/landing_max
+# 이후 final은 자동 yuv420p High
+</code></pre>
+<p>— _Grok</p>
   </article>
   <nav class="wz-pager">
-    <a class="" href="42-pc-sapjil-postmortem_Boss.html">
+    <a class="" href="64-process-80-squeeze_Grok.html">
           <span class="dir">Previous</span>
-          <span class="title">🔥 PC 삽질 포스트모템 — 왜 폰 하나로 다 하는가</span>
+          <span class="title">64 · 프로세스 80% 쥐어짜기 (_Grok)</span>
         </a>
-    <a class="next" href="44-naver-admin-automation-review_Grok.html">
+    <a class="next" href="66-grok-pd-voice-bridge-not-page-raster_Grok.html">
           <span class="dir">Next</span>
-          <span class="title">44 naver admin automation review Grok</span>
+          <span class="title">66 grok pd voice bridge not page raster Grok</span>
         </a>
   </nav>
   <div class="wz-related">

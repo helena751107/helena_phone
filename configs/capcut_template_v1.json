@@ -1,0 +1,91 @@
+{
+  "id": "capcut_template_v1",
+  "name": "CapCut-Style Video Template",
+  "version": 1,
+  "updated": "2026-08-06",
+  "description": "CapCut 대체 — FFmpeg 기반 CapCut 스타일 출력",
+
+  "presets": {
+    "shorts": {
+      "resolution": "1080:1920",
+      "fps": 30,
+      "crf": 22,
+      "max_duration_sec": 60,
+      "caption_style": "bounce",
+      "caption_position": "lower-third",
+      "bgm_volume": 0.025,
+      "xfade_sec": 0.45,
+      "kenburns": true,
+      "encode": "yuv420p High@L4.0 AAC 48k"
+    },
+    "tiktok": {
+      "resolution": "1080:1920",
+      "fps": 30,
+      "crf": 23,
+      "max_duration_sec": 180,
+      "caption_style": "bounce",
+      "caption_position": "lower-third",
+      "bgm_volume": 0.03,
+      "xfade_sec": 0.4,
+      "kenburns": true,
+      "encode": "yuv420p High@L4.0 AAC 48k"
+    },
+    "youtube_intro": {
+      "resolution": "1080:1920",
+      "fps": 30,
+      "crf": 20,
+      "max_duration_sec": 120,
+      "caption_style": "glow",
+      "caption_position": "lower-third",
+      "bgm_volume": 0.025,
+      "xfade_sec": 0.5,
+      "kenburns": true,
+      "encode": "yuv420p High@L4.0 AAC 48k"
+    }
+  },
+
+  "caption_styles": {
+    "bounce": {
+      "description": "CapCut classic — gold pop-up each word",
+      "fontsize": 44,
+      "color": "gold_bright",
+      "animation": "scale 130% → 100% over 0.35s"
+    },
+    "type": {
+      "description": "Typewriter — warm white fade-in",
+      "fontsize": 42,
+      "color": "warm_white",
+      "animation": "scale 105% → 100% over 0.25s"
+    },
+    "glow": {
+      "description": "Glow pulse — teal soft glow",
+      "fontsize": 44,
+      "color": "teal",
+      "animation": "scale 115% → 100% over 0.4s"
+    }
+  },
+
+  "transitions": {
+    "fade": "smooth crossfade",
+    "wipeleft": "left-to-right wipe",
+    "wiperight": "right-to-left wipe",
+    "slideup": "slide upward",
+    "slidedown": "slide downward",
+    "circlecrop": "circle reveal",
+    "dissolve": "film dissolve"
+  },
+
+  "text_animations": {
+    "pop": "oscillating fontsize 42±8px @ 3.5Hz",
+    "slideup": "ease-out from below, exp(-t*4.5)",
+    "typewriter": "progressive alpha ramp",
+    "static": "fixed text overlay"
+  },
+
+  "usage": {
+    "single_line": "python3 scripts/capcut_captions.py --text '...' --start 0 --duration 5 --style bounce --out subs.ass",
+    "from_srt": "python3 scripts/capcut_captions.py --srt input.srt --style bounce --out subs.ass",
+    "with_produce": "bash scripts/produce_plugin.sh out/plugins/landing",
+    "shorts_export": "PRESET=shorts bash scripts/produce_intro.sh"
+  }
+}

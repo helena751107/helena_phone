@@ -1,0 +1,57 @@
+{
+  "id": "video_plugin_standard_v2",
+  "name": "Helena Grok Plugin Video — 80% Pro Squeeze",
+  "version": 2,
+  "status": "canonical",
+  "updated": "2026-08-05",
+  "target_process_pct": 80,
+  "extends": "video_plugin_standard_v1",
+  "one_liner": "Grok 구독 풀가동: Imagine motion + 실 UI + Grok TTS + A-bar 게이트. edge 금지.",
+
+  "squeeze_checklist": {
+    "grok_tts": true,
+    "imagine_motion_min_ratio": 0.5,
+    "live_ui_min_shots": 2,
+    "tts_first": true,
+    "vo_gap_max_sec": 0.8,
+    "resolution": "1080:1920",
+    "subs": true,
+    "xfade": true,
+    "kenburns_for_live_stills": true,
+    "bgm_duck": true,
+    "ship_report": true,
+    "tg_ship": true
+  },
+
+  "shot_mix_rule": "At least 50% Imagine image_to_video motion. At least 2 live Playwright product UI stills (Ken Burns). Never all-abstract.",
+
+  "process_ladder_80": [
+    "P0_idea_bible",
+    "P1_live_capture_playwright",
+    "P2_look_keyframes_imagine",
+    "P3_image_to_video_sequential",
+    "P4_grok_tts_dense_vo",
+    "P5_produce_plugin_hybrid",
+    "P6_gate_pass",
+    "P7_tg_ship",
+    "P8_self_score_vs_80"
+  ],
+
+  "entry": "bash scripts/produce_plugin.sh out/plugins/landing80",
+
+  "encode_lock_phone_playable": {
+    "video": "libx264 -profile:v high -level 4.0 -pix_fmt yuv420p",
+    "audio": "aac -ar 48000 -ac 2",
+    "forbidden": ["yuv444p", "High 4:4:4 Predictive", "96000 Hz AAC"],
+    "note": "yuv444 = black screen on phone play; scrub thumbnails still work",
+    "fixed_in": "scripts/produce_plugin.sh + _notebook/65-video-playable-encode-fix_Grok.md"
+  },
+
+  "known_gaps_to_100": [
+    "Vision QA auto re-gen loop",
+    "Director perfect_ship live cursor tour merge",
+    "true sidechain compress",
+    "multi-format 15s/30s cutdowns",
+    "human final grade"
+  ]
+}

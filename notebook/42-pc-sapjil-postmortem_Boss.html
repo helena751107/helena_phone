@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="2026-08-05. Boss + Claude Code 4시간 논쟁의 기록. — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>🔥 PC 삽질 포스트모템 — 왜 폰 하나로 다 하는가 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>🔥 PC 삽질 포스트모템 — 왜 폰 하나로 다 하는가</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>🔥 PC 삽질 포스트모템 — 왜 폰 하나로 다 하는가</h1>
+    <p class="deck">2026-08-05. Boss + Claude Code 4시간 논쟁의 기록.</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/42-pc-sapjil-postmortem_Boss.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#_1">우리가 한 삽질 (순서대로)</a><ul>
+<li><a href="#1-pc">1. &ldquo;PC로 확장하자&rdquo;</a></li>
+<li><a href="#2-celeron-3855u-4gb-ddr3">2. &ldquo;Celeron 3855U + 4GB DDR3&rdquo;</a></li>
+<li><a href="#3-github-actions">3. &ldquo;GitHub Actions가 공짜 서버다&rdquo;</a></li>
+<li><a href="#4-oracle-cloud-always-free">4. &ldquo;Oracle Cloud Always Free&rdquo;</a></li>
+<li><a href="#5-hetzner-5500">5. &ldquo;Hetzner ₩5,500/월&rdquo;</a></li>
+<li><a href="#6-vercel-github-pages-actions">6. &ldquo;Vercel + GitHub Pages + Actions&rdquo;</a></li>
+<li><a href="#7-cpu">7. &ldquo;중국 CPU 클라우드&rdquo;</a></li>
+<li><a href="#8-github-team-4000">8. &ldquo;GitHub Team ₩4,000&rdquo;</a></li>
+<li><a href="#9-adb-pc">9. &ldquo;ADB 때문에 PC 필요&rdquo;</a></li>
+<li><a href="#10-wsl-windows">10. &ldquo;WSL 포기, Windows만&rdquo;</a></li>
+<li><a href="#11">11. 🔥 &ldquo;프루트에 다 있잖아&rdquo;</a></li>
+</ul>
+</li>
+<li><a href="#_2">최종 구도</a></li>
+<li><a href="#_3">왜 이게 중요한가</a></li>
+<li><a href="#_4">이 글을 쓰는 이유</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <blockquote>
+<p>2026-08-05. Boss + Claude Code 4시간 논쟁의 기록.<br>
+결론: proot Ubuntu 하나면 된다. 이 과정 자체가 증명이다.</p>
+</blockquote>
+<hr>
+<h2 id="_1">우리가 한 삽질 (순서대로)</h2>
+<h3 id="1-pc">1. &ldquo;PC로 확장하자&rdquo;</h3>
+<p>WSL2 + DeepSeek Aider + Tailscale + SSH. 폰의 작업반장을 PC로 확장.<br>
+<strong>문제: PC 사양 확인도 안 하고 설계부터 함.</strong></p>
+<h3 id="2-celeron-3855u-4gb-ddr3">2. &ldquo;Celeron 3855U + 4GB DDR3&rdquo;</h3>
+<p>누나 PC 실사양 확인. 2코어 1.6GHz, 4GB RAM.<br>
+<strong>WSL2 최소 2GB 필요. Windows 10 혼자 2GB. 같이 못 돌림. 불가.</strong></p>
+<h3 id="3-github-actions">3. &ldquo;GitHub Actions가 공짜 서버다&rdquo;</h3>
+<p>2000분/월 + 7GB RAM + Ubuntu 24.04. Public repo = 무제한.<br>
+APK·오디오·CAD 전부 Actions로 돌리기로 함.<br>
+<strong>맞는 판단. 아직 유효.</strong></p>
+<h3 id="4-oracle-cloud-always-free">4. &ldquo;Oracle Cloud Always Free&rdquo;</h3>
+<p>ARM 4코어 24GB RAM 평생 공짜.<br>
+<strong>문제: 가입 당첨이 거의 불가능. 운빨.</strong></p>
+<h3 id="5-hetzner-5500">5. &ldquo;Hetzner ₩5,500/월&rdquo;</h3>
+<p>2vCPU 4GB. 제일 싼 유료 VPS.<br>
+<strong>문제: 4GB로 Gradle APK 빌드 빠듯. Actions 7GB가 더 나음.</strong></p>
+<h3 id="6-vercel-github-pages-actions">6. &ldquo;Vercel + GitHub Pages + Actions&rdquo;</h3>
+<p>공짜 풀스택 조합. 정적 + 서버리스 + CI/CD.<br>
+<strong>맞는 판단. 지금도 이걸로 감.</strong></p>
+<h3 id="7-cpu">7. &ldquo;중국 CPU 클라우드&rdquo;</h3>
+<p>DeepSeek처럼 공짜 CPU 없냐.<br>
+<strong>결론: 없다. DeepSeek는 API가 훈련 데이터 수집용이라 가능한 거. CPU는 실제 전기세 들어감.</strong></p>
+<h3 id="8-github-team-4000">8. &ldquo;GitHub Team ₩4,000&rdquo;</h3>
+<p>Private repo Actions 3000분.<br>
+<strong>결론: 이미 public이라 무제한. 낼 필요 없음.</strong></p>
+<h3 id="9-adb-pc">9. &ldquo;ADB 때문에 PC 필요&rdquo;</h3>
+<p>Actions는 휘발성. ADB는 계속 폰에 붙어있어야 함.<br>
+로컬 머신 필수 → Celeron PC 다시 꺼냄.<br>
+<strong>맞는 지적. Actions의 한계.</strong></p>
+<h3 id="10-wsl-windows">10. &ldquo;WSL 포기, Windows만&rdquo;</h3>
+<p>Celeron에 Windows Native 앱 4개(Tailscale, SSH, ADB, Git).<br>
+연결 허브로만 쓰기로.<br>
+<strong>의미 있는 타협. RAM 충분.</strong></p>
+<h3 id="11">11. 🔥 &ldquo;프루트에 다 있잖아&rdquo;</h3>
+<p><strong>확인 결과:</strong><br>
+- FFmpeg → arm64 네이티브, 이미 깔림<br>
+- <strong>Ardour</strong> → Reaper 대체 DAW, arm64 있음<br>
+- Audacity → arm64 있음<br>
+- FluidSynth → MIDI 신디<br>
+- JACK → 저지연 오디오<br>
+- ADB → Termux pkg</p>
+<p><strong>PC 필요 없음. 처음으로 돌아옴.</strong></p>
+<hr>
+<h2 id="_2">최종 구도</h2>
+<pre><code>📱 S21 Phone (Exynos 2100 / 8GB / proot Ubuntu)
+   │
+   ├── Claude Code (cc)     → AI 기획·감사
+   ├── Aider + DeepSeek     → 작업반장
+   ├── Grok CLI             → GPU·이미지·영상
+   ├── Ardour               → DAW
+   ├── FFmpeg + Audacity    → 오디오
+   ├── ADB                  → APK 디버깅
+   ├── Git                  → 모든 레포
+   └── MCP 18 tools         → 센서·시스템
+
+☁️  GitHub Actions (공짜)
+   ├── APK 빌드 (7GB RAM)
+   ├── 오디오 렌더링
+   └── CAD·범용 컴퓨트
+
+🖥️  Celeron PC (필요 없음)
+   → 버리거나 Thin Client로만
+</code></pre>
+<hr>
+<h2 id="_3">왜 이게 중요한가</h2>
+<table>
+<thead>
+<tr>
+<th>의문</th>
+<th>답변</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PC 없이 개발 가능?</td>
+<td><strong>가능.</strong> proot Ubuntu = 풀 리눅스</td>
+</tr>
+<tr>
+<td>DAW 가능?</td>
+<td><strong>Ardour arm64.</strong> Reaper 대체</td>
+</tr>
+<tr>
+<td>APK 빌드?</td>
+<td><strong>Actions 7GB</strong>가 로컬보다 나음</td>
+</tr>
+<tr>
+<td>GPU 작업?</td>
+<td><strong>Grok + RunPod</strong></td>
+</tr>
+<tr>
+<td>DB·도커 없이?</td>
+<td><strong>JSON 파일 + Actions</strong></td>
+</tr>
+<tr>
+<td>공인 IP 없이?</td>
+<td><strong>Tailscale + Pages</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="_4">이 글을 쓰는 이유</h2>
+<p>많은 사람이 &ldquo;개발은 PC로 해야 한다&rdquo;고 생각한다.<br>
+우리는 <strong>4시간 동안 PC→클라우드→PC→폰으로 돌아오는</strong> 전 과정을 겪었다.<br>
+그리고 결론은 <strong>폰 하나로 충분하다</strong>는 것.</p>
+<p>이 삽질이 누군가에게 &ldquo;PC 없이도 된다&rdquo;는 증명이 되길.</p>
+<hr>
+<p><em>2026-08-05. S21 Phone + Claude Code + DeepSeek.</em><br>
+<em>헬레나 프로젝트 — 대필작가-간병인의 AI 워크스테이션.</em></p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="42-hq-affiliate-architecture.html">
+          <span class="dir">Previous</span>
+          <span class="title">🏢 본사-어필리에이트 아키텍처 — 1인 지주회사 구조</span>
+        </a>
+    <a class="next" href="43-ui-less-architect.html">
+          <span class="dir">Next</span>
+          <span class="title">43 ui less architect</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

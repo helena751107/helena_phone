@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="저장: 2026-08-06 · 에이전트: _Grok — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>67 · 소개 영상 허들: 성우 · BGM — Super Grok 구독 이유 (_Grok) — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>67 · 소개 영상 허들: 성우 · BGM — Super Grok 구독 이유 (_Grok)</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>67 · 소개 영상 허들: 성우 · BGM — Super Grok 구독 이유 (_Grok)</h1>
+    <p class="deck">저장: 2026-08-06 · 에이전트: _Grok</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/67-grok-subscribe-voice-bgm-hurdle_Grok.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#0">0. 한 줄</a></li>
+<li><a href="#1-bgm">1. 왜 성우·BGM이 허들이냐</a></li>
+<li><a href="#2-edge-tts-vs-grok-ara">2. Edge TTS vs Grok 성우 (Ara 등)</a><ul>
+<li><a href="#21-edge-tts">2.1 Edge TTS</a></li>
+<li><a href="#22-grok-ara">2.2 Grok 유료 성우 (Ara 등)</a></li>
+</ul>
+</li>
+<li><a href="#3">3. “수익화 안 한다” 해도</a></li>
+<li><a href="#4-bgm">4. BGM 허들 (구독과 별개, 동일 중요)</a></li>
+<li><a href="#5-super-grok">5. Super Grok 구독을 쓰는 이유 (소개 영상 기준)</a></li>
+<li><a href="#6">6. 우리 파이프 고정 규칙 (실무)</a></li>
+<li><a href="#7">7. 결론</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <blockquote>
+<p>저장: 2026-08-06 · 에이전트: _Grok<br>
+대상: S21 Phone / Helena 소개·홍보 영상 · YouTube Shorts<br>
+관련: <code>video_pd_pipeline_v1</code> · <code>produce_pd.sh</code> · <code>grok_tts.py</code> · <code>BGM_VOLUME=0.025</code></p>
+</blockquote>
+<hr>
+<h2 id="0">0. 한 줄</h2>
+<p>소개 영상에서 <strong>가장 큰 허들은 화면이 아니라 성우(VO)와 백그라운드 뮤직(BGM)</strong> 이다.<br>
+<strong>Super Grok 구독을 쓰는 핵심 이유 중 하나 = 정식 상업 이용 가능한 성우(Ara 등) + PD/브릿지.</strong><br>
+Edge TTS로 “공짜 성우”를 쓰면 화면 파이프가 아무리 좋아도 <strong>약관·수익화 리스크</strong>가 남는다.</p>
+<hr>
+<h2 id="1-bgm">1. 왜 성우·BGM이 허들이냐</h2>
+<table>
+<thead>
+<tr>
+<th>축</th>
+<th>왜 어려운가</th>
+<th>우리 파이프에서의 해결</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>성우</strong></td>
+<td>무료 TTS는 저작권·양산형 감지가 겹침</td>
+<td><strong>Grok TTS (Ara 등)</strong> — 유료 약관상 상업 이용</td>
+</tr>
+<tr>
+<td><strong>BGM</strong></td>
+<td>유튜브 음원 저작권·Content ID</td>
+<td><strong>Boss 자작 / 자사 파이프 음원</strong> (예: Shorts, Gymnopédie 렌더) · <strong>vol≈0.025 은은</strong></td>
+</tr>
+<tr>
+<td><strong>화면</strong></td>
+<td>이미 예쁜 웹페이지 + Playwright 캡처로 해결 가능</td>
+<td>공짜 공장 (재래스터 최소화)</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>화면은 공짜 공장, 성우·BGM·PD는 구독 가치.</strong></p>
+<hr>
+<h2 id="2-edge-tts-vs-grok-ara">2. Edge TTS vs Grok 성우 (Ara 등)</h2>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>① MS Edge 브라우저 TTS</th>
+<th>② Grok 유료 성우 (Ara 등)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>서비스 라이선스</strong></td>
+<td>🔴 상업적 이용 불가 소지 (약관 위반 위험)</td>
+<td>🟢 유료 요금제 전제 상업 이용 허용</td>
+</tr>
+<tr>
+<td><strong>유튜브 수익화</strong></td>
+<td>🔴 거절/박탈 위험 높음</td>
+<td>🟢 독창성 확보 시 가능</td>
+</tr>
+<tr>
+<td><strong>핵심 이슈</strong></td>
+<td>Azure 유료 엔진 우회 추출 문제</td>
+<td>xAI 유료 서비스 생성물 이용 권리</td>
+</tr>
+<tr>
+<td><strong>알고리즘</strong></td>
+<td>동일 음성 패턴 → 재사용·양산형 감지</td>
+<td>AI 표준 음성이라도 <strong>대본·연출 독창성</strong>으로 방어</td>
+</tr>
+<tr>
+<td><strong>추천</strong></td>
+<td>내부 시연·개인 소장만</td>
+<td><strong>홍보·소개·채널 수익화용</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="21-edge-tts">2.1 Edge TTS</h3>
+<ul>
+<li>브라우저 “소리 내어 읽기”는 <strong>개인·비상업</strong> 맥락의 무료 기능에 가깝다.</li>
+<li>녹음·추출해 <strong>광고 수익·브랜드 홍보</strong>에 쓰면 MS 약관 위반 소지가 있다.<br>
+  (해당 계열 음성은 Azure에서 <strong>기업 유료</strong>로 팔린다.)</li>
+<li>유튜브: 동일 Edge 음성이 너무 흔해 <strong>재사용 콘텐츠 / 기계 양산</strong> 판정 위험이 큼.</li>
+</ul>
+<h3 id="22-grok-ara">2.2 Grok 유료 성우 (Ara 등)</h3>
+<ul>
+<li>Super Grok 등 <strong>유료 이용</strong> 시, 플랫폼이 기본 제공하는 성우로 만든 음원·비디오의 <strong>상업 이용</strong>이 약관상 허용되는 쪽으로 정리한다. (유튜브 수익화 포함.)</li>
+<li>공식 제공 자산: xAI가 확보·구축한 모델 → <strong>서비스 라이선스 🟢</strong>.</li>
+<li>수익화 시에도:<br>
+  1. <strong>AI 생성 콘텐츠 라벨</strong> (스튜디오 업로드 시 체크)<br>
+  2. <strong>대본·연출·자막의 독창성</strong> (뉴스 복붙 나레이션만이면 재사용 판정 가능)</li>
+</ul>
+<p><strong>한 줄:</strong> Grok 기본 성우(Ara 등)로 만든 비디오는 <strong>상업 이용·수익화 가능 전제</strong>. 마음 놓고 작업 가능 쪽.</p>
+<hr>
+<h2 id="3">3. “수익화 안 한다” 해도</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Edge</th>
+<th>Grok Ara</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>위험</td>
+<td>🟡 약관 위반 리스크 자체는 남음</td>
+<td>🟢 음성 라이선스는 정리됨</td>
+</tr>
+<tr>
+<td>현실</td>
+<td>MS가 쇼츠마다 쫓을 확률은 낮아도, <strong>신고·스트라이크</strong> 시 채널 위험</td>
+<td>나중에 수익화로 전환해도 같은 자산 유지 가능</td>
+</tr>
+<tr>
+<td>한 줄</td>
+<td>“돈 안 버니까 OK” ≠ 안전</td>
+<td>AI 라벨만 지키면 운용 단순</td>
+</tr>
+</tbody>
+</table>
+<p>→ 수익화 포기해도 <strong>Edge보다 Grok 성우 권장.</strong> 삭제·경고가 더 억울하다.</p>
+<hr>
+<h2 id="4-bgm">4. BGM 허들 (구독과 별개, 동일 중요)</h2>
+<table>
+<thead>
+<tr>
+<th>원칙</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>음원 소유</strong></td>
+<td>Boss 자작 Shorts / helena-piano 파이프 렌더 (Satie 등)</td>
+</tr>
+<tr>
+<td><strong>볼륨</strong></td>
+<td><strong>BGM_VOLUME=0.025</strong> — 들릴락 말락, 은은 (나레이션 우선)</td>
+</tr>
+<tr>
+<td><strong>금지</strong></td>
+<td>저작권 불명 유튜브 음원 무단 사용</td>
+</tr>
+<tr>
+<td><strong>파이프</strong></td>
+<td><code>produce_pd.sh</code> · <code>_render_video.py</code> · <code>settings_whisper.json</code></td>
+</tr>
+</tbody>
+</table>
+<p>성우가 깨끗해도 <strong>BGM Content ID</strong>에 걸리면 수익화·노출이 막힌다.<br>
+→ 성우 = Grok 정식 / BGM = <strong>우리 음원 + 최저 볼륨</strong> 이 세트.</p>
+<hr>
+<h2 id="5-super-grok">5. Super Grok 구독을 쓰는 이유 (소개 영상 기준)</h2>
+<pre><code>구독 가치 우선순위 (소개 영상)
+1) 성우 — Ara 등 상업 이용 가능 VO (Edge 대체)
+2) PD  — 대본·감정 아크·샷 순서·QA
+3) 브릿지 — 앞·뒤 예쁜 컷 (소수, 페이지 재래스터 아님)
+4) (화면 본체는 공짜 공장: Playwright + FFmpeg)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>이유</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>라이선스 허들 돌파</strong></td>
+<td>Edge 상업 사용 리스크 제거</td>
+</tr>
+<tr>
+<td><strong>수익화 옵션 유지</strong></td>
+<td>지금 안 해도 나중에 열 수 있음</td>
+</tr>
+<tr>
+<td><strong>품질 차별</strong></td>
+<td>같은 페이지 캡처라도 <strong>정식 성우 + PD</strong> 가 free 파이프와 갈림</td>
+</tr>
+<tr>
+<td><strong>약관 정렬</strong></td>
+<td>“공짜 우회 TTS”가 아니라 <strong>유료 생성물</strong>로 문서화 가능</td>
+</tr>
+</tbody>
+</table>
+<p><strong>구독 안 쓰면:</strong> 화면 파이프만 공짜로 가능 → 성우는 Edge 함정 or 침묵.<br>
+<strong>구독 쓰면:</strong> 성우 허들 해소 + PD/브릿지 토큰.</p>
+<hr>
+<h2 id="6">6. 우리 파이프 고정 규칙 (실무)</h2>
+<table>
+<thead>
+<tr>
+<th>규칙</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VO 엔진</td>
+<td><strong>Grok TTS (ara 기본)</strong> — edge는 폴백 전용·출고용 금지 권장</td>
+</tr>
+<tr>
+<td>BGM</td>
+<td>Boss 음원 · <strong>volume 0.025</strong></td>
+</tr>
+<tr>
+<td>화면</td>
+<td>페이지 캡처 ≥70% · Grok 브릿지 0–30%</td>
+</tr>
+<tr>
+<td>인코딩</td>
+<td>yuv420p High · AAC 48kHz</td>
+</tr>
+<tr>
+<td>YT 업로드</td>
+<td>AI 생성 라벨 체크 · 독창 대본·자막·연출</td>
+</tr>
+</tbody>
+</table>
+<p>엔트리:</p>
+<pre><code class="language-bash"># PD 파이프 (성우 Grok + BGM whisper + 페이지 공장)
+BGM_VOLUME=0.025 TTS_ENGINE=grok \
+  bash scripts/produce_pd.sh pd_intro
+</code></pre>
+<hr>
+<h2 id="7">7. 결론</h2>
+<ol>
+<li>소개 영상의 <strong>병목은 성우·BGM</strong>.  </li>
+<li><strong>Edge TTS = 상업·수익화 위험 / Grok Ara = 정식 경로.</strong>  </li>
+<li><strong>Super Grok 구독 이유 중 핵심 하나 = 그 성우 허들을 합법·안정적으로 넘는 것.</strong>  </li>
+<li>BGM은 <strong>자작 + 은은 볼륨</strong>으로 Content ID 허들을 같이 관리.  </li>
+<li>화면은 이미 예쁜 웹 + 공짜 조립; 구독 토큰은 <strong>성우·PD·브릿지</strong>에만.</li>
+</ol>
+<p>— _Grok · 2026-08-06</p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="66-grok-pd-voice-bridge-not-page-raster_Grok.html">
+          <span class="dir">Previous</span>
+          <span class="title">66 · Grok 역할 정정 — PD · 성우 · 브릿지 (페이지 재래스터 금지) (_Grok)</span>
+        </a>
+    <a class="next" href="68-imagine-prompt-standard-v1_Grok.html">
+          <span class="dir">Next</span>
+          <span class="title">68 imagine prompt standard v1 Grok</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

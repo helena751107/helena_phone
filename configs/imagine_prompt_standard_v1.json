@@ -1,0 +1,69 @@
+{
+  "id": "imagine_prompt_standard_v1",
+  "name": "Helena Imagine Bridge Prompt Standard",
+  "version": 1,
+  "status": "canonical",
+  "updated": "2026-08-06",
+  "goal": "초A급 포토그래퍼·시네마 스틸. 키워드 나열이 아니라 한 장면의 산문. 페이지 재래스터 금지 — 브릿지·무드만.",
+
+  "brand_lock": {
+    "palette": {
+      "paper": "#0a0908",
+      "ink": "#f4efe6",
+      "gold": "#d4a84b",
+      "gold_bright": "#f0c75e",
+      "teal": "#3db8a8",
+      "crimson_accent": "#e85d4c"
+    },
+    "feel": "dark luxury editorial webzine · quiet hope · care + aspiration",
+    "never": [
+      "garish neon cyberpunk overload",
+      "stock 3D phone on white desk",
+      "readable UI text or fake logos",
+      "busy multi-subject chaos",
+      "generic blue sci-fi HUD spam"
+    ]
+  },
+
+  "prompt_craft_rules": [
+    "Subject first sentence. One coherent scene only.",
+    "Natural prose 3–5 sentences. Not comma-keyword soup.",
+    "Order: subject → action/pose → setting → style → composition → lighting/mood → 1–2 material details.",
+    "Positive description only (what to include).",
+    "aspect_ratio 9:16 for Shorts bridges.",
+    "No readable brand words on the image — emotion and light carry meaning.",
+    "Photographer language: lens feel, light quality, depth, grade — not '4k ultra detailed masterpiece' spam.",
+    "Animation-friendly: one clear hero subject, soft background, avoid fine text and dense geometry if later I2V."
+  ],
+
+  "quality_bar_v1": {
+    "looks_like": "A24 title card meets luxury product still, not midjourney default sludge",
+    "pass_if": [
+      "single clear hero",
+      "gold/teal on near-black paper harmony",
+      "shallow depth or painterly soft falloff",
+      "emotional clarity (hook / handoff) without text"
+    ],
+    "fail_if": [
+      "cheap plastic CGI",
+      "muddy brown mess",
+      "random clutter",
+      "illegible fake UI filling frame"
+    ]
+  },
+
+  "canon_prompts_v1": {
+    "b_open_hook": "A single modern smartphone floats upright in absolute darkness the color of charcoal paper, its edge catching a thin ribbon of molten gold light like candlelight on metal. Soft teal dust motes drift in the void around it, almost still. Shot as a vertical 9:16 luxury product still — medium close, centered, shallow depth of field, background dissolving into black. Mood is quiet power and invitation, the first breath of a premium tech webzine film; photoreal materials, restrained, gallery-worthy.",
+    "b_close_handoff": "In near-black space, a warm gold wax seal of light hovers above an open palm and a darkened smartphone resting on dark rag paper, teal ambient pooling at the edges like deep water. Vertical 9:16 cinematic still, low three-quarter angle, soft volumetric glow without glare, film grain barely there. Mood is solemn hope and release — a handoff, not a sale; elegant, spiritual quiet, no text, museum print quality."
+  },
+
+  "iteration": {
+    "next": "v1.1 after Boss visual score on open/close pair",
+    "method": "keep winning stills as reference; image_edit for variants; never regenerate both cold without anchor"
+  },
+
+  "paths": {
+    "stills": "out/pd_intro/bridge/v1/",
+    "active_symlink_style": "copy winning stills to bridge/b_open.jpg and b_close.jpg for pipeline"
+  }
+}

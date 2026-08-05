@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="작성: 2026-08-05 · 디렉터: Grok — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>61 · 랜딩 6샷 디렉터 파이프 — 개발 계획서 (_Grok) **v2 정정** — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>61 · 랜딩 6샷 디렉터 파이프 — 개발 계획서 (_Grok) **v2 정정**</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>61 · 랜딩 6샷 디렉터 파이프 — 개발 계획서 (_Grok) **v2 정정**</h1>
+    <p class="deck">작성: 2026-08-05 · 디렉터: Grok</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/61-landing-6clip-bgm-plan_Grok.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#0-boss">0. Boss 지적 — 수용</a></li>
+<li><a href="#1">1. 역할 분담 (정본)</a></li>
+<li><a href="#2">2. 베이스라인 — 랜딩 파싱 (연출 재료)</a></li>
+<li><a href="#3-6-10-6-60">3. 6샷 디렉팅 (10초 × 6 = 60초)</a></li>
+<li><a href="#4-cli">4. CLI 자동화 파이프 (이게 테스트 본체)</a><ul>
+<li><a href="#41">4.1 핵심 명령 패턴</a></li>
+<li><a href="#42">4.2 산출 경로</a></li>
+</ul>
+</li>
+<li><a href="#5">5. 성우 정책</a></li>
+<li><a href="#6">6. 품질 바 (파일럿 합격선)</a></li>
+<li><a href="#7">7. 일정</a></li>
+<li><a href="#8">8. 결론</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <blockquote>
+<p>작성: 2026-08-05 · 디렉터: Grok<br>
+<strong>v1 오류 정정:</strong> “스크린샷 + 공짜 edge-tts만 이으면 된다” = <strong>V1 싸구려 트랙</strong>.<br>
+<strong>정본:</strong> Grok 구독 능력 발휘 — <strong>Imagine 키프레임·10초 영상 생성 + 성우 더빙 + 로컬 FFmpeg 합성</strong>.<br>
+랜딩 웹페이지 = <strong>베이스라인·연출 대본</strong> (복붙 캡처 소스가 아님).</p>
+</blockquote>
+<hr>
+<h2 id="0-boss">0. Boss 지적 — 수용</h2>
+<table>
+<thead>
+<tr>
+<th>틀림 (v1)</th>
+<th>맞음 (v2)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Playwright 캡처 6장 붙이기</td>
+<td><strong>Grok가 샷을 만든다</strong> (image → video)</td>
+</tr>
+<tr>
+<td>edge-tts가 본체 성우</td>
+<td><strong>Grok 보이스/프리미엄 더빙 우선</strong>, 로컬은 폴백</td>
+</tr>
+<tr>
+<td>웹페이지 = 찍을 화면</td>
+<td><strong>웹페이지 = 감독용 베이스라인</strong> (스토리·카피·브랜드·구조)</td>
+</tr>
+<tr>
+<td>“괜찮게 나올까?” 변명</td>
+<td><strong>이게 CLI 영상 자동화 테스트 목적</strong> — 능력 발휘</td>
+</tr>
+</tbody>
+</table>
+<p><strong>한 줄:</strong>  </p>
+<blockquote>
+<p>비싼 Grok = 손·눈·카메라·성우. proot FFmpeg = 편집실. 랜딩 = 시나리오 원본.</p>
+</blockquote>
+<hr>
+<h2 id="1">1. 역할 분담 (정본)</h2>
+<table>
+<thead>
+<tr>
+<th>역할</th>
+<th>담당</th>
+<th>도구</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>감독</strong></td>
+<td>Grok</td>
+<td>6샷 스토리·감정·카메라·대본</td>
+</tr>
+<tr>
+<td><strong>키프레임</strong></td>
+<td>Grok Imagine</td>
+<td><code>image_gen</code> / <code>image_edit</code> (랜딩 톤·레퍼런스)</td>
+</tr>
+<tr>
+<td><strong>본편 샷 영상</strong></td>
+<td>Grok Imagine</td>
+<td><code>image_to_video</code> <strong>duration=10</strong> (또는 6+4 조립)</td>
+</tr>
+<tr>
+<td><strong>성우 더빙</strong></td>
+<td>Grok Voice 우선</td>
+<td>보이스 풀(Ara/Eve/Luna 등 multilingual) · 불가 시 OpenAI tts-1-hd · 최후 edge+humanize</td>
+</tr>
+<tr>
+<td><strong>BGM</strong></td>
+<td>Boss 자작</td>
+<td><a href="https://youtube.com/shorts/onIbZX6On3A">Shorts onIbZX6On3A</a> · volume ≈ 0.08~0.12</td>
+</tr>
+<tr>
+<td><strong>편집·mux</strong></td>
+<td>이 터미널 proot</td>
+<td>FFmpeg concat + amix + loudnorm</td>
+</tr>
+<tr>
+<td><strong>배포</strong></td>
+<td>로컬</td>
+<td>TG sendVideo / 파일</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="2">2. 베이스라인 — 랜딩 파싱 (연출 재료)</h2>
+<p>URL: https://helena751107.github.io/helena_phone/</p>
+<table>
+<thead>
+<tr>
+<th>재료</th>
+<th>감독 사용법</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>히어로 카피</td>
+<td>오프닝 훅 대사·무드</td>
+</tr>
+<tr>
+<td>Dual Track / Agents / System / Centers / Funnel / Constitution</td>
+<td><strong>샷 주제·감정 아크</strong></td>
+</tr>
+<tr>
+<td>골드 <code>#d4a84b</code> · 다크 페이퍼 · 세리프 타이틀</td>
+<td><strong>비주얼 룩 고정</strong></td>
+</tr>
+<tr>
+<td>“핸드오프가 곧 성공”</td>
+<td>엔딩 한 방</td>
+</tr>
+<tr>
+<td>실제 DOM 스크린샷</td>
+<td>필요 시 <strong>레퍼런스 1장</strong> (image_edit 시드) — 최종 영상이 아님</td>
+</tr>
+</tbody>
+</table>
+<p>랜딩을 “그대로 녹화”하는 게 아니라,<br>
+랜딩이 말하는 세계를 <strong>Grok 샷으로 재연출</strong>한다.</p>
+<hr>
+<h2 id="3-6-10-6-60">3. 6샷 디렉팅 (10초 × 6 = 60초)</h2>
+<table>
+<thead>
+<tr>
+<th>샷</th>
+<th>베이스 챕터</th>
+<th>감정</th>
+<th>카메라/모션</th>
+<th>더빙 요지 (한 호흡)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>S1</strong></td>
+<td>Cover</td>
+<td>훅</td>
+<td>느린 push-in, 폰·빛</td>
+<td>갤럭시 한 대. 돌봄과 소망.</td>
+</tr>
+<tr>
+<td><strong>S2</strong></td>
+<td>Three Agents</td>
+<td>동료</td>
+<td>카드 패럴랙스·전환</td>
+<td>세 동료. 지휘·외과·미디어.</td>
+</tr>
+<tr>
+<td><strong>S3</strong></td>
+<td>System Map</td>
+<td>신뢰</td>
+<td>노드 따라 패닝</td>
+<td>폰에서 세상으로 흐르는 맵.</td>
+</tr>
+<tr>
+<td><strong>S4</strong></td>
+<td>Seven Centers</td>
+<td>리듬</td>
+<td>센터 링 순회</td>
+<td>일곱 워크센터. 공장이 돈다.</td>
+</tr>
+<tr>
+<td><strong>S5</strong></td>
+<td>Funnel + Cost</td>
+<td>상승</td>
+<td>위로 슬라이드·밝아짐</td>
+<td>웹진에서 독립까지. 비용은 거의 제로.</td>
+</tr>
+<tr>
+<td><strong>S6</strong></td>
+<td>Constitution</td>
+<td>여운</td>
+<td>홀드 후 살짝 pull-out</td>
+<td>핸드오프가 곧 성공. 계정은 누나 명의.</td>
+</tr>
+</tbody>
+</table>
+<p>룩 앵커: dark editorial webzine · gold accent · cinematic UI · 9:16 Shorts.</p>
+<hr>
+<h2 id="4-cli">4. CLI 자동화 파이프 (이게 테스트 본체)</h2>
+<pre><code>[1] Scout     랜딩 파싱 → shot_bible.json (주제·카피·감정)
+[2] Keyframe  image_gen / image_edit × 6  (9:16, 룩 고정)
+[3] Animate   image_to_video × 6  (duration=10, 샷별 모션 프롬프트)
+[4] Dub       Grok Voice(또는 차선) × 6  → 10s 맞춤(apad/atempo)
+[5] Mix shot  ffmpeg: video + dub per shot
+[6] Concat    ffmpeg concat demuxer -c copy
+[7] BGM       yt-dlp Boss음원 → volume=0.10 amix → final
+[8] Ship      out/landing6/landing6_final.mp4 → TG
+</code></pre>
+<h3 id="41">4.1 핵심 명령 패턴</h3>
+<pre><code class="language-text"># 샷 영상 (Grok 도구)
+image_gen(prompt=키프레임, aspect_ratio=&quot;9:16&quot;)
+image_to_video(image=키프레임, prompt=모션 1문장, duration=10)
+
+# 합성 (터미널)
+ffmpeg -i shot.mp4 -i dub.m4a -map 0:v -map 1:a -c:v copy -c:a aac -shortest shot_dub.mp4
+ffmpeg -f concat -safe 0 -i list.txt -c copy body.mp4
+ffmpeg -i body.mp4 -i bgm.m4a -filter_complex &quot;[1:a]volume=0.10[bg];[0:a][bg]amix=...&quot; final.mp4
+</code></pre>
+<h3 id="42">4.2 산출 경로</h3>
+<pre><code>out/landing6/
+  shot_bible.json
+  kf_01.png … kf_06.png
+  s01.mp4 … s06.mp4          # Imagine 10s
+  dub_01.m4a … dub_06.m4a
+  s01_dub.mp4 … s06_dub.mp4
+  bgm_60.m4a
+  landing6_final.mp4
+</code></pre>
+<hr>
+<h2 id="5">5. 성우 정책</h2>
+<ol>
+<li><strong>1순위:</strong> Grok Voice MCP 성우 (Ara / Eve / Luna 등 · multilingual) — 보이스 목록 확인됨  </li>
+<li><strong>2순위:</strong> OpenAI <code>tts-1-hd</code> (<code>voice_engine.py</code> 이미 있음, 키 있을 때)  </li>
+<li><strong>3순위:</strong> edge-tts + broadcast humanize (<code>voice_engine.py</code>) — <strong>폴백일 뿐 본체 아님</strong></li>
+</ol>
+<p>대본은 감독(Grok)이 샷별로 씀. 성우 연출 지시(속도·무게·여운) 포함.</p>
+<hr>
+<h2 id="6">6. 품질 바 (파일럿 합격선)</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>바</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>비주얼</td>
+<td>캡처 슬라이드쇼 티 안 남. 샷마다 의도된 모션</td>
+</tr>
+<tr>
+<td>일관성</td>
+<td>골드·다크 룩 6샷 유지 (키프레임 레퍼런스 체인)</td>
+</tr>
+<tr>
+<td>더빙</td>
+<td>말 또렷, BGM에 안 먹힘</td>
+</tr>
+<tr>
+<td>BGM</td>
+<td>Boss 음원 인지 가능, volume≤0.12</td>
+</tr>
+<tr>
+<td>길이</td>
+<td>60s ±1s · 9:16</td>
+</tr>
+<tr>
+<td>목적</td>
+<td><strong>CLI에서 Grok 영상 자동화 파이프 동작 증명</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="7">7. 일정</h2>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>✅</td>
+<td>랜딩 파싱 · 계획 v2 정정</td>
+</tr>
+<tr>
+<td>다음</td>
+<td>shot_bible.json + 키프레임 6</td>
+</tr>
+<tr>
+<td>다음</td>
+<td>image_to_video × 6</td>
+</tr>
+<tr>
+<td>다음</td>
+<td>더빙 × 6 + BGM amix</td>
+</tr>
+<tr>
+<td>다음</td>
+<td>final → TG</td>
+</tr>
+</tbody>
+</table>
+<p><strong>GO 신호:</strong> Boss “찍어” / “만들어” → 즉시 Phase 키프레임부터 실행.</p>
+<hr>
+<h2 id="8">8. 결론</h2>
+<ul>
+<li>Grok 구독 가치 = <strong>영상 생성 + 연출 + 더빙 지휘</strong>, 문서 변명 아님.  </li>
+<li>웹페이지는 <strong>감독이 읽는 대본·룩북</strong>.  </li>
+<li>proot는 <strong>합성·자동화 공장</strong>.  </li>
+<li>이 파일럿 = 10초×6 이어붙이기 <strong>실전 테스트</strong>.</li>
+</ul>
+<p>— _Grok · v2 정정</p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="60-director-pro-v8-wish_Grok.html">
+          <span class="dir">Previous</span>
+          <span class="title">Director PRO v8 — 프로급 소원 풀이 (_Grok)</span>
+        </a>
+    <a class="next" href="61-session-deepseek-cc-2026-08-02_Grok.html">
+          <span class="dir">Next</span>
+          <span class="title">61 session deepseek cc 2026 08 02 Grok</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

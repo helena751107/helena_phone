@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="🏠 누나 PC — 최종 (WSL 없음, Windows Native) — Boss 2026-08-05 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>🏠 누나 PC — 최종 (WSL 없음, Windows Native) — Boss 2026-08-05 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>🏠 누나 PC — 최종 (WSL 없음, Windows Native) — Boss 2026-08-05</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>🏠 누나 PC — 최종 (WSL 없음, Windows Native) — Boss 2026-08-05</h1>
+    
+    <div class="wz-meta">
+      <span>Source · _notebook/40-pc-wsl-setup_Boss.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#wsl-windows">결정: WSL 포기, Windows만</a></li>
+<li><a href="#pc">PC 역할: 연결 허브</a></li>
+<li><a href="#actions">무거운 건 전부 Actions로</a></li>
+<li><a href="#powershell-4">설치 (PowerShell 관리자, 딱 4줄)</a></li>
+<li><a href="#phone-pc">Phone → PC 연결</a></li>
+<li><a href="#_1">전체 아키텍처 최종</a></li>
+<li><a href="#pc_1">이 PC가 못 하는 것 (인정)</a></li>
+<li><a href="#pc_2">이 PC가 하는 것</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <h2 id="wsl-windows">결정: WSL 포기, Windows만</h2>
+<p>Celeron 3855U + 4GB. WSL2는 RAM 부족으로 불가.<br>
+<strong>Windows Native 앱 4개만 깐다.</strong> 연결 허브 + 빌드 캐시 용도.</p>
+<h2 id="pc">PC 역할: 연결 허브</h2>
+<pre><code>Celeron PC (Windows 10, WSL X)
+├── Tailscale       → VPN (Phone ↔ PC ↔ 어디서나)
+├── OpenSSH Server  → Phone에서 PC 원격 제어
+├── ADB             → USB/WiFi로 폰 디버깅 (상시 연결)
+├── Git             → 레포 싱크, 빌드 캐시 보관
+└── 끝.
+</code></pre>
+<p>RAM 사용: Windows 2GB + 앱들 500MB = 2.5GB. <strong>남는 거 1.5GB.</strong></p>
+<h2 id="actions">무거운 건 전부 Actions로</h2>
+<table>
+<thead>
+<tr>
+<th>작업</th>
+<th>어디서</th>
+<th>비용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>APK 빌드</td>
+<td>GitHub Actions (7GB)</td>
+<td>0원</td>
+</tr>
+<tr>
+<td>오디오 렌더링</td>
+<td>GitHub Actions</td>
+<td>0원</td>
+</tr>
+<tr>
+<td>CAD</td>
+<td>GitHub Actions</td>
+<td>0원</td>
+</tr>
+<tr>
+<td>AI 코딩·기획</td>
+<td>S21 + DeepSeek</td>
+<td>0원</td>
+</tr>
+<tr>
+<td>GPU·영상</td>
+<td>Grok + RunPod</td>
+<td>있음</td>
+</tr>
+</tbody>
+</table>
+<h2 id="powershell-4">설치 (PowerShell 관리자, 딱 4줄)</h2>
+<pre><code class="language-powershell"># 1. Tailscale
+winget install tailscale.tailscale
+tailscale up
+
+# 2. SSH Server
+Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+Start-Service sshd
+Set-Service -Name sshd -StartupType 'Automatic'
+
+# 3. ADB
+winget install Google.PlatformTools
+
+# 4. Git
+winget install Git.Git
+
+# 확인
+tailscale ip -4
+</code></pre>
+<h2 id="phone-pc">Phone → PC 연결</h2>
+<pre><code class="language-bash"># Tailscale IP 확인 후
+ssh [사용자명]@100.x.x.x
+# 붙으면 PowerShell/CMD
+adb devices   # 폰 디버깅
+</code></pre>
+<hr>
+<h2 id="_1">전체 아키텍처 최종</h2>
+<pre><code>┌──────────────┐   ┌─────────────────┐   ┌──────────────────┐
+│   S21 Phone   │   │  Celeron PC      │   │  GitHub Actions   │
+│   (메인)      │   │  (연결 허브)     │   │  (CPU 공장)       │
+├──────────────┤   ├─────────────────┤   ├──────────────────┤
+│ Claude Code  │◄──│ ADB·디버깅      │   │ APK 빌드 (7GB)    │
+│ DeepSeek API │   │ Tailscale       │   │ 오디오 렌더링     │
+│ AI·센서·이동 │   │ SSH·Git·캐시    │   │ CAD·FFmpeg       │
+│              │   │                 │   │ 공짜 무제한       │
+└──────────────┘   └─────────────────┘   └──────────────────┘
+      ↑                   ↑                      ↑
+  Exynos 8GB          Celeron 4GB          2코어 7GB
+  항상 주머니          책상 고정              휘발성
+</code></pre>
+<h2 id="pc_1">이 PC가 못 하는 것 (인정)</h2>
+<ul>
+<li>Docker → 필요 없음 (Actions로 충분)</li>
+<li>WSL2 → RAM 부족으로 불가</li>
+<li>GPU → Grok + RunPod</li>
+<li>무거운 빌드 → Actions가 함</li>
+</ul>
+<h2 id="pc_2">이 PC가 하는 것</h2>
+<ul>
+<li><strong>늘 켜져 있음</strong> → ADB로 폰 상시 연결</li>
+<li><strong>공인 IP 없이 접근</strong> → Tailscale</li>
+<li><strong>Git 캐시</strong> → Gradle·Flutter SDK 매번 다운 안 함</li>
+<li><strong>원격 터미널</strong> → Phone에서 SSH로 PC 제어</li>
+</ul>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="40-definitive-dev-whitepaper.html">
+          <span class="dir">Previous</span>
+          <span class="title">S21 Phone — 개발 백서 (완결판)</span>
+        </a>
+    <a class="next" href="41-github-free-maxout_Boss.html">
+          <span class="dir">Next</span>
+          <span class="title">41 github free maxout Boss</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

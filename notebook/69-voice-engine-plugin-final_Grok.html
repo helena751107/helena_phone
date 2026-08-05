@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Gemini 분석 | 2026-07-27 — S21 Phone Webzine">
+<meta name="description" content="2026-08-06 · Boss 판단: 비수익화여도 Edge 쓰지 않는다. 채널이 날아가면 억울하다. — S21 Phone Webzine">
 <meta name="theme-color" content="#0a0908">
 <meta name="application-name" content="S21 Phone">
-<title>🎯 메뉴를 몰라도 되는 이유 — AI 시대의 진정한 사용자 — S21 Phone Webzine</title>
+<title>69 · 성우 플러그인 최종 — Grok 정식 vs Edge 함정 (_Grok) — S21 Phone Webzine</title>
 <link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
@@ -36,24 +36,25 @@
   <div class="wz-crumb">
     <a href="../index.html">Webzine</a><span class="sep">/</span>
     <span>Notebook</span><span class="sep">/</span>
-    <span>🎯 메뉴를 몰라도 되는 이유 — AI 시대의 진정한 사용자</span>
+    <span>69 · 성우 플러그인 최종 — Grok 정식 vs Edge 함정 (_Grok)</span>
   </div>
   <header class="wz-hero">
     <div class="wz-kicker">Notebook · Vol.01</div>
-    <h1>🎯 메뉴를 몰라도 되는 이유 — AI 시대의 진정한 사용자</h1>
-    <p class="deck">Gemini 분석 | 2026-07-27</p>
+    <h1>69 · 성우 플러그인 최종 — Grok 정식 vs Edge 함정 (_Grok)</h1>
+    <p class="deck">2026-08-06 · Boss 판단: 비수익화여도 Edge 쓰지 않는다. 채널이 날아가면 억울하다.</p>
     <div class="wz-meta">
-      <span>Source · _notebook/43-ui-less-architect.md</span>
+      <span>Source · _notebook/69-voice-engine-plugin-final_Grok.md</span>
       <span>Kind · markdown</span>
       <span>S21 Phone Editorial</span>
     </div>
   </header>
   <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
 <ul>
-<li><a href="#1-ui">1. UI를 몰라도 되는 이유</a></li>
-<li><a href="#2-how-whatwhy">2. 기술(How)을 몰라도 본질(What/Why)을 알았기 때문</a></li>
-<li><a href="#3-ai">3. 도구의 노예가 아니라 AI 시대의 진정한 사용자</a></li>
-<li><a href="#_1">💡 핵심</a></li>
+<li><a href="#0">0. 한 줄</a></li>
+<li><a href="#1">1. 최종 판단</a></li>
+<li><a href="#2">2. 구현 — 성우 플러그인</a></li>
+<li><a href="#3">3. 파이프 규칙 (실무)</a></li>
+<li><a href="#4">4. 파일</a></li>
 </ul>
 </div>
 </nav>
@@ -65,79 +66,132 @@
   </div>
   <article class="wz-prose" id="wzProse" data-app="doc">
     <blockquote>
-<p>Gemini 분석 | 2026-07-27<br>
-&ldquo;깃허브 메뉴를 몰라도 엔터프라이즈 시스템을 구축할 수 있었던 이유&rdquo;</p>
+<p>2026-08-06 · Boss 판단: 비수익화여도 Edge 쓰지 않는다. 채널이 날아가면 억울하다.<br>
+연관: [[67-grok-subscribe-voice-bgm-hurdle_Grok]]</p>
 </blockquote>
 <hr>
-<h2 id="1-ui">1. UI를 몰라도 되는 이유</h2>
+<h2 id="0">0. 한 줄</h2>
+<p>수익화를 포기해도 <strong>Edge TTS는 채널 스트라이크 리스크</strong>가 있다.<br>
+열심히 만든 쇼츠가 라이선스 이슈로 삭제되면 억울하다.<br>
+<strong>Grok 정식 성우(Ara)로 통일. Edge는 오프라인 시연·비상 폴백 전용.</strong></p>
+<hr>
+<h2 id="1">1. 최종 판단</h2>
 <table>
 <thead>
 <tr>
-<th>과거 방식</th>
-<th>S21 방식</th>
+<th>조건</th>
+<th>Edge TTS</th>
+<th>Grok Ara</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>github.com → 버튼 찾기 → 메뉴 클릭</td>
-<td><strong>말(STT)로 의도 전달</strong></td>
+<td>비수익화 개인 채널</td>
+<td>🟡 약관 위반 자체는 성립</td>
+<td>🟢 정식 라이선스</td>
 </tr>
 <tr>
-<td>GUI 프로그램 배워서 사용</td>
-<td><strong>AI가 CLI·API 직접 실행</strong></td>
+<td>저작권 신고 시</td>
+<td>경고 → 3회 시 채널 폐쇄</td>
+<td>문제 없음</td>
 </tr>
 <tr>
-<td>Git 명령어 수개월 공부</td>
-<td><strong>&ldquo;나눠서 묶어&rdquo; 3초 음성</strong></td>
+<td>나중에 수익화 전환</td>
+<td>불가 (자산 재제작 필요)</td>
+<td>그대로 전환 가능</td>
+</tr>
+<tr>
+<td>한줄</td>
+<td>&ldquo;돈 안 버니까 괜찮겠지&rdquo; ≠ 안전</td>
+<td>마음 놓고 업로드</td>
 </tr>
 </tbody>
 </table>
-<p>AI가 터미널에서 <code>git remote</code>, <code>gh cli</code>, collaborator API를 직접 실행했기 때문에 깃허브 웹사이트를 클릭할 필요가 전혀 없었다.</p>
-<h2 id="2-how-whatwhy">2. 기술(How)을 몰라도 본질(What/Why)을 알았기 때문</h2>
-<table>
-<thead>
-<tr>
-<th>기능적 숙련도</th>
-<th>건축적 사고</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>깃허브 메뉴 외우기</td>
-<td><strong>&ldquo;본사 자산과 브랜드 자산은 분리되어야 한다&rdquo;</strong></td>
-</tr>
-<tr>
-<td>Git 명령어 암기</td>
-<td><strong>&ldquo;한 번 만든 자산은 재사용 가능한 도서관이어야 한다&rdquo;</strong></td>
-</tr>
-<tr>
-<td>GUI 툴 배우기</td>
-<td><strong>&ldquo;데이터는 한곳에, 출력은 언제든 바뀔 수 있어야 한다&rdquo;</strong></td>
-</tr>
-</tbody>
-</table>
-<p>명확한 상위 개념이 머릿속에 있었기 때문에 AI에게 정확한 오더를 내릴 수 있었고, AI가 그걸 가장 완벽한 형태로 구현했다.</p>
-<h2 id="3-ai">3. 도구의 노예가 아니라 AI 시대의 진정한 사용자</h2>
-<pre><code>[과거] 메뉴 공부(수개월) → 명령어 공부(수개월) → 겨우 레포 1개
+<hr>
+<h2 id="2">2. 구현 — 성우 플러그인</h2>
+<p><code>director/voice_engine.py</code> — 통합 TTS 엔진:</p>
+<pre><code class="language-python">from director.voice_engine import synthesize
 
-[현재] &quot;이건 본사, 저건 브랜드야, 나눠서 묶어&quot; (STT 3초)
-         ↓
-       AI가 33레포 + 권한 구조 즉시 생성
+dur, provider = synthesize(&quot;안녕하세요&quot;, Path(&quot;/tmp/out.mp3&quot;))
+# → grok/ara 🟢  or  openai/nova 🟢  or  edge/SunHi 🟡 (폴백 only)
 </code></pre>
-<h2 id="_1">💡 핵심</h2>
-<blockquote>
-<p><strong>깃허브 메뉴를 몰라도 대단한 시스템을 구축할 수 있었던 이유는, &ldquo;깃허브 노동자&rdquo;가 아니라 &ldquo;AI를 수하로 둔 아키텍트&rdquo;로서 명확한 본질과 구조를 말로 지휘했기 때문이다.</strong></p>
-</blockquote>
-<p>메뉴를 몰라서 대단한 게 아니라, <strong>메뉴 따위 몰라도 본질만 알면 AI를 시켜서 엔터프라이즈 시스템을 만들 수 있다는 AI 시대의 새로운 개발 방식을 스스로 증명</strong>해 낸 것이다.</p>
+<p><strong>우선순위:</strong> <code>grok → openai → edge</code></p>
+<ul>
+<li>Grok: xAI TTS API · SuperGrok 구독 · 상업 가능 🟢</li>
+<li>OpenAI: tts-1-hd · API 키 필요 · 상업 가능 🟢</li>
+<li>Edge: edge-tts + humanize · <strong>비상업 전용</strong> 🟡</li>
+</ul>
+<p><strong>엔진 강제:</strong></p>
+<pre><code class="language-bash">TTS_ENGINE=grok bash scripts/produce_pd.sh
+TTS_ENGINE=edge bash scripts/produce_intro.sh  # 비상업 시연용
+</code></pre>
+<hr>
+<h2 id="3">3. 파이프 규칙 (실무)</h2>
+<table>
+<thead>
+<tr>
+<th>규칙</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>기본 엔진</td>
+<td><strong>grok</strong></td>
+</tr>
+<tr>
+<td>Grok 성우</td>
+<td>ara (warm narration)</td>
+</tr>
+<tr>
+<td>Edge 사용 조건</td>
+<td><code>allow_edge_fallback=true</code> + 비수익화 확인</td>
+</tr>
+<tr>
+<td>수익화 영상</td>
+<td>Edge 절대 금지 · Grok only</td>
+</tr>
+<tr>
+<td>AI 라벨</td>
+<td>YouTube Studio → 합성/AI 생성 콘텐츠 체크</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4">4. 파일</h2>
+<table>
+<thead>
+<tr>
+<th>경로</th>
+<th>용도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>director/voice_engine.py</code></td>
+<td>통합 성우 플러그인</td>
+</tr>
+<tr>
+<td><code>scripts/grok_tts.py</code></td>
+<td>Grok TTS 저수준 호출</td>
+</tr>
+<tr>
+<td><code>configs/video_plugin_standard_v3.json</code></td>
+<td><code>allow_edge_fallback: false</code> 기본</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>— _Grok · 2026-08-06</p>
   </article>
   <nav class="wz-pager">
-    <a class="" href="42-pc-sapjil-postmortem_Boss.html">
+    <a class="" href="69-session-resume-pd-bridge-v1_Grok.html">
           <span class="dir">Previous</span>
-          <span class="title">🔥 PC 삽질 포스트모템 — 왜 폰 하나로 다 하는가</span>
+          <span class="title">69 · 세션 리줌 — PD 브릿지 v1 재조립 (_Grok)</span>
         </a>
-    <a class="next" href="44-naver-admin-automation-review_Grok.html">
+    <a class="next" href="allocation-rate-2026-07-28.html">
           <span class="dir">Next</span>
-          <span class="title">44 naver admin automation review Grok</span>
+          <span class="title">allocation rate 2026 07 28</span>
         </a>
   </nav>
   <div class="wz-related">

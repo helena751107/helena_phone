@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="🆓 GitHub 공짜 생태계 끝까지 쥐어짜기 — Boss 2026-08-05 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>🆓 GitHub 공짜 생태계 끝까지 쥐어짜기 — Boss 2026-08-05 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>🆓 GitHub 공짜 생태계 끝까지 쥐어짜기 — Boss 2026-08-05</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · Vol.01</div>
+    <h1>🆓 GitHub 공짜 생태계 끝까지 쥐어짜기 — Boss 2026-08-05</h1>
+    
+    <div class="wz-meta">
+      <span>Source · _notebook/41-github-free-maxout_Boss.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#pc">결정: PC 확장은 없다</a></li>
+<li><a href="#_1">대신 공짜로 돌릴 수 있는 것들</a><ul>
+<li><a href="#github-actions-2000-linux">GitHub Actions — 무료 2000분/월 Linux 러너</a></li>
+<li><a href="#github-pages">GitHub Pages — 공짜 무제한 정적 호스팅</a></li>
+<li><a href="#github-api-5000-reqhr">GitHub API — 공짜 5000 req/hr</a></li>
+</ul>
+</li>
+<li><a href="#_2">실행 로드맵</a><ul>
+<li><a href="#1-github-actions">1단계: GitHub Actions로 자동 빌드 파이프 (지금 당장)</a></li>
+<li><a href="#2-rss-helana_log-actions-cron">2단계: RSS → helana_log 자동 동기화 (Actions cron)</a></li>
+<li><a href="#3-json-pages">3단계: 상태 대시보드 (정적 JSON + Pages)</a></li>
+<li><a href="#4-pc-thin-client">4단계: PC = Thin Client (옵션, 정 필요하면)</a></li>
+</ul>
+</li>
+<li><a href="#_3">안 되는 것 (공짜 한계 인정)</a></li>
+<li><a href="#_4">현재 인프라 재평가</a></li>
+<li><a href="#_5">핵심 원칙</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <h2 id="pc">결정: PC 확장은 없다</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>S21 Phone</th>
+<th>누나 PC</th>
+<th>승자</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU</td>
+<td>Exynos 2100 8코어 2.9GHz</td>
+<td>Celeron 3855U 2코어 1.6GHz</td>
+<td><strong>폰</strong> (3-4배)</td>
+</tr>
+<tr>
+<td>RAM</td>
+<td>8GB LPDDR5</td>
+<td>4GB DDR3</td>
+<td><strong>폰</strong> (2배+속도)</td>
+</tr>
+<tr>
+<td>WSL2</td>
+<td>불필요 (이미 리눅스)</td>
+<td>4GB로 불가능</td>
+<td><strong>폰</strong></td>
+</tr>
+<tr>
+<td>이동성</td>
+<td>주머니</td>
+<td>책상</td>
+<td><strong>폰</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>결론: 폰이 메인 워크스테이션. PC는 필요 없음.</strong></p>
+<hr>
+<h2 id="_1">대신 공짜로 돌릴 수 있는 것들</h2>
+<h3 id="github-actions-2000-linux">GitHub Actions — 무료 2000분/월 Linux 러너</h3>
+<pre><code>┌─────────────────────────────────────────┐
+│          GitHub Actions (공짜)            │
+│                                          │
+│  ✓ cron 스케줄 (RSS 수집, 빌드)           │
+│  ✓ Markdown → HTML 자동 변환              │
+│  ✓ 링크 검사, 건강 체크                    │
+│  ✓ 멀티레포 동기화                         │
+│  ✓ TG 알림 발송                           │
+│  ✓ PR 자동화·레이블·이슈 관리              │
+│                                          │
+│  한도: 2000분/월, 6시간/실행               │
+│  현실: 이 프로젝트로는 절대 못 씀           │
+└─────────────────────────────────────────┘
+</code></pre>
+<h3 id="github-pages">GitHub Pages — 공짜 무제한 정적 호스팅</h3>
+<pre><code>이미 쓰는 것:
+  ✓ helena_phone 메인 (webzine)
+  ✓ helana_log (학습 로그)
+  ✓ helena-psycare (돌봄 허브)
+  ✓ helana-faith (신앙 허브)
+  ✓ helena-piano (연주 스튜디오)
+
+더 쥐어짤 것:
+  ✓ 모든 _notebook/*.md → HTML 자동 빌드 (Actions로)
+  ✓ RSS 피드 생성 → 다른 플랫폼 연동
+  ✓ JSON API 엔드포인트 (정적 .json 파일)
+  ✓ 검색 인덱스 (lunr.js 정적 검색)
+</code></pre>
+<h3 id="github-api-5000-reqhr">GitHub API — 공짜 5000 req/hr</h3>
+<pre><code>  ✓ 이슈·PR 자동화
+  ✓ 멀티레포 상태 대시보드
+  ✓ 커밋 통계·기여 그래프
+  ✓ Giscus 댓글 (이미 사용 중)
+</code></pre>
+<hr>
+<h2 id="_2">실행 로드맵</h2>
+<h3 id="1-github-actions">1단계: GitHub Actions로 자동 빌드 파이프 (지금 당장)</h3>
+<pre><code class="language-yaml"># .github/workflows/build-webzine.yml
+# push할 때마다 모든 MD → HTML 자동 변환
+# cron으로 매일 새벽에도 한 번
+</code></pre>
+<h3 id="2-rss-helana_log-actions-cron">2단계: RSS → helana_log 자동 동기화 (Actions cron)</h3>
+<pre><code class="language-yaml"># .github/workflows/rss-sync.yml
+# 매 6시간마다 티스토리 5채널 RSS → helana_log/기자/
+# 지금은 tistory_sync.sh 수동 실행 → Actions로 자동화
+</code></pre>
+<h3 id="3-json-pages">3단계: 상태 대시보드 (정적 JSON + Pages)</h3>
+<pre><code>모든 레포 상태 한눈에:
+  - 마지막 커밋
+  - Pages 배포 상태
+  - Actions 성공/실패
+  - RSS 동기화 상태
+</code></pre>
+<h3 id="4-pc-thin-client">4단계: PC = Thin Client (옵션, 정 필요하면)</h3>
+<pre><code>PC는 Tailscale + SSH만.
+폰이 모든 작업 수행.
+PC는 큰 화면 + 키보드로 폰에 SSH 접속.
+WSL 절대 금지. Python Native도 굳이 필요 없음.
+</code></pre>
+<hr>
+<h2 id="_3">안 되는 것 (공짜 한계 인정)</h2>
+<table>
+<thead>
+<tr>
+<th>안 되는 것</th>
+<th>이유</th>
+<th>대안</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>백엔드 서버</td>
+<td>Pages = 정적 only</td>
+<td>Firebase, Supabase 무료 티어</td>
+</tr>
+<tr>
+<td>데이터베이스</td>
+<td>同上</td>
+<td>JSON 파일 + GitHub API</td>
+</tr>
+<tr>
+<td>사용자 인증</td>
+<td>同上</td>
+<td>Giscus OAuth, Firebase Auth</td>
+</tr>
+<tr>
+<td>실시간 처리</td>
+<td>Actions 최소 5분 간격</td>
+<td>폰에서 직접</td>
+</tr>
+<tr>
+<td>대용량 저장</td>
+<td>1GB 권장</td>
+<td>YouTube, Tistory로 분산</td>
+</tr>
+<tr>
+<td>GPU 작업</td>
+<td>당연히</td>
+<td>폰이 더 나음 (ISP)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="_4">현재 인프라 재평가</h2>
+<pre><code>✅ 공짜로 잘 돌아가는 것:
+  GitHub Pages 5종 — 무제한 정적 호스팅
+  Telegram Bot — 무제한 메시지
+  Discord — 무제한 커뮤니티
+  YouTube — 무제한 동영상
+  Tistory — 무제한 블로그
+  Giscus — 무료 댓글
+  WidgetBot — 무료 디스코드 임베드
+
+⏳ Actions로 자동화할 것:
+  MD → HTML 빌드
+  RSS 동기화
+  상태 체크
+
+❌ 포기:
+  PC WSL2 확장
+  로컬 서버
+  Docker
+</code></pre>
+<hr>
+<h2 id="_5">핵심 원칙</h2>
+<ol>
+<li><strong>폰이 메인 컴퓨터다.</strong> PC보다 3-4배 빠르다.</li>
+<li><strong>GitHub가 유일한 서버다.</strong> Actions + Pages = 공짜 풀스택.</li>
+<li><strong>정적 파일이 데이터베이스다.</strong> JSON + Markdown = 모든 것.</li>
+<li><strong>PC는 필요할 때만 Thin Client.</strong> Tailscale + SSH로 폰에 붙는다.</li>
+</ol>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="40-pc-wsl-setup_Boss.html">
+          <span class="dir">Previous</span>
+          <span class="title">🏠 누나 PC — 최종 (WSL 없음, Windows Native) — Boss 2026-08-05</span>
+        </a>
+    <a class="next" href="41-naver-blog-intro-final.html">
+          <span class="dir">Next</span>
+          <span class="title">41 naver blog intro final</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine Vol.01</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

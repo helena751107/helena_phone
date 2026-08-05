@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Gemini 분석 | 2026-07-27 — S21 Phone Webzine">
+<meta name="description" content="Boss 2026-08-05 — S21 Phone Webzine">
 <meta name="theme-color" content="#0a0908">
 <meta name="application-name" content="S21 Phone">
-<title>🎯 메뉴를 몰라도 되는 이유 — AI 시대의 진정한 사용자 — S21 Phone Webzine</title>
+<title>66 · Grok 역할 정정 — PD · 성우 · 브릿지 (페이지 재래스터 금지) (_Grok) — S21 Phone Webzine</title>
 <link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
@@ -36,24 +36,26 @@
   <div class="wz-crumb">
     <a href="../index.html">Webzine</a><span class="sep">/</span>
     <span>Notebook</span><span class="sep">/</span>
-    <span>🎯 메뉴를 몰라도 되는 이유 — AI 시대의 진정한 사용자</span>
+    <span>66 · Grok 역할 정정 — PD · 성우 · 브릿지 (페이지 재래스터 금지) (_Grok)</span>
   </div>
   <header class="wz-hero">
     <div class="wz-kicker">Notebook · Vol.01</div>
-    <h1>🎯 메뉴를 몰라도 되는 이유 — AI 시대의 진정한 사용자</h1>
-    <p class="deck">Gemini 분석 | 2026-07-27</p>
+    <h1>66 · Grok 역할 정정 — PD · 성우 · 브릿지 (페이지 재래스터 금지) (_Grok)</h1>
+    <p class="deck">Boss 2026-08-05</p>
     <div class="wz-meta">
-      <span>Source · _notebook/43-ui-less-architect.md</span>
+      <span>Source · _notebook/66-grok-pd-voice-bridge-not-page-raster_Grok.md</span>
       <span>Kind · markdown</span>
       <span>S21 Phone Editorial</span>
     </div>
   </header>
   <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
 <ul>
-<li><a href="#1-ui">1. UI를 몰라도 되는 이유</a></li>
-<li><a href="#2-how-whatwhy">2. 기술(How)을 몰라도 본질(What/Why)을 알았기 때문</a></li>
-<li><a href="#3-ai">3. 도구의 노예가 아니라 AI 시대의 진정한 사용자</a></li>
-<li><a href="#_1">💡 핵심</a></li>
+<li><a href="#1">1. 틀린 사용 (지금까지 자주 한 것)</a></li>
+<li><a href="#2-v3">2. 맞는 역할 분담 (정본 v3)</a></li>
+<li><a href="#3">3. 런타임 비중 가이드</a></li>
+<li><a href="#4">4. 토큰 우선순위</a></li>
+<li><a href="#5">5. 성공 기준 (한 줄)</a></li>
+<li><a href="#6">6. 엔트리</a></li>
 </ul>
 </div>
 </nav>
@@ -65,79 +67,106 @@
   </div>
   <article class="wz-prose" id="wzProse" data-app="doc">
     <blockquote>
-<p>Gemini 분석 | 2026-07-27<br>
-&ldquo;깃허브 메뉴를 몰라도 엔터프라이즈 시스템을 구축할 수 있었던 이유&rdquo;</p>
+<p>Boss 2026-08-05<br>
+「예쁜 웹페이지 이미 있다. 공짜 프로세스보다 못하면 실패.<br>
+Grok은 이어 붙일 때 브릿지 이미지/영상 + 성우 + PD에 토큰 써라. 조립은 FFmpeg.」</p>
 </blockquote>
 <hr>
-<h2 id="1-ui">1. UI를 몰라도 되는 이유</h2>
-<table>
-<thead>
-<tr>
-<th>과거 방식</th>
-<th>S21 방식</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>github.com → 버튼 찾기 → 메뉴 클릭</td>
-<td><strong>말(STT)로 의도 전달</strong></td>
-</tr>
-<tr>
-<td>GUI 프로그램 배워서 사용</td>
-<td><strong>AI가 CLI·API 직접 실행</strong></td>
-</tr>
-<tr>
-<td>Git 명령어 수개월 공부</td>
-<td><strong>&ldquo;나눠서 묶어&rdquo; 3초 음성</strong></td>
-</tr>
-</tbody>
-</table>
-<p>AI가 터미널에서 <code>git remote</code>, <code>gh cli</code>, collaborator API를 직접 실행했기 때문에 깃허브 웹사이트를 클릭할 필요가 전혀 없었다.</p>
-<h2 id="2-how-whatwhy">2. 기술(How)을 몰라도 본질(What/Why)을 알았기 때문</h2>
-<table>
-<thead>
-<tr>
-<th>기능적 숙련도</th>
-<th>건축적 사고</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>깃허브 메뉴 외우기</td>
-<td><strong>&ldquo;본사 자산과 브랜드 자산은 분리되어야 한다&rdquo;</strong></td>
-</tr>
-<tr>
-<td>Git 명령어 암기</td>
-<td><strong>&ldquo;한 번 만든 자산은 재사용 가능한 도서관이어야 한다&rdquo;</strong></td>
-</tr>
-<tr>
-<td>GUI 툴 배우기</td>
-<td><strong>&ldquo;데이터는 한곳에, 출력은 언제든 바뀔 수 있어야 한다&rdquo;</strong></td>
-</tr>
-</tbody>
-</table>
-<p>명확한 상위 개념이 머릿속에 있었기 때문에 AI에게 정확한 오더를 내릴 수 있었고, AI가 그걸 가장 완벽한 형태로 구현했다.</p>
-<h2 id="3-ai">3. 도구의 노예가 아니라 AI 시대의 진정한 사용자</h2>
-<pre><code>[과거] 메뉴 공부(수개월) → 명령어 공부(수개월) → 겨우 레포 1개
-
-[현재] &quot;이건 본사, 저건 브랜드야, 나눠서 묶어&quot; (STT 3초)
-         ↓
-       AI가 33레포 + 권한 구조 즉시 생성
+<h2 id="1">1. 틀린 사용 (지금까지 자주 한 것)</h2>
+<pre><code>웹페이지 있음
+  → Grok이 페이지를 다시 그림 / 전 구간 I2V
+  → 공짜 Playwright 슬라이드보다 못하거나 재생 깨짐
+  → 토큰 낭비
 </code></pre>
-<h2 id="_1">💡 핵심</h2>
+<p><strong>결과:</strong> 구독 가치가 안 나오고, free pipe보다 못한 영상.</p>
+<hr>
+<h2 id="2-v3">2. 맞는 역할 분담 (정본 v3)</h2>
+<table>
+<thead>
+<tr>
+<th>담당</th>
+<th>도구</th>
+<th>하는 일</th>
+<th>안 하는 일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>공장 (공짜)</strong></td>
+<td>Playwright · produce_intro · episode · <strong>FFmpeg</strong></td>
+<td>페이지 캡처, 클립, concat, xfade, BGM, 자막, TG</td>
+<td>Grok 호출</td>
+</tr>
+<tr>
+<td><strong>PD (Grok)</strong></td>
+<td>대화 · shot_bible</td>
+<td>스토리·감정·순서·대본·어느 컷이 브릿지인지</td>
+<td>픽셀 조립</td>
+</tr>
+<tr>
+<td><strong>성우 (Grok)</strong></td>
+<td><code>grok_tts.py</code> / xAI TTS</td>
+<td>전 구간 나레이션</td>
+<td>edge 기본 사용</td>
+</tr>
+<tr>
+<td><strong>브릿지 (Grok)</strong></td>
+<td>image_gen / I2V <strong>소수</strong></td>
+<td>오프닝·전환·엔딩 등 <strong>이어 붙일 때만</strong></td>
+<td>전 편 웹 재연출</td>
+</tr>
+<tr>
+<td><strong>조립</strong></td>
+<td><strong>FFmpeg only</strong></td>
+<td>타임라인 합성</td>
+<td>토큰</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3">3. 런타임 비중 가이드</h2>
+<pre><code>[ 라이브 페이지 캡처 ≥ 70% ]  +  [ Grok 브릿지 0~30% ]  +  [ Grok VO 100% ]
+              ↑ FFmpeg 조립
+</code></pre>
+<ul>
+<li>본편 비주얼 본체 = <strong>이미 만든 웹페이지</strong>  </li>
+<li>Grok 비주얼 = <strong>가교</strong> (없으면 안 되는 자리만)</li>
+</ul>
+<hr>
+<h2 id="4">4. 토큰 우선순위</h2>
+<ol>
+<li>PD 샷 바이블 + 대본  </li>
+<li>Grok TTS 전 구간  </li>
+<li>브릿지 키프레임/짧은 I2V (필요할 때만)  </li>
+<li>프레임 QA  </li>
+<li>❌ 페이지 전체 재이미지화 금지</li>
+</ol>
+<hr>
+<h2 id="5">5. 성공 기준 (한 줄)</h2>
 <blockquote>
-<p><strong>깃허브 메뉴를 몰라도 대단한 시스템을 구축할 수 있었던 이유는, &ldquo;깃허브 노동자&rdquo;가 아니라 &ldquo;AI를 수하로 둔 아키텍트&rdquo;로서 명확한 본질과 구조를 말로 지휘했기 때문이다.</strong></p>
+<p><strong>같은 URL에 대해 free produce_intro 결과보다 못하면 SHIP 금지.</strong><br>
+Grok이 붙는 가치 = <strong>성우 품질 + PD 구성 + 브릿지 감동</strong>. 페이지 예쁨은 페이지가 이미 담당.</p>
 </blockquote>
-<p>메뉴를 몰라서 대단한 게 아니라, <strong>메뉴 따위 몰라도 본질만 알면 AI를 시켜서 엔터프라이즈 시스템을 만들 수 있다는 AI 시대의 새로운 개발 방식을 스스로 증명</strong>해 낸 것이다.</p>
+<hr>
+<h2 id="6">6. 엔트리</h2>
+<pre><code class="language-bash"># 페이지 본체 (공짜 공장) + Grok 성우
+TTS_ENGINE=grok bash scripts/produce_intro.sh
+
+# 플러그인: manifest에 live stills 위주, bridge만 Grok 경로
+bash scripts/produce_plugin.sh out/plugins/&lt;id&gt;
+</code></pre>
+<p>스펙: <code>configs/video_plugin_standard_v3.json</code><br>
+인코딩: yuv420p High (65번 문서)</p>
+<p>— _Grok · 역할 정정</p>
   </article>
   <nav class="wz-pager">
-    <a class="" href="42-pc-sapjil-postmortem_Boss.html">
+    <a class="" href="65-video-playable-encode-fix_Grok.html">
           <span class="dir">Previous</span>
-          <span class="title">🔥 PC 삽질 포스트모템 — 왜 폰 하나로 다 하는가</span>
+          <span class="title">65 · 재생 안 됨 인코딩 버그 수정 (_Grok)</span>
         </a>
-    <a class="next" href="44-naver-admin-automation-review_Grok.html">
+    <a class="next" href="67-grok-subscribe-voice-bgm-hurdle_Grok.html">
           <span class="dir">Next</span>
-          <span class="title">44 naver admin automation review Grok</span>
+          <span class="title">67 grok subscribe voice bgm hurdle Grok</span>
         </a>
   </nav>
   <div class="wz-related">

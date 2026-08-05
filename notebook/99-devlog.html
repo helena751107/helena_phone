@@ -50,16 +50,41 @@
   </header>
   <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
 <ul>
+<li><a href="#_boss">🏭 시리즈 제작 표준 파이프 확정 (_Boss)</a></li>
+<li><a href="#e01-_boss-_claude">🎬 E01 제작 완료 — 스마트폰에 리눅스를? (_Boss + _Claude)</a></li>
+<li><a href="#youtube-5-_boss">📚 YouTube 교재 — 5챕터 플레이리스트 구조 (_Boss)</a></li>
+<li><a href="#youtube-_boss">🎬 YouTube 시리즈 — 제작 계획서 (_Boss)</a><ul>
+<li><a href="#_1">제작 파이프 (기보유)</a></li>
+<li><a href="#_2">제작 가능 편수</a></li>
+<li><a href="#_3">콘텐츠 소스 맵</a></li>
+<li><a href="#_4">제작 순서 (우선순위)</a></li>
+<li><a href="#_5">필요 리소스</a></li>
+</ul>
+</li>
+<li><a href="#youtube-helena-phone-5-_boss">🎬 YouTube 시리즈 기획 — Helena Phone 기술 진화 5시즌 (_Boss)</a><ul>
+<li><a href="#1-pc">시즌 1: &ldquo;PC 없는 개발자&rdquo; (기반 구축)</a></li>
+<li><a href="#2">시즌 2: &ldquo;콘텐츠 공장&rdquo; (자동화 인프라)</a></li>
+<li><a href="#3-director">시즌 3: &ldquo;영상 자동화 전쟁&rdquo; (Director 파이프)</a></li>
+<li><a href="#4">시즌 4: &ldquo;임계점&rdquo; (한계 인식과 전환)</a></li>
+<li><a href="#5">시즌 5: &ldquo;폰이 서버다&rdquo; (완전 자동화)</a></li>
+</ul>
+</li>
 <li><a href="#day-2026-08-03">DAY — 2026-08-03</a><ul>
+<li><a href="#proot-android-tg-_boss-_claude">🔓 proot ↔ Android 저장소 다리 개통 — 사진→영상→TG 파이프 최초 성공 (_Boss + _Claude)</a></li>
+<li><a href="#proot-termux-_boss">📋 proot ↔ Termux 다리로 풀리는 팬딩 이슈들 (_Boss)</a></li>
+<li><a href="#auto_image_pipesh-tg-_boss-_claude">🤖 auto_image_pipe.sh — 사진→영상→TG 완전 자동화 (_Boss + _Claude)</a></li>
+<li><a href="#proottermux-_boss">💾 proot/Termux 데이터 생존성 분석 (_Boss)</a></li>
+<li><a href="#boss-_boss">🗣️ 음성 명령 아키텍처 — Boss 말 한마디로 전부 (_Boss)</a></li>
+<li><a href="#2026-08-03-_boss-_claude">📋 2026-08-03 세션 총정리 (_Boss + _Claude)</a></li>
 <li><a href="#proot-ubuntu-kst-_grok">🕐 proot Ubuntu 시계 → 한국 시간(KST) 고정 (_Grok)</a></li>
 </ul>
 </li>
 <li><a href="#day-2026-08-02">DAY — 2026-08-02</a><ul>
 <li><a href="#claude-codedeepseek-_grok">🧯 Claude Code(DeepSeek) 세션 먹통 복구 (_Grok)</a></li>
 <li><a href="#-ai-boss-3-_boss">🏗️ 인간-AI 협업 아키텍처 — Boss+문서+에이전트 3층 (_Boss)</a></li>
-<li><a href="#_boss">🧪 구형 폰 가능성 실험 — 프로젝트의 진짜 의미 (_Boss)</a></li>
+<li><a href="#_boss_1">🧪 구형 폰 가능성 실험 — 프로젝트의 진짜 의미 (_Boss)</a></li>
 <li><a href="#v2-v3-_boss">⚡ 임계점 선언 — V2 천장 도달, V3는 폰 밖에서 (_Boss)</a></li>
-<li><a href="#_boss_1">🖼️ 이미지 생성 전략 — 공짜 티어 오케스트레이션 (_Boss)</a></li>
+<li><a href="#_boss_2">🖼️ 이미지 생성 전략 — 공짜 티어 오케스트레이션 (_Boss)</a></li>
 <li><a href="#llm-grok-1-_boss">💰 LLM 비용 트랙 재정의 — Grok은 옵션, 기본은 1만원 (_Boss)</a></li>
 <li><a href="#youtube-cdn-_boss">🎬 YouTube = 공짜 CDN 전략 (_Boss)</a></li>
 <li><a href="#samsung-gallery-ffmpeg-_boss">📱 Samsung Gallery 자동화 — 불가, ffmpeg으로 대체 (_Boss)</a></li>
@@ -119,14 +144,14 @@
 <li><a href="#18">18. 작업 중단 판단 — 우선순위 재확인</a></li>
 </ul>
 </li>
-<li><a href="#_1">현재 인프라 전체 구성</a></li>
-<li><a href="#_2">남은 작업</a><ul>
+<li><a href="#_6">현재 인프라 전체 구성</a></li>
+<li><a href="#_7">남은 작업</a><ul>
 <li><a href="#20-playwright-5-2026-07-24">20. Playwright 전수 검사 — 5개 레포 눈으로 확인 (2026-07-24)</a></li>
 <li><a href="#21-dtslib1979-2026-07-24">21. dtslib1979 선물 패키지 도착 + 분석 (2026-07-24)</a></li>
 <li><a href="#22-vs-ai-2026-07-24">22. 속도 vs 판단 — AI 시대의 진짜 자산 (2026-07-24)</a></li>
 </ul>
 </li>
-<li><a href="#_3">비상 연락망</a><ul>
+<li><a href="#_8">비상 연락망</a><ul>
 <li><a href="#23-ai-playwright-2026-07-24">23. 중간평가 — AI 책임 재정렬 + Playwright 착수 + 데몬 설계 (2026-07-24)</a></li>
 <li><a href="#24-2026-07-24">24. 확장 로드맵 — 복지 아이템 + 바티칸, 거리 인지 (2026-07-24)</a></li>
 <li><a href="#25-cs-phd-2026-07-24">25. 강박사(CS PhD) 합류 — 판단 권한 이슈 (2026-07-24)</a></li>
@@ -223,7 +248,7 @@
 </ul>
 </li>
 <li><a href="#2026-07-28-helena-piano-bgm-studio-parksy-audio-_claude">2026-07-28 (화) — helena-piano BGM Studio 구축 + parksy-audio 전수조사 (_Claude)</a><ul>
-<li><a href="#_4">배경</a></li>
+<li><a href="#_9">배경</a></li>
 <li><a href="#parksy-audio">parksy-audio 냉장고 전수조사</a></li>
 <li><a href="#bgm-studio">BGM Studio 구현</a></li>
 <li><a href="#salamander-grand-piano">Salamander Grand Piano 추적</a></li>
@@ -245,6 +270,23 @@
 <li><a href="#101-helena-studio-6-_claude">101. Helena Studio 파이프라인 6종 완성 (_Claude)</a></li>
 <li><a href="#104-_claude">104. 커뮤니티 리서치 — &ldquo;너 같은 새끼 있냐&rdquo; (_Claude)</a></li>
 <li><a href="#105-_boss-_claude">105. 오늘의 최종 정리 — &ldquo;출판에서 방송까지&rdquo; (_Boss + _Claude)</a></li>
+<li><a href="#helena-phone-_boss">🏗️ Helena Phone 전체 아키텍처 최종 정리 (_Boss)</a></li>
+<li><a href="#pc-_boss">💀 PC 없는 콘텐츠 공장 — 난이도 평가 (_Boss)</a></li>
+<li><a href="#llm-_boss">📝 티스토리 LLM 데이터베이스 전략 (_Boss)</a></li>
+<li><a href="#_boss_3">📰 티스토리 새 역할 — 기자의 수첩 (_Boss)</a></li>
+<li><a href="#bossclaude-_boss">🔄 순환 파이프 — 기자(Boss)+편집자(Claude) 신문사 구조 (_Boss)</a></li>
+<li><a href="#rss-helana_log-_boss">📰 티스토리 RSS → helana_log 동기화 파이프 (_Boss)</a></li>
+<li><a href="#boss-5-_boss">📋 Boss 티스토리 5채널 등록 (_Boss)</a></li>
+<li><a href="#llm-_boss_1">📰 티스토리 전략 최종 — 공짜 LLM 대화의 박제·공유 파이프 (_Boss)</a></li>
+<li><a href="#pc-wsl-3-_boss-_claude-2026-08-05">🖥️ PC-WSL 3중 에이전트 셋업 설계 (_Boss, _Claude) — 2026-08-05</a></li>
+<li><a href="#pc-aider-_boss-_claude-2026-08-05">🔄 PC 부트스트랩 재설계 — Aider 선설치 → 전량 위임 (_Boss, _Claude) — 2026-08-05</a></li>
+<li><a href="#pc-_boss-_claude-2026-08-05">🖥️ 집PC 연결 웹페이지 제작 (_Boss, _Claude) — 2026-08-05</a></li>
+<li><a href="#pc-github-_boss-_claude-2026-08-05">🔄 PC 확장 포기 — GitHub 공짜 전략으로 전환 (_Boss, _Claude) — 2026-08-05</a></li>
+<li><a href="#_boss-_claude-2026-08-05">🔚 서버 논의 최종 — 당장 필요 없음 (_Boss, _Claude) — 2026-08-05</a></li>
+<li><a href="#cpu-helena-programming-actions-_boss-_claude-2026-08-05">🔧 CPU 파이프라인 — helena-programming에 Actions 클라우드 구축 (_Boss, _Claude) — 2026-08-05</a></li>
+<li><a href="#pc-wsl-windows-native-_boss-_claude-2026-08-05">✅ PC 최종 — WSL 포기, Windows Native 연결 허브 (_Boss, _Claude) — 2026-08-05</a></li>
+<li><a href="#bgm-_boss-_claude-2026-08-05">🎹 피아노 BGM 파이프라인 구축 (_Boss, _Claude) — 2026-08-05</a></li>
+<li><a href="#3-_boss-_claude-2026-08-06">🎬 만점 비디오 파이프라인 — 3차 업그레이드 (_Boss, _Claude) — 2026-08-06</a></li>
 </ul>
 </li>
 </ul>
@@ -257,7 +299,823 @@
     <button type="button" id="wzCopy" data-cursor>본문 복사</button>
   </div>
   <article class="wz-prose" id="wzProse" data-app="doc">
-    <h2 id="day-2026-08-03">DAY — 2026-08-03</h2>
+    <h3 id="_boss">🏭 시리즈 제작 표준 파이프 확정 (_Boss)</h3>
+<p><strong>원칙: 매번 달라지지 말 것. 모든 에피소드 동일 프로세스.</strong></p>
+<p><strong>표준 파이프:</strong> <code>scripts/episode_produce.sh &lt;에피소드&gt; &lt;URL&gt; &lt;제목&gt;</code></p>
+<p><strong>4단계 고정:</strong><br>
+1. Playwright 페이지 스크린샷 (4구간)<br>
+2. 페이지 h1/h2/p → TTS 대본 자동 추출 → edge-tts<br>
+3. ffmpeg 클립 인코딩 + concat (720p, CRF 28, ultrafast)<br>
+4. TG sendVideo 전송</p>
+<p><strong>페이지 표준:</strong> 각 에피소드 전용 페이지 필요 (notebook/series/e01~e24.html)<br>
+- 인터랙티브 요소 (data-click-target)<br>
+- 클릭 아코디언 (flow-step)<br>
+- S21 Phone 브랜드 스타일 (gold·teal·dark)</p>
+<p><strong>MCP화 계획:</strong> 추후 <code>episode-produce</code> MCP 도구로 등록 → Claude Code가 스위치 온 → 표준 파이프 실행 → 자동 종료. 서버 상시 대기 불필요.</p>
+<h3 id="e01-_boss-_claude">🎬 E01 제작 완료 — 스마트폰에 리눅스를? (_Boss + _Claude)</h3>
+<p><strong>최초 시리즈 영상 제작 성공.</strong></p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>파이프</td>
+<td><code>perfect_ship.py --url helena_phone --format shorts_1080 --subs --tts auto</code></td>
+</tr>
+<tr>
+<td>TTS</td>
+<td>edge-tts + humanize (b0_cover~b3_agents 4비트)</td>
+</tr>
+<tr>
+<td>전송</td>
+<td>TG message_id 177</td>
+</tr>
+<tr>
+<td>교훈</td>
+<td><code>head -N</code> = SIGPIPE 사망. CRF 17 → 폰에선 23~28 타협</td>
+</tr>
+</tbody>
+</table>
+<h2 id="youtube-5-_boss">📚 YouTube 교재 — 5챕터 플레이리스트 구조 (_Boss)</h2>
+<p><strong>각 챕터 = YouTube 플레이리스트 1개. 챕터 순차 제작·공개.</strong></p>
+<table>
+<thead>
+<tr>
+<th>챕터</th>
+<th>플레이리스트</th>
+<th>편수</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ch1</strong></td>
+<td>개발 환경 — PC 없는 코딩</td>
+<td>4편</td>
+<td>Termux·proot·AI 3종·GitHub Pages·헌법</td>
+</tr>
+<tr>
+<td><strong>Ch2</strong></td>
+<td>콘텐츠 인프라 — 자동화 공장</td>
+<td>4편</td>
+<td>md→html·건강검진·TG봇·에이전트 직함</td>
+</tr>
+<tr>
+<td><strong>Ch3</strong></td>
+<td>영상 파이프 — Director 전쟁</td>
+<td>6편</td>
+<td>v1→v8·Visual Proof·Vision QA·5막·perfect_ship</td>
+</tr>
+<tr>
+<td><strong>Ch4</strong></td>
+<td>임계점 — 한계 돌파</td>
+<td>5편</td>
+<td>V2 천장·NPU·Gallery·CDN·비용 트랙</td>
+</tr>
+<tr>
+<td><strong>Ch5</strong></td>
+<td>완성 — 폰이 서버다</td>
+<td>5편</td>
+<td>샌드박스 파괴·다리·자동화·음성 명령·회고</td>
+</tr>
+</tbody>
+</table>
+<p><strong>챕터별 제작 순서:</strong> Ch1 먼저 완결 → Ch2 → Ch3 → Ch4 → Ch5<br>
+<strong>챕터 내 순서:</strong> E01부터 순차. 각 챕터 완결 시 플레이리스트 공개.</p>
+<h2 id="youtube-_boss">🎬 YouTube 시리즈 — 제작 계획서 (_Boss)</h2>
+<p><strong>상태: 제작 대기. 모든 파이프 준비 완료. Boss &ldquo;찍어&rdquo; 한마디면 시작.</strong></p>
+<h3 id="_1">제작 파이프 (기보유)</h3>
+<pre><code class="language-bash"># 찌라시/PPT 영상 (2~3분, TTS 나레이션)
+perfect_ship.py --url &lt;대상URL&gt; --out &lt;출력&gt; --format shorts_1080 --subs --tts auto
+
+# 스크린샷 → 슬라이드쇼
+auto_image_pipe.sh
+
+# TG 배포
+tg.sh &quot;✅ 새 영상: https://youtube.com/shorts/xxx&quot;
+</code></pre>
+<h3 id="_2">제작 가능 편수</h3>
+<table>
+<thead>
+<tr>
+<th>유형</th>
+<th>편수</th>
+<th>소스</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>리포 소개</strong></td>
+<td>1편</td>
+<td><code>index.html</code> 랜딩페이지</td>
+</tr>
+<tr>
+<td><strong>헌법 해설</strong></td>
+<td>9편</td>
+<td><code>CONSTITUTION.md</code> 9섹션</td>
+</tr>
+<tr>
+<td><strong>설치 가이드</strong></td>
+<td>1편</td>
+<td><code>install-guide.html</code></td>
+</tr>
+<tr>
+<td><strong>기능 소개</strong></td>
+<td>10편+</td>
+<td>Director, auto_image_pipe, health, MCP 등</td>
+</tr>
+<tr>
+<td><strong>시즌 1~5 본편</strong></td>
+<td>24편</td>
+<td>기술 진화 연대기</td>
+</tr>
+<tr>
+<td><strong>주간 하이라이트</strong></td>
+<td>주1편</td>
+<td>devlog 요약</td>
+</tr>
+<tr>
+<td><strong>계</strong></td>
+<td><strong>50편+</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="_3">콘텐츠 소스 맵</h3>
+<table>
+<thead>
+<tr>
+<th>시즌</th>
+<th>편</th>
+<th>소스 문서/URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S1E1</td>
+<td>스마트폰에 리눅스를</td>
+<td><code>01-proot-setup/</code> · devlog §1</td>
+</tr>
+<tr>
+<td>S1E2</td>
+<td>AI에게 위임하라</td>
+<td><code>41-beginner-install-manual_Grok.md</code> · devlog §2</td>
+</tr>
+<tr>
+<td>S1E3</td>
+<td>공짜 서버를 찾아서</td>
+<td><code>index.html</code> · devlog §3~10</td>
+</tr>
+<tr>
+<td>S1E4</td>
+<td>헌법을 쓴 AI</td>
+<td><code>CONSTITUTION.md</code> · devlog §30</td>
+</tr>
+<tr>
+<td>S2E5</td>
+<td>마크다운이 웹진이 된다</td>
+<td><code>33-webpage-coverage_Grok.md</code> · devlog §11</td>
+</tr>
+<tr>
+<td>S2E6</td>
+<td>건강 검진하는 폰</td>
+<td><code>phone-health.sh</code> · devlog §17</td>
+</tr>
+<tr>
+<td>S2E7</td>
+<td>텔레그램으로 모든 걸</td>
+<td><code>tg.sh</code> · devlog §7</td>
+</tr>
+<tr>
+<td>S2E8</td>
+<td>AI 3종의 직함</td>
+<td><code>31-agent-roles_Grok.md</code> · devlog §62~63</td>
+</tr>
+<tr>
+<td>S3E9</td>
+<td>영상이 깨졌다</td>
+<td><code>48-director-video-recurrence_Grok.md</code></td>
+</tr>
+<tr>
+<td>S3E10</td>
+<td>눈속임을 잡아라</td>
+<td><code>50-director-pro-v3-visual-proof_Grok.md</code></td>
+</tr>
+<tr>
+<td>S3E11</td>
+<td>AI의 눈</td>
+<td><code>52-director-vision-qa-loop_Grok.md</code></td>
+</tr>
+<tr>
+<td>S3E12</td>
+<td>연출을 코드로</td>
+<td><code>53-director-plan-settings_Grok.md</code> · <code>54</code></td>
+</tr>
+<tr>
+<td>S3E13</td>
+<td>만점의 알고리즘</td>
+<td><code>56-director-perfect-ship-process_Grok.md</code></td>
+</tr>
+<tr>
+<td>S3E14</td>
+<td>커뮤니티 수준까지</td>
+<td><code>57-director-community-a-bar_Grok.md</code></td>
+</tr>
+<tr>
+<td>S4E15</td>
+<td>여기까지다</td>
+<td>devlog §임계점</td>
+</tr>
+<tr>
+<td>S4E16</td>
+<td>NPU의 거짓말</td>
+<td>devlog §이미지 전략</td>
+</tr>
+<tr>
+<td>S4E17</td>
+<td>Gallery는 API가 없다</td>
+<td>devlog §Gallery</td>
+</tr>
+<tr>
+<td>S4E18</td>
+<td>YouTube = 공짜 CDN</td>
+<td>devlog §CDN</td>
+</tr>
+<tr>
+<td>S4E19</td>
+<td>Grok은 옵션이다</td>
+<td>devlog §비용 트랙</td>
+</tr>
+<tr>
+<td>S5E20</td>
+<td>샌드박스의 벽</td>
+<td>devlog §브릿지</td>
+</tr>
+<tr>
+<td>S5E21</td>
+<td>다리</td>
+<td>devlog §auto_image_pipe</td>
+</tr>
+<tr>
+<td>S5E22</td>
+<td>터치 노동의 종말</td>
+<td><code>auto_image_pipe.sh</code> · devlog §자동화</td>
+</tr>
+<tr>
+<td>S5E23</td>
+<td>말이 곧 명령이다</td>
+<td>devlog §음성 명령</td>
+</tr>
+<tr>
+<td>S5E24</td>
+<td>폰이 곧 서버다</td>
+<td>전체 아키텍처 회고</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_4">제작 순서 (우선순위)</h3>
+<ol>
+<li><strong>리포 소개 (찌라시)</strong> — 3분. 랜딩페이지 투어. &ldquo;와서 볼래요&rdquo;</li>
+<li><strong>S1E1 스마트폰에 리눅스를</strong> — 설치 과정. 초심자 타겟</li>
+<li><strong>S2E5 마크다운이 웹진이 된다</strong> — 자동화 가시적 성과</li>
+<li><strong>S3E9 영상이 깨졌다</strong> — 드라마틱한 실패 에피소드</li>
+<li><strong>S5E21 다리</strong> — 오늘의 돌파구</li>
+<li>이후 순차 제작</li>
+</ol>
+<h3 id="_5">필요 리소스</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>현재</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>콘텐츠 소스</td>
+<td>✅ 100개+ 문서·노트북</td>
+<td>GitHub Pages에 전부 라이브</td>
+</tr>
+<tr>
+<td>영상 제작 파이프</td>
+<td>✅ <code>perfect_ship.py</code></td>
+<td>V2 수준 자동화</td>
+</tr>
+<tr>
+<td>TTS</td>
+<td>✅ edge-tts (무료)</td>
+<td>OpenAI 키 있으면 고품질</td>
+</tr>
+<tr>
+<td>촬영</td>
+<td>✅ Playwright</td>
+<td>페이지 캡처 자동</td>
+</tr>
+<tr>
+<td>편집</td>
+<td>✅ ffmpeg</td>
+<td>concat·자막·트랜지션</td>
+</tr>
+<tr>
+<td>배포</td>
+<td>✅ YouTube Data API</td>
+<td>OAuth 완료</td>
+</tr>
+<tr>
+<td>호스팅</td>
+<td>✅ YouTube 무료</td>
+<td>공짜 CDN</td>
+</tr>
+</tbody>
+</table>
+<p><strong>결론: 기술적 장애물 없음. Boss &ldquo;찍어&rdquo; 결정만 남음.</strong></p>
+<h2 id="youtube-helena-phone-5-_boss">🎬 YouTube 시리즈 기획 — Helena Phone 기술 진화 5시즌 (_Boss)</h2>
+<p><strong>제약: PC/WSL 없음. 2021년 갤럭시 S21(Exynos 2100, RAM 7GB) + proot Ubuntu 단독.</strong></p>
+<hr>
+<h3 id="1-pc">시즌 1: &ldquo;PC 없는 개발자&rdquo; (기반 구축)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>에피소드</th>
+<th>핵심 기술</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>스마트폰에 리눅스를?</strong></td>
+<td>Termux + proot Ubuntu 설치. PC 없이 apt-get, Python, Node.js</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>AI에게 위임하라</strong></td>
+<td>Claude Code + DeepSeek. Anthropic 과금 우회. Grok CLI + Aider 3종</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>공짜 서버를 찾아서</strong></td>
+<td>GitHub Pages 5개 레포. Git으로 버전 관리. 랜딩 포털</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>헌법을 쓴 AI</strong></td>
+<td>CONSTITUTION.md 제정. 돌봄(트랙1) + 소망(트랙2) 투트랙 구조</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2">시즌 2: &ldquo;콘텐츠 공장&rdquo; (자동화 인프라)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>에피소드</th>
+<th>핵심 기술</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td><strong>마크다운이 웹진이 된다</strong></td>
+<td><code>_notebook/*.md</code> → <code>notebook/*.html</code> 자동 빌드. 웹앱 UI</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>건강 검진하는 폰</strong></td>
+<td><code>phone-health.sh</code>. 배터리·온도·저장소 모니터링. TG 보고</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>텔레그램으로 모든 걸</strong></td>
+<td><code>tg.sh</code>. 보고·알림·파일 전송. Paste Pipeline</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>AI 3종의 직함</strong></td>
+<td>Grok=디자이너, Aider=반장, Claude=감사. 파일 마크 규약</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-director">시즌 3: &ldquo;영상 자동화 전쟁&rdquo; (Director 파이프)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>에피소드</th>
+<th>핵심 기술</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>9</td>
+<td><strong>영상이 깨졌다</strong></td>
+<td>Director v1. 한글 □□ 폰트 참사. 블랙 프레임. 재발일지</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>눈속임을 잡아라</strong></td>
+<td>Visual Proof. 가짜 SHIP 적발. gold/teal 픽셀 게이트</td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>AI의 눈</strong></td>
+<td>Vision QA v1–v8. 프레임 검수 자동화. 100점 루프</td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>연출을 코드로</strong></td>
+<td>5막 연출 성경. establish→focus→act→hold→release</td>
+</tr>
+<tr>
+<td>13</td>
+<td><strong>만점의 알고리즘</strong></td>
+<td>perfect_ship L0–L9 사다리. remediation_map. SHIP 게이트</td>
+</tr>
+<tr>
+<td>14</td>
+<td><strong>커뮤니티 수준까지</strong></td>
+<td>1080p. autoZoom. TTS-first. 자막. A-bar</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4">시즌 4: &ldquo;임계점&rdquo; (한계 인식과 전환)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>에피소드</th>
+<th>핵심 기술</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>15</td>
+<td><strong>여기까지다</strong></td>
+<td>V2 천장 선언. 빅테크 튜토리얼은 폰에서 불가. V3=PC 연동</td>
+</tr>
+<tr>
+<td>16</td>
+<td><strong>NPU의 거짓말</strong></td>
+<td>Exynos 2100 NPU로 SD 추론 불가. 무료 티어 오케스트레이션</td>
+</tr>
+<tr>
+<td>17</td>
+<td><strong>Gallery는 API가 없다</strong></td>
+<td>CLI 제어 불가. ffmpeg으로 90% 대체</td>
+</tr>
+<tr>
+<td>18</td>
+<td><strong>YouTube = 공짜 CDN</strong></td>
+<td>무제한·무료·전 세계 엣지. GitHub Pages 1GB 제한 우회</td>
+</tr>
+<tr>
+<td>19</td>
+<td><strong>Grok은 옵션이다</strong></td>
+<td>LLM 비용 트랙: 0원(무료 티어) → 1만원(DeepSeek) → 5만원(Grok)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="5">시즌 5: &ldquo;폰이 서버다&rdquo; (완전 자동화)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>에피소드</th>
+<th>핵심 기술</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>20</td>
+<td><strong>샌드박스의 벽</strong></td>
+<td>proot에서 <code>/sdcard</code> 접근 불가. SAF·content provider 전부 실패</td>
+</tr>
+<tr>
+<td>21</td>
+<td><strong>다리</strong></td>
+<td>Termux <code>~/</code> = proot <code>~/</code> 발견. <code>cp</code> 한 줄로 Android↔Linux 연결</td>
+</tr>
+<tr>
+<td>22</td>
+<td><strong>터치 노동의 종말</strong></td>
+<td><code>auto_image_pipe.sh</code>. 사진 넣으면 영상→TG 자동</td>
+</tr>
+<tr>
+<td>23</td>
+<td><strong>말이 곧 명령이다</strong></td>
+<td>Boss 말 한마디 → Claude Code → CLI 파이프 → TG 결과</td>
+</tr>
+<tr>
+<td>24</td>
+<td><strong>폰이 곧 서버다</strong></td>
+<td>전체 아키텍처 회고. 구형 폰 하나로 1인 제작 인프라 완성</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><strong>총 24편 · 5시즌</strong></p>
+<p><strong>시즌별 기술 도약:</strong><br>
+1. <strong>기반:</strong> PC 없이 CLI 개발환경 + AI 에이전트 + Git 생태계<br>
+2. <strong>자동화:</strong> 문서→웹진 빌드 + 헬스 모니터링 + TG 보고<br>
+3. <strong>영상:</strong> Playwright 촬영 → ffmpeg 합성 → Vision QA → SHIP 사다리<br>
+4. <strong>전환:</strong> 폰 한계 인식 → V3 PC 연동 → 무료 티어 전략 → 비용 트랙<br>
+5. <strong>완성:</strong> Android↔proot 브릿지 → 사진→영상→배포 무인화 → 음성 명령</p>
+<p><strong>핵심 서사:</strong> &ldquo;5년 된 폰 하나로, 공짜 도구만으로, 말 한마디로 콘텐츠 공장을 돌리다.&rdquo;</p>
+<h2 id="day-2026-08-03">DAY — 2026-08-03</h2>
+<h3 id="proot-android-tg-_boss-_claude">🔓 proot ↔ Android 저장소 다리 개통 — 사진→영상→TG 파이프 최초 성공 (_Boss + _Claude)</h3>
+<p><strong>돌파구:</strong> Termux <code>~/</code> = proot <code>/data/data/com.termux/files/home/</code> = <strong>공유 영역</strong></p>
+<pre><code class="language-bash">cp /sdcard/DCIM/Screenshots/Screenshot_* ~/   # Termux에서
+</code></pre>
+<p>→ proot에서 바로 ffmpeg 처리 → TG 전송 성공.</p>
+<p><strong>의미:</strong><br>
+- <strong>터치 노동 탈피:</strong> 갤러리·편집앱·저장버튼 없이 CPU/GPU 직행 연산<br>
+- <strong>폰 = 1인 제작 서버:</strong> 입력(사진)→전송→로컬연산(ffmpeg)→인코딩→배포(TG) 자동화<br>
+- <strong>샌드박스 파괴:</strong> Android 파일시스템 ↔ proot 우분투 파이프 연결</p>
+<p><strong>검증:</strong><br>
+- 스크린샷 2장 → ffmpeg 슬라이드쇼 (6초, 720p, 323KB) → TG 전송 완료<br>
+- TG 토큰 갱신 (<code>.bashrc</code> 업데이트)</p>
+<p><strong>Gemini 평가:</strong> &ldquo;터치 노동으로 하던 일을 폰 내부의 자율 연산 파이프라인으로 전환. 구조 변화 자체가 엄청난 포인트.&rdquo;</p>
+<h3 id="proot-termux-_boss">📋 proot ↔ Termux 다리로 풀리는 팬딩 이슈들 (_Boss)</h3>
+<p><strong>이전까지 막혔던 것 — proot가 Android 샌드박스에 갇혀서:</strong><br>
+1. DCIM/Camera 사진 자동 처리 — ❌ proot에서 <code>/sdcard</code> 접근 불가<br>
+2. 스크린샷 → 영상 → 배포 — ❌ 동일<br>
+3. 카메라 촬영 → ffmpeg 직결 — ❌<br>
+4. 다운로드 폴더 감시 — ❌<br>
+5. Android 알림 → proot 트리거 — ❌</p>
+<p><strong>이제 되는 것 (Termux <code>~/</code> 중계):</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>새로 가능한 것</th>
+<th>방법</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>사진 찍으면 자동 영상화</strong></td>
+<td>Termux <code>inotifywait ~/</code> → 새 파일 감지 → ffmpeg → TG</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>스크린샷 → 블로그·TG 자동</strong></td>
+<td><code>cp /sdcard/DCIM/Screenshots/* ~/</code> → 처리 파이프</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>termux-camera-photo → ffmpeg → YouTube</strong></td>
+<td>Termux:API 카메라 → <code>~/</code> 저장 → proot 처리</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>클립보드 브릿지</strong></td>
+<td><code>termux-clipboard-get/set</code> → proot 파이프 입력</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Android 알림 발행</strong></td>
+<td><code>termux-notification</code> → 파이프 완료 시 폰 알림</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>TTS 읽어주기</strong></td>
+<td><code>termux-tts-speak</code> → TG 보고 도착 시 음성 알림</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>문자·통화 로그 수집</strong></td>
+<td><code>termux-sms-list</code> · <code>termux-call-log</code> → proot 분석</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>배터리·센서 모니터링</strong></td>
+<td><code>termux-battery-status</code> · <code>termux-sensor</code> → 대시보드</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>홈 화면 위젯 트리거</strong></td>
+<td><code>~/.shortcuts/</code> 스크립트 → 터치 한 번으로 파이프 가동</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>공유 메뉴 → proot 직결</strong></td>
+<td>Termux:API 공유 수신 → <code>~/</code> 저장 → 자동 처리</td>
+</tr>
+</tbody>
+</table>
+<p><strong>아키텍처:</strong></p>
+<pre><code>📱 Android (센서·카메라·저장소·알림)
+        │
+        ▼ Termux ~/ (공유 브릿지)
+        │
+🖥️ proot Ubuntu (ffmpeg·Director·Python·Claude Code)
+        │
+        ▼
+🌐 배포 (TG·YouTube·블로그)
+</code></pre>
+<p><strong>이 다리 하나로 Director v1→v8 같은 진화가 이미지 파이프에서도 가능해짐.</strong></p>
+<h3 id="auto_image_pipesh-tg-_boss-_claude">🤖 auto_image_pipe.sh — 사진→영상→TG 완전 자동화 (_Boss + _Claude)</h3>
+<p><strong>풀파이프 최초 성공:</strong> 수신함에 사진 넣으면 → ffmpeg 슬라이드쇼 → TG 자동 전송 → 처리 완료.</p>
+<p><strong>사용법:</strong></p>
+<pre><code class="language-bash"># 1회 실행 (inbox 처리 후 종료)
+bash ~/work/scripts/auto_image_pipe.sh
+
+# 감시 모드 (새 파일 생기면 자동 처리)
+bash ~/work/scripts/auto_image_pipe.sh --watch
+</code></pre>
+<p><strong>파이프:</strong></p>
+<pre><code>📥 ~/inbox/ (Termux 공유 홈)
+  → 🎬 ffmpeg concat (720p, 각 3초)
+  → 📤 TG sendVideo
+  → 📦 ~/processed/ (완료 보관)
+</code></pre>
+<p><strong>테스트 결과:</strong><br>
+- 스크린샷 3장 → 212KB mp4 → TG 전송 성공<br>
+- 공백 포함된 한글 파일명 정상 처리<br>
+- <code>--watch</code> 모드: <code>inotifywait</code>으로 새 파일 실시간 감지</p>
+<p><strong>파일:</strong> <code>scripts/auto_image_pipe.sh</code></p>
+<h3 id="proottermux-_boss">💾 proot/Termux 데이터 생존성 분석 (_Boss)</h3>
+<p><strong>질문: 폰 재부팅하거나 Termux 지우면 설정 날아가나?</strong></p>
+<table>
+<thead>
+<tr>
+<th>상황</th>
+<th>proot</th>
+<th>스크립트</th>
+<th>repos</th>
+<th>설정</th>
+<th>파이프</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>폰 재부팅</strong></td>
+<td>✅ 유지</td>
+<td>✅ 유지</td>
+<td>✅ 유지</td>
+<td>✅ 유지</td>
+<td>⚠️ 상시 프로세스만 재시작</td>
+</tr>
+<tr>
+<td><strong>Termux 강제종료</strong></td>
+<td>✅ 유지</td>
+<td>✅ 유지</td>
+<td>✅ 유지</td>
+<td>✅ 유지</td>
+<td>⚠️ 동일</td>
+</tr>
+<tr>
+<td><strong>Termux 캐시 삭제</strong></td>
+<td>✅ 유지</td>
+<td>✅ 유지</td>
+<td>✅ 유지</td>
+<td>✅ 유지</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>Termux 앱 삭제</strong></td>
+<td>❌ 전부 날아감</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>공장 초기화</strong></td>
+<td>❌ 전부 날아감</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+</tbody>
+</table>
+<p><strong>원리:</strong><br>
+- proot 우분투는 <code>/data/data/com.termux/files/</code> 아래 파일 시스템으로 저장<br>
+- 앱 데이터 영역이라 재부팅·강제종료에도 유지<br>
+- Termux 앱 삭제 시에만 통째로 증발</p>
+<p><strong>방지책:</strong><br>
+- 모든 코드는 GitHub에 푸시 완료 → <code>git clone</code> 한 번이면 복구<br>
+- proot 우분투는 <code>install.sh</code>로 재설치 가능<br>
+- <code>.bashrc</code> 설정(TG_TOKEN 등)만 별도 백업하면 완전 복구</p>
+<pre><code class="language-bash">tar -czf /sdcard/termux-backup-$(date +%Y%m%d).tar.gz \
+  /data/data/com.termux/files/home/.bashrc \
+  /data/data/com.termux/files/home/.profile \
+  /root/.bashrc
+</code></pre>
+<ul>
+<li><code>/sdcard/</code>는 Termux 삭제와 무관하게 보존됨 → 거기에 백업 저장</li>
+</ul>
+<p><strong>결론: 재부팅 걱정 마라. Termux만 지우지 마라.</strong></p>
+<h3 id="boss-_boss">🗣️ 음성 명령 아키텍처 — Boss 말 한마디로 전부 (_Boss)</h3>
+<p><strong>목표: Termux 화면에서 말로 요청하면 모든 작업이 자동 실행.</strong></p>
+<p><strong>현재 완성된 음성→파이프 맵:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Boss 말</th>
+<th>실행 파이프</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&ldquo;영상 만들어&rdquo;</td>
+<td><code>perfect_ship.py</code> (Director L0–L9)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>&ldquo;이 사진 영상으로&rdquo;</td>
+<td><code>auto_image_pipe.sh</code></td>
+<td>✅ 오늘 완성</td>
+</tr>
+<tr>
+<td>&ldquo;TG로 보고해&rdquo;</td>
+<td><code>tg.sh</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td>&ldquo;건강 검진해&rdquo;</td>
+<td><code>phone-health.sh</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td>&ldquo;깃헙에 올려&rdquo;</td>
+<td>git add/commit/push</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>&ldquo;이미지 만들어&rdquo;</td>
+<td>Grok Aurora / Bing / Gemini</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>&ldquo;유튜브에 올려&rdquo;</td>
+<td>YouTube Data API</td>
+<td>⏳</td>
+</tr>
+<tr>
+<td>&ldquo;자막 넣어&rdquo;</td>
+<td><code>subtitles.py</code> 연동</td>
+<td>⏳</td>
+</tr>
+<tr>
+<td>&ldquo;목소리 입혀&rdquo;</td>
+<td><code>voice_engine.py</code> 연동</td>
+<td>⏳</td>
+</tr>
+<tr>
+<td>&ldquo;블로그 발행해&rdquo;</td>
+<td>Paste Pipeline</td>
+<td>⏳</td>
+</tr>
+<tr>
+<td>&ldquo;매일 아침 보고&rdquo;</td>
+<td>Cron + TG</td>
+<td>⏳</td>
+</tr>
+</tbody>
+</table>
+<p><strong>아키텍처:</strong></p>
+<pre><code>Boss 음성/텍스트 명령
+        │
+        ▼
+   Claude Code (판단·라우팅)
+        │
+        ▼
+   CLI 파이프 (ffmpeg, Director, git, TG API)
+        │
+        ▼
+   📤 TG로 결과 배달
+</code></pre>
+<p><strong>핵심:</strong> 폰은 듣고 있는 서버. Boss 목소리가 유일한 인터페이스. 터치 노동 개입 없음.</p>
+<h3 id="2026-08-03-_boss-_claude">📋 2026-08-03 세션 총정리 (_Boss + _Claude)</h3>
+<p><strong>오늘 뚫은 것 3가지:</strong></p>
+<ol>
+<li>
+<p><strong>proot ↔ Android 저장소 다리</strong><br>
+   - Termux <code>~/</code> = proot <code>~/</code> 공유 영역 발견<br>
+   - <code>/sdcard</code> 샌드박스 우회. <code>cp</code> 한 줄로 데이터 직결</p>
+</li>
+<li>
+<p><strong>사진→영상→TG 풀파이프</strong><br>
+   - <code>auto_image_pipe.sh</code>: 수신함 감지 → ffmpeg → TG → 보관<br>
+   - 1회 실행 + <code>--watch</code> 실시간 감시 모드</p>
+</li>
+<li>
+<p><strong>음성→파이프 아키텍처 확립</strong><br>
+   - Boss 말 한마디 → Claude Code 판단 → CLI 파이프 실행 → TG 결과<br>
+   - 터치 0회. 폰 = 1인 제작 서버</p>
+</li>
+</ol>
+<p><strong>팬딩 7종:</strong> YouTube 업로드, 자막, TTS, 블로그 발행, Cron 자동화, MCP stdio 전환, PC V3 연동</p>
+<p><strong>커밋:</strong> 32d3652 (auto_image_pipe.sh), 6e14403 (데이터 생존성), 0fbf2b3 (브릿지 개통)</p>
 <h3 id="proot-ubuntu-kst-_grok">🕐 proot Ubuntu 시계 → 한국 시간(KST) 고정 (_Grok)</h3>
 <p><strong>배경:</strong> 세션 로그·<code>ls</code> mtime이 <code>5:52 PM</code> 등으로 찍혀 헷갈림. proot Ubuntu가 기본 <strong>UTC(<code>Etc/UTC</code>)</strong> 였고, Android/Termux는 이미 <code>Asia/Seoul</code>.</p>
 <p><strong>조치 (영구):</strong><br>
@@ -317,7 +1175,7 @@ Boss: 최종 판단만 (SHIP / 폐기)
 - 문서는 Boss가 읽는 게 아니라 <strong>AI 가드레일</strong>.<br>
 - 욕 = 토큰 효율 프롬프팅. 감정 아님.<br>
 - Boss는 시키고, AI는 한다. 말대꾸 금지.</p>
-<h3 id="_boss">🧪 구형 폰 가능성 실험 — 프로젝트의 진짜 의미 (_Boss)</h3>
+<h3 id="_boss_1">🧪 구형 폰 가능성 실험 — 프로젝트의 진짜 의미 (_Boss)</h3>
 <p><strong>이 프로젝트는 성능 테스트가 아니라 가능성 테스트다.</strong><br>
 - 2021년 갤럭시 S21(Exynos 2100, RAM 7GB) = <strong>의도적으로 구형 폰 기준</strong><br>
 - &ldquo;더 좋은 폰 필요해&rdquo; 타령하는 새끼들 없이, <strong>한계 안에서 뭐가 가능한지</strong> 실험<br>
@@ -390,7 +1248,7 @@ Boss: 최종 판단만 (SHIP / 폐기)
 <p><strong>관련:</strong> <code>58-video-three-tracks_Grok.md</code> · <code>59-grok-video-process-whitepaper_Grok.md</code> · <code>60-director-pro-v8-wish_Grok.md</code></p>
 <hr>
 <hr>
-<h3 id="_boss_1">🖼️ 이미지 생성 전략 — 공짜 티어 오케스트레이션 (_Boss)</h3>
+<h3 id="_boss_2">🖼️ 이미지 생성 전략 — 공짜 티어 오케스트레이션 (_Boss)</h3>
 <p><strong>전제: 폰 NPU로 로컬 SD 추론 불가.</strong><br>
 - 실제 스펙: Exynos 2100 · RAM 7.0GB (proot) · 가용 ~2GB<br>
 - Stable Diffusion 최소 퀀타이즈도 4~6GB 필요 → OOM 튕김<br>
@@ -1018,7 +1876,7 @@ _notebook/ = History + Making film + 로고 아카이브
 <li><strong>오늘은 여기서 접는다.</strong> 내일 컨디션 회복 후 Playwright 발주부터.</li>
 </ul>
 <hr>
-<h2 id="_1">현재 인프라 전체 구성</h2>
+<h2 id="_6">현재 인프라 전체 구성</h2>
 <pre><code>📱 폰 (Android + Termux)
 ├── proot Ubuntu 컨테이너
 │   ├── Claude Code (DeepSeek) ← 현재 너
@@ -1051,7 +1909,7 @@ _notebook/ = History + Making film + 로고 아카이브
 ├── 📺 YouTube (@HelenaPark-e7c) — 5채널 설계 완료
 └── 📓 _notebook/ — History + Making film + 로고
 </code></pre>
-<h2 id="_2">남은 작업</h2>
+<h2 id="_7">남은 작업</h2>
 <table>
 <thead>
 <tr>
@@ -1272,7 +2130,7 @@ cc의 비교 기준은 AI 없이 혼자 타이핑하는 사람 — 그건 지금
 <p>이건 어제 정리한 테제 <strong>&ldquo;코드는 인스턴스, 사고 서식이 자산&rdquo;</strong> 과 정확히 붙는다:<br>
 오늘 생산한 코드/문서량은 인스턴스(당연한 산출물)고,<br>
 오늘 내린 판단들이 그 &ldquo;사고 서식&rdquo;의 실물 증거다.</p>
-<h2 id="_3">비상 연락망</h2>
+<h2 id="_8">비상 연락망</h2>
 <table>
 <thead>
 <tr>
@@ -4291,7 +5149,7 @@ SE ONE <strong>「내 템플릿 / 현재 글 추가」</strong> 실클릭 솔루
 paste.txt로 글 구성 → <strong>템플릿→내 템플릿→현재 글 추가</strong> → 이름 <code>Marine Quilt 주간</code> → 매주 불러와 슬롯만 교체.</p>
 <hr>
 <h2 id="2026-07-28-helena-piano-bgm-studio-parksy-audio-_claude">2026-07-28 (화) — helena-piano BGM Studio 구축 + parksy-audio 전수조사 (_Claude)</h2>
-<h3 id="_4">배경</h3>
+<h3 id="_9">배경</h3>
 <p>helena-piano 웹진(https://helena751107.github.io/helena-piano/)에 <br>
 실제 피아노 음원·배경음악 파이프를 연결하려는 시도.</p>
 <h3 id="parksy-audio">parksy-audio 냉장고 전수조사</h3>
@@ -4758,7 +5616,7 @@ Grok은 시각 피드백이 가능해 디버깅이 빠르고, Claude는 자동�
 </tr>
 </tbody>
 </table>
-<p>페이지: https://helena751107.github.io/helena-programming/</p>
+<p>페이지: https://helena-programming.vercel.app/</p>
 <h3 id="104-_claude">104. 커뮤니티 리서치 — &ldquo;너 같은 새끼 있냐&rdquo; (_Claude)</h3>
 <p><strong>Boss 질문:</strong> &ldquo;나 같은 거 하는 새끼 있냐&rdquo;</p>
 <p><strong>리서치 결과 (2026-07-31):</strong></p>
@@ -4831,6 +5689,337 @@ Grok은 시각 피드백이 가능해 디버깅이 빠르고, Claude는 자동�
 - 냉장고 아키텍처 공식 문서화<br>
 - Grok-Claude 협업 파이프 설계<br>
 - 커뮤니티 리서치 (유니크함 확인)</p>
+<h3 id="helena-phone-_boss">🏗️ Helena Phone 전체 아키텍처 최종 정리 (_Boss)</h3>
+<p><strong>S21 Phone = 인프라 엔진.</strong> 나머지는 전부 여기서 나온다.</p>
+<pre><code>📱 S21 Phone (인프라 엔진)
+  ├─ proot Ubuntu + Termux
+  ├─ DeepSeek Claude Code + Aider (+ Grok 옵션)
+  ├─ Playwright + edge-tts + ffmpeg
+  └─ Git + GitHub Actions
+        │
+        ▼
+┌─────────────────────────────────────────────┐
+│           5개 레포 = 콘텐츠 채널               │
+│                                             │
+│  📡 helena_phone    → 기술 웹진·시리즈       │
+│  ✝️ helana-faith    → 신앙 콘텐츠            │
+│  📝 helana_log      → 학습·대화록           │
+│  🎹 helena-piano    → 연주·음악             │
+│  🛡️ helena-psycare  → 돌봄·복지 정보        │
+└─────────────────────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────────────┐
+│              배포 채널                       │
+│                                             │
+│  🌐 GitHub Pages  → 무료 웹 호스팅          │
+│  📝 Naver         → 웹진·미끼 콘텐츠        │
+│  🎬 YouTube       → AI 생성물 CDN (공짜)    │
+│  📱 TG            → Boss 보고·알림          │
+└─────────────────────────────────────────────┘
+</code></pre>
+<p><strong>원칙:</strong><br>
+- 각 레포 = 하나의 웹진 시리즈<br>
+- 콘텐츠는 마크다운 → HTML 자동 빌드 → GitHub Pages<br>
+- AI 생성물(영상·이미지)은 YouTube에 올려서 CDN처럼 사용<br>
+- Naver는 미끼·유입 채널<br>
+- 모든 게 DeepSeek 1만원 + 무료 도구로 돌아감<br>
+- Grok은 옵션. 필요할 때만.</p>
+<h3 id="pc-_boss">💀 PC 없는 콘텐츠 공장 — 난이도 평가 (_Boss)</h3>
+<p><strong>핵심: PC를 핸드폰으로 대체했다.</strong></p>
+<table>
+<thead>
+<tr>
+<th>PC가 하던 것</th>
+<th>폰으로 대체</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Windows/macOS</td>
+<td>proot Ubuntu</td>
+</tr>
+<tr>
+<td>VS Code</td>
+<td>Claude Code + vim</td>
+</tr>
+<tr>
+<td>Adobe Premiere</td>
+<td>ffmpeg</td>
+</tr>
+<tr>
+<td>성우 녹음</td>
+<td>edge-tts</td>
+</tr>
+<tr>
+<td>수동 편집</td>
+<td>Playwright 자동 촬영</td>
+</tr>
+<tr>
+<td>CDN 서버</td>
+<td>YouTube 무료</td>
+</tr>
+<tr>
+<td>파일 서버</td>
+<td>GitHub Pages</td>
+</tr>
+<tr>
+<td>보고·알림</td>
+<td>Telegram Bot</td>
+</tr>
+</tbody>
+</table>
+<p><strong>왜 어려운가:</strong><br>
+1. 폰=소비기기라는 고정관념을 깸<br>
+2. 7GB RAM, ARM CPU, 샌드박스, proot 격리 — 제약 투성이<br>
+3. 전 세계에 레퍼런스 없음 (구형폰+proot+AI에이전트+영상자동화)<br>
+4. 모든 걸 직접 연결 (Termux↔proot 브릿지, Playwright↔ffmpeg↔TG)</p>
+<p><strong>증명:</strong> 2021년 중고폰 20만원 + DeepSeek 월 1만원 = 24편 영상 + 77개 웹페이지 + 5개 레포 + TG 보고. 이게 쉬웠으면 다른 사람이 먼저 했다.</p>
+<h3 id="llm-_boss">📝 티스토리 LLM 데이터베이스 전략 (_Boss)</h3>
+<p><strong>현재 문제:</strong> 5개 티스토리 블로그가 스크린샷+대화록 덤프로 방치. 아까움.</p>
+<p><strong>새 전략:</strong> &ldquo;사람에게 노출하는 블로그&rdquo; → &ldquo;LLM·AI 검색엔진이 긁어가는 고밀도 텍스트 데이터베이스&rdquo;</p>
+<p><strong>왜 티스토리인가:</strong><br>
+- HTML/CSS 자유 편집 → 불필요 요소 제거, 텍스트 밀도 극대화<br>
+- 구조화된 문서(h1/h2/p) → AI 크롤러가 선호하는 포맷<br>
+- 구글 색인 → ChatGPT Search·Perplexity·Gemini가 인용</p>
+<p><strong>실행:</strong><br>
+1. 스킨 청소: 사이드바·위젯·스크립트 제거, 본문만 남김<br>
+2. 기존 콘텐츠 재가공: 77개 노트북 + 163개 devlog → 주제별 구조화 문서<br>
+3. 5개 블로그 주제 분류 (AI에이전트·영상제작·웹구축·자동화·개발일지)<br>
+4. Google Search Console 등록 → 구글 색인 → LLM 인용</p>
+<p><strong>핵심:</strong> 이미 쓴 콘텐츠가 AI의 학습 데이터. 날것으로 던져놔도 AI 크롤러가 먹는다.</p>
+<h3 id="_boss_3">📰 티스토리 새 역할 — 기자의 수첩 (_Boss)</h3>
+<p><strong>기존:</strong> 스크린샷·대화록 덤프 → 쓰레기통<br>
+<strong>변경:</strong> HTML 모드 활용 → 기고 플랫폼 → 네이버 임베디드 소스</p>
+<p><strong>3층 구조:</strong><br>
+| 플랫폼 | 페르소나 | 콘텐츠 |<br>
+|--------|----------|--------|<br>
+| GitHub Pages | 출판사 | 완결된 글·시리즈·교재 |<br>
+| 티스토리 | 기자 | 생각의 단편·아이디어·서브 레저 |<br>
+| 네이버 | 쇼윈도 | 최종본·미끼·임베디드 |</p>
+<p><strong>작업 파이프:</strong><br>
+Boss &ldquo;올려&rdquo; → Claude Code HTML 작성(SVG·표·구조) → TG 배달 → HTML 모드 붙여넣기(5클릭) → 발행</p>
+<p><strong>핵심:</strong><br>
+- JS만 빠질 뿐, SVG 인포그래픽·표·구조화 텍스트 전부 가능<br>
+- GitHub Pages 수준 비주얼을 티스토리에서 렌더링<br>
+- 나중에 네이버 iframe 임베디드 소스로 활용<br>
+- 기존 업무수첩보다 훨씬 나은 방향</p>
+<h3 id="bossclaude-_boss">🔄 순환 파이프 — 기자(Boss)+편집자(Claude) 신문사 구조 (_Boss)</h3>
+<p><strong>티스토리 = Claude Code 관여 없는 자유기고 공간.</strong><br>
+Boss + 외부 LLM(Grok/ChatGPT)이 대화 → 요약 → HTML 코딩 → 티스토리 복붙 발행.</p>
+<p><strong>순환:</strong><br>
+1. Boss ↔ 외부 LLM 대화 → 요약 + HTML 생성<br>
+2. 티스토리 HTML 모드 복붙 → 발행<br>
+3. RSS 생성<br>
+4. Claude Code가 RSS 파싱 → 기고문 리뷰<br>
+5. 좋은 글 → GitHub Pages 정식 출판 / 부족한 글 → 피드백</p>
+<p><strong>구조:</strong><br>
+- 티스토리: 기자들의 자유기고 (Claude 관여 없음)<br>
+- GitHub Pages: 편집자 Claude가 검토 후 승격<br>
+- 네이버: 쇼윈도. 최종 임베디드</p>
+<h3 id="rss-helana_log-_boss">📰 티스토리 RSS → helana_log 동기화 파이프 (_Boss)</h3>
+<p><strong>tistory_sync.sh: 5개 티스토리 RSS → helana_log/기자/ 폴더로 자동 수집</strong></p>
+<p><strong>흐름:</strong><br>
+1. Boss가 5개 티스토리에 HTML 모드로 기고<br>
+2. 티스토리 RSS 생성<br>
+3. tistory_sync.sh가 RSS 파싱 → <code>.md</code> 파일로 변환<br>
+4. helana_log/기자/ 폴더에 저장<br>
+5. git push → GitHub Pages 자동 발행<br>
+6. Claude Code가 기자/ 폴더 리뷰 → 좋은 글 승격</p>
+<p><strong>티스토리는 Claude Code 관여 없는 Boss 자유 공간.</strong><br>
+<strong>helana_log/기자/는 그걸 한곳에 모아 보는 편집 데스크.</strong></p>
+<h3 id="boss-5-_boss">📋 Boss 티스토리 5채널 등록 (_Boss)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>티스토리</th>
+<th>주제</th>
+<th>매핑 레포</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>galaxys21-pwuser</td>
+<td>업무일지·개발</td>
+<td>helena_phone</td>
+</tr>
+<tr>
+<td>2</td>
+<td>helena-metalcare</td>
+<td>돌봄·복지</td>
+<td>helena-psycare</td>
+</tr>
+<tr>
+<td>3</td>
+<td>helena-piano</td>
+<td>피아노·연주</td>
+<td>helena-piano</td>
+</tr>
+<tr>
+<td>4</td>
+<td>helana-christianity</td>
+<td>신앙</td>
+<td>helana-faith</td>
+</tr>
+<tr>
+<td>5</td>
+<td>mynote11605</td>
+<td>자유 노트</td>
+<td>helana_log</td>
+</tr>
+</tbody>
+</table>
+<p>RSS 동기화 → helana_log/기자/ 폴더로 수집 → Claude Code 리뷰.</p>
+<h3 id="llm-_boss_1">📰 티스토리 전략 최종 — 공짜 LLM 대화의 박제·공유 파이프 (_Boss)</h3>
+<p><strong>전환:</strong><br>
+쓰레기통(스크린샷 덤프) → HTML 조각 박물관(인터랙티브 웹문서)</p>
+<p><strong>핵심:</strong><br>
+Boss+무료LLM 대화 → 요약·HTML 조각 → 티스토리 HTML 모드 복붙 → RSS → helana_log 동기화 → Claude Code 리뷰 → GitHub Pages 승격</p>
+<p><strong>왜 괜찮은가:</strong><br>
+- 공짜 LLM 대화가 증발하지 않음<br>
+- HTML 모드 = SVG·표·구조 자유로운 캔버스<br>
+- JS 포기해도 충분한 인터랙티브<br>
+- RSS로 자동 수집 → 한곳에서 리뷰<br>
+- 티스토리 = 공짜 무제한 CMS</p>
+<p><strong>5채널:</strong><br>
+galaxys21-pwuser(개발)·helena-metalcare(돌봄)·helena-piano(연주)·helana-christianity(신앙)·mynote11605(노트)</p>
+<h3 id="pc-wsl-3-_boss-_claude-2026-08-05">🖥️ PC-WSL 3중 에이전트 셋업 설계 (_Boss, _Claude) — 2026-08-05</h3>
+<p><strong>결정: Windows Native + WSL 양쪽에 Aider(DeepSeek) 설치.</strong><br>
+Phone의 Claude Code(cc) + Windows ds + WSL ds = 3중 에이전트.</p>
+<ul>
+<li><strong>Windows ds</strong>: PowerShell 자동화, GUI 도구 연동, 윈도우 전용 파일</li>
+<li><strong>WSL ds</strong>: Git 레포, 리눅스 서버, SSH 서버, Docker, 빌드</li>
+<li><strong>Phone cc</strong>: 감사·기획, 모바일에서 원격 제어</li>
+</ul>
+<p><strong>연결:</strong> Tailscale mesh → Phone → SSH → WSL → 작업 → Git push/pull<br>
+<strong>상태:</strong> Phone SSH 키 생성 완료, 가이드·스크립트 4종 작성 완료, PC는 아직 미설치.</p>
+<h3 id="pc-aider-_boss-_claude-2026-08-05">🔄 PC 부트스트랩 재설계 — Aider 선설치 → 전량 위임 (_Boss, _Claude) — 2026-08-05</h3>
+<p><strong>기존 접근(폐기):</strong> Boss가 WSL·Tailscale·SSH 전부 수동 셋업 → ❌ 자판 노동</p>
+<p><strong>새 접근:</strong><br>
+1. Boss: <code>winget install Python</code> + <code>pip install aider-chat</code> (2줄, 5분)<br>
+2. Aider에 <code>aider-bootstrap-prompt.txt</code> 붙여넣기<br>
+3. Aider가 11단계 전체 자동 실행</p>
+<p><strong>핵심:</strong> Boss는 방향만 주고 AI가 시공한다. 이게 CONSTITUTION.md의 파이프다.</p>
+<h3 id="pc-_boss-_claude-2026-08-05">🖥️ 집PC 연결 웹페이지 제작 (_Boss, _Claude) — 2026-08-05</h3>
+<p><code>pc-setup.html</code> — 모든 커맨드를 복사 가능한 코드 블록으로 제공하는 단일 페이지.<br>
+- 랜딩 index.html 네비게이션 + Infrastructure 라이브러리에 링크 추가<br>
+- 0단계(Boss 2줄) → 1단계(Aider 위임 11단계) 구조<br>
+- WSL·Tailscale·SSH·ds 래퍼·모델 설정 전체 커버<br>
+- GitHub Pages에서 바로 확인 가능: helena751107.github.io/helena_phone/pc-setup.html</p>
+<h3 id="pc-github-_boss-_claude-2026-08-05">🔄 PC 확장 포기 — GitHub 공짜 전략으로 전환 (_Boss, _Claude) — 2026-08-05</h3>
+<p><strong>사양 검토:</strong><br>
+- 누나 PC: Celeron 3855U 2코어 + 4GB DDR3<br>
+- S21 Phone: Exynos 2100 8코어 + 8GB LPDDR5<br>
+- <strong>폰이 CPU 3-4배, RAM 2배 빠름. WSL2는 4GB로 불가능.</strong></p>
+<p><strong>결정:</strong><br>
+- PC WSL2 확장 포기<br>
+- GitHub Actions (2000분/월) + Pages + API = 공짜 클라우드<br>
+- MD→HTML 자동 빌드, RSS 동기화, 상태 대시보드 전부 Actions로<br>
+- PC는 Thin Client로만 — Tailscale+SSH로 폰에 접속</p>
+<p><strong>문서화:</strong><br>
+- <code>41-github-free-maxout_Boss.md</code> — 공짜 생태계 전략 전문<br>
+- <code>pc-setup.html</code> — 사양 비교 + 판정 + GitHub Actions 로드맵</p>
+<h3 id="_boss-_claude-2026-08-05">🔚 서버 논의 최종 — 당장 필요 없음 (_Boss, _Claude) — 2026-08-05</h3>
+<p><strong>원점 재검토: S21이 진짜 못 하는 것</strong><br>
+- 공인 IP 없음 (CGNAT) — GitHub Pages·Actions가 커버<br>
+- 24/7 불안정 — Actions cron이 대체<br>
+- Docker 없음 — proot 한계, 당장 급하지 않음<br>
+- DB 서버 없음 — JSON 파일로 충분<br>
+- FFmpeg 긴 영상 — 짧은 건 폰에서 OK</p>
+<p><strong>결론: 지금은 서버 불필요</strong><br>
+- S21 + GitHub Actions + Pages + TG + Discord = 전부 공짜<br>
+- MCP는 혼자 씀, SaaS 아님<br>
+- 진짜 필요할 때 Hetzner CX22 ₩5,500/월 또는 Naver Cloud 1년<br>
+- 오라클 프리티어 복권은 안 긁어도 됨</p>
+<p><strong>포기 확인:</strong><br>
+- ❌ PC WSL2 확장<br>
+- ❌ 사무용 PC 구매<br>
+- ❌ 오라클 프리티어 당첨 기도<br>
+- ❌ Celeron 4GB에 뭐 깔기</p>
+<p><strong>가진 것:</strong><br>
+- ✅ S21 + proot Ubuntu<br>
+- ✅ GitHub Actions 2000분/월<br>
+- ✅ GitHub Pages 무제한<br>
+- ✅ TG + Discord 무제한<br>
+- ✅ DeepSeek API</p>
+<p><strong>나중에:</strong> 공인IP·Docker·상시DB 중 하나라도 진짜 막히면 → Hetzner.</p>
+<h3 id="cpu-helena-programming-actions-_boss-_claude-2026-08-05">🔧 CPU 파이프라인 — helena-programming에 Actions 클라우드 구축 (_Boss, _Claude) — 2026-08-05</h3>
+<p><strong>결정: PC 없이 GitHub Actions로 모든 CPU 작업 처리.</strong><br>
+helena-programming 레포(public→Actions 무제한)에 3종 파이프 추가:</p>
+<table>
+<thead>
+<tr>
+<th>파이프</th>
+<th>용도</th>
+<th>워크플로우</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>오디오</td>
+<td>FFmpeg + Reaper 렌더링</td>
+<td>render-audio.yml</td>
+</tr>
+<tr>
+<td>CAD</td>
+<td>FreeCAD 파라메트릭</td>
+<td>render-cad.yml</td>
+</tr>
+<tr>
+<td>컴퓨트</td>
+<td>범용 Python·Shell</td>
+<td>compute.yml</td>
+</tr>
+</tbody>
+</table>
+<p><strong>스펙:</strong> Actions 2코어 7GB RAM Ubuntu — APK 빌드 Gradle 4GB도 충분.<br>
+<strong>트리거:</strong> 해당 디렉토리 push → 자동, 또는 Actions 탭에서 수동.<br>
+<strong>비용:</strong> Public repo = 0원.</p>
+<p>이제 폰은 오케스트레이션만. 무거운 건 Actions가.</p>
+<h3 id="pc-wsl-windows-native-_boss-_claude-2026-08-05">✅ PC 최종 — WSL 포기, Windows Native 연결 허브 (_Boss, _Claude) — 2026-08-05</h3>
+<p><strong>최종 아키텍처 3단:</strong><br>
+- S21 = 메인 (AI·센서·개발)<br>
+- Celeron PC = 연결 허브 (ADB·Tailscale·SSH·Git) — WSL 없음<br>
+- GitHub Actions = CPU 공장 (APK·오디오·CAD) — 공짜</p>
+<p><strong>PC 설치: winget 4줄로 끝.</strong> Tailscale, OpenSSH, ADB, Git.<br>
+4GB로 충분. Windows만 돌리면 2GB 남는다.</p>
+<h3 id="bgm-_boss-_claude-2026-08-05">🎹 피아노 BGM 파이프라인 구축 (_Boss, _Claude) — 2026-08-05</h3>
+<p><strong>성과:</strong><br>
+- Mutopia Project → MIDI → FluidSynth+Salamander Grand Piano 렌더링 (폰에서 30초)<br>
+- PD 피아노 컬렉션: Debussy Clair de Lune, Satie Gymnopédie 1+3<br>
+- YouTube→MIDI 파이프: yt-dlp↓ → basic-pitch(Actions) → smart filter → Salamander<br>
+- Lakmé Flower Duet: 7045음 → PRO 마스터링 438음 60s</p>
+<p><strong>시행착오:</strong><br>
+- librosa CQT 추출: 피아노에 부적합 (자오락)<br>
+- basic-pitch: Actions에서 작동, YouTube IP 차단→GitHub Release 우회<br>
+- piano_transcription (ByteDance): CPU 추론 12분+ → 실전 불가<br>
+- 폰 aarch64에 TF/PyTorch 설치 불가</p>
+<p><strong>결론: 좋은 MIDI 구해서 렌더링만 하는 게 최선.</strong><br>
+폰에서 FluidSynth+Salamander는 완벽하게 돌아간다.<br>
+MIDI 소싱: Mutopia → IMSLP → (필요시) basic-pitch Actions</p>
+<p><strong>저장소:</strong> helena-piano/bgm/ → midi/ + output/ + scripts/<br>
+<strong>CDN:</strong> https://helena751107.github.io/helena-piano/bgm/output/</p>
+<h3 id="3-_boss-_claude-2026-08-06">🎬 만점 비디오 파이프라인 — 3차 업그레이드 (_Boss, _Claude) — 2026-08-06</h3>
+<p><strong>품질 진화:</strong><br>
+| 버전 | 점수 | 핵심 |<br>
+|------|------|------|<br>
+| V1 (어제) | 3/10 | 정지 스크린샷 + TTS. 슬라이드쇼 수준. |<br>
+| V2 (어제밤) | 7/10 | Ken Burns + 1080p + BGM + fade. 유튜브 가능. |<br>
+| V3 (오늘) | 7.5/10 | SunHi 복구, <code>on</code> 변수 fix, zoom 흔들림 제거 |</p>
+<p><strong>버그 수정:</strong><br>
+- zoompan <code>n</code> → <code>on</code> (FFmpeg 호환성)<br>
+- <code>aformat</code> 옵션 → 간단한 <code>volume+amix</code> (BGM 믹스 fix)<br>
+- InJoon → SunHi (여성 TTS 기본)</p>
+<p><strong>벤치마크 목표: InShot 수준</strong><br>
+- 텍스트 애니메이션 (팝/타이프라이터)<br>
+- 비트 동기화 트랜지션<br>
+- 컬러 그레이딩<br>
+- 멀티 트랜지션 스타일<br>
+- 속도 램핑<br>
+- 쇼츠/틱톡 프리셋</p>
+<p><strong>핵심: 공짜 FFmpeg 파이프로 구독자 확보용 쇼츠 자동화</strong></p>
   </article>
   <nav class="wz-pager">
     <a class="" href="session-2026-07-26_Grok.html">
