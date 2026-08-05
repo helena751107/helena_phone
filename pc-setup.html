@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="집PC DeepSeek+Aider 연결 — S21 Phone ↔ Windows 10 WSL2 3중 에이전트 셋업">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>집PC 연결 — DeepSeek+Aider — S21 Phone Webzine</title>
+<link rel="icon" href="icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/webzine.css">
+<style>
+/* PC Setup page extras */
+.cmd-block {
+  background: #0d0c0b;
+  border: 1px solid rgba(244,239,230,.12);
+  border-radius: 4px;
+  margin: 16px 0;
+  position: relative;
+  overflow: hidden;
+}
+.cmd-block .bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px;
+  background: #12100e;
+  border-bottom: 1px solid rgba(244,239,230,.08);
+  font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
+  color: #7a7064;
+}
+.cmd-block .bar .dot { width: 8px; height: 8px; border-radius: 50%; }
+.cmd-block .bar .dot.r { background: #ff5f57; }
+.cmd-block .bar .dot.y { background: #febc2e; }
+.cmd-block .bar .dot.g { background: #28c840; }
+.cmd-block .bar .label { margin-left: 8px; }
+.cmd-block pre {
+  margin: 0; padding: 18px 16px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: .82rem; line-height: 1.65;
+  color: #c8c0b4; overflow-x: auto;
+  white-space: pre-wrap; word-break: break-all;
+}
+.cmd-block pre .prompt { color: #3db8a8; }
+.cmd-block pre .cmd { color: #f0c75e; }
+.cmd-block pre .comment { color: #5c5348; }
+.cmd-block .copy-btn {
+  position: absolute; top: 8px; right: 10px;
+  font-size: .68rem; letter-spacing: .06em; text-transform: uppercase;
+  padding: 6px 12px; border: 1px solid rgba(244,239,230,.15);
+  background: #12100e; color: #7a7064; cursor: pointer;
+  transition: .2s; font-family: inherit;
+}
+.cmd-block .copy-btn:hover { border-color: #d4a84b; color: #d4a84b; }
+.cmd-block .copy-btn.copied { border-color: #3db8a8; color: #3db8a8; }
+
+.step-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .72rem; letter-spacing: .14em;
+  color: #d4a84b; font-weight: 600;
+  display: inline-block; margin-right: 8px;
+}
+
+.arch-diagram {
+  background: #12100e; border: 1px solid rgba(244,239,230,.10);
+  padding: 28px 20px; margin: 20px 0; overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace; font-size: .78rem;
+  line-height: 1.55; color: #8a8074; white-space: pre;
+}
+
+.highlight-box {
+  border-left: 3px solid #d4a84b;
+  background: rgba(212,168,75,.06);
+  padding: 16px 18px; margin: 20px 0;
+  font-size: .92rem; color: #b5a999;
+}
+.highlight-box strong { color: #f0c75e; }
+
+.checklist { list-style: none; padding: 0; }
+.checklist li {
+  padding: 8px 0; border-bottom: 1px solid rgba(244,239,230,.06);
+  font-size: .9rem; color: #b5a999;
+}
+.checklist li::before {
+  content: '☐ '; color: #7a7064; margin-right: 8px;
+}
+.checklist li.done::before { content: '☑ '; color: #3db8a8; }
+
+.file-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: .85rem; }
+.file-table th {
+  text-align: left; padding: 10px 14px;
+  font-size: .65rem; letter-spacing: .12em; text-transform: uppercase;
+  color: #7a7064; border-bottom: 1px solid rgba(244,239,230,.12);
+}
+.file-table td {
+  padding: 10px 14px; border-bottom: 1px solid rgba(244,239,230,.06);
+  vertical-align: top;
+}
+.file-table td:first-child { font-family: 'JetBrains Mono', monospace; font-size: .78rem; color: #f0c75e; }
+.file-table td:nth-child(2) { font-family: 'JetBrains Mono', monospace; font-size: .78rem; color: #c8c0b4; }
+.file-table td:last-child { color: #8a8074; font-size: .82rem; }
+</style>
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="index.html">Home</a>
+      <a href="archive.html">Archive</a>
+      <a href="index.html#library">Library</a>
+      <a href="index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="index.html">Webzine</a><span class="sep">/</span>
+    <span>Setup</span><span class="sep">/</span>
+    <span>집PC DeepSeek+Aider 연결</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Infrastructure · 2026-08-05</div>
+    <h1>🏠 집에 있는 PC랑 연결하기</h1>
+    <p class="deck">S21 Phone + Windows 10 WSL2 = 3중 에이전트. Boss는 <strong>딱 2줄</strong>만 치면 된다. 나머지는 AI가 한다.</p>
+    <div class="wz-meta">
+      <span>Source · 40-pc-wsl-setup_Boss.md</span>
+      <span>Target · Windows 10 + WSL2 Ubuntu</span>
+      <span>Role · Aider 작업반장 설치</span>
+    </div>
+  </header>
+
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#why">왜 PC인가</a></li>
+<li><a href="#arch">아키텍처 — 3중 에이전트</a></li>
+<li><a href="#boss">0단계: Boss가 직접 할 일 (딱 2줄)</a></li>
+<li><a href="#aider-prompt">1단계: Aider에게 전체 셋업 위임</a></li>
+<li><a href="#files">파일 구조 — 폰 ↔ PC 매핑</a></li>
+<li><a href="#wsl-manual">참고: WSL 수동 셋업 (Aider 없이 할 경우)</a></li>
+<li><a href="#tailscale">Tailscale + SSH 연결</a></li>
+<li><a href="#phone-aliases">Phone 쪽 aliases</a></li>
+<li><a href="#checklist">최종 점검 목록</a></li>
+</ul>
+</div>
+</nav>
+
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+
+  <article class="wz-prose" id="wzProse" data-app="doc">
+
+    <!-- ═══ WHY ═══ -->
+    <h2 id="why">왜 PC인가</h2>
+    <p>S21 폰만으로도 풀스택 워크스테이션이 돌아간다. 하지만:</p>
+    <ul>
+      <li><strong>빌드·컴파일</strong> — 폰에서 돌리면 느리고 배터리 먹음</li>
+      <li><strong>Docker·서버</strong> — proot Ubuntu에선 제한적</li>
+      <li><strong>멀티태스킹</strong> — PC 화면이 훨씬 편함</li>
+      <li><strong>GPU·대용량</strong> — 모델 실행, 영상 처리</li>
+    </ul>
+    <div class="highlight-box">
+      <strong>핵심:</strong> Phone = 감사·기획 (Claude Code). PC = 작업반장·시공 (Aider).<br>
+      Tailscale로 묶고 SSH로 Phone에서 PC를 원격 제어한다.
+    </div>
+
+    <!-- ═══ ARCH ═══ -->
+    <h2 id="arch">아키텍처 — 3중 에이전트</h2>
+    <div class="arch-diagram">
+┌──────────────────────────────────────────────────────────┐
+│                    Tailscale Mesh                         │
+│                                                          │
+│  ┌──────────────────┐       ┌─────────────────────────┐  │
+│  │   S21 Phone       │       │   Windows 10 PC         │  │
+│  │   (Termux+proot)  │ SSH   │                          │  │
+│  │                   │──────►│  ┌────────────────────┐ │  │
+│  │  Claude Code(cc)  │       │  │ Windows Native      │ │  │
+│  │  감사·기획         │       │  │  Aider(ds)          │ │  │
+│  │  DeepSeek-v4-pro  │       │  │  DeepSeek-v4-pro    │ │  │
+│  └──────────────────┘       │  └────────────────────┘ │  │
+│                              │                          │  │
+│                              │  ┌────────────────────┐ │  │
+│                              │  │ WSL2 Ubuntu         │ │  │
+│                              │  │  Aider(ds)          │ │  │
+│                              │  │  DeepSeek-v4-pro    │ │  │
+│                              │  │  SSH server ←───────┼─│── Phone 접속
+│                              │  │  Git repos          │ │  │
+│                              │  └────────────────────┘ │  │
+│                              └─────────────────────────┘  │
+└──────────────────────────────────────────────────────────┘
+    </div>
+    <table>
+      <thead><tr><th>머신</th><th>쉘</th><th>호출</th><th>역할</th><th>LLM</th></tr></thead>
+      <tbody>
+        <tr><td>S21 Phone</td><td>Termux/proot</td><td><code>cc</code></td><td>감사·기획</td><td>DeepSeek-v4-pro</td></tr>
+        <tr><td>Windows Native</td><td>PowerShell/CMD</td><td><code>ds</code></td><td>작업반장 (Win)</td><td>DeepSeek-v4-pro</td></tr>
+        <tr><td>WSL2 Ubuntu</td><td>bash</td><td><code>ds</code></td><td>작업반장 (Linux)</td><td>DeepSeek-v4-pro</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ═══ BOSS STEP ═══ -->
+    <h2 id="boss"><span class="step-num">0단계</span> Boss가 직접 할 일 (딱 2줄)</h2>
+    <p>PowerShell 열고 이거만 치면 된다. <strong>5분 컷.</strong></p>
+
+    <div class="cmd-block" id="cmd-boss">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="label">PowerShell — 관리자</span></div>
+      <button class="copy-btn" data-target="cmd-boss">복사</button>
+      <pre># 1. Python 설치 (없으면)
+winget install Python.Python.3.12
+
+# 2. Aider 설치
+pip install aider-chat</pre>
+    </div>
+
+    <p>끝. 이제부터 <strong>Aider한테 말로 시키면 된다.</strong></p>
+
+    <!-- ═══ AIDER PROMPT ═══ -->
+    <h2 id="aider-prompt"><span class="step-num">1단계</span> Aider에게 전체 셋업 위임</h2>
+    <p>아래 프롬프트를 <strong>통째로 복사해서 Aider에 붙여넣기</strong>.</p>
+    <p>Aider가 11단계 전체를 알아서 실행한다: Tailscale → WSL → SSH → Git → ds 래퍼 → 연결 테스트.</p>
+
+    <div class="cmd-block" id="cmd-aider-prompt">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="label">Aider 부트스트랩 프롬프트 — 복사해서 Aider에 붙여넣기</span></div>
+      <button class="copy-btn" data-target="cmd-aider-prompt">복사</button>
+      <pre>너는 Windows 10 + WSL2 Ubuntu 개발환경을 셋업하는 작업반장이다.
+지금부터 내가 시키는 모든 것을 순서대로 실행해라.
+필요한 명령어는 직접 실행하고, 안 되는 건 대안을 찾아서 해결해라.
+
+--- 작업 목록 ---
+
+[1] Tailscale 설치 + 로그인
+- https://tailscale.com/download/windows 에서 다운로드 + 설치
+- 설치 후 tailscale up 실행, 로그인 URL 출력
+- 나한테 "여기 로그인해" 하고 URL 던져줘
+
+[2] Tailscale 상태 확인
+- tailscale status 로 PC의 Tailscale IP 확인
+- 이 IP를 PC_IP 변수로 기록
+
+[3] WSL2 설치 + Ubuntu
+- PowerShell(관리자): wsl --install -d Ubuntu
+- 재부팅 필요하면 말해줘
+- Ubuntu 초기 사용자/비번 설정
+
+[4] WSL 기본 셋업
+- WSL Ubuntu 진입해서:
+  sudo apt update && sudo apt upgrade -y
+  sudo apt install -y build-essential git curl wget python3 python3-pip pipx openssh-server
+  pipx ensurepath
+
+[5] WSL에 Aider 설치
+- pipx install aider-chat
+- 테스트: aider --version
+
+[6] DeepSeek API 키 설정
+- Windows 환경변수: DEEPSEEK_API_KEY=여기에_API_키_입력
+- Windows 환경변수: ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
+- WSL ~/.bashrc에도 똑같이 추가
+
+[7] WSL SSH 서버
+- sudo service ssh start
+- Windows 방화벽: Tailscale 인터페이스 22번 포트 허용
+
+[8] Phone SSH 키 등록
+- WSL의 ~/.ssh/authorized_keys에 다음 공개키 추가:
+  ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG5ohGtm3SbeKQzFe2glSRlIAwLurJJsiiHRhYn0R9L5 s21-phone-20260805
+- chmod 600 ~/.ssh/authorized_keys
+
+[9] Git 레포 클론 (WSL)
+- mkdir -p ~/work && cd ~/work
+- git clone --recurse-submodules https://github.com/helena751107/helena_phone.git
+
+[10] ds 래퍼 설치 (WSL + Windows 양쪽)
+
+WSL (~/bin/ds):
+```
+#!/bin/bash
+REPO="${REPO:-$HOME/work/helena_phone}"
+MODEL="${DEEPSEEK_MODEL:-deepseek/deepseek-v4-pro}"
+cd "$REPO" || exit 1
+echo "🔧 ds (WSL) — Aider + DeepSeek (${MODEL})"
+aider --model "${MODEL}" --no-auto-commits --chat-language Korean --dark-mode "$@"
+```
+
+Windows (C:\Users\사용자\bin\ds.bat) — 같은 기능
+
+[11] 전체 연결 테스트
+- Phone에서 WSL로 SSH: ssh 사용자@PC_IP "echo 연결OK"
+- WSL에서: ds "이 레포 구조 설명해줘"
+- Windows에서: ds "현재 디렉토리 파일 목록"
+
+--- 규칙 ---
+- 각 단계 완료할 때마다 "[N]/11 완료: 요약" 보고
+- 안 되는 건 원인 분석해서 대안 제시
+- 나한테 물어봐야 할 건 명확하게 질문
+- 절대 대충 넘어가지 마</pre>
+    </div>
+
+    <p>이 프롬프트의 원본 파일: <code>scripts/aider-bootstrap-prompt.txt</code></p>
+
+    <!-- ═══ FILE MAP ═══ -->
+    <h2 id="files">파일 구조 — 폰 ↔ PC 매핑</h2>
+    <p>폰에서 돌아가는 환경을 PC에 그대로 복제한다. DeepSeek API 직접 연결 (OpenRouter 아님).</p>
+
+    <table class="file-table">
+      <thead><tr><th>폰 (Termux)</th><th>PC (Windows)</th><th>설명</th></tr></thead>
+      <tbody>
+        <tr><td>~/.local/bin/aider</td><td>pip install aider-chat</td><td>Aider v0.86.2</td></tr>
+        <tr><td>DEEPSEEK_API_KEY in .bashrc</td><td>시스템 환경변수</td><td>API 키</td></tr>
+        <tr><td>ANTHROPIC_BASE_URL=api.deepseek.com/anthropic</td><td>동일</td><td>호환 엔드포인트</td></tr>
+        <tr><td>~/.aider.model.settings.yml</td><td>%USERPROFILE%\.aider.model.settings.yml</td><td>Claude 행세 방지</td></tr>
+        <tr><td>~/work/scripts/ds.sh</td><td>%USERPROFILE%\bin\ds.bat</td><td>실행 래퍼</td></tr>
+        <tr><td>AIDER_MODEL=deepseek/deepseek-v4-pro</td><td>동일</td><td>주 모델</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ═══ WSL MANUAL ═══ -->
+    <h2 id="wsl-manual">참고: WSL 수동 셋업 (Aider 없이 할 경우)</h2>
+    <p>Aider가 안 되는 최악의 상황을 위한 수동 백업 플랜.</p>
+
+    <h3>WSL2 Ubuntu 설치</h3>
+    <div class="cmd-block" id="cmd-wsl-install">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="label">PowerShell — 관리자</span></div>
+      <button class="copy-btn" data-target="cmd-wsl-install">복사</button>
+      <pre>wsl --install -d Ubuntu</pre>
+    </div>
+
+    <h3>WSL 기본 패키지 + Aider</h3>
+    <div class="cmd-block" id="cmd-wsl-pkgs">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="label">WSL Ubuntu bash</span></div>
+      <button class="copy-btn" data-target="cmd-wsl-pkgs">복사</button>
+      <pre>sudo apt update && sudo apt upgrade -y
+sudo apt install -y build-essential git curl wget python3 python3-pip pipx openssh-server
+pipx ensurepath
+pipx install aider-chat</pre>
+    </div>
+
+    <h3>DeepSeek API 키 + 모델 설정</h3>
+    <div class="cmd-block" id="cmd-wsl-env">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="label">WSL Ubuntu bash</span></div>
+      <button class="copy-btn" data-target="cmd-wsl-env">복사</button>
+      <pre># API 키 등록
+cat >> ~/.bashrc << 'EOF'
+export DEEPSEEK_API_KEY="여기에_API_키_입력"
+export ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"
+export AIDER_MODEL="deepseek/deepseek-v4-pro"
+EOF
+source ~/.bashrc
+
+# Claude 행세 방지 모델 설정 다운로드
+curl -o ~/.aider.model.settings.yml \
+  https://raw.githubusercontent.com/helena751107/helena_phone/main/configs/aider.model.settings.yml</pre>
+    </div>
+
+    <h3>ds 래퍼 설치</h3>
+    <div class="cmd-block" id="cmd-wsl-ds">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="label">WSL Ubuntu bash</span></div>
+      <button class="copy-btn" data-target="cmd-wsl-ds">복사</button>
+      <pre>mkdir -p ~/bin
+cat > ~/bin/ds << 'DSEOF'
+#!/bin/bash
+REPO="${REPO:-$HOME/work/helena_phone}"
+MODEL="${AIDER_MODEL:-deepseek/deepseek-v4-pro}"
+cd "$REPO" || { echo "❌ $REPO 없음. git clone 먼저."; exit 1; }
+echo "🔧 ds = Aider + DeepSeek"
+echo "  model: $MODEL  |  cwd: $(pwd)"
+aider --model "$MODEL" \
+  --model-settings-file ~/.aider.model.settings.yml \
+  --edit-format diff --chat-language Korean \
+  --no-auto-commits --dark-mode --pretty "$@"
+DSEOF
+chmod +x ~/bin/ds</pre>
+    </div>
+
+    <!-- ═══ TAILSCALE ═══ -->
+    <h2 id="tailscale">Tailscale + SSH 연결</h2>
+
+    <h3>Windows에 Tailscale</h3>
+    <div class="cmd-block" id="cmd-ts-win">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="label">PowerShell</span></div>
+      <button class="copy-btn" data-target="cmd-ts-win">복사</button>
+      <pre># https://tailscale.com/download/windows → 설치
+# 설치 후:
+tailscale up
+# 브라우저에서 로그인</pre>
+    </div>
+
+    <h3>Phone에 Tailscale</h3>
+    <div class="cmd-block" id="cmd-ts-phone">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="label">Termux (proot 밖 일반 사용자)</span></div>
+      <button class="copy-btn" data-target="cmd-ts-phone">복사</button>
+      <pre>pkg install tailscale
+tailscale up
+# 인증 URL → 브라우저 로그인</pre>
+    </div>
+
+    <h3>Phone → WSL SSH 키 등록</h3>
+    <p>Phone의 공개키를 WSL authorized_keys에 추가하면 비번 없이 접속 가능.</p>
+    <div class="cmd-block" id="cmd-ssh-key">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="label">WSL Ubuntu bash</span></div>
+      <button class="copy-btn" data-target="cmd-ssh-key">복사</button>
+      <pre>mkdir -p ~/.ssh
+echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG5ohGtm3SbeKQzFe2glSRlIAwLurJJsiiHRhYn0R9L5 s21-phone-20260805" >> ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+sudo service ssh start</pre>
+    </div>
+
+    <h3>연결 테스트</h3>
+    <div class="cmd-block" id="cmd-ssh-test">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="label">Phone — Termux/proot</span></div>
+      <button class="copy-btn" data-target="cmd-ssh-test">복사</button>
+      <pre>ssh 사용자명@100.x.x.x "echo ✅ PC 연결 성공"</pre>
+    </div>
+
+    <!-- ═══ PHONE ALIASES ═══ -->
+    <h2 id="phone-aliases">Phone 쪽 aliases</h2>
+    <p>Phone의 <code>~/.bashrc</code>에 추가하면 편리한 단축 명령어.</p>
+
+    <div class="cmd-block" id="cmd-aliases">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="label">Phone — ~/.bashrc</span></div>
+      <button class="copy-btn" data-target="cmd-aliases">복사</button>
+      <pre># PC 연결 aliases (PC_IP를 실제 Tailscale IP로 변경)
+export PC_IP=100.x.x.x
+export PC_USER=사용자명
+
+alias pc="ssh ${PC_USER}@${PC_IP}"
+alias pc-work="ssh ${PC_USER}@${PC_IP} -t 'cd ~/work/helena_phone && exec bash -l'"
+alias pc-push='git push && ssh ${PC_USER}@${PC_IP} "cd ~/work/helena_phone && git pull --recurse-submodules"'
+alias pc-status='ssh ${PC_USER}@${PC_IP} "cd ~/work/helena_phone && git status --short"'
+alias pc-ds='ssh ${PC_USER}@${PC_IP} -t "cd ~/work/helena_phone && ds"'
+
+# 사용법:
+# pc           → PC에 SSH 접속
+# pc-work      → 작업 디렉토리로 바로 이동
+# pc-push      → push하고 PC에도 pull
+# pc-status    → PC 작업 상태 확인
+# pc-ds        → PC에서 Aider 실행</pre>
+    </div>
+
+    <!-- ═══ CHECKLIST ═══ -->
+    <h2 id="checklist">최종 점검 목록</h2>
+    <ul class="checklist">
+      <li>Windows: <code>python --version</code> — Python 3.12+</li>
+      <li>Windows: <code>aider --version</code> — Aider 설치 완료</li>
+      <li>Windows: <code>echo %DEEPSEEK_API_KEY%</code> — API 키 설정됨</li>
+      <li>Windows: <code>echo %ANTHROPIC_BASE_URL%</code> — https://api.deepseek.com/anthropic</li>
+      <li>Windows: <code>ds</code> 명령어가 PATH에 있음</li>
+      <li>WSL: <code>wsl -l -v</code> — Ubuntu 실행 중</li>
+      <li>WSL: <code>aider --version</code> — Aider 설치 완료</li>
+      <li>WSL: <code>ls ~/.aider.model.settings.yml</code> — 모델 설정 있음</li>
+      <li>Tailscale: 양쪽 기기 같은 tailnet — <code>tailscale status</code></li>
+      <li>SSH: Phone → WSL 암호키 로그인 성공</li>
+      <li>Git: WSL에 <code>~/work/helena_phone</code> 클론 완료</li>
+      <li><strong>최종: Phone에서 <code>pc-ds</code> → Aider 실행 → 말로 작업 지시</strong></li>
+    </ul>
+
+    <hr>
+    <p style="color:#7a7064;font-size:.85rem">
+      📁 원본 가이드: <code>_notebook/40-pc-wsl-setup_Boss.md</code><br>
+      📁 설치 스크립트: <code>scripts/pc-install-ds.bat</code><br>
+      🔑 API 키 발급: <a href="https://platform.deepseek.com/api_keys" style="color:#d4a84b">platform.deepseek.com/api_keys</a>
+    </p>
+
+  </article>
+</main>
+
+<script src="assets/webzine.js"></script>
+<script>
+/* Copy button handler */
+document.querySelectorAll('.copy-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const targetId = btn.dataset.target;
+    const block = document.getElementById(targetId);
+    if (!block) return;
+    const pre = block.querySelector('pre');
+    if (!pre) return;
+    navigator.clipboard.writeText(pre.textContent).then(() => {
+      btn.textContent = '복사됨 ✓';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = '복사';
+        btn.classList.remove('copied');
+      }, 1500);
+    });
+  });
+});
+</script>
+</body>
+</html>
