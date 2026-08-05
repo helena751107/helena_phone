@@ -4012,3 +4012,33 @@ Phone의 Claude Code(cc) + Windows ds + WSL ds = 3중 에이전트.
 **문서화:**
 - `41-github-free-maxout_Boss.md` — 공짜 생태계 전략 전문
 - `pc-setup.html` — 사양 비교 + 판정 + GitHub Actions 로드맵
+
+### 🔚 서버 논의 최종 — 당장 필요 없음 (_Boss, _Claude) — 2026-08-05
+
+**원점 재검토: S21이 진짜 못 하는 것**
+- 공인 IP 없음 (CGNAT) — GitHub Pages·Actions가 커버
+- 24/7 불안정 — Actions cron이 대체
+- Docker 없음 — proot 한계, 당장 급하지 않음
+- DB 서버 없음 — JSON 파일로 충분
+- FFmpeg 긴 영상 — 짧은 건 폰에서 OK
+
+**결론: 지금은 서버 불필요**
+- S21 + GitHub Actions + Pages + TG + Discord = 전부 공짜
+- MCP는 혼자 씀, SaaS 아님
+- 진짜 필요할 때 Hetzner CX22 ₩5,500/월 또는 Naver Cloud 1년
+- 오라클 프리티어 복권은 안 긁어도 됨
+
+**포기 확인:**
+- ❌ PC WSL2 확장
+- ❌ 사무용 PC 구매
+- ❌ 오라클 프리티어 당첨 기도
+- ❌ Celeron 4GB에 뭐 깔기
+
+**가진 것:**
+- ✅ S21 + proot Ubuntu
+- ✅ GitHub Actions 2000분/월
+- ✅ GitHub Pages 무제한
+- ✅ TG + Discord 무제한
+- ✅ DeepSeek API
+
+**나중에:** 공인IP·Docker·상시DB 중 하나라도 진짜 막히면 → Hetzner.
