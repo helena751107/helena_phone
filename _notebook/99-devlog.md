@@ -3932,3 +3932,16 @@ Boss + 외부 LLM(Grok/ChatGPT)이 대화 → 요약 → HTML 코딩 → 티스�
 **티스토리는 Claude Code 관여 없는 Boss 자유 공간.**
 **helana_log/기자/는 그걸 한곳에 모아 보는 편집 데스크.**
 
+
+### 📋 Boss 티스토리 5채널 등록 (_Boss)
+
+| # | 티스토리 | 주제 | 매핑 레포 |
+|---|---------|------|----------|
+| 1 | galaxys21-pwuser | 업무일지·개발 | helena_phone |
+| 2 | helena-metalcare | 돌봄·복지 | helena-psycare |
+| 3 | helena-piano | 피아노·연주 | helena-piano |
+| 4 | helana-christianity | 신앙 | helana-faith |
+| 5 | mynote11605 | 자유 노트 | helana_log |
+
+RSS 동기화 → helana_log/기자/ 폴더로 수집 → Claude Code 리뷰.
+

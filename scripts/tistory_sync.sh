@@ -10,11 +10,11 @@ mkdir -p "$OUT_DIR"
 
 # Boss 티스토리 5개 (실제 주소로 교체 필요)
 BLOGS=(
-  "helena-work"       # 업무일지
-  "helena-tech"       # 기술·AI  
-  "helena-video"      # 영상 제작
-  "helena-content"    # 콘텐츠 자동화
-  "helena-life"       # 생각·아이디어
+  "galaxys21-pwuser"
+  "helena-metalcare"
+  "helena-piano"
+  "helana-christianity"
+  "mynote11605"
 )
 
 fetch_and_save() {
