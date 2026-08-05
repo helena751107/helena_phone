@@ -4059,3 +4059,13 @@ helena-programming 레포(public→Actions 무제한)에 3종 파이프 추가:
 **비용:** Public repo = 0원.
 
 이제 폰은 오케스트레이션만. 무거운 건 Actions가.
+
+### ✅ PC 최종 — WSL 포기, Windows Native 연결 허브 (_Boss, _Claude) — 2026-08-05
+
+**최종 아키텍처 3단:**
+- S21 = 메인 (AI·센서·개발)
+- Celeron PC = 연결 허브 (ADB·Tailscale·SSH·Git) — WSL 없음
+- GitHub Actions = CPU 공장 (APK·오디오·CAD) — 공짜
+
+**PC 설치: winget 4줄로 끝.** Tailscale, OpenSSH, ADB, Git.
+4GB로 충분. Windows만 돌리면 2GB 남는다.

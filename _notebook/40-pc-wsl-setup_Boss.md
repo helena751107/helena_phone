@@ -1,106 +1,93 @@
-# 🏠 집PC ↔ 누나 폰 연동 — Boss 2026-08-05
+# 🏠 누나 PC — 최종 (WSL 없음, Windows Native) — Boss 2026-08-05
 
-## 핵심: Tailscale Windows 네이티브 + Windows SSH + wsl
+## 결정: WSL 포기, Windows만
+
+Celeron 3855U + 4GB. WSL2는 RAM 부족으로 불가.
+**Windows Native 앱 4개만 깐다.** 연결 허브 + 빌드 캐시 용도.
+
+## PC 역할: 연결 허브
 
 ```
-누나 폰 ──ssh──▶ Windows (Tailscale IP) ──wsl──▶ Ubuntu (Aider)
+Celeron PC (Windows 10, WSL X)
+├── Tailscale       → VPN (Phone ↔ PC ↔ 어디서나)
+├── OpenSSH Server  → Phone에서 PC 원격 제어
+├── ADB             → USB/WiFi로 폰 디버깅 (상시 연결)
+├── Git             → 레포 싱크, 빌드 캐시 보관
+└── 끝.
 ```
 
-**Tailscale은 무조건 Windows에.** WSL 안에 깔면 네트워크 꼬임.
-**SSH도 Windows OpenSSH.** WSL SSH 필요 없음.
+RAM 사용: Windows 2GB + 앱들 500MB = 2.5GB. **남는 거 1.5GB.**
 
----
+## 무거운 건 전부 Actions로
 
-## ① PC: Tailscale 설치
+| 작업 | 어디서 | 비용 |
+|------|--------|------|
+| APK 빌드 | GitHub Actions (7GB) | 0원 |
+| 오디오 렌더링 | GitHub Actions | 0원 |
+| CAD | GitHub Actions | 0원 |
+| AI 코딩·기획 | S21 + DeepSeek | 0원 |
+| GPU·영상 | Grok + RunPod | 있음 |
+
+## 설치 (PowerShell 관리자, 딱 4줄)
+
 ```powershell
-# PowerShell 관리자
+# 1. Tailscale
 winget install tailscale.tailscale
 tailscale up
-# 브라우저 로그인 (폰이랑 같은 계정)
-```
 
-## ② PC: Windows SSH 서버 켜기
-```powershell
-# PowerShell 관리자
+# 2. SSH Server
 Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
 Start-Service sshd
 Set-Service -Name sshd -StartupType 'Automatic'
-```
 
-## ③ PC: Tailscale IP 확인 (적어두기)
-```powershell
+# 3. ADB
+winget install Google.PlatformTools
+
+# 4. Git
+winget install Git.Git
+
+# 확인
 tailscale ip -4
 ```
-→ `100.x.x.x` 이거 적어둔다.
 
-## ④ 폰: Tailscale + SSH 설치
+## Phone → PC 연결
+
 ```bash
-# Termux 겉 (~ $) proot 안 아님
-pkg install -y tailscale openssh
-tailscale up
-# 같은 계정으로 브라우저 인증
-```
-
-## ⑤ 폰 → PC SSH 접속 테스트
-```bash
-ssh [윈도우_사용자명]@[③에서_적은_IP]
-```
-윈도우 로그인 비번 입력. PowerShell/CMD 화면 뜨면 성공.
-
-## ⑥ WSL + Aider 진입
-```
-wsl
-cd ~/work
-aider --model deepseek/deepseek-v4-pro
+# Tailscale IP 확인 후
+ssh [사용자명]@100.x.x.x
+# 붙으면 PowerShell/CMD
+adb devices   # 폰 디버깅
 ```
 
 ---
 
-## PC 최초 1회: WSL + Aider 설치
+## 전체 아키텍처 최종
 
-```powershell
-# PowerShell 관리자
-wsl --install -d Ubuntu
-# 재부팅, Ubuntu 사용자/비번 설정
+```
+┌──────────────┐   ┌─────────────────┐   ┌──────────────────┐
+│   S21 Phone   │   │  Celeron PC      │   │  GitHub Actions   │
+│   (메인)      │   │  (연결 허브)     │   │  (CPU 공장)       │
+├──────────────┤   ├─────────────────┤   ├──────────────────┤
+│ Claude Code  │◄──│ ADB·디버깅      │   │ APK 빌드 (7GB)    │
+│ DeepSeek API │   │ Tailscale       │   │ 오디오 렌더링     │
+│ AI·센서·이동 │   │ SSH·Git·캐시    │   │ CAD·FFmpeg       │
+│              │   │                 │   │ 공짜 무제한       │
+└──────────────┘   └─────────────────┘   └──────────────────┘
+      ↑                   ↑                      ↑
+  Exynos 8GB          Celeron 4GB          2코어 7GB
+  항상 주머니          책상 고정              휘발성
 ```
 
-```bash
-# WSL Ubuntu
-sudo apt update && sudo apt upgrade -y
-sudo apt install -y build-essential git curl wget python3 python3-pip pipx
-pipx ensurepath
-pipx install aider-chat
+## 이 PC가 못 하는 것 (인정)
 
-# API 키
-cat >> ~/.bashrc << 'EOF'
-export DEEPSEEK_API_KEY="sk-XXXX"
-export ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"
-export AIDER_MODEL="deepseek/deepseek-v4-pro"
-EOF
+- Docker → 필요 없음 (Actions로 충분)
+- WSL2 → RAM 부족으로 불가
+- GPU → Grok + RunPod
+- 무거운 빌드 → Actions가 함
 
-# Git 클론
-mkdir -p ~/work && cd ~/work
-git clone --recurse-submodules https://github.com/helena751107/helena_phone.git
+## 이 PC가 하는 것
 
-# 모델 설정
-curl -o ~/.aider.model.settings.yml \
-  https://raw.githubusercontent.com/helena751107/helena_phone/main/configs/aider.model.settings.yml
-```
-
----
-
-## Phone aliases (~/.bashrc)
-```bash
-export PC_IP=100.x.x.x
-export PC_USER=사용자명
-
-alias pc="ssh ${PC_USER}@${PC_IP}"
-alias pc-wsl="ssh ${PC_USER}@${PC_IP} -t wsl"
-alias pc-ds="ssh ${PC_USER}@${PC_IP} -t 'wsl ~/bin/ds'"
-```
-
----
-
-## ✅ 통과 기준
-- `ssh 사용자@100.x.x.x` → PowerShell/CMD 뜸
-- `wsl` → `aider` → DeepSeek 응답 옴
+- **늘 켜져 있음** → ADB로 폰 상시 연결
+- **공인 IP 없이 접근** → Tailscale
+- **Git 캐시** → Gradle·Flutter SDK 매번 다운 안 함
+- **원격 터미널** → Phone에서 SSH로 PC 제어
