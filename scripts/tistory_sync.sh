@@ -3,8 +3,14 @@
 # 사용법: bash tistory_sync.sh
 #         bash tistory_sync.sh --watch  (30분 간격)
 
-TG_TOKEN="8988031320:AAHYpxv3XuS6jaCh8switB9n7Z_ZP75V8nQ"
-TG_CHAT="8579179811"
+# 시크릿 로드
+if [ -f "$HOME/work/.secrets.env" ]; then
+  set -a; source "$HOME/work/.secrets.env"; set +a
+elif [ -f "/root/work/.secrets.env" ]; then
+  set -a; source "/root/work/.secrets.env"; set +a
+fi
+TG_TOKEN="${TG_TOKEN:?TG_TOKEN 없음}"
+TG_CHAT="${TG_CHAT:?TG_CHAT 없음}"
 OUT_DIR="/root/work/helana_log/기자"
 mkdir -p "$OUT_DIR"
 
