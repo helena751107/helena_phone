@@ -4090,3 +4090,27 @@ MIDI 소싱: Mutopia → IMSLP → (필요시) basic-pitch Actions
 
 **저장소:** helena-piano/bgm/ → midi/ + output/ + scripts/
 **CDN:** https://helena751107.github.io/helena-piano/bgm/output/
+
+### 🎬 만점 비디오 파이프라인 — 3차 업그레이드 (_Boss, _Claude) — 2026-08-06
+
+**품질 진화:**
+| 버전 | 점수 | 핵심 |
+|------|------|------|
+| V1 (어제) | 3/10 | 정지 스크린샷 + TTS. 슬라이드쇼 수준. |
+| V2 (어제밤) | 7/10 | Ken Burns + 1080p + BGM + fade. 유튜브 가능. |
+| V3 (오늘) | 7.5/10 | SunHi 복구, `on` 변수 fix, zoom 흔들림 제거 |
+
+**버그 수정:**
+- zoompan `n` → `on` (FFmpeg 호환성)
+- `aformat` 옵션 → 간단한 `volume+amix` (BGM 믹스 fix)
+- InJoon → SunHi (여성 TTS 기본)
+
+**벤치마크 목표: InShot 수준**
+- 텍스트 애니메이션 (팝/타이프라이터)
+- 비트 동기화 트랜지션
+- 컬러 그레이딩
+- 멀티 트랜지션 스타일
+- 속도 램핑
+- 쇼츠/틱톡 프리셋
+
+**핵심: 공짜 FFmpeg 파이프로 구독자 확보용 쇼츠 자동화**

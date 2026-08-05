@@ -10,7 +10,7 @@ export OUTDIR="/root/work/out/${EP}"
 # Grok으로 랜딩 전체를 다시 그리지 않는다 (표준 v3)
 export TTS_ENGINE="${TTS_ENGINE:-grok}"
 export GROK_TTS_VOICE="${GROK_TTS_VOICE:-ara}"
-export VOICE="ko-KR-InJoonNeural"
+export VOICE="ko-KR-SunHiNeural"
 export URL="$URL"
 export ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
