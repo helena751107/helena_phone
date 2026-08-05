@@ -3987,3 +3987,28 @@ Phone의 Claude Code(cc) + Windows ds + WSL ds = 3중 에이전트.
 3. Aider가 11단계 전체 자동 실행
 
 **핵심:** Boss는 방향만 주고 AI가 시공한다. 이게 CONSTITUTION.md의 파이프다.
+
+### 🖥️ 집PC 연결 웹페이지 제작 (_Boss, _Claude) — 2026-08-05
+
+`pc-setup.html` — 모든 커맨드를 복사 가능한 코드 블록으로 제공하는 단일 페이지.
+- 랜딩 index.html 네비게이션 + Infrastructure 라이브러리에 링크 추가
+- 0단계(Boss 2줄) → 1단계(Aider 위임 11단계) 구조
+- WSL·Tailscale·SSH·ds 래퍼·모델 설정 전체 커버
+- GitHub Pages에서 바로 확인 가능: helena751107.github.io/helena_phone/pc-setup.html
+
+### 🔄 PC 확장 포기 — GitHub 공짜 전략으로 전환 (_Boss, _Claude) — 2026-08-05
+
+**사양 검토:**
+- 누나 PC: Celeron 3855U 2코어 + 4GB DDR3
+- S21 Phone: Exynos 2100 8코어 + 8GB LPDDR5
+- **폰이 CPU 3-4배, RAM 2배 빠름. WSL2는 4GB로 불가능.**
+
+**결정:**
+- PC WSL2 확장 포기
+- GitHub Actions (2000분/월) + Pages + API = 공짜 클라우드
+- MD→HTML 자동 빌드, RSS 동기화, 상태 대시보드 전부 Actions로
+- PC는 Thin Client로만 — Tailscale+SSH로 폰에 접속
+
+**문서화:**
+- `41-github-free-maxout_Boss.md` — 공짜 생태계 전략 전문
+- `pc-setup.html` — 사양 비교 + 판정 + GitHub Actions 로드맵
