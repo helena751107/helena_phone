@@ -1,5 +1,33 @@
 # 📋 S21 Phone — 전체 개발일지
 
+
+### 🎙️ voice_engine v2 완성 + pd_intro 더빙·발송 (_Claude · 2026-08-06)
+
+- **voice_engine.py 리팩토링 완료** (b868a37)
+  - Grok TTS 경로 버그 수정 (`parents[2]` → `parents[1]`)
+  - ParksyTTS v1 + Sherpa-ONNX local 프로바이더 통합
+  - `synthesize()`: async `synthesize_beat()` → sync 래퍼 패턴
+  - `humanize_tts()`: 단일 broadcast 체인, 불필요 light/heavy 분기 제거
+  - CLI main + `list_voices_grok()` 제거 (grok_tts.py로 위임)
+- **pd_intro 파이프라인 실행**
+  - Grok/Ara 성우 6비트 더빙 → 총 39.8초 VO
+  - Ken Burns + BGM (Satie Gymnopédie whisper vol) + 브릿지 북엔드
+  - QA gate PASS: unique_frames=10/10, black=0
+  - 최종: `pd_intro_playable.mp4` 11MB 50.8s · `pd_intro_tg.mp4` 4.5MB
+  - **TG 발송 성공**: message_id=323
+
+### 📋 PD Grok 업무수첩 종합 리포트 (_Grok · 2026-08-06)
+
+`*_Grok` 40종 정리 → 1장 마크다운 + TG 전송.
+
+| 항목 | 값 |
+|------|-----|
+| 문서 | `_notebook/73-pd-grok-notebook-report_Grok.md` |
+| TG document | message_id **319** |
+| TG 요약 | tg.sh 성공 |
+| 정본 | PD pipeline **v2 LOCK** · 역할 = GPU 대용 80% 프로 마감 |
+| 헬스 | Grade B · 갭 HTML 4건 (#70–72) |
+
 ### 🎤 AI 성우 코어 local 프로바이더 완성 (_Claude · 2026-08-06)
 
 **voice_engine.py에 `local` 프로바이더 추가 완료. ParksyTTS v1 우선, Sherpa-ONNX 폴백 구조.**
