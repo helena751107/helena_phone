@@ -6,6 +6,35 @@
 
 ---
 
+## 🚨 ParksyTTS on S21 — 세션 시작 시 필독 (2026-08-07~)
+
+### 환경
+- **실행 위치:** proot Ubuntu on Galaxy S21 (aarch64), WSL 아님
+- **텔레그램:** `.secrets.env`에 TG_TOKEN/TG_CHAT 있음, 5개 봇 활성
+- **모델:** parksy_v2 checkpoints 314MB 전부 로컬에 있음 (`/root/work/helena-programming/tools/voice/`)
+- **TTS_ENGINE 기본값 = `local`** (grok은 폴백, 현재 403 상태라 무의미)
+- **추론 현실:** GPT-SoVITS semantic token prediction on CPU → 1500 iters, ~3s/it, 총 471초(7분51초) for 3.5초 음성. 실시간 대비 135배 느림.
+
+### 현재 진행 중 — NPU/GPU 가속 (2026-08-07)
+- **CPU-only 한계 확인됨.** ParksyTTS 추론 471초는 실사용 불가.
+- **GPU (Mali-G78):** `/dev/mali0` 존재, `/vendor/lib64/libOpenCL.so` 있음. proot glibc → bionic ABI 충돌로 직통 불가.
+- **NPU (Exynos NPU):** NCP v24 커널 확인. `/sys/class/drm` permission 문제.
+- **핵심 발견 — Termux가 열쇠:** Termux(bionic) → DRM + NPU sysfs 접근 가능. proot ↔ Termux localhost 브릿지 구상.
+- **단기 전략:** Sherpa-ONNX Kokoro/VITS로 CPU 추론 가속 (GPT-SoVITS보다 10~100배 빠름). NNAPI delegate 포함 Android prebuilt binary 탐색 중.
+
+### 이미 해결된 것 — 다시 건드리지 말 것
+- 한국어는 BERT 불필요 → 0-vector 처리, 코드 반영 완료
+- numba/librosa ARM64 크래시 → soundfile로 의존성 자체 제거
+- torchcodec 누락 → 설치 완료 (`0.15.0+cu130`, `--break-system-packages`)
+- Grok TTS API 403 → SuperGrok 구독에 TTS 미포함, local 전용으로 전환 완료
+
+### 오늘 세션 이슈 (2026-08-07)
+- **세션 2회 이상 끊김.** 장시간 추론(ParksyTTS 7분+) 중 타임아웃 가능성.
+- 장시간 CPU 작업 시 중간 체크포인트 저장하거나 watchdog ping 유지할 것.
+- PD Pipeline v2 마이그레이션 코드는 완성 → uncommitted 상태 (아래 "이번 세션 TODO" 참고).
+
+---
+
 ## 작업 원칙
 - **커밋 자주, 작게**: 기능 단위로 쪼개서 커밋
 - **설명 남겨라**: "왜"를 커밋 메시지에 포함

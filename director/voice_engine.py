@@ -349,7 +349,7 @@ async def synthesize_beat(
         if engine_env:
             order = [engine_env]
         else:
-            order = ["grok", "openai", "edge"]
+            order = ["local", "grok", "openai", "edge"]
     else:
         order = [prefer]
 

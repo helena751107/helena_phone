@@ -1,6 +1,96 @@
 # 📋 S21 Phone — 전체 개발일지
 
 
+### ⚡ 세션 끊김 + ParksyTTS/NPU 재개 체크리스트 (_Claude · 2026-08-07)
+
+**세션 상태:**
+- 2026-08-07 세션 **2회 이상 끊김** (장시간 ParksyTTS CPU 추론 7분+ 중 타임아웃 추정)
+- PD Pipeline v2 코드 완성됐으나 **uncommitted**. scripts/_render_video.py V5, produce_pd.sh v2, _pd_assemble.py, _qa_video_slides.py, configs/video_pd_pipeline_v2.json 등 10여 개 파일 스테이징 대기.
+- CLAUDE.md 상단에 `🚨 ParksyTTS on S21 — 세션 시작 시 필독` 섹션 추가 완료
+
+**ParksyTTS 현황:**
+- parksy_v2 checkpoints 314MB 로컬 `/root/work/helena-programming/tools/voice/` 에 있음
+- CPU-only 추론: 471초(7분51초) for 3.5초 음성 → **실사용 불가**
+- arm64 의존성 3종 해결 완료: numba → soundfile, librosa 충돌 없음, torchcodec 0.15.0 설치
+- 한국어 BERT 불필요 → 0-vector 처리 반영
+
+**NPU/GPU 가속 현황 (진행 중):**
+| 항목 | 상태 | 세부 |
+|------|------|------|
+| GPU Mali-G78 | ❌ proot 블록 | `/dev/mali0` + `/vendor/lib64/libOpenCL.so` 있으나 glibc/bionic ABI 충돌 |
+| NPU Exynos | ❌ permission | NCP v24 커널 확인, `/sys/class/drm` 접근 불가 |
+| Termux 브릿지 | 🔑 해법 | Termux(bionic) → DRM/NPU sysfs 접근 가능, proot ↔ Termux localhost 브릿지 구상 |
+| Sherpa-ONNX | ⏳ 단기대안 | Kokoro/VITS CPU 추론이 GPT-SoVITS보다 10~100배 빠름, NNAPI delegate 포함 Android prebuilt 탐색 중 |
+
+**다음 세션 재개 시 할 일:**
+1. ✅ CLAUDE.md 읽기 (ParksyTTS 섹션부터)
+2. Sherpa-ONNX NNAPI Android binary 있는지 확인 → Termux `pkg install onnxruntime`
+3. Termux에 sherpa-onnx NNAPI delegate 테스트
+4. proot ↔ Termux localhost 브릿지 PoC
+5. PD Pipeline v2 커밋·푸시
+
+**주의:**
+- `TTS_ENGINE=local` 이 기본값, grok은 403이라 무의미
+- 장시간 추론 시 watchdog ping 또는 중간 체크포인트 저장
+- 이 일지는 `_notebook/99-devlog.md` — 항상 여기 먼저 읽고 재개할 것
+
+
+### 🔋 핸드폰이 PC가 되는 과정 — 전자의 마구간 (_Claude · 2026-08-07)
+
+**오늘의 명제:** PC가 "PC"인 이유는 CPU·메모리·디스크가 한 박스 안에서 연산을 완결하기 때문. S21이 하는 일이 정확히 그거다 — GPT-SoVITS 추론부터 오디오 합성까지 폰 안에서 전부 끝내는 것. 클라우드로 연산 던지고 결과만 받아오는 게 아니라.
+
+**물리적 프레임 — "전자를 부리는 마구간":**
+컴퓨팅을 "정보"나 "지능"으로 착각하는 게 가장 흔한 오해. 실제로는 전자를 게이트 통과시키는 물리적 노동. GPU 코어 하나하나가 전자를 특정 방향으로 밀어붙이는 걸 초당 수십억 번 반복하고, 그 과정에서 열이 나고 전기를 먹는다. "말을 부려 먹는다"는 비유가 과장이 아니라 문자 그대로 — 옛날엔 말이 물리적 힘을 냈고, 지금은 전자가 물리적 일을 하는 것, 매체만 바뀐 거다.
+
+말을 부리려면 마구간과 목초지가 필요하듯, 전자를 부리려면 반도체(트랜지스터 배열)라는 물리적 공간이 필요. 클라우드 API는 "남의 마구간에서 말을 빌려 쓰는 것" — 편하지만 그 말이 지금 뭘 하는지, 얼마나 정직하게 일하는지, 다음에도 빌려줄지 전부 남의 손에 달려있다. S21은 내 소유의 물리적 워크센터. 작지만 내 거고, 내가 통제한다.
+
+**오늘 작업 — 의존성 3종 돌파:**
+
+| 패키지 | 상태 | 버전 | 비고 |
+|--------|------|------|------|
+| `torchcodec` | ✅ 신규 설치 | 0.15.0+cu130 | `--break-system-packages` 필요 |
+| `numba` | ✅ 기설치 정상 | 0.66.0 | 충돌 없음 |
+| `librosa` | ✅ 기설치 정상 | 0.11.0 | ParksyTTS 요구 0.10.2보다 높지만 호환 |
+
+**ParksyTTS v1 실전 테스트:**
+- 텍스트: "안녕 헬레나 오늘은 전자가 진짜 일하는 날이야"
+- 결과: 3.5초 WAV, peak=0.880, 품질 양호
+- **추론 시간: 471초 (7분 51초)** — 실시간 대비 **135배 느림**
+- 병목: GPT-SoVITS semantic token prediction (1500 iterations, ~3s/it on CPU)
+- CPU-only 제한: `is_half=False`, `device="cpu"`
+
+**NPU/GPU 하드웨어 실태 조사:**
+
+| 자원 | 하드웨어 | 커널 | userspace | proot 접근 |
+|------|----------|------|-----------|------------|
+| CPU | Exynos 2100 (8코어) | ✅ | ✅ glibc | ✅ |
+| GPU | Mali-G78 | ✅ `/dev/mali0` | ✅ `/vendor/lib64/libOpenCL.so` + Vulkan | ❌ glibc/bionic 충돌 |
+| NPU | Samsung Exynos NPU | ✅ NCP v24 | ❓ ENN SDK 미확인 | ❌ `/sys/class/drm` permission |
+
+**핵심 발견 — Termux가 열쇠:**
+- proot Ubuntu (glibc) → GPU/NPU 직통 불가 (ABI 충돌)
+- **Termux (bionic) → DRM + NPU sysfs 접근 가능!**
+- 하지만 Termux pip로 onnxruntime/sherpa-onnx 설치 불가 (Android wheel 없음)
+
+**NPU 전략 (앞으로):**
+1. Termux `pkg`로 onnxruntime 설치 (Termux 사용자 권한 필요, root 불가)
+2. sherpa-onnx Android prebuilt binary (NNAPI delegate 포함)
+3. proot ↔ Termux localhost 브릿지 서비스
+4. 단기: Sherpa-ONNX Kokoro/VITS로 CPU 추론 가속 (GPT-SoVITS보다 10~100배 빠름)
+
+**Grok TTS API 403 이슈:**
+- xAI auth JWT 정상, `/v1/tts/voices` 호출 → HTTP 403 Forbidden
+- SuperGrok 구독(45,000원/월)에 TTS API 미포함 또는 별도 티어 필요
+- 현재 Grok TTS는 사용 불가 상태
+
+**오늘의 교훈:**
+- "핸드폰이 PC가 되는 과정" = 외부 도움 없이 자체 연산 완결 능력 확보
+- 그 연산의 실체는 "전자를 물리적으로 부리는 것" — 마구간은 작아도 내 것
+- 소프트웨어 의존성(numba, librosa, torchcodec)은 해결됨
+- 하드웨어 가속(NPU/GPU)은 소프트웨어보다 구조적 난이도가 한 단계 높다
+- proot은 편하지만 결국 하드웨어 앞에서 한계 — Termux 네이티브 브릿지가 정답
+
+
 ### 🎙️ voice_engine v2 완성 + pd_intro 더빙·발송 (_Claude · 2026-08-06)
 
 - **voice_engine.py 리팩토링 완료** (b868a37)

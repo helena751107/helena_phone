@@ -22,3 +22,4 @@ tmp/
 .DS_Store
 Thumbs.db
 out/
+voice_models/
