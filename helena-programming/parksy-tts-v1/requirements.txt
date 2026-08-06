@@ -1,0 +1,40 @@
+# ParkSyTTS v1 — inference 전용 최소 의존성
+# ARM64 (aarch64) + x86_64 Ubuntu 공통 지원
+
+# 딥러닝 코어 (CPU 전용)
+torch>=2.0.0
+torchaudio>=2.0.0
+
+# 오디오
+soundfile
+librosa==0.10.2
+numpy<2.0
+
+# 텍스트 처리
+transformers>=4.43,<=4.50
+jieba
+jieba_fast
+pypinyin
+cn2an
+
+# 한국어 처리
+g2pk2
+ko_pron
+python_mecab_ko
+
+# 유틸
+scipy
+tqdm
+PyYAML
+pydantic<=2.10.6
+sentencepiece
+fast_langdetect>=0.3.1
+wordsegment
+split-lang
+
+# ARM64 추론 가속
+onnxruntime; platform_machine == "aarch64" or platform_machine == "arm64"
+
+# GPT-SoVITS 의존
+x_transformers
+rotary_embedding_torch
