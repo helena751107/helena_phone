@@ -66,6 +66,55 @@ GH_HTTP=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 "https://helena751
 [ "$GH_HTTP" = "200" ] && ok "GitHub Pages (HTTP ${GH_HTTP})" || warn "GitHub Pages (HTTP ${GH_HTTP})"
 
 # ============================================================
+# 1.5 메모리 / 스왑 (OOM 방지)
+# ============================================================
+
+sect "1.5 메모리 / 스왑"
+
+MEM_INFO=$(cat /proc/meminfo 2>/dev/null)
+MEM_TOTAL=$(echo "$MEM_INFO" | awk '/^MemTotal:/{print $2}')
+MEM_AVAIL=$(echo "$MEM_INFO" | awk '/^MemAvailable:/{print $2}')
+MEM_FREE=$(echo "$MEM_INFO" | awk '/^MemFree:/{print $2}')
+SWAP_TOTAL=$(echo "$MEM_INFO" | awk '/^SwapTotal:/{print $2}')
+SWAP_FREE=$(echo "$MEM_INFO" | awk '/^SwapFree:/{print $2}')
+
+MEM_AVAIL_MB=$((MEM_AVAIL / 1024))
+MEM_TOTAL_MB=$((MEM_TOTAL / 1024))
+SWAP_USED_MB=$(( (SWAP_TOTAL - SWAP_FREE) / 1024 ))
+SWAP_TOTAL_MB=$((SWAP_TOTAL / 1024))
+SWAP_PCT=$(( (SWAP_TOTAL - SWAP_FREE) * 100 / (SWAP_TOTAL + 1) ))
+
+info "Available: ${MEM_AVAIL_MB}MB / ${MEM_TOTAL_MB}MB total"
+info "Swap: ${SWAP_USED_MB}MB used / ${SWAP_TOTAL_MB}MB total (${SWAP_PCT}%)"
+
+if [ "$MEM_AVAIL_MB" -lt 500 ] 2>/dev/null; then
+  fail "Available memory below 500MB (OOM risk: ${MEM_AVAIL_MB}MB)"
+elif [ "$MEM_AVAIL_MB" -lt 1024 ] 2>/dev/null; then
+  warn "Available memory below 1GB (${MEM_AVAIL_MB}MB)"
+else
+  ok "Memory OK (${MEM_AVAIL_MB}MB available)"
+fi
+
+if [ "$SWAP_PCT" -gt 80 ] 2>/dev/null; then
+  fail "Swap > 80% (${SWAP_PCT}% — OOM imminent)"
+elif [ "$SWAP_PCT" -gt 60 ] 2>/dev/null; then
+  warn "Swap > 60% (${SWAP_PCT}%)"
+else
+  ok "Swap OK (${SWAP_PCT}% used)"
+fi
+
+# 고아 프로세스 경고
+ORPHAN_COUNT=$(ps aux 2>/dev/null | grep -cE '([b]fs|[f]ind) /' || true)
+if [ "$ORPHAN_COUNT" -gt 0 ] 2>/dev/null; then
+  warn "Orphan bfs scanners: ${ORPHAN_COUNT} (kill -9 them)"
+fi
+
+CLAUDE_COUNT=$(ps aux 2>/dev/null | grep '[c]laude --dangerously-skip-permissions' | grep -vc '[p]root' || true)
+if [ "$CLAUDE_COUNT" -gt 1 ] 2>/dev/null; then
+  warn "Multiple Claude sessions: ${CLAUDE_COUNT} (should be 1)"
+fi
+
+# ============================================================
 # 2. 전원 / 배터리 — 가장 중요
 # ============================================================
 
@@ -339,6 +388,18 @@ cat > "$REPORT_FILE" <<EOF
     "fail": ${FAIL_CNT},
     "skip": ${SKIP_CNT},
     "total": ${TOTAL}
+  },
+  "memory": {
+    "total_mb": ${MEM_TOTAL_MB},
+    "available_mb": ${MEM_AVAIL_MB},
+    "free_mb": $((MEM_FREE / 1024)),
+    "swap_used_mb": ${SWAP_USED_MB},
+    "swap_total_mb": ${SWAP_TOTAL_MB},
+    "swap_pct": ${SWAP_PCT}
+  },
+  "processes": {
+    "claude_sessions": ${CLAUDE_COUNT},
+    "orphan_scanners": ${ORPHAN_COUNT}
   },
   "mcp": {
     "port": ${MCP_PORT},
