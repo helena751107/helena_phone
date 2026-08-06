@@ -1,5 +1,30 @@
 # 📋 S21 Phone — 전체 개발일지
 
+### 🎤 AI 성우 코어 local 프로바이더 완성 (_Claude · 2026-08-06)
+
+**voice_engine.py에 `local` 프로바이더 추가 완료. ParksyTTS v1 우선, Sherpa-ONNX 폴백 구조.**
+
+voice_engine.py (190→389줄, +199):
+- `_tts_local_parksy()`: ParksyTTS v1 GPT-SoVITS v2Pro 래퍼
+- `_tts_local_sherpa()`: Sherpa-ONNX Kokoro/VITS 오프라인 추론
+- `tts_local()`: ParksyTTS 우선 → Sherpa 폴백 디스패처
+- `_find_parksytts_root()` / `_find_sherpa_model()`: 모델 자동 탐지
+- `synthesize_beat()`에 `local` 케이스 추가
+- `TTS_ENGINE=local` 환경변수 지원
+
+신규 스크립트:
+- `scripts/record_voice_samples.sh`: 30문장 녹음 + ffmpeg 정규화
+- `scripts/train_voice.py`: 로컬/클라우드 파인튜닝
+- GitHub Actions workflow `train-voice.yml` 자동 생성
+
+**사용법:**
+```bash
+TTS_ENGINE=local bash scripts/produce_intro.sh
+python3 scripts/train_voice.py --samples voice_samples/ --out my_voice --cloud
+```
+
+관련: notebook #70 업데이트.
+
 ### 🏭 시리즈 제작 표준 파이프 확정 (_Boss)
 
 **원칙: 매번 달라지지 말 것. 모든 에피소드 동일 프로세스.**

@@ -154,10 +154,41 @@ ENGINE_PRIORITY = ["grok", "local", "openai", "edge"]
 2. ~~`voice_models/` 디렉토리 + README~~ ✅
 3. ~~Boss AI 코어 업로드~~ ✅ **ParkSyTTS v1 도착!** (`gift/parksy-tts-v1` 브랜치, 2026-08-06 09:20)
 4. ~~ParksyTTS v1 → voice_engine `local` 프로바이더 연결~~ ✅
-5. ⏳ `scripts/record_voice_samples.sh` (Termux 마이크 녹음)
-6. ⏳ `scripts/train_voice.py` (폰 로컬 파인튜닝)
+5. ~~`scripts/record_voice_samples.sh` (Termux 마이크 녹음)~~ ✅ (2026-08-06)
+6. ~~`scripts/train_voice.py` (폰 로컬 파인튜닝)~~ ✅ (2026-08-06)
 
-### 6.1 ParksyTTS v1 실물 확인
+### 6.1 voice_engine.py local 프로바이더 구현 완료 (2026-08-06)
+
+**구현 함수:**
+| 함수 | 역할 |
+|------|------|
+| `_find_parksytts_root()` | ParksyTTS v1 설치 경로 자동 탐지 |
+| `_find_sherpa_model()` | voice_models/*.onnx 자동 탐지 |
+| `_tts_local_parksy()` | GPT-SoVITS v2Pro 기반 박씨 목소리 추론 |
+| `_tts_local_sherpa()` | Sherpa-ONNX Kokoro/VITS 오프라인 추론 |
+| `tts_local()` | 디스패처 — ParksyTTS 우선, Sherpa 폴백 |
+
+**사용법:**
+```bash
+TTS_ENGINE=local bash scripts/produce_intro.sh   # 오프라인 성우
+TTS_ENGINE=local bash scripts/produce_pd.sh      # PD 파이프
+```
+
+### 6.2 record_voice_samples.sh
+
+- 30문장 한국어 코퍼스 (음소 다양성 + 자연스러운 문장)
+- ffmpeg ALSA/PulseAudio/Termux 마이크 API 자동 감지
+- 16kHz mono WAV + 무음 트림 + loudnorm 정규화
+- `--quick N` / `--single N` 부분 재녹음 지원
+
+### 6.3 train_voice.py
+
+- `--cloud` → GitHub Actions 7GB 러너로 파인튜닝 오프로드 (권장)
+- `--force-local` → Coqui TTS 로컬 파인튜닝 (CPU only, 수 시간)
+- `--list-models` → 사용 가능한 베이스 모델 목록
+- 자동으로 workflow + pipeline 디렉토리 생성
+
+### 6.4 ParksyTTS v1 실물 확인
 
 ```
 helena-programming/parksy-tts-v1/
