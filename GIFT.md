@@ -115,6 +115,30 @@ helena-piano                helena-metalcare
 
 ---
 
+## 🎙️ ParkSyTTS v1 — 박씨 AI 성우 선물 (2026-08-06)
+
+> **브랜치:** `gift/parksy-tts-v1`  
+> **위치:** `helena-programming/parksy-tts-v1/`
+
+**설명:** GPT-SoVITS v2Pro 기반. S21 proot-Ubuntu CPU 전용. 오빠가 구워서 준 AI 목소리.
+한 줄로 말하기: `python3 say.py "안녕 헬레나!"`
+
+**헬레나(누나)가 해야 할 것:**
+```bash
+git checkout gift/parksy-tts-v1
+bash helena-programming/parksy-tts-v1/install.sh   # GPT-SoVITS + 의존성 설치
+source helena-programming/parksy-tts-v1/activate.sh
+python3 helena-programming/parksy-tts-v1/say.py "안녕 헬레나!"
+```
+
+**voice_engine 연동:**
+```bash
+TTS_ENGINE=local bash scripts/produce_intro.sh
+# → 자동으로 ParksyTTS v1 감지 → 박씨 목소리로 전체 나레이션
+```
+
+---
+
 ## 📊 선물 패키지 통합 후 현재 상태
 
 | 카테고리 | 파일 | 통합 상태 |

@@ -40,6 +40,7 @@ from pathlib import Path
 
 # ── engine registry ──
 ENGINE_PRIORITY = ["grok", "local", "openai", "edge"]
+# local → ParksyTTS(GPT-SoVITS 선물) 우선, Sherpa-ONNX 폴백
 VOICE_DEFAULT = "ko-KR-SunHiNeural"
 GROK_VOICE_DEFAULT = os.environ.get("GROK_TTS_VOICE", "ara")
 OPENAI_VOICE_DEFAULT = "nova"
@@ -183,10 +184,79 @@ def _tts_edge(text: str, dest: Path, voice: str = VOICE_DEFAULT,
     return asyncio.run(_run())
 
 
+def _tts_local_parksy(text: str, dest: Path, speed: float = 1.0) -> float:
+    """ParkSyTTS v1 — GPT-SoVITS 기반 박씨 목소리 (오빠 선물 AI 코어).
+
+    자동 탐지 순서:
+      1) helena-programming/parksy-tts-v1/  (레포 내 선물)
+      2) ~/parksy-tts-v1/                   (설치 경로)
+      3) PARKSY_TTS_DIR 환경변수
+    """
+    parksy_dirs = []
+    # Check repo-embedded gift
+    repo_gift = Path("/root/work/helena-programming/parksy-tts-v1")
+    if repo_gift.exists() and (repo_gift / "core" / "engine.py").exists():
+        parksy_dirs.append(repo_gift)
+    # Check installed path
+    home_gift = Path.home() / "parksy-tts-v1"
+    if home_gift.exists():
+        parksy_dirs.append(home_gift)
+    # Check env var
+    env_dir = os.environ.get("PARKSY_TTS_DIR", "").strip()
+    if env_dir and Path(env_dir).exists():
+        parksy_dirs.append(Path(env_dir))
+
+    if not parksy_dirs:
+        raise RuntimeError(
+            "ParkSyTTS v1 not found.\n"
+            "  git clone / gift 받기 or bash install.sh\n"
+            "  경로: helena-programming/parksy-tts-v1/ 또는 ~/parksy-tts-v1/"
+        )
+
+    parksy_root = parksy_dirs[0]
+    # GPT-SoVITS must also be on path for internal imports
+    gptsovits_dir = os.environ.get("GPT_SOVITS_DIR", str(Path.home() / "GPT-SoVITS"))
+    _saved_path = list(sys.path)
+    try:
+        sys.path.insert(0, str(parksy_root))
+        for sub in ("", "GPT_SoVITS", "GPT_SoVITS/eres2net"):
+            p = str(Path(gptsovits_dir) / sub)
+            if os.path.isdir(p) and p not in sys.path:
+                sys.path.insert(0, p)
+        from core import ParkSyTTS  # type: ignore
+    except ImportError as e:
+        raise RuntimeError(
+            f"ParkSyTTS import 실패: {e}\n"
+            f"  선행: bash {parksy_root}/install.sh\n"
+            f"  그다음: source {parksy_root}/activate.sh"
+        )
+
+    try:
+        tts = ParkSyTTS()
+        wav = dest.with_suffix(".wav")
+        tts.say(text, str(wav), lang="ko", speed=speed)
+
+        # WAV → AAC/M4A via FFmpeg
+        r = subprocess.run(
+            ["ffmpeg", "-y", "-i", str(wav),
+             "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-ac", "2",
+             str(dest)],
+            capture_output=True, text=True,
+        )
+        if r.returncode != 0:
+            shutil.move(str(wav), str(dest))
+        elif wav.exists():
+            wav.unlink()
+
+        return ffprobe_duration(dest)
+    finally:
+        sys.path[:] = _saved_path
+
+
 def _tts_local_sherpa(text: str, dest: Path,
                        model_path: str | None = None,
                        speed: float = 0.95) -> float:
-    """Local Sherpa-ONNX TTS — 오프라인 AI 코어 · CPU NEON 가속.
+    """Local Sherpa-ONNX TTS — 경량 오프라인 CPU NEON 가속.
 
     Model path resolution:
       1) Explicit `model_path` arg
@@ -380,17 +450,35 @@ def synthesize(
                 return dur, f"grok/{v}"
 
             elif provider == "local":
-                dur = _tts_local_sherpa(text, raw, speed=speed)
-                model_name = Path(os.environ.get(
-                    "LOCAL_VOICE_MODEL",
-                    "/root/work/voice_models/my_voice.onnx"
-                )).stem
-                if polish:
-                    _polish(raw, polished, "local")
-                    dur = ffprobe_duration(polished)
-                else:
-                    shutil.move(str(raw), str(polished))
-                return dur, f"local/{model_name}"
+                # ParksyTTS 우선 (GPT-SoVITS 선물 코어) → Sherpa-ONNX 폴백
+                try:
+                    dur = _tts_local_parksy(text, raw, speed=speed)
+                    if polish:
+                        _polish(raw, polished, "local")
+                        dur = ffprobe_duration(polished)
+                    else:
+                        shutil.move(str(raw), str(polished))
+                    return dur, "local/parksy-tts-v1"
+                except Exception as pe:
+                    print(f"  ! parksy-tts skipped: {pe}", flush=True)
+                    try:
+                        dur = _tts_local_sherpa(text, raw, speed=speed)
+                        model_name = Path(os.environ.get(
+                            "LOCAL_VOICE_MODEL",
+                            "/root/work/voice_models/my_voice.onnx"
+                        )).stem
+                        if polish:
+                            _polish(raw, polished, "local")
+                            dur = ffprobe_duration(polished)
+                        else:
+                            shutil.move(str(raw), str(polished))
+                        return dur, f"local/{model_name}"
+                    except Exception as se:
+                        raise RuntimeError(
+                            f"Local TTS both failed.\n"
+                            f"  ParksyTTS: {pe}\n"
+                            f"  Sherpa-ONNX: {se}"
+                        )
 
             elif provider == "openai":
                 if not (os.environ.get("OPENAI_API_KEY") or os.environ.get("OPENAI_KEY")):
