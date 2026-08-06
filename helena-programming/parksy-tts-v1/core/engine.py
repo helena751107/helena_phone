@@ -110,7 +110,8 @@ class ParkSyTTS:
             cfg.t2s_weights_path = str(self.model_dir / self.GPT_CKPT)
             cfg.vits_weights_path = str(self.model_dir / self.SOVITS_CKPT)
             cfg.cnhuhbert_base_path = str(gd / "GPT_SoVITS/pretrained_models/chinese-hubert-base")
-            cfg.bert_base_path = str(gd / "GPT_SoVITS/pretrained_models/chinese-roberta-wwm-ext-large")
+            # 한국어 전용 — BERT 0벡터 경로만 탐, chinese-roberta 불필요
+            cfg.bert_base_path = str(gd / "GPT_SoVITS/pretrained_models/chinese-hubert-base")
             self._tts = TTS(cfg)
 
     def say(
