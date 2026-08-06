@@ -4,8 +4,9 @@ Voice Engine — 성우 플러그인 (swappable TTS backends)
 
 Priority chain:
   1) Grok / xAI TTS (ara/altair/…) — SuperGrok 성우 본체 · 라이선스 🟢
-  2) OpenAI tts-1-hd — 보조 (OPENAI_API_KEY 있을 때)
-  3) edge-tts + broadcast humanize — 공짜 폴백 (비상업 전용 · 상업/홍보 금지)
+  2) Local / Sherpa-ONNX — 오프라인 AI 코어 · 선물 모델 · 자가 학습 · 비용 0원 🟢
+  3) OpenAI tts-1-hd — 보조 (OPENAI_API_KEY 있을 때)
+  4) edge-tts + broadcast humanize — 공짜 폴백 (비상업 전용 · 상업/홍보 금지)
 
 Usage:
   from director.voice_engine import synthesize, VoiceEngine
@@ -13,7 +14,8 @@ Usage:
   dur, provider = synthesize("안녕하세요", Path("/tmp/out.mp3"), engine="grok")
 
 Env:
-  TTS_ENGINE=grok|openai|edge  (기본: grok)
+  TTS_ENGINE=grok|local|openai|edge  (기본: grok)
+  LOCAL_VOICE_MODEL=/path/to/voice.onnx  (AI 코어 경로 · 기본: voice_models/my_voice.onnx)
   GROK_TTS_VOICE=ara
   XAI_API_KEY=…  or  ~/.grok/auth.json
   OPENAI_API_KEY=…
@@ -37,7 +39,7 @@ import json
 from pathlib import Path
 
 # ── engine registry ──
-ENGINE_PRIORITY = ["grok", "openai", "edge"]
+ENGINE_PRIORITY = ["grok", "local", "openai", "edge"]
 VOICE_DEFAULT = "ko-KR-SunHiNeural"
 GROK_VOICE_DEFAULT = os.environ.get("GROK_TTS_VOICE", "ara")
 OPENAI_VOICE_DEFAULT = "nova"
@@ -181,6 +183,124 @@ def _tts_edge(text: str, dest: Path, voice: str = VOICE_DEFAULT,
     return asyncio.run(_run())
 
 
+def _tts_local_sherpa(text: str, dest: Path,
+                       model_path: str | None = None,
+                       speed: float = 0.95) -> float:
+    """Local Sherpa-ONNX TTS — 오프라인 AI 코어 · CPU NEON 가속.
+
+    Model path resolution:
+      1) Explicit `model_path` arg
+      2) LOCAL_VOICE_MODEL env
+      3) voice_models/my_voice.onnx (기본)
+      4) voice_models/ 디렉토리 첫 번째 .onnx 파일
+    """
+    try:
+        import sherpa_onnx
+    except ImportError:
+        raise RuntimeError(
+            "sherpa-onnx not installed.\n"
+            "  pip install sherpa-onnx\n"
+            "  또는 Boss AI 코어 도착 후 설치 안내 참조: _notebook/70-ai-voice-core-*.md"
+        )
+
+    dest.parent.mkdir(parents=True, exist_ok=True)
+
+    # Resolve model path
+    if model_path:
+        model = Path(model_path)
+    elif os.environ.get("LOCAL_VOICE_MODEL"):
+        model = Path(os.environ["LOCAL_VOICE_MODEL"])
+    else:
+        models_dir = Path(os.environ.get("VOICE_MODELS_DIR", "/root/work/voice_models"))
+        default_model = models_dir / "my_voice.onnx"
+        if default_model.exists():
+            model = default_model
+        else:
+            # auto-detect first .onnx
+            candidates = sorted(models_dir.glob("*.onnx")) if models_dir.exists() else []
+            if candidates:
+                model = candidates[0]
+            else:
+                raise RuntimeError(
+                    f"No local voice model found.\n"
+                    f"  기본 경로: {default_model}\n"
+                    f"  voice_models/ 디렉토리에 .onnx 모델을 넣거나\n"
+                    f"  LOCAL_VOICE_MODEL 환경변수로 지정하세요.\n"
+                    f"  Boss가 AI 코어를 아직 업로드하지 않았을 수 있습니다."
+                )
+
+    if not model.exists():
+        raise RuntimeError(f"Voice model not found: {model}")
+
+    # Resolve tokens file
+    tokens = model.with_suffix(".json")
+    if not tokens.exists():
+        tokens = model.parent / "tokens.json"
+    if not tokens.exists():
+        # Kokoro-style: model file embeds tokens, some versions need separate file
+        tokens = None
+
+    # WAV output first, then convert to MP3
+    wav = dest.with_suffix(".wav")
+
+    try:
+        # Try Kokoro model config (most common for Korean)
+        tts_config = sherpa_onnx.OfflineTtsConfig(
+            model=sherpa_onnx.OfflineTtsModelConfig(
+                kokoro=sherpa_onnx.OfflineTtsKokoroModelConfig(
+                    model=str(model),
+                    tokens=str(tokens) if tokens else "",
+                ),
+                num_threads=min(8, os.cpu_count() or 4),
+                provider="cpu",
+            ),
+        )
+        tts = sherpa_onnx.OfflineTts(tts_config)
+        audio = tts.generate(text, sid=0, speed=speed)
+        if not audio or not getattr(audio, 'samples', None):
+            raise RuntimeError("Sherpa generated empty audio")
+        audio.save(str(wav))
+    except Exception:
+        # Fallback: try VITS model config
+        try:
+            import sherpa_onnx
+            tts_config2 = sherpa_onnx.OfflineTtsConfig(
+                model=sherpa_onnx.OfflineTtsModelConfig(
+                    vits=sherpa_onnx.OfflineTtsVitsModelConfig(
+                        model=str(model),
+                        tokens=str(tokens) if tokens else "",
+                    ),
+                    num_threads=min(8, os.cpu_count() or 4),
+                    provider="cpu",
+                ),
+            )
+            tts2 = sherpa_onnx.OfflineTts(tts_config2)
+            audio2 = tts2.generate(text, sid=0, speed=speed)
+            audio2.save(str(wav))
+        except Exception as e2:
+            raise RuntimeError(
+                f"Sherpa-ONNX failed with both Kokoro and VITS configs.\n"
+                f"  Model: {model}\n"
+                f"  Kokoro error: {e}\n"
+                f"  VITS error: {e2}"
+            )
+
+    # WAV → AAC/M4A via FFmpeg
+    r = subprocess.run(
+        ["ffmpeg", "-y", "-i", str(wav),
+         "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-ac", "2",
+         str(dest)],
+        capture_output=True, text=True,
+    )
+    if r.returncode != 0:
+        # fallback: keep WAV
+        shutil.move(str(wav), str(dest))
+    elif wav.exists():
+        wav.unlink()
+
+    return ffprobe_duration(dest)
+
+
 # ── post-processing ──
 
 def _polish(raw: Path, polished: Path, engine: str) -> Path:
@@ -214,7 +334,7 @@ def synthesize(
     Args:
         text: Korean narration text
         dest: output path (.mp3 or .m4a)
-        engine: "auto" (priority chain) | "grok" | "openai" | "edge"
+        engine: "auto" (priority chain) | "grok" | "local" | "openai" | "edge"
         voice: override voice ID
         lang: language code
         speed: speech speed multiplier
@@ -225,6 +345,7 @@ def synthesize(
 
     Provider tags:
         grok/ara      — 🟢 상업 가능 · 정식 경로
+        local/my_voice — 🟢 오프라인 · AI 코어 · 비용 0원 · 선물/자가학습
         openai/nova   — 🟢 상업 가능 · API 키 필요
         edge/SunHi    — 🟡 비상업 전용 · 수익화 금지 (폴백)
     """
@@ -257,6 +378,19 @@ def synthesize(
                 else:
                     shutil.move(str(raw), str(polished))
                 return dur, f"grok/{v}"
+
+            elif provider == "local":
+                dur = _tts_local_sherpa(text, raw, speed=speed)
+                model_name = Path(os.environ.get(
+                    "LOCAL_VOICE_MODEL",
+                    "/root/work/voice_models/my_voice.onnx"
+                )).stem
+                if polish:
+                    _polish(raw, polished, "local")
+                    dur = ffprobe_duration(polished)
+                else:
+                    shutil.move(str(raw), str(polished))
+                return dur, f"local/{model_name}"
 
             elif provider == "openai":
                 if not (os.environ.get("OPENAI_API_KEY") or os.environ.get("OPENAI_KEY")):
@@ -311,11 +445,12 @@ if __name__ == "__main__":
     ap.add_argument("--text", help="Text to speak")
     ap.add_argument("--file", help="UTF-8 text file")
     ap.add_argument("--out", required=True, help="Output path (.mp3/.m4a)")
-    ap.add_argument("--engine", default="auto", choices=["auto", "grok", "openai", "edge"])
+    ap.add_argument("--engine", default="auto", choices=["auto", "grok", "local", "openai", "edge"])
     ap.add_argument("--voice", help="Voice ID override")
     ap.add_argument("--lang", default="ko")
     ap.add_argument("--speed", type=float, default=0.95)
     ap.add_argument("--no-polish", action="store_true")
+    ap.add_argument("--model", help="Local model path (for engine=local)")
     ap.add_argument("--list-voices", action="store_true")
     args = ap.parse_args()
 
@@ -332,6 +467,8 @@ if __name__ == "__main__":
         print("--text or --file required", file=sys.stderr)
         sys.exit(2)
 
+    if args.model:
+        os.environ["LOCAL_VOICE_MODEL"] = args.model
     dur, provider = synthesize(
         text, Path(args.out), engine=args.engine,
         voice=args.voice, lang=args.lang, speed=args.speed,
