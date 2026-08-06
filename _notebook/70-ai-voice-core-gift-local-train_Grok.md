@@ -151,10 +151,27 @@ ENGINE_PRIORITY = ["grok", "local", "openai", "edge"]
 ## 6. 할 일 (Boss → Claude)
 
 1. ~~`voice_engine.py` 기본 구조~~ ✅ (V5)
-2. ⏳ `voice_models/` 디렉토리 + README
-3. ⏳ Boss AI 코어 업로드 대기 → `local` 프로바이더 연결
-4. ⏳ `scripts/record_voice_samples.sh` (Termux 마이크 녹음)
-5. ⏳ `scripts/train_voice.py` (폰 로컬 파인튜닝)
+2. ~~`voice_models/` 디렉토리 + README~~ ✅
+3. ~~Boss AI 코어 업로드~~ ✅ **ParkSyTTS v1 도착!** (`gift/parksy-tts-v1` 브랜치, 2026-08-06 09:20)
+4. ~~ParksyTTS v1 → voice_engine `local` 프로바이더 연결~~ ✅
+5. ⏳ `scripts/record_voice_samples.sh` (Termux 마이크 녹음)
+6. ⏳ `scripts/train_voice.py` (폰 로컬 파인튜닝)
+
+### 6.1 ParksyTTS v1 실물 확인
+
+```
+helena-programming/parksy-tts-v1/
+├── say.py          ← python3 say.py "안녕!" 한 줄로 끝
+├── install.sh      ← proot-Ubuntu 원클릭 설치 (ARM64 자동 감지)
+├── activate.sh     ← 매 세션 환경 활성화
+├── send_models.sh  ← 박씨가 WSL에서 실행 → 모델 S21로 전송
+├── requirements.txt← ARM64 호환 최소 의존성
+└── core/
+    ├── engine.py   ← ParkSyTTS v2ProPlus CPU 래퍼 (GPT-SoVITS)
+    └── normalize.py← AI→에이아이 약어 변환
+```
+
+**voice_engine 연동 완료:** `TTS_ENGINE=local` → ParksyTTS 자동 감지 → 박씨 목소리
 
 ---
 
