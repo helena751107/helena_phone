@@ -1,155 +1,110 @@
 #!/usr/bin/env python3
 """
-Voice Engine — 성우 플러그인 (swappable TTS backends)
+Voice engine — community A-bar (Purple Owl / playwright-recast style).
 
-Priority chain:
-  1) Grok / xAI TTS (ara/altair/…) — SuperGrok 성우 본체 · 라이선스 🟢
-  2) Local / Sherpa-ONNX — 오프라인 AI 코어 · 선물 모델 · 자가 학습 · 비용 0원 🟢
-  3) OpenAI tts-1-hd — 보조 (OPENAI_API_KEY 있을 때)
-  4) edge-tts + broadcast humanize — 공짜 폴백 (비상업 전용 · 상업/홍보 금지)
+Priority (auto):
+  1) Grok / xAI TTS (ara/eve/…) — SuperGrok 성우 본체
+  2) local — ParksyTTS v1 (GPT-SoVITS) → Sherpa-ONNX (Kokoro) 폴백
+  3) OpenAI tts-1-hd  if OPENAI_API_KEY set
+  4) edge-tts + broadcast humanize — last-resort fallback only
 
-Usage:
-  from director.voice_engine import synthesize, VoiceEngine
-  dur, provider = synthesize("안녕하세요", Path("/tmp/out.mp3"))
-  dur, provider = synthesize("안녕하세요", Path("/tmp/out.mp3"), engine="grok")
+TTS_ENGINE=local → 오프라인 전용 (ParksyTTS 우선, Sherpa 폴백)
+TTS_ENGINE=grok|openai|edge → 해당 엔진만 사용
 
-Env:
-  TTS_ENGINE=grok|local|openai|edge  (기본: grok)
-  LOCAL_VOICE_MODEL=/path/to/voice.onnx  (AI 코어 경로 · 기본: voice_models/my_voice.onnx)
-  GROK_TTS_VOICE=ara
-  XAI_API_KEY=…  or  ~/.grok/auth.json
-  OPENAI_API_KEY=…
-
-라이선스 가이드 (Boss 2026-08-06):
-  - Grok (Ara 등): 유료 구독 → 상업 이용 🟢 · 유튜브 수익화 가능 · AI 라벨 체크
-  - Edge TTS: 개인·내부 시연만 🟡 · 수익화/홍보/브랜드 = 약관 위반 + 채널 스트라이크 위험
-  - 비수익화라도 Edge는 저작권 경고 가능 → Grok 권장
+Also: multi-click pad, loudnorm chain.
 """
-
 from __future__ import annotations
 
+import asyncio
 import os
 import shutil
 import subprocess
 import sys
-import time
-import urllib.error
-import urllib.request
-import json
 from pathlib import Path
 
-# ── engine registry ──
-ENGINE_PRIORITY = ["grok", "local", "openai", "edge"]
-# local → ParksyTTS(GPT-SoVITS 선물) 우선, Sherpa-ONNX 폴백
 VOICE_DEFAULT = "ko-KR-SunHiNeural"
+OPENAI_VOICE_DEFAULT = "nova"  # multilingual OK for short KO lines
 GROK_VOICE_DEFAULT = os.environ.get("GROK_TTS_VOICE", "ara")
-OPENAI_VOICE_DEFAULT = "nova"
-
-# ── loudnorm / broadcast humanize chain ──
-# Grok TTS already broadcast-grade → light polish only
-# Edge TTS → heavier humanize to reduce machine-detectable patterns
-HUMANIZE_LIGHT = (
-    "highpass=f=80,"
-    "acompressor=threshold=-22dB:ratio=2.5:attack=8:release=60:makeup=1.5,"
-    "loudnorm=I=-16:TP=-1.5:LRA=11"
-)
-HUMANIZE_HEAVY = (
-    "highpass=f=90,"
-    "equalizer=f=2800:t=q:w=1.1:g=2.4,"
-    "equalizer=f=6500:t=q:w=1.0:g=1.6,"
-    "acompressor=threshold=-20dB:ratio=3.5:attack=5:release=70:makeup=2.2,"
-    "loudnorm=I=-16:TP=-1.5:LRA=11"
-)
 
 
 def ffprobe_duration(path: Path) -> float:
     r = subprocess.run(
-        ["ffprobe", "-v", "error", "-show_entries", "format=duration",
-         "-of", "default=nw=1:nk=1", str(path)],
+        [
+            "ffprobe", "-v", "error",
+            "-show_entries", "format=duration",
+            "-of", "default=nw=1:nk=1",
+            str(path),
+        ],
+        capture_output=True, text=True, check=True,
+    )
+    return float(r.stdout.strip() or "0")
+
+
+def humanize_tts(src: Path, dest: Path) -> None:
+    """Broadcast chain — edge-tts 기계음 완화."""
+    af = (
+        "highpass=f=90,"
+        "equalizer=f=2800:t=q:w=1.1:g=2.4,"
+        "equalizer=f=6500:t=q:w=1.0:g=1.6,"
+        "acompressor=threshold=-20dB:ratio=3.5:attack=5:release=70:makeup=2.2,"
+        "loudnorm=I=-16:TP=-1.5:LRA=11"
+    )
+    r = subprocess.run(
+        [
+            "ffmpeg", "-y", "-i", str(src), "-af", af,
+            "-ar", "24000", "-ac", "1",
+            "-c:a", "libmp3lame", "-q:a", "3", str(dest),
+        ],
         capture_output=True, text=True,
     )
-    try:
-        return float((r.stdout or "0").strip() or "0")
-    except ValueError:
-        return 0.0
+    if r.returncode != 0 or not dest.exists() or dest.stat().st_size < 200:
+        shutil.copy(src, dest)
 
 
-def _resolve_grok_token() -> str:
-    env = os.environ.get("XAI_API_KEY") or os.environ.get("GROK_CODE_XAI_API_KEY")
-    if env:
-        return env.strip()
-    auth_path = Path(os.environ.get("GROK_AUTH_JSON", Path.home() / ".grok" / "auth.json"))
-    if not auth_path.exists():
-        raise RuntimeError("No XAI_API_KEY and no ~/.grok/auth.json — grok login 또는 API 키 필요")
-    data = json.loads(auth_path.read_text())
-    if not isinstance(data, dict) or not data:
-        raise RuntimeError(f"empty auth: {auth_path}")
-    entry = next(iter(data.values()))
-    if not isinstance(entry, dict):
-        raise RuntimeError("auth entry shape unexpected")
-    token = entry.get("key") or entry.get("access_token")
-    if not token:
-        raise RuntimeError("auth has no key/access_token")
-    return str(token)
+async def tts_edge(text: str, voice: str, dest: Path, retries: int = 4) -> float:
+    import edge_tts
 
-
-# ── individual engine implementations ──
-
-def _tts_grok(text: str, dest: Path, voice: str = GROK_VOICE_DEFAULT,
-              lang: str = "ko", speed: float = 0.95, retries: int = 4) -> float:
-    """xAI TTS API — SuperGrok 구독 성우 본체."""
-    token = _resolve_grok_token()
-    body = json.dumps({
-        "text": text,
-        "voice_id": voice,
-        "language": lang,
-        "speed": speed,
-        "output_format": {"codec": "mp3", "sample_rate": 44100, "bit_rate": 192000},
-    }).encode("utf-8")
     dest.parent.mkdir(parents=True, exist_ok=True)
-    last_err = None
+    last_err: Exception | None = None
     for attempt in range(1, retries + 1):
-        req = urllib.request.Request(
-            "https://api.x.ai/v1/tts",
-            data=body,
-            headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
-            method="POST",
-        )
         try:
-            with urllib.request.urlopen(req, timeout=120) as resp:
-                audio = resp.read()
-            if len(audio) < 200:
-                raise RuntimeError(f"TTS too small: {len(audio)} bytes")
-            dest.write_bytes(audio)
+            if dest.exists():
+                dest.unlink()
+            # rate slightly slower = more natural product-demo cadence
+            communicate = edge_tts.Communicate(text, voice, rate="-8%")
+            await communicate.save(str(dest))
+            if dest.stat().st_size < 100:
+                raise RuntimeError(f"TTS empty: {dest}")
             return ffprobe_duration(dest)
-        except urllib.error.HTTPError as e:
-            err_body = e.read().decode("utf-8", errors="replace")[:300]
-            last_err = RuntimeError(f"HTTP {e.code}: {err_body}")
-            if e.code in (429, 500, 503, 502):
-                time.sleep(min(12, 2 ** attempt))
-                continue
-            raise last_err from e
         except Exception as e:
             last_err = e
-            time.sleep(min(8, attempt * 2))
-    raise RuntimeError(f"grok tts failed after {retries} retries: {last_err}")
+            await asyncio.sleep(min(8, attempt * 2))
+    raise RuntimeError(f"edge-tts failed: {last_err}")
 
 
-def _tts_openai(text: str, dest: Path, voice: str = OPENAI_VOICE_DEFAULT,
-                model: str = "tts-1-hd", speed: float = 0.95) -> float:
-    """OpenAI Audio Speech API."""
+def tts_openai(text: str, dest: Path, voice: str | None = None) -> float:
+    """OpenAI Audio Speech API — A-bar voice when key present."""
+    import urllib.request
+    import json
+
     key = os.environ.get("OPENAI_API_KEY") or os.environ.get("OPENAI_KEY")
     if not key:
         raise RuntimeError("no OPENAI_API_KEY")
     dest.parent.mkdir(parents=True, exist_ok=True)
     payload = json.dumps({
-        "model": model, "voice": voice, "input": text,
-        "response_format": "mp3", "speed": speed,
+        "model": os.environ.get("OPENAI_TTS_MODEL", "tts-1-hd"),
+        "voice": voice or os.environ.get("OPENAI_TTS_VOICE", OPENAI_VOICE_DEFAULT),
+        "input": text,
+        "response_format": "mp3",
+        "speed": float(os.environ.get("OPENAI_TTS_SPEED", "0.95")),
     }).encode("utf-8")
     req = urllib.request.Request(
         "https://api.openai.com/v1/audio/speech",
         data=payload,
-        headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
+        headers={
+            "Authorization": f"Bearer {key}",
+            "Content-Type": "application/json",
+        },
         method="POST",
     )
     with urllib.request.urlopen(req, timeout=90) as resp:
@@ -159,408 +114,305 @@ def _tts_openai(text: str, dest: Path, voice: str = OPENAI_VOICE_DEFAULT,
     return ffprobe_duration(dest)
 
 
-def _tts_edge(text: str, dest: Path, voice: str = VOICE_DEFAULT,
-              rate: str = "-8%", retries: int = 4) -> float:
-    """Edge TTS — 공짜 폴백. 비상업 용도 전용."""
-    import asyncio
-    import edge_tts
-
+def tts_grok(text: str, dest: Path, voice: str | None = None) -> float:
+    """Grok xAI TTS — scripts/grok_tts.py (session JWT or XAI_API_KEY)."""
+    root = Path(__file__).resolve().parents[1]  # /root/work
+    script = root / "scripts" / "grok_tts.py"
+    if not script.exists():
+        raise RuntimeError("grok_tts.py not found")
     dest.parent.mkdir(parents=True, exist_ok=True)
-    async def _run():
-        last_err = None
-        for attempt in range(1, retries + 1):
-            try:
-                if dest.exists():
-                    dest.unlink()
-                communicate = edge_tts.Communicate(text, voice, rate=rate)
-                await communicate.save(str(dest))
-                if dest.stat().st_size < 100:
-                    raise RuntimeError(f"TTS empty: {dest}")
-                return ffprobe_duration(dest)
-            except Exception as e:
-                last_err = e
-                await asyncio.sleep(min(8, attempt * 2))
-        raise RuntimeError(f"edge-tts failed: {last_err}")
-    return asyncio.run(_run())
-
-
-def _tts_local_parksy(text: str, dest: Path, speed: float = 1.0) -> float:
-    """ParkSyTTS v1 — GPT-SoVITS 기반 박씨 목소리 (오빠 선물 AI 코어).
-
-    자동 탐지 순서:
-      1) helena-programming/parksy-tts-v1/  (레포 내 선물)
-      2) ~/parksy-tts-v1/                   (설치 경로)
-      3) PARKSY_TTS_DIR 환경변수
-    """
-    parksy_dirs = []
-    # Check repo-embedded gift
-    repo_gift = Path("/root/work/helena-programming/parksy-tts-v1")
-    if repo_gift.exists() and (repo_gift / "core" / "engine.py").exists():
-        parksy_dirs.append(repo_gift)
-    # Check installed path
-    home_gift = Path.home() / "parksy-tts-v1"
-    if home_gift.exists():
-        parksy_dirs.append(home_gift)
-    # Check env var
-    env_dir = os.environ.get("PARKSY_TTS_DIR", "").strip()
-    if env_dir and Path(env_dir).exists():
-        parksy_dirs.append(Path(env_dir))
-
-    if not parksy_dirs:
-        raise RuntimeError(
-            "ParkSyTTS v1 not found.\n"
-            "  git clone / gift 받기 or bash install.sh\n"
-            "  경로: helena-programming/parksy-tts-v1/ 또는 ~/parksy-tts-v1/"
-        )
-
-    parksy_root = parksy_dirs[0]
-    # GPT-SoVITS must also be on path for internal imports
-    gptsovits_dir = os.environ.get("GPT_SOVITS_DIR", str(Path.home() / "GPT-SoVITS"))
-    _saved_path = list(sys.path)
-    try:
-        sys.path.insert(0, str(parksy_root))
-        for sub in ("", "GPT_SoVITS", "GPT_SoVITS/eres2net"):
-            p = str(Path(gptsovits_dir) / sub)
-            if os.path.isdir(p) and p not in sys.path:
-                sys.path.insert(0, p)
-        from core import ParkSyTTS  # type: ignore
-    except ImportError as e:
-        raise RuntimeError(
-            f"ParkSyTTS import 실패: {e}\n"
-            f"  선행: bash {parksy_root}/install.sh\n"
-            f"  그다음: source {parksy_root}/activate.sh"
-        )
-
-    try:
-        tts = ParkSyTTS()
-        wav = dest.with_suffix(".wav")
-        tts.say(text, str(wav), lang="ko", speed=speed)
-
-        # WAV → AAC/M4A via FFmpeg
-        r = subprocess.run(
-            ["ffmpeg", "-y", "-i", str(wav),
-             "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-ac", "2",
-             str(dest)],
-            capture_output=True, text=True,
-        )
-        if r.returncode != 0:
-            shutil.move(str(wav), str(dest))
-        elif wav.exists():
-            wav.unlink()
-
-        return ffprobe_duration(dest)
-    finally:
-        sys.path[:] = _saved_path
-
-
-def _tts_local_sherpa(text: str, dest: Path,
-                       model_path: str | None = None,
-                       speed: float = 0.95) -> float:
-    """Local Sherpa-ONNX TTS — 경량 오프라인 CPU NEON 가속.
-
-    Model path resolution:
-      1) Explicit `model_path` arg
-      2) LOCAL_VOICE_MODEL env
-      3) voice_models/my_voice.onnx (기본)
-      4) voice_models/ 디렉토리 첫 번째 .onnx 파일
-    """
-    try:
-        import sherpa_onnx
-    except ImportError:
-        raise RuntimeError(
-            "sherpa-onnx not installed.\n"
-            "  pip install sherpa-onnx\n"
-            "  또는 Boss AI 코어 도착 후 설치 안내 참조: _notebook/70-ai-voice-core-*.md"
-        )
-
-    dest.parent.mkdir(parents=True, exist_ok=True)
-
-    # Resolve model path
-    if model_path:
-        model = Path(model_path)
-    elif os.environ.get("LOCAL_VOICE_MODEL"):
-        model = Path(os.environ["LOCAL_VOICE_MODEL"])
-    else:
-        models_dir = Path(os.environ.get("VOICE_MODELS_DIR", "/root/work/voice_models"))
-        default_model = models_dir / "my_voice.onnx"
-        if default_model.exists():
-            model = default_model
-        else:
-            # auto-detect first .onnx
-            candidates = sorted(models_dir.glob("*.onnx")) if models_dir.exists() else []
-            if candidates:
-                model = candidates[0]
-            else:
-                raise RuntimeError(
-                    f"No local voice model found.\n"
-                    f"  기본 경로: {default_model}\n"
-                    f"  voice_models/ 디렉토리에 .onnx 모델을 넣거나\n"
-                    f"  LOCAL_VOICE_MODEL 환경변수로 지정하세요.\n"
-                    f"  Boss가 AI 코어를 아직 업로드하지 않았을 수 있습니다."
-                )
-
-    if not model.exists():
-        raise RuntimeError(f"Voice model not found: {model}")
-
-    # Resolve tokens file
-    tokens = model.with_suffix(".json")
-    if not tokens.exists():
-        tokens = model.parent / "tokens.json"
-    if not tokens.exists():
-        # Kokoro-style: model file embeds tokens, some versions need separate file
-        tokens = None
-
-    # WAV output first, then convert to MP3
-    wav = dest.with_suffix(".wav")
-
-    try:
-        # Try Kokoro model config (most common for Korean)
-        tts_config = sherpa_onnx.OfflineTtsConfig(
-            model=sherpa_onnx.OfflineTtsModelConfig(
-                kokoro=sherpa_onnx.OfflineTtsKokoroModelConfig(
-                    model=str(model),
-                    tokens=str(tokens) if tokens else "",
-                ),
-                num_threads=min(8, os.cpu_count() or 4),
-                provider="cpu",
-            ),
-        )
-        tts = sherpa_onnx.OfflineTts(tts_config)
-        audio = tts.generate(text, sid=0, speed=speed)
-        if not audio or not getattr(audio, 'samples', None):
-            raise RuntimeError("Sherpa generated empty audio")
-        audio.save(str(wav))
-    except Exception:
-        # Fallback: try VITS model config
-        try:
-            import sherpa_onnx
-            tts_config2 = sherpa_onnx.OfflineTtsConfig(
-                model=sherpa_onnx.OfflineTtsModelConfig(
-                    vits=sherpa_onnx.OfflineTtsVitsModelConfig(
-                        model=str(model),
-                        tokens=str(tokens) if tokens else "",
-                    ),
-                    num_threads=min(8, os.cpu_count() or 4),
-                    provider="cpu",
-                ),
-            )
-            tts2 = sherpa_onnx.OfflineTts(tts_config2)
-            audio2 = tts2.generate(text, sid=0, speed=speed)
-            audio2.save(str(wav))
-        except Exception as e2:
-            raise RuntimeError(
-                f"Sherpa-ONNX failed with both Kokoro and VITS configs.\n"
-                f"  Model: {model}\n"
-                f"  Kokoro error: {e}\n"
-                f"  VITS error: {e2}"
-            )
-
-    # WAV → AAC/M4A via FFmpeg
-    r = subprocess.run(
-        ["ffmpeg", "-y", "-i", str(wav),
-         "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-ac", "2",
-         str(dest)],
-        capture_output=True, text=True,
-    )
-    if r.returncode != 0:
-        # fallback: keep WAV
-        shutil.move(str(wav), str(dest))
-    elif wav.exists():
-        wav.unlink()
-
+    cmd = [
+        sys.executable,
+        str(script),
+        "--text",
+        text,
+        "--out",
+        str(dest),
+        "--voice",
+        voice or GROK_VOICE_DEFAULT,
+        "--lang",
+        os.environ.get("GROK_TTS_LANG", "ko"),
+    ]
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    if r.returncode != 0 or not dest.exists() or dest.stat().st_size < 200:
+        raise RuntimeError(r.stderr.strip() or r.stdout.strip() or "grok tts failed")
     return ffprobe_duration(dest)
 
 
-# ── post-processing ──
+# ── local / offline providers ──────────────────────────────────────────
 
-def _polish(raw: Path, polished: Path, engine: str) -> Path:
-    """Apply broadcast humanize chain, varying by engine quality."""
-    chain = HUMANIZE_LIGHT if engine == "grok" else HUMANIZE_HEAVY
+
+def _find_parksytts_root() -> Path | None:
+    """ParksyTTS v1 설치 경로 자동 탐지."""
+    candidates = [
+        Path("/root/work/helena-programming/parksy-tts-v1"),
+        Path("/root/work/parksy-tts-v1/helena-programming/parksy-tts-v1"),
+        Path("/root/work/parksy-tts-v1"),
+        Path.home() / "parksy-tts-v1",
+    ]
+    for c in candidates:
+        if (c / "say.py").exists() or (c / "core" / "engine.py").exists():
+            return c
+    return None
+
+
+def _find_sherpa_model() -> Path | None:
+    """voice_models/ 에서 .onnx 모델 자동 탐지."""
+    model_env = os.environ.get("LOCAL_VOICE_MODEL", "")
+    if model_env and Path(model_env).exists():
+        return Path(model_env)
+    candidates = [
+        Path("/root/work/helena-programming/voice_models"),
+        Path("/root/work/voice_models"),
+        Path(__file__).resolve().parents[1] / "voice_models",
+    ]
+    for d in candidates:
+        if d.is_dir():
+            onnx_files = sorted(d.glob("*.onnx"))
+            if onnx_files:
+                return onnx_files[0]
+    return None
+
+
+def _tts_local_parksy(text: str, dest: Path) -> float:
+    """ParksyTTS v1 — GPT-SoVITS v2Pro 기반 박씨 목소리.
+
+    parksy-tts-v1/say.py 를 호출. 설치돼 있지 않으면 RuntimeError.
+    say.py API: python3 say.py "text" --out output.wav
+    """
+    root = _find_parksytts_root()
+    if root is None:
+        raise RuntimeError(
+            "ParksyTTS v1 not found. "
+            "Clone gift/parksy-tts-v1 or run install.sh first."
+        )
+    say_py = root / "say.py"
+    if not say_py.exists():
+        raise RuntimeError(f"ParksyTTS entrypoint missing: {root}/say.py")
+
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    wav_dest = dest.with_suffix(".wav")
+
+    # ParksyTTS는 GPT-SoVITS venv Python을 써야 함 (의존성: torch, ffmpeg 등)
+    venv_python = root.parent / "GPT-SoVITS" / ".venv" / "bin" / "python3"
+    if not venv_python.exists():
+        venv_python = Path.home() / "GPT-SoVITS" / ".venv" / "bin" / "python3"
+    python_exe = str(venv_python) if venv_python.exists() else sys.executable
+
+    cmd = [
+        python_exe, str(say_py),
+        text,
+        "--out", str(wav_dest),
+        "--lang", os.environ.get("PARKSY_TTS_LANG", "ko"),
+        "--speed", os.environ.get("PARKSY_TTS_SPEED", "1.0"),
+    ]
+
+    env = os.environ.copy()
+    r = subprocess.run(cmd, capture_output=True, text=True, env=env, cwd=str(root),
+                       timeout=300)
+    if r.returncode != 0:
+        raise RuntimeError(f"ParksyTTS failed: {r.stderr.strip() or r.stdout.strip()}")
+
+    # say.py --out 으로 직접 WAV 출력 → WAV → MP3 변환
+    if not wav_dest.exists() or wav_dest.stat().st_size < 100:
+        # fallback: /tmp/parksy_say.wav (say.py 기본 출력)
+        default_wav = Path("/tmp/parksy_say.wav")
+        if default_wav.exists() and default_wav.stat().st_size > 100:
+            wav_dest = default_wav
+        else:
+            raise RuntimeError("ParksyTTS produced no output file")
+
+    r2 = subprocess.run(
+        ["ffmpeg", "-y", "-i", str(wav_dest),
+         "-ar", "24000", "-ac", "1", "-c:a", "libmp3lame", "-q:a", "3", str(dest)],
+        capture_output=True, text=True, timeout=60,
+    )
+    if r2.returncode != 0 or not dest.exists() or dest.stat().st_size < 200:
+        raise RuntimeError(f"ParksyTTS wav→mp3 failed: {r2.stderr}")
+    return ffprobe_duration(dest)
+
+
+def _tts_local_sherpa(text: str, dest: Path,
+                       model_path: Path | None = None) -> float:
+    """Sherpa-ONNX 로컬 추론 — CPU NEON 가속, 오프라인.
+
+    Kokoro (한국어) / VITS 모델 지원.
+    voice_models/*.onnx 자동 탐지.
+    """
+    model_file = model_path or _find_sherpa_model()
+    if model_file is None:
+        raise RuntimeError(
+            "No .onnx model found in voice_models/. "
+            "Place a Sherpa-ONNX model or set LOCAL_VOICE_MODEL env."
+        )
+
+    tokens_file = model_file.with_suffix(".json")
+    if not tokens_file.exists():
+        # Kokoro 모델은 .json 토크나이저가 필요
+        tokens_file_candidates = list(model_file.parent.glob("*.json"))
+        if tokens_file_candidates:
+            tokens_file = tokens_file_candidates[0]
+        else:
+            raise RuntimeError(
+                f"No tokens file found for {model_file.name}. "
+                "Place a .json tokens file alongside the .onnx model."
+            )
+
+    import sherpa_onnx
+
+    dest.parent.mkdir(parents=True, exist_ok=True)
+
+    try:
+        # Kokoro 모델 설정
+        tts_config = sherpa_onnx.OfflineTtsConfig(
+            model=sherpa_onnx.OfflineTtsModelConfig(
+                kokoro=sherpa_onnx.OfflineTtsKokoroModelConfig(
+                    model=str(model_file),
+                    tokens=str(tokens_file),
+                    data_dir=str(model_file.parent),
+                ),
+            ),
+        )
+        tts = sherpa_onnx.OfflineTts(tts_config)
+    except Exception:
+        # VITS / 기타 모델 폴백
+        tts_config = sherpa_onnx.OfflineTtsConfig(
+            model=sherpa_onnx.OfflineTtsModelConfig(
+                vits=sherpa_onnx.OfflineTtsVitsModelConfig(
+                    model=str(model_file),
+                    tokens=str(tokens_file),
+                    data_dir=str(model_file.parent),
+                ),
+            ),
+        )
+        tts = sherpa_onnx.OfflineTts(tts_config)
+
+    speed = float(os.environ.get("LOCAL_VOICE_SPEED", "0.95"))
+    audio = tts.generate(text, sid=0, speed=speed)
+
+    # sherpa_onnx 출력 → WAV 저장 → FFmpeg MP3
+    import soundfile as sf
+    wav_tmp = dest.with_suffix(".wav")
+    sf.write(str(wav_tmp), audio.samples, audio.sample_rate)
+
     r = subprocess.run(
-        ["ffmpeg", "-y", "-i", str(raw), "-af", chain,
-         "-ar", "48000", "-ac", "2", "-c:a", "aac", "-b:a", "192k", str(polished)],
+        ["ffmpeg", "-y", "-i", str(wav_tmp),
+         "-ar", "24000", "-ac", "1", "-c:a", "libmp3lame", "-q:a", "3", str(dest)],
         capture_output=True, text=True,
     )
-    if r.returncode != 0 or not polished.exists() or polished.stat().st_size < 200:
-        shutil.copy(raw, polished)
-    return polished
+    if wav_tmp.exists():
+        wav_tmp.unlink()
+    if r.returncode != 0 or not dest.exists() or dest.stat().st_size < 200:
+        raise RuntimeError(f"Sherpa wav→mp3 failed: {r.stderr}")
+    return ffprobe_duration(dest)
 
 
-# ── main public API ──
+def tts_local(text: str, dest: Path, *,
+              model_path: Path | None = None) -> tuple[float, str]:
+    """로컬 TTS 디스패처 — ParksyTTS 우선, Sherpa-ONNX 폴백.
 
-def synthesize(
+    Returns (duration_sec, provider_id).
+    """
+    # 1) ParksyTTS v1 (GPT-SoVITS 박씨 목소리)
+    parksy_root = _find_parksytts_root()
+    if parksy_root is not None:
+        try:
+            dur = _tts_local_parksy(text, dest)
+            return dur, "local/parksytts-v1"
+        except Exception as e:
+            print(f"  ! local/parksytts failed, falling back to sherpa: {e}", flush=True)
+
+    # 2) Sherpa-ONNX (Kokoro / VITS)
+    dur = _tts_local_sherpa(text, dest, model_path=model_path)
+    model_name = (model_path or _find_sherpa_model()).stem if (
+        model_path or _find_sherpa_model()
+    ) else "unknown"
+    return dur, f"local/sherpa-{model_name}"
+
+
+async def synthesize_beat(
     text: str,
-    dest: Path,
     *,
-    engine: str = "auto",
-    voice: str | None = None,
-    lang: str = "ko",
-    speed: float = 0.95,
-    polish: bool = True,
+    dest: Path,
+    raw_dest: Path,
+    edge_voice: str = VOICE_DEFAULT,
+    prefer: str = "auto",
 ) -> tuple[float, str]:
     """
-    Synthesize voice from text.
-
-    Args:
-        text: Korean narration text
-        dest: output path (.mp3 or .m4a)
-        engine: "auto" (priority chain) | "grok" | "local" | "openai" | "edge"
-        voice: override voice ID
-        lang: language code
-        speed: speech speed multiplier
-        polish: apply broadcast humanize chain
-
-    Returns:
-        (duration_seconds, provider_tag) — e.g. (12.34, "grok/ara")
-
-    Provider tags:
-        grok/ara      — 🟢 상업 가능 · 정식 경로
-        local/my_voice — 🟢 오프라인 · AI 코어 · 비용 0원 · 선물/자가학습
-        openai/nova   — 🟢 상업 가능 · API 키 필요
-        edge/SunHi    — 🟡 비상업 전용 · 수익화 금지 (폴백)
+    Returns (duration_sec, provider_id).
+    prefer: auto | grok | local | openai | edge
     """
-    text = (text or "").strip()
-    if not text:
-        raise ValueError("empty text")
-
-    # Resolve engine
-    if engine == "auto":
-        env_engine = os.environ.get("TTS_ENGINE", "").strip()
-        if env_engine and env_engine != "auto":
-            order = [env_engine]
+    order: list[str]
+    if prefer == "auto":
+        # TTS_ENGINE 환경변수로 기본 엔진 지정 가능
+        engine_env = os.environ.get("TTS_ENGINE", "")
+        if engine_env:
+            order = [engine_env]
         else:
-            order = list(ENGINE_PRIORITY)
+            order = ["grok", "openai", "edge"]
     else:
-        order = [engine]
+        order = [prefer]
 
-    raw = dest.parent / f"._{dest.name}.raw.mp3"
-    polished = dest
-
-    last_err = None
+    last_err: Exception | None = None
     for provider in order:
         try:
             if provider == "grok":
-                v = voice or GROK_VOICE_DEFAULT
-                dur = _tts_grok(text, raw, voice=v, lang=lang, speed=speed)
-                if polish:
-                    _polish(raw, polished, "grok")
-                    dur = ffprobe_duration(polished)
-                else:
-                    shutil.move(str(raw), str(polished))
-                return dur, f"grok/{v}"
-
-            elif provider == "local":
-                # ParksyTTS 우선 (GPT-SoVITS 선물 코어) → Sherpa-ONNX 폴백
-                try:
-                    dur = _tts_local_parksy(text, raw, speed=speed)
-                    if polish:
-                        _polish(raw, polished, "local")
-                        dur = ffprobe_duration(polished)
-                    else:
-                        shutil.move(str(raw), str(polished))
-                    return dur, "local/parksy-tts-v1"
-                except Exception as pe:
-                    print(f"  ! parksy-tts skipped: {pe}", flush=True)
-                    try:
-                        dur = _tts_local_sherpa(text, raw, speed=speed)
-                        model_name = Path(os.environ.get(
-                            "LOCAL_VOICE_MODEL",
-                            "/root/work/voice_models/my_voice.onnx"
-                        )).stem
-                        if polish:
-                            _polish(raw, polished, "local")
-                            dur = ffprobe_duration(polished)
-                        else:
-                            shutil.move(str(raw), str(polished))
-                        return dur, f"local/{model_name}"
-                    except Exception as se:
-                        raise RuntimeError(
-                            f"Local TTS both failed.\n"
-                            f"  ParksyTTS: {pe}\n"
-                            f"  Sherpa-ONNX: {se}"
-                        )
-
-            elif provider == "openai":
+                dur = await asyncio.to_thread(tts_grok, text, raw_dest)
+                # light polish only — Grok already broadcast-grade
+                humanize_tts(raw_dest, dest)
+                return ffprobe_duration(dest), f"grok-tts/{GROK_VOICE_DEFAULT}"
+            if provider == "local":
+                dur, prov_id = await asyncio.to_thread(tts_local, text, raw_dest)
+                humanize_tts(raw_dest, dest)
+                return ffprobe_duration(dest), prov_id
+            if provider == "openai":
                 if not (os.environ.get("OPENAI_API_KEY") or os.environ.get("OPENAI_KEY")):
-                    print("  ! openai skip — no API key", flush=True)
                     continue
-                v = voice or OPENAI_VOICE_DEFAULT
-                dur = _tts_openai(text, raw, voice=v, speed=speed)
-                if polish:
-                    _polish(raw, polished, "openai")
-                    dur = ffprobe_duration(polished)
-                else:
-                    shutil.move(str(raw), str(polished))
-                return dur, f"openai/{v}"
-
-            elif provider == "edge":
-                v = voice or VOICE_DEFAULT
-                dur = _tts_edge(text, raw, voice=v)
-                if polish:
-                    _polish(raw, polished, "edge")
-                    dur = ffprobe_duration(polished)
-                else:
-                    shutil.move(str(raw), str(polished))
-                return dur, f"edge/{v}"
-
+                dur = await asyncio.to_thread(tts_openai, text, raw_dest)
+                humanize_tts(raw_dest, dest)
+                return ffprobe_duration(dest), "openai-tts-1-hd"
+            if provider == "edge":
+                dur = await tts_edge(text, edge_voice, raw_dest)
+                humanize_tts(raw_dest, dest)
+                return ffprobe_duration(dest), "edge+humanize"
         except Exception as e:
             last_err = e
-            print(f"  ⚠ tts/{provider} failed: {e}", flush=True)
-            # cleanup raw
-            if raw.exists():
-                raw.unlink(missing_ok=True)
+            print(f"  ! tts {provider} failed: {e}", flush=True)
             continue
-
-    raise RuntimeError(f"All TTS providers failed. Last error: {last_err}")
-
-
-def list_voices_grok() -> list[dict]:
-    """List available Grok/xAI TTS voices."""
-    token = _resolve_grok_token()
-    req = urllib.request.Request(
-        "https://api.x.ai/v1/tts/voices",
-        headers={"Authorization": f"Bearer {token}"},
-    )
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        payload = json.loads(resp.read())
-    return list(payload.get("voices") or [])
+    raise RuntimeError(f"all tts providers failed: {last_err}")
 
 
-# ── CLI ──
-if __name__ == "__main__":
-    import argparse
-    ap = argparse.ArgumentParser(description="Voice Engine — 성우 플러그인")
-    ap.add_argument("--text", help="Text to speak")
-    ap.add_argument("--file", help="UTF-8 text file")
-    ap.add_argument("--out", required=True, help="Output path (.mp3/.m4a)")
-    ap.add_argument("--engine", default="auto", choices=["auto", "grok", "local", "openai", "edge"])
-    ap.add_argument("--voice", help="Voice ID override")
-    ap.add_argument("--lang", default="ko")
-    ap.add_argument("--speed", type=float, default=0.95)
-    ap.add_argument("--no-polish", action="store_true")
-    ap.add_argument("--model", help="Local model path (for engine=local)")
-    ap.add_argument("--list-voices", action="store_true")
-    args = ap.parse_args()
+def synthesize(text: str, dest: Path, engine: str = "auto") -> tuple[float, str]:
+    """간편 진입점 — produce_pd.sh 등에서 호출.
 
-    if args.list_voices:
-        for v in list_voices_grok():
-            print(f"  {v.get('voice_id', '?'):14} {v.get('name', ''):20} {v.get('language', '')}")
-        sys.exit(0)
+    Returns (duration_sec, provider_id).
+    engine: auto | grok | local | openai | edge
 
-    if args.file:
-        text = Path(args.file).read_text(encoding="utf-8")
-    elif args.text:
-        text = args.text
-    else:
-        print("--text or --file required", file=sys.stderr)
-        sys.exit(2)
+    내부적으로 synthesize_beat() 에 위임.
+    """
+    import tempfile
 
-    if args.model:
-        os.environ["LOCAL_VOICE_MODEL"] = args.model
-    dur, provider = synthesize(
-        text, Path(args.out), engine=args.engine,
-        voice=args.voice, lang=args.lang, speed=args.speed,
-        polish=not args.no_polish,
-    )
-    size_kb = Path(args.out).stat().st_size // 1024
-    print(f"✅ {provider:20s} dur={dur:.2f}s  size={size_kb}KB  → {args.out}")
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    raw_dest = Path(tempfile.mktemp(suffix=".mp3", prefix="voice_raw_"))
+
+    try:
+        dur, prov = asyncio.run(synthesize_beat(
+            text,
+            dest=dest,
+            raw_dest=raw_dest,
+            prefer=engine,
+        ))
+        return dur, prov
+    finally:
+        if raw_dest.exists():
+            raw_dest.unlink(missing_ok=True)
+
+
+def multi_click_pad(n_clicks: int, base_hold_ms: int = 400) -> float:
+    """Airtime so act never drops 2nd click — pro: breath room without 2× overshoot."""
+    pad = base_hold_ms / 1000.0
+    if n_clicks >= 2:
+        return max(pad, 0.55 + (n_clicks - 1) * 1.35)
+    if n_clicks == 1:
+        return max(pad, 0.65)
+    return max(pad, 0.4)
