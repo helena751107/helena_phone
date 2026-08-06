@@ -23,3 +23,4 @@ tmp/
 Thumbs.db
 out/
 voice_models/
+voice_models/parksy_v2/*.onnx

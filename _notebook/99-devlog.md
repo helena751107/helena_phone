@@ -1,6 +1,32 @@
 # 📋 S21 Phone — 전체 개발일지
 
 
+### 🎯 ParksyTTS VITS 디코더 ONNX export 성공 (_Claude · 2026-08-07)
+
+**결과:**
+- `voice_models/parksy_v2/parksy_v2_vits.onnx` — 322.7 MB, 84.8M 파라미터
+- PyTorch → ONNX 변환 성공, onnxruntime 추론 검증 완료
+- 입력: text_seq(phoneme IDs) + pred_semantic(GPT tokens) + ref_audio + sv_emb
+- 출력: raw audio waveform @ 32000Hz
+
+**과정:**
+- GPT-SoVITS 내장 `onnx_export.py` 발견 → ParksyTTS 모델 경로로 수정
+- 의존성 8종 설치: pytorch_lightning, matplotlib, x-transformers, onnxscript, huggingface_hub, transformers, peft, jieba
+- v2Pro sv_emb 문제: TTS_infer_pack 의존성 체인 과다(Chinese NLP 포함) → 제로 임베딩으로 우회 (단일 화자)
+- `scripts/_export_parksy_vits_onnx.py` 신규 작성 (VITS 디코더 전용)
+
+**한계:**
+- GPT stage(stage decoder, 1500 iterations autoregressive)는 아직 PyTorch → 여전히 병목
+- VITS 디코더만 ONNX: semantic token prediction 속도는 그대로
+- 실제 end-to-end 가속 위해 GPT stage decoder도 ONNX export 필요
+
+**앞으로:**
+- [ ] 실제 reference audio로 sv_emb 정확 계산 (TTS_infer_pack 의존성 해결 후)
+- [ ] GPT stage decoder ONNX export (autoregressive loop → onnxruntime)
+- [ ] voice_engine.py에 onnxruntime VITS 디코더 통합
+- [ ] Kokoro 모델은 폴백으로 유지, ParksyTTS ONNX가 우선
+
+
 ### ⚡ 세션 끊김 + ParksyTTS/NPU 재개 체크리스트 (_Claude · 2026-08-07)
 
 **세션 상태:**
