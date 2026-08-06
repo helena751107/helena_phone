@@ -126,14 +126,14 @@ class ParkSyTTS:
     ) -> Path:
         """텍스트를 박씨 목소리로 합성해 WAV로 저장."""
         import soundfile as sf
-        from .normalize import normalize_ko
+        from .normalize import normalize_ko_text
 
         self._load()
         out = Path(output_path)
         out.parent.mkdir(parents=True, exist_ok=True)
 
         if lang == "ko":
-            text = normalize_ko(text)
+            text = normalize_ko_text(text)
 
         inputs = {
             "text": text,
@@ -156,7 +156,7 @@ class ParkSyTTS:
             "streaming_mode": False,
             "parallel_infer": True,
             "repetition_penalty": 1.35,
-            "sample_steps": 32,
+            "sample_steps": 48,
             "super_sampling": False,
         }
 
