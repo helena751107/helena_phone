@@ -4413,3 +4413,32 @@ MIDI 소싱: Mutopia → IMSLP → (필요시) basic-pitch Actions
 - 쇼츠/틱톡 프리셋
 
 **핵심: 공짜 FFmpeg 파이프로 구독자 확보용 쇼츠 자동화**
+
+
+## V9 CNN Breaking News 자막 + TTS 표준 변경 (2026-08-07 22:37) (_Claude)
+
+### CNN Breaking News 애니메이션 자막 (V9)
+- **\k karaoke 완전 폐기** — Boss 피드백: "진짜 CNN처럼 움직이면서 나와야 된다"
+- **단어별 Dialogue 이벤트**로 전환: 각 단어가 개별 `\t()` scale pop 애니메이션
+- 스펙:
+  - 72pt bold (56→72pt) — 훨씬 큼
+  - `BorderStyle=3` opaque box — 레드 배너 바 배경 (`\4c&HBB0000CC`)
+  - `\fscx200\fscy200\t(0,100,\fscx100\fscy100)` — 단어마다 200%→100% 팝
+  - 자동 줄바꿈: 960px 초과 시 다음 줄로 (LINE_SPACING=104px)
+  - `\an2\pos(x,y)` — 단어별 개별 위치 지정
+- **서브타이틀이 아니라 비주얼 이펙트**로 격상
+
+### TTS 표준 변경: Kokoro → Edge
+- **Kokoro jf_alpha 폐기**: 일본식 억양, 한국어 부자연 → "어눌한 발음 의미 없음"
+- **Edge TTS InJoonNeural 채택**: 이미 상용급 품질, 한국어 자연스러움
+- 롱폼=육성, 쇼츠=Edge TTS, ParksyTTS=교재 소재로 재배치
+- `TTS_ENGINE` 기본값: `local` → `edge`
+- `_make_ass.py` 완전히 새로 작성 (\k 태그 제로, \t() 애니메이션 전용)
+
+### TG #361
+- 최초 CNN Breaking News 스타일 영상 발송
+- 72pt + 레드 배너 + 단어별 팝 애니메이션 적용
+
+### 파이프라인 변경
+- `produce_pd.sh`: V8→V9, TTS=edge, TG caption 갱신
+- `_make_ass.py`: 완전 재작성 (CNN 애니메이션 엔진)

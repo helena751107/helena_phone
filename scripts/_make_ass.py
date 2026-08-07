@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-r"""ASS karaoke subtitle generator V8 — shot_bible VO → .ass with \k word-level tags
+"""ASS animated subtitle generator V9 — CNN Breaking News style
 
-Word timing: character-proportional heuristic (chars_in_word / total_chars * mp3_dur).
-This avoids requiring a forced aligner (MFA) or Whisper ASR on the S21.
+Per-word pop-in animation with \t() scale bounce.
+No \k karaoke — each word flies in with dramatic scale pop.
+Red banner bar behind text (BorderStyle=3 opaque box).
+Words accumulate within a beat, clear between beats.
 
-Output is rendered via FFmpeg `ass` filter onto the final video.
+Usage:
+  OUTDIR=/root/work/out/pd_intro EP=pd_intro python3 scripts/_make_ass.py
 """
 from __future__ import annotations
 
@@ -23,10 +26,8 @@ def format_ass_time(seconds: float) -> str:
 
 
 def split_korean_words(text: str) -> list[str]:
-    """Split Korean text into words. Korean uses spaces as word boundaries."""
-    # Split on spaces, preserve punctuation with preceding word
+    """Split Korean text into display words. Short fragments merged."""
     words = text.split()
-    # Merge very short fragments
     merged = []
     for w in words:
         if merged and len(w) <= 2 and len(merged[-1]) <= 3:
@@ -36,23 +37,58 @@ def split_korean_words(text: str) -> list[str]:
     return merged
 
 
+# ═══════════════════════════════════════════════════════════════
+#  CNN Breaking News — Style Tokens
+# ═══════════════════════════════════════════════════════════════
+
+FONT_SIZE   = 72          # pt
+SCALE_PEAK  = 200         # % — start at 2× size
+SCALE_POP_MS = 100        # ms — pop animation duration
+MARGIN_V    = 180         # px from bottom
+PLAY_RES_X  = 1080
+PLAY_RES_Y  = 1920
+CENTER_X    = 540
+SUBTITLE_Y   = PLAY_RES_Y - MARGIN_V  # 1740
+WORD_GAP     = 12           # px between words
+LINE_SPACING = int(FONT_SIZE * 1.45)  # px between baselines
+MAX_LINE_W   = PLAY_RES_X - 120       # 960px — leave side margins
+
+
+def estimate_word_width_px(word: str) -> int:
+    """Rough pixel width for Korean + Latin mix at FONT_SIZE pt."""
+    w = 0.0
+    for ch in word:
+        cp = ord(ch)
+        if cp == 0x20:
+            w += FONT_SIZE * 0.30
+        elif 0xAC00 <= cp <= 0xD7AF:     # Hangul syllable
+            w += FONT_SIZE * 0.88
+        elif 0x3131 <= cp <= 0x318E:     # Hangul jamo
+            w += FONT_SIZE * 0.55
+        elif cp < 0x80:                  # ASCII / Latin / digits
+            w += FONT_SIZE * 0.52
+        else:                            # CJK punctuation etc.
+            w += FONT_SIZE * 0.55
+    return max(1, int(w))
+
+
 def main() -> int:
     outdir = Path(os.environ.get("OUTDIR", "/root/work/out/pd_intro"))
-    ep = os.environ.get("EP", "pd_intro")
+    ep     = os.environ.get("EP", "pd_intro")
 
     bible_path = outdir / "shot_bible.json"
     if not bible_path.exists():
-        print("  ⚠️ no shot_bible.json — ASS skip")
+        print("  ⚠️  no shot_bible.json — ASS skip")
         return 0
 
     bible = json.loads(bible_path.read_text(encoding="utf-8"))
     beats = bible.get("beats") or []
     bridges = bible.get("bridges") or []
 
-    # ── Calculate bridge_open offset ──
+    # ── Bridge open offset ──────────────────────────────────
     b_open_dur = 0.0
     for br in bridges:
-        if br.get("before") == beats[0]["id"] if beats else False or \
+        if (br.get("before") == beats[0]["id"] if beats else False) or \
            (br.get("id") or "").startswith("b_open") or "open" in (br.get("id") or ""):
             b_open_dur = 5.5
             break
@@ -69,43 +105,45 @@ def main() -> int:
     else:
         b_open_dur = 0.0
 
-    # ── Generate ASS dialogue lines with karaoke \k tags ──
-    dialogues = []
-    cursor = b_open_dur
-
-    # ASS header
-    ass_lines = [
+    # ── ASS Header ──────────────────────────────────────────
+    # BorderStyle=3 = opaque box behind text → red banner bar
+    # BackColour=&HB00D0DCC (dark red @ 75% alpha = 0xBB)
+    # Outline=5, Shadow=2  → thick border for punch
+    ass_header = [
         "[Script Info]",
-        f"Title: {ep}",
+        f"Title: {ep} — CNN Breaking News",
         "ScriptType: v4.00+",
-        "PlayResX: 1080",
-        "PlayResY: 1920",
-        "WrapStyle: 2",  # smart wrapping at bottom
+        f"PlayResX: {PLAY_RES_X}",
+        f"PlayResY: {PLAY_RES_Y}",
+        "WrapStyle: 0",
+        "ScaledBorderAndShadow: yes",
         "",
         "[V4+ Styles]",
         "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, "
         "BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, "
         "BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-        # Primary=&H00FFFFFF (white active), Secondary=&H00666666 (dim gray inactive)
-        # Outline=&H00000000 (black), BackColour=&H99000000 (semi-transparent black bg)
-        # Breaking News style: 56pt bold white, red-tinted dark bg, thick outline, above Shorts UI
-        "Style: Karaoke,Noto Sans CJK KR,56,&H00FFFFFF,&H00444444,&H00000000,&H99FF3333,"
-        "-1,0,0,0,100,100,0,0,1,4,0,2,60,60,220,1",
-        # Title style (smaller, top area, warm orange)
-        "Style: Title,Noto Serif CJK KR,24,&H00FFB060,&H00000000,&H00000000,&H99000000,"
+        # CNN: Primary=white, BackColour=dark-red banner, Outline=black
+        f"Style: CNN,Noto Sans CJK KR,{FONT_SIZE},&H00FFFFFF,&H00666666,&H00000000,&HBB0000CC,"
+        f"-1,0,0,0,100,100,0,0,3,5,2,2,{MARGIN_V},{MARGIN_V},{MARGIN_V},1",
+        # Caption (small warm title at top)
+        "Style: Caption,Noto Serif CJK KR,24,&H00FFB060,&H00000000,&H00000000,&HAA000000,"
         "-1,0,0,0,100,100,0,0,1,2,0,8,80,80,40,1",
         "",
         "[Events]",
         "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
     ]
 
-    for beat in beats:
-        bid = beat["id"]
-        vo_text = beat.get("vo") or beat.get("caption") or bid
-        caption = beat.get("caption") or ""
-        pause = float(beat.get("pause", 0))
-        mp3 = outdir / f"{bid}.mp3"
+    dialogues = []
+    cursor = b_open_dur
 
+    for beat in beats:
+        bid      = beat["id"]
+        vo_text  = beat.get("vo") or beat.get("caption") or bid
+        caption  = beat.get("caption") or ""
+        pause    = float(beat.get("pause", 0))
+        mp3      = outdir / f"{bid}.mp3"
+
+        # ── Probe MP3 duration ──
         dur = 0.0
         if mp3.exists():
             try:
@@ -118,41 +156,95 @@ def main() -> int:
         else:
             dur = 3.0
 
-        # ── Word-level karaoke timing ──
+        beat_start = cursor
+        beat_end   = cursor + dur
+
+        # ── Split & time words ──
         words = split_korean_words(vo_text)
         total_chars = sum(len(w) for w in words)
         if total_chars <= 0:
             total_chars = 1
-        char_dur = dur / total_chars  # seconds per character
+        char_dur = dur / total_chars
 
-        # Build \k sequence
-        karaoke_parts = []
-        for w in words:
-            w_dur_cs = max(1, int(len(w) * char_dur * 100))  # centiseconds, min 1
-            karaoke_parts.append(f"{{\\k{w_dur_cs}}}{w}")
+        # ── Layout: word-wrap into lines (max MAX_LINE_W px) ──
+        widths = [estimate_word_width_px(w) for w in words]
 
-        karaoke_text = " ".join(karaoke_parts)
+        # Group words into lines
+        raw_lines = []          # list of (word_indices, line_width)
+        cur_indices = []
+        cur_w = 0
+        for wi, ww in enumerate(widths):
+            gap = WORD_GAP if cur_indices else 0
+            if cur_w + gap + ww > MAX_LINE_W and cur_indices:
+                raw_lines.append((cur_indices, cur_w))
+                cur_indices = []
+                cur_w = 0
+                gap = 0
+            cur_indices.append(wi)
+            cur_w += gap + ww
+        if cur_indices:
+            raw_lines.append((cur_indices, cur_w))
 
-        start_ass = format_ass_time(cursor)
-        end_ass = format_ass_time(cursor + dur)
-        dialogues.append(f"Dialogue: 0,{start_ass},{end_ass},Karaoke,,0,0,0,,{karaoke_text}")
+        n_lines = len(raw_lines)
+        # y positions: bottom-most line at SUBTITLE_Y, each line above by LINE_SPACING
+        line_base_ys = [SUBTITLE_Y - (n_lines - 1 - li) * LINE_SPACING
+                        for li in range(n_lines)]
 
-        # ── Caption line (static title at top) ──
+        # ── Per-word animated Dialogue events ──
+        word_time_cursor = 0.0    # seconds into the beat
+        global_wi = 0             # across all lines
+
+        for li, (indices, line_w) in enumerate(raw_lines):
+            start_x = CENTER_X - line_w // 2
+            x_cursor = start_x
+            line_y = line_base_ys[li]
+
+            for idx in indices:
+                w = words[idx]
+                ww = widths[idx]
+                w_dur = max(0.06, len(w) * char_dur)   # at least 60 ms
+
+                w_start = beat_start + word_time_cursor
+                w_end   = beat_end
+                w_x     = x_cursor + ww // 2
+
+                # Layer = (line*100 + word_index) to avoid overlap issues
+                layer = li * 100 + idx
+
+                tag = (
+                    f"{{\\an2\\pos({w_x},{line_y})"
+                    f"\\fscx{SCALE_PEAK}\\fscy{SCALE_PEAK}"
+                    f"\\t(0,{SCALE_POP_MS},\\fscx100\\fscy100)}}"
+                    f"{w}"
+                )
+
+                dialogues.append(
+                    f"Dialogue: {layer},{format_ass_time(w_start)},{format_ass_time(w_end)},"
+                    f"CNN,,0,0,0,,{tag}"
+                )
+
+                word_time_cursor += w_dur
+                x_cursor         += ww + WORD_GAP
+                global_wi += 1
+
+        # ── Caption line (small, top area) ──
         if caption:
             dialogues.append(
-                f"Dialogue: 1,{start_ass},{end_ass},Title,,0,0,0,,{caption}"
+                f"Dialogue: 99,{format_ass_time(beat_start)},{format_ass_time(beat_end)},"
+                f"Caption,,0,0,0,,{caption}"
             )
 
         cursor = cursor + dur + pause
 
-    ass_lines.extend(dialogues)
-    ass_lines.append("")
-
+    # ── Write .ass ──────────────────────────────────────────
+    ass_lines = ass_header + dialogues + [""]
     ass_path = outdir / f"{ep}.ass"
     ass_path.write_text("\n".join(ass_lines), encoding="utf-8")
 
     total_dur = cursor
-    print(f"  📝 ASS karaoke: {len(beats)} beats · {total_dur:.1f}s · {ass_path}")
+    print(f"  🎬 ASS CNN Breaking News: {len(beats)} beats · {total_dur:.1f}s · {ass_path}")
+    print(f"  🎯 Per-word pop: {SCALE_PEAK}%→100% over {SCALE_POP_MS}ms")
+    print(f"  🟥 Red banner bg · {FONT_SIZE}pt bold · ≤{MAX_LINE_W}px/line · {LINE_SPACING}px spacing")
     print(f"  ⏱️  b_open offset: {b_open_dur:.1f}s")
 
     return 0

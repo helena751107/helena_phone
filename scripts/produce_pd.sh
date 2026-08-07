@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
-# 🎬 produce_pd.sh — PD Pipeline STANDARD v3 (canonical · Grok-free · V8 renderer)
+# 🎬 produce_pd.sh — PD Pipeline STANDARD v3 (canonical · Grok-free · V9 renderer)
 # 표준: configs/video_pd_pipeline_v2.json · CURRENT → configs/video_pd_pipeline_CURRENT.json
 # 역할:
 #   Factory(공짜) = Playwright 페이지 캡처 + FFmpeg Ken Burns + xfade multi-transition
 #   Boss(수동)   = Gemini/공짜LLM으로 bridge 영상 제작 → Android 갤러리에 저장
-#   성우          = Kokoro FP32 + jf_alpha (sid=37, 일본인 여성) · 완전 공짜
+#   성우          = Edge TTS InJoonNeural (ko-KR, 상용급) · 완전 공짜
+# V9: CNN Breaking News animated subtitles (72pt bold · per-word \t() scale pop 200%→100%)
 # V8: channel stinger · pattern interrupt · loop closing · ASS karaoke subtitles
 # V7: breathing pauses · zoom variety · per-slide grade · BGM swell · staggered end card
 # V6: audio ducking · xfade multi-transition · end card · chrono-pair bridge
-# 고정 상수: BGM_VOLUME=0.025 · TTS=local · CJK 폰트 · QA gate 필수
+# 고정 상수: BGM_VOLUME=0.025 · TTS=edge(InJoon) · CJK 폰트 · QA gate 필수
 #
 # Bridge 워크플로 (Grok 제로):
 #   1. Gemini로 open/close 영상 만들기
@@ -27,17 +28,15 @@ URL="${2:-https://helena751107.github.io/helena_phone/}"
 OUTDIR="${OUTDIR:-$ROOT/out/$EP}"
 export OUTDIR EP URL ROOT
 export BGM_VOLUME="${BGM_VOLUME:-0.025}"  # Golden whisper — 들릴락 말락 은은
-export TTS_ENGINE="${TTS_ENGINE:-local}"
+export TTS_ENGINE="${TTS_ENGINE:-edge}"   # edge=InJoon(상용급), local=Kokoro(폐기), grok=403
 export GROK_TTS_VOICE="${GROK_TTS_VOICE:-ara}"
-export VOICE="${VOICE:-ko-KR-InJoonNeural}"
+export VOICE="${VOICE:-ko-KR-InJoonNeural}"   # Edge TTS 한국어 남성
 export PYTHONIOENCODING=utf-8
 
 # ── STANDARD v2 pin (변경 금지 — configs/video_pd_pipeline_CURRENT.json) ──
 export PD_STANDARD="video_pd_pipeline_v2"
 export PD_STANDARD_PATH="$ROOT/configs/video_pd_pipeline_v2.json"
 export BGM_VOLUME="${BGM_VOLUME:-0.025}"
-export TTS_ENGINE="${TTS_ENGINE:-local}"
-export GROK_TTS_VOICE="${GROK_TTS_VOICE:-ara}"
 export VIDEO_BRAND="${VIDEO_BRAND:-S21 Phone}"
 if [[ ! -f "$PD_STANDARD_PATH" ]]; then
   echo "❌ missing standard $PD_STANDARD_PATH"; exit 1
@@ -312,13 +311,13 @@ if [[ -n "${TG_TOKEN:-}" && -n "${TG_CHAT:-}" && -f "$TG720" ]]; then
     -F chat_id="$TG_CHAT" \
     -F video=@"$TG720" \
     -F supports_streaming=true \
-    -F caption="🎬 ${EP} · PD pipeline V7
-Factory: xfade + zoom variety + per-slide grade + BGM swell + staggered end card
-TTS: Kokoro jf_alpha · bridges: Android 갤러리 chrono-pair
+    -F caption="🎬 ${EP} · PD pipeline V9 CNN
+🔥 72pt bold · per-word pop animation (200%→100% \t() scale bounce)
+🟥 Red banner bg (BorderStyle=3) · word-wrap multi-line
+TTS: Edge InJoon · bridges: Android 갤러리 chrono-pair
 BGM vol=${BGM_VOLUME} · yuv420p High · QA gate
-📝 SRT: ${SRT##*/}
-— produce_pd.sh v3/V7" \
-    -o /tmp/tg_pd.json -w "\nhttp=%{http_code}\n" || true
+📝 ASS burn-in: ${EP}.ass
+— produce_pd.sh v3/V9 CNN Breaking News" \    -o /tmp/tg_pd.json -w "\nhttp=%{http_code}\n" || true
   python3 -c "import json;d=json.load(open('/tmp/tg_pd.json')); print('TG', d.get('ok'), d.get('result',{}).get('message_id') if d.get('ok') else d.get('description','')[:80])" 2>/dev/null || echo "TG parse skip"
 else
   echo "  (TG skip — no token or no file)"
