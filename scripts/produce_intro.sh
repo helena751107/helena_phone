@@ -6,7 +6,7 @@ set -e
 URL="https://helena751107.github.io/helena_phone/"
 EP="intro"
 export OUTDIR="/root/work/out/${EP}"
-export TTS_ENGINE="${TTS_ENGINE:-grok}"          # grok|openai|edge (edge=비상업 only)
+export TTS_ENGINE="${TTS_ENGINE:-local}"         # local|grok|openai|edge (local=ParksyTTS)
 export GROK_TTS_VOICE="${GROK_TTS_VOICE:-ara}"
 export VOICE="ko-KR-SunHiNeural"
 export BGM_VOLUME="${BGM_VOLUME:-0.025}"         # Golden whisper

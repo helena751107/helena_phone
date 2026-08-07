@@ -84,9 +84,21 @@ out = Path(man.get("outdir") or f"/root/work/out/{pid}")
 work = out / "work"
 work.mkdir(parents=True, exist_ok=True)
 
-FONT = "/usr/share/fonts/truetype/noto/NotoSansKR-Regular.ttf"
-if not Path(FONT).exists():
+# Hangul: fontconfig CJK KR (NotoSansKR.ttf often missing → DejaVu tofu)
+import subprocess as _sp
+def _fc(fam):
+    r = _sp.run(["fc-list", fam, "file"], capture_output=True, text=True)
+    return bool((r.stdout or "").strip())
+if _fc("Noto Sans CJK KR"):
+    FONT = "Noto Sans CJK KR"  # used as font= via fontconfig
+    FONT_IS_FC = True
+elif Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc").exists():
+    FONT = "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"
+    FONT_IS_FC = False
+else:
     FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+    FONT_IS_FC = False
+    print("  ⚠ Hangul font missing — captions may tofu")
 
 mode = man.get("mode") or "page_first"  # page_first | bridge_heavy (discouraged)
 print(f"=== 🎬 produce_plugin STANDARD v3 (page-first · PD/voice/bridge) ===")
@@ -255,10 +267,11 @@ for i, (s, meta, vis) in enumerate(zip(slides, tts_meta, vis_paths)):
     if man.get("draw_title_chip") and meta["title"]:
         on_title = escape_drawtext(meta["title"][:28])
     title_vf = ""
-    if on_title and Path(FONT).exists():
+    if on_title and (FONT_IS_FC or Path(FONT).exists()):
+        font_opt = f"font={FONT.replace(' ', r'\\ ')}" if FONT_IS_FC else f"fontfile={FONT}"
         title_vf = (
             f",drawtext=text='{on_title}':fontcolor=#d4a84b:fontsize={max(20, H//60)}:"
-            f"x=(w-text_w)/2:y=h-h*0.045:fontfile={FONT}:"
+            f"x=(w-text_w)/2:y=h-h*0.045:{font_opt}:"
             f"box=1:boxcolor=black@0.45:boxborderw=6"
         )
 
@@ -373,7 +386,7 @@ WrapStyle: 2
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Cap,Noto Sans KR,{cfs},{cs["color"]},&H000000FF,&H001A1508,&H99000000,-1,0,0,0,100,100,0,0,1,2.5,1.5,2,60,60,{cmargin_v},1
+Style: Cap,Noto Sans CJK KR,{cfs},{cs["color"]},&H000000FF,&H001A1508,&H99000000,-1,0,0,0,100,100,0,0,1,2.5,1.5,2,60,60,{cmargin_v},1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
@@ -420,7 +433,7 @@ WrapStyle: 0
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Cap,Noto Sans KR,{fs},&H00F4EFE6,&H000000FF,&H001A1508,&H99000000,-1,0,0,0,100,100,0,0,1,2,0,2,100,100,{margin_v},1
+Style: Cap,Noto Sans CJK KR,{fs},&H00F4EFE6,&H000000FF,&H001A1508,&H99000000,-1,0,0,0,100,100,0,0,1,2,0,2,100,100,{margin_v},1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
