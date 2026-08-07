@@ -88,30 +88,35 @@ if [[ -z "$found_close" ]]; then
     done
 fi
 
-# ── Strategy 3: latest mp4 files as fallback ──
+# ── Strategy 3: chronological pairing ──
+# Boss가 Gemini로 open 먼저 만들고 close 나중에 만든다 → 시간순 = open<close
+# 최신 2개를 골라 먼저 만든 것(오래된 것)을 b_open, 나중에 만든 것을 b_close 로 배정
 if [[ -z "$found_open" || -z "$found_close" ]]; then
-    # Find the 2 most recent mp4 files across all Android media dirs
     all_media=$(find "$DOWNLOAD" "$MOVIES" "$DCIM" "$PICTURES" \
         -maxdepth 1 -name "*.mp4" -type f -printf "%T@ %p\n" 2>/dev/null | \
         sort -rn | head -4) || true
 
+    # 최신 2개 중 오래된 것 → b_open, 더 새로운 것 → b_close
+    newest=$(echo "$all_media" | head -1 | cut -d' ' -f2-)
+    second=$(echo "$all_media" | head -2 | tail -1 | cut -d' ' -f2-)
+
     if [[ -z "$found_open" ]]; then
-        candidate=$(echo "$all_media" | head -1 | cut -d' ' -f2-)
+        # 먼저 만들어진 것(second=더 오래됨)이 opening
+        candidate="$second"
         if [[ -n "$candidate" && -f "$candidate" ]]; then
             found_open="$BRIDGE_DIR/b_open.mp4"
             cp "$candidate" "$found_open"
-            echo "  📱 latest fallback: $(basename "$candidate") → bridge/b_open.mp4 ($(du -h "$found_open" | cut -f1))"
+            echo "  📱 chrono-pair: $(basename "$candidate") → b_open (먼저 생성)"
         fi
     fi
 
     if [[ -z "$found_close" ]]; then
-        # Use 2nd or 3rd latest (skip the one used for open)
-        skip1=$(echo "$all_media" | head -1 | cut -d' ' -f2-)
-        candidate=$(echo "$all_media" | grep -v "$skip1" | head -1 | cut -d' ' -f2-) || true
+        # 나중에 만들어진 것(newest=더 최신)이 closing
+        candidate="$newest"
         if [[ -n "$candidate" && -f "$candidate" ]]; then
             found_close="$BRIDGE_DIR/b_close.mp4"
             cp "$candidate" "$found_close"
-            echo "  📱 latest fallback: $(basename "$candidate") → bridge/b_close.mp4 ($(du -h "$found_close" | cut -f1))"
+            echo "  📱 chrono-pair: $(basename "$candidate") → b_close (나중 생성)"
         fi
     fi
 fi
