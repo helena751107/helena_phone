@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
-# 🎬 produce_pd.sh — PD Pipeline STANDARD v3 (canonical · Grok-free · V7 renderer)
+# 🎬 produce_pd.sh — PD Pipeline STANDARD v3 (canonical · Grok-free · V8 renderer)
 # 표준: configs/video_pd_pipeline_v2.json · CURRENT → configs/video_pd_pipeline_CURRENT.json
 # 역할:
 #   Factory(공짜) = Playwright 페이지 캡처 + FFmpeg Ken Burns + xfade multi-transition
 #   Boss(수동)   = Gemini/공짜LLM으로 bridge 영상 제작 → Android 갤러리에 저장
 #   성우          = Kokoro FP32 + jf_alpha (sid=37, 일본인 여성) · 완전 공짜
-# V7: breathing pauses · zoom variety (in/out/pan) · per-slide grade · BGM swell · staggered end card
-# V6: audio ducking · xfade(fade/wipe/slide/dissolve) · end card · chrono-pair bridge
+# V8: channel stinger · pattern interrupt · loop closing · ASS karaoke subtitles
+# V7: breathing pauses · zoom variety · per-slide grade · BGM swell · staggered end card
+# V6: audio ducking · xfade multi-transition · end card · chrono-pair bridge
 # 고정 상수: BGM_VOLUME=0.025 · TTS=local · CJK 폰트 · QA gate 필수
 #
 # Bridge 워크플로 (Grok 제로):
@@ -68,29 +69,34 @@ bible = {
   "standard": "video_pd_pipeline_v2",
   "bgm_volume": float(os.environ.get("BGM_VOLUME", "0.025")),
   "resolution": "1080:1920",
+  "version": "v8",
+  "channel_stinger": {"enabled": True, "duration": 0.5, "text": "S21 Phone"},
+  "pattern_interrupt": {"enabled": True, "duration": 0.4},
+  "loop_match": {"enabled": True, "open_color": "gold", "close_color": "gold"},
+  "role_pacing": {"hook": 2.5, "build": 3.5, "climax": 4.5, "resolve": 3.0},
   "beats": [
-    {"id": "01_hero", "kind": "page", "emotion": "hook",
-     "pause": 0.8, "zoom_dir": "in", "grade": "gold",
+    {"id": "01_hero", "kind": "page", "role": "hook", "emotion": "hook",
+     "zoom": {"type": "in", "pan": "none"}, "color_tag": "gold", "pause": 0.8,
      "caption": "한 대의 폰",
      "vo": "갤럭시 한 대. 돌봄은 깨지지 않게, 소망은 세상에 닿게. 스마트폰으로 돌리는 AI 워크스테이션, S21 Phone입니다."},
-    {"id": "02_agents", "kind": "page", "emotion": "trust",
-     "pause": 0.5, "zoom_dir": "pan_right", "grade": "warm",
+    {"id": "02_agents", "kind": "page", "role": "build", "emotion": "trust",
+     "zoom": {"type": "in", "pan": "right"}, "color_tag": "warm", "pause": 0.5,
      "caption": "세 동료",
      "vo": "역할이 다른 세 동료. 지휘 클로드, 외과 에이더, 미디어 그록. 분업이 강합니다."},
-    {"id": "03_system", "kind": "page", "emotion": "map",
-     "pause": 0.6, "zoom_dir": "out", "grade": "cool",
+    {"id": "03_system", "kind": "page", "role": "build", "emotion": "map",
+     "zoom": {"type": "out", "pan": "none"}, "color_tag": "cool", "pause": 0.6,
      "caption": "시스템 맵",
      "vo": "시스템 맵. 데이터가 폰에서 세상으로 흐릅니다. 실제 페이지 위 아키텍처입니다."},
-    {"id": "04_centers", "kind": "page", "emotion": "rhythm",
-     "pause": 0.4, "zoom_dir": "pan_left", "grade": "warm",
+    {"id": "04_centers", "kind": "page", "role": "build", "emotion": "rhythm",
+     "zoom": {"type": "in", "pan": "left"}, "color_tag": "warm", "pause": 0.4,
      "caption": "워크센터",
      "vo": "일곱 워크센터. 공장부터 인터컴까지, 자동화와 수동이 리듬처럼 맞춰집니다."},
-    {"id": "05_funnel", "kind": "page", "emotion": "rise",
-     "pause": 0.7, "zoom_dir": "in", "grade": "gold",
+    {"id": "05_funnel", "kind": "page", "role": "climax", "emotion": "rise",
+     "zoom": {"type": "in", "pan": "none"}, "color_tag": "gold", "pause": 0.7,
      "caption": "콘텐츠 흐름",
      "vo": "웹진 미끼에서 유튜브 강의로, 누나의 독립까지. 월 비용은 거의 제로입니다."},
-    {"id": "06_constitution", "kind": "page", "emotion": "handoff",
-     "pause": 1.0, "zoom_dir": "out", "grade": "cinematic",
+    {"id": "06_constitution", "kind": "page", "role": "resolve", "emotion": "handoff",
+     "zoom": {"type": "out", "pan": "none"}, "color_tag": "cinematic", "pause": 1.0,
      "caption": "핸드오프",
      "vo": "원칙은 하나. 핸드오프가 곧 성공이다. 모든 계정은 누나 명의. S21 Phone."},
   ],
@@ -285,6 +291,10 @@ python3 "$ROOT/scripts/_pd_assemble.py"
 # ── P5b SRT subtitles (VO 원본 → YouTube 업로드용 .srt) ──
 echo "[P5b] SRT subtitles (YouTube caption sync)..."
 python3 "$ROOT/scripts/_make_srt.py"
+
+# ── P5c ASS karaoke subtitles (V8: word highlight burn-in) ──
+echo "[P5c] ASS karaoke subtitles (word highlight)..."
+python3 "$ROOT/scripts/_make_ass.py"
 
 # ── P6 TG 720 ──
 echo "[P6] TG 720p..."

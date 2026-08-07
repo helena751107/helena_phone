@@ -93,6 +93,190 @@ def escape_drawtext(s: str) -> str:
     )
 
 
+# ── V8: build_filter_for_slide — unified per-slide filter chain ──
+def build_filter_for_slide(img, mp3, out_clip, beat, fonts, fps, W, H, brand, preset, crf):
+    """Encode one slide to kb_{id}.mp4. Returns (clip_path, clip_dur)."""
+    dur = float(subprocess.check_output(
+        ['ffprobe','-v','error','-show_entries','format=duration',
+         '-of','default=noprint_wrappers=1:nokey=1', mp3]
+    ).decode().strip())
+
+    name = beat['id']
+    pause = beat.get('pause', 0.0)
+    zoom_spec = beat.get('zoom', {})
+    zoom_dir = zoom_spec.get('type', 'in') if isinstance(zoom_spec, dict) else str(zoom_spec)
+    pan_dir = zoom_spec.get('pan', 'none') if isinstance(zoom_spec, dict) else 'none'
+    grade_key = beat.get('color_tag', beat.get('grade', 'warm'))
+
+    # ── Ken Burns V8: zoom variety ──
+    clip_t = dur + 0.5 + pause
+    nframes = max(int(round(clip_t * fps)), int(round(dur * fps)), 2)
+    zoom_amount = 0.05
+    zoom_base = 1.08
+    pan_amount = 0.08
+
+    if zoom_dir == 'out':
+        zoom_expr = f'{zoom_base+zoom_amount}-{zoom_amount}*(on/{nframes})'
+    elif zoom_dir == 'in':
+        zoom_expr = f'{zoom_base}+{zoom_amount}*(1-cos(PI*on/{nframes}))/2'
+    else:
+        zoom_expr = f'{zoom_base}+{zoom_amount}*(1-cos(2*PI*on/{nframes}))/2'
+
+    if pan_dir == 'right':
+        pan_x = f'iw/2-(iw/zoom/2)+{pan_amount}*iw*(2*on/{nframes}-1)/zoom'
+    elif pan_dir == 'left':
+        pan_x = f'iw/2-(iw/zoom/2)-{pan_amount}*iw*(2*on/{nframes}-1)/zoom'
+    else:
+        pan_x = f'iw/2-(iw/zoom/2)'
+
+    # ── Color grade ──
+    if grade_key not in COLOR_GRADES:
+        grade_key = 'warm'
+    grade = COLOR_GRADES.get(grade_key, '') or ''
+    if isinstance(grade, dict):
+        grade = grade.get('vf', '')
+
+    # ── Text animation ──
+    title = beat.get('caption', name)
+    sub = ''
+    anim_name = 'slideup'
+
+    title_y = f"y=h*0.80"
+    title_size = "fontsize=40"
+    if anim_name == 'slideup':
+        title_y = "y='h*0.78 + (h*0.12)*exp(-t*4.5)'"
+
+    font_opt, font_bold_opt = fonts
+
+    title_esc = escape_drawtext(title)
+    anim_title = (
+        f"drawtext=text='{title_esc}':fontcolor=#d4a84b:{title_size}:x=(w-text_w)/2:{title_y}"
+        f":{font_bold_opt}:box=1:boxcolor=black@0.5:boxborderw=12"
+    )
+
+    sub_dt = ""
+    if sub:
+        sub_esc = escape_drawtext(sub)
+        sub_dt = (
+            f",drawtext=text='{sub_esc}':fontcolor=#b5a999:fontsize=26:x=(w-text_w)/2:"
+            f"y=h*0.87:{font_opt}:box=1:boxcolor=black@0.5:boxborderw=8"
+        )
+
+    cta = ""
+    brand_esc = escape_drawtext(brand)
+    footer = (
+        f",drawtext=text='{brand_esc}':fontcolor=#7a7064:fontsize=18"
+        f":x=w-text_w-24:y=h-40:{font_opt}:box=1:boxcolor=black@0.5:boxborderw=6"
+    )
+
+    bars = (
+        f",drawbox=x=0:y=0:w=iw:h=ih*0.03:color=black@0.3:t=fill"
+        f",drawbox=x=0:y=ih*0.97:w=iw:h=ih*0.03:color=black@0.3:t=fill"
+    )
+
+    # ── Assemble vf ──
+    vf = (
+        f"scale={W*2}:{H*2}:force_original_aspect_ratio=decrease,"
+        f"pad={W*2}:{H*2}:(ow-iw)/2:(oh-ih)/2,"
+        f"zoompan=z='{zoom_expr}':d={nframes}:x='{pan_x}':y='ih/2-(ih/zoom/2)':s={W}x{H}:fps={fps},"
+        f"fade=t=in:st=0:d=0.35,"
+    )
+    if grade and grade != 'natural' and grade != '':
+        vf += f"{grade},"
+    vf += f"{anim_title}"
+    vf += sub_dt
+    vf += cta
+    vf += footer
+    vf += bars
+    vf += f",vignette=PI/5,format=yuv420p"
+
+    cmd = [
+        'ffmpeg', '-y',
+        '-loop', '1', '-i', img,
+        '-i', mp3,
+        '-vf', vf,
+        '-c:v', 'libx264', '-preset', preset, '-crf', crf,
+        '-profile:v', 'high', '-level', '4.0', '-pix_fmt', 'yuv420p',
+        '-c:a', 'aac', '-b:a', '128k', '-ar', '48000', '-ac', '2',
+        '-t', f'{clip_t:.3f}',
+        '-shortest',
+        '-movflags', '+faststart', out_clip,
+    ]
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    if r.returncode != 0:
+        print(f'  ❌ {name}: {(r.stderr or "")[-400:]}')
+        sys.exit(1)
+
+    # per-clip gate
+    try:
+        vdur = float(subprocess.check_output([
+            'ffprobe', '-v', 'error', '-select_streams', 'v:0',
+            '-show_entries', 'stream=duration',
+            '-of', 'default=nw=1:nk=1', out_clip,
+        ], text=True).strip() or '0')
+    except Exception:
+        vdur = 0.0
+    if vdur < dur * 0.85:
+        print(f'  ❌ {name}: video dur {vdur:.2f}s << audio {dur:.2f}s (zoompan/encode fail)')
+        sys.exit(1)
+
+    return out_clip, clip_t
+
+
+# ── V8: stinger clip generator ──
+def build_stinger_clip(out_clip, stinger_cfg, fonts, fps, W, H, preset, crf):
+    """Generate 0.5s channel signature stinger: logo flash + short beep."""
+    dur = float(stinger_cfg.get('duration', 0.5))
+    text = stinger_cfg.get('text', 'S21 Phone')
+    font_opt, font_bold_opt = fonts
+    text_esc = escape_drawtext(text)
+    stinger_vf = (
+        f"drawtext=text='{text_esc}':fontcolor=#d4a84b:fontsize=48:x=(w-text_w)/2:y=(h-text_h)/2:{font_bold_opt}"
+        f":alpha='if(lt(t,0.1),t*10,if(gt(t,{dur-0.15}),({dur}-t)/0.15*3,1))',"
+        f"fade=t=in:st=0:d=0.05,fade=t=out:st={dur-0.1}:d=0.1,format=yuv420p"
+    )
+    r = subprocess.run([
+        'ffmpeg', '-y',
+        '-f', 'lavfi', '-i', f'color=c=0x0d1117:s={W}x{H}:d={dur}:r={fps}',
+        '-f', 'lavfi', '-i', f'sine=frequency=587.33:duration=0.12,volume=0.3',
+        '-filter_complex', f'[1:a]adelay=50|50,apad=pad_dur={dur}:whole_dur={dur}[aout]',
+        '-vf', stinger_vf,
+        '-map', '0:v', '-map', '[aout]',
+        '-c:v', 'libx264', '-preset', preset, '-crf', crf,
+        '-profile:v', 'high', '-level', '4.0', '-pix_fmt', 'yuv420p',
+        '-c:a', 'aac', '-b:a', '128k', '-ar', '48000', '-ac', '2',
+        '-t', str(dur), '-movflags', '+faststart', out_clip,
+    ], capture_output=True, text=True)
+    if r.returncode != 0:
+        print(f'  ⚠️ Stinger failed: {(r.stderr or "")[-200:]}')
+        return None, 0
+    return out_clip, dur
+
+
+# ── V8: pattern interrupt clip generator ──
+def build_interrupt_clip(out_clip, int_cfg, preset, crf, fps, W, H):
+    """Generate 0.4s white flash → black for thumb-stopping effect."""
+    dur = float(int_cfg.get('duration', 0.4))
+    flash_dur = 0.05
+    r = subprocess.run([
+        'ffmpeg', '-y',
+        '-f', 'lavfi', '-i', f'color=c=white:s={W}x{H}:d={flash_dur}:r={fps}',
+        '-f', 'lavfi', '-i', f'color=c=black:s={W}x{H}:d={dur-flash_dur}:r={fps}',
+        '-f', 'lavfi', '-i', f'anullsrc=r=48000:cl=stereo',
+        '-filter_complex',
+        f'[0:v][1:v]concat=n=2:v=1:a=0[vout];[2:a]atrim=duration={dur}[aout]',
+        '-map', '[vout]', '-map', '[aout]',
+        '-c:v', 'libx264', '-preset', preset, '-crf', crf,
+        '-profile:v', 'high', '-level', '4.0', '-pix_fmt', 'yuv420p',
+        '-c:a', 'aac', '-b:a', '128k', '-ar', '48000', '-ac', '2',
+        '-t', str(dur), '-movflags', '+faststart', out_clip,
+    ], capture_output=True, text=True)
+    if r.returncode != 0:
+        print(f'  ⚠️ Pattern interrupt failed: {(r.stderr or "")[-200:]}')
+        return None, 0
+    return out_clip, dur
+
+
 # BGM
 bgm_vol = float(os.environ.get('BGM_VOLUME', '0.025'))
 _bgm_env = os.environ.get('BGM_PATH', '').strip()
@@ -125,21 +309,23 @@ if not slides:
     print('❌ No slides found (need NNAME.png + NNAME.mp3)')
     sys.exit(1)
 
-# ── V7: Read shot_bible.json for per-beat pacing/zoom/grade ──
-# (use string 'warm' literal — DEFAULT_GRADE not defined yet at this point)
+# ── V8: Read shot_bible.json for per-beat metadata ──
 bible_path = os.path.join(outdir, 'shot_bible.json')
-beat_map = {}  # id → {pause, zoom_dir, grade}
+beat_map = {}  # id → full beat dict
+bible_meta = {}  # top-level V8 fields: stinger, interrupt, loop_match
 if os.path.exists(bible_path):
     try:
         bible = json.loads(Path(bible_path).read_text(encoding='utf-8'))
+        bible_meta = {
+            'channel_stinger': bible.get('channel_stinger', {}),
+            'pattern_interrupt': bible.get('pattern_interrupt', {}),
+            'loop_match': bible.get('loop_match', {}),
+            'role_pacing': bible.get('role_pacing', {}),
+        }
         for b in bible.get('beats') or []:
             bid = b.get('id', '')
-            beat_map[bid] = {
-                'pause': float(b.get('pause', 0)),
-                'zoom_dir': b.get('zoom_dir', 'in'),
-                'grade': b.get('grade', 'warm'),
-            }
-        print(f'  📖 shot_bible: {len(beat_map)} beats loaded (V7 fields)')
+            beat_map[bid] = b  # store full beat dict
+        print(f'  📖 shot_bible v{bible.get("version","?")}: {len(beat_map)} beats · stinger={bible_meta["channel_stinger"].get("enabled",False)} · interrupt={bible_meta["pattern_interrupt"].get("enabled",False)} · loop_match={bible_meta["loop_match"].get("enabled",False)}')
     except Exception as e:
         print(f'  ⚠️ shot_bible read error: {e} — using defaults')
 
@@ -217,151 +403,70 @@ elif PRESET == 'tiktok':
 clips = []
 clip_durations = []
 
+fonts = (font_opt, font_bold_opt)
 for i, name in enumerate(slides):
     img = os.path.join(outdir, name + '.png')
     mp3 = os.path.join(outdir, name + '.mp3')
     clip = os.path.join(outdir, f'kb_{name}.mp4')
-    title = titles_env[i] if i < len(titles_env) else name
-    sub = subtitles_env[i] if i < len(subtitles_env) else ''
-
+    beat = beat_map.get(name, {
+        'id': name, 'caption': titles_env[i] if i < len(titles_env) else name,
+        'pause': 0.0, 'zoom': {'type': 'in', 'pan': 'none'}, 'color_tag': 'warm',
+    })
+    clip_path, clip_t = build_filter_for_slide(
+        img, mp3, clip, beat, fonts, fps, W, H,
+        os.environ.get('VIDEO_BRAND', 'S21 Phone'),
+        preset, crf,
+    )
+    clips.append(clip_path)
+    clip_durations.append(clip_t)
     dur = float(subprocess.check_output(
         ['ffprobe','-v','error','-show_entries','format=duration',
-         '-of','default=noprint_wrappers=1:nokey=1',mp3]
+         '-of','default=noprint_wrappers=1:nokey=1', mp3]
     ).decode().strip())
-
-    # ── V7: Per-beat fields from shot_bible ──
-    bm = beat_map.get(name, {})
-    pause = bm.get('pause', 0.0)
-    zoom_dir = bm.get('zoom_dir', 'in')
-    grade_key = bm.get('grade', DEFAULT_GRADE)
-
-    # ── Ken Burns V7: zoom variety (in/out/pan_left/pan_right) ──
-    clip_t = dur + 0.5 + pause
-    nframes = max(int(round(clip_t * fps)), int(round(dur * fps)), 2)
-    zoom_amount = 0.05
-    zoom_base = 1.08
-    pan_amount = 0.08  # 8% horizontal sweep for pan effects
-
-    if zoom_dir == 'out':
-        # Zoom out: start zoomed in, ease back to base
-        zoom_expr = f'{zoom_base+zoom_amount}-{zoom_amount}*(on/{nframes})'
-        pan_x = f'iw/2-(iw/zoom/2)'
-    elif zoom_dir == 'pan_right':
-        # Fixed zoom, sweep left→right
-        zoom_expr = f'{zoom_base}'
-        pan_x = f'iw/2-(iw/zoom/2)+{pan_amount}*iw*(2*on/{nframes}-1)/zoom'
-    elif zoom_dir == 'pan_left':
-        # Fixed zoom, sweep right→left
-        zoom_expr = f'{zoom_base}'
-        pan_x = f'iw/2-(iw/zoom/2)-{pan_amount}*iw*(2*on/{nframes}-1)/zoom'
-    else:
-        # 'in' (default): gentle zoom-in with cosine easing
-        zoom_expr = f'{zoom_base}+{zoom_amount}*(1-cos(PI*on/{nframes}))/2'
-        pan_x = f'iw/2-(iw/zoom/2)'
-
-    # ── Color grade (V7: per-beat from shot_bible) ──
-    if grade_key not in COLOR_GRADES:
-        grade_key = DEFAULT_GRADE
-    grade = COLOR_GRADES.get(grade_key, '') or ''
-    if isinstance(grade, dict):
-        grade = grade.get('vf', '')
-
-    # ── Text animation ──
-    anim_name = (anim_env[i].strip() or DEFAULT_ANIM)
-    anim_pair = TEXT_ANIMS.get(anim_name, TEXT_ANIMS['static'])
-    text_expr, _text_fallback = anim_pair(dur)
-
-    title_y = f"y=h*0.80"
-    title_size = "fontsize=40"
-    if anim_name == 'pop':
-        title_size = "fontsize='max(34, 42 + 8*sin(2*PI*3.5*t))'"
-    elif anim_name == 'slideup':
-        title_y = "y='h*0.78 + (h*0.12)*exp(-t*4.5)'"
-
-    title_esc = escape_drawtext(title)
-    sub_esc = escape_drawtext(sub)
-    anim_title = (
-        f"drawtext=text='{title_esc}':fontcolor=#d4a84b:{title_size}:x=(w-text_w)/2:{title_y}"
-        f":{font_bold_opt}:box=1:boxcolor=black@0.5:boxborderw=12"
-    )
-
-    sub_dt = ""
-    if sub:
-        sub_dt = (
-            f",drawtext=text='{sub_esc}':fontcolor=#b5a999:fontsize=26:x=(w-text_w)/2:"
-            f"y=h*0.87:{font_opt}:box=1:boxcolor=black@0.5:boxborderw=8"
-        )
-
-    cta = (f",drawtext=text='@HelenaPark-e7c':fontcolor=#d4a84b:fontsize=22"
-           f":x=20:y=h*0.06:{font_opt}:box=1:boxcolor=black@0.4:boxborderw=6") \
-          if i % 3 == 0 else ""
-
-    brand = escape_drawtext(os.environ.get('VIDEO_BRAND', 'S21 Phone'))
-    footer = (
-        f",drawtext=text='{brand}':fontcolor=#7a7064:fontsize=18"
-        f":x=w-text_w-24:y=h-40:{font_opt}:box=1:boxcolor=black@0.5:boxborderw=6"
-    )
-
-    bars = (
-        f",drawbox=x=0:y=0:w=iw:h=ih*0.03:color=black@0.3:t=fill"
-        f",drawbox=x=0:y=ih*0.97:w=iw:h=ih*0.03:color=black@0.3:t=fill"
-    )
-
-    # ── V6: fade-in only (xfade handles cross-clip transitions) ──
-    vf = (
-        f"scale={W*2}:{H*2}:force_original_aspect_ratio=decrease,"
-        f"pad={W*2}:{H*2}:(ow-iw)/2:(oh-ih)/2,"
-        f"zoompan=z='{zoom_expr}':d={nframes}:x='{pan_x}':y='ih/2-(ih/zoom/2)':s={W}x{H}:fps={fps},"
-        f"fade=t=in:st=0:d=0.35,"
-    )
-    if grade and grade != 'natural' and grade != '':
-        vf += f"{grade},"
-    vf += f"{anim_title}"
-    vf += sub_dt
-    vf += cta
-    vf += footer
-    vf += bars
-    vf += f",vignette=PI/5,format=yuv420p"
-
-    cmd = [
-        'ffmpeg', '-y',
-        '-loop', '1', '-i', img,
-        '-i', mp3,
-        '-vf', vf,
-        '-c:v', 'libx264', '-preset', preset, '-crf', crf,
-        '-profile:v', 'high', '-level', '4.0', '-pix_fmt', 'yuv420p',
-        '-c:a', 'aac', '-b:a', '128k', '-ar', '48000', '-ac', '2',
-        '-t', f'{clip_t:.3f}',
-        '-shortest',
-        '-movflags', '+faststart', clip,
-    ]
-    r = subprocess.run(cmd, capture_output=True, text=True)
-    if r.returncode != 0:
-        print(f'  ❌ {name}: {(r.stderr or "")[-400:]}')
-        sys.exit(1)
-
-    # per-clip gate
-    try:
-        vdur = float(subprocess.check_output([
-            'ffprobe', '-v', 'error', '-select_streams', 'v:0',
-            '-show_entries', 'stream=duration',
-            '-of', 'default=nw=1:nk=1', clip,
-        ], text=True).strip() or '0')
-    except Exception:
-        vdur = 0.0
-    if vdur < dur * 0.85:
-        print(f'  ❌ {name}: video dur {vdur:.2f}s << audio {dur:.2f}s (zoompan/encode fail)')
-        sys.exit(1)
-
-    clips.append(clip)
-    clip_durations.append(clip_t)
-    print(f'  🎞️  {name} | {dur:.1f}s vo · {vdur:.1f}s v · frames={nframes} | grade={grade_key} | anim={anim_name}')
+    grade_key = beat.get('color_tag', beat.get('grade', 'warm'))
+    zoom_spec = beat.get('zoom', {})
+    zt = zoom_spec.get('type', 'in') if isinstance(zoom_spec, dict) else 'in'
+    zp = zoom_spec.get('pan', 'none') if isinstance(zoom_spec, dict) else 'none'
+    print(f'  🎞️  {name} | {dur:.1f}s vo · zoom={zt}/{zp} | grade={grade_key}')
     sys.stdout.flush()
 
-# ── V6: End card ──
+# ── V8: Channel stinger (before first slide) ──
+stinger_cfg = bible_meta.get('channel_stinger', {})
+if stinger_cfg.get('enabled') and not os.environ.get('NO_STINGER'):
+    stinger_clip = os.path.join(outdir, 'kb_stinger.mp4')
+    sp, sd = build_stinger_clip(stinger_clip, stinger_cfg, fonts, fps, W, H, preset, crf)
+    if sp:
+        clips.insert(0, sp)
+        clip_durations.insert(0, sd)
+        print(f'  🔊 stinger: {sd:.1f}s')
+
+# ── V8: Pattern interrupt (after stinger, before first slide) ──
+int_cfg = bible_meta.get('pattern_interrupt', {})
+if int_cfg.get('enabled') and not os.environ.get('NO_INTERRUPT'):
+    int_clip = os.path.join(outdir, 'kb_interrupt.mp4')
+    ip, idur = build_interrupt_clip(int_clip, int_cfg, preset, crf, fps, W, H)
+    if ip:
+        # Insert after stinger if present, else at beginning
+        insert_pos = 1 if (stinger_cfg.get('enabled') and clips[0] == stinger_clip) else 0
+        clips.insert(insert_pos, ip)
+        clip_durations.insert(insert_pos, idur)
+        print(f'  ⚡ pattern interrupt: {idur:.1f}s')
+
+# ── V8: End card with loop_match color ──
 if end_card_enabled:
     end_card_clip = os.path.join(outdir, 'kb_endcard.mp4')
     brand_text = escape_drawtext(os.environ.get('VIDEO_BRAND', 'S21 Phone'))
+    # V8: loop_match — end card background matches opening color tag
+    lm_cfg = bible_meta.get('loop_match', {})
+    bg_color = '0x0d1117'  # default dark
+    if lm_cfg.get('enabled'):
+        open_color = lm_cfg.get('open_color', '')
+        # Map grade → subtle tinted dark for seamless loop feel
+        loop_colors = {
+            'gold': '0x1a1a10', 'warm': '0x1a1410', 'cool': '0x10141a',
+            'cinematic': '0x101014', 'natural': '0x111111',
+        }
+        bg_color = loop_colors.get(open_color, '0x0d1117')
     endcard_vf = (
         f"drawtext=text='{brand_text}':fontcolor=#d4a84b:fontsize=52:x=(w-text_w)/2:y=h*0.38:{font_bold_opt}"
         f":alpha='if(lt(t,0.3),0,min(1,(t-0.3)*4))',"
@@ -375,7 +480,7 @@ if end_card_enabled:
     )
     r = subprocess.run([
         'ffmpeg', '-y',
-        '-f', 'lavfi', '-i', f'color=c=0x0d1117:s={W}x{H}:d={END_CARD_DUR}:r={fps}',
+        '-f', 'lavfi', '-i', f'color=c={bg_color}:s={W}x{H}:d={END_CARD_DUR}:r={fps}',
         '-f', 'lavfi', '-i', f'anullsrc=r=48000:cl=stereo',
         '-vf', endcard_vf,
         '-c:v', 'libx264', '-preset', preset, '-crf', crf,
@@ -397,7 +502,7 @@ n = len(clips)
 tmp = os.path.join(outdir, '_concat.mp4')
 
 # Build xfade filter_complex
-# V6: probe actual video durations for accurate xfade offsets
+# V8: use running output time for correct xfade offsets
 actual_vdurs = []
 for c in clips:
     try:
@@ -414,27 +519,35 @@ xfade_dur = XFADE_DUR
 filter_parts = []
 # Normalise all inputs to same timebase before xfade chain
 for i in range(n):
-    # settb + setpts ensures uniform tb=1/30 across all clips
     filter_parts.append(f'[{i}:v]settb=1/{fps},setpts=PTS-STARTPTS[v{i}]')
 
-cum_offset = actual_vdurs[0]
+# V8: track cumulative output time for correct xfade offsets
+cum_out = actual_vdurs[0]
 for i in range(1, n):
     trans = TRANSITION_CYCLE[(i - 1) % len(TRANSITION_CYCLE)]
-    offset = cum_offset - i * xfade_dur
-    if offset < 0.1:
-        offset = 0.1  # safety floor
-    # Chain: first xfade uses [v0][v1], subsequent use [x{i-1}][v{i}]
+    offset = cum_out - xfade_dur
+    if offset < 0.05:
+        offset = 0.05  # safety floor
     src_a = f'[v0]' if i == 1 else f'[x{i-1}]'
     filter_parts.append(
         f'{src_a}[v{i}]xfade=transition={trans}:duration={xfade_dur}:offset={offset:.3f}[x{i}]'
     )
-    cum_offset += actual_vdurs[i]
+    cum_out = cum_out + actual_vdurs[i] - xfade_dur
 
 # Rename xfade chain outputs so final label is cross-clip compatible
 # After xfade chain: [x1], [x2], ..., [x{n-1}]
 # We need the final output label to be [x{n-1}]
 
 vf_expr = ';'.join(filter_parts)
+
+# ── V8: Burn-in ASS karaoke subtitles ──
+ass_path = os.path.join(outdir, f'{ep}.ass')
+if os.path.exists(ass_path):
+    vf_expr += f';[x{n-1}]ass={ass_path}[vout]'
+    vid_label = '[vout]'
+    print(f'  📝 ASS karaoke subtitles burn-in: {os.path.basename(ass_path)}')
+else:
+    vid_label = f'[x{n-1}]'
 
 # Audio concat list (demuxer, audio-only)
 audio_list = os.path.join(outdir, 'audio_concat.txt')
@@ -451,7 +564,7 @@ for c in clips:
 concat_cmd += ['-f', 'concat', '-safe', '0', '-i', audio_list]  # input n: audio-only concat
 concat_cmd += [
     '-filter_complex', vf_expr,
-    '-map', f'[x{n-1}]',     # xfade final video output
+    '-map', vid_label,         # xfade final video (with optional ASS subtitles)
     '-map', f'{n}:a',         # concat audio
     '-c:v', 'libx264', '-preset', preset, '-crf', crf,
     '-profile:v', 'high', '-level', '4.0', '-pix_fmt', 'yuv420p',
@@ -479,9 +592,10 @@ except Exception as e:
     print(f'  ❌ Concat probe fail: {e}')
     sys.exit(1)
 
-expect = sum(clip_durations)
+# V8: expected duration = sum of actual clip durations minus xfade overlaps
+expect = sum(actual_vdurs) - (n - 1) * xfade_dur if n > 1 else sum(actual_vdurs)
 print(f'  🔗 concat probe v={cat_vdur:.1f}s a={cat_adur:.1f}s expect≈{expect:.1f}s')
-if cat_vdur < expect * 0.80 or cat_vdur < cat_adur * 0.85:
+if cat_vdur < expect * 0.85 or cat_vdur < cat_adur * 0.80:
     print('  ❌ CONCAT GATE FAIL: video shorter than audio/clips → would ship black tail')
     sys.exit(2)
 if abs(cat_vdur - cat_adur) > 2.0:
@@ -492,9 +606,16 @@ vo_only = os.path.join(outdir, f'{ep}_vo.mp4')
 shutil.copy(tmp, vo_only)
 print(f'  🎙 VO-only body saved: {ep}_vo.mp4')
 
-# ── V6: BGM mix with audio ducking (sidechaincompress) ──
+# ── V8: BGM mix with audio ducking (sidechaincompress) ──
 final = os.path.join(outdir, f'{ep}_final.mp4')
-total_dur = sum(clip_durations)
+# Use xfade-corrected total duration for envelope timing
+total_dur = float(subprocess.check_output([
+    'ffprobe', '-v', 'error', '-select_streams', 'v:0',
+    '-show_entries', 'stream=duration',
+    '-of', 'default=nw=1:nk=1', tmp,
+], text=True).strip() or '0')
+if total_dur <= 0:
+    total_dur = sum(actual_vdurs) - (n - 1) * xfade_dur
 if bgm and os.path.exists(bgm):
     fade_out_st = max(0.5, total_dur - 2.5)
     # V7: BGM envelope — swell at 80-100%
@@ -561,7 +682,16 @@ if 'yuv444' in pix_info or '4:4:4' in pix_info:
 
 trans_used = TRANSITION_CYCLE[:n-1] if n > 1 else ['none']
 print(f'  ✅ {ep}_final.mp4 ({size/1024/1024:.1f}MB, {total_dur:.0f}s)  {"🎵+BGM" if bgm else "no BGM"}  GATE={pix_info}')
-print(f'  🎬 V7 FX: zoom={set(bm.get("zoom_dir","in") for bm in beat_map.values()) if beat_map else "N/A"} · duck={"ON" if duck_enabled else "OFF"} · endcard={"staggered" if end_card_enabled else "OFF"} · env={"swell" if bgm else "N/A"}')
+stinger_on = bible_meta.get('channel_stinger', {}).get('enabled', False)
+int_on = bible_meta.get('pattern_interrupt', {}).get('enabled', False)
+lm_on = bible_meta.get('loop_match', {}).get('enabled', False)
+ass_on = os.path.exists(os.path.join(outdir, f'{ep}.ass'))
+zooms = set()
+for bm in beat_map.values():
+    zs = bm.get('zoom', {})
+    if isinstance(zs, dict):
+        zooms.add(zs.get('type', '?'))
+print(f'  🎬 V8 FX: zoom={zooms if zooms else "N/A"} · duck={"ON" if duck_enabled else "OFF"} · stinger={stinger_on} · interrupt={int_on} · loop={lm_on} · karaoke={ass_on}')
 
 # ── CapCut-style shorts variant ──
 if PRESET in ('shorts', 'tiktok'):
