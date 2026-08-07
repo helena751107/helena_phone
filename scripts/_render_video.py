@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Helena Video Renderer — InShot-level 제작 파이프 (공짜 FFmpeg)
 
-V6 — Boss 2026-08-07
+V7 — Boss 2026-08-07
+- V7: breathing pauses · zoom variety (in/out/pan) · per-slide grade · BGM envelope · staggered end card
 - V6: audio ducking (sidechaincompress) · xfade multi-transition · end card
 - InShot FX: text pop/slideup/typewriter · multi-transition · speed ramp · color grade
 - CapCut style: animated captions · Shorts/TikTok presets · safe zone
@@ -124,6 +125,24 @@ if not slides:
     print('❌ No slides found (need NNAME.png + NNAME.mp3)')
     sys.exit(1)
 
+# ── V7: Read shot_bible.json for per-beat pacing/zoom/grade ──
+# (use string 'warm' literal — DEFAULT_GRADE not defined yet at this point)
+bible_path = os.path.join(outdir, 'shot_bible.json')
+beat_map = {}  # id → {pause, zoom_dir, grade}
+if os.path.exists(bible_path):
+    try:
+        bible = json.loads(Path(bible_path).read_text(encoding='utf-8'))
+        for b in bible.get('beats') or []:
+            bid = b.get('id', '')
+            beat_map[bid] = {
+                'pause': float(b.get('pause', 0)),
+                'zoom_dir': b.get('zoom_dir', 'in'),
+                'grade': b.get('grade', 'warm'),
+            }
+        print(f'  📖 shot_bible: {len(beat_map)} beats loaded (V7 fields)')
+    except Exception as e:
+        print(f'  ⚠️ shot_bible read error: {e} — using defaults')
+
 titles_env = os.environ.get('SLIDE_TITLES','').split('|')
 subtitles_env = os.environ.get('SLIDE_SUBTITLES','').split('|')
 trans_env = os.environ.get('SLIDE_TRANSITIONS','').split('|')
@@ -210,15 +229,37 @@ for i, name in enumerate(slides):
          '-of','default=noprint_wrappers=1:nokey=1',mp3]
     ).decode().strip())
 
-    # ── Ken Burns (cosine = gentle) ──
-    clip_t = dur + 0.5
+    # ── V7: Per-beat fields from shot_bible ──
+    bm = beat_map.get(name, {})
+    pause = bm.get('pause', 0.0)
+    zoom_dir = bm.get('zoom_dir', 'in')
+    grade_key = bm.get('grade', DEFAULT_GRADE)
+
+    # ── Ken Burns V7: zoom variety (in/out/pan_left/pan_right) ──
+    clip_t = dur + 0.5 + pause
     nframes = max(int(round(clip_t * fps)), int(round(dur * fps)), 2)
     zoom_amount = 0.05
     zoom_base = 1.08
-    zoom_expr = f'{zoom_base}+({zoom_amount})*(1-cos(2*PI*on/{nframes}))/2'
+    pan_amount = 0.08  # 8% horizontal sweep for pan effects
 
-    # ── Color grade ──
-    grade_key = os.environ.get(f'SLIDE_{i+1}_GRADE', '').strip() or DEFAULT_GRADE
+    if zoom_dir == 'out':
+        # Zoom out: start zoomed in, ease back to base
+        zoom_expr = f'{zoom_base+zoom_amount}-{zoom_amount}*(on/{nframes})'
+        pan_x = f'iw/2-(iw/zoom/2)'
+    elif zoom_dir == 'pan_right':
+        # Fixed zoom, sweep left→right
+        zoom_expr = f'{zoom_base}'
+        pan_x = f'iw/2-(iw/zoom/2)+{pan_amount}*iw*(2*on/{nframes}-1)/zoom'
+    elif zoom_dir == 'pan_left':
+        # Fixed zoom, sweep right→left
+        zoom_expr = f'{zoom_base}'
+        pan_x = f'iw/2-(iw/zoom/2)-{pan_amount}*iw*(2*on/{nframes}-1)/zoom'
+    else:
+        # 'in' (default): gentle zoom-in with cosine easing
+        zoom_expr = f'{zoom_base}+{zoom_amount}*(1-cos(PI*on/{nframes}))/2'
+        pan_x = f'iw/2-(iw/zoom/2)'
+
+    # ── Color grade (V7: per-beat from shot_bible) ──
     if grade_key not in COLOR_GRADES:
         grade_key = DEFAULT_GRADE
     grade = COLOR_GRADES.get(grade_key, '') or ''
@@ -270,7 +311,7 @@ for i, name in enumerate(slides):
     vf = (
         f"scale={W*2}:{H*2}:force_original_aspect_ratio=decrease,"
         f"pad={W*2}:{H*2}:(ow-iw)/2:(oh-ih)/2,"
-        f"zoompan=z='{zoom_expr}':d={nframes}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s={W}x{H}:fps={fps},"
+        f"zoompan=z='{zoom_expr}':d={nframes}:x='{pan_x}':y='ih/2-(ih/zoom/2)':s={W}x{H}:fps={fps},"
         f"fade=t=in:st=0:d=0.35,"
     )
     if grade and grade != 'natural' and grade != '':
@@ -322,10 +363,14 @@ if end_card_enabled:
     end_card_clip = os.path.join(outdir, 'kb_endcard.mp4')
     brand_text = escape_drawtext(os.environ.get('VIDEO_BRAND', 'S21 Phone'))
     endcard_vf = (
-        f"drawtext=text='{brand_text}':fontcolor=#d4a84b:fontsize=52:x=(w-text_w)/2:y=h*0.38:{font_bold_opt},"
-        f"drawtext=text='헨드오프가 곧 성공이다':fontcolor=#ffffff:fontsize=28:x=(w-text_w)/2:y=h*0.48:{font_opt},"
-        f"drawtext=text='@HelenaPark-e7c':fontcolor=#7a7064:fontsize=22:x=(w-text_w)/2:y=h*0.57:{font_opt},"
-        f"drawtext=text='helena751107.github.io':fontcolor=#555555:fontsize=18:x=(w-text_w)/2:y=h*0.65:{font_opt},"
+        f"drawtext=text='{brand_text}':fontcolor=#d4a84b:fontsize=52:x=(w-text_w)/2:y=h*0.38:{font_bold_opt}"
+        f":alpha='if(lt(t,0.3),0,min(1,(t-0.3)*4))',"
+        f"drawtext=text='헨드오프가 곧 성공이다':fontcolor=#ffffff:fontsize=28:x=(w-text_w)/2:y=h*0.48:{font_opt}"
+        f":alpha='if(lt(t,0.8),0,min(1,(t-0.8)*4))',"
+        f"drawtext=text='@HelenaPark-e7c':fontcolor=#7a7064:fontsize=22:x=(w-text_w)/2:y=h*0.57:{font_opt}"
+        f":alpha='if(lt(t,1.3),0,min(1,(t-1.3)*4))',"
+        f"drawtext=text='helena751107.github.io':fontcolor=#555555:fontsize=18:x=(w-text_w)/2:y=h*0.65:{font_opt}"
+        f":alpha='if(lt(t,1.8),0,min(1,(t-1.8)*4))',"
         f"fade=t=in:st=0:d=0.5,vignette=PI/5,format=yuv420p"
     )
     r = subprocess.run([
@@ -452,24 +497,34 @@ final = os.path.join(outdir, f'{ep}_final.mp4')
 total_dur = sum(clip_durations)
 if bgm and os.path.exists(bgm):
     fade_out_st = max(0.5, total_dur - 2.5)
+    # V7: BGM envelope — swell at 80-100%
+    swell_start = total_dur * 0.80
+    swell_dur = total_dur * 0.20
+    bgm_env_expr = (
+        f"volume='if(gte(t,{swell_start:.1f}),"
+        f"{bgm_vol}*(1.0+0.5*(t-{swell_start:.1f})/{swell_dur:.1f}),"
+        f"{bgm_vol})':eval=frame"
+    )
     if duck_enabled:
-        print(f'  🎵 BGM mix {os.path.basename(bgm)} vol={bgm_vol} + 🔊 ducking (thr={duck_threshold} ratio={duck_ratio})')
+        print(f'  🎵 BGM mix {os.path.basename(bgm)} vol={bgm_vol} + 🔊 ducking (thr={duck_threshold} ratio={duck_ratio}) + 📈 swell')
         # sidechaincompress: main=music[1:a], sidechain=voice[0:a]
-        # When voice exceeds threshold, compress music down
+        # V7: BGM envelope → ducking → mix
         filter_complex = (
             f'[0:a]aformat=sample_rates=48000:channel_layouts=stereo,volume=1.0[voice];'
             f'[1:a]aformat=sample_rates=48000:channel_layouts=stereo,'
-            f'volume={bgm_vol},afade=t=in:st=0:d=1.5,afade=t=out:st={fade_out_st:.1f}:d=2.0[music_pre];'
+            f'{bgm_env_expr},'
+            f'afade=t=in:st=0:d=1.5,afade=t=out:st={fade_out_st:.1f}:d=2.0[music_pre];'
             f'[music_pre][voice]sidechaincompress='
             f'threshold={duck_threshold}:ratio={duck_ratio}:attack={duck_attack}:release={duck_release}:makeup=1[music_ducked];'
             f'[voice][music_ducked]amix=inputs=2:duration=first:dropout_transition=2:normalize=0[aout]'
         )
     else:
-        print(f'  🎵 BGM mix {os.path.basename(bgm)} vol={bgm_vol} (whisper, no ducking)')
+        print(f'  🎵 BGM mix {os.path.basename(bgm)} vol={bgm_vol} (whisper, no ducking) + 📈 swell')
         filter_complex = (
             f'[0:a]aformat=sample_rates=48000:channel_layouts=stereo,volume=1.0[voice];'
             f'[1:a]aformat=sample_rates=48000:channel_layouts=stereo,'
-            f'volume={bgm_vol},afade=t=in:st=0:d=1.5,afade=t=out:st={fade_out_st:.1f}:d=2.0[music];'
+            f'{bgm_env_expr},'
+            f'afade=t=in:st=0:d=1.5,afade=t=out:st={fade_out_st:.1f}:d=2.0[music];'
             f'[voice][music]amix=inputs=2:duration=first:dropout_transition=2:normalize=0[aout]'
         )
     r = subprocess.run([
@@ -506,7 +561,7 @@ if 'yuv444' in pix_info or '4:4:4' in pix_info:
 
 trans_used = TRANSITION_CYCLE[:n-1] if n > 1 else ['none']
 print(f'  ✅ {ep}_final.mp4 ({size/1024/1024:.1f}MB, {total_dur:.0f}s)  {"🎵+BGM" if bgm else "no BGM"}  GATE={pix_info}')
-print(f'  🎬 V6 FX: text_anim={DEFAULT_ANIM} · xfade={trans_used} · duck={"ON" if duck_enabled else "OFF"} · endcard={"ON" if end_card_enabled else "OFF"} · grade={DEFAULT_GRADE}')
+print(f'  🎬 V7 FX: zoom={set(bm.get("zoom_dir","in") for bm in beat_map.values()) if beat_map else "N/A"} · duck={"ON" if duck_enabled else "OFF"} · endcard={"staggered" if end_card_enabled else "OFF"} · env={"swell" if bgm else "N/A"}')
 
 # ── CapCut-style shorts variant ──
 if PRESET in ('shorts', 'tiktok'):

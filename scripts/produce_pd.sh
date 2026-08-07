@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
-# 🎬 produce_pd.sh — PD Pipeline STANDARD v3 (canonical · Grok-free · V6 renderer)
+# 🎬 produce_pd.sh — PD Pipeline STANDARD v3 (canonical · Grok-free · V7 renderer)
 # 표준: configs/video_pd_pipeline_v2.json · CURRENT → configs/video_pd_pipeline_CURRENT.json
 # 역할:
 #   Factory(공짜) = Playwright 페이지 캡처 + FFmpeg Ken Burns + xfade multi-transition
 #   Boss(수동)   = Gemini/공짜LLM으로 bridge 영상 제작 → Android 갤러리에 저장
 #   성우          = Kokoro FP32 + jf_alpha (sid=37, 일본인 여성) · 완전 공짜
+# V7: breathing pauses · zoom variety (in/out/pan) · per-slide grade · BGM swell · staggered end card
 # V6: audio ducking · xfade(fade/wipe/slide/dissolve) · end card · chrono-pair bridge
 # 고정 상수: BGM_VOLUME=0.025 · TTS=local · CJK 폰트 · QA gate 필수
 #
@@ -69,21 +70,27 @@ bible = {
   "resolution": "1080:1920",
   "beats": [
     {"id": "01_hero", "kind": "page", "emotion": "hook",
+     "pause": 0.8, "zoom_dir": "in", "grade": "gold",
      "caption": "한 대의 폰",
      "vo": "갤럭시 한 대. 돌봄은 깨지지 않게, 소망은 세상에 닿게. 스마트폰으로 돌리는 AI 워크스테이션, S21 Phone입니다."},
     {"id": "02_agents", "kind": "page", "emotion": "trust",
+     "pause": 0.5, "zoom_dir": "pan_right", "grade": "warm",
      "caption": "세 동료",
      "vo": "역할이 다른 세 동료. 지휘 클로드, 외과 에이더, 미디어 그록. 분업이 강합니다."},
     {"id": "03_system", "kind": "page", "emotion": "map",
+     "pause": 0.6, "zoom_dir": "out", "grade": "cool",
      "caption": "시스템 맵",
      "vo": "시스템 맵. 데이터가 폰에서 세상으로 흐릅니다. 실제 페이지 위 아키텍처입니다."},
     {"id": "04_centers", "kind": "page", "emotion": "rhythm",
+     "pause": 0.4, "zoom_dir": "pan_left", "grade": "warm",
      "caption": "워크센터",
      "vo": "일곱 워크센터. 공장부터 인터컴까지, 자동화와 수동이 리듬처럼 맞춰집니다."},
     {"id": "05_funnel", "kind": "page", "emotion": "rise",
+     "pause": 0.7, "zoom_dir": "in", "grade": "gold",
      "caption": "콘텐츠 흐름",
      "vo": "웹진 미끼에서 유튜브 강의로, 누나의 독립까지. 월 비용은 거의 제로입니다."},
     {"id": "06_constitution", "kind": "page", "emotion": "handoff",
+     "pause": 1.0, "zoom_dir": "out", "grade": "cinematic",
      "caption": "핸드오프",
      "vo": "원칙은 하나. 핸드오프가 곧 성공이다. 모든 계정은 누나 명의. S21 Phone."},
   ],
@@ -295,12 +302,12 @@ if [[ -n "${TG_TOKEN:-}" && -n "${TG_CHAT:-}" && -f "$TG720" ]]; then
     -F chat_id="$TG_CHAT" \
     -F video=@"$TG720" \
     -F supports_streaming=true \
-    -F caption="🎬 ${EP} · PD pipeline V6
-Factory: xfade multi-transition + audio ducking + end card
+    -F caption="🎬 ${EP} · PD pipeline V7
+Factory: xfade + zoom variety + per-slide grade + BGM swell + staggered end card
 TTS: Kokoro jf_alpha · bridges: Android 갤러리 chrono-pair
 BGM vol=${BGM_VOLUME} · yuv420p High · QA gate
 📝 SRT: ${SRT##*/}
-— produce_pd.sh v3/V6" \
+— produce_pd.sh v3/V7" \
     -o /tmp/tg_pd.json -w "\nhttp=%{http_code}\n" || true
   python3 -c "import json;d=json.load(open('/tmp/tg_pd.json')); print('TG', d.get('ok'), d.get('result',{}).get('message_id') if d.get('ok') else d.get('description','')[:80])" 2>/dev/null || echo "TG parse skip"
 else

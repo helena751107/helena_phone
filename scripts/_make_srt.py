@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""SRT subtitle generator — shot_bible VO text → YouTube-ready .srt
+"""SRT subtitle generator V7 — shot_bible VO text → YouTube-ready .srt
 
 Reads the rendered clip durations and VO text to produce frame-accurate subtitles.
-Timestamps account for b_open bridge offset so captions sync with the playable video.
+Timestamps account for b_open bridge offset + per-beat pauses so captions sync with the playable video.
 """
 from __future__ import annotations
 
@@ -63,6 +63,7 @@ def main() -> int:
         bid = beat["id"]
         text = beat.get("vo") or beat.get("caption") or bid
         mp3 = outdir / f"{bid}.mp3"
+        pause = float(beat.get("pause", 0))
 
         dur = 0.0
         if mp3.exists():
@@ -79,7 +80,7 @@ def main() -> int:
         start = cursor
         end = cursor + dur
         srt_entries.append((start, end, text))
-        cursor = end
+        cursor = end + pause  # V7: breathing pause before next beat
 
     # ── Write SRT ──
     srt_path = outdir / f"{ep}.srt"

@@ -1,6 +1,26 @@
 # 📋 S21 Phone — 전체 개발일지
 
 
+### 🎬 PD Pipeline V7 — 프로급 업그레이드 완료 (_Claude · 2026-08-07)
+
+V6에서 V7로 5가지 프로급 개선 적용:
+
+1. **Breathing pauses** — 비트마다 `pause`(초) 필드 추가. VO 끝나고 0.4~1.0초 숨 고르기. 숏폼이 아닌 설명형 영상에서 템포 조절의 핵심.
+2. **Zoom variety** — `zoom_dir`: in(줌인), out(줌아웃), pan_left, pan_right. Ken Burns 단조로움 탈피. 비트 감정에 따라 방향 매핑 (hook→in, trust→pan_right, map→out).
+3. **Per-slide color grade** — `grade` 필드 추가. hook=gold(따뜻한 금빛), trust=warm, map=cool, rise=gold, handoff=cinematic. 비트별로 eq+colorbalance 분리 적용.
+4. **BGM volume envelope** — 80-100% 구간에서 BGM 볼륨 1.5배 swell. 클라이맥스 강조. FFmpeg `volume` eval=frame 표현식 사용.
+5. **Staggered end card** — 텍스트 요소 순차 등장 (0.3/0.8/1.3/1.8s). 브랜드→모토→핸들→URL. `alpha` 표현식 페이드인.
+
+**파일 변경:**
+- `scripts/_render_video.py` — V7 header, shot_bible beat_map, pan_x/zoom_expr 분기, staggered end card, BGM swell
+- `scripts/_make_srt.py` — pause 간격을 SRT 타임라인에 반영
+- `scripts/produce_pd.sh` — 기본 shot_bible에 V7 필드 추가, 헤더 V7 갱신
+- `out/pd_intro/shot_bible.json` — pause/zoom_dir/grade 필드 포함
+
+**결과:** TG 발송 성공 (msg 356). 50s 영상, 11MB playable, QA 10/10 unique 0 black.
+**교훈:** `DEFAULT_GRADE` 정의 순서 문제 — shot_bible 파싱이 상수 정의보다 앞에 있으면 NameError. 문자열 리터럴로 우회.
+
+
 ### 🎬 Grok-free PD Pipeline v2 첫 실가동 — TG 발송 성공 (_Claude · 2026-08-07)
 
 **전체 파이프라인 통과. Kokoro jf_alpha 성우 + Android bridge 자동감지 + TG 발송.**
