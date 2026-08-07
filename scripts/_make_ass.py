@@ -88,11 +88,12 @@ def main() -> int:
         "BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
         # Primary=&H00FFFFFF (white active), Secondary=&H00666666 (dim gray inactive)
         # Outline=&H00000000 (black), BackColour=&H99000000 (semi-transparent black bg)
-        "Style: Karaoke,Noto Sans CJK KR,34,&H00FFFFFF,&H00666666,&H00000000,&H99000000,"
-        "-1,0,0,0,100,100,0,0,1,2.5,0,2,80,80,140,1",
-        # Title style for captions (small, top-ish)
-        "Style: Title,Noto Serif CJK KR,28,&H00D4A84B,&H00000000,&H001A1508,&H99000000,"
-        "-1,0,0,0,100,100,0,0,1,2,0,2,100,100,40,1",
+        # Breaking News style: 56pt bold white, red-tinted dark bg, thick outline, above Shorts UI
+        "Style: Karaoke,Noto Sans CJK KR,56,&H00FFFFFF,&H00444444,&H00000000,&H99FF3333,"
+        "-1,0,0,0,100,100,0,0,1,4,0,2,60,60,220,1",
+        # Title style (smaller, top area, warm orange)
+        "Style: Title,Noto Serif CJK KR,24,&H00FFB060,&H00000000,&H00000000,&H99000000,"
+        "-1,0,0,0,100,100,0,0,1,2,0,8,80,80,40,1",
         "",
         "[Events]",
         "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
