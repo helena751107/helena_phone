@@ -1,17 +1,21 @@
 #!/usr/bin/env bash
-# 🎬 produce_pd.sh — PD Pipeline v1
-# Baseline: Aider produce_intro + _render_video (Ken Burns 1080p BGM)
-# Upgrade:  Grok PD bible · Grok TTS · optional bridge clips · playable encode
-#
+# 🎬 produce_pd.sh — PD Pipeline STANDARD v2 (canonical · Grok-free)
+# 표준: configs/video_pd_pipeline_v2.json · CURRENT → configs/video_pd_pipeline_CURRENT.json
 # 역할:
-#   Factory(공짜) = Playwright 페이지 캡처 + FFmpeg 조립
-#   Grok(유료)   = PD 대본 · 성우 · bridge/ 에 미리 둔 이미지·I2V 만
+#   Factory(공짜) = Playwright 페이지 캡처 + FFmpeg Ken Burns + concat demuxer
+#   Boss(수동)   = Gemini/공짜LLM으로 bridge 영상 제작 → Android 갤러리에 저장
+#   성우          = Kokoro FP32 + jf_alpha (sid=37, 일본인 여성) · 완전 공짜
+# 고정 상수: BGM_VOLUME=0.025 · TTS=local · CJK 폰트 · QA gate 필수
 #
-# 사용:
+# Bridge 워크플로 (Grok 제로):
+#   1. Gemini로 open/close 영상 만들기
+#   2. Android Download 폴더에 저장 (b_open.mp4 / b_close.mp4)
+#   3. produce_pd.sh 실행 → _bridge_pickup.sh가 자동 감지
+#
+# 사용 (매번 동일):
 #   bash scripts/produce_pd.sh [ep_id] [page_url]
-#   EP=pd_intro BGM_VOLUME=0.06 bash scripts/produce_pd.sh
+#   bash scripts/produce_pd.sh pd_intro
 #
-# 스펙: configs/video_pd_pipeline_v1.json
 
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -20,10 +24,22 @@ URL="${2:-https://helena751107.github.io/helena_phone/}"
 OUTDIR="${OUTDIR:-$ROOT/out/$EP}"
 export OUTDIR EP URL ROOT
 export BGM_VOLUME="${BGM_VOLUME:-0.025}"  # Golden whisper — 들릴락 말락 은은
-export TTS_ENGINE="${TTS_ENGINE:-grok}"
+export TTS_ENGINE="${TTS_ENGINE:-local}"
 export GROK_TTS_VOICE="${GROK_TTS_VOICE:-ara}"
 export VOICE="${VOICE:-ko-KR-InJoonNeural}"
 export PYTHONIOENCODING=utf-8
+
+# ── STANDARD v2 pin (변경 금지 — configs/video_pd_pipeline_CURRENT.json) ──
+export PD_STANDARD="video_pd_pipeline_v2"
+export PD_STANDARD_PATH="$ROOT/configs/video_pd_pipeline_v2.json"
+export BGM_VOLUME="${BGM_VOLUME:-0.025}"
+export TTS_ENGINE="${TTS_ENGINE:-local}"
+export GROK_TTS_VOICE="${GROK_TTS_VOICE:-ara}"
+export VIDEO_BRAND="${VIDEO_BRAND:-S21 Phone}"
+if [[ ! -f "$PD_STANDARD_PATH" ]]; then
+  echo "❌ missing standard $PD_STANDARD_PATH"; exit 1
+fi
+echo "  STANDARD=$PD_STANDARD"
 
 if [[ -f "$ROOT/.secrets.env" ]]; then
   set -a
@@ -35,7 +51,7 @@ fi
 mkdir -p "$OUTDIR"/{stills,voice,bridge,work}
 echo "=== 🎬 produce_pd · $EP ==="
 echo "  URL=$URL"
-echo "  BGM_VOLUME=$BGM_VOLUME (golden)  TTS=$TTS_ENGINE/$GROK_TTS_VOICE"
+echo "  BGM_VOLUME=$BGM_VOLUME (golden)  TTS=$TTS_ENGINE/jf_alpha (Kokoro)"
 
 # ── P0 shot bible (create default if missing) ──
 BIBLE="$OUTDIR/shot_bible.json"
@@ -47,8 +63,8 @@ out = Path(os.environ["OUTDIR"])
 bible = {
   "id": os.environ.get("EP", "pd_intro"),
   "url": os.environ.get("URL"),
-  "standard": "video_pd_pipeline_v1",
-  "bgm_volume": float(os.environ.get("BGM_VOLUME", "0.06")),
+  "standard": "video_pd_pipeline_v2",
+  "bgm_volume": float(os.environ.get("BGM_VOLUME", "0.025")),
   "resolution": "1080:1920",
   "beats": [
     {"id": "01_hero", "kind": "page", "emotion": "hook",
@@ -72,9 +88,9 @@ bible = {
   ],
   "bridges": [
     {"id": "b_open", "after": None, "before": "01_hero", "file": "bridge/b_open.mp4",
-     "note": "Grok bridge optional · skip if missing"},
+     "note": "Gemini/공짜LLM으로 제작 → Android Download에 b_open.mp4로 저장"},
     {"id": "b_close", "after": "06_constitution", "before": None, "file": "bridge/b_close.mp4",
-     "note": "Grok bridge optional · skip if missing"},
+     "note": "Gemini/공짜LLM으로 제작 → Android Download에 b_close.mp4로 저장"},
   ],
 }
 (out / "shot_bible.json").write_text(json.dumps(bible, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -100,7 +116,7 @@ anchors = {
     "03_system": "#system",
     "04_centers": "#centers",
     "05_funnel": "#funnel",
-    "06_constitution": "#install",
+    "06_constitution": "#install",  # page has #install (no #constitution)
 }
 import json
 beats = json.loads((outdir / "shot_bible.json").read_text(encoding="utf-8"))["beats"]
@@ -142,7 +158,7 @@ with sync_playwright() as p:
 print("  page captures done")
 PY
 
-# ── P2 TTS-first (voice engine: grok → openai → edge) ──
+# ── P2 TTS (voice engine: Kokoro jf_alpha local → 폴백 grok/openai/edge) ──
 echo "[P2] Voice engine TTS..."
 python3 - <<'PY'
 import json, os, sys
@@ -152,7 +168,7 @@ sys.path.insert(0, os.environ["ROOT"])
 
 outdir = Path(os.environ["OUTDIR"])
 bible = json.loads((outdir / "shot_bible.json").read_text(encoding="utf-8"))
-engine = os.environ.get("TTS_ENGINE", "grok")
+engine = os.environ.get("TTS_ENGINE", "local")
 
 try:
     from director.voice_engine import synthesize
@@ -191,8 +207,9 @@ for beat in bible["beats"]:
 print("  TTS done")
 PY
 
-# ── P3 bridges: only if files exist (Grok session drops them) ──
-echo "[P3] Bridge assets (optional)..."
+# ── P3 bridges: Android 갤러리/Download → 자동 감지 → bridge/ ──
+echo "[P3] Bridge pickup (Android 갤러리 → bridge/)..."
+bash "$ROOT/scripts/_bridge_pickup.sh" "$EP"
 python3 - <<'PY'
 import json, os
 from pathlib import Path
@@ -200,20 +217,23 @@ outdir = Path(os.environ["OUTDIR"])
 bible = json.loads((outdir / "shot_bible.json").read_text(encoding="utf-8"))
 for br in bible.get("bridges") or []:
     p = outdir / br["file"]
-    print(f"  bridge {br['id']}: {'OK '+str(p.stat().st_size) if p.exists() else 'SKIP (missing — PD can add later)'}")
+    print(f"  bridge {br['id']}: {'OK '+str(p.stat().st_size) if p.exists() else 'SKIP (직접 넣거나 Gemini로 만들기)'}")
 PY
 
 # ── P4 FFmpeg render (Aider baseline engine, BGM golden vol) ──
 echo "[P4] FFmpeg Ken Burns + BGM (volume=$BGM_VOLUME)..."
-# Prefer Gymnopédie / shorts-derived bgm
+# Boss 렌더 음원 우선 (YouTube Shorts Gymnopédie → FluidSynth/helena-piano)
+# 저작권: Boss 자작 렌더 · Content ID 회피 · whisper vol
 export BGM_PATH="${BGM_PATH:-}"
 if [[ -z "$BGM_PATH" ]]; then
   for c in \
+    "$OUTDIR/bgm_shorts.m4a" \
     "$OUTDIR/bgm.m4a" \
     "$OUTDIR/bgm.mp3" \
     "$ROOT/helena-piano/bgm/output/satie_gymnopedie1.mp3" \
     "$ROOT/helena-piano/bgm/output/satie_gymnopedie3.mp3" \
-    "$ROOT/helena-piano/bgm/output/clair_de_lune.mp3"
+    "$ROOT/helena-piano/bgm/output/clair_de_lune.mp3" \
+    "$ROOT/helena-piano/bgm/output/lakme_pro.mp3"
   do
     [[ -f "$c" ]] && BGM_PATH="$c" && break
   done
@@ -221,124 +241,38 @@ fi
 export BGM_PATH
 echo "  BGM_PATH=${BGM_PATH:-none}"
 
+# shot_bible captions → 한글 자막 (폰트는 _render_video CJK 해결)
+export VIDEO_BRAND="${VIDEO_BRAND:-S21 Phone}"
+CAPTION_ENV="$OUTDIR/work/caption_env.sh"
+python3 - <<'PY'
+import json, os
+from pathlib import Path
+out = Path(os.environ["OUTDIR"])
+b = json.loads((out / "shot_bible.json").read_text(encoding="utf-8"))
+beats = b.get("beats") or []
+titles = [str(x.get("caption") or x.get("id", "")) for x in beats]
+# shell export file (pipe-joined)
+def sh_quote(s: str) -> str:
+    return "'" + s.replace("'", "'\"'\"'") + "'"
+envp = out / "work" / "caption_env.sh"
+envp.parent.mkdir(parents=True, exist_ok=True)
+envp.write_text(
+    "export SLIDE_TITLES=" + sh_quote("|".join(titles)) + "\n"
+    "export SLIDE_SUBTITLES=" + sh_quote("|".join("" for _ in titles)) + "\n",
+    encoding="utf-8",
+)
+print("  captions:", titles)
+PY
+# shellcheck disable=SC1091
+source "$CAPTION_ENV"
+export SLIDE_TITLES SLIDE_SUBTITLES
+echo "  SLIDE_TITLES=$SLIDE_TITLES"
+
 python3 "$ROOT/scripts/_render_video.py" "$OUTDIR"
 
-# ── P5 Playable lock + interleave bridges if present ──
-echo "[P5] Playable encode lock + bridge insert..."
-python3 - <<'PY'
-import json, os, subprocess, shutil
-from pathlib import Path
-
-outdir = Path(os.environ["OUTDIR"])
-ep = os.environ.get("EP", "pd_intro")
-raw = outdir / f"{ep}_final.mp4"
-if not raw.exists():
-    # _render uses EP env; produce_intro used intro
-    cands = list(outdir.glob("*_final.mp4"))
-    if not cands:
-        raise SystemExit("no final mp4 from render")
-    raw = cands[0]
-
-bible = json.loads((outdir / "shot_bible.json").read_text(encoding="utf-8"))
-bridges = []
-for br in bible.get("bridges") or []:
-    p = outdir / br["file"]
-    if p.exists():
-        bridges.append((br, p))
-
-# Ensure playable yuv420p High 48k
-play = outdir / f"{ep}_playable.mp4"
-cmd = [
-    "ffmpeg", "-y", "-i", str(raw),
-    "-c:v", "libx264", "-profile:v", "high", "-level", "4.0", "-pix_fmt", "yuv420p",
-    "-preset", "veryfast", "-crf", "20",
-    "-c:a", "aac", "-b:a", "128k", "-ar", "48000", "-ac", "2",
-    "-movflags", "+faststart",
-    str(play),
-]
-r = subprocess.run(cmd, capture_output=True, text=True)
-if r.returncode != 0:
-    print(r.stderr[-400:])
-    raise SystemExit("playable encode failed")
-
-# If bridges exist: simple prepend/append (full timeline rewrite later)
-if bridges:
-    print(f"  bridges present: {len(bridges)} — re-mux bookends")
-    # normalize bridge clips to 1080x1920 yuv420p 10s max
-    parts = []
-    work = outdir / "work"
-    work.mkdir(exist_ok=True)
-    for br, p in bridges:
-        if br.get("before") == "01_hero" or br.get("after") is None and br["id"].endswith("open"):
-            order = 0
-        else:
-            order = 2
-        nb = work / f"br_{br['id']}.mp4"
-        subprocess.run([
-            "ffmpeg", "-y", "-i", str(p),
-            "-t", "6",
-            "-vf", "scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,fps=30,format=yuv420p",
-            "-c:v", "libx264", "-profile:v", "high", "-level", "4.0", "-pix_fmt", "yuv420p",
-            "-an", "-preset", "veryfast", "-crf", "20",
-            str(nb),
-        ], capture_output=True, check=False)
-        if nb.exists():
-            parts.append((order, nb, br["id"]))
-    # silence audio for bridges + main
-    main_a = work / "main.mp4"
-    shutil.copy(play, main_a)
-    # concat: opens + main + closes
-    opens = [p for o, p, i in parts if o == 0]
-    closes = [p for o, p, i in parts if o == 2]
-    # add silent audio to bridge videos matching duration
-    def with_silence(src: Path, dest: Path):
-        subprocess.run([
-            "ffmpeg", "-y", "-i", str(src),
-            "-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo",
-            "-c:v", "copy", "-c:a", "aac", "-b:a", "128k", "-shortest",
-            str(dest),
-        ], capture_output=True, check=False)
-    seq = []
-    for i, p in enumerate(opens):
-        d = work / f"open_{i}.mp4"
-        with_silence(p, d)
-        if d.exists():
-            seq.append(d)
-    seq.append(main_a)
-    for i, p in enumerate(closes):
-        d = work / f"close_{i}.mp4"
-        with_silence(p, d)
-        if d.exists():
-            seq.append(d)
-    if len(seq) > 1:
-        lst = work / "seq.txt"
-        lst.write_text("".join(f"file '{s}'\n" for s in seq), encoding="utf-8")
-        merged = outdir / f"{ep}_playable.mp4"
-        # re-encode concat for safety
-        subprocess.run([
-            "ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(lst),
-            "-c:v", "libx264", "-profile:v", "high", "-level", "4.0", "-pix_fmt", "yuv420p",
-            "-preset", "veryfast", "-crf", "20",
-            "-c:a", "aac", "-b:a", "128k", "-ar", "48000",
-            "-movflags", "+faststart",
-            str(merged),
-        ], capture_output=True, check=False)
-
-# probe
-def probe(path):
-    out = subprocess.check_output([
-        "ffprobe", "-v", "error", "-select_streams", "v:0",
-        "-show_entries", "stream=profile,pix_fmt,width,height",
-        "-of", "default=nw=1:nk=1", str(path),
-    ], text=True)
-    return out.strip().splitlines()
-
-play = outdir / f"{ep}_playable.mp4"
-print("  playable:", probe(play), "size", play.stat().st_size)
-if any("444" in x or "4:4:4" in x for x in probe(play)):
-    raise SystemExit("GATE FAIL: still yuv444")
-print("  GATE playable OK")
-PY
+# ── P5 Playable + bridges + FULL-timeline Boss BGM whisper ──
+echo "[P5] Playable encode + bridge bookends + full-timeline BGM..."
+python3 "$ROOT/scripts/_pd_assemble.py"
 
 # ── P6 TG 720 ──
 echo "[P6] TG 720p..."
@@ -355,11 +289,11 @@ if [[ -n "${TG_TOKEN:-}" && -n "${TG_CHAT:-}" && -f "$TG720" ]]; then
     -F chat_id="$TG_CHAT" \
     -F video=@"$TG720" \
     -F supports_streaming=true \
-    -F caption="🎬 ${EP} · PD pipeline v1
-Factory: page capture + Ken Burns (Aider baseline)
-Grok: TTS ${GROK_TTS_VOICE} · PD bible · bridges if any
-BGM vol=${BGM_VOLUME} · yuv420p High
-— produce_pd.sh" \
+    -F caption="🎬 ${EP} · PD pipeline STANDARD v2
+Factory: page capture + Ken Burns + concat demuxer
+TTS: Kokoro jf_alpha · bridges: Android 갤러리 자동감지
+BGM vol=${BGM_VOLUME} · yuv420p High · QA gate
+— produce_pd.sh v2" \
     -o /tmp/tg_pd.json -w "\nhttp=%{http_code}\n" || true
   python3 -c "import json;d=json.load(open('/tmp/tg_pd.json')); print('TG', d.get('ok'), d.get('result',{}).get('message_id') if d.get('ok') else d.get('description','')[:80])" 2>/dev/null || echo "TG parse skip"
 else
@@ -369,4 +303,4 @@ fi
 echo "=== DONE ==="
 ls -lah "$OUTDIR/${EP}_playable.mp4" "$OUTDIR/${EP}_tg.mp4" 2>/dev/null || true
 echo "bible: $BIBLE"
-echo "spec:  $ROOT/configs/video_pd_pipeline_v1.json"
+echo "spec:  $ROOT/configs/video_pd_pipeline_v2.json (CURRENT)"

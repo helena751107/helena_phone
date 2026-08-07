@@ -168,67 +168,68 @@ def _find_sherpa_model() -> Path | None:
     ]
     for d in candidates:
         if d.is_dir():
-            onnx_files = sorted(d.glob("*.onnx"))
+            onnx_files = sorted(d.rglob("*.onnx"))
             if onnx_files:
                 return onnx_files[0]
     return None
 
 
+# -- ParksyTTS in-process cache --
+_parksy_tts = None
+_parksy_tts_lock = __import__("threading").Lock()
+
+
+def _get_parksy_tts():
+    """ParksyTTS instance - load once, cache forever."""
+    global _parksy_tts
+    if _parksy_tts is not None:
+        return _parksy_tts
+
+    with _parksy_tts_lock:
+        if _parksy_tts is not None:
+            return _parksy_tts
+
+        root = _find_parksytts_root()
+        if root is None:
+            raise RuntimeError("ParksyTTS v1 not found.")
+
+        gs_root = "/root/GPT-SoVITS"
+        for sub in ["", "GPT_SoVITS", "GPT_SoVITS/eres2net"]:
+            p = f"{gs_root}/{sub}" if sub else gs_root
+            if os.path.isdir(p) and p not in sys.path:
+                sys.path.insert(0, p)
+
+        import glob as _glob
+        for sp in sorted(_glob.glob(f"{gs_root}/.venv/lib/python3.*/site-packages"), reverse=True):
+            if sp not in sys.path:
+                sys.path.insert(0, sp)
+
+        parksy_root_str = str(root)
+        if parksy_root_str not in sys.path:
+            sys.path.insert(0, parksy_root_str)
+
+        from core import ParkSyTTS
+        _parksy_tts = ParkSyTTS(model_dir=root / 'models', gptsovits_dir=Path(gs_root))
+        print("  parksy-tts-v1 model loaded (in-process cache)", flush=True)
+        return _parksy_tts
+
+
 def _tts_local_parksy(text: str, dest: Path) -> float:
-    """ParksyTTS v1 — GPT-SoVITS v2Pro 기반 박씨 목소리.
-
-    parksy-tts-v1/say.py 를 호출. 설치돼 있지 않으면 RuntimeError.
-    say.py API: python3 say.py "text" --out output.wav
-    """
-    root = _find_parksytts_root()
-    if root is None:
-        raise RuntimeError(
-            "ParksyTTS v1 not found. "
-            "Clone gift/parksy-tts-v1 or run install.sh first."
-        )
-    say_py = root / "say.py"
-    if not say_py.exists():
-        raise RuntimeError(f"ParksyTTS entrypoint missing: {root}/say.py")
-
+    """ParksyTTS v1 - in-process, cached. First call loads model."""
+    tts = _get_parksy_tts()
     dest.parent.mkdir(parents=True, exist_ok=True)
-    wav_dest = dest.with_suffix(".wav")
+    wav_dest = dest.with_suffix('.wav')
 
-    # ParksyTTS는 GPT-SoVITS venv Python을 써야 함 (의존성: torch, ffmpeg 등)
-    venv_python = root.parent / "GPT-SoVITS" / ".venv" / "bin" / "python3"
-    if not venv_python.exists():
-        venv_python = Path.home() / "GPT-SoVITS" / ".venv" / "bin" / "python3"
-    python_exe = str(venv_python) if venv_python.exists() else sys.executable
+    speed = float(os.environ.get("PARKSY_TTS_SPEED", "1.0"))
+    out = tts.say(text, str(wav_dest), lang="ko", speed=speed)
 
-    cmd = [
-        python_exe, str(say_py),
-        text,
-        "--out", str(wav_dest),
-        "--lang", os.environ.get("PARKSY_TTS_LANG", "ko"),
-        "--speed", os.environ.get("PARKSY_TTS_SPEED", "1.0"),
-    ]
-
-    env = os.environ.copy()
-    r = subprocess.run(cmd, capture_output=True, text=True, env=env, cwd=str(root),
-                       timeout=300)
-    if r.returncode != 0:
-        raise RuntimeError(f"ParksyTTS failed: {r.stderr.strip() or r.stdout.strip()}")
-
-    # say.py --out 으로 직접 WAV 출력 → WAV → MP3 변환
-    if not wav_dest.exists() or wav_dest.stat().st_size < 100:
-        # fallback: /tmp/parksy_say.wav (say.py 기본 출력)
-        default_wav = Path("/tmp/parksy_say.wav")
-        if default_wav.exists() and default_wav.stat().st_size > 100:
-            wav_dest = default_wav
-        else:
-            raise RuntimeError("ParksyTTS produced no output file")
-
-    r2 = subprocess.run(
-        ["ffmpeg", "-y", "-i", str(wav_dest),
+    r = subprocess.run(
+        ["ffmpeg", "-y", "-i", str(out),
          "-ar", "24000", "-ac", "1", "-c:a", "libmp3lame", "-q:a", "3", str(dest)],
         capture_output=True, text=True, timeout=60,
     )
-    if r2.returncode != 0 or not dest.exists() or dest.stat().st_size < 200:
-        raise RuntimeError(f"ParksyTTS wav→mp3 failed: {r2.stderr}")
+    if r.returncode != 0 or not dest.exists() or dest.stat().st_size < 200:
+        raise RuntimeError(f"ParksyTTS wav->mp3 failed: {r.stderr}")
     return ffprobe_duration(dest)
 
 
@@ -246,16 +247,20 @@ def _tts_local_sherpa(text: str, dest: Path,
             "Place a Sherpa-ONNX model or set LOCAL_VOICE_MODEL env."
         )
 
-    tokens_file = model_file.with_suffix(".json")
+    tokens_file = model_file.parent / "tokens.txt"  # Kokoro
     if not tokens_file.exists():
-        # Kokoro 모델은 .json 토크나이저가 필요
-        tokens_file_candidates = list(model_file.parent.glob("*.json"))
-        if tokens_file_candidates:
-            tokens_file = tokens_file_candidates[0]
+        tokens_file = model_file.with_suffix(".json")  # VITS
+    if not tokens_file.exists():
+        # Generic fallback: search for any tokens file
+        for pat in ["tokens.txt", "*.json", "tokens.json"]:
+            candidates = list(model_file.parent.glob(pat))
+            if candidates:
+                tokens_file = candidates[0]
+                break
         else:
             raise RuntimeError(
                 f"No tokens file found for {model_file.name}. "
-                "Place a .json tokens file alongside the .onnx model."
+                "Place tokens.txt (Kokoro) or .json (VITS) alongside the .onnx model."
             )
 
     import sherpa_onnx
@@ -263,14 +268,24 @@ def _tts_local_sherpa(text: str, dest: Path,
     dest.parent.mkdir(parents=True, exist_ok=True)
 
     try:
-        # Kokoro 모델 설정
+        # Kokoro 모델 설정 (voices.bin 필수)
+        voices_file = model_file.parent / "voices.bin"
+        lexicon_file = model_file.parent / "lexicon-us-en.txt"
+        dict_dir = model_file.parent / "dict"
+        tts_lang = os.environ.get("SHERPA_LANG", "ko")
         tts_config = sherpa_onnx.OfflineTtsConfig(
             model=sherpa_onnx.OfflineTtsModelConfig(
                 kokoro=sherpa_onnx.OfflineTtsKokoroModelConfig(
                     model=str(model_file),
+                    voices=str(voices_file) if voices_file.exists() else "",
                     tokens=str(tokens_file),
+                    lexicon=str(lexicon_file) if lexicon_file.exists() else "",
                     data_dir=str(model_file.parent),
+                    dict_dir=str(dict_dir) if dict_dir.is_dir() else "",
+                    lang=tts_lang,
                 ),
+                num_threads=4,
+                provider="cpu",
             ),
         )
         tts = sherpa_onnx.OfflineTts(tts_config)
@@ -288,7 +303,8 @@ def _tts_local_sherpa(text: str, dest: Path,
         tts = sherpa_onnx.OfflineTts(tts_config)
 
     speed = float(os.environ.get("LOCAL_VOICE_SPEED", "0.95"))
-    audio = tts.generate(text, sid=0, speed=speed)
+    tts_sid = int(os.environ.get("SHERPA_SID", "37"))  # jf_alpha — 헬레나폰 AI 성우
+    audio = tts.generate(text, sid=tts_sid, speed=speed)
 
     # sherpa_onnx 출력 → WAV 저장 → FFmpeg MP3
     import soundfile as sf
@@ -310,17 +326,19 @@ def _tts_local_sherpa(text: str, dest: Path,
 def tts_local(text: str, dest: Path, *,
               model_path: Path | None = None) -> tuple[float, str]:
     """로컬 TTS 디스패처 — ParksyTTS 우선, Sherpa-ONNX 폴백.
+    SHERPA_ONLY=1 → ParksyTTS 건너뛰고 Sherpa 직행.
 
     Returns (duration_sec, provider_id).
     """
-    # 1) ParksyTTS v1 (GPT-SoVITS 박씨 목소리)
-    parksy_root = _find_parksytts_root()
-    if parksy_root is not None:
-        try:
-            dur = _tts_local_parksy(text, dest)
-            return dur, "local/parksytts-v1"
-        except Exception as e:
-            print(f"  ! local/parksytts failed, falling back to sherpa: {e}", flush=True)
+    # 1) ParksyTTS v1 (GPT-SoVITS 박씨 목소리) — SHERPA_ONLY 시 건너뜀
+    if not os.environ.get("SHERPA_ONLY"):
+        parksy_root = _find_parksytts_root()
+        if parksy_root is not None:
+            try:
+                dur = _tts_local_parksy(text, dest)
+                return dur, "local/parksytts-v1"
+            except Exception as e:
+                print(f"  ! local/parksytts failed, falling back to sherpa: {e}", flush=True)
 
     # 2) Sherpa-ONNX (Kokoro / VITS)
     dur = _tts_local_sherpa(text, dest, model_path=model_path)

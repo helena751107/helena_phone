@@ -15,27 +15,96 @@ W, H = 1080, 1920
 fps = 30
 preset = os.environ.get('FF_PRESET', 'fast')
 crf = os.environ.get('FF_CRF', '23')
-font = '/usr/share/fonts/truetype/noto/NotoSansKR-Regular.ttf'
-font_bold = '/usr/share/fonts/truetype/noto/NotoSerif-Regular.ttf'
-for fp in [font, font_bold]:
-    if not os.path.exists(fp):
-        if 'NotoSansKR' in fp:
-            font = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
-        else:
-            font_bold = '/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf'
 
-# BGM whisper volume (성우 안 가리게)
+
+def _fc_has(family: str) -> bool:
+    try:
+        r = subprocess.run(
+            ['fc-list', family, 'file'],
+            capture_output=True, text=True, timeout=5,
+        )
+        return bool((r.stdout or '').strip())
+    except Exception:
+        return False
+
+
+def _resolve_font_opt(preferred_families, file_fallbacks, label='reg'):
+    """Return drawtext font option that can render Hangul.
+
+    Prefer fontconfig CJK KR families. Never silently fall back to DejaVu
+    (Latin-only → □□□ tofu for Korean captions).
+    """
+    for fam in preferred_families:
+        if _fc_has(fam):
+            # Spaces must be escaped for ffmpeg filtergraph
+            esc = fam.replace(' ', r'\ ')
+            print(f'  🔤 font[{label}]=fontconfig:{fam}')
+            return f'font={esc}'
+    for fp in file_fallbacks:
+        if os.path.exists(fp):
+            print(f'  🔤 font[{label}]=file:{fp}')
+            return f'fontfile={fp}'
+    # Last resort — still Latin-only, but log loudly
+    dejavu = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
+    print(f'  ⚠️ font[{label}]=DejaVu FALLBACK (한글 깨짐 위험 — Noto CJK 설치 필요)')
+    return f'fontfile={dejavu}'
+
+
+# Hangul-capable fonts (this machine has Noto Sans/Serif CJK *.ttc via fontconfig)
+font_opt = _resolve_font_opt(
+    ['Noto Sans CJK KR', 'Noto Sans CJK JP', 'WenQuanYi Zen Hei'],
+    [
+        '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc',
+        '/usr/share/fonts/truetype/noto/NotoSansKR-Regular.ttf',
+        '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc',
+    ],
+    'regular',
+)
+font_bold_opt = _resolve_font_opt(
+    ['Noto Serif CJK KR', 'Noto Sans CJK KR', 'Noto Serif CJK JP'],
+    [
+        '/usr/share/fonts/opentype/noto/NotoSerifCJK-Regular.ttc',
+        '/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc',
+        '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc',
+    ],
+    'bold',
+)
+
+
+def escape_drawtext(s: str) -> str:
+    """Escape for ffmpeg drawtext=text=... (colon, quote, backslash, %)."""
+    if s is None:
+        return ''
+    return (
+        str(s)
+        .replace('\\', r'\\')
+        .replace(':', r'\:')
+        .replace("'", r"\'")
+        .replace('%', '%%')
+    )
+
+
+# BGM whisper volume (성우 안 가리게 · Boss golden 0.025)
 bgm_vol = float(os.environ.get('BGM_VOLUME', '0.025'))
 _bgm_env = os.environ.get('BGM_PATH', '').strip()
 bgm_candidates = []
 if _bgm_env and os.path.exists(_bgm_env):
     bgm_candidates.append(_bgm_env)
+# Boss 렌더 음원 우선: Shorts/Gymnopédie · helena-piano FluidSynth
 bgm_candidates += [f for f in [
+    os.path.join(outdir, 'bgm_shorts.m4a'),
+    os.path.join(outdir, 'bgm.m4a'),
+    os.path.join(outdir, 'bgm.mp3'),
     '/root/work/helena-piano/bgm/output/satie_gymnopedie1.mp3',
     '/root/work/helena-piano/bgm/output/satie_gymnopedie3.mp3',
     '/root/work/helena-piano/bgm/output/clair_de_lune.mp3',
-] if os.path.exists(f)]
+    '/root/work/helena-piano/bgm/output/lakme_pro.mp3',
+] if os.path.exists(f) and f not in bgm_candidates]
 bgm = bgm_candidates[0] if bgm_candidates else None
+if bgm:
+    print(f'  🎵 BGM candidate: {bgm} vol={bgm_vol}')
+else:
+    print('  ⚠️ BGM missing — will ship VO-only')
 
 # Slides autodetect (01_hero.png, 02_*.png ...)
 slides = []
@@ -148,15 +217,21 @@ for i, name in enumerate(slides):
          '-of','default=noprint_wrappers=1:nokey=1',mp3]
     ).decode().strip())
 
-    # ── Ken Burns (cosine = gentle, no jerky zoom) ──
+    # ── Ken Burns (cosine = gentle) ──
+    # CRITICAL: zoompan d= must be TOTAL output frames (int), NOT 1/fps
+    # (d=1/30 → 0 frames → freeze/black after concat)
+    clip_t = dur + 0.5
+    nframes = max(int(round(clip_t * fps)), int(round(dur * fps)), 2)
     zoom_amount = 0.05
-    zoom_expr = f'1.0+({zoom_amount})*(1-cos(2*PI*on/({dur}*{fps})))/2'
-    fo_start = max(0.1, dur - 0.5)
+    zoom_base = 1.08  # already zoomed to minimize letterbox bars at clip start
+    zoom_expr = f'{zoom_base}+({zoom_amount})*(1-cos(2*PI*on/{nframes}))/2'
+    fo_start = max(0.1, clip_t - 0.5)
 
     # ── Color grade ──
-    grade_key = (COLOR_GRADES.get(os.environ.get(f'SLIDE_{i+1}_GRADE', '').strip())
-                 or COLOR_GRADES.get(DEFAULT_GRADE))
-    grade = COLOR_GRADES.get(grade_key, '')
+    grade_key = os.environ.get(f'SLIDE_{i+1}_GRADE', '').strip() or DEFAULT_GRADE
+    if grade_key not in COLOR_GRADES:
+        grade_key = DEFAULT_GRADE
+    grade = COLOR_GRADES.get(grade_key, '') or ''
     if isinstance(grade, dict):
         grade = grade.get('vf', '')
 
@@ -180,28 +255,31 @@ for i, name in enumerate(slides):
     elif anim_name == 'slideup':
         title_y = "y='h*0.78 + (h*0.12)*exp(-t*4.5)'"
 
+    title_esc = escape_drawtext(title)
+    sub_esc = escape_drawtext(sub)
     anim_title = (
-        f"drawtext=text='{title}':fontcolor=#d4a84b:{title_size}:x=(w-text_w)/2:{title_y}"
-        f":fontfile={font_bold}:box=1:boxcolor=black@0.5:boxborderw=12"
+        f"drawtext=text='{title_esc}':fontcolor=#d4a84b:{title_size}:x=(w-text_w)/2:{title_y}"
+        f":{font_bold_opt}:box=1:boxcolor=black@0.5:boxborderw=12"
     )
 
     # subtitle
     sub_dt = ""
     if sub:
         sub_dt = (
-            f",drawtext=text='{sub}':fontcolor=#b5a999:fontsize=26:x=(w-text_w)/2:"
-            f"y=h*0.87:fontfile={font}:box=1:boxcolor=black@0.5:boxborderw=8"
+            f",drawtext=text='{sub_esc}':fontcolor=#b5a999:fontsize=26:x=(w-text_w)/2:"
+            f"y=h*0.87:{font_opt}:box=1:boxcolor=black@0.5:boxborderw=8"
         )
 
     # Subscribe CTA (every 3rd slide, small top-left)
     cta = (f",drawtext=text='@HelenaPark-e7c':fontcolor=#d4a84b:fontsize=22"
-           f":x=20:y=h*0.06:fontfile={font}:box=1:boxcolor=black@0.4:boxborderw=6") \
+           f":x=20:y=h*0.06:{font_opt}:box=1:boxcolor=black@0.4:boxborderw=6") \
           if i % 3 == 0 else ""
 
-    # Footer watermark
+    # Footer watermark (S21 brand — not piano studio default)
+    brand = escape_drawtext(os.environ.get('VIDEO_BRAND', 'S21 Phone'))
     footer = (
-        f",drawtext=text='Helena Piano Studio':fontcolor=#7a7064:fontsize=18"
-        f":x=w-text_w-24:y=h-40:fontfile={font}:box=1:boxcolor=black@0.5:boxborderw=6"
+        f",drawtext=text='{brand}':fontcolor=#7a7064:fontsize=18"
+        f":x=w-text_w-24:y=h-40:{font_opt}:box=1:boxcolor=black@0.5:boxborderw=6"
     )
 
     # Top/bottom letterbox bars (cinematic)
@@ -210,113 +288,142 @@ for i, name in enumerate(slides):
         f",drawbox=x=0:y=ih*0.97:w=iw:h=ih*0.03:color=black@0.3:t=fill"
     )
 
-    # Build filter chain — InShot style
+    # Build filter chain — Ken Burns still→video
+    # zoompan d=nframes produces exactly nframes; then trim to clip_t
     vf = (
-        f"scale={W}*2:{H}*2:force_original_aspect_ratio=decrease,"
-        f"pad={W}*2:{H}*2:(ow-iw)/2:(oh-ih)/2,"
-        f"zoompan=z='{zoom_expr}':d=1/{fps}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s={W}x{H}:fps={fps},"
-        f"fade=in:st=0:d=0.5,fade=out:st={fo_start:.2f}:d=0.5,"
+        f"scale={W*2}:{H*2}:force_original_aspect_ratio=decrease,"
+        f"pad={W*2}:{H*2}:(ow-iw)/2:(oh-ih)/2,"
+        f"zoompan=z='{zoom_expr}':d={nframes}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s={W}x{H}:fps={fps},"
+        f"fade=t=in:st=0:d=0.4,fade=t=out:st={fo_start:.2f}:d=0.45,"
     )
-    # Color grade (if not natural)
     if grade and grade != 'natural' and grade != '':
         vf += f"{grade},"
-    # Text overlays
     vf += f"{anim_title}"
     vf += sub_dt
     vf += cta
     vf += footer
     vf += bars
-    # Vignette + final format
     vf += f",vignette=PI/5,format=yuv420p"
 
     cmd = [
-        'ffmpeg','-y',
-        '-loop','1','-i',img, '-i',mp3,
-        '-c:v','libx264','-preset',preset,'-crf',crf,
-        '-profile:v','high','-level','4.0','-pix_fmt','yuv420p',
-        '-c:a','aac','-b:a','128k','-ar','48000','-ac','2','-shortest',
-        '-t',str(dur+0.5), '-vf',vf, '-movflags','+faststart', clip
+        'ffmpeg', '-y',
+        '-loop', '1', '-i', img,
+        '-i', mp3,
+        '-vf', vf,
+        '-c:v', 'libx264', '-preset', preset, '-crf', crf,
+        '-profile:v', 'high', '-level', '4.0', '-pix_fmt', 'yuv420p',
+        '-c:a', 'aac', '-b:a', '128k', '-ar', '48000', '-ac', '2',
+        '-t', f'{clip_t:.3f}',
+        '-shortest',
+        '-movflags', '+faststart', clip,
     ]
     r = subprocess.run(cmd, capture_output=True, text=True)
     if r.returncode != 0:
-        print(f'  ❌ {name}: {r.stderr[-200:]}')
+        print(f'  ❌ {name}: {(r.stderr or "")[-400:]}')
         sys.exit(1)
+
+    # per-clip gate: video must not be a 1-frame still
+    try:
+        vdur = float(subprocess.check_output([
+            'ffprobe', '-v', 'error', '-select_streams', 'v:0',
+            '-show_entries', 'stream=duration',
+            '-of', 'default=nw=1:nk=1', clip,
+        ], text=True).strip() or '0')
+    except Exception:
+        vdur = 0.0
+    if vdur < dur * 0.85:
+        print(f'  ❌ {name}: video dur {vdur:.2f}s << audio {dur:.2f}s (zoompan/encode fail)')
+        sys.exit(1)
+
     clips.append(clip)
-    clip_durations.append(dur + 0.5)
-    print(f'  🎞️  {name} | {dur:.1f}s | grade={grade_key} | anim={anim_name} | trans={trans_name}')
+    clip_durations.append(clip_t)
+    print(f'  🎞️  {name} | {dur:.1f}s vo · {vdur:.1f}s v · frames={nframes} | grade={grade_key} | anim={anim_name}')
     sys.stdout.flush()
 
-# ── Multi-transition Concat ──
+# ── Concat v2: demuxer (reliable). Per-clip already has fade in/out.
+# OLD xfade used wrong offset = i*(d[i-1]-xfade) → video froze on clip0, rest BLACK.
 n = len(clips)
-if n == 1:
-    concat_list = os.path.join(outdir, 'concat.txt')
-    with open(concat_list, 'w') as f:
-        f.write(f"file '{clips[0]}'\n")
-else:
-    # xfade chain with per-slide transition types
-    concat_list = os.path.join(outdir, 'concat_xfade.txt')
-    xfade_sec = 0.5
-    inputs = []
-    for c in clips:
-        inputs.extend(['-i', str(c)])
-
-    filter_parts = []
-    vprev = '[0:v]'
-    aprev = '[0:a]'
-    for i in range(1, n):
-        offset = i * (clip_durations[i-1] - xfade_sec)
-        xfade_type = clip_transitions[i] if i < len(clip_transitions) else 'fade'
-        vout = f'[vfinal]' if i == n - 1 else f'[vx{i}]'
-        aout = f'[afinal]' if i == n - 1 else f'[ax{i}]'
-        filter_parts.append(
-            f"{vprev}[{i}:v]xfade=transition={xfade_type}:duration={xfade_sec}:offset={offset:.3f}{vout}"
-        )
-        filter_parts.append(
-            f"{aprev}[{i}:a]acrossfade=d={xfade_sec}{aout}"
-        )
-        vprev = vout
-        aprev = aout
-
-    fc = ';'.join(filter_parts)
-
 tmp = os.path.join(outdir, '_concat.mp4')
-concat_cmd = (
-    ['ffmpeg','-y'] + inputs +
-    ['-filter_complex', fc + ';[vfinal]format=yuv420p[v];[afinal]aformat=sample_rates=48000[a]',
-     '-map','[v]','-map','[a]',
-     '-c:v','libx264','-preset',preset,'-crf',crf,
-     '-profile:v','high','-level','4.0','-pix_fmt','yuv420p',
-     '-c:a','aac','-b:a','128k','-ar','48000','-movflags','+faststart', tmp]
-) if n > 1 else (
-    ['ffmpeg','-y','-f','concat','-safe','0','-i', concat_list, '-c','copy', tmp]
-)
+concat_list = os.path.join(outdir, 'concat_v2.txt')
+with open(concat_list, 'w', encoding='utf-8') as f:
+    for c in clips:
+        # absolute paths, single quotes escaped for concat demuxer
+        ap = os.path.abspath(c).replace("'", r"'\''")
+        f.write(f"file '{ap}'\n")
 
+print(f'  🔗 concat v2 demuxer · {n} clips · expected ≈{sum(clip_durations):.1f}s')
+# Re-encode concat so timebase/SAR mismatches never freeze video
+concat_cmd = [
+    'ffmpeg', '-y', '-f', 'concat', '-safe', '0', '-i', concat_list,
+    '-c:v', 'libx264', '-preset', preset, '-crf', crf,
+    '-profile:v', 'high', '-level', '4.0', '-pix_fmt', 'yuv420p',
+    '-c:a', 'aac', '-b:a', '128k', '-ar', '48000', '-ac', '2',
+    '-movflags', '+faststart', tmp,
+]
 r = subprocess.run(concat_cmd, capture_output=True, text=True)
 if r.returncode != 0:
-    print(f'  ❌ Concat: {r.stderr[-300:]}')
+    print(f'  ❌ Concat: {(r.stderr or "")[-400:]}')
     sys.exit(1)
 
-# ── BGM whisper mix ──
+# concat gate: video duration ≈ sum of clips (allow 1s slack)
+try:
+    cat_vdur = float(subprocess.check_output([
+        'ffprobe', '-v', 'error', '-select_streams', 'v:0',
+        '-show_entries', 'stream=duration',
+        '-of', 'default=nw=1:nk=1', tmp,
+    ], text=True).strip() or '0')
+    cat_adur = float(subprocess.check_output([
+        'ffprobe', '-v', 'error', '-select_streams', 'a:0',
+        '-show_entries', 'stream=duration',
+        '-of', 'default=nw=1:nk=1', tmp,
+    ], text=True).strip() or '0')
+except Exception as e:
+    print(f'  ❌ Concat probe fail: {e}')
+    sys.exit(1)
+
+expect = sum(clip_durations)
+print(f'  🔗 concat probe v={cat_vdur:.1f}s a={cat_adur:.1f}s expect≈{expect:.1f}s')
+if cat_vdur < expect * 0.85 or cat_vdur < cat_adur * 0.85:
+    print('  ❌ CONCAT GATE FAIL: video shorter than audio/clips → would ship black tail')
+    sys.exit(2)
+if abs(cat_vdur - cat_adur) > 1.5:
+    print(f'  ⚠️ A/V drift {abs(cat_vdur-cat_adur):.1f}s (continuing if video long enough)')
+
+# ── Keep VO-only body for later full-timeline BGM (bridges bookend 포함) ──
+import shutil
+vo_only = os.path.join(outdir, f'{ep}_vo.mp4')
+shutil.copy(tmp, vo_only)
+print(f'  🎙 VO-only body saved: {ep}_vo.mp4')
+
+# ── BGM whisper mix (Boss 렌더 음원 · 들릴락 말락 vol) ──
+# normalize=0 keeps VO loud; volume=BGM_VOLUME alone sets the floor (no extra weights crush)
 final = os.path.join(outdir, f'{ep}_final.mp4')
+total_dur = sum(clip_durations)
 if bgm and os.path.exists(bgm):
-    print(f'  🎵 BGM {os.path.basename(bgm)} vol={bgm_vol}')
+    fade_out_st = max(0.5, total_dur - 2.5)
+    print(f'  🎵 BGM mix {os.path.basename(bgm)} vol={bgm_vol} (whisper, normalize=0)')
     r = subprocess.run([
-        'ffmpeg','-y','-i',tmp,'-stream_loop','-1','-i',bgm,
+        'ffmpeg', '-y', '-i', tmp, '-stream_loop', '-1', '-i', bgm,
         '-filter_complex',
-        f'[0:a]volume=1.0[voice];'
-        f'[1:a]volume={bgm_vol},afade=t=in:st=0:d=1.5,afade=t=out:st={sum(clip_durations)-3:.1f}:d=2.5[music];'
-        f'[voice][music]amix=inputs=2:duration=first:dropout_transition=3:weights=1 0.3',
-        '-c:v','copy','-c:a','aac','-b:a','128k','-shortest', final
+        f'[0:a]aformat=sample_rates=48000:channel_layouts=stereo,volume=1.0[voice];'
+        f'[1:a]aformat=sample_rates=48000:channel_layouts=stereo,'
+        f'volume={bgm_vol},afade=t=in:st=0:d=1.5,afade=t=out:st={fade_out_st:.1f}:d=2.0[music];'
+        f'[voice][music]amix=inputs=2:duration=first:dropout_transition=2:normalize=0[aout]',
+        '-map', '0:v', '-map', '[aout]',
+        '-c:v', 'copy', '-c:a', 'aac', '-b:a', '128k', '-ar', '48000', '-ac', '2',
+        '-shortest', '-movflags', '+faststart', final,
     ], capture_output=True, text=True)
     if r.returncode != 0:
-        print(f'  ⚠️ BGM failed ({r.stderr[-150:]}), no-BGM')
-        import shutil; shutil.copy(tmp, final)
+        print(f'  ⚠️ BGM failed ({(r.stderr or "")[-300:]}), no-BGM')
+        shutil.copy(tmp, final)
         bgm = None
+    else:
+        print(f'  ✅ BGM mixed into {ep}_final.mp4')
 else:
-    import shutil; shutil.copy(tmp, final)
+    shutil.copy(tmp, final)
+    print('  ⚠️ no BGM file — VO only')
 
 os.remove(tmp)
-total_dur = sum(clip_durations)
 size = os.path.getsize(final)
 
 # ── Encode gate (phone-playable check) ──
