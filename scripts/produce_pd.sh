@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
-# 🎬 produce_pd.sh — PD Pipeline STANDARD v2 (canonical · Grok-free)
+# 🎬 produce_pd.sh — PD Pipeline STANDARD v3 (canonical · Grok-free · V6 renderer)
 # 표준: configs/video_pd_pipeline_v2.json · CURRENT → configs/video_pd_pipeline_CURRENT.json
 # 역할:
-#   Factory(공짜) = Playwright 페이지 캡처 + FFmpeg Ken Burns + concat demuxer
+#   Factory(공짜) = Playwright 페이지 캡처 + FFmpeg Ken Burns + xfade multi-transition
 #   Boss(수동)   = Gemini/공짜LLM으로 bridge 영상 제작 → Android 갤러리에 저장
 #   성우          = Kokoro FP32 + jf_alpha (sid=37, 일본인 여성) · 완전 공짜
+# V6: audio ducking · xfade(fade/wipe/slide/dissolve) · end card · chrono-pair bridge
 # 고정 상수: BGM_VOLUME=0.025 · TTS=local · CJK 폰트 · QA gate 필수
 #
 # Bridge 워크플로 (Grok 제로):
@@ -274,10 +275,15 @@ python3 "$ROOT/scripts/_render_video.py" "$OUTDIR"
 echo "[P5] Playable encode + bridge bookends + full-timeline BGM..."
 python3 "$ROOT/scripts/_pd_assemble.py"
 
+# ── P5b SRT subtitles (VO 원본 → YouTube 업로드용 .srt) ──
+echo "[P5b] SRT subtitles (YouTube caption sync)..."
+python3 "$ROOT/scripts/_make_srt.py"
+
 # ── P6 TG 720 ──
 echo "[P6] TG 720p..."
 PLAY="$OUTDIR/${EP}_playable.mp4"
 TG720="$OUTDIR/${EP}_tg.mp4"
+SRT="$OUTDIR/${EP}.srt"
 ffmpeg -y -i "$PLAY" \
   -c:v libx264 -profile:v high -level 4.0 -pix_fmt yuv420p -preset veryfast -crf 23 \
   -vf "scale=720:1280:force_original_aspect_ratio=decrease,pad=720:1280:(ow-iw)/2:(oh-ih)/2,format=yuv420p" \
@@ -289,11 +295,12 @@ if [[ -n "${TG_TOKEN:-}" && -n "${TG_CHAT:-}" && -f "$TG720" ]]; then
     -F chat_id="$TG_CHAT" \
     -F video=@"$TG720" \
     -F supports_streaming=true \
-    -F caption="🎬 ${EP} · PD pipeline STANDARD v2
-Factory: page capture + Ken Burns + concat demuxer
-TTS: Kokoro jf_alpha · bridges: Android 갤러리 자동감지
+    -F caption="🎬 ${EP} · PD pipeline V6
+Factory: xfade multi-transition + audio ducking + end card
+TTS: Kokoro jf_alpha · bridges: Android 갤러리 chrono-pair
 BGM vol=${BGM_VOLUME} · yuv420p High · QA gate
-— produce_pd.sh v2" \
+📝 SRT: ${SRT##*/}
+— produce_pd.sh v3/V6" \
     -o /tmp/tg_pd.json -w "\nhttp=%{http_code}\n" || true
   python3 -c "import json;d=json.load(open('/tmp/tg_pd.json')); print('TG', d.get('ok'), d.get('result',{}).get('message_id') if d.get('ok') else d.get('description','')[:80])" 2>/dev/null || echo "TG parse skip"
 else
@@ -301,6 +308,6 @@ else
 fi
 
 echo "=== DONE ==="
-ls -lah "$OUTDIR/${EP}_playable.mp4" "$OUTDIR/${EP}_tg.mp4" 2>/dev/null || true
+ls -lah "$OUTDIR/${EP}_playable.mp4" "$OUTDIR/${EP}_tg.mp4" "$SRT" 2>/dev/null || true
 echo "bible: $BIBLE"
 echo "spec:  $ROOT/configs/video_pd_pipeline_v2.json (CURRENT)"

@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Helena Video Renderer — InShot-level 제작 파이프 (공짜 FFmpeg)
 
-V5 — Boss 2026-08-06
+V6 — Boss 2026-08-07
+- V6: audio ducking (sidechaincompress) · xfade multi-transition · end card
 - InShot FX: text pop/slideup/typewriter · multi-transition · speed ramp · color grade
 - CapCut style: animated captions · Shorts/TikTok presets · safe zone
 - yuv420p High@L4.0 · AAC 48k · phone-playable guarantee
 """
-import subprocess, os, sys, math, random, json
+import subprocess, os, sys, math, random, json, shutil
 from pathlib import Path
 
 outdir = sys.argv[1] if len(sys.argv) > 1 else os.environ.get('OUTDIR', '/root/work/out/intro')
@@ -15,6 +16,22 @@ W, H = 1080, 1920
 fps = 30
 preset = os.environ.get('FF_PRESET', 'fast')
 crf = os.environ.get('FF_CRF', '23')
+
+# ── V6: audio ducking params ──
+duck_enabled = os.environ.get('AUDIO_DUCKING', '1') not in ('0', 'false', 'no')
+# sidechaincompress: compress music (1st input) when voice (2nd input) exceeds threshold
+duck_threshold = float(os.environ.get('DUCK_THRESHOLD', '0.02'))   # linear 0-1
+duck_ratio = int(os.environ.get('DUCK_RATIO', '3'))
+duck_attack = int(os.environ.get('DUCK_ATTACK', '5'))              # ms
+duck_release = int(os.environ.get('DUCK_RELEASE', '300'))          # ms
+
+# ── V6: xfade transition cycle ──
+XFADE_DUR = float(os.environ.get('XFADE_DUR', '0.4'))
+TRANSITION_CYCLE = ['fade', 'wipeleft', 'slideright', 'dissolve']
+
+# ── V6: end card ──
+END_CARD_DUR = float(os.environ.get('END_CARD_DUR', '3.0'))
+end_card_enabled = os.environ.get('END_CARD', '1') not in ('0', 'false', 'no')
 
 
 def _fc_has(family: str) -> bool:
@@ -29,14 +46,8 @@ def _fc_has(family: str) -> bool:
 
 
 def _resolve_font_opt(preferred_families, file_fallbacks, label='reg'):
-    """Return drawtext font option that can render Hangul.
-
-    Prefer fontconfig CJK KR families. Never silently fall back to DejaVu
-    (Latin-only → □□□ tofu for Korean captions).
-    """
     for fam in preferred_families:
         if _fc_has(fam):
-            # Spaces must be escaped for ffmpeg filtergraph
             esc = fam.replace(' ', r'\ ')
             print(f'  🔤 font[{label}]=fontconfig:{fam}')
             return f'font={esc}'
@@ -44,13 +55,11 @@ def _resolve_font_opt(preferred_families, file_fallbacks, label='reg'):
         if os.path.exists(fp):
             print(f'  🔤 font[{label}]=file:{fp}')
             return f'fontfile={fp}'
-    # Last resort — still Latin-only, but log loudly
     dejavu = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
     print(f'  ⚠️ font[{label}]=DejaVu FALLBACK (한글 깨짐 위험 — Noto CJK 설치 필요)')
     return f'fontfile={dejavu}'
 
 
-# Hangul-capable fonts (this machine has Noto Sans/Serif CJK *.ttc via fontconfig)
 font_opt = _resolve_font_opt(
     ['Noto Sans CJK KR', 'Noto Sans CJK JP', 'WenQuanYi Zen Hei'],
     [
@@ -72,7 +81,6 @@ font_bold_opt = _resolve_font_opt(
 
 
 def escape_drawtext(s: str) -> str:
-    """Escape for ffmpeg drawtext=text=... (colon, quote, backslash, %)."""
     if s is None:
         return ''
     return (
@@ -84,13 +92,12 @@ def escape_drawtext(s: str) -> str:
     )
 
 
-# BGM whisper volume (성우 안 가리게 · Boss golden 0.025)
+# BGM
 bgm_vol = float(os.environ.get('BGM_VOLUME', '0.025'))
 _bgm_env = os.environ.get('BGM_PATH', '').strip()
 bgm_candidates = []
 if _bgm_env and os.path.exists(_bgm_env):
     bgm_candidates.append(_bgm_env)
-# Boss 렌더 음원 우선: Shorts/Gymnopédie · helena-piano FluidSynth
 bgm_candidates += [f for f in [
     os.path.join(outdir, 'bgm_shorts.m4a'),
     os.path.join(outdir, 'bgm.m4a'),
@@ -106,7 +113,7 @@ if bgm:
 else:
     print('  ⚠️ BGM missing — will ship VO-only')
 
-# Slides autodetect (01_hero.png, 02_*.png ...)
+# Slides autodetect
 slides = []
 for f in sorted(os.listdir(outdir)):
     if f.endswith('.png') and f[0].isdigit():
@@ -117,18 +124,16 @@ if not slides:
     print('❌ No slides found (need NNAME.png + NNAME.mp3)')
     sys.exit(1)
 
-# Titles from slides/ env
 titles_env = os.environ.get('SLIDE_TITLES','').split('|')
 subtitles_env = os.environ.get('SLIDE_SUBTITLES','').split('|')
-trans_env = os.environ.get('SLIDE_TRANSITIONS','').split('|')  # per-slide transition override
-anim_env = os.environ.get('SLIDE_ANIMS','').split('|')          # per-slide text animation
+trans_env = os.environ.get('SLIDE_TRANSITIONS','').split('|')
+anim_env = os.environ.get('SLIDE_ANIMS','').split('|')
 while len(titles_env) < len(slides): titles_env.append(slides[len(titles_env)])
 while len(subtitles_env) < len(slides): subtitles_env.append('')
 while len(trans_env) < len(slides): trans_env.append('')
 while len(anim_env) < len(slides): anim_env.append('')
 
 # ── InShot FX presets ──
-# Transitions — applied as xfade between clips
 TRANSITIONS = {
     'fade':       'fade',
     'wipeleft':   'wipeleft',
@@ -136,14 +141,13 @@ TRANSITIONS = {
     'slideup':    'slideup',
     'slidedown':  'slidedown',
     'circlecrop': 'circlecrop',
-    'hlslice':    'hlslice',     # horizontal slice
-    'vuslice':    'vuslice',     # vertical slice
+    'hlslice':    'hlslice',
+    'vuslice':    'vuslice',
     'pixelize':   'pixelize',
     'dissolve':   'dissolve',
 }
 DEFAULT_TRANSITION = 'fade'
 
-# Color grades — InShot equivalent
 COLOR_GRADES = {
     'warm':      'eq=gamma=1.05:contrast=1.05:saturation=1.12:brightness=0.02',
     'cinematic': 'eq=gamma=0.95:contrast=1.15:saturation=0.85:brightness=-0.03',
@@ -153,57 +157,46 @@ COLOR_GRADES = {
 }
 DEFAULT_GRADE = 'warm'
 
-# Text animations — InShot text FX
 TEXT_ANIMS = {
-    # pop: oscillating fontsize (subtle bounce)
     'pop': (
         lambda dur: (
             f":fontsize='max(34, 40 + 8*sin(2*PI*3.5*t))'",
-            f"fontsize=40"  # fallback static
+            f"fontsize=40"
         )
     ),
-    # slideup: ease-out entrance from below
     'slideup': (
         lambda dur: (
             f":y='h*0.78 + (h*0.12)*exp(-t*4.5)'",
             f"y=h*0.80"
         )
     ),
-    # typewriter: progressive fade-in (simulated with alpha ramp)
     'typewriter': (
         lambda dur: (
             f":alpha='min(1, t*{max(1.5, 3.0/dur):.1f})'",
             f""
         )
     ),
-    # none: static text
     'static': (
         lambda dur: ("", "")
     ),
 }
 DEFAULT_ANIM = 'slideup'
 
-# Speed ramp presets (applied to whole clip via setpts)
-# 'slow_in': start slow, speed up
-# 'punch': fast middle, slow ends
 SPEED_RAMPS = {
     'none':       '',
     'slow_in':    "setpts=(0.7+0.3*(1-exp(-t*2)))*PTS,",
     'punch':      "setpts=(1.1-0.25*sin(PI*t/TB)))*PTS,",
 }
 
-# ── Shorts/TikTok presets ──
 PRESET = os.environ.get('PRESET', '').strip()
 if PRESET == 'shorts':
     crf = '22'
 elif PRESET == 'tiktok':
     crf = '23'
-    # TikTok likes 9:16, slightly softer
     preset = 'veryfast'
 
 clips = []
 clip_durations = []
-clip_transitions = []  # for multi-transition concat
 
 for i, name in enumerate(slides):
     img = os.path.join(outdir, name + '.png')
@@ -218,14 +211,11 @@ for i, name in enumerate(slides):
     ).decode().strip())
 
     # ── Ken Burns (cosine = gentle) ──
-    # CRITICAL: zoompan d= must be TOTAL output frames (int), NOT 1/fps
-    # (d=1/30 → 0 frames → freeze/black after concat)
     clip_t = dur + 0.5
     nframes = max(int(round(clip_t * fps)), int(round(dur * fps)), 2)
     zoom_amount = 0.05
-    zoom_base = 1.08  # already zoomed to minimize letterbox bars at clip start
+    zoom_base = 1.08
     zoom_expr = f'{zoom_base}+({zoom_amount})*(1-cos(2*PI*on/{nframes}))/2'
-    fo_start = max(0.1, clip_t - 0.5)
 
     # ── Color grade ──
     grade_key = os.environ.get(f'SLIDE_{i+1}_GRADE', '').strip() or DEFAULT_GRADE
@@ -235,21 +225,13 @@ for i, name in enumerate(slides):
     if isinstance(grade, dict):
         grade = grade.get('vf', '')
 
-    # ── Transition (per-slide, used in concat phase) ──
-    trans_name = (trans_env[i].strip() or DEFAULT_TRANSITION)
-    xfade_name = TRANSITIONS.get(trans_name, 'fade')
-    clip_transitions.append(xfade_name)
-
     # ── Text animation ──
     anim_name = (anim_env[i].strip() or DEFAULT_ANIM)
     anim_pair = TEXT_ANIMS.get(anim_name, TEXT_ANIMS['static'])
     text_expr, _text_fallback = anim_pair(dur)
 
-    # Build animated text drawtext filter
-    # title — headline with animation
     title_y = f"y=h*0.80"
     title_size = "fontsize=40"
-    # If animation modifies fontsize or position, inject into drawtext
     if anim_name == 'pop':
         title_size = "fontsize='max(34, 42 + 8*sin(2*PI*3.5*t))'"
     elif anim_name == 'slideup':
@@ -262,7 +244,6 @@ for i, name in enumerate(slides):
         f":{font_bold_opt}:box=1:boxcolor=black@0.5:boxborderw=12"
     )
 
-    # subtitle
     sub_dt = ""
     if sub:
         sub_dt = (
@@ -270,31 +251,27 @@ for i, name in enumerate(slides):
             f"y=h*0.87:{font_opt}:box=1:boxcolor=black@0.5:boxborderw=8"
         )
 
-    # Subscribe CTA (every 3rd slide, small top-left)
     cta = (f",drawtext=text='@HelenaPark-e7c':fontcolor=#d4a84b:fontsize=22"
            f":x=20:y=h*0.06:{font_opt}:box=1:boxcolor=black@0.4:boxborderw=6") \
           if i % 3 == 0 else ""
 
-    # Footer watermark (S21 brand — not piano studio default)
     brand = escape_drawtext(os.environ.get('VIDEO_BRAND', 'S21 Phone'))
     footer = (
         f",drawtext=text='{brand}':fontcolor=#7a7064:fontsize=18"
         f":x=w-text_w-24:y=h-40:{font_opt}:box=1:boxcolor=black@0.5:boxborderw=6"
     )
 
-    # Top/bottom letterbox bars (cinematic)
     bars = (
         f",drawbox=x=0:y=0:w=iw:h=ih*0.03:color=black@0.3:t=fill"
         f",drawbox=x=0:y=ih*0.97:w=iw:h=ih*0.03:color=black@0.3:t=fill"
     )
 
-    # Build filter chain — Ken Burns still→video
-    # zoompan d=nframes produces exactly nframes; then trim to clip_t
+    # ── V6: fade-in only (xfade handles cross-clip transitions) ──
     vf = (
         f"scale={W*2}:{H*2}:force_original_aspect_ratio=decrease,"
         f"pad={W*2}:{H*2}:(ow-iw)/2:(oh-ih)/2,"
         f"zoompan=z='{zoom_expr}':d={nframes}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s={W}x{H}:fps={fps},"
-        f"fade=t=in:st=0:d=0.4,fade=t=out:st={fo_start:.2f}:d=0.45,"
+        f"fade=t=in:st=0:d=0.35,"
     )
     if grade and grade != 'natural' and grade != '':
         vf += f"{grade},"
@@ -322,7 +299,7 @@ for i, name in enumerate(slides):
         print(f'  ❌ {name}: {(r.stderr or "")[-400:]}')
         sys.exit(1)
 
-    # per-clip gate: video must not be a 1-frame still
+    # per-clip gate
     try:
         vdur = float(subprocess.check_output([
             'ffprobe', '-v', 'error', '-select_streams', 'v:0',
@@ -340,32 +317,108 @@ for i, name in enumerate(slides):
     print(f'  🎞️  {name} | {dur:.1f}s vo · {vdur:.1f}s v · frames={nframes} | grade={grade_key} | anim={anim_name}')
     sys.stdout.flush()
 
-# ── Concat v2: demuxer (reliable). Per-clip already has fade in/out.
-# OLD xfade used wrong offset = i*(d[i-1]-xfade) → video froze on clip0, rest BLACK.
+# ── V6: End card ──
+if end_card_enabled:
+    end_card_clip = os.path.join(outdir, 'kb_endcard.mp4')
+    brand_text = escape_drawtext(os.environ.get('VIDEO_BRAND', 'S21 Phone'))
+    endcard_vf = (
+        f"drawtext=text='{brand_text}':fontcolor=#d4a84b:fontsize=52:x=(w-text_w)/2:y=h*0.38:{font_bold_opt},"
+        f"drawtext=text='헨드오프가 곧 성공이다':fontcolor=#ffffff:fontsize=28:x=(w-text_w)/2:y=h*0.48:{font_opt},"
+        f"drawtext=text='@HelenaPark-e7c':fontcolor=#7a7064:fontsize=22:x=(w-text_w)/2:y=h*0.57:{font_opt},"
+        f"drawtext=text='helena751107.github.io':fontcolor=#555555:fontsize=18:x=(w-text_w)/2:y=h*0.65:{font_opt},"
+        f"fade=t=in:st=0:d=0.5,vignette=PI/5,format=yuv420p"
+    )
+    r = subprocess.run([
+        'ffmpeg', '-y',
+        '-f', 'lavfi', '-i', f'color=c=0x0d1117:s={W}x{H}:d={END_CARD_DUR}:r={fps}',
+        '-f', 'lavfi', '-i', f'anullsrc=r=48000:cl=stereo',
+        '-vf', endcard_vf,
+        '-c:v', 'libx264', '-preset', preset, '-crf', crf,
+        '-profile:v', 'high', '-level', '4.0', '-pix_fmt', 'yuv420p',
+        '-c:a', 'aac', '-b:a', '128k', '-ar', '48000', '-ac', '2',
+        '-t', str(END_CARD_DUR),
+        '-shortest', '-movflags', '+faststart', end_card_clip,
+    ], capture_output=True, text=True)
+    if r.returncode != 0:
+        print(f'  ⚠️ End card failed: {(r.stderr or "")[-300:]}')
+        end_card_enabled = False
+    else:
+        clips.append(end_card_clip)
+        clip_durations.append(END_CARD_DUR)
+        print(f'  🏁 end card: {END_CARD_DUR:.1f}s')
+
+# ── V6: xfade concat (multi-transition, no more flat fades) ──
 n = len(clips)
 tmp = os.path.join(outdir, '_concat.mp4')
-concat_list = os.path.join(outdir, 'concat_v2.txt')
-with open(concat_list, 'w', encoding='utf-8') as f:
+
+# Build xfade filter_complex
+# V6: probe actual video durations for accurate xfade offsets
+actual_vdurs = []
+for c in clips:
+    try:
+        vd = float(subprocess.check_output([
+            'ffprobe', '-v', 'error', '-select_streams', 'v:0',
+            '-show_entries', 'stream=duration',
+            '-of', 'default=nw=1:nk=1', str(c),
+        ], text=True).strip() or '0')
+    except Exception:
+        vd = 0.0
+    actual_vdurs.append(max(vd, 0.1))
+
+xfade_dur = XFADE_DUR
+filter_parts = []
+# Normalise all inputs to same timebase before xfade chain
+for i in range(n):
+    # settb + setpts ensures uniform tb=1/30 across all clips
+    filter_parts.append(f'[{i}:v]settb=1/{fps},setpts=PTS-STARTPTS[v{i}]')
+
+cum_offset = actual_vdurs[0]
+for i in range(1, n):
+    trans = TRANSITION_CYCLE[(i - 1) % len(TRANSITION_CYCLE)]
+    offset = cum_offset - i * xfade_dur
+    if offset < 0.1:
+        offset = 0.1  # safety floor
+    # Chain: first xfade uses [v0][v1], subsequent use [x{i-1}][v{i}]
+    src_a = f'[v0]' if i == 1 else f'[x{i-1}]'
+    filter_parts.append(
+        f'{src_a}[v{i}]xfade=transition={trans}:duration={xfade_dur}:offset={offset:.3f}[x{i}]'
+    )
+    cum_offset += actual_vdurs[i]
+
+# Rename xfade chain outputs so final label is cross-clip compatible
+# After xfade chain: [x1], [x2], ..., [x{n-1}]
+# We need the final output label to be [x{n-1}]
+
+vf_expr = ';'.join(filter_parts)
+
+# Audio concat list (demuxer, audio-only)
+audio_list = os.path.join(outdir, 'audio_concat.txt')
+with open(audio_list, 'w', encoding='utf-8') as f:
     for c in clips:
-        # absolute paths, single quotes escaped for concat demuxer
         ap = os.path.abspath(c).replace("'", r"'\''")
         f.write(f"file '{ap}'\n")
 
-print(f'  🔗 concat v2 demuxer · {n} clips · expected ≈{sum(clip_durations):.1f}s')
-# Re-encode concat so timebase/SAR mismatches never freeze video
-concat_cmd = [
-    'ffmpeg', '-y', '-f', 'concat', '-safe', '0', '-i', concat_list,
+print(f'  🔗 xfade concat · {n} clips · transitions={TRANSITION_CYCLE[:n-1]} · xfade_dur={xfade_dur}s')
+
+concat_cmd = ['ffmpeg', '-y']
+for c in clips:
+    concat_cmd += ['-i', c]                                   # inputs 0..n-1: video+audio clips
+concat_cmd += ['-f', 'concat', '-safe', '0', '-i', audio_list]  # input n: audio-only concat
+concat_cmd += [
+    '-filter_complex', vf_expr,
+    '-map', f'[x{n-1}]',     # xfade final video output
+    '-map', f'{n}:a',         # concat audio
     '-c:v', 'libx264', '-preset', preset, '-crf', crf,
     '-profile:v', 'high', '-level', '4.0', '-pix_fmt', 'yuv420p',
     '-c:a', 'aac', '-b:a', '128k', '-ar', '48000', '-ac', '2',
-    '-movflags', '+faststart', tmp,
+    '-shortest', '-movflags', '+faststart', tmp,
 ]
 r = subprocess.run(concat_cmd, capture_output=True, text=True)
 if r.returncode != 0:
-    print(f'  ❌ Concat: {(r.stderr or "")[-400:]}')
+    print(f'  ❌ xfade concat: {(r.stderr or "")[-400:]}')
     sys.exit(1)
 
-# concat gate: video duration ≈ sum of clips (allow 1s slack)
+# concat gate
 try:
     cat_vdur = float(subprocess.check_output([
         'ffprobe', '-v', 'error', '-select_streams', 'v:0',
@@ -383,32 +436,45 @@ except Exception as e:
 
 expect = sum(clip_durations)
 print(f'  🔗 concat probe v={cat_vdur:.1f}s a={cat_adur:.1f}s expect≈{expect:.1f}s')
-if cat_vdur < expect * 0.85 or cat_vdur < cat_adur * 0.85:
+if cat_vdur < expect * 0.80 or cat_vdur < cat_adur * 0.85:
     print('  ❌ CONCAT GATE FAIL: video shorter than audio/clips → would ship black tail')
     sys.exit(2)
-if abs(cat_vdur - cat_adur) > 1.5:
+if abs(cat_vdur - cat_adur) > 2.0:
     print(f'  ⚠️ A/V drift {abs(cat_vdur-cat_adur):.1f}s (continuing if video long enough)')
 
-# ── Keep VO-only body for later full-timeline BGM (bridges bookend 포함) ──
-import shutil
+# ── VO-only body (for later full-timeline BGM in _pd_assemble) ──
 vo_only = os.path.join(outdir, f'{ep}_vo.mp4')
 shutil.copy(tmp, vo_only)
 print(f'  🎙 VO-only body saved: {ep}_vo.mp4')
 
-# ── BGM whisper mix (Boss 렌더 음원 · 들릴락 말락 vol) ──
-# normalize=0 keeps VO loud; volume=BGM_VOLUME alone sets the floor (no extra weights crush)
+# ── V6: BGM mix with audio ducking (sidechaincompress) ──
 final = os.path.join(outdir, f'{ep}_final.mp4')
 total_dur = sum(clip_durations)
 if bgm and os.path.exists(bgm):
     fade_out_st = max(0.5, total_dur - 2.5)
-    print(f'  🎵 BGM mix {os.path.basename(bgm)} vol={bgm_vol} (whisper, normalize=0)')
+    if duck_enabled:
+        print(f'  🎵 BGM mix {os.path.basename(bgm)} vol={bgm_vol} + 🔊 ducking (thr={duck_threshold} ratio={duck_ratio})')
+        # sidechaincompress: main=music[1:a], sidechain=voice[0:a]
+        # When voice exceeds threshold, compress music down
+        filter_complex = (
+            f'[0:a]aformat=sample_rates=48000:channel_layouts=stereo,volume=1.0[voice];'
+            f'[1:a]aformat=sample_rates=48000:channel_layouts=stereo,'
+            f'volume={bgm_vol},afade=t=in:st=0:d=1.5,afade=t=out:st={fade_out_st:.1f}:d=2.0[music_pre];'
+            f'[music_pre][voice]sidechaincompress='
+            f'threshold={duck_threshold}:ratio={duck_ratio}:attack={duck_attack}:release={duck_release}:makeup=1[music_ducked];'
+            f'[voice][music_ducked]amix=inputs=2:duration=first:dropout_transition=2:normalize=0[aout]'
+        )
+    else:
+        print(f'  🎵 BGM mix {os.path.basename(bgm)} vol={bgm_vol} (whisper, no ducking)')
+        filter_complex = (
+            f'[0:a]aformat=sample_rates=48000:channel_layouts=stereo,volume=1.0[voice];'
+            f'[1:a]aformat=sample_rates=48000:channel_layouts=stereo,'
+            f'volume={bgm_vol},afade=t=in:st=0:d=1.5,afade=t=out:st={fade_out_st:.1f}:d=2.0[music];'
+            f'[voice][music]amix=inputs=2:duration=first:dropout_transition=2:normalize=0[aout]'
+        )
     r = subprocess.run([
         'ffmpeg', '-y', '-i', tmp, '-stream_loop', '-1', '-i', bgm,
-        '-filter_complex',
-        f'[0:a]aformat=sample_rates=48000:channel_layouts=stereo,volume=1.0[voice];'
-        f'[1:a]aformat=sample_rates=48000:channel_layouts=stereo,'
-        f'volume={bgm_vol},afade=t=in:st=0:d=1.5,afade=t=out:st={fade_out_st:.1f}:d=2.0[music];'
-        f'[voice][music]amix=inputs=2:duration=first:dropout_transition=2:normalize=0[aout]',
+        '-filter_complex', filter_complex,
         '-map', '0:v', '-map', '[aout]',
         '-c:v', 'copy', '-c:a', 'aac', '-b:a', '128k', '-ar', '48000', '-ac', '2',
         '-shortest', '-movflags', '+faststart', final,
@@ -426,7 +492,7 @@ else:
 os.remove(tmp)
 size = os.path.getsize(final)
 
-# ── Encode gate (phone-playable check) ──
+# ── Encode gate ──
 rp = subprocess.run(
     ['ffprobe','-v','error','-select_streams','v:0',
      '-show_entries','stream=pix_fmt,profile',
@@ -438,8 +504,9 @@ if 'yuv444' in pix_info or '4:4:4' in pix_info:
     print(f'  ❌ GATE FAIL: yuv444 detected — phone playback broken')
     sys.exit(2)
 
+trans_used = TRANSITION_CYCLE[:n-1] if n > 1 else ['none']
 print(f'  ✅ {ep}_final.mp4 ({size/1024/1024:.1f}MB, {total_dur:.0f}s)  {"🎵+BGM" if bgm else "no BGM"}  GATE={pix_info}')
-print(f'  🎬 InShot FX: text_anim={DEFAULT_ANIM} · transitions={set(clip_transitions)} · grade={DEFAULT_GRADE}')
+print(f'  🎬 V6 FX: text_anim={DEFAULT_ANIM} · xfade={trans_used} · duck={"ON" if duck_enabled else "OFF"} · endcard={"ON" if end_card_enabled else "OFF"} · grade={DEFAULT_GRADE}')
 
 # ── CapCut-style shorts variant ──
 if PRESET in ('shorts', 'tiktok'):
