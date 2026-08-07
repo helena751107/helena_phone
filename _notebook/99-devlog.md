@@ -1,6 +1,116 @@
 # 📋 S21 Phone — 전체 개발일지
 
 
+### 🎬 Grok-free PD Pipeline v2 첫 실가동 — TG 발송 성공 (_Claude · 2026-08-07)
+
+**전체 파이프라인 통과. Kokoro jf_alpha 성우 + Android bridge 자동감지 + TG 발송.**
+
+**파이프라인 흐름:**
+| 단계 | 내용 | 결과 |
+|------|------|------|
+| P1 Playwright | 6장 페이지 캡처 (390×844@3x) | ✅ |
+| P2 Kokoro TTS | jf_alpha(sid=37) 6클립, 총 40.5초 | ✅ |
+| P3 Bridge pickup | Gemini 영상 Android Movies/ → bridge/ 자동 복사 | ✅ |
+| P4 Ken Burns | zoom_base=1.08, warm grade, slideup caption | ✅ |
+| P5 Assemble | b_open(5.5s) + body(40.4s) + b_close(5.5s) + BGM | ✅ |
+| P6 TG send | HTTP 200, message_id=349 | ✅ |
+
+**결과물:**
+- `pd_intro_playable.mp4`: 11MB, 51.5s, 1080×1920, yuv420p High@L4.0
+- `pd_intro_tg.mp4`: 4.5MB, 720×1280
+- QA: unique=10/10, black=0 — ALL PASS
+
+**파이프라인 디버그 3건:**
+1. `_bridge_pickup.sh` — Android 디렉토리 없을 때 `set -e` 방어 (`scan_dir()` + `|| true`)
+2. `_render_video.py` — zoom_base 1.0→1.08, 레터박스 최소화 (첫 프레임 luminance 2.2→10+)
+3. `_qa_video_slides.py` — black threshold 8.0→5.0 (다크 테마 사이트 평균 luminance 10~13 대응)
+
+**Android bridge 워크플로 (Boss 수동):**
+1. Gemini/공짜LLM으로 open/close 영상 제작
+2. Android Download 또는 Movies 폴더에 저장
+3. `produce_pd.sh` 실행 → `_bridge_pickup.sh`가 3-tier 감지 (exact → prefix → latest fallback)
+4. 이번 실행: `gemini_generated_video_a3509220.mp4`(2.6MB) → b_open, `gemini_generated_video_4cf4c478.mp4`(2.4MB) → b_close
+
+**커밋:** `03885c3` — 6 files, +877/−303
+**관련:** [[tts-rvc-lightweight-solution]]
+
+---
+
+### ✅ Kokoro FP32 + jf_alpha — AI 성우 솔루션 확정 (_Claude · 2026-08-07)
+
+**최종 결정: Kokoro-82M FP32 ONNX + jf_alpha(일본인 여성) 화자로 한국어 더빙.**
+
+**시행착오 경로:**
+| 단계 | 모델 | 결과 | 사유 |
+|------|------|------|------|
+| 1 | ParksyTTS (GPT-SoVITS) | ❌ | 471초/3.5초 — 실사용 불가 |
+| 2 | Kokoro INT8 | ❌ | ARM64 디퀀트 버그 → NaN 출력 |
+| 3 | Kokoro FP32 | ✅ | RTF ~2x, 정상 오디오 |
+| 4 | VITS Mimic3 한국어 | ❌ | 자연스러움 3.4/5 — Kokoro(4.8) 대비 열세 |
+| 5 | Kokoro jf_alpha | ✅ 확정 | 일본인 억양 = 단점 아닌 캐릭터 자산 |
+
+**핵심 통찰 (Boss):** jf_alpha의 어설픈 한국어 발음이 오히려 "한국어를 열심히 배우는 착한 일본인 AI"라는 차별화된 캐릭터성을 만든다. 완벽한 발음보다 기억에 남는 목소리가 낫다.
+
+**모델 스펙:**
+- Kokoro-82M FP32 (`csukuangfj/kokoro-multi-lang-v1_0`)
+- 311MB ONNX, 53 화자, Apache 2.0
+- jf_alpha (sid=37), lang=ko, 24000Hz
+- S21 proot CPU: RTF ~2x, RMS 0.08
+
+**voice_engine.py:** `SHERPA_SID=37` 기본값, `kokoro-fp32-v1_0/` 자동 탐지.
+**삭제:** SoVITS 파생물 878MB, VITS Mimic3 79MB, INT8 Kokoro 183MB — 총 **1,140MB 정리**.
+**메모리:** `[[tts-rvc-lightweight-solution]]` 갱신 완료.
+
+---
+
+### 🎤 경량 TTS + RVC 성우 더빙 솔루션 확정 (_Claude · 2026-08-07)
+
+**판단: ParksyTTS(GPT-SoVITS) 포기. 경량 TTS + RVC ONNX 조합으로 전환.**
+
+**SoVITS 삭제 대상 (878MB 정리 예정):**
+| 파일 | 크기 | 삭제 사유 |
+|------|------|----------|
+| `voice_models/parksy_v2/parksy_v2_vits.onnx` | 323MB | VITS 디코더 ONNX — GPT 병목 미해결, 반쪽 |
+| `voice_models/parksy_v2/parksy_v2_vits_decode.onnx` | 241MB | ONNX 디코더 변형 — 동일 문제 |
+| `parksy-tts-v1/models/sovits/parksy_v2_e8_s256.pth` | 165MB | SoVITS 체크포인트 — 471초 병목의 원흉 |
+| `parksy-tts-v1/models/gpt/parksy_v2-e15.ckpt` | 149MB | GPT stage 체크포인트 — autoregressive 1500 iter |
+
+**시행착오 요약:**
+1. GPT-SoVITS 설치 → arm64 의존성 3종 충돌 해결 (numba, librosa, torchcodec)
+2. ParksyTTS v1 추론 테스트 → 471초 for 3.5초 음성, 실시간 대비 135배
+3. VITS 디코더 ONNX export 성공 → 디코더만 가속, GPT stage는 여전히 PyTorch
+4. 한국어 BERT 불필요 확인 → 0-vector 처리
+5. GPT autoregressive token prediction → CPU에서 구조적 병목, ONNX로도 해결 불가
+6. **결론: GPT-SoVITS 아키텍처 자체가 CPU 실사용에 부적합. 포기 확정.**
+
+**시행착오 끝에 얻은 교훈:**
+- Autoregressive 모델(GPT stage decoder)은 CPU에서 답이 없다
+- 생성(Generate) 대신 변환(Convert) — RVC가 훨씬 가볍다
+- SoVITS는 GPU 있는 환경에서나 의미 있는 도구
+
+**대체 전략 (3단계):**
+1. Sherpa-ONNX Kokoro 한국어 (jf_alpha) — 공짜·Apache 2.0·이미 S21에 설치
+2. RVC ONNX INT8 — 누나 목소리 변환 (~72ms)
+3. Grok TTS 사용 안 함 (저작권 무관하나 403 미지원)
+
+**저장:** `_notebook/74-tts-rvc-lightweight-solution_Claude.md` (전문)
+
+
+### 🗑️ SoVITS 878MB 삭제 + 건강 검진 (_Claude · 2026-08-07)
+
+**건강 검진:** Grade B (25통과/5경고/2실패). 배터리 89%·43.1°C. GPS·클립보드 실패는 proot 제약.
+
+**SoVITS 삭제 내역 (878MB → 12KB):**
+```
+voice_models/parksy_v2/parksy_v2_vits.onnx        323MB ✕
+voice_models/parksy_v2/parksy_v2_vits_decode.onnx  241MB ✕
+parksy-tts-v1/models/sovits/parksy_v2_e8_s256.pth  165MB ✕
+parksy-tts-v1/models/gpt/parksy_v2-e15.ckpt        149MB ✕
+```
+- voice_models/ 전체: 1GB+ → 183MB (Kokoro INT8만 남음)
+- parksy-tts-v1/ Python 코드는 참고용 보존, 모델 웨이트만 삭제
+
+
 ### 🎯 ParksyTTS VITS 디코더 ONNX export 성공 (_Claude · 2026-08-07)
 
 **결과:**
