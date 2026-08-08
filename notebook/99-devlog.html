@@ -50,6 +50,7 @@
   </header>
   <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
 <ul>
+<li><a href="#notebook_titles-100-_claude-2026-08-08">🎨 보조 페이지 초등학생 비유 재작성 + NOTEBOOK_TITLES 100% (_Claude · 2026-08-08)</a></li>
 <li><a href="#_claude-2026-08-08">🎨 랜딩 페이지 전면 재작성 — 초등학생 비유 버전 (_Claude · 2026-08-08)</a></li>
 <li><a href="#pd-pipeline-v7-_claude-2026-08-07">🎬 PD Pipeline V7 — 프로급 업그레이드 완료 (_Claude · 2026-08-07)</a></li>
 <li><a href="#grok-free-pd-pipeline-v2-tg-_claude-2026-08-07">🎬 Grok-free PD Pipeline v2 첫 실가동 — TG 발송 성공 (_Claude · 2026-08-07)</a></li>
@@ -325,7 +326,35 @@
     <button type="button" id="wzCopy" data-cursor>본문 복사</button>
   </div>
   <article class="wz-prose" id="wzProse" data-app="doc">
-    <h3 id="_claude-2026-08-08">🎨 랜딩 페이지 전면 재작성 — 초등학생 비유 버전 (_Claude · 2026-08-08)</h3>
+    <h3 id="notebook_titles-100-_claude-2026-08-08">🎨 보조 페이지 초등학생 비유 재작성 + NOTEBOOK_TITLES 100% (_Claude · 2026-08-08)</h3>
+<p><strong>자체 평가 지적사항 전면 보완:</strong></p>
+<ol>
+<li>
+<p><strong>보조 페이지 4종 재작성:</strong> README.md · CONSTITUTION.md · GUIDE.md · CLAUDE.md<br>
+   - README: &ldquo;주머니 속 마법 공구상자&rdquo; 커버, 로봇·비밀방·전시장 비유<br>
+   - CONSTITUTION: 16개 조항 유지, 수호천사/꿈공장/바통터치 메타포 적용<br>
+   - GUIDE: &ldquo;레고 조립 설명서&rdquo; 비유, 3단계(앱2개→주문1줄→확인)<br>
+   - CLAUDE: &ldquo;로봇 친구들 사용 설명서&rdquo;, ParksyTTS 기술정보 보존</p>
+</li>
+<li>
+<p><strong>NOTEBOOK_TITLES 100% 등록:</strong> 47→99개 수동 한글 타이틀 (52개 신규 등록)<br>
+   - coverage checker: <code>manual_titles=99, auto_titled=0</code></p>
+</li>
+<li>
+<p><strong>아코디언 기본 펼침:</strong> 첫 2개 섹션(tracks, system) 기본 열림<br>
+   - <code>OPEN_DEFAULT = new Set(['tracks', 'system'])</code></p>
+</li>
+<li>
+<p><strong>깨진 링크 수정:</strong> 76-page-writing-standard의 <code>./file.md</code> → <code>다른문서.md</code> (문서 예제로 변경)</p>
+</li>
+<li>
+<p><strong>helena-faith·psycare:</strong> GitHub에 아직 레포 없음 → 추후 생성 시 빌드</p>
+</li>
+</ol>
+<p><strong>결과:</strong><br>
+- gap=0, coverage=111.8%, manual_titles=100%<br>
+- 4레포 전부 재빌드·푸시 완료</p>
+<h3 id="_claude-2026-08-08">🎨 랜딩 페이지 전면 재작성 — 초등학생 비유 버전 (_Claude · 2026-08-08)</h3>
 <p><strong>요청:</strong> &ldquo;아주 초등학생도 이해할 수 있는 비유로 전부 다 랜딩 페이지 웹페이지를 전부 다 바꿔&rdquo;</p>
 <p><strong>완료:</strong> <code>index.html</code>(1,882줄) 전면 재작성. CSS/JS 22개 인터랙티브 기능 전부 유지, 콘텐츠 텍스트만 교체.</p>
 <p><strong>중심 비유 — <code>주머니 속 마법 공구상자</code>:</strong><br>

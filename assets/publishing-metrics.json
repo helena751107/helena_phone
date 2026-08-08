@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-08T04:16:25Z",
+  "generated": "2026-08-08T04:41:35Z",
   "agent": "_Claude",
   "role": "publisher",
   "repos": {
@@ -20,9 +20,7 @@
         "standard": 27,
         "minimal": 5
       },
-      "broken_links": [
-        "_notebook/76-page-writing-standard_Claude.md: ./file.md → not found"
-      ]
+      "broken_links": []
     },
     "helana_log": {
       "source_md": 15,

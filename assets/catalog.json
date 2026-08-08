@@ -10,7 +10,7 @@
   {
     "src": "CLAUDE.md",
     "out": "claude.html",
-    "title": "S21 Phone — 실무 규칙",
+    "title": "S21 Phone — 로봇 친구들 사용 설명서",
     "section": "Core",
     "kind": "md",
     "deck": "AI 3종 · Paste Pipeline · 인프라"
@@ -18,7 +18,7 @@
   {
     "src": "README.md",
     "out": "readme.html",
-    "title": "📱 S21 Phone — AI Workstation",
+    "title": "📱 주머니 속 마법 공구상자",
     "section": "Core",
     "kind": "md",
     "deck": "숫자 · 구조 · 빠른 링크"
@@ -26,7 +26,7 @@
   {
     "src": "GUIDE.md",
     "out": "guide.html",
-    "title": "📖 S21 Phone 최적화 — 전체 가이드",
+    "title": "📖 S21 Phone 마법 공방 — 설치 설명서",
     "section": "Core",
     "kind": "md",
     "deck": "Termux부터 방송까지"
@@ -600,36 +600,12 @@
     "deck": "Boss 요청: 문서↔웹페이지 브릿지 + 5레포 통일 웹 표면."
   },
   {
-    "src": "_notebook/39-self-platform-justification.md",
-    "out": "notebook/39-self-platform-justification.html",
-    "title": "39 self platform justification",
-    "section": "Notebook",
-    "kind": "md",
-    "deck": ""
-  },
-  {
     "src": "_notebook/40-definitive-dev-whitepaper.md",
     "out": "notebook/40-definitive-dev-whitepaper.html",
     "title": "S21 Phone — 개발 백서 (완결판)",
     "section": "Notebook",
     "kind": "md",
     "deck": "© 2026 Helena Park · 대필작가-간병인"
-  },
-  {
-    "src": "_notebook/40-pc-wsl-setup_Boss.md",
-    "out": "notebook/40-pc-wsl-setup_Boss.html",
-    "title": "🏠 누나 PC — 최종 (WSL 없음, Windows Native) — Boss 2026-08-05",
-    "section": "Notebook",
-    "kind": "md",
-    "deck": ""
-  },
-  {
-    "src": "_notebook/41-github-free-maxout_Boss.md",
-    "out": "notebook/41-github-free-maxout_Boss.html",
-    "title": "🆓 GitHub 공짜 생태계 끝까지 쥐어짜기 — Boss 2026-08-05",
-    "section": "Notebook",
-    "kind": "md",
-    "deck": ""
   },
   {
     "src": "_notebook/41-naver-blog-intro-final.md",
@@ -648,36 +624,12 @@
     "deck": "Gemini 분석 + Boss 검증 | 2026-07-27"
   },
   {
-    "src": "_notebook/42-pc-sapjil-postmortem_Boss.md",
-    "out": "notebook/42-pc-sapjil-postmortem_Boss.html",
-    "title": "🔥 PC 삽질 포스트모템 — 왜 폰 하나로 다 하는가",
-    "section": "Notebook",
-    "kind": "md",
-    "deck": "2026-08-05. Boss + Claude Code 4시간 논쟁의 기록."
-  },
-  {
     "src": "_notebook/43-ui-less-architect.md",
     "out": "notebook/43-ui-less-architect.html",
     "title": "🎯 메뉴를 몰라도 되는 이유 — AI 시대의 진정한 사용자",
     "section": "Notebook",
     "kind": "md",
     "deck": "Gemini 분석 | 2026-07-27"
-  },
-  {
-    "src": "_notebook/44-naver-admin-automation-review_Grok.md",
-    "out": "notebook/44-naver-admin-automation-review_Grok.html",
-    "title": "Naver Admin 자동화 — Claude 지시 리뷰 + 방법 지도 (_Grok)",
-    "section": "Notebook",
-    "kind": "md",
-    "deck": "2026-07-27 · Claude pts/0 마지막 지시 재검토"
-  },
-  {
-    "src": "_notebook/45-naver-admin-playwright-feasibility_Grok.md",
-    "out": "notebook/45-naver-admin-playwright-feasibility_Grok.html",
-    "title": "Naver Admin 자동화 가능 여부 — 폰 Playwright 1회 시드 (_Grok)",
-    "section": "Notebook",
-    "kind": "md",
-    "deck": "저장일: 2026-07-27 · agent _Grok"
   },
   {
     "src": "_notebook/46-first-install-case-study-meeting-prep_Boss.md",
@@ -888,20 +840,20 @@
     "deck": "2026-08-06 · Boss: 대충 프롬프트 금지. 포토그래퍼·예술 작품 수준. 버전 올리며 실험."
   },
   {
-    "src": "_notebook/69-session-resume-pd-bridge-v1_Grok.md",
-    "out": "notebook/69-session-resume-pd-bridge-v1_Grok.html",
-    "title": "69 · 세션 리줌 — PD 브릿지 v1 재조립 (_Grok)",
-    "section": "Notebook",
-    "kind": "md",
-    "deck": "2026-08-06 · 끊긴 세션 이어서 완료"
-  },
-  {
     "src": "_notebook/69-voice-engine-plugin-final_Grok.md",
     "out": "notebook/69-voice-engine-plugin-final_Grok.html",
     "title": "69 · 성우 플러그인 최종 — Grok 정식 vs Edge 함정 (_Grok)",
     "section": "Notebook",
     "kind": "md",
     "deck": "2026-08-06 · Boss 판단: 비수익화여도 Edge 쓰지 않는다. 채널이 날아가면 억울하다."
+  },
+  {
+    "src": "_notebook/69-session-resume-pd-bridge-v1_Grok.md",
+    "out": "notebook/69-session-resume-pd-bridge-v1_Grok.html",
+    "title": "69 · 세션 리줌 — PD 브릿지 v1 재조립 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-08-06 · 끊긴 세션 이어서 완료"
   },
   {
     "src": "_notebook/70-ai-voice-core-gift-local-train_Grok.md",
@@ -968,6 +920,14 @@
     "deck": "모든 `_notebook/*.md`가 통일된 웹 UI로 번역되기 위해 지켜야 할 최소·권장·프리미엄 규칙."
   },
   {
+    "src": "_notebook/tistory-master-guide_Claude.md",
+    "out": "notebook/tistory-master-guide_Claude.html",
+    "title": "📝 티스토리 완전 정복 — 5채널 전략·자동화·파이프 총정리",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-08-08 · Claude Code 종합 정리"
+  },
+  {
     "src": "_notebook/allocation-rate-2026-07-28.md",
     "out": "notebook/allocation-rate-2026-07-28.html",
     "title": "Allocation Rate — 2026-07-28",
@@ -976,12 +936,52 @@
     "deck": "S21 Phone 전체 자산 배분율 + 저장소 메커니즘 분석"
   },
   {
-    "src": "_notebook/tistory-master-guide_Claude.md",
-    "out": "notebook/tistory-master-guide_Claude.html",
-    "title": "📝 티스토리 완전 정복 — 5채널 전략·자동화·파이프 총정리",
+    "src": "_notebook/39-self-platform-justification.md",
+    "out": "notebook/39-self-platform-justification.html",
+    "title": "자체 플랫폼 정당화",
     "section": "Notebook",
     "kind": "md",
-    "deck": "2026-08-08 · Claude Code 종합 정리"
+    "deck": ""
+  },
+  {
+    "src": "_notebook/42-pc-sapjil-postmortem_Boss.md",
+    "out": "notebook/42-pc-sapjil-postmortem_Boss.html",
+    "title": "🔥 PC 삽질 포스트모템 — 왜 폰 하나로 다 하는가",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-08-05. Boss + Claude Code 4시간 논쟁의 기록."
+  },
+  {
+    "src": "_notebook/41-github-free-maxout_Boss.md",
+    "out": "notebook/41-github-free-maxout_Boss.html",
+    "title": "🆓 GitHub 공짜 생태계 끝까지 쥐어짜기 — Boss 2026-08-05",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": ""
+  },
+  {
+    "src": "_notebook/40-pc-wsl-setup_Boss.md",
+    "out": "notebook/40-pc-wsl-setup_Boss.html",
+    "title": "🏠 누나 PC — 최종 (WSL 없음, Windows Native) — Boss 2026-08-05",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": ""
+  },
+  {
+    "src": "_notebook/44-naver-admin-automation-review_Grok.md",
+    "out": "notebook/44-naver-admin-automation-review_Grok.html",
+    "title": "Naver Admin 자동화 — Claude 지시 리뷰 + 방법 지도 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-07-27 · Claude pts/0 마지막 지시 재검토"
+  },
+  {
+    "src": "_notebook/45-naver-admin-playwright-feasibility_Grok.md",
+    "out": "notebook/45-naver-admin-playwright-feasibility_Grok.html",
+    "title": "Naver Admin 자동화 가능 여부 — 폰 Playwright 1회 시드 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "저장일: 2026-07-27 · agent _Grok"
   },
   {
     "src": "g/install.sh",

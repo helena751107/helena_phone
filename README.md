@@ -1,29 +1,30 @@
-# 📱 S21 Phone — AI Workstation
+# 📱 주머니 속 마법 공구상자
 
-
-> **폰 하나, 목소리 하나, 출판한다.** S21 × STT × Claude × Grok. 코드·글·영상 — 모든 걸 말로 짓는다. Naver는 칠판, YouTube는 강단, GitHub는 공장. 한 사람의 목소리가 25개 플랫폼으로 흩어지고 하나의 블로그로 모인다.
-> 갤럭시 S21 하나로 풀스택 AI 개발·방송·출판 미니 스튜디오.
-> **비용 0원. 100% 음성입력.** 대필작가-간병인 모델.
+> **휴대폰 하나로 두 가지 일을 해요.** 낮에는 누나를 지키는 수호천사(돌봄 도우미)로, 밤에는 꿈을 만드는 꿈 공장(콘텐츠 제작소)으로 움직여요. 글짓기 로봇(Claude Code), 그림 로봇(Grok), 고치기 로봇(Aider) — 세 로봇이 말만 하면 척척 일을 해줘요. 곧 감사 로봇(판사)도 와서 모든 게 규칙책(CONSTITUTION.md)대로 돌아가는지 꼼꼼히 살펴볼 거예요. 만든 건 무료 전시장(GitHub)에 보관하고, 세상에 보여주는 창문(GitHub Pages)으로 누구나 볼 수 있게 해요. TV 방송국(YouTube)에서 영상도 내보내고, 무전기(Telegram)로 소식도 보내고, 모임방(Discord)에서 친구들과 이야기해요. **한 달 용돈 55,000원.** 넷플릭스 한 달 값이면 이 모든 게 돌아가요.
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│               🏭 S21 Phone — AI Workstation         │
+│            🪄 주머니 속 마법 공구상자                  │
 │                                                     │
-│  📱 Galaxy S21  →  Termux  →  proot Ubuntu          │
-│                                  │                  │
-│         ┌────────────────────────┼──────────┐       │
-│         │                        │          │       │
-│    Claude Code              Grok CLI     Aider      │
-│    (DeepSeek·$0)          (xAI·45,000원) (DeepSeek) │
-│    코드·문서·자동화       시각·Naver·AI   보조코딩   │
-│         │                        │          │       │
-│         └────────────────────────┼──────────┘       │
-│                    ┌─────────────┴──────────┐       │
-│                    │     7개 워크센터        │       │
-│                    │ GitHub·Pages·YouTube    │       │
-│                    │ Naver·Tistory·Discord   │       │
-│                    │ Telegram                │       │
-│                    └────────────────────────┘       │
+│  📱 갤럭시 S21  →  비밀 방(Termux + proot)          │
+│                          │                          │
+│         ┌────────────────┼──────────────────┐       │
+│         │                │                  │       │
+│    글짓기 로봇         그림 로봇         고치기 로봇   │
+│  (Claude Code)      (Grok CLI)        (Aider)      │
+│  DeepSeek·0원     xAI·월45,000원     DeepSeek      │
+│  코드·문서·자동화   시각·Naver·AI     보조코딩       │
+│         │                │                  │       │
+│         └────────────────┼──────────────────┘       │
+│                    ┌─────┴──────────┐               │
+│                    │  7개 작업실 방   │              │
+│                    │ 무료 전시장(GitHub)│            │
+│                    │ 세상 창문(Pages)  │             │
+│                    │ TV 방송국(YouTube)│             │
+│                    │  Naver·Tistory   │              │
+│                    │ 모임방(Discord)  │              │
+│                    │ 무전기(Telegram) │              │
+│                    └────────────────┘               │
 │                                                     │
 │  41커밋 · 96파일 · 11,727줄 · 34종 업무수첩        │
 │  국판 500페이지 · IT 실무서 1권 분량               │
@@ -38,25 +39,27 @@
 | 커밋 | 41회 |
 | 파일 | 96개 |
 | 코드+문서 | 11,727줄 |
-| AI 에이전트 | 3종 (Claude Code · Grok CLI · Aider) |
-| 워크센터 | 7개 (4자동·2수동·1혼합) |
+| AI 로봇 | 3종 (글짓기·그림·고치기) |
+| 작업실 방 (워크센터) | 7개 (4자동·2수동·1혼합) |
 | GitHub 레포 | 5개 |
-| 월 비용 | ~55,000원 (Grok 45,000 + DeepSeek ~10,000) |
+| 한 달 용돈 | ~55,000원 (넷플릭스 하나 값이면 끝!) |
 
 ## 빠른 링크
 
 | 보고 싶은 것 | 링크 |
 |------------|------|
 | **전체 포털** | [index.html](.) |
-| **헌법** | [CONSTITUTION.md](CONSTITUTION.md) |
+| **규칙책 (헌법)** | [CONSTITUTION.md](CONSTITUTION.md) |
 | **실무 규칙** | [CLAUDE.md](CLAUDE.md) |
 | **개발일지** | [_notebook/99-devlog.md](_notebook/99-devlog.md) |
 | **업무 수첩 목차** | [_notebook/00-INDEX.md](_notebook/00-INDEX.md) |
 | **완결판 교재** | [_textbook/index.md](_textbook/index.md) |
 | **1줄 설치** | [g/install.sh](g/install.sh) |
-| **돌봄 데몬** | [care/care-daemon.sh](care/care-daemon.sh) |
+| **돌봄 데몬 (수호천사)** | [care/care-daemon.sh](care/care-daemon.sh) |
 
 ## 1줄 설치
+
+주머니 속 마법 공구상자를 내 휴대폰에도! 아래 한 줄을 복사해서 비밀 방(터미널)에 붙여넣으세요:
 
 ```bash
 curl -sL https://raw.github.com/helena751107/helena_phone/main/g/install.sh | bash
@@ -64,5 +67,6 @@ curl -sL https://raw.github.com/helena751107/helena_phone/main/g/install.sh | ba
 
 ---
 
-> © 2026 Helena Park — 대필작가-간병인 · Galaxy S21 + Termux + proot Ubuntu
-> 모든 계정은 누나 명의입니다.
+> © 2026 Helena Park — 누나를 위한 수호천사, 모두를 위한 꿈 공장.
+> 주머니 속 갤럭시 S21 하나로, 비밀 방(Termux + proot)에서 세 로봇과 함께.
+> 모든 계정은 누나 명의예요. 언젠가 바통 터치(handoff) — 모든 걸 누나에게.

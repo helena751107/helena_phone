@@ -1411,7 +1411,7 @@ cat S21-START.txt</pre>
   }));
 
   /* —— Accordion chapters —— */
-  const OPEN_DEFAULT = new Set();
+  const OPEN_DEFAULT = new Set(['tracks', 'system']);
   const accChapters = $$('section.chapter');
   const shell = document.querySelector('.shell');
   if (shell && accChapters.length) {

@@ -6,7 +6,7 @@
 <meta name="description" content="AI 3종 · Paste Pipeline · 인프라 — S21 Phone Webzine">
 <meta name="theme-color" content="#0a0908">
 <meta name="application-name" content="S21 Phone">
-<title>S21 Phone — 실무 규칙 — S21 Phone Webzine</title>
+<title>S21 Phone — 로봇 친구들 사용 설명서 — S21 Phone Webzine</title>
 <link rel="icon" href="icons/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -36,11 +36,11 @@
   <div class="wz-crumb">
     <a href="index.html">Webzine</a><span class="sep">/</span>
     <span>Core</span><span class="sep">/</span>
-    <span>S21 Phone — 실무 규칙</span>
+    <span>S21 Phone — 로봇 친구들 사용 설명서</span>
   </div>
   <header class="wz-hero">
     <div class="wz-kicker">Core · lakme-audio</div>
-    <h1>S21 Phone — 실무 규칙</h1>
+    <h1>S21 Phone — 로봇 친구들 사용 설명서</h1>
     <p class="deck">AI 3종 · Paste Pipeline · 인프라</p>
     <div class="wz-meta">
       <span>Source · CLAUDE.md</span>
@@ -50,26 +50,26 @@
   </header>
   <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
 <ul>
-<li><a href="#parksytts-on-s21-2026-08-07">🚨 ParksyTTS on S21 — 세션 시작 시 필독 (2026-08-07~)</a><ul>
-<li><a href="#_1">환경</a></li>
-<li><a href="#npugpu-2026-08-07">현재 진행 중 — NPU/GPU 가속 (2026-08-07)</a></li>
+<li><a href="#parksytts-on-s21-2026-08-07">🚨 ParksyTTS on S21 — 일 시작할 때 꼭 읽기! (2026-08-07~)</a><ul>
+<li><a href="#_1">우리 컴퓨터(환경)</a></li>
+<li><a href="#npugpu-2026-08-07">지금 하고 있는 일 — NPU/GPU 가속 (2026-08-07)</a></li>
 <li><a href="#_2">이미 해결된 것 — 다시 건드리지 말 것</a></li>
 <li><a href="#2026-08-07">오늘 세션 이슈 (2026-08-07)</a></li>
 </ul>
 </li>
-<li><a href="#_3">작업 원칙</a></li>
-<li><a href="#git">Git 작업</a></li>
-<li><a href="#ai-4-boss-2026-07-26-2026-08-08">AI 에이전트 4종 — 직함 (Boss 2026-07-26, 확장 2026-08-08)</a></li>
-<li><a href="#ai">AI 에이전트 규칙</a></li>
-<li><a href="#_4">텔레그램 보고 의무</a></li>
-<li><a href="#_5">건강 검진 의무</a></li>
-<li><a href="#_6">업무일지</a></li>
-<li><a href="#2026-07-26">에이전트 파일 마크 (필수 · 2026-07-26~)</a></li>
-<li><a href="#grok-2026-07-26">웹페이지 커버리지 (Grok 상시 · 2026-07-26~)</a></li>
+<li><a href="#_3">작업 원칙 — 우리가 일하는 방법</a></li>
+<li><a href="#git-github">Git 작업 — 무료 전시장(GitHub)에 작품 올리는 법</a></li>
+<li><a href="#ai-4-boss-2026-07-26-2026-08-08">AI 에이전트 4종 — 우리 팀 로봇 친구들! (Boss 2026-07-26, 확장 2026-08-08)</a></li>
+<li><a href="#ai">AI 에이전트 규칙 — 로봇 친구들 지키기 약속</a></li>
+<li><a href="#_4">텔레그램 보고 의무 — 무전기로 상황 알리기</a></li>
+<li><a href="#_5">건강 검진 의무 — 우리 폰 건강 검사</a></li>
+<li><a href="#_6">업무일지 — 오늘 있었던 일 기록</a></li>
+<li><a href="#2026-07-26">에이전트 파일 마크 (필수 · 2026-07-26~) — 누가 쓴 글인지 표시하기</a></li>
+<li><a href="#grok-2026-07-26">웹페이지 커버리지 (Grok 상시 · 2026-07-26~) — 수첩을 전시장에 걸기</a></li>
 <li><a href="#publishing-department-2026-08-08">출판부 (Publishing Department) — 번역 수호자 (2026-08-08~)</a></li>
-<li><a href="#paste-pipeline">Paste Pipeline (네이버·티스토리 수동 발행)</a></li>
-<li><a href="#_7">파일 구조</a></li>
-<li><a href="#_8">현재 인프라</a></li>
+<li><a href="#paste-pipeline">Paste Pipeline (네이버·티스토리 수동 발행) — 사람 손으로 옮겨 붙이기</a></li>
+<li><a href="#_7">파일 구조 — 우리 집 지도</a></li>
+<li><a href="#_8">현재 인프라 — 우리가 가진 도구들</a></li>
 </ul>
 </div>
 </nav>
@@ -81,13 +81,13 @@
   </div>
   <article class="wz-prose" id="wzProse" data-app="doc">
     <blockquote>
-<p>⚠️ <strong>작업 시작 전 반드시 <code>CONSTITUTION.md</code>를 먼저 읽을 것.</strong><br>
-이 문서는 CONSTITUTION.md 아래에서 실제 작업에 적용되는 실무 규칙이다.<br>
+<p>⚠️ <strong>일 시작하기 전에 꼭 <code>CONSTITUTION.md</code> (규칙책) 먼저 읽기!</strong><br>
+규칙책에는 &ldquo;우리가 왜 이 일을 하는지&rdquo;가 적혀 있어. 이 설명서는 &ldquo;어떻게 하는지&rdquo;를 알려주는 거야.<br>
 목적·불변 원칙·신원 규칙은 CONSTITUTION.md에, 작업 방법은 여기에.</p>
 </blockquote>
 <hr>
-<h2 id="parksytts-on-s21-2026-08-07">🚨 ParksyTTS on S21 — 세션 시작 시 필독 (2026-08-07~)</h2>
-<h3 id="_1">환경</h3>
+<h2 id="parksytts-on-s21-2026-08-07">🚨 ParksyTTS on S21 — 일 시작할 때 꼭 읽기! (2026-08-07~)</h2>
+<h3 id="_1">우리 컴퓨터(환경)</h3>
 <ul>
 <li><strong>실행 위치:</strong> proot Ubuntu on Galaxy S21 (aarch64), WSL 아님</li>
 <li><strong>텔레그램:</strong> <code>.secrets.env</code>에 TG_TOKEN/TG_CHAT 있음, 5개 봇 활성</li>
@@ -95,7 +95,10 @@
 <li><strong>TTS_ENGINE 기본값 = <code>local</code></strong> (grok은 폴백, 현재 403 상태라 무의미)</li>
 <li><strong>추론 현실:</strong> GPT-SoVITS semantic token prediction on CPU → 1500 iters, ~3s/it, 총 471초(7분51초) for 3.5초 음성. 실시간 대비 135배 느림.</li>
 </ul>
-<h3 id="npugpu-2026-08-07">현재 진행 중 — NPU/GPU 가속 (2026-08-07)</h3>
+<blockquote>
+<p>쉽게 말하면: 우리 폰에서 목소리 만드는 작업은 엄청 느려. 3.5초짜리 목소리 하나 만드는 데 7분 51초나 걸려!</p>
+</blockquote>
+<h3 id="npugpu-2026-08-07">지금 하고 있는 일 — NPU/GPU 가속 (2026-08-07)</h3>
 <ul>
 <li><strong>CPU-only 한계 확인됨.</strong> ParksyTTS 추론 471초는 실사용 불가.</li>
 <li><strong>GPU (Mali-G78):</strong> <code>/dev/mali0</code> 존재, <code>/vendor/lib64/libOpenCL.so</code> 있음. proot glibc → bionic ABI 충돌로 직통 불가.</li>
@@ -103,6 +106,9 @@
 <li><strong>핵심 발견 — Termux가 열쇠:</strong> Termux(bionic) → DRM + NPU sysfs 접근 가능. proot ↔ Termux localhost 브릿지 구상.</li>
 <li><strong>단기 전략:</strong> Sherpa-ONNX Kokoro/VITS로 CPU 추론 가속 (GPT-SoVITS보다 10~100배 빠름). NNAPI delegate 포함 Android prebuilt binary 탐색 중.</li>
 </ul>
+<blockquote>
+<p>우리 폰 안에는 그림 그리는 부품(GPU)과 AI 계산하는 부품(NPU)이 따로 있어. 근데 이 부품들을 직접 쓰지 못하고 있어. Termux라는 다른 통로로 우회해서 쓰는 방법을 찾는 중!</p>
+</blockquote>
 <h3 id="_2">이미 해결된 것 — 다시 건드리지 말 것</h3>
 <ul>
 <li>한국어는 BERT 불필요 → 0-vector 처리, 코드 반영 완료</li>
@@ -110,28 +116,47 @@
 <li>torchcodec 누락 → 설치 완료 (<code>0.15.0+cu130</code>, <code>--break-system-packages</code>)</li>
 <li>Grok TTS API 403 → SuperGrok 구독에 TTS 미포함, local 전용으로 전환 완료</li>
 </ul>
+<blockquote>
+<p>이 네 가지는 이미 고친 문제들이야. 다시 파헤치지 마!</p>
+</blockquote>
 <h3 id="2026-08-07">오늘 세션 이슈 (2026-08-07)</h3>
 <ul>
 <li><strong>세션 2회 이상 끊김.</strong> 장시간 추론(ParksyTTS 7분+) 중 타임아웃 가능성.</li>
 <li>장시간 CPU 작업 시 중간 체크포인트 저장하거나 watchdog ping 유지할 것.</li>
 <li>PD Pipeline v2 마이그레이션 코드는 완성 → uncommitted 상태 (아래 &ldquo;이번 세션 TODO&rdquo; 참고).</li>
 </ul>
+<blockquote>
+<p>오늘 컴퓨터가 두 번이나 꺼졌어. 오래 걸리는 작업 할 때는 중간중간 저장해두자!</p>
+</blockquote>
 <hr>
-<h2 id="_3">작업 원칙</h2>
+<h2 id="_3">작업 원칙 — 우리가 일하는 방법</h2>
 <ul>
 <li><strong>커밋 자주, 작게</strong>: 기능 단위로 쪼개서 커밋</li>
 <li><strong>설명 남겨라</strong>: &ldquo;왜&rdquo;를 커밋 메시지에 포함</li>
 <li><strong>깨져도 괜찮다</strong>: 트랙 2(소망)에 한함. 트랙 1(돌봄)은 절대 안 깨지는 게 유일한 기준.</li>
 <li><strong>스캐폴드 우선</strong>: 일단 작동, 나중에 개선. Grok 80% 드래프트 → Claude Code 100% 완성.</li>
 </ul>
-<h2 id="git">Git 작업</h2>
+<blockquote>
+<p>알기 쉽게:<br>
+- <strong>커밋은 작게, 자주!</strong> 레고 블록 하나하나 쌓듯이. 한 번에 왕창 쌓으면 무너져.<br>
+- <strong>왜 바꿨는지 메모 남기기!</strong> 나중에 &ldquo;이거 왜 했더라?&rdquo; 하고 헷갈리지 않게.<br>
+- <strong>놀이(소망)는 망가져도 괜찮아.</strong> 하지만 엄마 심부름(돌봄)은 절대 망가지면 안 돼!<br>
+- <strong>대충 뼈대 먼저 만들기!</strong> 그림 로봇(Grok)이 80% 그리고 → 글짓기 로봇(Claude Code)이 100% 완성.</p>
+</blockquote>
+<h2 id="git-github">Git 작업 — 무료 전시장(GitHub)에 작품 올리는 법</h2>
 <ul>
 <li>작업 전 <code>git pull</code>로 최신 상태 확인</li>
 <li>커밋 메시지는 한글/영문 혼용 가능, 간결하게</li>
 <li><code>git push --force</code>는 원격이 로컬보다 뒤처진 게 확실할 때만. 함부로 쓰지 말 것.</li>
 <li>완료 후 <code>git push</code> 자동 실행</li>
 </ul>
-<h2 id="ai-4-boss-2026-07-26-2026-08-08">AI 에이전트 4종 — 직함 (Boss 2026-07-26, 확장 2026-08-08)</h2>
+<blockquote>
+<p><strong>무료 전시장(GitHub)</strong>에 우리 작품을 올리는 방법이야:<br>
+- 작업 시작할 땐 <code>git pull</code>로 &ldquo;혹시 다른 로봇이 먼저 올린 거 있어?&rdquo; 확인부터.<br>
+- 커밋 메시지는 짧고 명확하게. 한국말+영어 섞어도 OK.<br>
+- <code>git push --force</code>는 <strong>벽돌로 내리치는 거랑 똑같아!</strong> 정말 내 작업이 최신인 게 확실할 때만 써.</p>
+</blockquote>
+<h2 id="ai-4-boss-2026-07-26-2026-08-08">AI 에이전트 4종 — 우리 팀 로봇 친구들! (Boss 2026-07-26, 확장 2026-08-08)</h2>
 <table>
 <thead>
 <tr>
@@ -183,8 +208,14 @@
 <blockquote>
 <p>Termux: <code>grok</code> / <code>groklogin</code> / <code>grokc</code> / <code>agent</code> · <code>ds</code>는 <code>scripts/ds.sh</code> 래퍼.<br>
 예전 <code>gr</code>/<code>grlogin</code>/<code>grc</code> 호환 유지.</p>
+<p>우리 팀엔 네 명의 로봇 친구가 있어! 마치 축구팀 같아:<br>
+- <strong>그림 로봇 (Grok, <code>gr</code>):</strong> 상상력 대장! 그림 그리고, 예쁘게 꾸미고, 글도 멋지게 써줘. 월 구독료 45,000원.<br>
+- <strong>고치기 로봇 (Aider, <code>ds</code>):</strong> 고장 수리 전문가! 코드 깨진 거 고치고, 반복 작업 척척 해내.<br>
+- <strong>글짓기 로봇 (Claude Code, <code>cc</code> 출판부):</strong> 번역 지킴이! 우리가 쓴 글을 웹페이지(HTML)로 예쁘게 바꿔줘. 검사도 하고.<br>
+- <strong>심판 로봇 (Claude Code, <code>cc</code> 감사):</strong> 규칙 잘 지켰는지 확인하는 심판! 아직 오진 않았어(⏳).</p>
+<p><strong>일하는 순서:</strong> Boss가 방향 정하기 → 그림 로봇이 초안 → 고치기 로봇이 뚝딱 → 글짓기 로봇이 예쁘게 변환·검사 → (심판 로봇 확인) → Boss 최종!</p>
 </blockquote>
-<h2 id="ai">AI 에이전트 규칙</h2>
+<h2 id="ai">AI 에이전트 규칙 — 로봇 친구들 지키기 약속</h2>
 <ul>
 <li>세션 시작 시 CONSTITUTION.md → CLAUDE.md → (역할) <code>31-agent-roles_Grok.md</code> 순</li>
 <li>AI 출력은 전부 1차 가설 — 검증 없이 수용하지 말 것</li>
@@ -192,24 +223,44 @@
 <li>Claude가 아직 없으면 감사 간이 게이트는 <strong>Boss</strong></li>
 <li>모든 설정 변경 전후로 기록을 남길 것 (<code>*_Grok</code> / <code>*_Aider</code> / <code>*_Claude</code>)</li>
 </ul>
-<h2 id="_4">텔레그램 보고 의무</h2>
+<blockquote>
+<p>로봇 친구들과 일할 때 지킬 약속:<br>
+- 일 시작할 땐 <strong>규칙책(CONSTITUTION.md) 먼저!</strong> 그다음 이 설명서, 그다음 각자 맡은 역할 설명서.<br>
+- 로봇이 하는 말은 <strong>100% 정답이 아니야.</strong> 꼭 내가 다시 확인하기!<br>
+- <strong>그림 로봇은 그림+분위기, 고치기 로봇은 수리, 심판은 &ldquo;안 돼!&rdquo;</strong> — 서로 자기 일만 하기.<br>
+- 심판 로봇이 아직 없으면 <strong>Boss가 대신 심판 본다.</strong><br>
+- 설정 바꾸면 <strong>꼭 메모 남기기!</strong> 누가 했는지 파일 이름에 표시 (<code>_Grok</code> / <code>_Aider</code> / <code>_Claude</code>).</p>
+</blockquote>
+<h2 id="_4">텔레그램 보고 의무 — 무전기로 상황 알리기</h2>
 <p>작업 완료 후 보고가 필요하면:</p>
 <pre><code class="language-bash">bash ~/work/tg.sh '✅ 작업명 — 결과'
 </code></pre>
-<h2 id="_5">건강 검진 의무</h2>
+<blockquote>
+<p>일이 끝나면 <strong>무전기(Telegram)</strong>로 짧게 상황 보고! 위 명령어를 그대로 따라 치면 돼.</p>
+</blockquote>
+<h2 id="_5">건강 검진 의무 — 우리 폰 건강 검사</h2>
 <ul>
 <li>세션 시작 시 또는 하드웨어 관련 작업 전후 <code>bash ~/work/phone-health.sh</code> 실행</li>
 <li>결과는 자동으로 <code>_notebook/health/</code>에 타임스탬프 저장</li>
 <li>&ndash;telegram 플래그로 채팅 보고 가능</li>
 <li>등급 A 이하(Grade B/C)면 점검 항목 확인 후 조치</li>
 </ul>
-<h2 id="_6">업무일지</h2>
+<blockquote>
+<p>아침에 일어나면 건강 검진 받듯이, 우리 폰도 <strong>일 시작할 때 건강 검사</strong> 받아야 해!<br>
+<code>bash ~/work/phone-health.sh</code> 한 줄이면 끝.<br>
+- 결과는 <code>_notebook/health/</code> 폴더에 자동 저장.<br>
+- 등급이 A가 아니면? 어디가 아픈지 확인하고 고쳐야 해.</p>
+</blockquote>
+<h2 id="_6">업무일지 — 오늘 있었던 일 기록</h2>
 <ul>
 <li>주요 작업, 판단, 전환점은 <code>_notebook/99-devlog.md</code>에 바텀업으로 기록</li>
 <li>AI와의 주요 대화 중 결정적 전환이 있었으면 요지 함께 기록</li>
 <li>추후 <code>g/zero.sh</code>로 압축·정제 예정</li>
 </ul>
-<h2 id="2026-07-26">에이전트 파일 마크 (필수 · 2026-07-26~)</h2>
+<blockquote>
+<p>마치 <strong>일기장</strong>처럼! 오늘 무슨 일 했는지, 중요한 결정은 뭐였는지 <code>_notebook/99-devlog.md</code>에 차곡차곡 쌓아. 나중에 <code>g/zero.sh</code>로 깔끔하게 정리할 거야.</p>
+</blockquote>
+<h2 id="2026-07-26">에이전트 파일 마크 (필수 · 2026-07-26~) — 누가 쓴 글인지 표시하기</h2>
 <ul>
 <li>업무 수첩·세션 메모·단독 로그를 <strong>새로 쓸 때</strong> 파일명 접미 마크:</li>
 <li>Grok → <strong><code>_Grok</code></strong> (예: <code>session-2026-07-26_Grok.md</code>)</li>
@@ -220,7 +271,15 @@
 <li>공용 <code>99-devlog.md</code> 섹션을 추가할 때는 제목 끝에 <code>(_Grok)</code> / <code>(_Claude)</code> / <code>(_Aider)</code> 표기</li>
 <li><strong>다른 에이전트 마크 파일은 덮어쓰지 말 것</strong> — 이어서 할 거면 자기 마크 신규 파일 + handoff 체크리스트</li>
 </ul>
-<h2 id="grok-2026-07-26">웹페이지 커버리지 (Grok 상시 · 2026-07-26~)</h2>
+<blockquote>
+<p>마치 <strong>필통에 이름 쓰기</strong>랑 똑같아! 누가 쓴 파일인지 파일 이름 뒤에 꼬리표를 붙여:<br>
+- 그림 로봇이 쓴 글 → <code>_Grok</code><br>
+- 글짓기 로봇이 쓴 글 → <code>_Claude</code><br>
+- 고치기 로봇이 쓴 글 → <code>_Aider</code><br>
+- 보스가 쓴 글 → <code>_Boss</code></p>
+<p><strong>절대 남의 파일에 낙서하지 마!</strong> 이어서 쓰고 싶으면 내 이름으로 새 파일 만들어.</p>
+</blockquote>
+<h2 id="grok-2026-07-26">웹페이지 커버리지 (Grok 상시 · 2026-07-26~) — 수첩을 전시장에 걸기</h2>
 <ul>
 <li><strong><code>_notebook/*.md</code> 는 반드시 <code>notebook/*.html</code> 웹페이지</strong>가 있어야 한다.</li>
 <li><code>_Grok</code> 는 세션마다 갭을 검사하고, 없으면 빌드한다:<br>
@@ -231,6 +290,11 @@
 <li>역할 문서: <code>_notebook/33-webpage-coverage_Grok.md</code></li>
 <li>문서 페이지는 공통 <strong>웹앱 UI</strong>(검색·접기·펼치기·본문 복사) — <code>assets/webzine.js</code></li>
 </ul>
+<blockquote>
+<p>우리가 수첩(<code>_notebook/</code>)에 쓴 글은 모두 <strong>무료 전시장(GitHub)에도 걸려야</strong> 해!<br>
+그림 로봇(Grok)이 수첩에 글이 있는데 전시장에 안 걸린 건 없는지 매번 확인하고, 빠진 거 있으면 척척 만들어 줘.<br>
+명령어는 위 두 줄만 따라 치면 끝. 전시된 페이지는 검색도 되고 접고 펼 수도 있어!</p>
+</blockquote>
 <h2 id="publishing-department-2026-08-08">출판부 (Publishing Department) — 번역 수호자 (2026-08-08~)</h2>
 <ul>
 <li><strong>역할:</strong> 모든 6개 레포의 md→HTML 변환 파이프라인 소유·관리</li>
@@ -240,14 +304,24 @@
 <li><strong>CI 게이트:</strong> <code>gap_count &gt; 0</code> → deploy 차단 (<code>.github/workflows/deploy-pages.yml</code>)</li>
 <li><strong>커밋 규약:</strong> 빌드 결과 커밋 시 <code>translation:</code> 접두어</li>
 </ul>
-<h2 id="paste-pipeline">Paste Pipeline (네이버·티스토리 수동 발행)</h2>
+<blockquote>
+<p><strong>출판부</strong>는 우리 글을 전시용 웹페이지로 바꿔주는 <strong>번역팀</strong>이야.<br>
+- 원고(md)가 전시용(html)으로 제대로 바뀌었는지 항상 확인해.<br>
+- 한 개라도 빠진 페이지가 있으면(<code>gap_count &gt; 0</code>) 전시 금지! 문 잠겨!<br>
+- 빌드 결과 저장할 땐 꼭 <code>translation:</code> 이라고 태그 붙이기.</p>
+</blockquote>
+<h2 id="paste-pipeline">Paste Pipeline (네이버·티스토리 수동 발행) — 사람 손으로 옮겨 붙이기</h2>
 <ul>
 <li>API 없는 플랫폼은 Paste Pipeline으로 대응:<br>
 <code>Claude Code → TG 원고 배달 → 사람 복사붙여넣기 → 발행 (5분)</code></li>
 <li>티스토리 = 업무일지 (TG리포트 + git log + 스크린샷)</li>
 <li>네이버 = 웹진·미끼 (Grok 80% 드래프트 → 주간 발행)</li>
 </ul>
-<h2 id="_7">파일 구조</h2>
+<blockquote>
+<p>어떤 전시장(네이버, 티스토리)은 로봇이 직접 못 올려. 그래서 우리는 <strong>복사해서 붙여넣기</strong> 작전을 써!<br>
+1. 글짓기 로봇이 글 완성 → 2. 무전기(Telegram)로 보내줌 → 3. 사람이 복사+붙여넣기 → 4. 끝! (5분이면 돼)</p>
+</blockquote>
+<h2 id="_7">파일 구조 — 우리 집 지도</h2>
 <pre><code>helena_phone/
 ├── CONSTITUTION.md  ← 헌법 (무엇을, 왜)
 ├── CLAUDE.md        ← 실무 규칙 (어떻게)
@@ -262,7 +336,16 @@
 ├── mcp-servers/     ← dtslib MCP
 └── tistory-naver/   ← dtslib 블로그코드(보존)
 </code></pre>
-<h2 id="_8">현재 인프라</h2>
+<blockquote>
+<p>이게 우리 집 구조야. 마치 집 안에 방마다 이름 붙이듯이:<br>
+- <strong>CONSTITUTION.md</strong> = 규칙책 (왜 이 일을 하는지)<br>
+- <strong>CLAUDE.md</strong> = 이 설명서 (어떻게 하는지)<br>
+- <strong><code>_notebook/</code></strong> = 업무 수첩 보관함<br>
+- <strong><code>scripts/</code></strong> = 자동으로 일하는 마법 주문 창고<br>
+- <strong><code>care/</code></strong> = 엄마 심부름(돌봄) 감시 카메라<br>
+- <strong><code>configs/</code></strong> = 설정 메모 보관함</p>
+</blockquote>
+<h2 id="_8">현재 인프라 — 우리가 가진 도구들</h2>
 <pre><code>📱 S21 (Android + Termux + proot Ubuntu)
 ├── Claude Code (DeepSeek) — 메인 코딩
 ├── Grok CLI (xAI SuperGrok) — 시각·Naver
@@ -275,6 +358,16 @@
 ├── YouTube @helena_phone (OAuth 완료)
 └── 네이버 helena1975 (웹진·미끼)
 </code></pre>
+<blockquote>
+<p>한눈에 보는 우리 작업실!<br>
+- <strong>S21 폰</strong>: 우리 메인 컴퓨터. Termux+proot으로 우분투를 돌리고 있어.<br>
+- <strong>로봇 세 마리</strong>: Claude Code(글짓기), Grok(그림), Aider(고치기)가 DeepSeek 두뇌로 일해.<br>
+- <strong>무료 전시장 5곳(GitHub)</strong>: Pages로 웹페이지 보여주고, Giscus로 댓글도 달 수 있어.<br>
+- <strong>무전기(Telegram)</strong>: @S21Phone_Bot으로 작업 보고.<br>
+- <strong>유튜브, 네이버, 티스토리</strong>: 우리 작품 전시하는 여러 곳!<br>
+- <strong>Discord</strong>: 로비랑 AI 보고방 있음.<br>
+- <strong>phone-mcp-server</strong>: 18가지 도구, 포트 3456으로 연결.</p>
+</blockquote>
   </article>
   <nav class="wz-pager">
     <a class="" href="constitution.html">

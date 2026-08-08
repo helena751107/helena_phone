@@ -1,156 +1,174 @@
-# 📖 S21 Phone 최적화 — 전체 가이드
+# 📖 S21 Phone 마법 공방 — 설치 설명서
 
-> 이 저장소의 모든 문서를 단계별로 연결한 로드맵.
-> 순서대로 따라 하면 놀고 있는 갤럭시 폰이 풀스택 서버로 변신한다.
+> 레고 블록을 조립하듯, 딱 3단계면 끝납니다:
+> **앱 2개 설치 → 마법 주문 1개 붙여넣기 → 완성!**
+>
+> 순서대로 따라 하면 놀고 있는 갤럭시 폰이 똑똑한 로봇 공방으로 변신합니다.
 
 ---
 
-## 0단계: 준비물
+## 0단계: 레고 상자 열기 — 준비물
 
-| 필요 | 설명 |
+레고를 조립하려면 블록이 필요하죠. 아래 준비물만 있으면 시작할 수 있어요.
+
+| 준비물 | 왜 필요한가요? |
 |------|------|
-| 📱 안드로이드 폰 | 갤럭시 S21 기준, 아무 안드로이드나 가능 |
-| 🔌 WiFi | 같은 네트워크에서 PC/폰 연결 |
-| ⏱ 시간 | 처음 세팅에 2~3시간 |
-| 💵 비용 | **0원** (GitHub 무료 + DeepSeek 우회) |
-| 🔑 GitHub 계정 | github.com 가입 (무료) |
+| 📱 안드로이드 폰 | 레고 바닥판입니다. 갤럭시 S21이 아니어도 괜찮아요. |
+| 🔌 WiFi | 블록과 블록을 무선으로 연결해줘요. |
+| ⏱ 시간 | 처음 조립에 2~3시간 걸려요. 천천히 해도 돼요! |
+| 💵 비용 | **0원!** 모든 블록이 무료예요. |
+| 🔑 GitHub 계정 | [github.com](https://github.com)에서 무료로 만들 수 있는 **열쇠**예요. 공방 문을 여는 데 필요해요. |
 
 ---
 
-## 1단계: 기반 설치 (01-foundation/)
+## 1단계: 기반 레고 깔기 (01-foundation/)
 
-> **폰을 리눅스 서버로 만드는 과정**
+> **폰 안에 로봇들의 집을 짓는 과정이에요.**
 
-| # | 문서 | 내용 | 난이도 |
+레고로 집을 지을 때 바닥판부터 깔듯, 폰 안에 리눅스라는 튼튼한 바닥을 먼저 깔아요.
+
+| # | 문서 | 무슨 일을 하나요? | 어려움 |
 |---|------|------|--------|
-| 1.1 | [Termux 설치](./01-foundation/termux-setup.md) | F-Droid → Termux + 기본 패키지 | 초급 |
-| 1.2 | [proot Ubuntu](./01-foundation/proot-ubuntu.md) | proot-distro로 Ubuntu 컨테이너 | 중급 |
-| 1.3 | [Claude Code + DeepSeek](./01-foundation/claude-code.md) | AI 에이전트 설치 + 과금 우회 | 중급 |
-| 1.4 | [Git/GitHub 연결](./01-foundation/git-github.md) | 저장소 연결 + push 자동화 | 초급 |
+| 1.1 | [Termux 설치](./01-foundation/termux-setup.md) | **앱 가게**(F-Droid)에서 **비밀 방 입구**(Termux)를 설치해요. | 쉬움 |
+| 1.2 | [proot Ubuntu](./01-foundation/proot-ubuntu.md) | 비밀 방 안에 **로봇들의 집**(Ubuntu)을 지어요. | 보통 |
+| 1.3 | [Claude Code + DeepSeek](./01-foundation/claude-code.md) | 집에 **글짓기 로봇**(Claude Code)을 들여요. | 보통 |
+| 1.4 | [Git/GitHub 연결](./01-foundation/git-github.md) | **열쇠**(GitHub 토큰)로 공방 문을 열고 자물쇠를 채워요. | 쉬움 |
 
-**결과물:** 폰에서 AI 코딩 에이전트가 돌아가는 상태
+**이 단계가 끝나면:** 폰 안에서 글짓기 로봇이 움직이기 시작해요!
 
 ---
 
-## 2단계: 통신망 구축 (02-network/)
+## 2단계: 통신망 연결하기 (02-network/)
 
-> **폰을 외부와 연결하는 채널 3종 세트**
+> **로봇이 바깥세상과 대화할 수 있도록 길을 뚫어줘요.**
 
-| # | 문서 | 내용 | 난이도 |
+집을 지었으니 이제 전화선, 인터넷, 무전기를 연결할 차례예요.
+
+| # | 문서 | 무슨 일을 하나요? | 어려움 |
 |---|------|------|--------|
-| 2.1 | [GitHub Pages](./02-network/github-pages.md) | 정적 웹사이트 호스팅 + Giscus 댓글 | 초급 |
-| 2.2 | [Discord 서버](./02-network/discord.md) | 실시간 채팅방 + 위젯 | 초급 |
-| 2.3 | [Telegram 봇](./02-network/telegram.md) | 알림/보고 자동화 | 초급 |
+| 2.1 | [GitHub Pages](./02-network/github-pages.md) | 로봇이 만든 글을 올리는 **게시판**(웹사이트)을 만들어요. 댓글도 달 수 있어요! | 쉬움 |
+| 2.2 | [Discord 서버](./02-network/discord.md) | 로봇과 사람이 모여 이야기하는 **채팅방**을 만들어요. | 쉬움 |
+| 2.3 | [Telegram 봇](./02-network/telegram.md) | **무전기**(텔레그램 봇)를 달아서 로봇이 사람에게 "일 끝났어요!" 하고 보고하게 해요. | 쉬움 |
 
-**결과물:** 웹사이트 + 채팅방 + 알림봇 완비
+**이 단계가 끝나면:** 게시판 + 채팅방 + 무전기까지 모두 연결돼요!
 
 ---
 
-## 3단계: 방송/발행 (03-broadcast/)
+## 3단계: 방송국 열기 (03-broadcast/)
 
-> **폰으로 콘텐츠를 만들어 내보내는 단계**
+> **로봇이 글과 영상을 만들어 세상에 내보내는 단계예요.**
 
-| # | 문서 | 내용 | 난이도 | 진행 |
+이제 로봇이 만든 작품을 유튜브와 블로그에 올릴 수 있어요.
+
+| # | 문서 | 무슨 일을 하나요? | 어려움 | 상태 |
 |---|------|------|--------|------|
-| 3.1 | [YouTube 채널](./03-broadcast/youtube.md) | 5개 채널 아키텍처 + API 준비 | 중급 | 🔧 설계 |
-| 3.2 | [티스토리 자동화](./03-broadcast/tistory-auto.md) | Playwright로 자동 포스팅 | 고급 | 🔧 설계 |
-| 3.3 | [네이버 블로그](./03-broadcast/naver-auto.md) | Playwright + 쿠키 세션 | 고급 | 🔧 설계 |
+| 3.1 | [YouTube 채널](./03-broadcast/youtube.md) | 로봇 전용 **TV 방송국** 5개를 세팅해요. | 보통 | 🔧 설계 중 |
+| 3.2 | [티스토리 자동화](./03-broadcast/tistory-auto.md) | 로봇이 **일기장**(티스토리)에 혼자 글을 써요. | 어려움 | 🔧 설계 중 |
+| 3.3 | [네이버 블로그](./03-broadcast/naver-auto.md) | 로봇이 **또 다른 일기장**(네이버)에도 글을 써요. | 어려움 | 🔧 설계 중 |
 
-**결과물:** 폰에서 콘텐츠 발행 자동화
+**이 단계가 끝나면:** 로봇이 콘텐츠를 혼자서 뚝딱 만들어 발행해요!
 
 ---
 
-## 4단계: 폰 원격 제어 (04-phone-control/)
+## 4단계: 폰 원격 조종 (04-phone-control/)
 
-> **PC에서 폰을 마음대로 조종하는 단계**
+> **멀리서도 폰을 마음대로 움직일 수 있게 하는 단계예요.**
 
-| # | 문서 | 내용 | 난이도 |
+마치 RC 자동차처럼, 다른 기기에서 폰의 기능을 호출할 수 있어요.
+
+| # | 문서 | 무슨 일을 하나요? | 어려움 |
 |---|------|------|--------|
-| 4.1 | [Termux:API](./04-phone-control/termux-api.md) | 80여개 하드웨어 API | 중급 |
-| 4.2 | [phone-mcp-server](./04-phone-control/phone-mcp.md) | MCP로 18개 도구 원격 호출 | 중급 |
-| 4.3 | [건강 검진](./04-phone-control/health-check.md) | 하드웨어 자동 진단 스크립트 | 중급 |
+| 4.1 | [Termux:API](./04-phone-control/termux-api.md) | **폰 기능 연결 다리**(Termux:API)를 놓아서, 폰의 카메라·배터리·문자 같은 80가지 기능을 로봇이 쓸 수 있게 해요. | 보통 |
+| 4.2 | [phone-mcp-server](./04-phone-control/phone-mcp.md) | 18가지 도구를 원격에서 호출하는 **리모컨**을 달아요. | 보통 |
+| 4.3 | [건강 검진](./04-phone-control/health-check.md) | **건강 검진**(하드웨어 진단)을 자동으로 돌려서 폰이 아픈 데는 없는지 확인해요. | 보통 |
 
-**결과물:** Claude Code가 폰 배터리 읽고, 플래시 켜고, 문자 보냄
+**이 단계가 끝나면:** 글짓기 로봇이 폰 배터리를 읽고, 플래시를 켜고, 문자도 보내요!
 
 ---
 
-## 5단계: 최적화 (05-optimization/)
+## 5단계: 오래오래 튼튼하게 (05-optimization/)
 
-> **오래된 폰을 최대한 오래, 빠르게 쓰는 법**
+> **오래된 폰을 최대한 오래, 빠르게 쓰는 비법이에요.**
 
-| # | 문서 | 내용 | 난이도 |
+레고 작품을 오래 간직하려면 먼지를 닦고 약한 부분을 보강해야 하듯, 폰도 관리를 해줘야 해요.
+
+| # | 문서 | 무슨 일을 하나요? | 어려움 |
 |---|------|------|--------|
-| 5.1 | [배터리 관리](./05-optimization/battery-saving.md) | 충전 사이클 최적화 | 초급 |
-| 5.2 | [성능 튜닝](./05-optimization/performance.md) | proot 메모리/CPU 설정 | 중급 |
-| 5.3 | [저장공간](./05-optimization/storage.md) | 캐시/로그 정리 자동화 | 초급 |
+| 5.1 | [배터리 관리](./05-optimization/battery-saving.md) | 배터리를 너무 많이 먹지 않도록 **밥 조절**을 해줘요. | 쉬움 |
+| 5.2 | [성능 튜닝](./05-optimization/performance.md) | 로봇 집의 메모리와 CPU를 **넓고 빠르게** 설정해요. | 보통 |
+| 5.3 | [저장공간](./05-optimization/storage.md) | 쓰지 않는 파일을 **청소**해서 공간을 확보해요. | 쉬움 |
 
 ---
 
-## 설정 파일 모음 (configs/)
+## 설정 파일 상자 (configs/)
 
-그대로 복사해서 쓰면 되는 실제 설정 파일들:
+그대로 복사해서 쓰면 되는 **레고 설계도**들이에요. 복사해서 자기 자리에 붙여넣기만 하면 돼요!
 
-| 파일 | 설명 |
+| 파일 | 무슨 설계도인가요? |
 |------|------|
-| `configs/settings.json` | Claude Code MCP 설정 |
-| `configs/bashrc-example.sh` | .bashrc 예시 (자동시작 포함) |
-| `configs/phone-mcp.sh` | MCP 서버 실행 스크립트 |
-| `configs/tg.sh` | 텔레그램 메시지 발송 |
+| `configs/settings.json` | 글짓기 로봇(Claude Code)의 리모컨 설정 |
+| `configs/bashrc-example.sh` | 로봇 집이 켜질 때 자동으로 실행할 명령 목록 |
+| `configs/phone-mcp.sh` | 리모컨 서버 실행 스크립트 |
+| `configs/tg.sh` | 무전기(텔레그램)로 메시지 보내는 스크립트 |
 | `configs/phone-health.sh` | 건강 검진 스크립트 |
 
 ---
 
-## 스크립트 모음 (scripts/)
+## 도구 상자 (scripts/)
 
-단독 실행 가능한 유틸리티:
+혼자서도 척척 실행되는 **마법 도구**들이에요.
 
-| 스크립트 | 설명 |
+| 스크립트 | 무슨 일을 하나요? |
 |---------|------|
-| `scripts/phone-health.sh` | 27개 항목 하드웨어 진단 |
-| `scripts/tg.sh` | 텔레그램 메시지 보내기 |
-| `scripts/setup-all.sh` | (예정) 전체 자동 설치 |
+| `scripts/phone-health.sh` | 27가지 항목을 검사해서 폰 건강 상태를 알려줘요 |
+| `scripts/tg.sh` | 무전기로 "작업 끝!" 하고 메시지를 보내요 |
+| `scripts/setup-all.sh` | (준비 중) 모든 걸 한 번에 설치하는 마법 주문 |
 
 ---
 
-## 연대기 (chronicle/)
+## 공방 건설 일기 (chronicle/)
 
-이 모든 과정이 실제로 어떻게 진행되었는지 생생한 기록:
+이 공방이 어떻게 지어졌는지, 처음부터 끝까지 생생한 이야기가 담겨 있어요.
 
 | 파일 | 내용 |
 |------|------|
-| [CHRONICLE.md](./CHRONICLE.md) | DAY 1~2 전체 스토리 |
-| `chronicle/` | 세부 기록들 |
+| [CHRONICLE.md](./CHRONICLE.md) | DAY 1~2, 공방 건설의 전체 이야기 |
+| `chronicle/` | 날짜별 세부 기록들 |
 
 ---
 
-## 퀵스타트 — 5분 컷
+## 퀵스타트 — 5분 만에 뚝딱!
 
-이미 Termux가 설치된 폰이 있다면:
+이미 비밀 방 입구(Termux)가 설치된 폰이라면, 아래 **마법 주문**을 순서대로 복사해서 붙여넣기만 하면 끝나요!
+
+마치 레고 설명서 마지막 페이지에 있는 "한눈에 보는 조립도" 같은 거예요. 천천히 한 줄씩 따라 해보세요.
 
 ```bash
-# 1. Ubuntu 컨테이너
-pkg install proot-distr o
+# 1. 로봇들의 집(Ubuntu)을 지어요
+pkg install proot-distro
 proot-distro install ubuntu
 proot-distro login ubuntu
 
-# 2. 기본 도구
+# 2. 집 안에 기본 도구를 넣어요 (가위, 풀, 자 같은 거예요)
 apt update && apt install git curl nodejs -y
 
-# 3. 이 저장소 클론
+# 3. 설계도를 내 폰으로 복사해 와요
 git clone https://github.com/helena751107/helena_phone.git
 cd helena_phone
 
-# 4. 설정 복사
+# 4. 설정 파일을 제자리에 복사해요 (레고 블록 끼우기)
 cp configs/settings.json ~/.claude/
 source configs/bashrc-example.sh
 
-# 5. 건강 검진
+# 5. 건강 검진을 돌려서 폰이 튼튼한지 확인해요
 bash scripts/phone-health.sh
 ```
 
+**이게 끝이에요!** 이제 폰 안에 로봇 공방이 완성됐습니다. 🎉
+
 ---
 
-> **궁금한 거 있으면?**
-> - [Discord](https://discord.gg/JTYSZv2WQE) — 실시간 질문
-> - [GitHub Issues](https://github.com/helena751107/helena_phone/issues) — 버그/제안
-> - 직접 포크해서 마음대로 고쳐쓰셈
+> **궁금한 게 있으면 언제든지 물어보세요!**
+> - [Discord](https://discord.gg/JTYSZv2WQE) — 채팅방에서 실시간으로 물어보기
+> - [GitHub Issues](https://github.com/helena751107/helena_phone/issues) — 버그 신고나 아이디어 제안
+> - 이 저장소를 포크해서 자기만의 공방으로 마음대로 고쳐도 좋아요!

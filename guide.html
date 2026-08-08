@@ -6,7 +6,7 @@
 <meta name="description" content="Termux부터 방송까지 — S21 Phone Webzine">
 <meta name="theme-color" content="#0a0908">
 <meta name="application-name" content="S21 Phone">
-<title>📖 S21 Phone 최적화 — 전체 가이드 — S21 Phone Webzine</title>
+<title>📖 S21 Phone 마법 공방 — 설치 설명서 — S21 Phone Webzine</title>
 <link rel="icon" href="icons/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -36,11 +36,11 @@
   <div class="wz-crumb">
     <a href="index.html">Webzine</a><span class="sep">/</span>
     <span>Core</span><span class="sep">/</span>
-    <span>📖 S21 Phone 최적화 — 전체 가이드</span>
+    <span>📖 S21 Phone 마법 공방 — 설치 설명서</span>
   </div>
   <header class="wz-hero">
     <div class="wz-kicker">Core · lakme-audio</div>
-    <h1>📖 S21 Phone 최적화 — 전체 가이드</h1>
+    <h1>📖 S21 Phone 마법 공방 — 설치 설명서</h1>
     <p class="deck">Termux부터 방송까지</p>
     <div class="wz-meta">
       <span>Source · GUIDE.md</span>
@@ -50,16 +50,16 @@
   </header>
   <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
 <ul>
-<li><a href="#0">0단계: 준비물</a></li>
-<li><a href="#1-01-foundation">1단계: 기반 설치 (01-foundation/)</a></li>
-<li><a href="#2-02-network">2단계: 통신망 구축 (02-network/)</a></li>
-<li><a href="#3-03-broadcast">3단계: 방송/발행 (03-broadcast/)</a></li>
-<li><a href="#4-04-phone-control">4단계: 폰 원격 제어 (04-phone-control/)</a></li>
-<li><a href="#5-05-optimization">5단계: 최적화 (05-optimization/)</a></li>
-<li><a href="#configs">설정 파일 모음 (configs/)</a></li>
-<li><a href="#scripts">스크립트 모음 (scripts/)</a></li>
-<li><a href="#chronicle">연대기 (chronicle/)</a></li>
-<li><a href="#5">퀵스타트 — 5분 컷</a></li>
+<li><a href="#0">0단계: 레고 상자 열기 — 준비물</a></li>
+<li><a href="#1-01-foundation">1단계: 기반 레고 깔기 (01-foundation/)</a></li>
+<li><a href="#2-02-network">2단계: 통신망 연결하기 (02-network/)</a></li>
+<li><a href="#3-03-broadcast">3단계: 방송국 열기 (03-broadcast/)</a></li>
+<li><a href="#4-04-phone-control">4단계: 폰 원격 조종 (04-phone-control/)</a></li>
+<li><a href="#5-05-optimization">5단계: 오래오래 튼튼하게 (05-optimization/)</a></li>
+<li><a href="#configs">설정 파일 상자 (configs/)</a></li>
+<li><a href="#scripts">도구 상자 (scripts/)</a></li>
+<li><a href="#chronicle">공방 건설 일기 (chronicle/)</a></li>
+<li><a href="#5">퀵스타트 — 5분 만에 뚝딱!</a></li>
 </ul>
 </div>
 </nav>
@@ -71,256 +71,263 @@
   </div>
   <article class="wz-prose" id="wzProse" data-app="doc">
     <blockquote>
-<p>이 저장소의 모든 문서를 단계별로 연결한 로드맵.<br>
-순서대로 따라 하면 놀고 있는 갤럭시 폰이 풀스택 서버로 변신한다.</p>
+<p>레고 블록을 조립하듯, 딱 3단계면 끝납니다:<br>
+<strong>앱 2개 설치 → 마법 주문 1개 붙여넣기 → 완성!</strong></p>
+<p>순서대로 따라 하면 놀고 있는 갤럭시 폰이 똑똑한 로봇 공방으로 변신합니다.</p>
 </blockquote>
 <hr>
-<h2 id="0">0단계: 준비물</h2>
+<h2 id="0">0단계: 레고 상자 열기 — 준비물</h2>
+<p>레고를 조립하려면 블록이 필요하죠. 아래 준비물만 있으면 시작할 수 있어요.</p>
 <table>
 <thead>
 <tr>
-<th>필요</th>
-<th>설명</th>
+<th>준비물</th>
+<th>왜 필요한가요?</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>📱 안드로이드 폰</td>
-<td>갤럭시 S21 기준, 아무 안드로이드나 가능</td>
+<td>레고 바닥판입니다. 갤럭시 S21이 아니어도 괜찮아요.</td>
 </tr>
 <tr>
 <td>🔌 WiFi</td>
-<td>같은 네트워크에서 PC/폰 연결</td>
+<td>블록과 블록을 무선으로 연결해줘요.</td>
 </tr>
 <tr>
 <td>⏱ 시간</td>
-<td>처음 세팅에 2~3시간</td>
+<td>처음 조립에 2~3시간 걸려요. 천천히 해도 돼요!</td>
 </tr>
 <tr>
 <td>💵 비용</td>
-<td><strong>0원</strong> (GitHub 무료 + DeepSeek 우회)</td>
+<td><strong>0원!</strong> 모든 블록이 무료예요.</td>
 </tr>
 <tr>
 <td>🔑 GitHub 계정</td>
-<td>github.com 가입 (무료)</td>
+<td><a href="https://github.com">github.com</a>에서 무료로 만들 수 있는 <strong>열쇠</strong>예요. 공방 문을 여는 데 필요해요.</td>
 </tr>
 </tbody>
 </table>
 <hr>
-<h2 id="1-01-foundation">1단계: 기반 설치 (01-foundation/)</h2>
+<h2 id="1-01-foundation">1단계: 기반 레고 깔기 (01-foundation/)</h2>
 <blockquote>
-<p><strong>폰을 리눅스 서버로 만드는 과정</strong></p>
+<p><strong>폰 안에 로봇들의 집을 짓는 과정이에요.</strong></p>
 </blockquote>
+<p>레고로 집을 지을 때 바닥판부터 깔듯, 폰 안에 리눅스라는 튼튼한 바닥을 먼저 깔아요.</p>
 <table>
 <thead>
 <tr>
 <th>#</th>
 <th>문서</th>
-<th>내용</th>
-<th>난이도</th>
+<th>무슨 일을 하나요?</th>
+<th>어려움</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>1.1</td>
 <td><a href="foundation/termux-setup.html">Termux 설치</a></td>
-<td>F-Droid → Termux + 기본 패키지</td>
-<td>초급</td>
+<td><strong>앱 가게</strong>(F-Droid)에서 <strong>비밀 방 입구</strong>(Termux)를 설치해요.</td>
+<td>쉬움</td>
 </tr>
 <tr>
 <td>1.2</td>
 <td><a href="foundation/proot-ubuntu.html">proot Ubuntu</a></td>
-<td>proot-distro로 Ubuntu 컨테이너</td>
-<td>중급</td>
+<td>비밀 방 안에 <strong>로봇들의 집</strong>(Ubuntu)을 지어요.</td>
+<td>보통</td>
 </tr>
 <tr>
 <td>1.3</td>
 <td><a href="foundation/claude-code.html">Claude Code + DeepSeek</a></td>
-<td>AI 에이전트 설치 + 과금 우회</td>
-<td>중급</td>
+<td>집에 <strong>글짓기 로봇</strong>(Claude Code)을 들여요.</td>
+<td>보통</td>
 </tr>
 <tr>
 <td>1.4</td>
 <td><a href="foundation/git-github.html">Git/GitHub 연결</a></td>
-<td>저장소 연결 + push 자동화</td>
-<td>초급</td>
+<td><strong>열쇠</strong>(GitHub 토큰)로 공방 문을 열고 자물쇠를 채워요.</td>
+<td>쉬움</td>
 </tr>
 </tbody>
 </table>
-<p><strong>결과물:</strong> 폰에서 AI 코딩 에이전트가 돌아가는 상태</p>
+<p><strong>이 단계가 끝나면:</strong> 폰 안에서 글짓기 로봇이 움직이기 시작해요!</p>
 <hr>
-<h2 id="2-02-network">2단계: 통신망 구축 (02-network/)</h2>
+<h2 id="2-02-network">2단계: 통신망 연결하기 (02-network/)</h2>
 <blockquote>
-<p><strong>폰을 외부와 연결하는 채널 3종 세트</strong></p>
+<p><strong>로봇이 바깥세상과 대화할 수 있도록 길을 뚫어줘요.</strong></p>
 </blockquote>
+<p>집을 지었으니 이제 전화선, 인터넷, 무전기를 연결할 차례예요.</p>
 <table>
 <thead>
 <tr>
 <th>#</th>
 <th>문서</th>
-<th>내용</th>
-<th>난이도</th>
+<th>무슨 일을 하나요?</th>
+<th>어려움</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>2.1</td>
 <td><a href="network/github-pages.html">GitHub Pages</a></td>
-<td>정적 웹사이트 호스팅 + Giscus 댓글</td>
-<td>초급</td>
+<td>로봇이 만든 글을 올리는 <strong>게시판</strong>(웹사이트)을 만들어요. 댓글도 달 수 있어요!</td>
+<td>쉬움</td>
 </tr>
 <tr>
 <td>2.2</td>
 <td><a href="network/discord.html">Discord 서버</a></td>
-<td>실시간 채팅방 + 위젯</td>
-<td>초급</td>
+<td>로봇과 사람이 모여 이야기하는 <strong>채팅방</strong>을 만들어요.</td>
+<td>쉬움</td>
 </tr>
 <tr>
 <td>2.3</td>
 <td><a href="network/telegram.html">Telegram 봇</a></td>
-<td>알림/보고 자동화</td>
-<td>초급</td>
+<td><strong>무전기</strong>(텔레그램 봇)를 달아서 로봇이 사람에게 &ldquo;일 끝났어요!&rdquo; 하고 보고하게 해요.</td>
+<td>쉬움</td>
 </tr>
 </tbody>
 </table>
-<p><strong>결과물:</strong> 웹사이트 + 채팅방 + 알림봇 완비</p>
+<p><strong>이 단계가 끝나면:</strong> 게시판 + 채팅방 + 무전기까지 모두 연결돼요!</p>
 <hr>
-<h2 id="3-03-broadcast">3단계: 방송/발행 (03-broadcast/)</h2>
+<h2 id="3-03-broadcast">3단계: 방송국 열기 (03-broadcast/)</h2>
 <blockquote>
-<p><strong>폰으로 콘텐츠를 만들어 내보내는 단계</strong></p>
+<p><strong>로봇이 글과 영상을 만들어 세상에 내보내는 단계예요.</strong></p>
 </blockquote>
+<p>이제 로봇이 만든 작품을 유튜브와 블로그에 올릴 수 있어요.</p>
 <table>
 <thead>
 <tr>
 <th>#</th>
 <th>문서</th>
-<th>내용</th>
-<th>난이도</th>
-<th>진행</th>
+<th>무슨 일을 하나요?</th>
+<th>어려움</th>
+<th>상태</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>3.1</td>
 <td><a href="broadcast/youtube.html">YouTube 채널</a></td>
-<td>5개 채널 아키텍처 + API 준비</td>
-<td>중급</td>
-<td>🔧 설계</td>
+<td>로봇 전용 <strong>TV 방송국</strong> 5개를 세팅해요.</td>
+<td>보통</td>
+<td>🔧 설계 중</td>
 </tr>
 <tr>
 <td>3.2</td>
 <td><a href="broadcast/tistory-auto.html">티스토리 자동화</a></td>
-<td>Playwright로 자동 포스팅</td>
-<td>고급</td>
-<td>🔧 설계</td>
+<td>로봇이 <strong>일기장</strong>(티스토리)에 혼자 글을 써요.</td>
+<td>어려움</td>
+<td>🔧 설계 중</td>
 </tr>
 <tr>
 <td>3.3</td>
 <td><a href="broadcast/naver-auto.html">네이버 블로그</a></td>
-<td>Playwright + 쿠키 세션</td>
-<td>고급</td>
-<td>🔧 설계</td>
+<td>로봇이 <strong>또 다른 일기장</strong>(네이버)에도 글을 써요.</td>
+<td>어려움</td>
+<td>🔧 설계 중</td>
 </tr>
 </tbody>
 </table>
-<p><strong>결과물:</strong> 폰에서 콘텐츠 발행 자동화</p>
+<p><strong>이 단계가 끝나면:</strong> 로봇이 콘텐츠를 혼자서 뚝딱 만들어 발행해요!</p>
 <hr>
-<h2 id="4-04-phone-control">4단계: 폰 원격 제어 (04-phone-control/)</h2>
+<h2 id="4-04-phone-control">4단계: 폰 원격 조종 (04-phone-control/)</h2>
 <blockquote>
-<p><strong>PC에서 폰을 마음대로 조종하는 단계</strong></p>
+<p><strong>멀리서도 폰을 마음대로 움직일 수 있게 하는 단계예요.</strong></p>
 </blockquote>
+<p>마치 RC 자동차처럼, 다른 기기에서 폰의 기능을 호출할 수 있어요.</p>
 <table>
 <thead>
 <tr>
 <th>#</th>
 <th>문서</th>
-<th>내용</th>
-<th>난이도</th>
+<th>무슨 일을 하나요?</th>
+<th>어려움</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>4.1</td>
 <td><a href="phone-control/termux-api.html">Termux:API</a></td>
-<td>80여개 하드웨어 API</td>
-<td>중급</td>
+<td><strong>폰 기능 연결 다리</strong>(Termux:API)를 놓아서, 폰의 카메라·배터리·문자 같은 80가지 기능을 로봇이 쓸 수 있게 해요.</td>
+<td>보통</td>
 </tr>
 <tr>
 <td>4.2</td>
 <td><a href="phone-control/phone-mcp.html">phone-mcp-server</a></td>
-<td>MCP로 18개 도구 원격 호출</td>
-<td>중급</td>
+<td>18가지 도구를 원격에서 호출하는 <strong>리모컨</strong>을 달아요.</td>
+<td>보통</td>
 </tr>
 <tr>
 <td>4.3</td>
 <td><a href="phone-control/health-check.html">건강 검진</a></td>
-<td>하드웨어 자동 진단 스크립트</td>
-<td>중급</td>
+<td><strong>건강 검진</strong>(하드웨어 진단)을 자동으로 돌려서 폰이 아픈 데는 없는지 확인해요.</td>
+<td>보통</td>
 </tr>
 </tbody>
 </table>
-<p><strong>결과물:</strong> Claude Code가 폰 배터리 읽고, 플래시 켜고, 문자 보냄</p>
+<p><strong>이 단계가 끝나면:</strong> 글짓기 로봇이 폰 배터리를 읽고, 플래시를 켜고, 문자도 보내요!</p>
 <hr>
-<h2 id="5-05-optimization">5단계: 최적화 (05-optimization/)</h2>
+<h2 id="5-05-optimization">5단계: 오래오래 튼튼하게 (05-optimization/)</h2>
 <blockquote>
-<p><strong>오래된 폰을 최대한 오래, 빠르게 쓰는 법</strong></p>
+<p><strong>오래된 폰을 최대한 오래, 빠르게 쓰는 비법이에요.</strong></p>
 </blockquote>
+<p>레고 작품을 오래 간직하려면 먼지를 닦고 약한 부분을 보강해야 하듯, 폰도 관리를 해줘야 해요.</p>
 <table>
 <thead>
 <tr>
 <th>#</th>
 <th>문서</th>
-<th>내용</th>
-<th>난이도</th>
+<th>무슨 일을 하나요?</th>
+<th>어려움</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>5.1</td>
 <td><a href="optimization/battery-saving.html">배터리 관리</a></td>
-<td>충전 사이클 최적화</td>
-<td>초급</td>
+<td>배터리를 너무 많이 먹지 않도록 <strong>밥 조절</strong>을 해줘요.</td>
+<td>쉬움</td>
 </tr>
 <tr>
 <td>5.2</td>
 <td><a href="optimization/performance.html">성능 튜닝</a></td>
-<td>proot 메모리/CPU 설정</td>
-<td>중급</td>
+<td>로봇 집의 메모리와 CPU를 <strong>넓고 빠르게</strong> 설정해요.</td>
+<td>보통</td>
 </tr>
 <tr>
 <td>5.3</td>
 <td><a href="optimization/storage.html">저장공간</a></td>
-<td>캐시/로그 정리 자동화</td>
-<td>초급</td>
+<td>쓰지 않는 파일을 <strong>청소</strong>해서 공간을 확보해요.</td>
+<td>쉬움</td>
 </tr>
 </tbody>
 </table>
 <hr>
-<h2 id="configs">설정 파일 모음 (configs/)</h2>
-<p>그대로 복사해서 쓰면 되는 실제 설정 파일들:</p>
+<h2 id="configs">설정 파일 상자 (configs/)</h2>
+<p>그대로 복사해서 쓰면 되는 <strong>레고 설계도</strong>들이에요. 복사해서 자기 자리에 붙여넣기만 하면 돼요!</p>
 <table>
 <thead>
 <tr>
 <th>파일</th>
-<th>설명</th>
+<th>무슨 설계도인가요?</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>configs/settings.json</code></td>
-<td>Claude Code MCP 설정</td>
+<td>글짓기 로봇(Claude Code)의 리모컨 설정</td>
 </tr>
 <tr>
 <td><code>configs/bashrc-example.sh</code></td>
-<td>.bashrc 예시 (자동시작 포함)</td>
+<td>로봇 집이 켜질 때 자동으로 실행할 명령 목록</td>
 </tr>
 <tr>
 <td><code>configs/phone-mcp.sh</code></td>
-<td>MCP 서버 실행 스크립트</td>
+<td>리모컨 서버 실행 스크립트</td>
 </tr>
 <tr>
 <td><code>configs/tg.sh</code></td>
-<td>텔레그램 메시지 발송</td>
+<td>무전기(텔레그램)로 메시지 보내는 스크립트</td>
 </tr>
 <tr>
 <td><code>configs/phone-health.sh</code></td>
@@ -329,33 +336,33 @@
 </tbody>
 </table>
 <hr>
-<h2 id="scripts">스크립트 모음 (scripts/)</h2>
-<p>단독 실행 가능한 유틸리티:</p>
+<h2 id="scripts">도구 상자 (scripts/)</h2>
+<p>혼자서도 척척 실행되는 <strong>마법 도구</strong>들이에요.</p>
 <table>
 <thead>
 <tr>
 <th>스크립트</th>
-<th>설명</th>
+<th>무슨 일을 하나요?</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>scripts/phone-health.sh</code></td>
-<td>27개 항목 하드웨어 진단</td>
+<td>27가지 항목을 검사해서 폰 건강 상태를 알려줘요</td>
 </tr>
 <tr>
 <td><code>scripts/tg.sh</code></td>
-<td>텔레그램 메시지 보내기</td>
+<td>무전기로 &ldquo;작업 끝!&rdquo; 하고 메시지를 보내요</td>
 </tr>
 <tr>
 <td><code>scripts/setup-all.sh</code></td>
-<td>(예정) 전체 자동 설치</td>
+<td>(준비 중) 모든 걸 한 번에 설치하는 마법 주문</td>
 </tr>
 </tbody>
 </table>
 <hr>
-<h2 id="chronicle">연대기 (chronicle/)</h2>
-<p>이 모든 과정이 실제로 어떻게 진행되었는지 생생한 기록:</p>
+<h2 id="chronicle">공방 건설 일기 (chronicle/)</h2>
+<p>이 공방이 어떻게 지어졌는지, 처음부터 끝까지 생생한 이야기가 담겨 있어요.</p>
 <table>
 <thead>
 <tr>
@@ -366,48 +373,50 @@
 <tbody>
 <tr>
 <td><a href="chronicle.html">CHRONICLE.md</a></td>
-<td>DAY 1~2 전체 스토리</td>
+<td>DAY 1~2, 공방 건설의 전체 이야기</td>
 </tr>
 <tr>
 <td><code>chronicle/</code></td>
-<td>세부 기록들</td>
+<td>날짜별 세부 기록들</td>
 </tr>
 </tbody>
 </table>
 <hr>
-<h2 id="5">퀵스타트 — 5분 컷</h2>
-<p>이미 Termux가 설치된 폰이 있다면:</p>
-<pre><code class="language-bash"># 1. Ubuntu 컨테이너
-pkg install proot-distr o
+<h2 id="5">퀵스타트 — 5분 만에 뚝딱!</h2>
+<p>이미 비밀 방 입구(Termux)가 설치된 폰이라면, 아래 <strong>마법 주문</strong>을 순서대로 복사해서 붙여넣기만 하면 끝나요!</p>
+<p>마치 레고 설명서 마지막 페이지에 있는 &ldquo;한눈에 보는 조립도&rdquo; 같은 거예요. 천천히 한 줄씩 따라 해보세요.</p>
+<pre><code class="language-bash"># 1. 로봇들의 집(Ubuntu)을 지어요
+pkg install proot-distro
 proot-distro install ubuntu
 proot-distro login ubuntu
 
-# 2. 기본 도구
+# 2. 집 안에 기본 도구를 넣어요 (가위, 풀, 자 같은 거예요)
 apt update &amp;&amp; apt install git curl nodejs -y
 
-# 3. 이 저장소 클론
+# 3. 설계도를 내 폰으로 복사해 와요
 git clone https://github.com/helena751107/helena_phone.git
 cd helena_phone
 
-# 4. 설정 복사
+# 4. 설정 파일을 제자리에 복사해요 (레고 블록 끼우기)
 cp configs/settings.json ~/.claude/
 source configs/bashrc-example.sh
 
-# 5. 건강 검진
+# 5. 건강 검진을 돌려서 폰이 튼튼한지 확인해요
 bash scripts/phone-health.sh
 </code></pre>
+<p><strong>이게 끝이에요!</strong> 이제 폰 안에 로봇 공방이 완성됐습니다. 🎉</p>
 <hr>
 <blockquote>
-<p><strong>궁금한 거 있으면?</strong><br>
-- <a href="https://discord.gg/JTYSZv2WQE">Discord</a> — 실시간 질문<br>
-- <a href="https://github.com/helena751107/helena_phone/issues">GitHub Issues</a> — 버그/제안<br>
-- 직접 포크해서 마음대로 고쳐쓰셈</p>
+<p><strong>궁금한 게 있으면 언제든지 물어보세요!</strong><br>
+- <a href="https://discord.gg/JTYSZv2WQE">Discord</a> — 채팅방에서 실시간으로 물어보기<br>
+- <a href="https://github.com/helena751107/helena_phone/issues">GitHub Issues</a> — 버그 신고나 아이디어 제안<br>
+- 이 저장소를 포크해서 자기만의 공방으로 마음대로 고쳐도 좋아요!</p>
 </blockquote>
   </article>
   <nav class="wz-pager">
     <a class="" href="readme.html">
           <span class="dir">Previous</span>
-          <span class="title">📱 S21 Phone — AI Workstation</span>
+          <span class="title">📱 주머니 속 마법 공구상자</span>
         </a>
     <a class="next" href="chronicle.html">
           <span class="dir">Next</span>
@@ -416,7 +425,7 @@ bash scripts/phone-health.sh
   </nav>
   <div class="wz-related">
           <h2>같은 섹션</h2>
-          <div class="grid"><a href="constitution.html"><strong>CONSTITUTION.md — S21 Phone 헌법</strong>불변 원칙 · Chain of Command</a><a href="claude.html"><strong>S21 Phone — 실무 규칙</strong>AI 3종 · Paste Pipeline · 인프라</a><a href="readme.html"><strong>📱 S21 Phone — AI Workstation</strong>숫자 · 구조 · 빠른 링크</a><a href="chronicle.html"><strong>CHRONICLE · 연대기</strong>DAY 1–2 개발 기록</a><a href="gift.html"><strong>GIFT · dtslib 선물</strong>선물 패키지 분석</a><a href="textbook.html"><strong>완결판 교재</strong>판단층 + 실행층</a></div>
+          <div class="grid"><a href="constitution.html"><strong>CONSTITUTION.md — S21 Phone 헌법</strong>불변 원칙 · Chain of Command</a><a href="claude.html"><strong>S21 Phone — 로봇 친구들 사용 설명서</strong>AI 3종 · Paste Pipeline · 인프라</a><a href="readme.html"><strong>📱 주머니 속 마법 공구상자</strong>숫자 · 구조 · 빠른 링크</a><a href="chronicle.html"><strong>CHRONICLE · 연대기</strong>DAY 1–2 개발 기록</a><a href="gift.html"><strong>GIFT · dtslib 선물</strong>선물 패키지 분석</a><a href="textbook.html"><strong>완결판 교재</strong>판단층 + 실행층</a></div>
         </div>
   <footer class="wz-foot">
     <div>S21 PHONE · Webzine lakme-audio</div>

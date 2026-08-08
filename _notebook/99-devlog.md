@@ -1,6 +1,31 @@
 # 📋 S21 Phone — 전체 개발일지
 
 
+### 🎨 보조 페이지 초등학생 비유 재작성 + NOTEBOOK_TITLES 100% (_Claude · 2026-08-08)
+
+**자체 평가 지적사항 전면 보완:**
+
+1. **보조 페이지 4종 재작성:** README.md · CONSTITUTION.md · GUIDE.md · CLAUDE.md
+   - README: "주머니 속 마법 공구상자" 커버, 로봇·비밀방·전시장 비유
+   - CONSTITUTION: 16개 조항 유지, 수호천사/꿈공장/바통터치 메타포 적용
+   - GUIDE: "레고 조립 설명서" 비유, 3단계(앱2개→주문1줄→확인)
+   - CLAUDE: "로봇 친구들 사용 설명서", ParksyTTS 기술정보 보존
+
+2. **NOTEBOOK_TITLES 100% 등록:** 47→99개 수동 한글 타이틀 (52개 신규 등록)
+   - coverage checker: `manual_titles=99, auto_titled=0`
+
+3. **아코디언 기본 펼침:** 첫 2개 섹션(tracks, system) 기본 열림
+   - `OPEN_DEFAULT = new Set(['tracks', 'system'])`
+
+4. **깨진 링크 수정:** 76-page-writing-standard의 `./file.md` → `다른문서.md` (문서 예제로 변경)
+
+5. **helena-faith·psycare:** GitHub에 아직 레포 없음 → 추후 생성 시 빌드
+
+**결과:**
+- gap=0, coverage=111.8%, manual_titles=100%
+- 4레포 전부 재빌드·푸시 완료
+
+
 ### 🎨 랜딩 페이지 전면 재작성 — 초등학생 비유 버전 (_Claude · 2026-08-08)
 
 **요청:** "아주 초등학생도 이해할 수 있는 비유로 전부 다 랜딩 페이지 웹페이지를 전부 다 바꿔"

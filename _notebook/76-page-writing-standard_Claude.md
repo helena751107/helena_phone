@@ -111,7 +111,7 @@ status: active
 | `| Table |` | `<table>` + 테마 스타일 | 정렬된 데이터 표 |
 | `- [ ] item` | 체크박스 | 액션 추적 |
 | `` ```code``` `` | `<pre><code>` | Monospace 하이라이트 |
-| `[text](./file.md)` | `<a href="./file.html">` | 내부 탐색 |
+| `텍스트` → `다른문서.md` | `<a href="다른문서.html">` | 내부 탐색 (실제 파일 경로로) |
 | `**bold**` | `<strong>` | 강조 |
 | `*italic*` | `<em>` | 기울임 |
 
