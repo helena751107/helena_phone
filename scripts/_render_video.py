@@ -104,8 +104,14 @@ def build_filter_for_slide(img, mp3, out_clip, beat, fonts, fps, W, H, brand, pr
     name = beat['id']
     pause = beat.get('pause', 0.0)
     zoom_spec = beat.get('zoom', {})
-    zoom_dir = zoom_spec.get('type', 'in') if isinstance(zoom_spec, dict) else str(zoom_spec)
-    pan_dir = zoom_spec.get('pan', 'none') if isinstance(zoom_spec, dict) else 'none'
+    raw_zoom = zoom_spec.get('type', 'in') if isinstance(zoom_spec, dict) else str(zoom_spec)
+    # V10: disambiguate pan_right/pan_left from zoom direction
+    if raw_zoom in ('pan_right', 'pan_left'):
+        zoom_dir = 'in'
+        pan_dir = 'right' if raw_zoom == 'pan_right' else 'left'
+    else:
+        zoom_dir = raw_zoom
+        pan_dir = zoom_spec.get('pan', 'none') if isinstance(zoom_spec, dict) else 'none'
     grade_key = beat.get('color_tag', beat.get('grade', 'warm'))
 
     # ── Ken Burns V8: zoom variety ──
@@ -151,7 +157,7 @@ def build_filter_for_slide(img, mp3, out_clip, beat, fonts, fps, W, H, brand, pr
     title_esc = escape_drawtext(title)
     anim_title = (
         f"drawtext=text='{title_esc}':fontcolor=#d4a84b:{title_size}:x=(w-text_w)/2:{title_y}"
-        f":{font_bold_opt}:box=1:boxcolor=black@0.5:boxborderw=12"
+        f":{font_bold_opt}:shadowcolor=black@0.55:shadowx=3:shadowy=3:borderw=2:bordercolor=black@0.35"
     )
 
     sub_dt = ""
@@ -159,19 +165,19 @@ def build_filter_for_slide(img, mp3, out_clip, beat, fonts, fps, W, H, brand, pr
         sub_esc = escape_drawtext(sub)
         sub_dt = (
             f",drawtext=text='{sub_esc}':fontcolor=#b5a999:fontsize=26:x=(w-text_w)/2:"
-            f"y=h*0.87:{font_opt}:box=1:boxcolor=black@0.5:boxborderw=8"
+            f"y=h*0.87:{font_opt}:shadowcolor=black@0.5:shadowx=2:shadowy=2"
         )
 
     cta = ""
     brand_esc = escape_drawtext(brand)
     footer = (
-        f",drawtext=text='{brand_esc}':fontcolor=#7a7064:fontsize=18"
-        f":x=w-text_w-24:y=h-40:{font_opt}:box=1:boxcolor=black@0.5:boxborderw=6"
+        f",drawtext=text='{brand_esc}':fontcolor=#999999:fontsize=16"
+        f":x=w-text_w-20:y=h-32:{font_opt}:shadowcolor=black@0.4:shadowx=1:shadowy=1"
     )
 
+    # V10: soft gradient overlay for text readability (replaces harsh black bars)
     bars = (
-        f",drawbox=x=0:y=0:w=iw:h=ih*0.03:color=black@0.3:t=fill"
-        f",drawbox=x=0:y=ih*0.97:w=iw:h=ih*0.03:color=black@0.3:t=fill"
+        f",drawbox=x=0:y=ih*0.72:w=iw:h=ih*0.28:color=0x0a0a0f@0.45:t=fill"
     )
 
     # ── Assemble vf ──
@@ -188,7 +194,7 @@ def build_filter_for_slide(img, mp3, out_clip, beat, fonts, fps, W, H, brand, pr
     vf += cta
     vf += footer
     vf += bars
-    vf += f",vignette=PI/5,format=yuv420p"
+    vf += f",vignette=PI/8,format=yuv420p"
 
     cmd = [
         'ffmpeg', '-y',
@@ -359,6 +365,7 @@ COLOR_GRADES = {
     'natural':   '',
     'cool':      'eq=gamma=0.98:contrast=1.05:saturation=0.92:brightness=0.01',
     'gold':      'eq=gamma=1.03:contrast=1.08:saturation=1.08:brightness=0.03,colorbalance=rs=0.05:gs=-0.02:bs=-0.08',
+    'teal':      'eq=gamma=1.0:contrast=1.05:saturation=1.1:brightness=0.01,colorbalance=rs=-0.04:gs=0.02:bs=0.06',
 }
 DEFAULT_GRADE = 'warm'
 

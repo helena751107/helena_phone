@@ -4658,3 +4658,41 @@ helena-psycare:    not checked out
 - [ ] minimal quality 34개 → standard 승격 (주간 1개 이상)
 - [ ] helena-faith / helena-psycare 로컬 체크아웃 → 빌드
 - [ ] CI verify job 실제 배포 테스트 (main push)
+
+---
+
+## 2026-08-08 PD Pipeline V10 — 콘텐츠 이해 기반 연출 자동화 (_Claude)
+
+### 배경
+TG msg 370 (pd_tistory_drawer) 영상의 근본적 문제 발견:
+1. 6개 beat 스크린샷 전부 byte-for-byte identical (149,824 bytes)
+2. "끼임색+까만 직사각형" 디자인 (drawbox 검은 막대 + boxcolor 텍스트 박스)
+3. URL 콘텐츠 자동 파싱 전무 → shot_bible 수동 작성
+4. 연출-내레이션 동기화 없음 → VO가 뭘 말하든 같은 화면
+
+### 핵심 통찰 (Boss)
+"이건 캡처 버그가 아니라 독해와 편집 판단의 부재다. 일반 숏폼 도구들은 템플릿에 콘텐츠를 끼워맞추지만, 우리는 콘텐츠를 읽고 이해해서 거기에 맞는 연출을 스스로 짜야 한다."
+
+### 구현 (P0~P0.6 + P1 + 시각 스타일)
+
+**신규 파일:**
+- `scripts/_parse_url.py` — P0: Playwright DOM 파싱 → 섹션 추출 → shot_bible + scroll_sel 자동 생성
+- `scripts/_generate_vo.py` — P0.5: beat별 caption+context → 한국어 VO 초안 생성 (템플릿 기반)
+- `scripts/_direct_map.py` — P0.6: VO 길이·역할 기반 zoom/color_tag/pause 연출 자동 결정
+
+**수정 파일:**
+- `scripts/produce_pd.sh` P1: 하드코딩 anchors dict → shot_bible scroll_sel 기반 + 점진적 스크롤 fallback
+- `scripts/_render_video.py`: 검은 막대(drawbox) 제거 → 하단 그라데이션 오버레이, 텍스트 박스→그림자, vignette PI/5→PI/8, teal color grade 추가, pan_right/pan_left zoom 처리
+- `helena-programming/mcp/pd_pipeline_mcp.py`: pd_parse_url MCP 도구 추가 (P0~P0.6 순차 실행)
+- `CLAUDE.md`: PD Pipeline V10 섹션 추가
+
+### 결과 (pd_tistory_v2, TG msg 371)
+- P0: Tistory 페이지에서 8개 섹션 자동 추출 (각각 다른 scroll_sel)
+- P1: 8개 beat 모두 다른 스크린샷 (141K~260K, 이전: 전부 149,824)
+- 시각: 검은 막대 제거, 그림자 텍스트, teal grade, pan_right zoom
+- TG msg 371 전송 성공
+
+### 알려진 이슈
+- CSS selector (`article > h2:nth-of-type(N)`) → Playwright timeout. text-based selector(`:has-text()`)로 수정 완료 (다음 실행부터 적용)
+- 점진적 스크롤 fallback은 작동하나, 페이지 하단에서 beat 06-08 동일 위치 문제 (페이지 길이 한계)
+- VO 텍스트가 다소 긺 (템플릿 생성 → 향후 LLM 기반으로 개선 가능)

@@ -105,6 +105,28 @@ TOOLS: list[dict[str, Any]] = [
         },
     },
     {
+        "name": "pd_parse_url",
+        "description": "URL을 파싱해 페이지 구조를 분석하고 shot_bible을 자동 생성합니다. P0(Parsing) → P0.5(VO draft) → P0.6(Directing map)을 순차 실행합니다. pd_produce 전에 실행하면 shot_bible을 수동으로 만들 필요가 없습니다.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "파싱할 웹페이지 URL. 예: https://mynote11605.tistory.com/m/2",
+                },
+                "ep": {
+                    "type": "string",
+                    "description": "에피소드 ID. 생략 시 URL에서 자동 생성.",
+                },
+                "generate_vo": {
+                    "type": "boolean",
+                    "description": "VO 초안 자동 생성 (기본: true). false면 P0 파싱만 실행.",
+                },
+            },
+            "required": ["url"],
+        },
+    },
+    {
         "name": "pd_output",
         "description": "완료된 작업의 출력 파일 경로와 크기를 확인합니다.",
         "inputSchema": {
@@ -377,6 +399,105 @@ def get_output(job_id: str | None) -> dict:
     return {"ok": True, "job_id": job_id, "ep_id": ep_id, "status": job["status"], "files": files}
 
 
+def parse_url(url: str, ep: str | None = None, generate_vo: bool = True) -> dict:
+    """P0: Parse a URL and generate shot_bible.json automatically.
+
+    Runs:
+      1. _parse_url.py   → P0 DOM parsing + section extraction
+      2. _generate_vo.py  → P0.5 VO draft generation
+      3. _direct_map.py   → P0.6 Directing decisions
+    """
+    import re
+    from urllib.parse import urlparse
+
+    # Generate ep from URL if not provided
+    if not ep:
+        parsed = urlparse(url)
+        domain = (parsed.hostname or "unknown").split(".")[0]
+        path = parsed.path.strip("/").replace("/", "-") or "index"
+        raw = f"pd_{domain}_{path}"[:40]
+        ep = re.sub(r"[^a-zA-Z0-9_-]", "", raw)
+
+    outdir = OUT_BASE / ep
+    outdir.mkdir(parents=True, exist_ok=True)
+    (outdir / "stills").mkdir(exist_ok=True)
+    (outdir / "voice").mkdir(exist_ok=True)
+    (outdir / "work").mkdir(exist_ok=True)
+
+    scripts = ROOT / "scripts"
+    results = []
+
+    # Step 1: P0 — URL parsing
+    try:
+        r = subprocess.run(
+            ["python3", str(scripts / "_parse_url.py"), url, str(outdir)],
+            capture_output=True, text=True, timeout=120, cwd=str(ROOT),
+        )
+        results.append(f"[P0 parse] exit={r.returncode}\n{r.stdout[-500:]}")
+        if r.returncode != 0:
+            return {"ok": False, "error": f"P0 parsing failed: {r.stderr[-300:]}", "ep": ep, "outdir": str(outdir)}
+    except subprocess.TimeoutExpired:
+        return {"ok": False, "error": "P0 parsing timed out (120s)", "ep": ep}
+    except Exception as e:
+        return {"ok": False, "error": f"P0 parsing error: {e}", "ep": ep}
+
+    if not generate_vo:
+        bible_path = outdir / "shot_bible.json"
+        if bible_path.exists():
+            bible = json.loads(bible_path.read_text())
+            return {
+                "ok": True, "ep": ep, "outdir": str(outdir),
+                "beats": len(bible.get("beats", [])),
+                "bible": bible,
+                "hint": "VO generation skipped. Review shot_bible and run pd_produce when ready.",
+            }
+        return {"ok": False, "error": "shot_bible.json not created", "ep": ep}
+
+    # Step 2: P0.5 — VO generation
+    try:
+        r = subprocess.run(
+            ["python3", str(scripts / "_generate_vo.py"), str(outdir)],
+            capture_output=True, text=True, timeout=60, cwd=str(ROOT),
+        )
+        results.append(f"[P0.5 VO] exit={r.returncode}\n{r.stdout[-500:]}")
+    except Exception as e:
+        results.append(f"[P0.5 VO] error: {e}")
+
+    # Step 3: P0.6 — Directing map
+    try:
+        r = subprocess.run(
+            ["python3", str(scripts / "_direct_map.py"), str(outdir)],
+            capture_output=True, text=True, timeout=30, cwd=str(ROOT),
+        )
+        results.append(f"[P0.6 Direct] exit={r.returncode}\n{r.stdout[-500:]}")
+    except Exception as e:
+        results.append(f"[P0.6 Direct] error: {e}")
+
+    # Read final bible
+    bible_path = outdir / "shot_bible.json"
+    if not bible_path.exists():
+        return {"ok": False, "error": "shot_bible.json not found after P0~P0.6", "ep": ep, "log": "\n".join(results)}
+
+    bible = json.loads(bible_path.read_text())
+    beats = bible.get("beats", [])
+    beat_summary = [
+        {"id": b["id"], "caption": b.get("caption", ""), "scroll_sel": b.get("scroll_sel", ""),
+         "zoom": b.get("zoom", {}).get("type", "?"), "color_tag": b.get("color_tag", "?"),
+         "vo": b.get("vo", "")[:60]}
+        for b in beats
+    ]
+
+    return {
+        "ok": True, "ep": ep, "outdir": str(outdir),
+        "url": url, "beats": len(beats),
+        "beats_detail": beat_summary,
+        "hint": (
+            f"shot_bible이 생성되었습니다. 검토 후 pd_produce('{ep}') 로 영상을 제작하세요. "
+            f"수정이 필요하면 {outdir}/shot_bible.json 을 직접 편집하세요."
+        ),
+    }
+
+
 # ─── MCP handler (STDIO JSON-RPC) ────────────────────────────────────────
 def handle_request(method: str, params: dict | None = None) -> dict:
     """Route MCP JSON-RPC methods."""
@@ -408,6 +529,13 @@ def handle_request(method: str, params: dict | None = None) -> dict:
                 return {"content": [{"type": "text", "text": json.dumps(result, indent=2, ensure_ascii=False)}]}
             elif name == "pd_stop":
                 result = stop_job(args.get("job_id"))
+                return {"content": [{"type": "text", "text": json.dumps(result, indent=2, ensure_ascii=False)}]}
+            elif name == "pd_parse_url":
+                result = parse_url(
+                    url=args.get("url", ""),
+                    ep=args.get("ep"),
+                    generate_vo=args.get("generate_vo", True),
+                )
                 return {"content": [{"type": "text", "text": json.dumps(result, indent=2, ensure_ascii=False)}]}
             elif name == "pd_output":
                 result = get_output(args.get("job_id"))

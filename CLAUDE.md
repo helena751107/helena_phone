@@ -194,6 +194,52 @@ bash ~/work/tg.sh '✅ 작업명 — 결과'
 > 어떤 전시장(네이버, 티스토리)은 로봇이 직접 못 올려. 그래서 우리는 **복사해서 붙여넣기** 작전을 써!
 > 1. 글짓기 로봇이 글 완성 → 2. 무전기(Telegram)로 보내줌 → 3. 사람이 복사+붙여넣기 → 4. 끝! (5분이면 돼)
 
+## PD Pipeline (웹페이지 → 숏폼 영상) — V10 콘텐츠 이해 기반 (2026-08-08~)
+
+**목적:** URL 하나로 웹페이지를 "이해하고 소개하는" 숏폼 영상 자동 제작.
+일반 숏폼 도구(템플릿 끼워맞추기)와 달리, **실제 페이지를 읽고 섹션별로 다른 화면을 캡처**한다.
+
+**파이프라인 단계:**
+| 단계 | 스크립트 | 하는 일 |
+|------|----------|---------|
+| **P0** | `_parse_url.py` | URL 로드 → DOM 파싱 → 제목/섹션/본문 추출 → beat 생성 + scroll_sel 부여 |
+| **P0.5** | `_generate_vo.py` | beat별 caption+context → 한국어 내레이션 VO 초안 생성 |
+| **P0.6** | `_direct_map.py` | VO 길이·역할 기반 zoom/color_tag/pause 연출 자동 결정 |
+| **P1** | `produce_pd.sh` P1 | Playwright로 페이지 로드 → beat별 `scroll_sel`로 다른 섹션 스크롤 → viewport 캡처 |
+| **P2** | `produce_pd.sh` P2 | Edge TTS (YuJinNeural)로 VO 음성 합성 |
+| **P3** | `_bridge_pickup.sh` | Android 갤러리에서 bridge 영상 감지 |
+| **P4** | `_render_video.py` | Ken Burns (zoom/pan) + color grade + soft overlay → xfade concat |
+| **P4b** | `_make_ass.py` | CNN Breaking News 스타일 ASS 자막 (per-word scale pop) |
+| **P4c** | ffmpeg | ASS 자막을 VO body에 burn-in |
+| **P5** | `_pd_assemble.py` | Bridge 연결 + full-timeline BGM (sidechain ducking) |
+| **P5b** | `_make_srt.py` | YouTube caption용 SRT 생성 (xfade timing 보정) |
+| **P6** | ffmpeg + curl | 720p TG 인코딩 + @S21Phone_Bot 전송 |
+
+**V10 시각 스타일:**
+- 검은 막대(drawbox) 제거 → 하단 그라데이션 오버레이 (텍스트 가독성)
+- 텍스트 박스 제거 → 그림자(shadow) + 테두리(border)로 교체
+- 비네트 PI/5 → PI/8 (더 가볍게)
+- color_tag `teal` 추가 (warm/gold/cool/cinematic/natural과 함께 6종)
+
+**사용법:**
+```bash
+# MCP (권장):
+# pd_parse_url(url="https://...") → pd_produce(ep_id="pd_xxx")
+
+# CLI:
+URL="https://페이지주소" EP=에피소드ID bash scripts/produce_pd.sh "$EP" "$URL"
+
+# shot_bible 수동 작성 후 캡처만:
+# shot_bible에 scroll_sel 필드 포함 → P1이 각 beat마다 다른 섹션 캡처
+```
+
+**핵심 차별점:**
+- 일반 숏폼 도구 = 템플릿에 콘텐츠 끼워맞추기
+- PD Pipeline V10 = **콘텐츠를 읽고 이해해서, 그 이해에 맞는 연출을 스스로 결정**
+- P0가 채워지기 전까지는 "이해 없는 소개"였음 → V10부터 진짜 "독해와 편집 판단" 기반
+
+> URL 하나만 주면 로봇이 알아서 페이지를 "읽고" 섹션별로 다른 화면을 찍어서 멋진 숏폼 영상을 만들어줘! P0 → P0.5 → P0.6 단계가 페이지 내용을 이해하고 연출을 결정하는 똑똑한 부분이야.
+
 ## 파일 구조 — 우리 집 지도
 
 ```

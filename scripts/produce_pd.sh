@@ -55,10 +55,26 @@ echo "=== 🎬 produce_pd · $EP ==="
 echo "  URL=$URL"
 echo "  BGM_VOLUME=$BGM_VOLUME (golden)  TTS=$TTS_ENGINE/jf_alpha (Kokoro)"
 
-# ── P0 shot bible (create default if missing) ──
+# ── P0 shot bible (auto-parse URL or create default) ──
 BIBLE="$OUTDIR/shot_bible.json"
 if [[ ! -f "$BIBLE" ]]; then
-  python3 - <<'PY'
+  # V10: if URL is provided and not the default helena page, auto-parse
+  if [[ -n "$URL" ]] && [[ "$URL" != "https://helena751107.github.io/helena_phone/" ]]; then
+    echo "[P0] Auto-parsing URL → shot_bible..."
+    python3 "$ROOT/scripts/_parse_url.py" "$URL" "$OUTDIR" || true
+    if [[ -f "$BIBLE" ]]; then
+      echo "[P0.5] Generating VO drafts..."
+      python3 "$ROOT/scripts/_generate_vo.py" "$OUTDIR" || true
+      echo "[P0.6] Building directing map..."
+      python3 "$ROOT/scripts/_direct_map.py" "$OUTDIR" || true
+      echo "  ✅ shot_bible auto-generated from URL"
+    else
+      echo "  ⚠️ Auto-parse failed — using default shot_bible"
+    fi
+  fi
+  # Fallback: create default shot_bible if still missing
+  if [[ ! -f "$BIBLE" ]]; then
+    python3 - <<'PY'
 import json, os
 from pathlib import Path
 out = Path(os.environ["OUTDIR"])
@@ -68,7 +84,7 @@ bible = {
   "standard": "video_pd_pipeline_v2",
   "bgm_volume": float(os.environ.get("BGM_VOLUME", "0.025")),
   "resolution": "1080:1920",
-  "version": "v8",
+  "version": "v10",
   "channel_stinger": {"enabled": True, "duration": 0.5, "text": "S21 Phone"},
   "pattern_interrupt": {"enabled": True, "duration": 0.4},
   "loop_match": {"enabled": True, "open_color": "gold", "close_color": "gold"},
@@ -109,12 +125,13 @@ bible = {
 (out / "shot_bible.json").write_text(json.dumps(bible, ensure_ascii=False, indent=2), encoding="utf-8")
 print("  wrote shot_bible.json default")
 PY
+  fi
 fi
 
-# ── P1 Factory: Playwright page captures ──
-echo "[P1] Playwright page captures..."
+# ── P1 Factory: Playwright page captures (V10: scroll_sel from shot_bible) ──
+echo "[P1] Playwright scroll captures (shot_bible scroll_sel)..."
 python3 - <<'PY'
-import os
+import os, json
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 
@@ -122,53 +139,67 @@ outdir = Path(os.environ["OUTDIR"])
 stills = outdir / "stills"
 stills.mkdir(exist_ok=True)
 url = os.environ["URL"]
-# map beat ids to scroll anchors when possible
-anchors = {
-    "01_hero": None,
-    "02_agents": "#agents",
-    "03_system": "#system",
-    "04_centers": "#centers",
-    "05_funnel": "#funnel",
-    "06_constitution": "#install",  # page has #install (no #constitution)
-}
-import json
-beats = json.loads((outdir / "shot_bible.json").read_text(encoding="utf-8"))["beats"]
+
+bible = json.loads((outdir / "shot_bible.json").read_text(encoding="utf-8"))
+beats = bible.get("beats") or []
+
+# Build beat list: filter page kind, track sequential index
+page_beats = [(i, b) for i, b in enumerate(beats) if b.get("kind") != "bridge"]
+if not page_beats:
+    page_beats = [(i, b) for i, b in enumerate(beats)]  # fallback: all beats
 
 with sync_playwright() as p:
     b = p.chromium.launch(args=["--disable-dev-shm-usage"])
     page = b.new_page(viewport={"width": 390, "height": 844}, device_scale_factor=3)
     page.goto(url, wait_until="networkidle", timeout=120000)
     page.wait_for_timeout(2000)
+    # remove custom cursors / floating UI
     page.evaluate("""() => {
-      document.querySelectorAll('.cursor,.cursor-dot').forEach(e => e.remove());
+      document.querySelectorAll('.cursor,.cursor-dot,.floating-btn,.scroll-top').forEach(e => e.remove());
     }""")
-    for beat in beats:
-        if beat.get("kind") != "page":
-            continue
+    # try to hide fixed nav bars by scrolling past them
+    try:
+        nav_h = page.evaluate("""() => {
+          const nav = document.querySelector('nav,header,.navbar,.tistory-header,.top-bar');
+          return nav ? nav.offsetHeight : 0;
+        }""")
+        if nav_h and nav_h > 40:
+            page.evaluate(f"window.scrollBy(0, {nav_h + 10})")
+            page.wait_for_timeout(400)
+    except Exception:
+        pass
+
+    for beat_idx, (orig_idx, beat) in enumerate(page_beats):
         bid = beat["id"]
-        sel = anchors.get(bid)
+        sel = beat.get("scroll_sel") or beat.get("section_selector")
+
         if sel:
             try:
-                page.goto(url + sel, wait_until="domcontentloaded", timeout=60000)
-                page.wait_for_timeout(1000)
-                page.evaluate("document.querySelectorAll('.cursor,.cursor-dot').forEach(e=>e.remove())")
-                page.locator(sel).first.scroll_into_view_if_needed(timeout=8000)
-                page.wait_for_timeout(500)
+                el = page.locator(sel).first
+                el.scroll_into_view_if_needed(timeout=8000)
+                page.wait_for_timeout(600)
+                # scroll up slightly so heading isn't at the very top edge
+                page.evaluate("window.scrollBy(0, -60)")
+                page.wait_for_timeout(300)
             except Exception as e:
-                print("  ! scroll", bid, e)
-                page.evaluate("window.scrollBy(0, window.innerHeight)")
-                page.wait_for_timeout(500)
-        else:
-            page.evaluate("window.scrollTo(0,0)")
-            page.wait_for_timeout(600)
+                print(f"  ! scroll {bid}: {e} -> fallback progressive")
+                sel = None
+
+        if not sel:
+            # Progressive scroll: each beat scrolls further down the page
+            scroll_y = beat_idx * int(page.evaluate("window.innerHeight")) * 0.75
+            page.evaluate(f"window.scrollTo({{top: {scroll_y}, behavior: 'smooth'}})")
+            page.wait_for_timeout(700)
+
         dest = stills / f"{bid}.png"
-        # also write to OUTDIR root for _render_video compat names
         page.screenshot(path=str(dest), full_page=False)
-        # legacy names for _render_video.py
+        # legacy name for _render_video.py compat
         page.screenshot(path=str(outdir / f"{bid}.png"), full_page=False)
-        print(f"  📸 {bid} ({dest.stat().st_size})")
+        print(f"  📸 {bid} ({dest.stat().st_size} bytes)  sel={sel or 'scroll-y'}")
+
     b.close()
 print("  page captures done")
+
 PY
 
 # ── P2 TTS (voice engine: Kokoro jf_alpha local → 폴백 grok/openai/edge) ──
