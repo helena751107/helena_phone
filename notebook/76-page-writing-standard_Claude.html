@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="모든 `_notebook/*.md`가 통일된 웹 UI로 번역되기 위해 지켜야 할 최소·권장·프리미엄 규칙. — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>페이지 작법 표준 — md 원고 → 웹페이지 품질 규칙 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>페이지 작법 표준 — md 원고 → 웹페이지 품질 규칙</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · lakme-audio</div>
+    <h1>페이지 작법 표준 — md 원고 → 웹페이지 품질 규칙</h1>
+    <p class="deck">모든 `_notebook/*.md`가 통일된 웹 UI로 번역되기 위해 지켜야 할 최소·권장·프리미엄 규칙.</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/76-page-writing-standard_Claude.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1">1. 품질 등급</a></li>
+<li><a href="#2">2. 요소별 작성 요령</a><ul>
+<li><a href="#h1">H1 (# 타이틀)</a></li>
+<li><a href="#deck">Deck (&gt; 설명문)</a></li>
+<li><a href="#h2">H2 (## 섹션)</a></li>
+<li><a href="#table">표 (Table)</a></li>
+<li><a href="#_1">코드블록 (```)</a></li>
+<li><a href="#-">체크리스트 (- [ ])</a></li>
+<li><a href="#_2">내부 링크</a></li>
+</ul>
+</li>
+<li><a href="#3-ui">3. 요소 → UI 매핑</a></li>
+<li><a href="#4">4. 안티패턴 (하지 말 것)</a><ul>
+<li><a href="#h1_1">❌ H1 없음</a></li>
+<li><a href="#_3">❌ 평문만 주르륵</a></li>
+<li><a href="#url">❌ 절대 URL 내부 링크</a></li>
+<li><a href="#_4">❌ 이미지 경로 상이</a></li>
+</ul>
+</li>
+<li><a href="#5">5. 표준 템플릿</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <hr>
+<p>date: 2026-08-08<br>
+agent: Claude<br>
+mark: _Claude<br>
+type: standard<br>
+status: active</p>
+<hr>
+<h1 id="md">페이지 작법 표준 — md 원고 → 웹페이지 품질 규칙</h1>
+<blockquote>
+<p>모든 <code>_notebook/*.md</code>가 통일된 웹 UI로 번역되기 위해 지켜야 할 최소·권장·프리미엄 규칙.<br>
+<code>publishing_metrics.py</code>는 이 규칙을 기준으로 품질 등급을 자동 측정한다.</p>
+</blockquote>
+<hr>
+<h2 id="1">1. 품질 등급</h2>
+<table>
+<thead>
+<tr>
+<th>등급</th>
+<th>조건</th>
+<th>허용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>프리미엄 (premium)</strong></td>
+<td>H1 + deck + H2≥3 + 표≥2 + 체크리스트 + 내부링크≥1</td>
+<td>모든 출판물</td>
+</tr>
+<tr>
+<td><strong>표준 (standard)</strong></td>
+<td>H1 + deck + H2≥2 + (표 or 코드블록)≥1</td>
+<td>신규·유지보수</td>
+</tr>
+<tr>
+<td><strong>최소 (minimal)</strong></td>
+<td>H1 제목만</td>
+<td>WIP 드래프트만 임시 허용</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>원칙:</strong> 신규 페이지는 standard 이상. 기존 minimal은 주간 1개 이상 승격.</p>
+</blockquote>
+<hr>
+<h2 id="2">2. 요소별 작성 요령</h2>
+<h3 id="h1">H1 (<code># 타이틀</code>)</h3>
+<ul>
+<li><strong>필수.</strong> 모든 페이지에 딱 1개.</li>
+<li>한글로 작성. &ldquo;S21&rdquo; 같은 코드명 허용.</li>
+<li>빌드 시 <code>&lt;h1&gt;</code>, <code>&lt;title&gt;</code>, breadcrumb에 사용됨.</li>
+<li>없으면 파일명 stem이 기계식 타이틀로 들어감 → 발견성 저하.</li>
+</ul>
+<pre><code class="language-markdown"># 좋은 예: 클라우드 비용 최적화 — 2026년 8월 기준
+# 나쁜 예: cloud-cost-optimization (영문, 기계식)
+</code></pre>
+<h3 id="deck">Deck (<code>&gt; 설명문</code>)</h3>
+<ul>
+<li>H1 바로 다음 줄에 blockquote.</li>
+<li><strong>권장 (standard 등급 필수).</strong> 한 문장으로 페이지 내용 요약.</li>
+<li>빌드 시 <code>meta description</code> + hero 아래 <code>.deck</code> 문단이 됨.</li>
+<li>없으면 검색엔진 미리보기가 비어 보임.</li>
+</ul>
+<pre><code class="language-markdown">&gt; 2026년 7~8월 S21 생태계 5레포의 인프라 비용과 최적화 방안을 정리한다.
+</code></pre>
+<h3 id="h2">H2 (<code>## 섹션</code>)</h3>
+<ul>
+<li><strong>권장 2~6개.</strong> standard 등급은 최소 2개 필수.</li>
+<li>빌드 시 accordion 섹션으로 접힘. 토글 버튼(+/-)이 자동 생성됨.</li>
+<li>H2가 없으면 페이지 전체가 하나의 평문 블록 — 탐색 어려움.</li>
+<li>H3(<code>###</code>)는 accordion 내부 소제목으로 사용.</li>
+</ul>
+<pre><code class="language-markdown">## 좋은 예: 클라우드 비용 현황
+## 좋은 예: 최적화 적용 결과
+## 나쁜 예: section-1 (의미 없는 레이블)
+</code></pre>
+<h3 id="table">표 (Table)</h3>
+<ul>
+<li><strong>권장.</strong> 비교 데이터, 설정, 체크리스트 요약에 사용.</li>
+<li>헤더 행 <strong>필수.</strong> 헤더 없는 표는 웹에서 정렬되지 않음.</li>
+<li>premium 등급은 2개 이상.</li>
+</ul>
+<pre><code class="language-markdown">| 항목 | Before | After | 절감 |
+|------|--------|-------|------|
+| GitHub Actions | 0원 | 0원 | - |
+| Grok API | 45,000원 | 45,000원 | - |
+</code></pre>
+<h3 id="_1">코드블록 (```)</h3>
+<ul>
+<li>기술 문서에 적극 활용.</li>
+<li>언어 지정 권장 (<code>bash,</code>python, ```json 등).</li>
+<li>빌드 시 monospace + syntax highlight 컨테이너로 렌더링.</li>
+</ul>
+<h3 id="-">체크리스트 (<code>- [ ]</code>)</h3>
+<ul>
+<li>액션 아이템, TODO, 진행 상황에 사용.</li>
+<li>빌드 시 스타일된 체크박스로 렌더링.</li>
+<li><strong>완료된 항목은 <code>- [x]</code>로 업데이트</strong> — 방치된 미완료 체크리스트는 신뢰도 저하.</li>
+</ul>
+<pre><code class="language-markdown">- [x] 빌드 스크립트 수정
+- [ ] CI 게이트 추가
+- [ ] 텔레그램 보고 자동화
+</code></pre>
+<h3 id="_2">내부 링크</h3>
+<ul>
+<li>다른 <code>_notebook</code> 페이지 참조 시 <strong>상대경로 .md</strong>로 작성.</li>
+<li>빌드 시 <code>.html</code>로 자동 변환됨.</li>
+<li><strong>절대 URL 사용 금지</strong> — 로컬-원격 불일치 발생.</li>
+</ul>
+<pre><code class="language-markdown">좋은 예: [에이전트 역할 분장](31-agent-roles_Grok.html)
+나쁜 예: [에이전트 역할](https://helena751107.github.io/helena_phone/notebook/31-agent-roles_Grok.html)
+</code></pre>
+<hr>
+<h2 id="3-ui">3. 요소 → UI 매핑</h2>
+<table>
+<thead>
+<tr>
+<th>Markdown</th>
+<th>HTML 출력</th>
+<th>UI 효과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code># Title</code></td>
+<td><code>&lt;h1&gt;</code> + <code>&lt;title&gt;</code></td>
+<td>Hero 타이틀 + 브라우저 탭</td>
+</tr>
+<tr>
+<td><code>&gt; Deck</code> (H1 직후 blockquote)</td>
+<td><code>&lt;p class="deck"&gt;</code> + <code>&lt;meta name="description"&gt;</code></td>
+<td>Hero 부제목 + SEO</td>
+</tr>
+<tr>
+<td><code>## Section</code></td>
+<td>Accordion <code>.wz-sec</code> &gt; <code>.wz-sec-h</code></td>
+<td>접기/펼치기 토글</td>
+</tr>
+<tr>
+<td><code>### Sub</code></td>
+<td><code>&lt;h3&gt;</code></td>
+<td>Accordion 내부 소제목</td>
+</tr>
+<tr>
+<td><code>| Table |</code></td>
+<td><code>&lt;table&gt;</code> + 테마 스타일</td>
+<td>정렬된 데이터 표</td>
+</tr>
+<tr>
+<td><code>- [ ] item</code></td>
+<td>체크박스</td>
+<td>액션 추적</td>
+</tr>
+<tr>
+<td><code>```code```</code></td>
+<td><code>&lt;pre&gt;&lt;code&gt;</code></td>
+<td>Monospace 하이라이트</td>
+</tr>
+<tr>
+<td><code>[text](file.html)</code></td>
+<td><code>&lt;a href="./file.html"&gt;</code></td>
+<td>내부 탐색</td>
+</tr>
+<tr>
+<td><code>**bold**</code></td>
+<td><code>&lt;strong&gt;</code></td>
+<td>강조</td>
+</tr>
+<tr>
+<td><code>*italic*</code></td>
+<td><code>&lt;em&gt;</code></td>
+<td>기울임</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4">4. 안티패턴 (하지 말 것)</h2>
+<h3 id="h1_1">❌ H1 없음</h3>
+<pre><code>파일이 바로 본문으로 시작하면 타이틀이 파일명 stem이 됨.
+→ &quot;70-font-bgm-fix&quot; 같은 제목이 웹에 노출.
+</code></pre>
+<h3 id="_3">❌ 평문만 주르륵</h3>
+<pre><code>H2 섹션 구분 없이 긴 텍스트만 있으면:
+- accordion UI 미작동 → 전체가 한 덩어리
+- in-page 검색이 섹션 단위로 안 됨
+- TOC 자동 생성 불가
+</code></pre>
+<h3 id="url">❌ 절대 URL 내부 링크</h3>
+<pre><code>[문서](https://helena751107.github.io/.../file.html)
+→ 로컬 개발 환경에서 클릭하면 프로덕션으로 날아감
+→ 상대경로 .md로 쓰고 빌드 시 .html로 자동 변환됨
+</code></pre>
+<h3 id="_4">❌ 이미지 경로 상이</h3>
+<pre><code>![img](/absolute/path.png) → 페이지스에서 404
+![img](../assets/img.png) → 상대경로로, 실제 파일이 그 위치에 있는지 확인
+</code></pre>
+<hr>
+<h2 id="5">5. 표준 템플릿</h2>
+<pre><code class="language-markdown"># 페이지 제목 (한글)
+
+&gt; 이 페이지가 다루는 내용을 한 문장으로 요약.
+
+## 첫 번째 섹션
+
+핵심 내용을 여기에. 표가 필요하면:
+
+| 항목 | 설명 | 비고 |
+|------|------|------|
+| A | ... | ... |
+| B | ... | ... |
+
+## 두 번째 섹션
+
+추가 내용.
+
+- [ ] 할 일 1
+- [ ] 할 일 2
+
+## 세 번째 섹션 (선택)
+
+코드 예시:
+
+```bash
+echo &quot;hello&quot;
+</code></pre>
+<p>참고: <a href="31-agent-roles_Grok.html">관련 문서</a></p>
+<pre><code>
+---
+
+## 6. 품질 측정 방법
+
+`scripts/publishing_metrics.py`는 각 md 파일을 열어 아래 항목을 검사한다:
+
+| 항목 | 검출 방법 | 점수 |
+|------|----------|------|
+| H1 | `^# ` 정규식 | +1 |
+| Deck | `^&gt; ` 정규식 (H1 이후 첫 blockquote) | +1 |
+| H2 구조 | `^## ` 개수 ≥ 2 | +1 |
+| 표 | `|` 포함 행 2줄 이상 | +1 |
+| 코드/체크 | ` ``` ` 또는 `- [ ]` 존재 | +1 |
+
+**점수 → 등급:**
+- 5점 → premium
+- 3~4점 → standard
+- 0~2점 → minimal
+
+```bash
+# 전체 품질 현황
+python3 scripts/publishing_metrics.py
+
+# 특정 파일 점수 확인
+python3 -c &quot;
+from publishing_metrics import score_page
+print(score_page('_notebook/01-arch.md'))
+&quot;
+</code></pre>
+<hr>
+<p><em>출판부 표준문서 · agent mark <code>_Claude</code> · 2026-08-08</em></p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="75-translation-logic-management_Claude.html">
+          <span class="dir">Previous</span>
+          <span class="title">출판부 (Publishing Department) — 번역 수호자 (Translation Guardian)</span>
+        </a>
+    <a class="next" href="allocation-rate-2026-07-28.html">
+          <span class="dir">Next</span>
+          <span class="title">allocation rate 2026 07 28</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine lakme-audio</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

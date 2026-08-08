@@ -4442,3 +4442,66 @@ MIDI 소싱: Mutopia → IMSLP → (필요시) basic-pitch Actions
 ### 파이프라인 변경
 - `produce_pd.sh`: V8→V9, TTS=edge, TG caption 갱신
 - `_make_ass.py`: 완전 재작성 (CNN 애니메이션 엔진)
+
+---
+
+## 2026-08-08 — 출판부(Publisher) 신설 + 생태계 번역 무결성 달성 (_Claude)
+
+### 배경
+- 6개 레포(main + 5 satellites)의 md→HTML 번역이 분산 관리되고 있었음
+- gap_count > 0 여도 CI 실패 안 함, 위성 빌더 /tmp/sites/ 하드코딩, helena-programming은 번역 브릿지 전무
+- 전환율 측정 체계 없음
+
+### 완료한 것
+1. **출판부 역할 정의** — `_notebook/75-translation-logic-management_Claude.md`
+   - 4번째 에이전트 역할: 번역 수호자 (Translation Guardian)
+   - 7가지 번역 규칙: SSOT, gap=0 CI 게이트, CATALOG 등록 의무, 브랜드 일관성, 품질등급, orphans 금지, 주간 metrics
+   - 관리 대상 6레포 명시
+
+2. **페이지 작법 표준** — `_notebook/76-page-writing-standard_Claude.md`
+   - 3단계 품질 등급: minimal/standard/premium
+   - 요소→UI 매핑, 안티패턴, 템플릿
+
+3. **전환율 측정 스크립트** — `scripts/publishing_metrics.py`
+   - 6레포 전수조사: coverage, quality tiers, broken links, auto-titled detection
+   - `assets/publishing-metrics.json` 출력
+
+4. **build_webzine.py 수정**
+   - gap_count > 0 시 exit 1 (CI 게이트)
+   - Vol.01 하드코딩 → git tag / volume.txt / build date 동적 감지
+
+5. **check_webpages_Grok.py 수정**
+   - ⚠ AUTO_TITLE 경고 + manual/auto 카운트
+
+6. **build_satellite_docs_Grok.py 수정**
+   - `/tmp/sites/` → `/root/work/` (실제 레포 경로)
+   - helena-programming 브랜드 추가
+   - webzine.css CDN 링크 추가
+
+7. **deploy-pages.yml 수정**
+   - verify job 추가: build → gap check → metrics → artifact upload
+   - deploy job이 verify 의존 (gap 있으면 배포 차단)
+
+8. **CLAUDE.md 수정**
+   - 에이전트 3종→4종, Publisher 행 추가
+   - 출판부 섹션 신설
+
+### 결과
+```
+Ecosystem coverage: 111.8% (190 html / 170 md)
+Gaps: 0 — 모든 레포 번역 무결성
+Quality: premium 78 | standard 58 | minimal 34
+
+helena_phone:      99 md → 102 html (103%) ✅
+helana_log:        15 md → 18 html  (120%) ✅
+helena-piano:      10 md → 12 html  (120%) ✅ — fridge/ 6문서 최초 HTML화
+helena-programming: 46 md → 58 html (126%) ✅ — 최초 번역 브릿지 구축
+helena-faith:      not checked out
+helena-psycare:    not checked out
+```
+
+### 다음 할 일
+- [ ] manual registration rate 48% → 95% (52개 auto-titled 문서에 NOTEBOOK_TITLES 등록)
+- [ ] minimal quality 34개 → standard 승격 (주간 1개 이상)
+- [ ] helena-faith / helena-psycare 로컬 체크아웃 → 빌드
+- [ ] CI verify job 실제 배포 테스트 (main push)

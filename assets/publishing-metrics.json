@@ -1,0 +1,119 @@
+{
+  "generated": "2026-08-08T03:58:46Z",
+  "agent": "_Claude",
+  "role": "publisher",
+  "repos": {
+    "helena_phone": {
+      "source_md": 99,
+      "output_html": 102,
+      "coverage": 1.0303030303030303,
+      "gap_count": 0,
+      "missing_html": [],
+      "orphan_html": [
+        "notebook/40-lecture-chalkboard-vol0.html",
+        "notebook/53-self-eval.html"
+      ],
+      "manual_title_rate": 1.0,
+      "auto_titled": 0,
+      "quality": {
+        "premium": 67,
+        "standard": 27,
+        "minimal": 5
+      },
+      "broken_links": [
+        "_notebook/76-page-writing-standard_Claude.md: ./file.md → not found"
+      ]
+    },
+    "helana_log": {
+      "source_md": 15,
+      "output_html": 18,
+      "coverage": 1.2,
+      "gap_count": 0,
+      "missing_html": [],
+      "orphan_html": [],
+      "quality": {
+        "premium": 0,
+        "standard": 9,
+        "minimal": 6
+      },
+      "broken_links": [],
+      "status": "ok"
+    },
+    "helena-piano": {
+      "source_md": 10,
+      "output_html": 12,
+      "coverage": 1.2,
+      "gap_count": 0,
+      "missing_html": [],
+      "orphan_html": [],
+      "quality": {
+        "premium": 6,
+        "standard": 3,
+        "minimal": 1
+      },
+      "broken_links": [],
+      "status": "ok"
+    },
+    "helena-faith": {
+      "source_md": 0,
+      "output_html": 0,
+      "coverage": 0,
+      "gap_count": 0,
+      "missing_html": [],
+      "orphan_html": [],
+      "quality": {
+        "premium": 0,
+        "standard": 0,
+        "minimal": 0
+      },
+      "broken_links": [],
+      "status": "not_checked_out"
+    },
+    "helena-psycare": {
+      "source_md": 0,
+      "output_html": 0,
+      "coverage": 0,
+      "gap_count": 0,
+      "missing_html": [],
+      "orphan_html": [],
+      "quality": {
+        "premium": 0,
+        "standard": 0,
+        "minimal": 0
+      },
+      "broken_links": [],
+      "status": "not_checked_out"
+    },
+    "helena-programming": {
+      "source_md": 46,
+      "output_html": 58,
+      "coverage": 1.2608695652173914,
+      "gap_count": 0,
+      "missing_html": [],
+      "orphan_html": [
+        "apps/helena-studio/assets/launcher.html",
+        "director/out/_intro_smoke/intro.html",
+        "director/out/work_31-agent-roles_Grok.html",
+        "director/out/work_helena_phone/intro.html",
+        "director/out/work_helena_phone_pro/intro.html",
+        "director/out/work_install-guide.html"
+      ],
+      "quality": {
+        "premium": 5,
+        "standard": 19,
+        "minimal": 22
+      },
+      "broken_links": [],
+      "status": "ok"
+    }
+  },
+  "ecosystem_coverage": 1.118,
+  "total_md": 170,
+  "total_html": 190,
+  "total_gaps": 0,
+  "aggregate_quality": {
+    "premium": 78,
+    "standard": 58,
+    "minimal": 34
+  }
+}

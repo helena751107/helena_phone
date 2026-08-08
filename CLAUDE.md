@@ -47,16 +47,17 @@
 - `git push --force`는 원격이 로컬보다 뒤처진 게 확실할 때만. 함부로 쓰지 말 것.
 - 완료 후 `git push` 자동 실행
 
-## AI 에이전트 3종 — 직함 (Boss 2026-07-26)
+## AI 에이전트 4종 — 직함 (Boss 2026-07-26, 확장 2026-08-08)
 
 | 호출 | 마크 | 직함 | 영역 | 비용 | 설치 |
 |------|------|------|------|------|------|
 | `grok` / `gr` | **`_Grok`** | **디자이너** | 콘텐츠·비주얼·톤·랜딩·웹진·아이콘·카피·Naver 드래프트 | 45,000원/월 | ✅ |
 | `ds` / `dsflash` | **`_Aider`** | **작업 반장** | 패치 큐·디프·반복 시공·실행 감독 | DeepSeek 포함 | ✅ |
-| `cc` (추후) | **`_Claude`** | **감사** | 거리 둔 검증·보안·헌법·통과/보류/반려 | 정책에 따름 | ⏳ 미설치 |
+| `cc` (출판부) | **`_Claude`** | **출판부 · 번역 수호자** | md→html 변환·커버리지·품질 게이트·CI 검증 | 정책에 따름 | ✅ |
+| `cc` (감사) | **`_Claude`** | **감사** | 거리 둔 검증·보안·헌법·통과/보류/반려 | 정책에 따름 | ⏳ 미설치 |
 
-**파이프:** Boss 방향 → `_Grok` 시안 → `_Aider` 시공 → `_Claude` 감사(있을 때) → Boss 최종.  
-**상세:** `_notebook/31-agent-roles_Grok.md` · 마크 규약: `30-agent-file-marks.md`
+**파이프:** Boss 방향 → `_Grok` 시안 → `_Aider` 시공 → `_Claude`(출판부) 변환·게이트 → `_Claude`(감사) 검증(있을 때) → Boss 최종.  
+**상세:** `_notebook/31-agent-roles_Grok.md` · 출판부: `_notebook/75-translation-logic-management_Claude.md` · 마크 규약: `30-agent-file-marks.md`
 
 > Termux: `grok` / `groklogin` / `grokc` / `agent` · `ds`는 `scripts/ds.sh` 래퍼.  
 > 예전 `gr`/`grlogin`/`grc` 호환 유지.
@@ -105,6 +106,14 @@ bash ~/work/tg.sh '✅ 작업명 — 결과'
 - 인터랙티브 앱: `notebook/webpage-coverage.html`
 - 역할 문서: `_notebook/33-webpage-coverage_Grok.md`
 - 문서 페이지는 공통 **웹앱 UI**(검색·접기·펼치기·본문 복사) — `assets/webzine.js`
+
+## 출판부 (Publishing Department) — 번역 수호자 (2026-08-08~)
+- **역할:** 모든 6개 레포의 md→HTML 변환 파이프라인 소유·관리
+- **측정:** `python3 scripts/publishing_metrics.py` → `assets/publishing-metrics.json`
+- **표준:** 페이지 작법 표준 `_notebook/76-page-writing-standard_Claude.md`
+- **규칙:** 출판부 7규칙 `_notebook/75-translation-logic-management_Claude.md`
+- **CI 게이트:** `gap_count > 0` → deploy 차단 (`.github/workflows/deploy-pages.yml`)
+- **커밋 규약:** 빌드 결과 커밋 시 `translation:` 접두어
 
 ## Paste Pipeline (네이버·티스토리 수동 발행)
 - API 없는 플랫폼은 Paste Pipeline으로 대응:

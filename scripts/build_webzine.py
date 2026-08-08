@@ -9,7 +9,9 @@ import html
 import json
 import os
 import re
+import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
 
 import markdown
@@ -17,6 +19,26 @@ from markdown.extensions.toc import TocExtension
 
 ROOT = Path(__file__).resolve().parents[1]
 os.chdir(ROOT)
+
+
+def _detect_volume() -> str:
+    """Detect volume tag from git tag, config file, or build date."""
+    # 1) git tag
+    try:
+        result = subprocess.run(
+            ["git", "describe", "--tags", "--abbrev=0"],
+            capture_output=True, text=True, cwd=ROOT, timeout=5,
+        )
+        if result.returncode == 0 and result.stdout.strip():
+            return result.stdout.strip()
+    except Exception:
+        pass
+    # 2) config file
+    vol_file = ROOT / "configs" / "volume.txt"
+    if vol_file.exists():
+        return vol_file.read_text(encoding="utf-8").strip()
+    # 3) build date fallback
+    return datetime.now().strftime("%Y-%m-%d")
 
 MD = markdown.Markdown(
     extensions=[
@@ -281,6 +303,7 @@ def page_shell(
     out_path: str,
     src: str,
     kind: str = "md",
+    vol: str = "",
 ) -> str:
     # depth for assets
     depth = len(Path(out_path).parts) - 1
@@ -366,7 +389,7 @@ def page_shell(
     <span>{html.escape(title)}</span>
   </div>
   <header class="wz-hero">
-    <div class="wz-kicker">{html.escape(section)} · Vol.01</div>
+    <div class="wz-kicker">{html.escape(section)} · {html.escape(vol) if vol else 'Vol.01'}</div>
     <h1>{html.escape(title)}</h1>
     {f'<p class="deck">{html.escape(deck)}</p>' if deck else ''}
     <div class="wz-meta">
@@ -391,7 +414,7 @@ def page_shell(
   </nav>
   {related_html}
   <footer class="wz-foot">
-    <div>S21 PHONE · Webzine Vol.01</div>
+    <div>S21 PHONE · Webzine {html.escape(vol) if vol else 'Vol.01'}</div>
     <div class="gold">모든 계정은 누나 명의입니다.</div>
     <p style="margin-top:12px"><a href="{home}">← Back to landing</a></p>
   </footer>
@@ -417,6 +440,7 @@ def build_md(item: dict) -> None:
     body, toc = render_md(rewritten)
     # drop duplicate h1 if present as first heading matching title
     body = re.sub(r"^<h1[^>]*>.*?</h1>\s*", "", body, count=1, flags=re.I | re.S)
+    vol = _detect_volume()
     html_out = page_shell(
         title=item["title"],
         deck=item.get("deck") or "",
@@ -426,6 +450,7 @@ def build_md(item: dict) -> None:
         out_path=item["out"],
         src=item["src"],
         kind="markdown",
+        vol=vol,
     )
     out = ROOT / item["out"]
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -454,6 +479,7 @@ def build_code(item: dict) -> None:
         out_path=item["out"],
         src=item["src"],
         kind="code",
+        vol=_detect_volume(),
     )
     out = ROOT / item["out"]
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -621,7 +647,12 @@ def main() -> int:
     cov = write_webpage_coverage()
     print(f"Coverage gaps: {cov.get('gap_count', 0)} → assets/webpage-coverage.json")
     print(f"Built {built} pages + archive")
-    return 0 if cov.get("gap_count", 0) == 0 else 0  # build always succeeds; gaps reported
+    gap_count = cov.get("gap_count", 0)
+    if gap_count > 0:
+        print(f"ERROR: {gap_count} translation gap(s) — md without html", file=sys.stderr)
+        print("Run: python3 scripts/build_webzine.py to rebuild missing pages", file=sys.stderr)
+        return 1
+    return 0
 
 
 if __name__ == "__main__":

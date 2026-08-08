@@ -52,6 +52,13 @@ BRANDS = {
         "hub": "https://helena751107.github.io/helena_phone/",
         "kicker": "Care · Docs",
     },
+    "helena-programming": {
+        "name": "Helena Programming",
+        "accent": "#3db8a8",
+        "home": "https://helena751107.github.io/helena-programming/",
+        "hub": "https://helena751107.github.io/helena_phone/",
+        "kicker": "Engineering · Docs",
+    },
 }
 
 SKIP_NAMES = {"_TEST_CONNECTION.md"}
@@ -72,6 +79,7 @@ def shell(brand: dict, title: str, deck: str, body: str, src: str, rel_home: str
 <link rel="manifest" href="{rel_home}site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,600&family=JetBrains+Mono:wght@400&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://helena751107.github.io/helena_phone/assets/webzine.css">
 <style>
 :root {{
   --ink:#f4efe6; --ink-dim:#b5a999; --ink-mute:#7a7064;
@@ -299,12 +307,13 @@ def build_repo(root: Path, brand_key: str) -> list[str]:
 
 
 def main() -> int:
-    base = Path("/tmp/sites")
+    base = Path(__file__).resolve().parents[1]  # /root/work/ (helena_phone root)
     mapping = {
         "helana_log": base / "helana_log",
-        "helana-faith": base / "helana-faith",
+        "helana-faith": base / "helena-faith",
         "helena-piano": base / "helena-piano",
         "helena-psycare": base / "helena-psycare",
+        "helena-programming": base / "helena-programming",
     }
     total = 0
     for key, path in mapping.items():
