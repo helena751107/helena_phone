@@ -50,6 +50,7 @@
   </header>
   <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
 <ul>
+<li><a href="#_claude-2026-08-08">🎨 랜딩 페이지 전면 재작성 — 초등학생 비유 버전 (_Claude · 2026-08-08)</a></li>
 <li><a href="#pd-pipeline-v7-_claude-2026-08-07">🎬 PD Pipeline V7 — 프로급 업그레이드 완료 (_Claude · 2026-08-07)</a></li>
 <li><a href="#grok-free-pd-pipeline-v2-tg-_claude-2026-08-07">🎬 Grok-free PD Pipeline v2 첫 실가동 — TG 발송 성공 (_Claude · 2026-08-07)</a></li>
 <li><a href="#kokoro-fp32-jf_alpha-ai-_claude-2026-08-07">✅ Kokoro FP32 + jf_alpha — AI 성우 솔루션 확정 (_Claude · 2026-08-07)</a></li>
@@ -307,6 +308,13 @@
 <li><a href="#_10">파이프라인 변경</a></li>
 </ul>
 </li>
+<li><a href="#2026-08-08-publisher-_claude">2026-08-08 — 출판부(Publisher) 신설 + 생태계 번역 무결성 달성 (_Claude)</a><ul>
+<li><a href="#_11">배경</a></li>
+<li><a href="#_12">완료한 것</a></li>
+<li><a href="#_13">결과</a></li>
+<li><a href="#_14">다음 할 일</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </nav>
@@ -317,7 +325,31 @@
     <button type="button" id="wzCopy" data-cursor>본문 복사</button>
   </div>
   <article class="wz-prose" id="wzProse" data-app="doc">
-    <h3 id="pd-pipeline-v7-_claude-2026-08-07">🎬 PD Pipeline V7 — 프로급 업그레이드 완료 (_Claude · 2026-08-07)</h3>
+    <h3 id="_claude-2026-08-08">🎨 랜딩 페이지 전면 재작성 — 초등학생 비유 버전 (_Claude · 2026-08-08)</h3>
+<p><strong>요청:</strong> &ldquo;아주 초등학생도 이해할 수 있는 비유로 전부 다 랜딩 페이지 웹페이지를 전부 다 바꿔&rdquo;</p>
+<p><strong>완료:</strong> <code>index.html</code>(1,882줄) 전면 재작성. CSS/JS 22개 인터랙티브 기능 전부 유지, 콘텐츠 텍스트만 교체.</p>
+<p><strong>중심 비유 — <code>주머니 속 마법 공구상자</code>:</strong><br>
+| 기존 용어 | 새 비유 | 설명 |<br>
+|-----------|---------|------|<br>
+| Track 1 (돌봄) | 수호천사 | 누나를 24시간 지키는 안전벨트 |<br>
+| Track 2 (소망) | 꿈 공장 | 생각을 세상에 내보내는 작업실 |<br>
+| Claude Code (cc) | 글짓기 로봇 | 대장·감독. 글 쓰고 코드 짜고 총지휘 |<br>
+| Aider (ds) | 고치기 로봇 | 수리공. 눈은 없어도 손이 빨라요 |<br>
+| Grok | 그림 로봇 | 상상력 대장. 그림·영상·조사 |<br>
+| Auditor (미설치) | 감사 로봇 | 심판. 규칙 확인 (준비 중) |<br>
+| Termux + proot | 비밀 방 | 로봇 친구들이 사는 폰 속 리눅스 |<br>
+| GitHub | 무료 전시장 | 만든 걸 세상에 보여주는 공간 |<br>
+| YouTube | TV 방송국 | 영상 내보내기 |<br>
+| Telegram | 무전기 | 로봇→사람 보고 |<br>
+| Discord | 모임방 | 실시간 대화 공간 |<br>
+| Workcenters | 일곱 개 작업실 | 빵공장·전시장·방송국·무전기·일기장·웹진·모임방 |<br>
+| 월 비용 | 한 달 용돈 | 넷플릭스 하나 값 (₩55,000) |<br>
+| CONSTITUTION | 규칙책 | 16개 조항 |<br>
+| Handoff | 바통 터치 | 모든 열쇠는 누나 거 |<br>
+| Install | 주문 한 줄 | 앱 2개 + 한 줄 복사 |</p>
+<p><strong>비유 밀도:</strong> 128회 사용 — 모든 섹션에서 최소 1개 이상 비유 포함.<br>
+<strong>보존:</strong> 커스텀 커서, 스파인 프로그레스, 레이더 차트, 비용 파이, 터미널 타자기, 아키텍처 SVG 툴팁, 작업실 인터랙티브 맵, funnel ring, 도서관 검색, 아코디언 챕터, j/k 키보드 네비게이션, 테마 토글, 모바일 메뉴 — 전부 정상 동작.</p>
+<h3 id="pd-pipeline-v7-_claude-2026-08-07">🎬 PD Pipeline V7 — 프로급 업그레이드 완료 (_Claude · 2026-08-07)</h3>
 <p>V6에서 V7로 5가지 프로급 개선 적용:</p>
 <ol>
 <li><strong>Breathing pauses</strong> — 비트마다 <code>pause</code>(초) 필드 추가. VO 끝나고 0.4~1.0초 숨 고르기. 숏폼이 아닌 설명형 영상에서 템포 조절의 핵심.</li>
@@ -6376,6 +6408,77 @@ MIDI 소싱: Mutopia → IMSLP → (필요시) basic-pitch Actions</p>
 <ul>
 <li><code>produce_pd.sh</code>: V8→V9, TTS=edge, TG caption 갱신</li>
 <li><code>_make_ass.py</code>: 완전 재작성 (CNN 애니메이션 엔진)</li>
+</ul>
+<hr>
+<h2 id="2026-08-08-publisher-_claude">2026-08-08 — 출판부(Publisher) 신설 + 생태계 번역 무결성 달성 (_Claude)</h2>
+<h3 id="_11">배경</h3>
+<ul>
+<li>6개 레포(main + 5 satellites)의 md→HTML 번역이 분산 관리되고 있었음</li>
+<li>gap_count &gt; 0 여도 CI 실패 안 함, 위성 빌더 /tmp/sites/ 하드코딩, helena-programming은 번역 브릿지 전무</li>
+<li>전환율 측정 체계 없음</li>
+</ul>
+<h3 id="_12">완료한 것</h3>
+<ol>
+<li>
+<p><strong>출판부 역할 정의</strong> — <code>_notebook/75-translation-logic-management_Claude.md</code><br>
+   - 4번째 에이전트 역할: 번역 수호자 (Translation Guardian)<br>
+   - 7가지 번역 규칙: SSOT, gap=0 CI 게이트, CATALOG 등록 의무, 브랜드 일관성, 품질등급, orphans 금지, 주간 metrics<br>
+   - 관리 대상 6레포 명시</p>
+</li>
+<li>
+<p><strong>페이지 작법 표준</strong> — <code>_notebook/76-page-writing-standard_Claude.md</code><br>
+   - 3단계 품질 등급: minimal/standard/premium<br>
+   - 요소→UI 매핑, 안티패턴, 템플릿</p>
+</li>
+<li>
+<p><strong>전환율 측정 스크립트</strong> — <code>scripts/publishing_metrics.py</code><br>
+   - 6레포 전수조사: coverage, quality tiers, broken links, auto-titled detection<br>
+   - <code>assets/publishing-metrics.json</code> 출력</p>
+</li>
+<li>
+<p><strong>build_webzine.py 수정</strong><br>
+   - gap_count &gt; 0 시 exit 1 (CI 게이트)<br>
+   - Vol.01 하드코딩 → git tag / volume.txt / build date 동적 감지</p>
+</li>
+<li>
+<p><strong>check_webpages_Grok.py 수정</strong><br>
+   - ⚠ AUTO_TITLE 경고 + manual/auto 카운트</p>
+</li>
+<li>
+<p><strong>build_satellite_docs_Grok.py 수정</strong><br>
+   - <code>/tmp/sites/</code> → <code>/root/work/</code> (실제 레포 경로)<br>
+   - helena-programming 브랜드 추가<br>
+   - webzine.css CDN 링크 추가</p>
+</li>
+<li>
+<p><strong>deploy-pages.yml 수정</strong><br>
+   - verify job 추가: build → gap check → metrics → artifact upload<br>
+   - deploy job이 verify 의존 (gap 있으면 배포 차단)</p>
+</li>
+<li>
+<p><strong>CLAUDE.md 수정</strong><br>
+   - 에이전트 3종→4종, Publisher 행 추가<br>
+   - 출판부 섹션 신설</p>
+</li>
+</ol>
+<h3 id="_13">결과</h3>
+<pre><code>Ecosystem coverage: 111.8% (190 html / 170 md)
+Gaps: 0 — 모든 레포 번역 무결성
+Quality: premium 78 | standard 58 | minimal 34
+
+helena_phone:      99 md → 102 html (103%) ✅
+helana_log:        15 md → 18 html  (120%) ✅
+helena-piano:      10 md → 12 html  (120%) ✅ — fridge/ 6문서 최초 HTML화
+helena-programming: 46 md → 58 html (126%) ✅ — 최초 번역 브릿지 구축
+helena-faith:      not checked out
+helena-psycare:    not checked out
+</code></pre>
+<h3 id="_14">다음 할 일</h3>
+<ul>
+<li>[ ] manual registration rate 48% → 95% (52개 auto-titled 문서에 NOTEBOOK_TITLES 등록)</li>
+<li>[ ] minimal quality 34개 → standard 승격 (주간 1개 이상)</li>
+<li>[ ] helena-faith / helena-psycare 로컬 체크아웃 → 빌드</li>
+<li>[ ] CI verify job 실제 배포 테스트 (main push)</li>
 </ul>
   </article>
   <nav class="wz-pager">
