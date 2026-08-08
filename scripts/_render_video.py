@@ -540,14 +540,8 @@ for i in range(1, n):
 
 vf_expr = ';'.join(filter_parts)
 
-# ── V8: Burn-in ASS karaoke subtitles ──
-ass_path = os.path.join(outdir, f'{ep}.ass')
-if os.path.exists(ass_path):
-    vf_expr += f';[x{n-1}]ass={ass_path}[vout]'
-    vid_label = '[vout]'
-    print(f'  📝 ASS karaoke subtitles burn-in: {os.path.basename(ass_path)}')
-else:
-    vid_label = f'[x{n-1}]'
+# V9: ASS burn-in moved to produce_pd.sh P4c (after _make_ass.py generates correct timestamps)
+vid_label = f'[x{n-1}]'
 
 # Audio concat list (demuxer, audio-only)
 audio_list = os.path.join(outdir, 'audio_concat.txt')
@@ -600,6 +594,52 @@ if cat_vdur < expect * 0.85 or cat_vdur < cat_adur * 0.80:
     sys.exit(2)
 if abs(cat_vdur - cat_adur) > 2.0:
     print(f'  ⚠️ A/V drift {abs(cat_vdur-cat_adur):.1f}s (continuing if video long enough)')
+
+# ── V9: Compute per-beat timing in xfade output (for subtitle sync) ──
+# The xfade concat compresses the timeline: clip overlaps consume pauses.
+# SRT/ASS generators need exact start/end times, not naive cumulative VO+dur+pause.
+clip_starts = [0.0]
+cum_time = actual_vdurs[0]
+for i in range(1, n):
+    offset = cum_time - xfade_dur
+    clip_starts.append(max(0.05, offset))
+    cum_time = cum_time + actual_vdurs[i] - xfade_dur
+
+# Map kb_* clips to beats: clips = [stinger?] [interrupt?] [kb_slide...] [endcard?]
+beat_start_idx = 0
+_stinger_on = stinger_cfg.get('enabled') and not os.environ.get('NO_STINGER')
+_int_on = int_cfg.get('enabled') and not os.environ.get('NO_INTERRUPT')
+if _stinger_on:
+    beat_start_idx += 1
+if _int_on:
+    beat_start_idx += 1
+
+timing_beats = []
+for bi, name in enumerate(slides):
+    ci = beat_start_idx + bi
+    if ci < len(clip_starts):
+        t_start = clip_starts[ci]
+        t_end = t_start + actual_vdurs[ci]
+        timing_beats.append({
+            "id": name,
+            "start": round(t_start, 3),
+            "end": round(t_end, 3),
+            "duration": round(actual_vdurs[ci], 3),
+        })
+
+timing = {
+    "ep": ep,
+    "beats": timing_beats,
+    "stinger_dur": round(actual_vdurs[0], 3) if _stinger_on else 0,
+    "interrupt_dur": round(actual_vdurs[1], 3) if _int_on else 0,
+    "endcard_dur": round(actual_vdurs[-1], 3) if end_card_enabled else 0,
+    "xfade_dur": xfade_dur,
+    "body_duration": round(cat_vdur, 3),
+}
+timing_path = os.path.join(outdir, 'work', '_timing.json')
+Path(timing_path).parent.mkdir(parents=True, exist_ok=True)
+Path(timing_path).write_text(json.dumps(timing, indent=2, ensure_ascii=False), encoding='utf-8')
+print(f'  \u23f1\ufe0f  timing data \u2192 work/_timing.json ({len(timing_beats)} beats, body={cat_vdur:.1f}s)')
 
 # ── VO-only body (for later full-timeline BGM in _pd_assemble) ──
 vo_only = os.path.join(outdir, f'{ep}_vo.mp4')

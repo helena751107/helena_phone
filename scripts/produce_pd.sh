@@ -4,12 +4,12 @@
 # 역할:
 #   Factory(공짜) = Playwright 페이지 캡처 + FFmpeg Ken Burns + xfade multi-transition
 #   Boss(수동)   = Gemini/공짜LLM으로 bridge 영상 제작 → Android 갤러리에 저장
-#   성우          = Edge TTS InJoonNeural (ko-KR, 상용급) · 완전 공짜
+#   성우          = Edge TTS YuJinNeural (ko-KR 유진 · 차분한 내레이션) · 완전 공짜
 # V9: CNN Breaking News animated subtitles (72pt bold · per-word \t() scale pop 200%→100%)
 # V8: channel stinger · pattern interrupt · loop closing · ASS karaoke subtitles
 # V7: breathing pauses · zoom variety · per-slide grade · BGM swell · staggered end card
 # V6: audio ducking · xfade multi-transition · end card · chrono-pair bridge
-# 고정 상수: BGM_VOLUME=0.025 · TTS=edge(InJoon) · CJK 폰트 · QA gate 필수
+# 고정 상수: BGM_VOLUME=0.025 · TTS=edge(YuJin) · CJK 폰트 · QA gate 필수
 #
 # Bridge 워크플로 (Grok 제로):
 #   1. Gemini로 open/close 영상 만들기
@@ -28,9 +28,9 @@ URL="${2:-https://helena751107.github.io/helena_phone/}"
 OUTDIR="${OUTDIR:-$ROOT/out/$EP}"
 export OUTDIR EP URL ROOT
 export BGM_VOLUME="${BGM_VOLUME:-0.025}"  # Golden whisper — 들릴락 말락 은은
-export TTS_ENGINE="${TTS_ENGINE:-edge}"   # edge=InJoon(상용급), local=Kokoro(폐기), grok=403
+export TTS_ENGINE="${TTS_ENGINE:-edge}"   # edge=YuJin(유진 · 차분한 내레이션), local=Kokoro(폐기), grok=403
 export GROK_TTS_VOICE="${GROK_TTS_VOICE:-ara}"
-export VOICE="${VOICE:-ko-KR-InJoonNeural}"   # Edge TTS 한국어 남성
+export VOICE="${VOICE:-ko-KR-YuJinNeural}"   # Edge TTS 한국어 여성 (유진 · 차분한 내레이션)
 export PYTHONIOENCODING=utf-8
 
 # ── STANDARD v2 pin (변경 금지 — configs/video_pd_pipeline_CURRENT.json) ──
@@ -207,13 +207,13 @@ for beat in bible["beats"]:
             print(f"  ! voice engine fail {bid}: {e}")
             # fallback edge
             import subprocess as sp2
-            edge_v = os.environ.get("VOICE", "ko-KR-InJoonNeural")
+            edge_v = os.environ.get("VOICE", "ko-KR-YuJinNeural")
             sp2.run(["edge-tts", "-f", str(txt), "--voice", edge_v, "--write-media", str(mp3)],
                     capture_output=True, check=False)
             print(f"  [{bid}] edge-FALLBACK/{edge_v}")
     else:
         import subprocess as sp2
-        edge_v = os.environ.get("VOICE", "ko-KR-InJoonNeural")
+        edge_v = os.environ.get("VOICE", "ko-KR-YuJinNeural")
         sp2.run(["edge-tts", "-f", str(txt), "--voice", edge_v, "--write-media", str(mp3)],
                 capture_output=True, check=False)
         print(f"  [{bid}] edge/{edge_v}")
@@ -283,17 +283,33 @@ echo "  SLIDE_TITLES=$SLIDE_TITLES"
 
 python3 "$ROOT/scripts/_render_video.py" "$OUTDIR"
 
+# ── P4b ASS karaoke subtitles (V9: reads _timing.json for frame-accurate sync) ──
+echo "[P4b] ASS karaoke subtitles (CNN Breaking News, xfade-synced)..."
+python3 "$ROOT/scripts/_make_ass.py"
+
+# ── P4c Burn ASS into VO body (so playable has correct subtitles) ──
+VO_BODY="$OUTDIR/${EP}_vo.mp4"
+VO_BURNED="$OUTDIR/${EP}_vo_burned.mp4"
+if [[ -f "$VO_BODY" ]] && [[ -f "$OUTDIR/${EP}.ass" ]]; then
+    echo "[P4c] Burn ASS subtitles into VO body..."
+    ffmpeg -y -i "$VO_BODY" -vf "ass=$OUTDIR/${EP}.ass" \
+      -c:v libx264 -profile:v high -level 4.0 -pix_fmt yuv420p -preset veryfast -crf 20 \
+      -c:a copy -movflags +faststart "$VO_BURNED" 2>/dev/null
+    if [[ -f "$VO_BURNED" ]]; then
+        mv "$VO_BURNED" "$VO_BODY"
+        echo "  ✅ ASS burned into VO body"
+    else
+        echo "  ⚠️ ASS burn-in failed — continuing without burned subtitles"
+    fi
+fi
+
 # ── P5 Playable + bridges + FULL-timeline Boss BGM whisper ──
 echo "[P5] Playable encode + bridge bookends + full-timeline BGM..."
 python3 "$ROOT/scripts/_pd_assemble.py"
 
-# ── P5b SRT subtitles (VO 원본 → YouTube 업로드용 .srt) ──
+# ── P5b SRT subtitles (V9: reads _timing.json for YouTube caption sync) ──
 echo "[P5b] SRT subtitles (YouTube caption sync)..."
 python3 "$ROOT/scripts/_make_srt.py"
-
-# ── P5c ASS karaoke subtitles (V8: word highlight burn-in) ──
-echo "[P5c] ASS karaoke subtitles (word highlight)..."
-python3 "$ROOT/scripts/_make_ass.py"
 
 # ── P6 TG 720 ──
 echo "[P6] TG 720p..."
@@ -314,7 +330,7 @@ if [[ -n "${TG_TOKEN:-}" && -n "${TG_CHAT:-}" && -f "$TG720" ]]; then
     -F caption="🎬 ${EP} · PD pipeline V9 CNN
 🔥 72pt bold · per-word pop animation (200%→100% \t() scale bounce)
 🟥 Red banner bg (BorderStyle=3) · word-wrap multi-line
-TTS: Edge InJoon · bridges: Android 갤러리 chrono-pair
+TTS: Edge YuJin · bridges: Android 갤러리 chrono-pair
 BGM vol=${BGM_VOLUME} · yuv420p High · QA gate
 📝 ASS burn-in: ${EP}.ass
 — produce_pd.sh v3/V9 CNN Breaking News" \    -o /tmp/tg_pd.json -w "\nhttp=%{http_code}\n" || true

@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-"""ASS animated subtitle generator V9 — CNN Breaking News style
+"""ASS animated subtitle generator V9.1 — CNN Breaking News style
 
-Per-word pop-in animation with \t() scale bounce.
-No \k karaoke — each word flies in with dramatic scale pop.
+Per-word pop-in animation with \\t() scale bounce.
+No \\k karaoke — each word flies in with dramatic scale pop.
 Red banner bar behind text (BorderStyle=3 opaque box).
-Words accumulate within a beat, clear between beats.
+
+V9.1: Reads _timing.json from _render_video.py for frame-accurate per-beat timestamps.
+ASS timestamps are body-relative (t=0 at body start) because ASS is burned into
+the body at P4 (before bridges are added at P5).
 
 Usage:
   OUTDIR=/root/work/out/pd_intro EP=pd_intro python3 scripts/_make_ass.py
@@ -83,27 +86,23 @@ def main() -> int:
 
     bible = json.loads(bible_path.read_text(encoding="utf-8"))
     beats = bible.get("beats") or []
-    bridges = bible.get("bridges") or []
 
-    # ── Bridge open offset ──────────────────────────────────
-    b_open_dur = 0.0
-    for br in bridges:
-        if (br.get("before") == beats[0]["id"] if beats else False) or \
-           (br.get("id") or "").startswith("b_open") or "open" in (br.get("id") or ""):
-            b_open_dur = 5.5
-            break
-    b_open_file = outdir / "bridge" / "b_open.mp4"
-    if b_open_file.exists():
-        try:
-            probe = float(subprocess.check_output([
-                "ffprobe", "-v", "error", "-show_entries", "format=duration",
-                "-of", "default=nw=1:nk=1", str(b_open_file),
-            ], text=True).strip() or "0")
-            b_open_dur = min(probe, 5.5)
-        except Exception:
-            pass
+    # ── V9.1: Read _timing.json from render (xfade-aware per-beat start/end) ──
+    # ASS timestamps are body-relative (t=0 at body start) because burn-in
+    # happens at P4 before bridges are added at P5.
+    timing_path = outdir / "work" / "_timing.json"
+    beat_timing = {}  # beat_id → {start, end, duration}
+    body_duration = 0.0
+    use_timing = False
+    if timing_path.exists():
+        timing = json.loads(timing_path.read_text(encoding="utf-8"))
+        for tb in timing.get("beats", []):
+            beat_timing[tb["id"]] = tb
+        body_duration = timing.get("body_duration", 0)
+        use_timing = True
+        print(f"  ⏱️  _timing.json: {len(beat_timing)} beats, body={body_duration:.1f}s")
     else:
-        b_open_dur = 0.0
+        print("  ⚠️  no _timing.json — falling back to ffprobe (timestamps may be out of sync)")
 
     # ── ASS Header ──────────────────────────────────────────
     # BorderStyle=3 = opaque box behind text → red banner bar
@@ -134,16 +133,12 @@ def main() -> int:
     ]
 
     dialogues = []
-    cursor = b_open_dur
 
-    for beat in beats:
-        bid      = beat["id"]
-        vo_text  = beat.get("vo") or beat.get("caption") or bid
-        caption  = beat.get("caption") or ""
-        pause    = float(beat.get("pause", 0))
-        mp3      = outdir / f"{bid}.mp3"
-
-        # ── Probe MP3 duration ──
+    # ── Fallback: probe bridge open + MP3 durations (old method) ──
+    def _fallback_beat_timing(beat):
+        """Return (start, end, dur) using old ffprobe-based method."""
+        bid = beat["id"]
+        mp3 = outdir / f"{bid}.mp3"
         dur = 0.0
         if mp3.exists():
             try:
@@ -155,9 +150,39 @@ def main() -> int:
                 dur = 3.0
         else:
             dur = 3.0
+        return 0.0, dur, dur  # (start, end, dur) — start=0 is a guess
 
-        beat_start = cursor
-        beat_end   = cursor + dur
+    # For fallback mode: track cumulative cursor
+    fallback_cursor = 0.0
+    if not use_timing:
+        # old-style b_open_dur for fallback
+        bridges = bible.get("bridges") or []
+        fallback_cursor = 0.0
+        for br in bridges:
+            if (br.get("id") or "").startswith("b_open") or "open" in (br.get("id") or ""):
+                fallback_cursor = 5.5
+                break
+        b_open_file = outdir / "bridge" / "b_open.mp4"
+        if not b_open_file.exists():
+            fallback_cursor = 0.0
+
+    for beat in beats:
+        bid      = beat["id"]
+        vo_text  = beat.get("vo") or beat.get("caption") or bid
+        caption  = beat.get("caption") or ""
+        pause    = float(beat.get("pause", 0))
+
+        if use_timing and bid in beat_timing:
+            # V9.1: frame-accurate xfade timing — body-relative (no bridge offset)
+            bt = beat_timing[bid]
+            beat_start = bt["start"]
+            beat_end   = bt["end"]
+            dur        = bt["duration"]
+        else:
+            # Fallback
+            fallback_start, fallback_end, dur = _fallback_beat_timing(beat)
+            beat_start = fallback_cursor
+            beat_end   = fallback_cursor + dur
 
         # ── Split & time words ──
         words = split_korean_words(vo_text)
@@ -234,18 +259,21 @@ def main() -> int:
                 f"Caption,,0,0,0,,{caption}"
             )
 
-        cursor = cursor + dur + pause
+        if not use_timing:
+            fallback_cursor = fallback_cursor + dur + pause
 
     # ── Write .ass ──────────────────────────────────────────
     ass_lines = ass_header + dialogues + [""]
     ass_path = outdir / f"{ep}.ass"
     ass_path.write_text("\n".join(ass_lines), encoding="utf-8")
 
-    total_dur = cursor
-    print(f"  🎬 ASS CNN Breaking News: {len(beats)} beats · {total_dur:.1f}s · {ass_path}")
+    last_end = beat_timing[beats[-1]["id"]]["end"] if use_timing and beats and beats[-1]["id"] in beat_timing else (fallback_cursor if not use_timing else 0)
+    total_dur = last_end
+    print(f"  🎬 ASS CNN Breaking News: {len(beats)} beats · total={total_dur:.1f}s · {ass_path}")
     print(f"  🎯 Per-word pop: {SCALE_PEAK}%→100% over {SCALE_POP_MS}ms")
     print(f"  🟥 Red banner bg · {FONT_SIZE}pt bold · ≤{MAX_LINE_W}px/line · {LINE_SPACING}px spacing")
-    print(f"  ⏱️  b_open offset: {b_open_dur:.1f}s")
+    timing_src = "xfade _timing.json" if use_timing else "ffprobe fallback"
+    print(f"  ⏱️  timing source: {timing_src}")
 
     return 0
 

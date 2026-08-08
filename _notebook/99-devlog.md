@@ -1,6 +1,69 @@
 # 📋 S21 Phone — 전체 개발일지
 
 
+### 🔧 자막-내레이션 싱크 수정 (xfade-aware timing) (_Claude · 2026-08-08 17:00)
+
+**문제:** 자막(SRT/ASS)과 내레이션 싱크가 크게 어긋남. Beat 1 자막이 5.0s에서 시작하는데 실제 VO는 0.1s에서 시작.
+
+**근본 원인:**
+1. `_make_srt.py` / `_make_ass.py`가 b_open_dur(5.0s)를 무조건 더했지만 shot_bible의 bridges는 빈 배열 — ghost offset
+2. VO duration + pause 단순 누적으로 타임라인 계산 → xfade 0.4s 중첩으로 실제 클립 시작점이 계속 앞당겨짐 (clip_starts = cum - xfade_dur)
+3. Ken Burns 클립이 `-shortest`로 인코딩돼서 pause tail이 잘림 — 실제 clip duration = VO duration
+
+**수정:**
+- `_render_video.py`: xfade concat 후 per-beat start/end 계산 → `work/_timing.json` 출력
+- `_make_srt.py` V9: `_timing.json` 읽어서 정확한 타임스탬프 사용. bridge offset은 shot_bible에 bridges 정의 있을 때만 적용
+- `_make_ass.py` V9.1: 같은 _timing.json 기반. ASS는 body-relative (bridge prepend 전에 burn-in)
+- `produce_pdh.sh`: P4b ASS 생성 → P4c burn-in → P5 조립 순서로 재배치 (이전엔 P5c에서 생성돼서 burn-in이 한 박자 늦었음)
+- `_render_video.py`에서 ASS burn-in 제거 (P4c로 이관)
+
+**Sync 비교 (pd_magic):**
+| Beat | Before (broken) | After (fixed) |
+|------|---------|--------|
+| 01 | 00:05.012 → 00:19.196 | 00:00.100 → 00:14.266 |
+| 02 | 00:19.996 → 00:35.597 | 00:13.867 → 00:29.466 |
+| 05 | 01:10.221 → 01:26.013 | 01:01.232 → 01:17.000 |
+
+**결과:** TG msg 369 전송. SRT 77.0s (body 79.6s 내에서 정확히 sync).
+
+
+### 🔧 PD Pipeline MCP 서버 구축 + pd_magic 재생산 (_Claude · 2026-08-08 15:10)
+
+**목표:** PD Pipeline을 MCP 서버로 패키징해서 필요할 때마다 켜고/끄고/생산할 수 있게.
+
+**완료:**
+- `helena-programming/mcp/pd_pipeline_mcp.py` — FastMCP 패턴 MCP 서버 (5도구)
+  - `pd_produce`: produce_pd.sh 백그라운드 실행 → job_id 반환
+  - `pd_status`: 작업 상태 확인 (running/complete/failed) + 로그 tail
+  - `pd_list`: out/ 아래 shot_bible 보유 에피소드 목록
+  - `pd_stop`: 실행 중 작업 중지 (SIGTERM → SIGKILL)
+  - `pd_output`: 완료된 작업의 출력 파일 경로·크기
+  - STDIO 모드 (Claude Code 연동) + HTTP 모드 (curl 수동)
+- `scripts/pd_mcp.sh` — on/off/produce/job/output CLI 래퍼
+- `~/.claude.json`에 `pd-pipeline` MCP 서버 등록
+- 실제 pd_magic 재생산 + TG msg 367 전송 성공
+
+**재생산 결과 (force=true):**
+| 파일 | 크기 | 비고 |
+|------|------|------|
+| pd_magic_final.mp4 | 14.5MB | 1080×1920 · BGM mixed · V9 |
+| pd_magic_playable.mp4 | 16.3MB | QA PASS unique=10/10 black=0 |
+| pd_magic_tg.mp4 | 7.6MB | 720p · TG msg 367 ✅ |
+| pd_magic.srt | 1.2KB | 5 entries · 86.7s |
+| pd_magic.ass | 12.3KB | CNN Breaking News · per-word pop |
+
+**파이프라인 전 구간 통과 (P0~P6):** 5클립 Ken Burns + xfade 4종 + BGM ducking/swell + ASS burn-in + QA gate + TG send. S21 ARM CPU에서 총 ~12분 소요.
+
+**MCP 사용법:**
+```bash
+bash scripts/pd_mcp.sh start              # 서버 ON
+bash scripts/pd_mcp.sh produce pd_magic   # 영상 생산
+bash scripts/pd_mcp.sh job                # 상태 확인
+bash scripts/pd_mcp.sh stop               # 서버 OFF
+```
+
+**교훈:** MCP로 래핑하니 "필요할 때 켜서 생산하고 끄는" 패턴이 확립. Claude Code에서도 `pd-pipeline` MCP 도구로 직접 호출 가능. produce_pd.sh 수동 실행보다 MCP 경유가 작업 추적(job history) + 상태 폴링 면에서 우월.
+
 ### 🎬 pd_magic — 표준 파이프라인 숏폼 제작 (_Claude · 2026-08-08)
 
 **Boss 지적:** "동영상 표준 만들어 놓은 거 써라. 워크 프로세스 업무일지에 다 저장해 놨잖아."
