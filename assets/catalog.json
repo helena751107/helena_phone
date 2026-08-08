@@ -904,12 +904,84 @@
     "deck": "2026-08-06 · Boss 판단: 비수익화여도 Edge 쓰지 않는다. 채널이 날아가면 억울하다."
   },
   {
+    "src": "_notebook/70-ai-voice-core-gift-local-train_Grok.md",
+    "out": "notebook/70-ai-voice-core-gift-local-train_Grok.html",
+    "title": "70 · AI 성우 코어 — 선물 모델 + 폰 로컬 학습 로드맵 (_Claude)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-08-06 · Boss: 누나 레포에 선물로 AI 코어 올릴 거다."
+  },
+  {
+    "src": "_notebook/70-font-bgm-fix_Grok.md",
+    "out": "notebook/70-font-bgm-fix_Grok.html",
+    "title": "70 · 자막 폰트 깨짐 + BGM whisper 전구간 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": ""
+  },
+  {
+    "src": "_notebook/71-pd-intro-v2-slide-black-fix_Grok.md",
+    "out": "notebook/71-pd-intro-v2-slide-black-fix_Grok.html",
+    "title": "71 · pd_intro v2 — 슬라이드 블랙 꼬리 수정 (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-08-06 · Boss: 화면 안 바뀜 / 중간부터 안 나옴 → 검증 후 재전송"
+  },
+  {
+    "src": "_notebook/72-pd-pipeline-standard-v2-lock_Grok.md",
+    "out": "notebook/72-pd-pipeline-standard-v2-lock_Grok.html",
+    "title": "72 · PD 영상 표준 v2 확정 (LOCK) (_Grok)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "Boss 2026-08-06: 「여기로 버전 확정. 이게 표준. 매번 동일하게 작업되게 저장.」"
+  },
+  {
+    "src": "_notebook/73-pd-grok-notebook-report_Grok.md",
+    "out": "notebook/73-pd-grok-notebook-report_Grok.html",
+    "title": "📋 PD Grok · 업무 수첩 종합 리포트 (1장)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "**일시:** 2026-08-06 · 에이전트: **_Grok (PD · GPU 대용 · 80% 프로 마감)**"
+  },
+  {
+    "src": "_notebook/74-tts-rvc-lightweight-solution_Claude.md",
+    "out": "notebook/74-tts-rvc-lightweight-solution_Claude.html",
+    "title": "🎤 경량 TTS + RVC 성우 더빙 솔루션 (2026-08-07, _Claude)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "**결론:** SoVITS는 포기. TTS(NeuTTS Nano 또는 Sherpa-ONNX Kokoro) + RVC ONNX = S21에서 실사용 가능한 성우 더빙 파이프."
+  },
+  {
+    "src": "_notebook/75-translation-logic-management_Claude.md",
+    "out": "notebook/75-translation-logic-management_Claude.html",
+    "title": "출판부 (Publishing Department) — 번역 수호자 (Translation Guardian)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "**Boss 결정 (2026-08-08)**"
+  },
+  {
+    "src": "_notebook/76-page-writing-standard_Claude.md",
+    "out": "notebook/76-page-writing-standard_Claude.html",
+    "title": "페이지 작법 표준 — md 원고 → 웹페이지 품질 규칙",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "모든 `_notebook/*.md`가 통일된 웹 UI로 번역되기 위해 지켜야 할 최소·권장·프리미엄 규칙."
+  },
+  {
     "src": "_notebook/allocation-rate-2026-07-28.md",
     "out": "notebook/allocation-rate-2026-07-28.html",
     "title": "Allocation Rate — 2026-07-28",
     "section": "Notebook",
     "kind": "md",
     "deck": "S21 Phone 전체 자산 배분율 + 저장소 메커니즘 분석"
+  },
+  {
+    "src": "_notebook/tistory-master-guide_Claude.md",
+    "out": "notebook/tistory-master-guide_Claude.html",
+    "title": "📝 티스토리 완전 정복 — 5채널 전략·자동화·파이프 총정리",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "2026-08-08 · Claude Code 종합 정리"
   },
   {
     "src": "g/install.sh",

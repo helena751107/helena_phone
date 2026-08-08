@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="2026-08-06 · Boss: 누나 레포에 선물로 AI 코어 올릴 거다. — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>70 · AI 성우 코어 — 선물 모델 + 폰 로컬 학습 로드맵 (_Claude) — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>70 · AI 성우 코어 — 선물 모델 + 폰 로컬 학습 로드맵 (_Claude)</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · lakme-audio</div>
+    <h1>70 · AI 성우 코어 — 선물 모델 + 폰 로컬 학습 로드맵 (_Claude)</h1>
+    <p class="deck">2026-08-06 · Boss: 누나 레포에 선물로 AI 코어 올릴 거다.</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/70-ai-voice-core-gift-local-train_Grok.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#0">0. 한 줄</a></li>
+<li><a href="#1">1. 두 가지 경로</a></li>
+<li><a href="#2-a-ai">2. 경로 A — 선물 받은 AI 코어 꽂기</a><ul>
+<li><a href="#_1">구조 (누나 레포 기준)</a></li>
+<li><a href="#_2">사용법 (받는 사람 기준)</a></li>
+<li><a href="#tts_enginelocal">TTS_ENGINE=local 로 전체 파이프 작동</a></li>
+</ul>
+</li>
+<li><a href="#3-b-ai">3. 경로 B — 폰에서 직접 AI 성우 굽기</a><ul>
+<li><a href="#31-sherpa-onnx-coqui">3.1 Sherpa-ONNX + Coqui 파인튜닝 (권장)</a></li>
+<li><a href="#32-rvc">3.2 RVC 음성 변환 (대안, 무거움)</a></li>
+</ul>
+</li>
+<li><a href="#4-voice_enginepy-local">4. voice_engine.py local 프로바이더 구조</a></li>
+<li><a href="#5">5. 시나리오별 추천</a></li>
+<li><a href="#6-boss-claude">6. 할 일 (Boss → Claude)</a><ul>
+<li><a href="#61-voice_enginepy-local-2026-08-06">6.1 voice_engine.py local 프로바이더 구현 완료 (2026-08-06)</a></li>
+<li><a href="#62-record_voice_samplessh">6.2 record_voice_samples.sh</a></li>
+<li><a href="#63-train_voicepy">6.3 train_voice.py</a></li>
+<li><a href="#64-parksytts-v1">6.4 ParksyTTS v1 실물 확인</a></li>
+</ul>
+</li>
+<li><a href="#7-boss">7. 선물 가이드 (Boss → 누나)</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <blockquote>
+<p>2026-08-06 · Boss: 누나 레포에 선물로 AI 코어 올릴 거다.<br>
+받은 사람이 바로 쓸 수도 있고, 자기 폰에서 직접 학습시킬 수도 있는 구조.</p>
+</blockquote>
+<hr>
+<h2 id="0">0. 한 줄</h2>
+<p>S21 Phone은 <strong>클라우드 성우(Grok/OpenAI) + 로컬 성우(AI 코어)</strong> 를 모두 쓸 수 있다.<br>
+누군가가 구워서 보내준 AI 코어를 꽂으면 바로 오프라인에서 작동하고,<br>
+자기 목소리로 직접 학습시켜서 자기만의 성우를 만들 수도 있다.</p>
+<hr>
+<h2 id="1">1. 두 가지 경로</h2>
+<table>
+<thead>
+<tr>
+<th>경로</th>
+<th>설명</th>
+<th>준비물</th>
+<th>난이도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. 선물 받기</strong></td>
+<td>누군가 구워서 준 <code>.onnx</code> + <code>.json</code> 파일을 <code>voice_engine.py</code>에 꽂는다</td>
+<td>repo clone + <code>pip install sherpa-onnx</code></td>
+<td>★☆☆ (5분)</td>
+</tr>
+<tr>
+<td><strong>B. 직접 굽기</strong></td>
+<td>폰에서 직접 TTS 파인튜닝 / RVC 음성 클론</td>
+<td>S21 + 녹음 10~30문장 + <code>pip install sherpa-onnx-training</code></td>
+<td>★★★ (1~2시간)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="2-a-ai">2. 경로 A — 선물 받은 AI 코어 꽂기</h2>
+<h3 id="_1">구조 (누나 레포 기준)</h3>
+<pre><code>helena_phone/
+├── director/
+│   └── voice_engine.py    ← local/sherpa 프로바이더 (받는 쪽)
+├── voice_models/           ← 여기다 AI 코어를 넣는다
+│   ├── my_voice.onnx       ← Boss가 구워서 선물한 모델
+│   └── my_voice.json       ← 토크나이저 설정
+└── scripts/
+    └── voice_download.sh   ← 선물 모델 다운로더 (GitHub Releases/web)
+</code></pre>
+<h3 id="_2">사용법 (받는 사람 기준)</h3>
+<pre><code class="language-bash"># 1. 의존성 설치 (한 번만)
+pip install sherpa-onnx
+
+# 2. 선물 모델 다운로드 (Boss가 voice_models/에 올려둠)
+git clone https://github.com/helena751107/helena_phone.git
+cd helena_phone
+
+# 3. 바로 사용
+python3 -c &quot;
+from director.voice_engine import synthesize
+from pathlib import Path
+dur, prov = synthesize('안녕하세요, 저는 헬레나입니다',
+                        Path('test.mp3'), engine='local')
+print(f'{prov}: {dur:.1f}s')
+# → local/my_voice: 3.2s  (오프라인, API 비용 0원)
+&quot;
+</code></pre>
+<h3 id="tts_enginelocal">TTS_ENGINE=local 로 전체 파이프 작동</h3>
+<pre><code class="language-bash"># 인트로 영상을 로컬 AI 성우로 제작
+TTS_ENGINE=local bash scripts/produce_intro.sh
+
+# PD 파이프도 동일
+TTS_ENGINE=local bash scripts/produce_pd.sh
+</code></pre>
+<hr>
+<h2 id="3-b-ai">3. 경로 B — 폰에서 직접 AI 성우 굽기</h2>
+<h3 id="31-sherpa-onnx-coqui">3.1 Sherpa-ONNX + Coqui 파인튜닝 (권장)</h3>
+<p>S21 CPU + NEON SIMD 로도 가능한 경량 파이프:</p>
+<pre><code class="language-bash"># 1. 학습 도구 설치
+pip install sherpa-onnx torch --extra-index-url https://download.pytorch.org/whl/cpu
+
+# 2. 목소리 녹음 (30문장 × 5~10초)
+bash scripts/record_voice_samples.sh  # Termux 마이크 → 16kHz mono WAV
+
+# 3. 파인튜닝 (CPU only, 30문장 기준 1~2시간)
+python3 scripts/train_voice.py \
+  --samples voice_samples/ \
+  --out voice_models/my_voice.onnx \
+  --base-model kokoro-ko
+
+# 4. 테스트
+python3 director/voice_engine.py --text &quot;내 목소리 테스트&quot; \
+  --engine local --out /tmp/my_test.mp3
+</code></pre>
+<h3 id="32-rvc">3.2 RVC 음성 변환 (대안, 무거움)</h3>
+<p><code>helena-programming/director/</code> 에 이미 <code>phone_rvc.py</code> 참조 있음.<br>
+RVC = 내 목소리 녹음 → AI 가 다른 사람 목소리로 변환.<br>
+품질은 좋지만 CPU only → 1문장 20~40초.</p>
+<hr>
+<h2 id="4-voice_enginepy-local">4. voice_engine.py local 프로바이더 구조</h2>
+<pre><code class="language-python"># director/voice_engine.py (확장 예정 — Boss AI 코어 도착 시 활성화)
+
+def _tts_local_sherpa(text: str, dest: Path,
+                       model_path: str | None = None) -&gt; float:
+    &quot;&quot;&quot;Sherpa-ONNX 로컬 추론 — CPU NEON 가속, 오프라인.&quot;&quot;&quot;
+    import sherpa_onnx
+
+    model_dir = Path(model_path or os.environ.get(
+        &quot;LOCAL_VOICE_MODEL&quot;,
+        &quot;/root/work/voice_models/my_voice.onnx&quot;
+    ))
+
+    tts_config = sherpa_onnx.OfflineTtsConfig(
+        model=sherpa_onnx.OfflineTtsModelConfig(
+            kokoro=sherpa_onnx.OfflineTtsKokoroModelConfig(
+                model=str(model_dir),
+                tokens=str(model_dir.with_suffix('.json')),
+            ),
+        ),
+    )
+    tts = sherpa_onnx.OfflineTts(tts_config)
+    audio = tts.generate(text, sid=0, speed=0.95)
+    # → WAV 저장 → FFmpeg MP3 변환
+    ...
+
+# synthesize() 우선순위에 local 추가
+ENGINE_PRIORITY = [&quot;grok&quot;, &quot;local&quot;, &quot;openai&quot;, &quot;edge&quot;]
+</code></pre>
+<hr>
+<h2 id="5">5. 시나리오별 추천</h2>
+<table>
+<thead>
+<tr>
+<th>상황</th>
+<th>엔진</th>
+<th>이유</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>유튜브 업로드·수익화</td>
+<td><code>grok</code></td>
+<td>라이선스 🟢</td>
+</tr>
+<tr>
+<td>오프라인·개인소장</td>
+<td><code>local</code></td>
+<td>API 비용 0원</td>
+</tr>
+<tr>
+<td>시연·테스트</td>
+<td><code>local</code></td>
+<td>네트워크 불필요</td>
+</tr>
+<tr>
+<td>선물 받은 AI 코어</td>
+<td><code>local</code></td>
+<td>받아서 바로 꽂기</td>
+</tr>
+<tr>
+<td>내 목소리로 하고 싶다</td>
+<td><code>local</code> (직접 굽기)</td>
+<td>폰에서 1~2시간</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="6-boss-claude">6. 할 일 (Boss → Claude)</h2>
+<ol>
+<li>~~<code>voice_engine.py</code> 기본 구조~~ ✅ (V5)</li>
+<li>~~<code>voice_models/</code> 디렉토리 + README~~ ✅</li>
+<li>~~Boss AI 코어 업로드~~ ✅ <strong>ParkSyTTS v1 도착!</strong> (<code>gift/parksy-tts-v1</code> 브랜치, 2026-08-06 09:20)</li>
+<li>~~ParksyTTS v1 → voice_engine <code>local</code> 프로바이더 연결~~ ✅</li>
+<li>~~<code>scripts/record_voice_samples.sh</code> (Termux 마이크 녹음)~~ ✅ (2026-08-06)</li>
+<li>~~<code>scripts/train_voice.py</code> (폰 로컬 파인튜닝)~~ ✅ (2026-08-06)</li>
+</ol>
+<h3 id="61-voice_enginepy-local-2026-08-06">6.1 voice_engine.py local 프로바이더 구현 완료 (2026-08-06)</h3>
+<p><strong>구현 함수:</strong><br>
+| 함수 | 역할 |<br>
+|------|------|<br>
+| <code>_find_parksytts_root()</code> | ParksyTTS v1 설치 경로 자동 탐지 |<br>
+| <code>_find_sherpa_model()</code> | voice_models/*.onnx 자동 탐지 |<br>
+| <code>_tts_local_parksy()</code> | GPT-SoVITS v2Pro 기반 박씨 목소리 추론 |<br>
+| <code>_tts_local_sherpa()</code> | Sherpa-ONNX Kokoro/VITS 오프라인 추론 |<br>
+| <code>tts_local()</code> | 디스패처 — ParksyTTS 우선, Sherpa 폴백 |</p>
+<p><strong>사용법:</strong></p>
+<pre><code class="language-bash">TTS_ENGINE=local bash scripts/produce_intro.sh   # 오프라인 성우
+TTS_ENGINE=local bash scripts/produce_pd.sh      # PD 파이프
+</code></pre>
+<h3 id="62-record_voice_samplessh">6.2 record_voice_samples.sh</h3>
+<ul>
+<li>30문장 한국어 코퍼스 (음소 다양성 + 자연스러운 문장)</li>
+<li>ffmpeg ALSA/PulseAudio/Termux 마이크 API 자동 감지</li>
+<li>16kHz mono WAV + 무음 트림 + loudnorm 정규화</li>
+<li><code>--quick N</code> / <code>--single N</code> 부분 재녹음 지원</li>
+</ul>
+<h3 id="63-train_voicepy">6.3 train_voice.py</h3>
+<ul>
+<li><code>--cloud</code> → GitHub Actions 7GB 러너로 파인튜닝 오프로드 (권장)</li>
+<li><code>--force-local</code> → Coqui TTS 로컬 파인튜닝 (CPU only, 수 시간)</li>
+<li><code>--list-models</code> → 사용 가능한 베이스 모델 목록</li>
+<li>자동으로 workflow + pipeline 디렉토리 생성</li>
+</ul>
+<h3 id="64-parksytts-v1">6.4 ParksyTTS v1 실물 확인</h3>
+<pre><code>helena-programming/parksy-tts-v1/
+├── say.py          ← python3 say.py &quot;안녕!&quot; 한 줄로 끝
+├── install.sh      ← proot-Ubuntu 원클릭 설치 (ARM64 자동 감지)
+├── activate.sh     ← 매 세션 환경 활성화
+├── send_models.sh  ← 박씨가 WSL에서 실행 → 모델 S21로 전송
+├── requirements.txt← ARM64 호환 최소 의존성
+└── core/
+    ├── engine.py   ← ParkSyTTS v2ProPlus CPU 래퍼 (GPT-SoVITS)
+    └── normalize.py← AI→에이아이 약어 변환
+</code></pre>
+<p><strong>voice_engine 연동 완료:</strong> <code>TTS_ENGINE=local</code> → ParksyTTS 자동 감지 → 박씨 목소리</p>
+<hr>
+<h2 id="7-boss">7. 선물 가이드 (Boss → 누나)</h2>
+<blockquote>
+<p>&ldquo;이 레포에는 성우 플러그인이 내장되어 있어요.<br>
+<code>voice_models/</code> 폴더에 제가 구운 AI 목소리 모델을 넣어뒀으니,<br>
+<code>TTS_ENGINE=local</code> 로 실행하면 오프라인에서 바로 내레이션이 나와요.<br>
+자기 목소리로 바꾸고 싶으면 <code>scripts/train_voice.py</code> 로 30문장만 녹음하면 돼요.<br>
+전부 폰 하나로 됩니다.&rdquo;</p>
+</blockquote>
+<p>— _Claude · 2026-08-06</p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="69-voice-engine-plugin-final_Grok.html">
+          <span class="dir">Previous</span>
+          <span class="title">69 · 성우 플러그인 최종 — Grok 정식 vs Edge 함정 (_Grok)</span>
+        </a>
+    <a class="next" href="70-font-bgm-fix_Grok.html">
+          <span class="dir">Next</span>
+          <span class="title">70 font bgm fix Grok</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine lakme-audio</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

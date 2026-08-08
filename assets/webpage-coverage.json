@@ -1,22 +1,19 @@
 {
-  "generated": "2026-08-06T02:43:52Z",
+  "generated": "2026-08-08T03:58:33Z",
   "agent": "_Grok",
-  "notebook_md_count": 94,
-  "notebook_html_count": 93,
-  "catalog_count": 133,
-  "missing_html": [
-    "_notebook/70-ai-voice-core-gift-local-train_Grok.md",
-    "_notebook/70-font-bgm-fix_Grok.md",
-    "_notebook/71-pd-intro-v2-slide-black-fix_Grok.md",
-    "_notebook/72-pd-pipeline-standard-v2-lock_Grok.md"
-  ],
+  "notebook_md_count": 99,
+  "notebook_html_count": 102,
+  "catalog_count": 142,
+  "manual_titles": 47,
+  "auto_titled": 52,
+  "missing_html": [],
   "orphan_html": [
     "notebook/40-lecture-chalkboard-vol0.html",
     "notebook/53-self-eval.html"
   ],
   "catalog_missing_on_disk": [],
-  "gap_count": 4,
-  "ok": false,
+  "gap_count": 0,
+  "ok": true,
   "policy": "Every _notebook/*.md must have notebook/<same-stem>.html. Run: python3 scripts/build_webzine.py",
   "live_app": "https://helena751107.github.io/helena_phone/notebook/webpage-coverage.html"
 }

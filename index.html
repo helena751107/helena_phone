@@ -3,11 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="S21 Phone Webzine — 갤럭시 한 대로 돌봄과 소망을 돌리는 AI 워크스테이션. Vol.1 Editorial.">
+<meta name="description" content="S21 Phone — 주머니 속 마법 작업실. 폰 한 대로 누나를 지키고, 글쓰고, 그림 그리고, 영상 만들고, 세상과 대화해요.">
 <meta name="theme-color" content="#0a0908" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f7f1e6" media="(prefers-color-scheme: light)">
 <meta name="color-scheme" content="dark light">
-<!-- App shortcut / install (manifest only · no service worker) -->
 <meta name="application-name" content="S21 Phone">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -16,14 +15,14 @@
 <meta name="msapplication-TileColor" content="#0a0908">
 <meta name="msapplication-TileImage" content="https://helena751107.github.io/helena_phone/icons/icon-192.png">
 <meta name="msapplication-config" content="browserconfig.xml">
-<meta property="og:title" content="S21 PHONE — Webzine Vol.1">
-<meta property="og:description" content="돌봄 × 소망 · 3 Agents · 7 Workcenters · Built on a Galaxy S21">
+<meta property="og:title" content="S21 PHONE — 주머니 속 마법 작업실">
+<meta property="og:description" content="폰 한 대로 누나를 지키고 꿈을 세상에 내보내는 마법 도구상자. 로봇 친구 셋이 도와줘요!">
 <meta property="og:image" content="https://helena751107.github.io/helena_phone/icons/icon-512.png">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="S21 PHONE — Webzine Vol.01">
+<meta name="twitter:title" content="S21 PHONE — 주머니 속 마법 작업실">
 <meta name="twitter:image" content="https://helena751107.github.io/helena_phone/icons/icon-512.png">
-<title>S21 PHONE — Webzine Vol.01</title>
+<title>S21 PHONE — 주머니 속 마법 작업실</title>
 <link rel="manifest" href="site-webmanifest.html">
 <link rel="icon" href="icons/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="icons/favicon-16.png" type="image/png" sizes="16x16">
@@ -647,7 +646,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   .chapter-rail { display: none !important; }
   .spine { width: 2px; }
 
-  /* Compact sticky bar: brand + burger only */
   .masthead {
     display: flex; justify-content: space-between; align-items: center;
     gap: 10px; min-height: 56px;
@@ -705,7 +703,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   .terminal-body { font-size: .78rem; padding: 16px 12px; word-break: break-all; }
   .terminal-actions { flex-wrap: wrap; }
   .terminal-actions button, .terminal-actions .btn { min-height: 44px; flex: 1 1 auto; }
-  .lib-search { font-size: 16px; padding: 14px; } /* prevent iOS zoom */
+  .lib-search { font-size: 16px; padding: 14px; }
   .lib-grid { grid-template-columns: 1fr; }
   .lib-card { min-height: 0; }
   .ch-grid { grid-template-columns: repeat(2, 1fr); }
@@ -734,7 +732,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   .ch-grid { grid-template-columns: 1fr; }
 }
 
-/* —— Mobile readability: keep text clear of left spine + edge clip —— */
 :root { --gutter: max(20px, calc(env(safe-area-inset-left, 0px) + 14px)); --gutter-r: max(20px, calc(env(safe-area-inset-right, 0px) + 14px)); }
 .spine { width: 2px !important; opacity: .9; pointer-events: none; }
 .shell,
@@ -757,9 +754,9 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .ch-deck {
   overflow-wrap: anywhere;
   word-break: keep-all;
-  padding-inline: 2px; /* negative letter-spacing can clip first glyph */
+  padding-inline: 2px;
 }
-.cover h1 { letter-spacing: -0.02em; } /* slightly less aggressive than -0.03 */
+.cover h1 { letter-spacing: -0.02em; }
 .marquee-wrap { margin-inline: 0; }
 .acc-head { padding-left: 2px; padding-right: 2px; }
 .to-top {
@@ -772,7 +769,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   .cover-stats { margin-inline: 0; }
   .keys { max-width: 100%; }
   .infograph-box { padding-left: 14px; padding-right: 14px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  .svg-arch { min-width: 520px; } /* allow pan instead of crush */
+  .svg-arch { min-width: 520px; }
   .chapter-rail { display: none !important; }
 }
 
@@ -785,20 +782,19 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
 <header class="masthead" id="masthead">
   <div class="mast-left">
-    <span class="issue">Vol. 01</span>
-    <span>2026 · July</span>
-    <span class="hide-m">Editorial</span>
+    <span class="issue">📱 Magic Workshop</span>
+    <span>2026</span>
   </div>
   <a class="mast-brand" href="#cover">S21 <em>Phone</em></a>
   <div class="mast-actions">
     <button class="menu-btn" id="menuBtn" type="button" aria-label="메뉴" aria-expanded="false" aria-controls="mastRight">☰</button>
     <div class="mast-right" id="mastRight">
-      <a class="hide-m" href="#tracks">Tracks</a>
-      <a class="hide-m" href="#system">System</a>
-      <a class="hide-m" href="#agents">Agents</a>
-      <a class="hide-m" href="#centers">Centers</a>
-      <a class="hide-m" href="#library">Library</a>
-      <a class="hide-m" href="archive.html">All pages</a>
+      <a class="hide-m" href="#tracks">두 가지 길</a>
+      <a class="hide-m" href="#system">설명서</a>
+      <a class="hide-m" href="#agents">로봇친구들</a>
+      <a class="hide-m" href="#centers">작업실</a>
+      <a class="hide-m" href="#library">책장</a>
+      <a class="hide-m" href="archive.html">전체보기</a>
       <a class="hide-m" href="pc-setup.html">🖥️ PC연결</a>
       <button type="button" id="themeBtn" aria-label="테마">Theme</button>
       <a class="mast-cta" href="https://github.com/helena751107/helena_phone">GitHub</a>
@@ -807,16 +803,16 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 </header>
 
 <nav class="chapter-rail" aria-label="챕터">
-  <a href="#cover" data-ch="cover"><span>Cover</span></a>
-  <a href="#tracks" data-ch="tracks"><span>Tracks</span></a>
-  <a href="#system" data-ch="system"><span>System</span></a>
-  <a href="#agents" data-ch="agents"><span>Agents</span></a>
-  <a href="#centers" data-ch="centers"><span>Centers</span></a>
-  <a href="#funnel" data-ch="funnel"><span>Funnel</span></a>
-  <a href="#economics" data-ch="economics"><span>Cost</span></a>
-  <a href="#install" data-ch="install"><span>Install</span></a>
-  <a href="#library" data-ch="library"><span>Library</span></a>
-  <a href="#channels" data-ch="channels"><span>Channels</span></a>
+  <a href="#cover" data-ch="cover"><span>표지</span></a>
+  <a href="#tracks" data-ch="tracks"><span>두 길</span></a>
+  <a href="#system" data-ch="system"><span>그림</span></a>
+  <a href="#agents" data-ch="agents"><span>로봇</span></a>
+  <a href="#centers" data-ch="centers"><span>방</span></a>
+  <a href="#funnel" data-ch="funnel"><span>흐름</span></a>
+  <a href="#economics" data-ch="economics"><span>용돈</span></a>
+  <a href="#install" data-ch="install"><span>설치</span></a>
+  <a href="#library" data-ch="library"><span>책장</span></a>
+  <a href="#channels" data-ch="channels"><span>문</span></a>
 </nav>
 
 <!-- ════ COVER ════ -->
@@ -826,39 +822,38 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   <div class="cover-inner">
     <div class="cover-kicker">
       <span class="dot"></span>
-      <span>Live on Galaxy S21</span>
-      <span>Termux · proot Ubuntu</span>
-      <span>Webzine Vol.01</span>
+      <span>Galaxy S21 한 대로</span>
+      <span>누나를 지키고 꿈을 만드는</span>
+      <span>마법 작업실</span>
     </div>
     <h1>
-      ONE PHONE.
-      <span class="thin">Two tracks.</span>
-      Full stack.
+      주머니 속
+      <span class="thin">마법 공구상자</span>
     </h1>
     <p class="cover-sub">
-      돌봄은 깨지지 않게. 소망은 세상에 닿게.
-      대필작가-간병인이 갤럭시 한 대로 굴리는 AI 워크스테이션 — 웹진 에디션.
+      <strong>비유:</strong> 마치 스위스 군용 칼 같아요. 칼 하나에 가위·드라이버·톱이 다 들어있듯, 폰 하나에 글쓰기·그림·영상·돌봄·대화가 다 들어있어요.
+      누나를 24시간 지키는 <em>수호천사</em>와, 누나의 생각을 세상에 전하는 <em>마법 방송국</em>이 한 몸에.
     </p>
     <div class="cover-cta">
-      <a class="btn btn-solid" href="#install" data-cursor>Install in one line</a>
-      <a class="btn btn-line" href="#system" data-cursor>Explore the system</a>
-      <a class="btn btn-line" href="constitution.html" data-cursor>Read the constitution</a>
+      <a class="btn btn-solid" href="#install" data-cursor>한 줄로 시작하기</a>
+      <a class="btn btn-line" href="#system" data-cursor>어떻게 돌아가나요?</a>
+      <a class="btn btn-line" href="constitution.html" data-cursor>📜 규칙책 보기</a>
     </div>
     <div class="cover-stats" id="coverStats">
-      <div class="s"><div class="v" data-count="99">0</div><div class="l">Commits</div></div>
-      <div class="s"><div class="v" data-count="173">0</div><div class="l">Files</div></div>
-      <div class="s"><div class="v" data-count="18908">0</div><div class="l">Lines</div></div>
-      <div class="s"><div class="v" data-count="3">0</div><div class="l">Agents</div></div>
-      <div class="s"><div class="v" data-count="7">0</div><div class="l">Centers</div></div>
-      <div class="s"><div class="v" data-count="58">0</div><div class="l">Docs</div></div>
+      <div class="s"><div class="v" data-count="294">0</div><div class="l">작업 횟수</div></div>
+      <div class="s"><div class="v" data-count="170">0</div><div class="l">문서</div></div>
+      <div class="s"><div class="v" data-count="190">0</div><div class="l">웹페이지</div></div>
+      <div class="s"><div class="v" data-count="4">0</div><div class="l">로봇 친구</div></div>
+      <div class="s"><div class="v" data-count="7">0</div><div class="l">작업실</div></div>
+      <div class="s"><div class="v" data-count="6">0</div><div class="l">웹사이트</div></div>
     </div>
   </div>
 </section>
 
 <div class="marquee-wrap" aria-hidden="true">
   <div class="marquee" id="marquee">
-    <span>Galaxy S21</span><span>Termux</span><span>proot Ubuntu</span><span>Claude Code</span><span>DeepSeek</span><span>Grok SuperGrok</span><span>Aider</span><span>GitHub Pages</span><span>YouTube</span><span>Telegram</span><span>Discord</span><span>Naver</span><span>Tistory</span><span>phone-MCP</span><span>Care Daemon</span>
-    <span>Galaxy S21</span><span>Termux</span><span>proot Ubuntu</span><span>Claude Code</span><span>DeepSeek</span><span>Grok SuperGrok</span><span>Aider</span><span>GitHub Pages</span><span>YouTube</span><span>Telegram</span><span>Discord</span><span>Naver</span><span>Tistory</span><span>phone-MCP</span><span>Care Daemon</span>
+    <span>Galaxy S21</span><span>Termux</span><span>proot Ubuntu</span><span>글짓기 로봇</span><span>고치기 로봇</span><span>그림 로봇</span><span>감사 로봇</span><span>무료 전시장</span><span>TV 방송국</span><span>무전기</span><span>모임방</span><span>웹진</span><span>일기장</span><span>수호천사</span>
+    <span>Galaxy S21</span><span>Termux</span><span>proot Ubuntu</span><span>글짓기 로봇</span><span>고치기 로봇</span><span>그림 로봇</span><span>감사 로봇</span><span>무료 전시장</span><span>TV 방송국</span><span>무전기</span><span>모임방</span><span>웹진</span><span>일기장</span><span>수호천사</span>
   </div>
 </div>
 
@@ -866,44 +861,59 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
   <!-- MANIFESTO -->
   <div class="manifesto reveal" style="margin-top: 48px;">
-    <blockquote>“핸드오프가 곧 성공이다. 모든 계정은 누나 명의.”</blockquote>
-    <cite>— CONSTITUTION · S21 Phone</cite>
+    <blockquote>"바통 터치가 가장 중요해요. 모든 열쇠는 누나 거예요."</blockquote>
+    <cite>— 📜 규칙책 · S21 작업실</cite>
   </div>
 
   <!-- TRACKS -->
   <section class="chapter" id="tracks">
-    <div class="ch-label"><span class="num">01</span> Dual Track <span class="line"></span></div>
-    <h2 class="ch-title">돌봄과 소망을 <em>동시에</em></h2>
-    <p class="ch-deck">하나의 폰, 두 개의 목적. 트랙 1은 절대 안 깨지는 안전망. 트랙 2는 목소리를 세상에 세우는 스튜디오.</p>
+    <div class="ch-label"><span class="num">01</span> 두 가지 길 <span class="line"></span></div>
+    <h2 class="ch-title">지키기와 <em>만들기</em>를 동시에</h2>
+    <p class="ch-deck">
+      <strong>비유:</strong> 엄마가 아기를 돌보면서 동시에 온라인 쇼핑몰을 운영하는 것과 같아요.
+      한 손으로는 아기를 안전하게 지키고, 다른 한 손으로는 세상과 연결되는 거예요.
+    </p>
     <div class="g2">
       <article class="ed-card reveal">
-        <div class="eyebrow">Track 01 · Care</div>
-        <h3>돌봄 — 절대 비공개 안전망</h3>
-        <p>위치·배터리·이상 감지·에스컬레이션. 콘텐츠 스트림과 물리 분리. 대상은 누나, 그리고 같은 구조가 필요한 모든 이.</p>
+        <div class="eyebrow">길 1 · 수호천사</div>
+        <h3>누나를 24시간 지켜요</h3>
+        <p>
+          <strong>비유:</strong> 아기 방에 달린 베이비 모니터 같아요. 아기가 울면 바로 알려주고,
+          방이 너무 덥거나 추워도 알려줘요. AI 없이도 절대 안 멈춰요.
+        </p>
+        <p style="margin-top:12px;color:var(--ink-dim);font-size:.9rem">
+          🛡️ 위치 확인 · 배터리 체크 · 이상 감지 · 비상 연락 — <em>절대 깨지면 안 되는 안전벨트</em>
+        </p>
         <div class="ibar" data-animate>
-          <div class="ibar-row"><span class="n">안정성</span><div class="t"><div class="f" data-w="100" style="background:var(--teal)"></div></div><span class="p">100%</span></div>
-          <div class="ibar-row"><span class="n">자동화</span><div class="t"><div class="f" data-w="100" style="background:var(--teal)"></div></div><span class="p">FULL</span></div>
-          <div class="ibar-row"><span class="n">AI 의존</span><div class="t"><div class="f" data-w="4" style="background:var(--ink-mute)"></div></div><span class="p">ZERO</span></div>
+          <div class="ibar-row"><span class="n">안전도</span><div class="t"><div class="f" data-w="100" style="background:var(--teal)"></div></div><span class="p">100%</span></div>
+          <div class="ibar-row"><span class="n">자동</span><div class="t"><div class="f" data-w="100" style="background:var(--teal)"></div></div><span class="p">혼자서</span></div>
+          <div class="ibar-row"><span class="n">AI 필요</span><div class="t"><div class="f" data-w="4" style="background:var(--ink-mute)"></div></div><span class="p">거의 0</span></div>
         </div>
         <div class="foot">
-          <span class="tag ok">care-daemon</span>
-          <span class="tag ok">crontab</span>
-          <span class="tag hot">must not break</span>
+          <span class="tag ok">자동 경비</span>
+          <span class="tag ok">타이머</span>
+          <span class="tag hot">절대 금지: 고장</span>
         </div>
       </article>
       <article class="ed-card reveal reveal-d1">
-        <div class="eyebrow">Track 02 · Aspiration</div>
-        <h3>소망 — 대필작가 스튜디오</h3>
-        <p>누나가 건강했다면 살았을 삶을 미러링. GitHub 공장, YouTube 방송탑, Naver 웹진, Discord 로비까지 한 흐름으로.</p>
+        <div class="eyebrow">길 2 · 꿈 공장</div>
+        <h3>누나의 생각을 세상에 내보내요</h3>
+        <p>
+          <strong>비유:</strong> 레고 블록으로 무엇이든 만드는 작업실 같아요.
+          생각(글) → 블록(코드) → 작품(웹사이트·영상·글)으로 변신시켜요.
+        </p>
+        <p style="margin-top:12px;color:var(--ink-dim);font-size:.9rem">
+          ✍️ 글쓰기 · 🎥 영상 만들기 · 🌐 웹사이트 출판 · 📢 SNS 대화 — <em>로봇 친구들이 도와줘요</em>
+        </p>
         <div class="ibar" data-animate>
-          <div class="ibar-row"><span class="n">GitHub</span><div class="t"><div class="f" data-w="100" style="background:var(--teal)"></div></div><span class="p">AUTO</span></div>
-          <div class="ibar-row"><span class="n">YouTube</span><div class="t"><div class="f" data-w="85" style="background:var(--indigo)"></div></div><span class="p">85%</span></div>
-          <div class="ibar-row"><span class="n">Naver</span><div class="t"><div class="f" data-w="30" style="background:var(--gold)"></div></div><span class="p">HAND</span></div>
+          <div class="ibar-row"><span class="n">글</span><div class="t"><div class="f" data-w="100" style="background:var(--teal)"></div></div><span class="p">자동</span></div>
+          <div class="ibar-row"><span class="n">영상</span><div class="t"><div class="f" data-w="85" style="background:var(--indigo)"></div></div><span class="p">85%</span></div>
+          <div class="ibar-row"><span class="n">웹진</span><div class="t"><div class="f" data-w="30" style="background:var(--gold)"></div></div><span class="p">도움</span></div>
         </div>
         <div class="foot">
-          <span class="tag ok">auto deploy</span>
-          <span class="tag gold">paste pipeline</span>
-          <span class="tag">handoff</span>
+          <span class="tag ok">자동 출판</span>
+          <span class="tag gold">복사 붙여넣기</span>
+          <span class="tag">바통 터치</span>
         </div>
       </article>
     </div>
@@ -911,20 +921,22 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
   <!-- SYSTEM INFOGRAPHIC -->
   <section class="chapter" id="system">
-    <div class="ch-label"><span class="num">02</span> System Map <span class="line"></span></div>
-    <h2 class="ch-title">인포그래픽 · <em>아키텍처</em></h2>
-    <p class="ch-deck">노드에 마우스를 올리면 역할이 펼쳐집니다. 데이터가 폰에서 세상으로 흐르는 길.</p>
+    <div class="ch-label"><span class="num">02</span> 설명서 <span class="line"></span></div>
+    <h2 class="ch-title">큰 그림으로 <em>한눈에</em></h2>
+    <p class="ch-deck">
+      <strong>비유:</strong> 물이 수도꼭지 → 정수기 → 컵으로 흐르듯, 생각이 폰 → 로봇 → 세상으로 흘러가요.
+      동그라미에 마우스를 올려보세요!
+    </p>
     <div class="infograph-box reveal" id="archBox">
-      <span class="hint">Hover nodes · Interactive</span>
+      <span class="hint">마우스 올려보세요</span>
       <div class="tooltip" id="archTip"></div>
-      <svg class="svg-arch" viewBox="0 0 1000 420" role="img" aria-label="S21 Phone architecture diagram">
+      <svg class="svg-arch" viewBox="0 0 1000 420" role="img" aria-label="마법 작업실 지도">
         <defs>
           <linearGradient id="gGold" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stop-color="#d4a84b"/><stop offset="100%" stop-color="#3db8a8"/>
           </linearGradient>
           <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
         </defs>
-        <!-- flows -->
         <path class="flow" d="M120 210 H280" stroke="url(#gGold)" stroke-width="1.5" fill="none" opacity=".6"/>
         <path class="flow" d="M400 210 H520" stroke="url(#gGold)" stroke-width="1.5" fill="none" opacity=".6"/>
         <path class="flow" d="M680 120 H780" stroke="#8b7cf0" stroke-width="1.2" fill="none" opacity=".5"/>
@@ -933,53 +945,48 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
         <path class="flow" d="M900 120 C960 120 960 210 900 210" stroke="rgba(244,239,230,.2)" stroke-width="1" fill="none"/>
         <path class="flow" d="M900 210 C960 210 960 300 900 300" stroke="rgba(244,239,230,.2)" stroke-width="1" fill="none"/>
 
-        <!-- Device -->
-        <g class="node" data-tip="Galaxy S21|루팅 없는 호스트. Termux:API로 배터리·센서·카메라 접근." transform="translate(40,150)">
+        <g class="node" data-tip="Galaxy S21 | 마법 공구상자 자체예요. 배터리·센서·카메라가 모두 연결돼요." transform="translate(40,150)">
           <rect width="160" height="120" rx="4" fill="#12100e" stroke="rgba(244,239,230,.18)" stroke-width="1.5"/>
-          <text x="80" y="52" text-anchor="middle" fill="#f4efe6" font-family="Cormorant Garamond, serif" font-size="22" font-weight="600">S21</text>
-          <text x="80" y="78" text-anchor="middle" fill="#7a7064" font-size="11" letter-spacing="2">DEVICE</text>
+          <text x="80" y="52" text-anchor="middle" fill="#f4efe6" font-family="Cormorant Garamond, serif" font-size="22" font-weight="600">📱 S21</text>
+          <text x="80" y="78" text-anchor="middle" fill="#7a7064" font-size="11" letter-spacing="2">마법 공구상자</text>
         </g>
-        <!-- Runtime -->
-        <g class="node" data-tip="Termux + proot Ubuntu|안드로이드 위 리눅스. 개발·데몬·에이전트 런타임." transform="translate(280,150)">
+        <g class="node" data-tip="비밀 방 | 폰 안에 있는 리눅스 컴퓨터. 로봇 친구들이 여기 살아요." transform="translate(280,150)">
           <rect width="160" height="120" rx="4" fill="#12100e" stroke="rgba(244,239,230,.18)" stroke-width="1.5"/>
           <text x="80" y="48" text-anchor="middle" fill="#f4efe6" font-family="Cormorant Garamond, serif" font-size="18" font-weight="600">Termux</text>
           <text x="80" y="72" text-anchor="middle" fill="#d4a84b" font-size="12">proot Ubuntu</text>
-          <text x="80" y="94" text-anchor="middle" fill="#7a7064" font-size="10" letter-spacing="1">RUNTIME</text>
+          <text x="80" y="94" text-anchor="middle" fill="#7a7064" font-size="10" letter-spacing="1">로봇들의 집</text>
         </g>
-        <!-- Agents cluster -->
-        <g class="node" data-tip="cc · Claude Code|오케스트레이션 메인. DeepSeek 라우팅. 코드·문서·MCP·TG." transform="translate(520,60)">
+        <g class="node" data-tip="글짓기 로봇 cc | 대장 로봇. 글 쓰고, 코드 짜고, 모든 걸 총지휘해요." transform="translate(520,60)">
           <rect width="160" height="70" rx="4" fill="#12100e" stroke="rgba(61,184,168,.45)" stroke-width="1.5"/>
           <text x="80" y="32" text-anchor="middle" fill="#3db8a8" font-family="JetBrains Mono" font-size="13">cc</text>
-          <text x="80" y="52" text-anchor="middle" fill="#f4efe6" font-size="12">Claude Code</text>
+          <text x="80" y="52" text-anchor="middle" fill="#f4efe6" font-size="12">글짓기 로봇</text>
         </g>
-        <g class="node" data-tip="ds · Aider|코드 전용 외과 루프. 비전 없음. SuperGrok 풀 보호." transform="translate(520,155)">
+        <g class="node" data-tip="고치기 로봇 ds | 눈은 없지만 손이 빨라요. 코드를 척척 고쳐요." transform="translate(520,155)">
           <rect width="160" height="70" rx="4" fill="#12100e" stroke="rgba(139,124,240,.45)" stroke-width="1.5"/>
           <text x="80" y="32" text-anchor="middle" fill="#8b7cf0" font-family="JetBrains Mono" font-size="13">ds</text>
-          <text x="80" y="52" text-anchor="middle" fill="#f4efe6" font-size="12">Aider + DeepSeek</text>
+          <text x="80" y="52" text-anchor="middle" fill="#f4efe6" font-size="12">고치기 로봇</text>
         </g>
-        <g class="node" data-tip="grok · SuperGrok|이미지·UI·영상·리서치·에이전트. 주간 사용량 풀." transform="translate(520,250)">
+        <g class="node" data-tip="그림 로봇 grok | 그림 그리고, 영상 만들고, 조사도 척척. 상상력 대장!" transform="translate(520,250)">
           <rect width="160" height="70" rx="4" fill="#12100e" stroke="rgba(212,168,75,.5)" stroke-width="1.5"/>
           <text x="80" y="32" text-anchor="middle" fill="#d4a84b" font-family="JetBrains Mono" font-size="13">grok</text>
-          <text x="80" y="52" text-anchor="middle" fill="#f4efe6" font-size="12">Grok CLI</text>
+          <text x="80" y="52" text-anchor="middle" fill="#f4efe6" font-size="12">그림 로봇</text>
         </g>
-        <!-- Outputs -->
-        <g class="node" data-tip="GitHub / Pages|공장 + 전시장. 코드·문서·자동 배포." transform="translate(780,80)">
+        <g class="node" data-tip="GitHub · 무료 전시장 | 만든 걸 세상에 보여주는 무료 공간. 코드·문서·웹사이트." transform="translate(780,80)">
           <rect width="140" height="60" rx="4" fill="#12100e" stroke="rgba(244,239,230,.15)" stroke-width="1.2"/>
-          <text x="70" y="36" text-anchor="middle" fill="#f4efe6" font-size="13">GitHub · Pages</text>
+          <text x="70" y="36" text-anchor="middle" fill="#f4efe6" font-size="13">무료 전시장</text>
         </g>
-        <g class="node" data-tip="Broadcast|YouTube · Naver · Tistory 콘텐츠 퍼널." transform="translate(780,170)">
+        <g class="node" data-tip="방송국 | YouTube · Naver · Tistory로 콘텐츠를 내보내요." transform="translate(780,170)">
           <rect width="140" height="60" rx="4" fill="#12100e" stroke="rgba(244,239,230,.15)" stroke-width="1.2"/>
-          <text x="70" y="36" text-anchor="middle" fill="#f4efe6" font-size="13">Broadcast</text>
+          <text x="70" y="36" text-anchor="middle" fill="#f4efe6" font-size="13">TV·웹진·일기</text>
         </g>
-        <g class="node" data-tip="Comms|Telegram 인터컴 · Discord 로비." transform="translate(780,260)">
+        <g class="node" data-tip="대화 통로 | Telegram 무전기 · Discord 모임방." transform="translate(780,260)">
           <rect width="140" height="60" rx="4" fill="#12100e" stroke="rgba(244,239,230,.15)" stroke-width="1.2"/>
-          <text x="70" y="36" text-anchor="middle" fill="#f4efe6" font-size="13">TG · Discord</text>
+          <text x="70" y="36" text-anchor="middle" fill="#f4efe6" font-size="13">무전기 · 모임방</text>
         </g>
-        <!-- Care branch -->
         <path class="flow" d="M120 270 Q120 360 280 360" stroke="#e85d4c" stroke-width="1.2" fill="none" opacity=".5"/>
-        <g class="node" data-tip="Care Daemon|트랙1. AI 없이 돌아가는 돌봄 안전망." transform="translate(280,330)">
+        <g class="node" data-tip="수호천사 | AI 없이 혼자 돌아가는 안전 지킴이. 길 1." transform="translate(280,330)">
           <rect width="160" height="50" rx="4" fill="#12100e" stroke="rgba(232,93,76,.5)" stroke-width="1.2"/>
-          <text x="80" y="30" text-anchor="middle" fill="#e85d4c" font-size="12">Care Daemon (Track 1)</text>
+          <text x="80" y="30" text-anchor="middle" fill="#e85d4c" font-size="12">🛡️ 수호천사 (길 1)</text>
         </g>
       </svg>
     </div>
@@ -987,59 +994,84 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
   <!-- AGENTS -->
   <section class="chapter" id="agents">
-    <div class="ch-label"><span class="num">03</span> Three Agents <span class="line"></span></div>
-    <h2 class="ch-title">역할이 다른 <em>세 동료</em></h2>
-    <p class="ch-deck">카드를 클릭하면 레이더 차트와 강점이 바뀝니다. 만능 하나보다 분업.</p>
+    <div class="ch-label"><span class="num">03</span> 네 명의 로봇 친구 <span class="line"></span></div>
+    <h2 class="ch-title">각자 <em>특별한 재능</em>이 있어요</h2>
+    <p class="ch-deck">
+      <strong>비유:</strong> 축구팀 같아요. 글짓기 로봇은 감독, 고치기 로봇은 수리공,
+      그림 로봇은 디자이너, 감사 로봇은 심판이에요. 각자 잘하는 게 달라요.
+    </p>
     <div class="g3" id="agentGrid">
       <article class="agent-card active reveal" data-agent="0" data-cursor tabindex="0">
-        <div class="role">Conductor</div>
-        <h3>cc</h3>
+        <div class="role">대장 · 감독</div>
+        <h3>글짓기 로봇</h3>
         <code class="cmd">$ cc</code>
-        <p>Claude Code + DeepSeek. 코드·문서·git·MCP·Telegram 다단계 오케스트레이션. 메인 엔진.</p>
+        <p>
+          <strong>비유:</strong> 학급 회장 같아요. 글도 쓰고, 숙제도 정리하고,
+          다른 로봇들에게 "이거 해줘!" 하고 지시도 해요.
+        </p>
         <div class="radar-wrap"><canvas class="radar" width="200" height="200" data-scores="95,88,70,90,40"></canvas></div>
-        <div class="agent-price">~$0 / mo · 지휘자</div>
-        <div class="foot"><span class="tag ok">Main</span><span class="tag">MCP</span></div>
+        <div class="agent-price">거의 무료 · 대장</div>
+        <div class="foot"><span class="tag ok">메인</span><span class="tag">총지휘</span></div>
       </article>
       <article class="agent-card reveal reveal-d1" data-agent="1" data-cursor tabindex="0">
-        <div class="role">Surgeon</div>
-        <h3>ds</h3>
+        <div class="role">수리공</div>
+        <h3>고치기 로봇</h3>
         <code class="cmd">$ ds</code>
-        <p>Aider + DeepSeek-V4-Pro. 비전 없음. 싸게 짧게 코드만. Grok 풀을 지키는 외과의.</p>
+        <p>
+          <strong>비유:</strong> 자전거 수리공 같아요. 그림은 못 보지만,
+          "여기 고장 났어!" 하면 순식간에 척척 고쳐놔요.
+        </p>
         <div class="radar-wrap"><canvas class="radar" width="200" height="200" data-scores="88,40,30,55,20"></canvas></div>
-        <div class="agent-price">~$0 / mo · 외과의</div>
-        <div class="foot"><span class="tag gold">Code loop</span><span class="tag">dsflash</span></div>
+        <div class="agent-price">거의 무료 · 수리공</div>
+        <div class="foot"><span class="tag gold">코드 수리</span><span class="tag">빠름</span></div>
       </article>
       <article class="agent-card reveal reveal-d2" data-agent="2" data-cursor tabindex="0">
-        <div class="role">Media Scout</div>
-        <h3>grok</h3>
+        <div class="role">상상력 대장</div>
+        <h3>그림 로봇</h3>
         <code class="cmd">$ grok</code>
-        <p>SuperGrok. 이미지·UI·영상·리서치·병렬 에이전트. GPU 없이 멀티모달. 주간 풀 주의.</p>
+        <p>
+          <strong>비유:</strong> 미술 선생님 같아요. "강아지 그려줘" 하면 그리고,
+          "이 사진 설명해줘" 하면 설명해요. 영상도 만들어요!
+        </p>
         <div class="radar-wrap"><canvas class="radar" width="200" height="200" data-scores="75,95,92,80,90"></canvas></div>
-        <div class="agent-price">~₩45,000 / mo · 미디어</div>
-        <div class="foot"><span class="tag hot">Imagine</span><span class="tag gold">Build</span></div>
+        <div class="agent-price">월 45,000원 · 미디어</div>
+        <div class="foot"><span class="tag hot">그림</span><span class="tag gold">영상</span></div>
       </article>
     </div>
     <p style="margin-top:18px;font-size:.78rem;color:var(--ink-mute);letter-spacing:.06em;text-transform:uppercase;text-align:center">
-      Radar axes · Coding · Multimodal · Research · Autonomy · Speed
+      레이더 축 · 코딩 · 멀티모달 · 조사 · 자율 · 속도
     </p>
+    <!-- 4th agent note -->
+    <div class="ed-card reveal" style="margin-top:22px;text-align:center;border-color:rgba(232,93,76,.2)">
+      <div class="eyebrow">네 번째 친구 · 심판</div>
+      <h3>감사 로봇 (곧 와요!)</h3>
+      <p style="color:var(--ink-dim)">
+        <strong>비유:</strong> 축구 심판 같아요. "이거 규칙에 안 맞아!" "이건 위험해!" 하고 알려줘요.
+        아직 훈련 중이에요. 조금만 기다려 주세요! ⏳
+      </p>
+      <div class="foot" style="justify-content:center"><span class="tag hot">준비 중</span><span class="tag">거리 두기 검증</span></div>
+    </div>
   </section>
 
   <!-- WORKCENTERS -->
   <section class="chapter" id="centers">
-    <div class="ch-label"><span class="num">04</span> Seven Centers <span class="line"></span></div>
-    <h2 class="ch-title">워크센터 <em>맵</em></h2>
-    <p class="ch-deck">왼쪽 목록을 고르면 오른쪽에 가동률 링과 상세가 열립니다.</p>
+    <div class="ch-label"><span class="num">04</span> 일곱 개 작업실 <span class="line"></span></div>
+    <h2 class="ch-title">마법 공장의 <em>일곱 방</em></h2>
+    <p class="ch-deck">
+      <strong>비유:</strong> 빵집을 생각해 보세요. 반죽실·오븐실·포장실·진열실이 따로 있듯,
+      이 작업실도 각자 맡은 일이 달라요.
+    </p>
     <div class="wc-map reveal">
-      <div class="wc-list" id="wcList" role="listbox" aria-label="워크센터"></div>
+      <div class="wc-list" id="wcList" role="listbox" aria-label="작업실"></div>
       <div class="wc-detail" id="wcDetail">
         <div class="big" id="wcBig">①</div>
-        <h3 id="wcTitle">공장</h3>
+        <h3 id="wcTitle">빵 공장</h3>
         <p id="wcDesc">—</p>
         <canvas class="ring-chart" id="wcRing" width="120" height="120"></canvas>
         <dl>
-          <div><dt>Platform</dt><dd id="wcPlat">—</dd></div>
-          <div><dt>Operator</dt><dd id="wcOp">—</dd></div>
-          <div><dt>Metaphor</dt><dd id="wcMeta">—</dd></div>
+          <div><dt>플랫폼</dt><dd id="wcPlat">—</dd></div>
+          <div><dt>조종사</dt><dd id="wcOp">—</dd></div>
+          <div><dt>비유</dt><dd id="wcMeta">—</dd></div>
         </dl>
       </div>
     </div>
@@ -1047,39 +1079,44 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
   <!-- FUNNEL -->
   <section class="chapter" id="funnel">
-    <div class="ch-label"><span class="num">05</span> Content Funnel <span class="line"></span></div>
-    <h2 class="ch-title">콘텐츠가 <em>흐르는</em> 방식</h2>
-    <p class="ch-deck">단계를 클릭하면 완성도가 채워집니다. Grok 드래프트에서 독립까지.</p>
+    <div class="ch-label"><span class="num">05</span> 콘텐츠 여행 <span class="line"></span></div>
+    <h2 class="ch-title">생각이 <em>세상에 닿기까지</em></h2>
+    <p class="ch-deck">
+      <strong>비유:</strong> 씨앗 → 새싹 → 나무 → 열매로 자라듯, 누나의 생각이 글로→영상으로→돈으로 자라나요.
+    </p>
     <div class="funnel-stage reveal" id="funnelStage">
       <div class="f-col on" data-pct="80" data-cursor>
-        <div class="step">01 · BAIT</div>
-        <h3>Naver 웹진</h3>
-        <p>Grok 80% 드래프트<br>무료 · 미끼 · 티저</p>
+        <div class="step">1단계 · 씨앗</div>
+        <h3>네이버 웹진</h3>
+        <p>그림 로봇이 80% 쓰고<br>무료로 세상에 내보내요</p>
         <canvas class="pct-ring" width="88" height="88" data-pct="80" data-color="#d4a84b"></canvas>
-        <div class="note">Draft quality target</div>
+        <div class="note">그림 로봇 초안</div>
       </div>
       <div class="f-col" data-pct="100" data-cursor>
-        <div class="step">02 · CRAFT</div>
-        <h3>YouTube 강의</h3>
-        <p>Claude Code 완성<br>강의 · 수익화</p>
+        <div class="step">2단계 · 새싹</div>
+        <h3>유튜브 강의</h3>
+        <p>글짓기 로봇이 완성하고<br>수익도 만들어요</p>
         <canvas class="pct-ring" width="88" height="88" data-pct="100" data-color="#3db8a8"></canvas>
-        <div class="note">Production grade</div>
+        <div class="note">완성품 등급</div>
       </div>
       <div class="f-col" data-pct="100" data-cursor>
-        <div class="step">03 · HANDOFF</div>
-        <h3>누나의 독립</h3>
-        <p>수익 · 계정 · 운영<br>전부 누나 명의</p>
+        <div class="step">3단계 · 열매</div>
+        <h3>누나에게 바통 터치</h3>
+        <p>수익·계정·운영 전부<br>누나 이름으로!</p>
         <canvas class="pct-ring" width="88" height="88" data-pct="100" data-color="#e85d4c"></canvas>
-        <div class="note">Success = handoff</div>
+        <div class="note">성공 = 바통 터치!</div>
       </div>
     </div>
   </section>
 
   <!-- ECONOMICS -->
   <section class="chapter" id="economics">
-    <div class="ch-label"><span class="num">06</span> Economics <span class="line"></span></div>
-    <h2 class="ch-title">월 비용 <em>인포그래픽</em></h2>
-    <p class="ch-deck">코어는 0원에 가깝고, 시각·에이전트 풀은 SuperGrok이 담당.</p>
+    <div class="ch-label"><span class="num">06</span> 용돈 <span class="line"></span></div>
+    <h2 class="ch-title">한 달에 얼마나 <em>드나요?</em></h2>
+    <p class="ch-deck">
+      <strong>비유:</strong> 넷플릭스 구독 하나 값이에요! 기본 재료(폰·깃허브·터먹스)는 공짜.
+      그림 로봇만 월 45,000원. 글짓기 로봇은 거의 공짜. 한 달 총 55,000원이면 다 돌아가요.
+    </p>
     <div class="split-panel reveal">
       <div class="canvas-box">
         <canvas id="costPie" width="280" height="280" aria-label="월 비용 파이 차트"></canvas>
@@ -1090,98 +1127,99 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
   <!-- INSTALL -->
     <section class="chapter" id="install">
-    <div class="ch-label"><span class="num">07</span> Install <span class="line"></span></div>
-    <h2 class="ch-title">초심자 · <em>3화면</em></h2>
+    <div class="ch-label"><span class="num">07</span> 설치 <span class="line"></span></div>
+    <h2 class="ch-title">3분 만에 <em>시작하기</em></h2>
     <p class="ch-deck">
-      <strong style="color:var(--ink)">앱 2개 → 붙여넣기 1번 → 브라우저 확인.</strong>
-      자세한 글은
-      <a href="install-guide.html" style="color:var(--gd)">🔰 3화면 매뉴얼</a>.
-      고급(토큰·에이전트)만
-      <a href="g/install.html" style="color:var(--gd)">install.sh</a>.
+      <strong>비유:</strong> 레고 조립 설명서 3단계예요. 앱 2개 깔고 → 한 줄 붙여넣고 → 확인!
+      <a href="install-guide.html" style="color:var(--gold-bright)">📖 그림 설명서 보기</a>
     </p>
     <div class="ed-card reveal" style="margin-bottom:16px;padding:16px;border:1px solid var(--rule);background:var(--paper-2)">
-      <div style="font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-weight:600">Screen 1 · 앱</div>
-      <p style="color:var(--ink-dim);font-weight:300;font-size:.9rem;margin:0 0 8px">F-Droid → <b style="color:var(--ink)">Termux</b> + <b style="color:var(--ink)">Termux:API</b> 설치 후 Termux 실행</p>
-      <div style="font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:14px 0 10px;font-weight:600">Screen 2 · Termux에 한 줄</div>
+      <div style="font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-weight:600">1단계 · 앱 두 개</div>
+      <p style="color:var(--ink-dim);font-weight:300;font-size:.9rem;margin:0 0 8px">
+        F-Droid(앱 가게)에서 <b style="color:var(--ink)">Termux</b>랑 <b style="color:var(--ink)">Termux:API</b> 설치. 그리고 Termux 실행!
+      </p>
+      <div style="font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:14px 0 10px;font-weight:600">2단계 · 주문 한 줄</div>
     </div>
     <div class="terminal reveal" id="terminal">
       <div class="terminal-bar">
         <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-        <span class="title">termux — easy install</span>
+        <span class="title">termux — 마법 주문 입력</span>
       </div>
       <div class="terminal-body" id="termBody">
         <span class="p">$</span> <span class="c" id="termCmd"></span><span class="cursor-blink" id="termCursor"></span>
       </div>
       <div class="terminal-actions">
-        <button type="button" class="primary" id="copyInstall" data-cursor>Copy easy command</button>
-        <button type="button" id="replayType" data-cursor>Replay</button>
-        <a class="btn btn-line" style="padding:10px 16px;font-size:.72rem" href="install-guide.html" data-cursor>3-screen manual</a>
+        <button type="button" class="primary" id="copyInstall" data-cursor>주문 복사하기</button>
+        <button type="button" id="replayType" data-cursor>다시 보기</button>
+        <a class="btn btn-line" style="padding:10px 16px;font-size:.72rem" href="install-guide.html" data-cursor>📖 그림 설명서</a>
       </div>
     </div>
     <div class="ed-card reveal" style="margin-top:16px;padding:16px;border:1px solid var(--rule);background:var(--paper-2)">
-      <div style="font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-weight:600">Screen 3 · 확인</div>
+      <div style="font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-weight:600">3단계 · 확인</div>
       <pre style="margin:0 0 10px;font-family:var(--mono);font-size:.72rem;color:var(--ink-dim);white-space:pre-wrap">proot-distro login ubuntu
 cd /root/work
 cat S21-START.txt</pre>
-      <p style="color:var(--ink-dim);font-weight:300;font-size:.85rem;margin:0">브라우저: <a href="https://helena751107.github.io/helena_phone/" style="color:var(--teal)">helena751107.github.io/helena_phone</a> 열리면 성공.</p>
+      <p style="color:var(--ink-dim);font-weight:300;font-size:.85rem;margin:0">
+        브라우저로 <a href="https://helena751107.github.io/helena_phone/" style="color:var(--teal)">이 주소</a>가 열리면 성공! 🎉
+      </p>
     </div>
   </section>
 
   <!-- LIBRARY -->
   <section class="chapter" id="library">
-    <div class="ch-label"><span class="num">08</span> Archive <span class="line"></span></div>
-    <h2 class="ch-title">웹진 <em>아카이브</em></h2>
-    <p class="ch-deck">레포 문서를 매거진 선반처럼. 검색으로 바로 점프.</p>
-    <input class="lib-search" id="libSearch" type="search" placeholder="Search archive… constitution, telegram, grok, workcenter" autocomplete="off">
+    <div class="ch-label"><span class="num">08</span> 책장 <span class="line"></span></div>
+    <h2 class="ch-title">문서 <em>책장</em></h2>
+    <p class="ch-deck">
+      <strong>비유:</strong> 학교 도서관 같아요. 궁금한 게 있으면 검색창에 쳐보세요.
+      "헌법", "텔레그램", "유튜브", "로봇"...
+    </p>
+    <input class="lib-search" id="libSearch" type="search" placeholder="찾아보세요... 로봇, 규칙, 설치, 유튜브, 텔레그램" autocomplete="off">
 
     <div class="lib-section reveal" data-lib>
-      <h3>Core Issues</h3>
+      <h3>⭐ 꼭 읽어야 하는 책</h3>
       <div class="lib-grid">
-        <a class="lib-card" href="constitution.html" data-cursor><div class="vol">Issue · Law</div><div class="t">헌법 CONSTITUTION</div><div class="d">16조·4장 · Chain of Command</div></a>
-        <a class="lib-card" href="claude.html" data-cursor><div class="vol">Issue · Ops</div><div class="t">실무 규칙</div><div class="d">AI 3종 · Paste Pipeline</div></a>
-        <a class="lib-card" href="readme.html" data-cursor><div class="vol">Issue · Intro</div><div class="t">README</div><div class="d">숫자 · 구조 · 링크</div></a>
-        <a class="lib-card" href="guide.html" data-cursor><div class="vol">Issue · Path</div><div class="t">5단계 GUIDE</div><div class="d">설치부터 방송까지</div></a>
-        <a class="lib-card" href="chronicle.html" data-cursor><div class="vol">Issue · Time</div><div class="t">CHRONICLE</div><div class="d">DAY 1–2 연대기</div></a>
-        <a class="lib-card" href="gift.html" data-cursor><div class="vol">Issue · Gift</div><div class="t">GIFT · dtslib</div><div class="d">선물 패키지 분석</div></a>
-        <a class="lib-card" href="textbook.html" data-cursor><div class="vol">Issue · Book</div><div class="t">완결판 교재</div><div class="d">판단층+실행층</div></a>
-        <a class="lib-card" href="notebook/99-devlog.html" data-cursor><div class="vol">Issue · Log</div><div class="t">개발일지 99</div><div class="d">전체 히스토리</div></a>
-        <a class="lib-card" href="notebook/53-self-eval.html" data-cursor><div class="vol">Issue · Review</div><div class="t">중간 자기평가 §53</div><div class="d">Boss + Claude Code</div></a>
+        <a class="lib-card" href="constitution.html" data-cursor><div class="vol">📜 규칙책</div><div class="t">작업실 헌법</div><div class="d">16개 조항 · 누가 결정하는가</div></a>
+        <a class="lib-card" href="claude.html" data-cursor><div class="vol">📋 운영 규칙</div><div class="t">실무 설명서</div><div class="d">로봇 4종 · 작업 방법</div></a>
+        <a class="lib-card" href="readme.html" data-cursor><div class="vol">📖 소개</div><div class="t">README</div><div class="d">숫자 · 구조 · 링크</div></a>
+        <a class="lib-card" href="guide.html" data-cursor><div class="vol">🗺️ 길잡이</div><div class="t">5단계 가이드</div><div class="d">설치부터 방송까지</div></a>
+        <a class="lib-card" href="chronicle.html" data-cursor><div class="vol">📅 연대기</div><div class="t">태어나서 지금까지</div><div class="d">DAY 1–2 이야기</div></a>
+        <a class="lib-card" href="gift.html" data-cursor><div class="vol">🎁 선물</div><div class="t">GIFT · dtslib</div><div class="d">선물 패키지 분석</div></a>
+        <a class="lib-card" href="textbook.html" data-cursor><div class="vol">📚 교과서</div><div class="t">완결판 교재</div><div class="d">판단층+실행층</div></a>
+        <a class="lib-card" href="notebook/99-devlog.html" data-cursor><div class="vol">📝 일기</div><div class="t">개발일지</div><div class="d">매일매일 무슨 일이</div></a>
+        <a class="lib-card" href="notebook/53-self-eval.html" data-cursor><div class="vol">🪞 거울</div><div class="t">중간 자기평가</div><div class="d">Boss + Claude Code</div></a>
       </div>
     </div>
 
     <div class="lib-section reveal" data-lib>
-      <h3>Infrastructure</h3>
+      <h3>🏗️ 기초 공사</h3>
       <div class="lib-grid">
-        <a class="lib-card" href="notebook/01-arch.html" data-cursor><div class="vol">01</div><div class="t">시스템 아키텍처</div><div class="d">전체 구조</div></a>
-        <a class="lib-card" href="pc-setup.html" data-cursor><div class="vol">SETUP</div><div class="t">🖥️ 집PC 연결</div><div class="d">DeepSeek+Aider 3중 에이전트</div></a>
-        <a class="lib-card" href="notebook/09-ecosystem.html" data-cursor><div class="vol">09</div><div class="t">생태계 브릿지</div><div class="d">5×5 테이블</div></a>
-        <a class="lib-card" href="notebook/10-phone-mcp.html" data-cursor><div class="vol">10</div><div class="t">phone-MCP</div><div class="d">18 tools</div></a>
-        <a class="lib-card" href="notebook/20-workcenters-final.html" data-cursor><div class="vol">20</div><div class="t">워크센터 최종</div><div class="d">자동/수동</div></a>
-        <a class="lib-card" href="notebook/14-daemon-design.html" data-cursor><div class="vol">14</div><div class="t">돌봄 데몬</div><div class="d">트랙1 설계</div></a>
-        <a class="lib-card" href="notebook/38-s21-voice-driven-analysis.html" data-cursor><div class="vol">22</div><div class="t">S21 벤치</div><div class="d">실측</div></a>
+        <a class="lib-card" href="notebook/01-arch.html" data-cursor><div class="vol">01</div><div class="t">전체 구조</div><div class="d">시스템 아키텍처</div></a>
+        <a class="lib-card" href="notebook/09-ecosystem.html" data-cursor><div class="vol">09</div><div class="t">생태계 지도</div><div class="d">5×5 연결</div></a>
+        <a class="lib-card" href="pc-setup.html" data-cursor><div class="vol">SETUP</div><div class="t">🖥️ 집PC 연결</div><div class="d">더 빠른 로봇 친구들</div></a>
+        <a class="lib-card" href="notebook/10-phone-mcp.html" data-cursor><div class="vol">10</div><div class="t">phone-MCP</div><div class="d">18개 마법 도구</div></a>
+        <a class="lib-card" href="notebook/20-workcenters-final.html" data-cursor><div class="vol">20</div><div class="t">작업실 최종</div><div class="d">자동/수동</div></a>
+        <a class="lib-card" href="notebook/14-daemon-design.html" data-cursor><div class="vol">14</div><div class="t">수호천사 설계</div><div class="d">길 1 설계</div></a>
       </div>
     </div>
 
     <div class="lib-section reveal" data-lib>
-      <h3>Platforms & Agents</h3>
+      <h3>🌐 플랫폼 & 로봇</h3>
       <div class="lib-grid">
-        <a class="lib-card" href="notebook/02-discord.html" data-cursor><div class="vol">02</div><div class="t">Discord</div><div class="d">로비</div></a>
-        <a class="lib-card" href="notebook/03-telegram.html" data-cursor><div class="vol">03</div><div class="t">Telegram</div><div class="d">인터컴</div></a>
-        <a class="lib-card" href="notebook/06-youtube.html" data-cursor><div class="vol">06</div><div class="t">YouTube</div><div class="d">방송탑</div></a>
-        <a class="lib-card" href="notebook/07-cli-reference.html" data-cursor><div class="vol">07</div><div class="t">CLI</div><div class="d">cc · ds · grok</div></a>
-        <a class="lib-card" href="notebook/25-multi-ai-strategy.html" data-cursor><div class="vol">25</div><div class="t">멀티 AI</div><div class="d">전략</div></a>
-        <a class="lib-card" href="notebook/ai-agents-cc-ds-grok-comparison-2026-07-25.html" data-cursor><div class="vol">Essay</div><div class="t">cc vs ds vs grok</div><div class="d">비교 노트</div></a>
-        <a class="lib-card" href="notebook/supergrok-community-research-2026-07-25.html" data-cursor><div class="vol">Essay</div><div class="t">SuperGrok 리서치</div><div class="d">커뮤니티</div></a>
-        <a class="lib-card" href="notebook/29-grok-cli-installed.html" data-cursor><div class="vol">29</div><div class="t">Grok CLI</div><div class="d">설치 기록</div></a>
+        <a class="lib-card" href="notebook/02-discord.html" data-cursor><div class="vol">02</div><div class="t">Discord 모임방</div><div class="d">실시간 대화</div></a>
+        <a class="lib-card" href="notebook/03-telegram.html" data-cursor><div class="vol">03</div><div class="t">Telegram 무전기</div><div class="d">로봇→사람 보고</div></a>
+        <a class="lib-card" href="notebook/06-youtube.html" data-cursor><div class="vol">06</div><div class="t">YouTube 방송국</div><div class="d">영상 내보내기</div></a>
+        <a class="lib-card" href="notebook/07-cli-reference.html" data-cursor><div class="vol">07</div><div class="t">명령어 사전</div><div class="d">cc · ds · grok</div></a>
+        <a class="lib-card" href="notebook/25-multi-ai-strategy.html" data-cursor><div class="vol">25</div><div class="t">멀티 AI 전략</div><div class="d">협동 작전</div></a>
+        <a class="lib-card" href="notebook/ai-agents-cc-ds-grok-comparison-2026-07-25.html" data-cursor><div class="vol">비교</div><div class="t">cc vs ds vs grok</div><div class="d">누가 뭘 잘하나</div></a>
       </div>
     </div>
 
     <div class="lib-section reveal" data-lib>
-      <h3>Platform Ops</h3>
+      <h3>🔧 운영 도구</h3>
       <div class="lib-grid">
-        <a class="lib-card" href="notebook/04-github-pages.html" data-cursor><div class="vol">04</div><div class="t">GitHub Pages</div><div class="d">Giscus · WidgetBot</div></a>
-        <a class="lib-card" href="notebook/05-tistory.html" data-cursor><div class="vol">05</div><div class="t">티스토리</div><div class="d">업무일지</div></a>
-        <a class="lib-card" href="notebook/08-secrets.html" data-cursor><div class="vol">08</div><div class="t">비밀 관리</div><div class="d">토큰 · 인증</div></a>
+        <a class="lib-card" href="notebook/04-github-pages.html" data-cursor><div class="vol">04</div><div class="t">무료 전시장</div><div class="d">GitHub Pages</div></a>
+        <a class="lib-card" href="notebook/05-tistory.html" data-cursor><div class="vol">05</div><div class="t">티스토리 일기장</div><div class="d">업무일지</div></a>
+        <a class="lib-card" href="notebook/08-secrets.html" data-cursor><div class="vol">08</div><div class="t">비밀 금고</div><div class="d">토큰 · 인증</div></a>
         <a class="lib-card" href="notebook/11-health.html" data-cursor><div class="vol">11</div><div class="t">건강 검진</div><div class="d">phone-health</div></a>
         <a class="lib-card" href="notebook/15-proot-report.html" data-cursor><div class="vol">15</div><div class="t">proot 보고서</div><div class="d">종합</div></a>
         <a class="lib-card" href="configs/ecosystem-map.html" data-cursor><div class="vol">Config</div><div class="t">ecosystem-map</div><div class="d">5×5 JSON</div></a>
@@ -1189,89 +1227,75 @@ cat S21-START.txt</pre>
     </div>
 
     <div class="lib-section reveal" data-lib>
-      <h3>Analysis & Strategy</h3>
+      <h3>🧠 분석 & 전략</h3>
       <div class="lib-grid">
         <a class="lib-card" href="notebook/12-dtslib-gift.html" data-cursor><div class="vol">12</div><div class="t">dtslib 선물</div><div class="d">분석</div></a>
         <a class="lib-card" href="notebook/13-midterm-eval-v2.html" data-cursor><div class="vol">13</div><div class="t">중간평가 v2</div><div class="d">98/100</div></a>
-        <a class="lib-card" href="notebook/16-textbook-methodology.html" data-cursor><div class="vol">16</div><div class="t">교재 방법론</div><div class="d">판단+실행</div></a>
+        <a class="lib-card" href="notebook/16-textbook-methodology.html" data-cursor><div class="vol">16</div><div class="t">교재 방법</div><div class="d">판단+실행</div></a>
         <a class="lib-card" href="notebook/17-merged-chronicle.html" data-cursor><div class="vol">17</div><div class="t">병합 연대기</div><div class="d">10피벗×38섹션</div></a>
-        <a class="lib-card" href="notebook/18-workcenters.html" data-cursor><div class="vol">18</div><div class="t">워크센터 초안</div><div class="d">설계</div></a>
         <a class="lib-card" href="notebook/19-final-strategy.html" data-cursor><div class="vol">19</div><div class="t">최종 전략</div><div class="d">자동/수동</div></a>
       </div>
     </div>
 
     <div class="lib-section reveal" data-lib>
-      <h3>Methodology & Pipeline</h3>
+      <h3>📜 스크립트 & 설정</h3>
       <div class="lib-grid">
-        <a class="lib-card" href="notebook/21-integrated-dev-plan.html" data-cursor><div class="vol">21</div><div class="t">통합 계획서</div><div class="d">개발</div></a>
-        <a class="lib-card" href="notebook/23-naver-webzine-solution.html" data-cursor><div class="vol">23</div><div class="t">네이버 웹진</div><div class="d">솔루션</div></a>
-        <a class="lib-card" href="notebook/24-paste-pipeline.html" data-cursor><div class="vol">24</div><div class="t">Paste Pipeline</div><div class="d">방법론</div></a>
-        <a class="lib-card" href="notebook/26-naver-parsing-solution.html" data-cursor><div class="vol">26</div><div class="t">Naver 파싱</div><div class="d">해결</div></a>
-        <a class="lib-card" href="naver/quilt/weekly-seosik-preview.html" data-cursor><div class="vol">MQ</div><div class="t">Marine Quilt</div><div class="d">서식 미리보기</div></a>
-        <a class="lib-card" href="notebook/42-marine-quilt-naver-design_Grok.html" data-cursor><div class="vol">42</div><div class="t">Quilt 디자인</div><div class="d">스킨·서식</div></a>
-        <a class="lib-card" href="notebook/27-claude-grok-pipeline.html" data-cursor><div class="vol">27</div><div class="t">Claude+Grok</div><div class="d">파이프</div></a>
-        <a class="lib-card" href="notebook/28-grok-github-bridge.html" data-cursor><div class="vol">28</div><div class="t">Grok 브릿지</div><div class="d">인터프리터</div></a>
-      </div>
-    </div>
-
-    <div class="lib-section reveal" data-lib>
-      <h3>Scripts & Configs</h3>
-      <div class="lib-grid">
-        <a class="lib-card" href="g/install.html" data-cursor><div class="vol">g/</div><div class="t">install.sh</div><div class="d">1줄 설치 (364줄)</div></a>
-        <a class="lib-card" href="care/care-daemon.html" data-cursor><div class="vol">care/</div><div class="t">care-daemon.sh</div><div class="d">돌봄 (292줄)</div></a>
-        <a class="lib-card" href="care/care-setup.html" data-cursor><div class="vol">care/</div><div class="t">care-setup.sh</div><div class="d">crontab 등록</div></a>
-        <a class="lib-card" href="care/care-conf.html" data-cursor><div class="vol">care/</div><div class="t">care.conf</div><div class="d">임계값</div></a>
-        <a class="lib-card" href="phone-health.html" data-cursor><div class="vol">root</div><div class="t">phone-health.sh</div><div class="d">27항목 (383줄)</div></a>
-        <a class="lib-card" href="scripts/tg.html" data-cursor><div class="vol">scripts/</div><div class="t">tg.sh</div><div class="d">TG 보고</div></a>
-        <a class="lib-card" href="scripts/yt-upload.html" data-cursor><div class="vol">scripts/</div><div class="t">yt_upload.py</div><div class="d">YT 업로드 (256줄)</div></a>
-        <a class="lib-card" href="scripts/grok-api.html" data-cursor><div class="vol">scripts/</div><div class="t">grok_api.py</div><div class="d">Grok API (174줄)</div></a>
-        <a class="lib-card" href="configs/bashrc-example.html" data-cursor><div class="vol">configs/</div><div class="t">bashrc</div><div class="d">gr·grok alias</div></a>
-        <a class="lib-card" href="configs/settings.html" data-cursor><div class="vol">configs/</div><div class="t">settings.json</div><div class="d">MCP</div></a>
+        <a class="lib-card" href="g/install.html" data-cursor><div class="vol">g/</div><div class="t">한 줄 설치</div><div class="d">마법 주문 364줄</div></a>
+        <a class="lib-card" href="care/care-daemon.html" data-cursor><div class="vol">care/</div><div class="t">수호천사</div><div class="d">돌봄 스크립트</div></a>
+        <a class="lib-card" href="care/care-setup.html" data-cursor><div class="vol">care/</div><div class="t">수호천사 설정</div><div class="d">자동 실행</div></a>
+        <a class="lib-card" href="care/care-conf.html" data-cursor><div class="vol">care/</div><div class="t">수호천사 규칙</div><div class="d">언제 알릴까</div></a>
+        <a class="lib-card" href="phone-health.html" data-cursor><div class="vol">root</div><div class="t">건강 검진</div><div class="d">27개 항목</div></a>
+        <a class="lib-card" href="scripts/tg.html" data-cursor><div class="vol">scripts/</div><div class="t">무전기</div><div class="d">TG 보고</div></a>
+        <a class="lib-card" href="scripts/yt-upload.html" data-cursor><div class="vol">scripts/</div><div class="t">TV 송출기</div><div class="d">유튜브 업로드</div></a>
+        <a class="lib-card" href="scripts/grok-api.html" data-cursor><div class="vol">scripts/</div><div class="t">그림 로봇 API</div><div class="d">grok_api.py</div></a>
         <a class="lib-card" href="foundation/termux-setup.html" data-cursor><div class="vol">F1</div><div class="t">Termux 설치</div><div class="d">F-Droid</div></a>
-        <a class="lib-card" href="foundation/proot-ubuntu.html" data-cursor><div class="vol">F2</div><div class="t">proot Ubuntu</div><div class="d">컨테이너</div></a>
+        <a class="lib-card" href="foundation/proot-ubuntu.html" data-cursor><div class="vol">F2</div><div class="t">proot Ubuntu</div><div class="d">로봇들의 집</div></a>
       </div>
     </div>
   </section>
 
   <!-- CHANNELS -->
   <section class="chapter" id="channels">
-    <div class="ch-label"><span class="num">09</span> Channels <span class="line"></span></div>
-    <h2 class="ch-title">외부 <em>채널</em></h2>
-    <p class="ch-deck">모든 계정은 누나 명의.</p>
+    <div class="ch-label"><span class="num">09</span> 바깥 문 <span class="line"></span></div>
+    <h2 class="ch-title">세상과 <em>연결된 문</em></h2>
+    <p class="ch-deck">
+      <strong>비유:</strong> 집에 현관문·창문·우편함이 있듯, 이 작업실도 세상과 연결된 여러 문이 있어요.
+    </p>
     <div class="ch-grid reveal">
-      <a class="ch-card" href="https://github.com/helena751107/helena_phone" data-cursor><span class="ico">⌘</span><span class="n">GitHub</span><span class="u">helena_phone</span></a>
-      <a class="ch-card" href="https://www.youtube.com/@helena_phone" data-cursor><span class="ico">▶</span><span class="n">YouTube</span><span class="u">@helena_phone</span></a>
-      <a class="ch-card" href="https://m.blog.naver.com/helena1975" data-cursor><span class="ico">◎</span><span class="n">Naver</span><span class="u">helena1975</span></a>
-      <a class="ch-card" href="https://galaxys21-pwuser.tistory.com" data-cursor><span class="ico">✎</span><span class="n">Tistory</span><span class="u">업무일지</span></a>
-      <a class="ch-card" href="https://discord.gg/JTYSZv2WQE" data-cursor><span class="ico">◈</span><span class="n">Discord</span><span class="u">Lobby</span></a>
-      <a class="ch-card" href="https://helena751107.github.io/helana_log/" data-cursor><span class="ico">📝</span><span class="n">Helana Log</span><span class="u">학습 로그</span></a>
-      <a class="ch-card" href="https://helena751107.github.io/helana-faith/" data-cursor><span class="ico">✝</span><span class="n">Faith</span><span class="u">신앙 허브</span></a>
-      <a class="ch-card" href="https://helena751107.github.io/helena-piano/" data-cursor><span class="ico">🎹</span><span class="n">Piano</span><span class="u">연주 스튜디오</span></a>
+      <a class="ch-card" href="https://github.com/helena751107/helena_phone" data-cursor><span class="ico">⌘</span><span class="n">GitHub</span><span class="u">메인 공장</span></a>
+      <a class="ch-card" href="https://www.youtube.com/@helena_phone" data-cursor><span class="ico">▶</span><span class="n">YouTube</span><span class="u">TV 방송국</span></a>
+      <a class="ch-card" href="https://m.blog.naver.com/helena1975" data-cursor><span class="ico">◎</span><span class="n">Naver</span><span class="u">웹진 미끼</span></a>
+      <a class="ch-card" href="https://galaxys21-pwuser.tistory.com" data-cursor><span class="ico">✎</span><span class="n">Tistory</span><span class="u">일기장</span></a>
+      <a class="ch-card" href="https://discord.gg/JTYSZv2WQE" data-cursor><span class="ico">◈</span><span class="n">Discord</span><span class="u">모임방</span></a>
+      <a class="ch-card" href="https://helena751107.github.io/helana_log/" data-cursor><span class="ico">📝</span><span class="n">Helana Log</span><span class="u">공부 노트</span></a>
+      <a class="ch-card" href="https://helena751107.github.io/helana-faith/" data-cursor><span class="ico">✝</span><span class="n">Faith</span><span class="u">믿음 허브</span></a>
+      <a class="ch-card" href="https://helena751107.github.io/helena-piano/" data-cursor><span class="ico">🎹</span><span class="n">Piano</span><span class="u">연주실</span></a>
       <a class="ch-card" href="https://helena751107.github.io/helena-psycare/" data-cursor><span class="ico">🛡️</span><span class="n">PsyCare</span><span class="u">돌봄 허브</span></a>
+      <a class="ch-card" href="https://helena751107.github.io/helena-programming/" data-cursor><span class="ico">⚙️</span><span class="n">Programming</span><span class="u">공학실</span></a>
     </div>
   </section>
 
   <footer class="site-foot reveal">
     <div>
-      <div class="brand">S21 PHONE</div>
-      <p>Webzine Vol.01 · AI Workstation Editorial<br>Galaxy S21 · Termux · proot Ubuntu · cc · ds · grok</p>
-      <p class="goldline">모든 계정은 누나 명의입니다.</p>
-      <p style="margin-top:16px;font-size:.75rem">© 2026 Helena Park · 대필작가-간병인 · 99 commits · 173 files</p>
+      <div class="brand">📱 S21 마법 작업실</div>
+      <p>Galaxy S21 한 대로 · 누나 지키기 + 꿈 만들기<br>로봇 친구 셋: 글짓기 · 고치기 · 그림 · (곧: 감사)</p>
+      <p class="goldline">모든 열쇠는 누나 거예요.</p>
+      <p style="margin-top:16px;font-size:.75rem">© 2026 Helena Park · 대필작가-간병인 · 294 작업 · 170 문서</p>
     </div>
     <div class="cols">
       <div>
-        <strong>Read</strong>
-        <a href="constitution.html">Constitution</a>
-        <a href="guide.html">Guide</a>
-        <a href="notebook/99-devlog.html">Devlog</a>
-        <a href="textbook.html">Textbook</a>
+        <strong>읽을거리</strong>
+        <a href="constitution.html">📜 규칙책</a>
+        <a href="guide.html">🗺️ 길잡이</a>
+        <a href="notebook/99-devlog.html">📝 일기</a>
+        <a href="textbook.html">📚 교과서</a>
       </div>
       <div>
-        <strong>Build</strong>
-        <a href="#install">Install</a>
-        <a href="https://github.com/helena751107/helena_phone">Repository</a>
-        <a href="g/install.html">install.sh</a>
-        <a href="#agents">Agents</a>
+        <strong>만들기</strong>
+        <a href="#install">시작하기</a>
+        <a href="https://github.com/helena751107/helena_phone">공장 구경</a>
+        <a href="g/install.html">한 줄 설치</a>
+        <a href="#agents">로봇 친구들</a>
       </div>
     </div>
   </footer>
@@ -1325,7 +1349,6 @@ cat S21-START.txt</pre>
     spine.style.height = p + '%';
     mast.classList.toggle('scrolled', scrollY > 40);
     toTop.classList.toggle('show', scrollY > 600);
-    // chapter rail
     let curId = 'cover';
     $$('section[id]').forEach(s => {
       if (s.getBoundingClientRect().top < innerHeight * 0.35) curId = s.id;
@@ -1342,7 +1365,6 @@ cat S21-START.txt</pre>
     const n = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     root.setAttribute('data-theme', n);
     localStorage.setItem('s21-webzine-theme', n);
-    // redraw canvases for theme
     drawAllRadars();
     drawCostPie();
     drawWcRing(WORKCENTERS[wcIndex].pct, WORKCENTERS[wcIndex].color);
@@ -1352,7 +1374,6 @@ cat S21-START.txt</pre>
   $('#themeBtn2').onclick = toggleTheme;
 
   /* —— Mobile menu —— */
-  // Mobile drawer
   const drawer = $('#mastRight');
   const burger = $('#menuBtn');
   let backdrop = document.querySelector('.nav-backdrop');
@@ -1390,14 +1411,13 @@ cat S21-START.txt</pre>
   }));
 
   /* —— Accordion chapters —— */
-  const OPEN_DEFAULT = new Set(); // all chapters folded for clean landing
+  const OPEN_DEFAULT = new Set();
   const accChapters = $$('section.chapter');
-  // toolbar
   const shell = document.querySelector('.shell');
   if (shell && accChapters.length) {
     const bar = document.createElement('div');
     bar.className = 'acc-toolbar';
-    bar.innerHTML = '<button type="button" id="accExpand">Expand all</button><button type="button" id="accCollapse">Collapse all</button>';
+    bar.innerHTML = '<button type="button" id="accExpand">모두 펼치기</button><button type="button" id="accCollapse">모두 접기</button>';
     const firstCh = accChapters[0];
     firstCh.parentNode.insertBefore(bar, firstCh);
   }
@@ -1409,7 +1429,6 @@ cat S21-START.txt</pre>
     head.setAttribute('aria-expanded', open ? 'true' : 'false');
     panel.classList.toggle('open', open);
     if (open) {
-      // animate bars / reveal when opening
       sec.querySelectorAll('.f[data-w]').forEach(f => { f.style.width = f.dataset.w + '%'; });
       sec.querySelectorAll('.reveal').forEach(el => el.classList.add('on'));
       if (sec.id === 'agents') try { drawAllRadars(); } catch(_){}
@@ -1427,7 +1446,6 @@ cat S21-START.txt</pre>
     const title = sec.querySelector('.ch-title');
     if (!label || !title) return;
     const kids = [...sec.childNodes];
-    // build head button
     const head = document.createElement('button');
     head.type = 'button';
     head.className = 'acc-head';
@@ -1439,13 +1457,11 @@ cat S21-START.txt</pre>
     head.appendChild(label);
     head.appendChild(title);
     head.appendChild(ico);
-    // panel
     const panel = document.createElement('div');
     panel.className = 'acc-panel';
     panel.id = (sec.id || 'ch' + i) + '-panel';
     const inner = document.createElement('div');
     inner.className = 'acc-inner';
-    // move remaining elements into panel
     kids.forEach(n => {
       if (n === label || n === title) return;
       if (n.nodeType === 1 || (n.nodeType === 3 && n.textContent.trim())) inner.appendChild(n);
@@ -1466,7 +1482,6 @@ cat S21-START.txt</pre>
   $('#accExpand')?.addEventListener('click', () => accChapters.forEach(s => setChapterOpen(s, true, false)));
   $('#accCollapse')?.addEventListener('click', () => accChapters.forEach(s => setChapterOpen(s, false, false)));
 
-  // deep link #section → open that accordion
   const hashOpen = () => {
     const id = location.hash.replace('#', '');
     if (!id) return;
@@ -1478,7 +1493,6 @@ cat S21-START.txt</pre>
   hashOpen();
   addEventListener('hashchange', hashOpen);
 
-  // library group accordions — all folded by default
   $$('.lib-section').forEach((sec) => {
     const h = sec.querySelector('h3');
     if (!h) return;
@@ -1498,7 +1512,6 @@ cat S21-START.txt</pre>
     });
   });
 
-  // nav anchors open target accordion first
   $$('a[href^="#"]').forEach(a => {
     a.addEventListener('click', () => {
       const id = a.getAttribute('href')?.slice(1);
@@ -1569,7 +1582,6 @@ cat S21-START.txt</pre>
     const ink = light ? 'rgba(26,21,16,0.15)' : 'rgba(244,239,230,0.12)';
     const gold = '#d4a84b';
     ctx.clearRect(0, 0, w, h);
-    // grid
     for (let ring = 1; ring <= 4; ring++) {
       ctx.beginPath();
       for (let i = 0; i < 5; i++) {
@@ -1582,7 +1594,6 @@ cat S21-START.txt</pre>
       ctx.strokeStyle = ink;
       ctx.stroke();
     }
-    // axes
     for (let i = 0; i < 5; i++) {
       const a = -Math.PI / 2 + (i * 2 * Math.PI) / 5;
       ctx.beginPath();
@@ -1591,7 +1602,6 @@ cat S21-START.txt</pre>
       ctx.strokeStyle = ink;
       ctx.stroke();
     }
-    // polygon
     ctx.beginPath();
     scores.forEach((s, i) => {
       const a = -Math.PI / 2 + (i * 2 * Math.PI) / 5;
@@ -1626,20 +1636,20 @@ cat S21-START.txt</pre>
 
   /* —— Workcenters —— */
   const WORKCENTERS = [
-    { idx: '①', name: '공장', meta: '생산라인', plat: 'GitHub', op: 'Claude Code', pct: 100, color: '#3db8a8', status: 'go', statusLabel: '가동',
-      desc: '코드·문서·스크립트가 생산되는 메인 공장. 커밋과 PR이 원료다.' },
-    { idx: '②', name: '전시장', meta: '쇼룸', plat: 'GitHub Pages', op: '자동배포', pct: 100, color: '#3db8a8', status: 'go', statusLabel: '가동',
-      desc: '이 웹진이 서 있는 자리. 레포가 곧 갤러리다.' },
-    { idx: '③', name: '방송탑', meta: '송신탑', plat: 'YouTube', op: 'Claude Code', pct: 80, color: '#8b7cf0', status: 'wait', statusLabel: '준비',
-      desc: '완성 강의와 수익화가 나가는 송신 인프라.' },
-    { idx: '④', name: '인터컴', meta: '내부통신', plat: 'Telegram', op: 'tg.sh / Bot', pct: 100, color: '#3db8a8', status: 'go', statusLabel: '가동',
-      desc: '에이전트 보고, 파일 배달, 회의실. 폰과 사람 사이 무전.' },
-    { idx: '⑤', name: '업무일지', meta: '기록창고', plat: 'Tistory', op: '사람', pct: 30, color: '#d4a84b', status: 'hand', statusLabel: '수동',
-      desc: '운영 기록과 회고. 자동화보다 손맛이 남는 창고.' },
-    { idx: '⑥', name: '웹진', meta: '미끼·티저', plat: 'Naver Blog', op: '사람 + Grok', pct: 25, color: '#e85d4c', status: 'hand', statusLabel: '수동',
-      desc: '퍼널의 입구. Grok 80% 드래프트로 트래픽을 끌어온다.' },
-    { idx: '⑦', name: '로비', meta: '응접실', plat: 'Discord', op: 'WidgetBot', pct: 100, color: '#3db8a8', status: 'go', statusLabel: '가동',
-      desc: '실시간 소통 로비. 커뮤니티가 들어오는 현관.' },
+    { idx: '①', name: '빵 공장', meta: '반죽실', plat: 'GitHub', op: '글짓기 로봇', pct: 100, color: '#3db8a8', status: 'go', statusLabel: '가동',
+      desc: '글과 코드가 만들어지는 주방. 로봇 친구들이 여기서 요리해요.' },
+    { idx: '②', name: '전시장', meta: '쇼윈도', plat: 'GitHub Pages', op: '자동', pct: 100, color: '#3db8a8', status: 'go', statusLabel: '가동',
+      desc: '만든 걸 세상에 보여주는 무료 전시장. 이 페이지도 여기 있어요.' },
+    { idx: '③', name: '방송국', meta: 'TV타워', plat: 'YouTube', op: '글짓기 로봇', pct: 80, color: '#8b7cf0', status: 'wait', statusLabel: '준비',
+      desc: '완성된 강의를 TV로 내보내요. 수익도 만들 수 있어요.' },
+    { idx: '④', name: '무전기', meta: '쪽지', plat: 'Telegram', op: 'tg.sh / 봇', pct: 100, color: '#3db8a8', status: 'go', statusLabel: '가동',
+      desc: '로봇이 사람에게 "다 했어요!" 하고 보고하는 통로.' },
+    { idx: '⑤', name: '일기장', meta: '기록창고', plat: 'Tistory', op: '사람', pct: 30, color: '#d4a84b', status: 'hand', statusLabel: '수동',
+      desc: '운영 기록과 생각을 적어두는 곳. 아직은 사람 손이 필요해요.' },
+    { idx: '⑥', name: '웹진', meta: '미끼·티저', plat: 'Naver Blog', op: '사람 + 그림로봇', pct: 25, color: '#e85d4c', status: 'hand', statusLabel: '수동',
+      desc: '그림 로봇이 80% 쓰고 사람이 다듬어요. 구경꾼을 모으는 입구.' },
+    { idx: '⑦', name: '모임방', meta: '응접실', plat: 'Discord', op: 'WidgetBot', pct: 100, color: '#3db8a8', status: 'go', statusLabel: '가동',
+      desc: '실시간으로 사람들과 대화하는 공간. 현관문이에요.' },
   ];
   let wcIndex = 0;
   const wcList = $('#wcList');
@@ -1686,7 +1696,6 @@ cat S21-START.txt</pre>
     $('#wcPlat').textContent = w.plat;
     $('#wcOp').textContent = w.op;
     $('#wcMeta').textContent = w.meta;
-    // animate ring
     let cur = 0;
     const target = w.pct;
     const step = () => {
@@ -1733,16 +1742,14 @@ cat S21-START.txt</pre>
 
   /* —— Cost pie —— */
   const COSTS = [
-    { name: 'SuperGrok', desc: '시각 · 에이전트 · 리서치', amt: 45000, color: '#d4a84b' },
-    { name: 'DeepSeek', desc: 'cc + ds 코딩 루프', amt: 10000, color: '#3db8a8' },
-    { name: 'Core stack', desc: 'Termux · GitHub · 폰', amt: 0, color: '#8b7cf0' },
+    { name: '그림 로봇', desc: '그림 · 조사 · 상상력', amt: 45000, color: '#d4a84b' },
+    { name: '글짓기+고치기', desc: 'cc + ds 코딩 루프', amt: 10000, color: '#3db8a8' },
+    { name: '기본 재료', desc: 'Termux · GitHub · 폰', amt: 0, color: '#8b7cf0' },
   ];
   function drawCostPie() {
     const canvas = $('#costPie');
     const ctx = canvas.getContext('2d');
     const w = canvas.width, cx = w / 2, r = 100;
-    const total = COSTS.reduce((s, c) => s + Math.max(c.amt, 1), 0);
-    // treat 0 as small slice for visibility? Core is free - show as thin teal ring note
     ctx.clearRect(0, 0, w, w);
     let ang = -Math.PI / 2;
     const paid = COSTS.filter(c => c.amt > 0);
@@ -1757,7 +1764,6 @@ cat S21-START.txt</pre>
       ctx.fill();
       ang += slice;
     });
-    // hole
     const light = root.getAttribute('data-theme') === 'light';
     ctx.beginPath();
     ctx.arc(cx, cx, 58, 0, Math.PI * 2);
@@ -1770,7 +1776,7 @@ cat S21-START.txt</pre>
     ctx.fillText('₩55k', cx, cx - 8);
     ctx.font = '12px DM Sans, sans-serif';
     ctx.fillStyle = light ? '#8a8074' : '#7a7064';
-    ctx.fillText('/ month', cx, cx + 16);
+    ctx.fillText('/ 월', cx, cx + 16);
   }
   const legend = $('#costLegend');
   COSTS.forEach(c => {
@@ -1782,15 +1788,6 @@ cat S21-START.txt</pre>
   drawCostPie();
 
   /* —— Terminal typewriter —— */
-  
-  $('#copyEnv')?.addEventListener('click', async () => {
-    const el = document.getElementById('envBlock');
-    const text = el ? el.innerText : '';
-    try { await navigator.clipboard.writeText(text); } catch(e) {}
-    const b = document.getElementById('copyEnv');
-    if (b) { const o=b.textContent; b.textContent='Copied'; setTimeout(()=>b.textContent=o,1200); }
-  });
-
   const CMD = 'bash <(curl -sL https://raw.githubusercontent.com/helena751107/helena_phone/main/g/easy.sh)';
   const termCmd = $('#termCmd');
   const termCursor = $('#termCursor');
@@ -1822,8 +1819,8 @@ cat S21-START.txt</pre>
       document.execCommand('copy'); ta.remove();
     }
     const b = $('#copyInstall');
-    b.textContent = 'Copied ✓';
-    setTimeout(() => { b.textContent = 'Copy command'; }, 1600);
+    b.textContent = '복사 완료 ✓';
+    setTimeout(() => { b.textContent = '주문 복사하기'; }, 1600);
   };
 
   /* —— Library search —— */
@@ -1845,7 +1842,7 @@ cat S21-START.txt</pre>
     });
   });
 
-  /* —— Parallax cover (subtle) —— */
+  /* —— Parallax cover —— */
   if (!reduce && !coarse) {
     addEventListener('scroll', () => {
       const c = $('#cover');

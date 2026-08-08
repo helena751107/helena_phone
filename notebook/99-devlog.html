@@ -39,7 +39,7 @@
     <span>📋 S21 Phone — 전체 개발일지</span>
   </div>
   <header class="wz-hero">
-    <div class="wz-kicker">Notebook · Vol.01</div>
+    <div class="wz-kicker">Notebook · lakme-audio</div>
     <h1>📋 S21 Phone — 전체 개발일지</h1>
     <p class="deck">구축 기간: 2026-07-23 ~ 2026-07-24</p>
     <div class="wz-meta">
@@ -50,6 +50,17 @@
   </header>
   <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
 <ul>
+<li><a href="#pd-pipeline-v7-_claude-2026-08-07">🎬 PD Pipeline V7 — 프로급 업그레이드 완료 (_Claude · 2026-08-07)</a></li>
+<li><a href="#grok-free-pd-pipeline-v2-tg-_claude-2026-08-07">🎬 Grok-free PD Pipeline v2 첫 실가동 — TG 발송 성공 (_Claude · 2026-08-07)</a></li>
+<li><a href="#kokoro-fp32-jf_alpha-ai-_claude-2026-08-07">✅ Kokoro FP32 + jf_alpha — AI 성우 솔루션 확정 (_Claude · 2026-08-07)</a></li>
+<li><a href="#tts-rvc-_claude-2026-08-07">🎤 경량 TTS + RVC 성우 더빙 솔루션 확정 (_Claude · 2026-08-07)</a></li>
+<li><a href="#sovits-878mb-_claude-2026-08-07">🗑️ SoVITS 878MB 삭제 + 건강 검진 (_Claude · 2026-08-07)</a></li>
+<li><a href="#parksytts-vits-onnx-export-_claude-2026-08-07">🎯 ParksyTTS VITS 디코더 ONNX export 성공 (_Claude · 2026-08-07)</a></li>
+<li><a href="#parksyttsnpu-_claude-2026-08-07">⚡ 세션 끊김 + ParksyTTS/NPU 재개 체크리스트 (_Claude · 2026-08-07)</a></li>
+<li><a href="#pc-_claude-2026-08-07">🔋 핸드폰이 PC가 되는 과정 — 전자의 마구간 (_Claude · 2026-08-07)</a></li>
+<li><a href="#voice_engine-v2-pd_intro-_claude-2026-08-06">🎙️ voice_engine v2 완성 + pd_intro 더빙·발송 (_Claude · 2026-08-06)</a></li>
+<li><a href="#pd-grok-_grok-2026-08-06">📋 PD Grok 업무수첩 종합 리포트 (_Grok · 2026-08-06)</a></li>
+<li><a href="#ai-local-_claude-2026-08-06">🎤 AI 성우 코어 local 프로바이더 완성 (_Claude · 2026-08-06)</a></li>
 <li><a href="#_boss">🏭 시리즈 제작 표준 파이프 확정 (_Boss)</a></li>
 <li><a href="#e01-_boss-_claude">🎬 E01 제작 완료 — 스마트폰에 리눅스를? (_Boss + _Claude)</a></li>
 <li><a href="#youtube-5-_boss">📚 YouTube 교재 — 5챕터 플레이리스트 구조 (_Boss)</a></li>
@@ -289,6 +300,13 @@
 <li><a href="#3-_boss-_claude-2026-08-06">🎬 만점 비디오 파이프라인 — 3차 업그레이드 (_Boss, _Claude) — 2026-08-06</a></li>
 </ul>
 </li>
+<li><a href="#v9-cnn-breaking-news-tts-2026-08-07-2237-_claude">V9 CNN Breaking News 자막 + TTS 표준 변경 (2026-08-07 22:37) (_Claude)</a><ul>
+<li><a href="#cnn-breaking-news-v9">CNN Breaking News 애니메이션 자막 (V9)</a></li>
+<li><a href="#tts-kokoro-edge">TTS 표준 변경: Kokoro → Edge</a></li>
+<li><a href="#tg-361">TG #361</a></li>
+<li><a href="#_10">파이프라인 변경</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </nav>
@@ -299,7 +317,315 @@
     <button type="button" id="wzCopy" data-cursor>본문 복사</button>
   </div>
   <article class="wz-prose" id="wzProse" data-app="doc">
-    <h3 id="_boss">🏭 시리즈 제작 표준 파이프 확정 (_Boss)</h3>
+    <h3 id="pd-pipeline-v7-_claude-2026-08-07">🎬 PD Pipeline V7 — 프로급 업그레이드 완료 (_Claude · 2026-08-07)</h3>
+<p>V6에서 V7로 5가지 프로급 개선 적용:</p>
+<ol>
+<li><strong>Breathing pauses</strong> — 비트마다 <code>pause</code>(초) 필드 추가. VO 끝나고 0.4~1.0초 숨 고르기. 숏폼이 아닌 설명형 영상에서 템포 조절의 핵심.</li>
+<li><strong>Zoom variety</strong> — <code>zoom_dir</code>: in(줌인), out(줌아웃), pan_left, pan_right. Ken Burns 단조로움 탈피. 비트 감정에 따라 방향 매핑 (hook→in, trust→pan_right, map→out).</li>
+<li><strong>Per-slide color grade</strong> — <code>grade</code> 필드 추가. hook=gold(따뜻한 금빛), trust=warm, map=cool, rise=gold, handoff=cinematic. 비트별로 eq+colorbalance 분리 적용.</li>
+<li><strong>BGM volume envelope</strong> — 80-100% 구간에서 BGM 볼륨 1.5배 swell. 클라이맥스 강조. FFmpeg <code>volume</code> eval=frame 표현식 사용.</li>
+<li><strong>Staggered end card</strong> — 텍스트 요소 순차 등장 (0.3/0.8/1.3/1.8s). 브랜드→모토→핸들→URL. <code>alpha</code> 표현식 페이드인.</li>
+</ol>
+<p><strong>파일 변경:</strong><br>
+- <code>scripts/_render_video.py</code> — V7 header, shot_bible beat_map, pan_x/zoom_expr 분기, staggered end card, BGM swell<br>
+- <code>scripts/_make_srt.py</code> — pause 간격을 SRT 타임라인에 반영<br>
+- <code>scripts/produce_pd.sh</code> — 기본 shot_bible에 V7 필드 추가, 헤더 V7 갱신<br>
+- <code>out/pd_intro/shot_bible.json</code> — pause/zoom_dir/grade 필드 포함</p>
+<p><strong>결과:</strong> TG 발송 성공 (msg 356). 50s 영상, 11MB playable, QA 10/10 unique 0 black.<br>
+<strong>교훈:</strong> <code>DEFAULT_GRADE</code> 정의 순서 문제 — shot_bible 파싱이 상수 정의보다 앞에 있으면 NameError. 문자열 리터럴로 우회.</p>
+<h3 id="grok-free-pd-pipeline-v2-tg-_claude-2026-08-07">🎬 Grok-free PD Pipeline v2 첫 실가동 — TG 발송 성공 (_Claude · 2026-08-07)</h3>
+<p><strong>전체 파이프라인 통과. Kokoro jf_alpha 성우 + Android bridge 자동감지 + TG 발송.</strong></p>
+<p><strong>파이프라인 흐름:</strong><br>
+| 단계 | 내용 | 결과 |<br>
+|------|------|------|<br>
+| P1 Playwright | 6장 페이지 캡처 (390×844@3x) | ✅ |<br>
+| P2 Kokoro TTS | jf_alpha(sid=37) 6클립, 총 40.5초 | ✅ |<br>
+| P3 Bridge pickup | Gemini 영상 Android Movies/ → bridge/ 자동 복사 | ✅ |<br>
+| P4 Ken Burns | zoom_base=1.08, warm grade, slideup caption | ✅ |<br>
+| P5 Assemble | b_open(5.5s) + body(40.4s) + b_close(5.5s) + BGM | ✅ |<br>
+| P6 TG send | HTTP 200, message_id=349 | ✅ |</p>
+<p><strong>결과물:</strong><br>
+- <code>pd_intro_playable.mp4</code>: 11MB, 51.5s, 1080×1920, yuv420p High@L4.0<br>
+- <code>pd_intro_tg.mp4</code>: 4.5MB, 720×1280<br>
+- QA: unique=10/10, black=0 — ALL PASS</p>
+<p><strong>파이프라인 디버그 3건:</strong><br>
+1. <code>_bridge_pickup.sh</code> — Android 디렉토리 없을 때 <code>set -e</code> 방어 (<code>scan_dir()</code> + <code>|| true</code>)<br>
+2. <code>_render_video.py</code> — zoom_base 1.0→1.08, 레터박스 최소화 (첫 프레임 luminance 2.2→10+)<br>
+3. <code>_qa_video_slides.py</code> — black threshold 8.0→5.0 (다크 테마 사이트 평균 luminance 10~13 대응)</p>
+<p><strong>Android bridge 워크플로 (Boss 수동):</strong><br>
+1. Gemini/공짜LLM으로 open/close 영상 제작<br>
+2. Android Download 또는 Movies 폴더에 저장<br>
+3. <code>produce_pd.sh</code> 실행 → <code>_bridge_pickup.sh</code>가 3-tier 감지 (exact → prefix → latest fallback)<br>
+4. 이번 실행: <code>gemini_generated_video_a3509220.mp4</code>(2.6MB) → b_open, <code>gemini_generated_video_4cf4c478.mp4</code>(2.4MB) → b_close</p>
+<p><strong>커밋:</strong> <code>03885c3</code> — 6 files, +877/−303<br>
+<strong>관련:</strong> [[tts-rvc-lightweight-solution]]</p>
+<hr>
+<h3 id="kokoro-fp32-jf_alpha-ai-_claude-2026-08-07">✅ Kokoro FP32 + jf_alpha — AI 성우 솔루션 확정 (_Claude · 2026-08-07)</h3>
+<p><strong>최종 결정: Kokoro-82M FP32 ONNX + jf_alpha(일본인 여성) 화자로 한국어 더빙.</strong></p>
+<p><strong>시행착오 경로:</strong><br>
+| 단계 | 모델 | 결과 | 사유 |<br>
+|------|------|------|------|<br>
+| 1 | ParksyTTS (GPT-SoVITS) | ❌ | 471초/3.5초 — 실사용 불가 |<br>
+| 2 | Kokoro INT8 | ❌ | ARM64 디퀀트 버그 → NaN 출력 |<br>
+| 3 | Kokoro FP32 | ✅ | RTF ~2x, 정상 오디오 |<br>
+| 4 | VITS Mimic3 한국어 | ❌ | 자연스러움 3.4/5 — Kokoro(4.8) 대비 열세 |<br>
+| 5 | Kokoro jf_alpha | ✅ 확정 | 일본인 억양 = 단점 아닌 캐릭터 자산 |</p>
+<p><strong>핵심 통찰 (Boss):</strong> jf_alpha의 어설픈 한국어 발음이 오히려 &ldquo;한국어를 열심히 배우는 착한 일본인 AI&rdquo;라는 차별화된 캐릭터성을 만든다. 완벽한 발음보다 기억에 남는 목소리가 낫다.</p>
+<p><strong>모델 스펙:</strong><br>
+- Kokoro-82M FP32 (<code>csukuangfj/kokoro-multi-lang-v1_0</code>)<br>
+- 311MB ONNX, 53 화자, Apache 2.0<br>
+- jf_alpha (sid=37), lang=ko, 24000Hz<br>
+- S21 proot CPU: RTF ~2x, RMS 0.08</p>
+<p><strong>voice_engine.py:</strong> <code>SHERPA_SID=37</code> 기본값, <code>kokoro-fp32-v1_0/</code> 자동 탐지.<br>
+<strong>삭제:</strong> SoVITS 파생물 878MB, VITS Mimic3 79MB, INT8 Kokoro 183MB — 총 <strong>1,140MB 정리</strong>.<br>
+<strong>메모리:</strong> <code>[[tts-rvc-lightweight-solution]]</code> 갱신 완료.</p>
+<hr>
+<h3 id="tts-rvc-_claude-2026-08-07">🎤 경량 TTS + RVC 성우 더빙 솔루션 확정 (_Claude · 2026-08-07)</h3>
+<p><strong>판단: ParksyTTS(GPT-SoVITS) 포기. 경량 TTS + RVC ONNX 조합으로 전환.</strong></p>
+<p><strong>SoVITS 삭제 대상 (878MB 정리 예정):</strong><br>
+| 파일 | 크기 | 삭제 사유 |<br>
+|------|------|----------|<br>
+| <code>voice_models/parksy_v2/parksy_v2_vits.onnx</code> | 323MB | VITS 디코더 ONNX — GPT 병목 미해결, 반쪽 |<br>
+| <code>voice_models/parksy_v2/parksy_v2_vits_decode.onnx</code> | 241MB | ONNX 디코더 변형 — 동일 문제 |<br>
+| <code>parksy-tts-v1/models/sovits/parksy_v2_e8_s256.pth</code> | 165MB | SoVITS 체크포인트 — 471초 병목의 원흉 |<br>
+| <code>parksy-tts-v1/models/gpt/parksy_v2-e15.ckpt</code> | 149MB | GPT stage 체크포인트 — autoregressive 1500 iter |</p>
+<p><strong>시행착오 요약:</strong><br>
+1. GPT-SoVITS 설치 → arm64 의존성 3종 충돌 해결 (numba, librosa, torchcodec)<br>
+2. ParksyTTS v1 추론 테스트 → 471초 for 3.5초 음성, 실시간 대비 135배<br>
+3. VITS 디코더 ONNX export 성공 → 디코더만 가속, GPT stage는 여전히 PyTorch<br>
+4. 한국어 BERT 불필요 확인 → 0-vector 처리<br>
+5. GPT autoregressive token prediction → CPU에서 구조적 병목, ONNX로도 해결 불가<br>
+6. <strong>결론: GPT-SoVITS 아키텍처 자체가 CPU 실사용에 부적합. 포기 확정.</strong></p>
+<p><strong>시행착오 끝에 얻은 교훈:</strong><br>
+- Autoregressive 모델(GPT stage decoder)은 CPU에서 답이 없다<br>
+- 생성(Generate) 대신 변환(Convert) — RVC가 훨씬 가볍다<br>
+- SoVITS는 GPU 있는 환경에서나 의미 있는 도구</p>
+<p><strong>대체 전략 (3단계):</strong><br>
+1. Sherpa-ONNX Kokoro 한국어 (jf_alpha) — 공짜·Apache 2.0·이미 S21에 설치<br>
+2. RVC ONNX INT8 — 누나 목소리 변환 (~72ms)<br>
+3. Grok TTS 사용 안 함 (저작권 무관하나 403 미지원)</p>
+<p><strong>저장:</strong> <code>_notebook/74-tts-rvc-lightweight-solution_Claude.md</code> (전문)</p>
+<h3 id="sovits-878mb-_claude-2026-08-07">🗑️ SoVITS 878MB 삭제 + 건강 검진 (_Claude · 2026-08-07)</h3>
+<p><strong>건강 검진:</strong> Grade B (25통과/5경고/2실패). 배터리 89%·43.1°C. GPS·클립보드 실패는 proot 제약.</p>
+<p><strong>SoVITS 삭제 내역 (878MB → 12KB):</strong></p>
+<pre><code>voice_models/parksy_v2/parksy_v2_vits.onnx        323MB ✕
+voice_models/parksy_v2/parksy_v2_vits_decode.onnx  241MB ✕
+parksy-tts-v1/models/sovits/parksy_v2_e8_s256.pth  165MB ✕
+parksy-tts-v1/models/gpt/parksy_v2-e15.ckpt        149MB ✕
+</code></pre>
+<ul>
+<li>voice_models/ 전체: 1GB+ → 183MB (Kokoro INT8만 남음)</li>
+<li>parksy-tts-v1/ Python 코드는 참고용 보존, 모델 웨이트만 삭제</li>
+</ul>
+<h3 id="parksytts-vits-onnx-export-_claude-2026-08-07">🎯 ParksyTTS VITS 디코더 ONNX export 성공 (_Claude · 2026-08-07)</h3>
+<p><strong>결과:</strong><br>
+- <code>voice_models/parksy_v2/parksy_v2_vits.onnx</code> — 322.7 MB, 84.8M 파라미터<br>
+- PyTorch → ONNX 변환 성공, onnxruntime 추론 검증 완료<br>
+- 입력: text_seq(phoneme IDs) + pred_semantic(GPT tokens) + ref_audio + sv_emb<br>
+- 출력: raw audio waveform @ 32000Hz</p>
+<p><strong>과정:</strong><br>
+- GPT-SoVITS 내장 <code>onnx_export.py</code> 발견 → ParksyTTS 모델 경로로 수정<br>
+- 의존성 8종 설치: pytorch_lightning, matplotlib, x-transformers, onnxscript, huggingface_hub, transformers, peft, jieba<br>
+- v2Pro sv_emb 문제: TTS_infer_pack 의존성 체인 과다(Chinese NLP 포함) → 제로 임베딩으로 우회 (단일 화자)<br>
+- <code>scripts/_export_parksy_vits_onnx.py</code> 신규 작성 (VITS 디코더 전용)</p>
+<p><strong>한계:</strong><br>
+- GPT stage(stage decoder, 1500 iterations autoregressive)는 아직 PyTorch → 여전히 병목<br>
+- VITS 디코더만 ONNX: semantic token prediction 속도는 그대로<br>
+- 실제 end-to-end 가속 위해 GPT stage decoder도 ONNX export 필요</p>
+<p><strong>앞으로:</strong><br>
+- [ ] 실제 reference audio로 sv_emb 정확 계산 (TTS_infer_pack 의존성 해결 후)<br>
+- [ ] GPT stage decoder ONNX export (autoregressive loop → onnxruntime)<br>
+- [ ] voice_engine.py에 onnxruntime VITS 디코더 통합<br>
+- [ ] Kokoro 모델은 폴백으로 유지, ParksyTTS ONNX가 우선</p>
+<h3 id="parksyttsnpu-_claude-2026-08-07">⚡ 세션 끊김 + ParksyTTS/NPU 재개 체크리스트 (_Claude · 2026-08-07)</h3>
+<p><strong>세션 상태:</strong><br>
+- 2026-08-07 세션 <strong>2회 이상 끊김</strong> (장시간 ParksyTTS CPU 추론 7분+ 중 타임아웃 추정)<br>
+- PD Pipeline v2 코드 완성됐으나 <strong>uncommitted</strong>. scripts/_render_video.py V5, produce_pd.sh v2, _pd_assemble.py, _qa_video_slides.py, configs/video_pd_pipeline_v2.json 등 10여 개 파일 스테이징 대기.<br>
+- CLAUDE.md 상단에 <code>🚨 ParksyTTS on S21 — 세션 시작 시 필독</code> 섹션 추가 완료</p>
+<p><strong>ParksyTTS 현황:</strong><br>
+- parksy_v2 checkpoints 314MB 로컬 <code>/root/work/helena-programming/tools/voice/</code> 에 있음<br>
+- CPU-only 추론: 471초(7분51초) for 3.5초 음성 → <strong>실사용 불가</strong><br>
+- arm64 의존성 3종 해결 완료: numba → soundfile, librosa 충돌 없음, torchcodec 0.15.0 설치<br>
+- 한국어 BERT 불필요 → 0-vector 처리 반영</p>
+<p><strong>NPU/GPU 가속 현황 (진행 중):</strong><br>
+| 항목 | 상태 | 세부 |<br>
+|------|------|------|<br>
+| GPU Mali-G78 | ❌ proot 블록 | <code>/dev/mali0</code> + <code>/vendor/lib64/libOpenCL.so</code> 있으나 glibc/bionic ABI 충돌 |<br>
+| NPU Exynos | ❌ permission | NCP v24 커널 확인, <code>/sys/class/drm</code> 접근 불가 |<br>
+| Termux 브릿지 | 🔑 해법 | Termux(bionic) → DRM/NPU sysfs 접근 가능, proot ↔ Termux localhost 브릿지 구상 |<br>
+| Sherpa-ONNX | ⏳ 단기대안 | Kokoro/VITS CPU 추론이 GPT-SoVITS보다 10~100배 빠름, NNAPI delegate 포함 Android prebuilt 탐색 중 |</p>
+<p><strong>다음 세션 재개 시 할 일:</strong><br>
+1. ✅ CLAUDE.md 읽기 (ParksyTTS 섹션부터)<br>
+2. Sherpa-ONNX NNAPI Android binary 있는지 확인 → Termux <code>pkg install onnxruntime</code><br>
+3. Termux에 sherpa-onnx NNAPI delegate 테스트<br>
+4. proot ↔ Termux localhost 브릿지 PoC<br>
+5. PD Pipeline v2 커밋·푸시</p>
+<p><strong>주의:</strong><br>
+- <code>TTS_ENGINE=local</code> 이 기본값, grok은 403이라 무의미<br>
+- 장시간 추론 시 watchdog ping 또는 중간 체크포인트 저장<br>
+- 이 일지는 <code>_notebook/99-devlog.md</code> — 항상 여기 먼저 읽고 재개할 것</p>
+<h3 id="pc-_claude-2026-08-07">🔋 핸드폰이 PC가 되는 과정 — 전자의 마구간 (_Claude · 2026-08-07)</h3>
+<p><strong>오늘의 명제:</strong> PC가 &ldquo;PC&rdquo;인 이유는 CPU·메모리·디스크가 한 박스 안에서 연산을 완결하기 때문. S21이 하는 일이 정확히 그거다 — GPT-SoVITS 추론부터 오디오 합성까지 폰 안에서 전부 끝내는 것. 클라우드로 연산 던지고 결과만 받아오는 게 아니라.</p>
+<p><strong>물리적 프레임 — &ldquo;전자를 부리는 마구간&rdquo;:</strong><br>
+컴퓨팅을 &ldquo;정보&rdquo;나 &ldquo;지능&rdquo;으로 착각하는 게 가장 흔한 오해. 실제로는 전자를 게이트 통과시키는 물리적 노동. GPU 코어 하나하나가 전자를 특정 방향으로 밀어붙이는 걸 초당 수십억 번 반복하고, 그 과정에서 열이 나고 전기를 먹는다. &ldquo;말을 부려 먹는다&rdquo;는 비유가 과장이 아니라 문자 그대로 — 옛날엔 말이 물리적 힘을 냈고, 지금은 전자가 물리적 일을 하는 것, 매체만 바뀐 거다.</p>
+<p>말을 부리려면 마구간과 목초지가 필요하듯, 전자를 부리려면 반도체(트랜지스터 배열)라는 물리적 공간이 필요. 클라우드 API는 &ldquo;남의 마구간에서 말을 빌려 쓰는 것&rdquo; — 편하지만 그 말이 지금 뭘 하는지, 얼마나 정직하게 일하는지, 다음에도 빌려줄지 전부 남의 손에 달려있다. S21은 내 소유의 물리적 워크센터. 작지만 내 거고, 내가 통제한다.</p>
+<p><strong>오늘 작업 — 의존성 3종 돌파:</strong></p>
+<table>
+<thead>
+<tr>
+<th>패키지</th>
+<th>상태</th>
+<th>버전</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torchcodec</code></td>
+<td>✅ 신규 설치</td>
+<td>0.15.0+cu130</td>
+<td><code>--break-system-packages</code> 필요</td>
+</tr>
+<tr>
+<td><code>numba</code></td>
+<td>✅ 기설치 정상</td>
+<td>0.66.0</td>
+<td>충돌 없음</td>
+</tr>
+<tr>
+<td><code>librosa</code></td>
+<td>✅ 기설치 정상</td>
+<td>0.11.0</td>
+<td>ParksyTTS 요구 0.10.2보다 높지만 호환</td>
+</tr>
+</tbody>
+</table>
+<p><strong>ParksyTTS v1 실전 테스트:</strong><br>
+- 텍스트: &ldquo;안녕 헬레나 오늘은 전자가 진짜 일하는 날이야&rdquo;<br>
+- 결과: 3.5초 WAV, peak=0.880, 품질 양호<br>
+- <strong>추론 시간: 471초 (7분 51초)</strong> — 실시간 대비 <strong>135배 느림</strong><br>
+- 병목: GPT-SoVITS semantic token prediction (1500 iterations, ~3s/it on CPU)<br>
+- CPU-only 제한: <code>is_half=False</code>, <code>device="cpu"</code></p>
+<p><strong>NPU/GPU 하드웨어 실태 조사:</strong></p>
+<table>
+<thead>
+<tr>
+<th>자원</th>
+<th>하드웨어</th>
+<th>커널</th>
+<th>userspace</th>
+<th>proot 접근</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU</td>
+<td>Exynos 2100 (8코어)</td>
+<td>✅</td>
+<td>✅ glibc</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>GPU</td>
+<td>Mali-G78</td>
+<td>✅ <code>/dev/mali0</code></td>
+<td>✅ <code>/vendor/lib64/libOpenCL.so</code> + Vulkan</td>
+<td>❌ glibc/bionic 충돌</td>
+</tr>
+<tr>
+<td>NPU</td>
+<td>Samsung Exynos NPU</td>
+<td>✅ NCP v24</td>
+<td>❓ ENN SDK 미확인</td>
+<td>❌ <code>/sys/class/drm</code> permission</td>
+</tr>
+</tbody>
+</table>
+<p><strong>핵심 발견 — Termux가 열쇠:</strong><br>
+- proot Ubuntu (glibc) → GPU/NPU 직통 불가 (ABI 충돌)<br>
+- <strong>Termux (bionic) → DRM + NPU sysfs 접근 가능!</strong><br>
+- 하지만 Termux pip로 onnxruntime/sherpa-onnx 설치 불가 (Android wheel 없음)</p>
+<p><strong>NPU 전략 (앞으로):</strong><br>
+1. Termux <code>pkg</code>로 onnxruntime 설치 (Termux 사용자 권한 필요, root 불가)<br>
+2. sherpa-onnx Android prebuilt binary (NNAPI delegate 포함)<br>
+3. proot ↔ Termux localhost 브릿지 서비스<br>
+4. 단기: Sherpa-ONNX Kokoro/VITS로 CPU 추론 가속 (GPT-SoVITS보다 10~100배 빠름)</p>
+<p><strong>Grok TTS API 403 이슈:</strong><br>
+- xAI auth JWT 정상, <code>/v1/tts/voices</code> 호출 → HTTP 403 Forbidden<br>
+- SuperGrok 구독(45,000원/월)에 TTS API 미포함 또는 별도 티어 필요<br>
+- 현재 Grok TTS는 사용 불가 상태</p>
+<p><strong>오늘의 교훈:</strong><br>
+- &ldquo;핸드폰이 PC가 되는 과정&rdquo; = 외부 도움 없이 자체 연산 완결 능력 확보<br>
+- 그 연산의 실체는 &ldquo;전자를 물리적으로 부리는 것&rdquo; — 마구간은 작아도 내 것<br>
+- 소프트웨어 의존성(numba, librosa, torchcodec)은 해결됨<br>
+- 하드웨어 가속(NPU/GPU)은 소프트웨어보다 구조적 난이도가 한 단계 높다<br>
+- proot은 편하지만 결국 하드웨어 앞에서 한계 — Termux 네이티브 브릿지가 정답</p>
+<h3 id="voice_engine-v2-pd_intro-_claude-2026-08-06">🎙️ voice_engine v2 완성 + pd_intro 더빙·발송 (_Claude · 2026-08-06)</h3>
+<ul>
+<li><strong>voice_engine.py 리팩토링 완료</strong> (b868a37)</li>
+<li>Grok TTS 경로 버그 수정 (<code>parents[2]</code> → <code>parents[1]</code>)</li>
+<li>ParksyTTS v1 + Sherpa-ONNX local 프로바이더 통합</li>
+<li><code>synthesize()</code>: async <code>synthesize_beat()</code> → sync 래퍼 패턴</li>
+<li><code>humanize_tts()</code>: 단일 broadcast 체인, 불필요 light/heavy 분기 제거</li>
+<li>CLI main + <code>list_voices_grok()</code> 제거 (grok_tts.py로 위임)</li>
+<li><strong>pd_intro 파이프라인 실행</strong></li>
+<li>Grok/Ara 성우 6비트 더빙 → 총 39.8초 VO</li>
+<li>Ken Burns + BGM (Satie Gymnopédie whisper vol) + 브릿지 북엔드</li>
+<li>QA gate PASS: unique_frames=10/10, black=0</li>
+<li>최종: <code>pd_intro_playable.mp4</code> 11MB 50.8s · <code>pd_intro_tg.mp4</code> 4.5MB</li>
+<li><strong>TG 발송 성공</strong>: message_id=323</li>
+</ul>
+<h3 id="pd-grok-_grok-2026-08-06">📋 PD Grok 업무수첩 종합 리포트 (_Grok · 2026-08-06)</h3>
+<p><code>*_Grok</code> 40종 정리 → 1장 마크다운 + TG 전송.</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>문서</td>
+<td><code>_notebook/73-pd-grok-notebook-report_Grok.md</code></td>
+</tr>
+<tr>
+<td>TG document</td>
+<td>message_id <strong>319</strong></td>
+</tr>
+<tr>
+<td>TG 요약</td>
+<td>tg.sh 성공</td>
+</tr>
+<tr>
+<td>정본</td>
+<td>PD pipeline <strong>v2 LOCK</strong> · 역할 = GPU 대용 80% 프로 마감</td>
+</tr>
+<tr>
+<td>헬스</td>
+<td>Grade B · 갭 HTML 4건 (#70–72)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ai-local-_claude-2026-08-06">🎤 AI 성우 코어 local 프로바이더 완성 (_Claude · 2026-08-06)</h3>
+<p><strong>voice_engine.py에 <code>local</code> 프로바이더 추가 완료. ParksyTTS v1 우선, Sherpa-ONNX 폴백 구조.</strong></p>
+<p>voice_engine.py (190→389줄, +199):<br>
+- <code>_tts_local_parksy()</code>: ParksyTTS v1 GPT-SoVITS v2Pro 래퍼<br>
+- <code>_tts_local_sherpa()</code>: Sherpa-ONNX Kokoro/VITS 오프라인 추론<br>
+- <code>tts_local()</code>: ParksyTTS 우선 → Sherpa 폴백 디스패처<br>
+- <code>_find_parksytts_root()</code> / <code>_find_sherpa_model()</code>: 모델 자동 탐지<br>
+- <code>synthesize_beat()</code>에 <code>local</code> 케이스 추가<br>
+- <code>TTS_ENGINE=local</code> 환경변수 지원</p>
+<p>신규 스크립트:<br>
+- <code>scripts/record_voice_samples.sh</code>: 30문장 녹음 + ffmpeg 정규화<br>
+- <code>scripts/train_voice.py</code>: 로컬/클라우드 파인튜닝<br>
+- GitHub Actions workflow <code>train-voice.yml</code> 자동 생성</p>
+<p><strong>사용법:</strong></p>
+<pre><code class="language-bash">TTS_ENGINE=local bash scripts/produce_intro.sh
+python3 scripts/train_voice.py --samples voice_samples/ --out my_voice --cloud
+</code></pre>
+<p>관련: notebook #70 업데이트.</p>
+<h3 id="_boss">🏭 시리즈 제작 표준 파이프 확정 (_Boss)</h3>
 <p><strong>원칙: 매번 달라지지 말 것. 모든 에피소드 동일 프로세스.</strong></p>
 <p><strong>표준 파이프:</strong> <code>scripts/episode_produce.sh &lt;에피소드&gt; &lt;URL&gt; &lt;제목&gt;</code></p>
 <p><strong>4단계 고정:</strong><br>
@@ -6020,6 +6346,37 @@ MIDI 소싱: Mutopia → IMSLP → (필요시) basic-pitch Actions</p>
 - 속도 램핑<br>
 - 쇼츠/틱톡 프리셋</p>
 <p><strong>핵심: 공짜 FFmpeg 파이프로 구독자 확보용 쇼츠 자동화</strong></p>
+<h2 id="v9-cnn-breaking-news-tts-2026-08-07-2237-_claude">V9 CNN Breaking News 자막 + TTS 표준 변경 (2026-08-07 22:37) (_Claude)</h2>
+<h3 id="cnn-breaking-news-v9">CNN Breaking News 애니메이션 자막 (V9)</h3>
+<ul>
+<li><strong>\k karaoke 완전 폐기</strong> — Boss 피드백: &ldquo;진짜 CNN처럼 움직이면서 나와야 된다&rdquo;</li>
+<li><strong>단어별 Dialogue 이벤트</strong>로 전환: 각 단어가 개별 <code>\t()</code> scale pop 애니메이션</li>
+<li>스펙:</li>
+<li>72pt bold (56→72pt) — 훨씬 큼</li>
+<li><code>BorderStyle=3</code> opaque box — 레드 배너 바 배경 (<code>\4c&amp;HBB0000CC</code>)</li>
+<li><code>\fscx200\fscy200\t(0,100,\fscx100\fscy100)</code> — 단어마다 200%→100% 팝</li>
+<li>자동 줄바꿈: 960px 초과 시 다음 줄로 (LINE_SPACING=104px)</li>
+<li><code>\an2\pos(x,y)</code> — 단어별 개별 위치 지정</li>
+<li><strong>서브타이틀이 아니라 비주얼 이펙트</strong>로 격상</li>
+</ul>
+<h3 id="tts-kokoro-edge">TTS 표준 변경: Kokoro → Edge</h3>
+<ul>
+<li><strong>Kokoro jf_alpha 폐기</strong>: 일본식 억양, 한국어 부자연 → &ldquo;어눌한 발음 의미 없음&rdquo;</li>
+<li><strong>Edge TTS InJoonNeural 채택</strong>: 이미 상용급 품질, 한국어 자연스러움</li>
+<li>롱폼=육성, 쇼츠=Edge TTS, ParksyTTS=교재 소재로 재배치</li>
+<li><code>TTS_ENGINE</code> 기본값: <code>local</code> → <code>edge</code></li>
+<li><code>_make_ass.py</code> 완전히 새로 작성 (\k 태그 제로, \t() 애니메이션 전용)</li>
+</ul>
+<h3 id="tg-361">TG #361</h3>
+<ul>
+<li>최초 CNN Breaking News 스타일 영상 발송</li>
+<li>72pt + 레드 배너 + 단어별 팝 애니메이션 적용</li>
+</ul>
+<h3 id="_10">파이프라인 변경</h3>
+<ul>
+<li><code>produce_pd.sh</code>: V8→V9, TTS=edge, TG caption 갱신</li>
+<li><code>_make_ass.py</code>: 완전 재작성 (CNN 애니메이션 엔진)</li>
+</ul>
   </article>
   <nav class="wz-pager">
     <a class="" href="session-2026-07-26_Grok.html">
@@ -6036,7 +6393,7 @@ MIDI 소싱: Mutopia → IMSLP → (필요시) basic-pitch Actions</p>
           <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
         </div>
   <footer class="wz-foot">
-    <div>S21 PHONE · Webzine Vol.01</div>
+    <div>S21 PHONE · Webzine lakme-audio</div>
     <div class="gold">모든 계정은 누나 명의입니다.</div>
     <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
   </footer>

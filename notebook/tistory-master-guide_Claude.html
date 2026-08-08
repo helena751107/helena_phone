@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="2026-08-08 · Claude Code 종합 정리 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>📝 티스토리 완전 정복 — 5채널 전략·자동화·파이프 총정리 — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>📝 티스토리 완전 정복 — 5채널 전략·자동화·파이프 총정리</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · lakme-audio</div>
+    <h1>📝 티스토리 완전 정복 — 5채널 전략·자동화·파이프 총정리</h1>
+    <p class="deck">2026-08-08 · Claude Code 종합 정리</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/tistory-master-guide_Claude.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#1-5">1. 티스토리 5종 세트</a></li>
+<li><a href="#2-api">2. 기술 현실 — API는 죽었다</a></li>
+<li><a href="#3-3">3. 자동화 진화 (3단계)</a><ul>
+<li><a href="#1-playwright-2026-07-24">1단계: Playwright 풀오토 (폐기) — 2026-07-24</a></li>
+<li><a href="#2-boss-2026-07-25">2단계: Boss 전략 판단 — 2026-07-25</a></li>
+<li><a href="#3-html-2026-08-05">3단계: HTML 조각 박물관 (현재) — 2026-08-05</a></li>
+</ul>
+</li>
+<li><a href="#4-paste-pipeline">4. Paste Pipeline — 현재 운영 방식</a><ul>
+<li><a href="#_1">왜 막을 수 없는가</a></li>
+<li><a href="#cdn">CDN 인프라 (전부 무료)</a></li>
+<li><a href="#_2">텔레그램 패키지 형식</a></li>
+</ul>
+</li>
+<li><a href="#5-3-l0l1l2">5. 3층 아키텍처 (L0→L1→L2)</a></li>
+<li><a href="#6">6. 보유 코드 자산 (보존)</a></li>
+<li><a href="#7">7. 네이버 블로그 (헬레나 관저탑)</a></li>
+<li><a href="#8">8. 판정 매트릭스</a></li>
+<li><a href="#9">9. 핵심 인사이트</a></li>
+<li><a href="#10">10. 관련 문서 맵</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <blockquote>
+<p>2026-08-08 · Claude Code 종합 정리<br>
+출처: <code>_notebook/05</code>, <code>24</code>, <code>44</code>, <code>45</code>, <code>99-devlog</code> · <code>CONSTITUTION.md</code> · <code>CLAUDE.md</code> · <code>CHRONICLE.md</code> · <code>tistory-naver/</code></p>
+</blockquote>
+<hr>
+<h2 id="1-5">1. 티스토리 5종 세트</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>이름</th>
+<th>URL</th>
+<th>주제</th>
+<th>GitHub</th>
+<th>YouTube</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Galaxy S21 PWUser</td>
+<td><code>galaxys21-pwuser.tistory.com</code></td>
+<td>S21 폰 개발·활용</td>
+<td><code>helena_phone</code></td>
+<td>@helena_phone</td>
+</tr>
+<tr>
+<td>2</td>
+<td>My Note</td>
+<td><code>mynote11605.tistory.com</code></td>
+<td>개인 메모·기술 노트</td>
+<td><code>helana_log</code></td>
+<td>@helana_log</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Helana Christianity</td>
+<td><code>helana-christianity.tistory.com</code></td>
+<td>기독교·신앙</td>
+<td><code>helana-faith</code></td>
+<td>Helana Faith</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Helena Piano</td>
+<td><code>helena-piano.tistory.com</code></td>
+<td>피아노·음악</td>
+<td><code>helena-piano</code></td>
+<td>Helena Piano</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Helena Metal Care</td>
+<td><code>helena-metalcare.tistory.com</code></td>
+<td>돌봄·금속공예</td>
+<td><code>helena-psycare</code></td>
+<td>Metal Craft</td>
+</tr>
+</tbody>
+</table>
+<p><strong>생태계 법칙:</strong> 5개 티스토리 = 5개 YouTube 채널 = 5개 GitHub 레포 = <strong>1:1:1 매칭</strong></p>
+<hr>
+<h2 id="2-api">2. 기술 현실 — API는 죽었다</h2>
+<table>
+<thead>
+<tr>
+<th>장벽</th>
+<th>상태</th>
+<th>상세</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>티스토리 Open API</strong></td>
+<td>❌ 2024년 2월 완전 종료</td>
+<td><code>notice.tistory.com/2664</code> — 스팸 때문에 카카오가 내림</td>
+</tr>
+<tr>
+<td><strong>Kakao OAuth</strong></td>
+<td>❌ KOE006 에러</td>
+<td>Tistory 쪽 앱 설정 문제. 자동 로그인 불가</td>
+</tr>
+<tr>
+<td><strong>Android Chrome 북마크릿</strong></td>
+<td>❌ 차단</td>
+<td>구글 7년째 방치된 버그. JS URL 실행 불가</td>
+</tr>
+<tr>
+<td><strong>네이버 포스팅 API</strong></td>
+<td>❌ 원래 없음</td>
+<td>애초에 존재한 적 없음</td>
+</tr>
+</tbody>
+</table>
+<p><strong>시도하고 실패한 것들:</strong><br>
+- Playwright headless → Kakao OAuth URL 직접 구성 → KOE006<br>
+- <code>Kakao.Auth.authorize()</code> 우회 → 동일 KOE006<br>
+- Chrome 북마크릿 → 메뉴에서 차단<br>
+- <code>am start</code> Intent로 javascript URL → Android SecurityException<br>
+- Chrome cookie DB 직접 접근 → <code>/data/data/</code> sandbox 차단</p>
+<hr>
+<h2 id="3-3">3. 자동화 진화 (3단계)</h2>
+<h3 id="1-playwright-2026-07-24">1단계: Playwright 풀오토 (폐기) — 2026-07-24</h3>
+<pre><code>proot Ubuntu (CLI only)
+       ↓
+Playwright + Chromium headless
+       ↓
+① 1회 로그인 → storage_state 저장
+② 쿠키 복원 → 글쓰기 DOM 조작
+③ 발행 완료 → TG 보고
+</code></pre>
+<p><strong>판정:</strong> 기술적으로 반쪽 가능하나, 전략적으로 폐기.</p>
+<h3 id="2-boss-2026-07-25">2단계: Boss 전략 판단 — 2026-07-25</h3>
+<blockquote>
+<p>&ldquo;티스토리랑 네이버는 기를 쓰고 뚫을 필요 없다.<br>
+API 죽었고, 안티봇에 막히고, 북마크릿도 차단된다.<br>
+여기는 업무일지·관제탑으로 사람이 직접 한다.&rdquo;</p>
+</blockquote>
+<p><strong>확정:</strong> 사람 수동 발행으로 방향 전환. 자동화는 GitHub·Pages·YouTube·Telegram·건강검진·돌봄데몬에 집중.</p>
+<h3 id="3-html-2026-08-05">3단계: HTML 조각 박물관 (현재) — 2026-08-05</h3>
+<p><strong>전환:</strong> 쓰레기통(스크린샷 덤프) → <strong>HTML 조각 박물관</strong>(인터랙티브 웹문서)</p>
+<pre><code>Boss + 무료LLM 대화
+    → 요약·HTML 조각
+    → 티스토리 HTML 모드 복붙
+    → RSS 피드
+    → helana_log 동기화
+    → Claude Code 리뷰
+    → GitHub Pages 승격
+</code></pre>
+<p><strong>왜 괜찮은가:</strong><br>
+- 공짜 LLM 대화가 증발하지 않음<br>
+- HTML 모드 = SVG·표·구조 자유로운 캔버스<br>
+- JS 포기해도 충분한 인터랙티브<br>
+- RSS로 자동 수집 → 한곳에서 리뷰<br>
+- 티스토리 = 공짜 무제한 CMS</p>
+<hr>
+<h2 id="4-paste-pipeline">4. Paste Pipeline — 현재 운영 방식</h2>
+<pre><code>Claude Code → 텔레그램 전문 배달 → 사람 복사 → 블로그 붙여넣기 → 발행 (5분)
+                      │
+        YouTube + GitHub Pages = 무료 영구 CDN
+</code></pre>
+<h3 id="_1">왜 막을 수 없는가</h3>
+<table>
+<thead>
+<tr>
+<th>방어 레이어</th>
+<th>대응</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API 차단</td>
+<td>API 전혀 사용 안 함. TG는 정식 Bot API</td>
+</tr>
+<tr>
+<td>HTML 모드 제거</td>
+<td>순수 텍스트 전달. 에디터가 거부 불가</td>
+</tr>
+<tr>
+<td>안티봇</td>
+<td>사람이 직접 복붙 — 모든 행동이 인간 패턴</td>
+</tr>
+<tr>
+<td>매크로 감지</td>
+<td>주 1회, 사람의 마우스/터치 조작</td>
+</tr>
+<tr>
+<td>IP 차단</td>
+<td>정상 사용자 트래픽</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cdn">CDN 인프라 (전부 무료)</h3>
+<table>
+<thead>
+<tr>
+<th>자산 유형</th>
+<th>CDN</th>
+<th>비용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>이미지·문서</td>
+<td>GitHub Pages</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>영상·클립</td>
+<td>YouTube</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>코드·데이터</td>
+<td>GitHub Raw</td>
+<td>$0</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_2">텔레그램 패키지 형식</h3>
+<pre><code>[제목]
+[본문 — 볼드·줄바꿈·구분선]
+[📺 영상 제안]
+[🖼️ 이미지 제안]
+[🔗 링크 — 전체 URL]
+</code></pre>
+<hr>
+<h2 id="5-3-l0l1l2">5. 3층 아키텍처 (L0→L1→L2)</h2>
+<pre><code>┌──────────────────────────────────────┐
+│ L0  1회 사람 게이트                   │
+│  로그인 캡차 · 스킨 CSS · 서식 저장    │
+│  카테고리 이름 5~10개 (손 or 1회 봇)   │
+└─────────────┬────────────────────────┘
+              │ storageState
+┌─────────────▼────────────────────────┐
+│ L1  반자동 (선택)                     │
+│  admin_category_seed.py  (추가만)     │
+│  cookie 수명 모니터링 → TG &quot;재로그인&quot;  │
+│  글 대량 백필 시에만 post.cjs (비정기) │
+└─────────────┬────────────────────────┘
+              │
+┌─────────────▼────────────────────────┐
+│ L2  매주 정본                         │
+│  Marine Quilt Paste Pipeline          │
+│  자동화 0 · 손맛 100                  │
+└──────────────────────────────────────┘
+</code></pre>
+<hr>
+<h2 id="6">6. 보유 코드 자산 (보존)</h2>
+<table>
+<thead>
+<tr>
+<th>파일</th>
+<th>용도</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tistory-naver/post.py</code></td>
+<td>티스토리 Playwright 자동 포스팅</td>
+<td>📦 보존</td>
+</tr>
+<tr>
+<td><code>tistory-naver/post.cjs</code></td>
+<td>네이버 SE 글쓰기 Playwright</td>
+<td>📦 보존</td>
+</tr>
+<tr>
+<td><code>tistory-naver/login.cjs</code></td>
+<td>쿠키·storageState 추출</td>
+<td>📦 보존</td>
+</tr>
+<tr>
+<td><code>tistory-naver/session_post.py</code></td>
+<td>터미널→네이버 원클릭 파이프</td>
+<td>📦 보존</td>
+</tr>
+<tr>
+<td><code>tistory-naver/skin.py</code></td>
+<td>스킨 관리</td>
+<td>📦 보존</td>
+</tr>
+<tr>
+<td><code>tistory-naver/NAVER_WORKBOOK_AUTOMATION.md</code></td>
+<td>캡차·RustDesk 교훈</td>
+<td>📖 참고</td>
+</tr>
+<tr>
+<td><code>scripts/publish.py</code></td>
+<td>티스토리 5종 + 네이버 일괄 포스팅</td>
+<td>⏳ 미완성</td>
+</tr>
+<tr>
+<td><code>scripts/save_tistory_cookie.py</code></td>
+<td>쿠키 저장 유틸</td>
+<td>📦 보존</td>
+</tr>
+<tr>
+<td><code>scripts/tistory_sync.sh</code></td>
+<td>동기화 스크립트</td>
+<td>📦 보존</td>
+</tr>
+<tr>
+<td><code>scripts/extract_cookie.js</code></td>
+<td>쿠키 추출</td>
+<td>📦 보존</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="7">7. 네이버 블로그 (헬레나 관저탑)</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>URL</td>
+<td><code>m.blog.naver.com/helena1975</code></td>
+</tr>
+<tr>
+<td>성격</td>
+<td>🏛️ <strong>관저탑</strong> — 대중 홍보용 그림첩</td>
+</tr>
+<tr>
+<td>발행</td>
+<td>주간 Marine Quilt 수공예</td>
+</tr>
+<tr>
+<td>RSS</td>
+<td><code>rss.blog.naver.com/helena1975.xml</code></td>
+</tr>
+<tr>
+<td>HTML 모드</td>
+<td>스마트에디터 ONE — HTML 직접 입력 가능</td>
+</tr>
+</tbody>
+</table>
+<p><strong>네이버 주의사항:</strong><br>
+- ID/PW 자동 로그인 = 캡차·2FA 차단 위험<br>
+- 세션 쿠키 재사용이 정석 (1~3개월 유효)<br>
+- 해외 IP 차단 가능 → 국내 IP 권장<br>
+- 일일 발행 제한: 5개 이하 권장</p>
+<hr>
+<h2 id="8">8. 판정 매트릭스</h2>
+<table>
+<thead>
+<tr>
+<th>질문</th>
+<th>답</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API로 자동화 가능?</td>
+<td>❌ API 종료</td>
+</tr>
+<tr>
+<td>Playwright로 가능?</td>
+<td>⚠️ 기술 반쪽, 전략 비추</td>
+</tr>
+<tr>
+<td>매주 풀오토?</td>
+<td>❌ 퀼트 브랜드 자살 + 계정 리스크</td>
+</tr>
+<tr>
+<td>1회 카테고리 시드?</td>
+<td>✅ 쿠키 + locator로 가능</td>
+</tr>
+<tr>
+<td>사람이 하는 게 맞나?</td>
+<td>✅ <strong>업무일지·관제탑은 손맛이 브랜드</strong></td>
+</tr>
+<tr>
+<td>완전 무방법인가?</td>
+<td>❌ 아님. 방법은 있다</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="9">9. 핵심 인사이트</h2>
+<blockquote>
+<p><strong>&ldquo;자동화할 수 없는 것을 자동화하려고 기를 쓰는 대신,<br>
+사람과 기계의 협업 지점을 정확히 찾아 최적화하라.&rdquo;</strong></p>
+</blockquote>
+<ul>
+<li>AI의 강점: 원고 생성·자산 준비·포맷팅</li>
+<li>사람의 강점: 복사·붙여넣기·미적 판단·발행 버튼 클릭</li>
+<li>둘을 분리하면 API가 없어도 파이프라인은 돈다</li>
+</ul>
+<hr>
+<h2 id="10">10. 관련 문서 맵</h2>
+<pre><code>헌법·규칙
+├── CONSTITUTION.md     → 티스토리 5종 = 누나의 분신
+├── CLAUDE.md           → Paste Pipeline 운영 규칙
+└── CHRONICLE.md        → 연대기
+
+노트북
+├── 05-tistory.md              → 블로그 6종 + Playwright 전략
+├── 09-ecosystem.md            → 생태계 브릿지 (1:1:1 매칭)
+├── 24-paste-pipeline.md       → Paste Pipeline 방법론
+├── 44-naver-admin-automation-review_Grok.md  → Claude 지시 리뷰
+├── 45-naver-admin-playwright-feasibility_Grok.md → 폰 Playwright 가능성
+└── 99-devlog.md               → 전체 타임라인
+
+코드
+└── tistory-naver/             → 보존된 자동화 코드
+</code></pre>
+<hr>
+<p><em>agent _Claude · 2026-08-08 · 전체 레포지토리 + 업무수첩 파싱 완료</em></p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="allocation-rate-2026-07-28.html">
+          <span class="dir">Previous</span>
+          <span class="title">Allocation Rate — 2026-07-28</span>
+        </a>
+    <div></div>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine lakme-audio</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

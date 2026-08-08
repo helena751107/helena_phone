@@ -1,0 +1,119 @@
+{
+  "id": "video_pd_pipeline_v2",
+  "name": "S21 Intro PD Pipeline — STANDARD (canonical)",
+  "version": 2,
+  "status": "canonical",
+  "updated": "2026-08-06",
+  "supersedes": "video_pd_pipeline_v1",
+  "entry": "bash scripts/produce_pd.sh [ep_id] [page_url]",
+  "entry_default": "bash scripts/produce_pd.sh pd_intro",
+
+  "one_liner": "페이지 공장(공짜) + Grok 성우/PD/브릿지 + Boss BGM whisper + FFmpeg 조립. 매번 동일 상수·동일 스크립트.",
+
+  "changelog": [
+    "v1: Aider Ken Burns baseline + Grok PD/TTS/bridge 역할 분리",
+    "v2: 블랙 테일 수정(concat demuxer) · zoompan d=nframes · CJK 폰트 · BGM 전구간 0.025 · 슬라이드 QA 게이트 필수"
+  ],
+
+  "roles": {
+    "factory_free": {
+      "tools": ["Playwright", "scripts/_render_video.py", "ffmpeg"],
+      "job": "웹페이지 캡처 · Ken Burns 클립 · concat · BGM amix · 인코딩",
+      "do_not": "Grok 토큰으로 페이지 재래스터"
+    },
+    "grok_paid": {
+      "tools": ["shot_bible", "TTS local parksy_v2", "image_gen bridge only", "QA"],
+      "job": "PD 대본·감정·순서 · 성우 전구간 · 앞/뒤 브릿지 소수",
+      "do_not": "FFmpeg 조립 대체 · 전편 I2V"
+    }
+  },
+
+  "runtime_mix": {
+    "page_capture_pct": "≥70",
+    "grok_bridge_pct": "0–30",
+    "vo": "100% ParksyTTS local (engine=local voice=parksy_v2; grok/api fallback if local unavailable)"
+  },
+
+  "constants": {
+    "RESOLUTION": "1080:1920",
+    "FPS": 30,
+    "PIX_FMT": "yuv420p",
+    "H264_PROFILE": "high",
+    "H264_LEVEL": "4.0",
+    "AUDIO_RATE": 48000,
+    "AUDIO_BITRATE": "128k",
+    "BGM_VOLUME": 0.025,
+    "TTS_ENGINE": "local",
+    "GROK_TTS_VOICE": "ara",
+    "VIDEO_BRAND": "S21 Phone",
+    "FONT_REGULAR": "Noto Sans CJK KR",
+    "FONT_BOLD": "Noto Serif CJK KR"
+  },
+
+  "bgm": {
+    "volume": 0.025,
+    "note": "Boss 자작/렌더 음원 · 들릴락 말락 · Content ID 회피",
+    "path_priority": [
+      "out/<ep>/bgm_shorts.m4a",
+      "out/<ep>/bgm.m4a",
+      "out/<ep>/bgm.mp3",
+      "helena-piano/bgm/output/satie_gymnopedie1.mp3",
+      "helena-piano/bgm/output/satie_gymnopedie3.mp3",
+      "helena-piano/bgm/output/clair_de_lune.mp3"
+    ],
+    "golden_ref": "Boss YouTube Shorts Gymnopédie-style render"
+  },
+
+  "concat": {
+    "method": "demuxer + re-encode",
+    "forbidden": "xfade with offset=i*(d[i-1]-xfade) — caused black tail after clip0",
+    "ken_burns_zoompan_d": "total_frames = int(clip_t * fps)",
+    "forbidden_zoompan": "d=1/fps"
+  },
+
+  "pipeline_steps": [
+    "P0 shot_bible.json (captions+vo) — default if missing",
+    "P1 Playwright page stills → 01_*.png … (anchors: hero/agents/system/centers/funnel/install)",
+    "P2 Grok TTS → 01_*.mp3 (voice engine ara)",
+    "P3 bridge optional: bridge/b_open.mp4 b_close.mp4 if present",
+    "P4 _render_video.py: Ken Burns per slide + captions CJK + concat demuxer + VO-only + body BGM",
+    "P5 _pd_assemble.py: open+body+close + FULL-timeline BGM 0.025",
+    "P5b _qa_video_slides.py GATE — unique frames + non-black + A/V length (fail = no ship)",
+    "P6 TG 720p send"
+  ],
+
+  "scripts": {
+    "entry": "scripts/produce_pd.sh",
+    "render": "scripts/_render_video.py",
+    "assemble": "scripts/_pd_assemble.py",
+    "qa": "scripts/_qa_video_slides.py",
+    "bridge_fx": "scripts/bridge_fx.sh",
+    "tts": "scripts/grok_tts.py",
+    "imagine_prompts": "configs/imagine_prompt_standard_v1.json"
+  },
+
+  "qa_gate": {
+    "script": "scripts/_qa_video_slides.py",
+    "require": [
+      "video_dur >= 0.85 * audio_dur",
+      "unique sampled frames >= half samples",
+      "black frames <= 1",
+      "yuv420p High (no yuv444)"
+    ],
+    "ship_rule": "QA FAIL → do not TG / do not call SHIP"
+  },
+
+  "outputs": {
+    "vo_body": "out/<ep>/<ep>_vo.mp4",
+    "final_body": "out/<ep>/<ep>_final.mp4",
+    "playable": "out/<ep>/<ep>_playable.mp4",
+    "tg": "out/<ep>/<ep>_tg.mp4",
+    "settings": "out/<ep>/settings_whisper.json",
+    "qa_report": "out/<ep>/<ep>_playable.mp4.qa.json"
+  },
+
+  "how_to_run_same_every_time": {
+    "command": "BGM_VOLUME=0.025 TTS_ENGINE=local bash scripts/produce_pd.sh pd_intro",
+    "note": "Defaults inside produce_pd.sh already pin BGM_VOLUME=0.025 TTS=grok/ara. Do not invent alternate encoders per session."
+  }
+}

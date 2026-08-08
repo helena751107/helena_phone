@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="2026-08-06 · 끊긴 세션 이어서 완료 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>69 · 세션 리줌 — PD 브릿지 v1 재조립 (_Grok) — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>69 · 세션 리줌 — PD 브릿지 v1 재조립 (_Grok)</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · lakme-audio</div>
+    <h1>69 · 세션 리줌 — PD 브릿지 v1 재조립 (_Grok)</h1>
+    <p class="deck">2026-08-06 · 끊긴 세션 이어서 완료</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/69-session-resume-pd-bridge-v1_Grok.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#_1">리마인드 (어디까지 왔었나)</a></li>
+<li><a href="#_2">이번 세션에서 한 일</a></li>
+<li><a href="#_3">파이프 고정 (현재)</a></li>
+<li><a href="#boss">다음 (Boss 점수 후)</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <blockquote>
+<p>2026-08-06 · 끊긴 세션 이어서 완료</p>
+</blockquote>
+<h2 id="_1">리마인드 (어디까지 왔었나)</h2>
+<table>
+<thead>
+<tr>
+<th>문서/자산</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>66 역할 정정</td>
+<td>PD·성우·브릿지 (페이지 재래스터 금지)</td>
+</tr>
+<tr>
+<td>67 성우·BGM 허들</td>
+<td>Super Grok = Ara 상업 성우 + 자작 BGM 0.025</td>
+</tr>
+<tr>
+<td>68 Imagine 프롬프트 표준 v1</td>
+<td>산문 프롬프트 · 브랜드 락</td>
+</tr>
+<tr>
+<td><code>configs/imagine_prompt_standard_v1.json</code></td>
+<td>캐논 프롬프트 저장</td>
+</tr>
+<tr>
+<td>bridge v1 stills</td>
+<td>open WIN / close WIN 선정</td>
+</tr>
+<tr>
+<td><strong>playable 믹스</strong></td>
+<td>❌ 세션 끊김 → moov 없음 (262KB 파손)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">이번 세션에서 한 일</h2>
+<ol>
+<li>파손 <code>pd_intro_playable.mp4</code> 진단 (moov atom missing)</li>
+<li>open / body / close <strong>High@yuv420p 정규화</strong> 후 concat</li>
+<li>TG 720p 인코딩 + <strong>텔레그램 전송 msg 313</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>산출물</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>playable</td>
+<td><code>out/pd_intro/pd_intro_playable.mp4</code> · ~50s · 11MB · High</td>
+</tr>
+<tr>
+<td>TG</td>
+<td><code>out/pd_intro/pd_intro_tg.mp4</code> · 720×1280 · 4.3MB</td>
+</tr>
+<tr>
+<td>open WIN</td>
+<td><code>bridge/v1/open_android_gold_WIN.jpg</code></td>
+</tr>
+<tr>
+<td>close WIN</td>
+<td><code>bridge/v1/close_seal_WIN.jpg</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="_3">파이프 고정 (현재)</h2>
+<pre><code>공장: Playwright 페이지 캡처 + Ken Burns (FFmpeg)
+Grok: TTS Ara · PD · 브릿지 스틸 2장만
+BGM: 자작 · BGM_VOLUME=0.025
+브릿지 FX: scripts/bridge_fx.sh (zoom + gold frame + vignette)
+조립: open → body → close
+</code></pre>
+<h2 id="boss">다음 (Boss 점수 후)</h2>
+<ol>
+<li><strong>시각 점수</strong> open/close 스틸 + 본편 연출</li>
+<li>이기면 active 유지 / 지면 <strong>v1.1</strong> 프롬프트 + <code>image_edit</code> 앵커 재생성</li>
+<li>원하면 open/close 구간에 whisper BGM 깔기 (지금 북엔드 5.5s는 무음)</li>
+<li>I2V 브릿지 모션 실험 (토큰 있을 때)</li>
+</ol>
+<p>— _Grok</p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="68-imagine-prompt-standard-v1_Grok.html">
+          <span class="dir">Previous</span>
+          <span class="title">68 · Imagine 프롬프트 표준 v1 — 초A 브릿지 스틸 (_Grok)</span>
+        </a>
+    <a class="next" href="69-voice-engine-plugin-final_Grok.html">
+          <span class="dir">Next</span>
+          <span class="title">69 voice engine plugin final Grok</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine lakme-audio</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

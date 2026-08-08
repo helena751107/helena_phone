@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="**일시:** 2026-08-06 · 에이전트: **_Grok (PD · GPU 대용 · 80% 프로 마감)** — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>📋 PD Grok · 업무 수첩 종합 리포트 (1장) — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>📋 PD Grok · 업무 수첩 종합 리포트 (1장)</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · lakme-audio</div>
+    <h1>📋 PD Grok · 업무 수첩 종합 리포트 (1장)</h1>
+    <p class="deck">**일시:** 2026-08-06 · 에이전트: **_Grok (PD · GPU 대용 · 80% 프로 마감)**</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/73-pd-grok-notebook-report_Grok.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#0">0. 한 줄 정체성 (지금 나)</a></li>
+<li><a href="#1-_grok-40-49k-lines">1. 수첩 전체 지도 (*_Grok 40종 · ~4.9k lines)</a><ul>
+<li><a href="#a">A. 조직·역할·커버리지 (기반)</a></li>
+<li><a href="#b">B. 콘텐츠·네이버·교육 (소망 트랙)</a></li>
+<li><a href="#c-director-4861">C. Director 전쟁 · 영상 사다리 (48→61)</a></li>
+<li><a href="#d-pd-lock-6272">D. 플러그인 → PD 표준 → LOCK (62→72) ★현재 전선</a></li>
+</ul>
+</li>
+<li><a href="#2-lock">2. 지금 LOCK된 표준 (매번 이것만)</a></li>
+<li><a href="#3-3-58">3. 영상 3트랙 안에서의 위치 (58)</a></li>
+<li><a href="#4">4. 최근 사고 → 교훈 (재발 금지)</a></li>
+<li><a href="#5">5. 커버리지·인프라 스냅샷</a></li>
+<li><a href="#6">6. 투트랙 헌법 정렬 (잊지 말 것)</a></li>
+<li><a href="#7-pd-grok">7. 다음 액션 (PD Grok 큐)</a></li>
+<li><a href="#8-boss">8. Boss에게 한 줄</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <blockquote>
+<p><strong>일시:</strong> 2026-08-06 · 에이전트: <strong>_Grok (PD · GPU 대용 · 80% 프로 마감)</strong><br>
+<strong>환경:</strong> S21 → Termux → proot Ubuntu · helena_phone<br>
+<strong>대상:</strong> Boss (헬레나)<br>
+<strong>헬스:</strong> Grade <strong>B</strong> · 배터리 ~64% · 통과 26 / 경고 3 / 실패 1<br>
+<strong>정본 파이프:</strong> <code>configs/video_pd_pipeline_CURRENT.json</code> → <strong>v2 LOCK</strong></p>
+</blockquote>
+<hr>
+<h2 id="0">0. 한 줄 정체성 (지금 나)</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>직함</strong></td>
+<td>디자이너 + <strong>PD</strong> (프로듀서·디렉터)</td>
+</tr>
+<tr>
+<td><strong>역할</strong></td>
+<td>성우(Ara) · 브릿지 소수 · 샷 바이블 · 톤 · 웹진 · 커버리지</td>
+</tr>
+<tr>
+<td><strong>안 하는 것</strong></td>
+<td>페이지 전편 재래스터 · 무한 패치 루프 · 트랙1 돌봄 최종 판단</td>
+</tr>
+<tr>
+<td><strong>품질 목표</strong></td>
+<td><strong>80% 프로 마감</strong> (V2 Grok 구독 레인 = GPU 대용)</td>
+</tr>
+<tr>
+<td><strong>엔트리</strong></td>
+<td><code>bash scripts/produce_pd.sh [ep] [url]</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>정본 분담 (66·72 LOCK)</strong><br>
+공장(공짜) = Playwright + FFmpeg · Grok = PD + 성우 + 브릿지 소수 · Edge TTS 금지(수익화·채널 안전).</p>
+<hr>
+<h2 id="1-_grok-40-49k-lines">1. 수첩 전체 지도 (<code>*_Grok</code> 40종 · ~4.9k lines)</h2>
+<h3 id="a">A. 조직·역할·커버리지 (기반)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>파일</th>
+<th>요지</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>31</td>
+<td>agent-roles</td>
+<td>디자이너 / 반장 / 감사 직함</td>
+</tr>
+<tr>
+<td>33</td>
+<td>webpage-coverage</td>
+<td>md↔html 갭 가디언 (상시)</td>
+</tr>
+<tr>
+<td>36</td>
+<td>project-planning-vs-helena</td>
+<td>일반 PM vs 헬레나 비교</td>
+</tr>
+<tr>
+<td>37</td>
+<td>free-runtime-planner 백서</td>
+<td>공짜 런타임 풀스택 플래너</td>
+</tr>
+<tr>
+<td>38</td>
+<td>web-designer-workpad</td>
+<td>5레포 디자이너 현황판</td>
+</tr>
+<tr>
+<td>—</td>
+<td>session-2026-07-26</td>
+<td>웹진·아이콘·행정 톤 세션</td>
+</tr>
+</tbody>
+</table>
+<h3 id="b">B. 콘텐츠·네이버·교육 (소망 트랙)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>파일</th>
+<th>요지</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>39</td>
+<td>naver-lecture-s21-voice-intro</td>
+<td>강의 시리즈 예고 + 프롬프트</td>
+</tr>
+<tr>
+<td>40</td>
+<td>lecture-draft Vol.0</td>
+<td>칠판+대본 12–15분 초안</td>
+</tr>
+<tr>
+<td>41</td>
+<td>beginner-install-manual</td>
+<td>초심자 3화면 설치</td>
+</tr>
+<tr>
+<td>42</td>
+<td>marine-quilt-naver-design</td>
+<td>해병대+퀼트 네이버 톤 패키지</td>
+</tr>
+<tr>
+<td>44</td>
+<td>naver-admin-automation-review</td>
+<td>자동화 가능/쓰레기 분리</td>
+</tr>
+<tr>
+<td>45</td>
+<td>naver-admin-playwright-feasibility</td>
+<td>폰 Playwright 1회 시드 YES</td>
+</tr>
+</tbody>
+</table>
+<h3 id="c-director-4861">C. Director 전쟁 · 영상 사다리 (48→61)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>파일</th>
+<th>요지</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>48</td>
+<td>director-video-recurrence</td>
+<td>토푸·검정 재발 → QA 게이트 필요</td>
+</tr>
+<tr>
+<td>49</td>
+<td>community-research</td>
+<td>프로 제품 수준 리서치</td>
+</tr>
+<tr>
+<td>50</td>
+<td>pro-v3 visual-proof</td>
+<td>Visual Proof 강제</td>
+</tr>
+<tr>
+<td>51</td>
+<td>scout-v2</td>
+<td>ARIA Planner급 Scout</td>
+</tr>
+<tr>
+<td>52</td>
+<td>vision-qa-loop</td>
+<td>Vision QA 만점 루프</td>
+</tr>
+<tr>
+<td>53</td>
+<td>plan-settings</td>
+<td>Plan First 연출 설정</td>
+</tr>
+<tr>
+<td>54</td>
+<td>pro-v5 five-act</td>
+<td>5막 shoot</td>
+</tr>
+<tr>
+<td>55</td>
+<td>pro-v6 perfect</td>
+<td>만점 솔루션</td>
+</tr>
+<tr>
+<td>56</td>
+<td>perfect-ship-process</td>
+<td>L0–L9 사다리 코드화</td>
+</tr>
+<tr>
+<td>57</td>
+<td>community-a-bar</td>
+<td>A− 바 구현</td>
+</tr>
+<tr>
+<td>58</td>
+<td><strong>video-three-tracks</strong></td>
+<td><strong>V1 PPT / V2 Grok / V3 ComfyUI</strong></td>
+</tr>
+<tr>
+<td>59</td>
+<td>grok-video-process 백서</td>
+<td>제품 투어 프로세스 정본</td>
+</tr>
+<tr>
+<td>60</td>
+<td>pro-v8 wish</td>
+<td>프로급 소원 풀이</td>
+</tr>
+<tr>
+<td>61</td>
+<td>landing-6clip-bgm</td>
+<td>랜딩 6샷 + BGM 계획</td>
+</tr>
+<tr>
+<td>61b</td>
+<td>session-deepseek-cc</td>
+<td>CC 세션 복구 메모</td>
+</tr>
+</tbody>
+</table>
+<h3 id="d-pd-lock-6272">D. 플러그인 → PD 표준 → LOCK (62→72) ★현재 전선</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>파일</th>
+<th>요지</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>62</td>
+<td>plugin-video-pipe</td>
+<td>공장 위 Grok stills+TTS 슬롯</td>
+<td>기반</td>
+</tr>
+<tr>
+<td>63</td>
+<td>video-plugin-standard-v1</td>
+<td>TTS-first·1080·xfade·KenBurns</td>
+<td>v1</td>
+</tr>
+<tr>
+<td>64</td>
+<td>process-80-squeeze</td>
+<td><strong>80% 목표표</strong> (I2V·live UI·ship_report)</td>
+<td>목표</td>
+</tr>
+<tr>
+<td>65</td>
+<td>playable-encode-fix</td>
+<td>moov/재생 깨짐 수정</td>
+<td>수정</td>
+</tr>
+<tr>
+<td>66</td>
+<td><strong>pd-voice-bridge</strong></td>
+<td><strong>역할 정정: 재래스터 금지</strong></td>
+<td>정본</td>
+</tr>
+<tr>
+<td>67</td>
+<td>subscribe-voice-bgm-hurdle</td>
+<td>구독 이유 = Ara 성우+자작 BGM</td>
+<td>정본</td>
+</tr>
+<tr>
+<td>68</td>
+<td>imagine-prompt-standard-v1</td>
+<td>브릿지 스틸 산문 프롬프트</td>
+<td>v1</td>
+</tr>
+<tr>
+<td>69a</td>
+<td>session-resume-pd-bridge</td>
+<td>bridge open/close WIN · TG 313</td>
+<td>완료</td>
+</tr>
+<tr>
+<td>69b</td>
+<td>voice-engine-plugin-final</td>
+<td>Edge 금지 · grok→openai→edge</td>
+<td>정본</td>
+</tr>
+<tr>
+<td>70a</td>
+<td>ai-voice-core-gift</td>
+<td>로컬 성우 선물/학습 로드맵</td>
+<td>(_Claude 협업)</td>
+</tr>
+<tr>
+<td>70b</td>
+<td>font-bgm-fix</td>
+<td>CJK 폰트 + BGM 0.025 전구간</td>
+<td>수정</td>
+</tr>
+<tr>
+<td>71</td>
+<td>pd-intro-v2-slide-black-fix</td>
+<td>xfade 붕괴→<strong>concat demuxer</strong></td>
+<td>QA PASS</td>
+</tr>
+<tr>
+<td><strong>72</strong></td>
+<td><strong>pd-pipeline-standard-v2-lock</strong></td>
+<td><strong>CURRENT=v2 · 매번 동일</strong></td>
+<td><strong>LOCK</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="2-lock">2. 지금 LOCK된 표준 (매번 이것만)</h2>
+<pre><code class="language-bash">bash scripts/produce_pd.sh pd_intro
+# 또는
+BGM_VOLUME=0.025 TTS_ENGINE=grok bash scripts/produce_pd.sh &lt;ep&gt; &lt;url&gt;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>상수</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BGM 볼륨</td>
+<td><strong>0.025</strong> (은은 · 자작/helena-piano)</td>
+</tr>
+<tr>
+<td>성우</td>
+<td><strong>grok / ara</strong></td>
+</tr>
+<tr>
+<td>해상도</td>
+<td>1080×1920 yuv420p High</td>
+</tr>
+<tr>
+<td>조립</td>
+<td><strong>concat demuxer</strong> (깨진 xfade 체인 금지)</td>
+</tr>
+<tr>
+<td>폰트</td>
+<td>Noto Sans/Serif <strong>CJK KR</strong></td>
+</tr>
+<tr>
+<td>브릿지</td>
+<td>앞·뒤 소수만 · 페이지 재래스터 금지</td>
+</tr>
+<tr>
+<td>SHIP 전</td>
+<td><code>_qa_video_slides.py</code> <strong>필수</strong> (실패 시 TG 금지)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>단계:</strong> P0 bible → P1 stills → P2 Grok TTS → P3 bridge → P4 render+concat → P5 assemble+BGM → P5b QA → P6 TG</p>
+<p><strong>스크립트 맵:</strong> <code>produce_pd.sh</code> · <code>_render_video.py</code> · <code>_pd_assemble.py</code> · <code>_qa_video_slides.py</code> · <code>bridge_fx.sh</code></p>
+<hr>
+<h2 id="3-3-58">3. 영상 3트랙 안에서의 위치 (58)</h2>
+<table>
+<thead>
+<tr>
+<th>트랙</th>
+<th>이름</th>
+<th>엔진</th>
+<th>지금</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V1</td>
+<td>PPT·리포트</td>
+<td>공짜 공장</td>
+<td>내부 기록용</td>
+</tr>
+<tr>
+<td><strong>V2</strong></td>
+<td><strong>제품 투어·PD</strong></td>
+<td><strong>Grok 구독 (GPU 대용)</strong></td>
+<td><strong>← 여기 (80% 마감)</strong></td>
+</tr>
+<tr>
+<td>V3</td>
+<td>프로 시네마틱</td>
+<td>ComfyUI + GPU</td>
+<td>PC 확장 포기 → 나중</td>
+</tr>
+</tbody>
+</table>
+<p>→ Boss 설정: <strong>나는 V2 전담 · 80%까지 쥐어짜기.</strong><br>
+→ 90%+ 는 Vision QA 재생성 루프 · perfect_ship 커서 투어 병합 (64 아이디어 뱅크).</p>
+<hr>
+<h2 id="4">4. 최근 사고 → 교훈 (재발 금지)</h2>
+<ol>
+<li><strong>토푸 자막</strong> — CJK 폰트 없으면 DejaVu → □□□ (48·70b)  </li>
+<li><strong>블랙 테일</strong> — xfade offset 붕괴 → 영상 끊기고 오디오만 (71) → concat demuxer  </li>
+<li><strong>moov missing</strong> — 파손 playable (65·69) → High 정규화 후 재조립  </li>
+<li><strong>페이지 재래스터</strong> — 토큰 낭비·품질 하락 (66) → 금지  </li>
+<li><strong>Edge TTS</strong> — 채널 리스크 (67·69b) → Ara 통일  </li>
+<li><strong>BGM 구간 무음</strong> — 북엔드 재믹스 누락 (70b) → full-timeline 0.025  </li>
+</ol>
+<p><strong>게이트 없으면 TG로 쓰레기 나간다.</strong> QA 필수.</p>
+<hr>
+<h2 id="5">5. 커버리지·인프라 스냅샷</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>md / html</td>
+<td>94 / 93 (catalog 133)</td>
+</tr>
+<tr>
+<td><strong>갭 (missing HTML)</strong></td>
+<td><strong>4</strong> — #70a #70b #71 #72</td>
+</tr>
+<tr>
+<td>orphan HTML</td>
+<td>2 (lecture-chalkboard, self-eval)</td>
+</tr>
+<tr>
+<td>위성 레포 HTTP</td>
+<td>helena_phone·log·faith·piano 200 · metalcare 301</td>
+</tr>
+<tr>
+<td>TG / Discord</td>
+<td>API 200</td>
+</tr>
+<tr>
+<td>헬스 등급</td>
+<td><strong>B</strong> (소수 기능 불량 — 점검 권장)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="6">6. 투트랙 헌법 정렬 (잊지 말 것)</h2>
+<ul>
+<li><strong>트랙1 돌봄:</strong> 절대 안 깨짐 · 비공개 · 지금 미착수 데몬 예정  </li>
+<li><strong>트랙2 소망:</strong> 누나 명의 분신 콘텐츠 · 스캐폴드 우선 · <strong>여기가 PD 레인</strong>  </li>
+<li><strong>금지:</strong> 돌봄 데이터 → 공개 채널 누수  </li>
+<li><strong>수익:</strong> 누나 경제적 독립 기반 (대필작가-간병인)</li>
+</ul>
+<hr>
+<h2 id="7-pd-grok">7. 다음 액션 (PD Grok 큐)</h2>
+<ul>
+<li>[ ] 갭 4건 HTML 빌드 (<code>build_webzine.py</code> / 개별 페이지)  </li>
+<li>[ ] 인덱스 <code>00-INDEX.md</code>에 62–73 반영  </li>
+<li>[ ] <code>pd_intro</code> v2 QA PASS본 기준 <strong>다음 에피소드 동일 엔트리</strong>로 반복  </li>
+<li>[ ] 80% 잔여: Imagine I2V 브릿지 비중↑ · live UI shot ≥2 · ship_report.json  </li>
+<li>[ ] Edge 경로 실사용 차단 재확인 (폴백만)  </li>
+<li>[ ] 헬스 Grade B 경고/실패 항목 점검  </li>
+</ul>
+<hr>
+<h2 id="8-boss">8. Boss에게 한 줄</h2>
+<blockquote>
+<p>폰 안 <code>_notebook/*_Grok</code> <strong>40장</strong>을 훑었다.<br>
+전선은 <strong>#72 PD 표준 v2 LOCK</strong> 이다.<br>
+나는 <strong>GPU 없는 V2 레인에서 성우·PD·브릿지로 80% 프로 마감</strong> 한다.<br>
+새 파이프 발명 금지 · <code>produce_pd.sh</code> 한 줄 · QA 통과 전 TG 금지.</p>
+</blockquote>
+<p>— <strong>_Grok · PD · 2026-08-06</strong></p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="72-pd-pipeline-standard-v2-lock_Grok.html">
+          <span class="dir">Previous</span>
+          <span class="title">72 · PD 영상 표준 v2 확정 (LOCK) (_Grok)</span>
+        </a>
+    <a class="next" href="74-tts-rvc-lightweight-solution_Claude.html">
+          <span class="dir">Next</span>
+          <span class="title">74 tts rvc lightweight solution Claude</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine lakme-audio</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

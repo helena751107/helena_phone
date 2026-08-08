@@ -39,7 +39,7 @@
     <span>S21 Phone — 실무 규칙</span>
   </div>
   <header class="wz-hero">
-    <div class="wz-kicker">Core · Vol.01</div>
+    <div class="wz-kicker">Core · lakme-audio</div>
     <h1>S21 Phone — 실무 규칙</h1>
     <p class="deck">AI 3종 · Paste Pipeline · 인프라</p>
     <div class="wz-meta">
@@ -50,18 +50,26 @@
   </header>
   <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
 <ul>
-<li><a href="#_1">작업 원칙</a></li>
+<li><a href="#parksytts-on-s21-2026-08-07">🚨 ParksyTTS on S21 — 세션 시작 시 필독 (2026-08-07~)</a><ul>
+<li><a href="#_1">환경</a></li>
+<li><a href="#npugpu-2026-08-07">현재 진행 중 — NPU/GPU 가속 (2026-08-07)</a></li>
+<li><a href="#_2">이미 해결된 것 — 다시 건드리지 말 것</a></li>
+<li><a href="#2026-08-07">오늘 세션 이슈 (2026-08-07)</a></li>
+</ul>
+</li>
+<li><a href="#_3">작업 원칙</a></li>
 <li><a href="#git">Git 작업</a></li>
-<li><a href="#ai-3-boss-2026-07-26">AI 에이전트 3종 — 직함 (Boss 2026-07-26)</a></li>
+<li><a href="#ai-4-boss-2026-07-26-2026-08-08">AI 에이전트 4종 — 직함 (Boss 2026-07-26, 확장 2026-08-08)</a></li>
 <li><a href="#ai">AI 에이전트 규칙</a></li>
-<li><a href="#_2">텔레그램 보고 의무</a></li>
-<li><a href="#_3">건강 검진 의무</a></li>
-<li><a href="#_4">업무일지</a></li>
+<li><a href="#_4">텔레그램 보고 의무</a></li>
+<li><a href="#_5">건강 검진 의무</a></li>
+<li><a href="#_6">업무일지</a></li>
 <li><a href="#2026-07-26">에이전트 파일 마크 (필수 · 2026-07-26~)</a></li>
 <li><a href="#grok-2026-07-26">웹페이지 커버리지 (Grok 상시 · 2026-07-26~)</a></li>
+<li><a href="#publishing-department-2026-08-08">출판부 (Publishing Department) — 번역 수호자 (2026-08-08~)</a></li>
 <li><a href="#paste-pipeline">Paste Pipeline (네이버·티스토리 수동 발행)</a></li>
-<li><a href="#_5">파일 구조</a></li>
-<li><a href="#_6">현재 인프라</a></li>
+<li><a href="#_7">파일 구조</a></li>
+<li><a href="#_8">현재 인프라</a></li>
 </ul>
 </div>
 </nav>
@@ -78,7 +86,38 @@
 목적·불변 원칙·신원 규칙은 CONSTITUTION.md에, 작업 방법은 여기에.</p>
 </blockquote>
 <hr>
-<h2 id="_1">작업 원칙</h2>
+<h2 id="parksytts-on-s21-2026-08-07">🚨 ParksyTTS on S21 — 세션 시작 시 필독 (2026-08-07~)</h2>
+<h3 id="_1">환경</h3>
+<ul>
+<li><strong>실행 위치:</strong> proot Ubuntu on Galaxy S21 (aarch64), WSL 아님</li>
+<li><strong>텔레그램:</strong> <code>.secrets.env</code>에 TG_TOKEN/TG_CHAT 있음, 5개 봇 활성</li>
+<li><strong>모델:</strong> parksy_v2 checkpoints 314MB 전부 로컬에 있음 (<code>/root/work/helena-programming/tools/voice/</code>)</li>
+<li><strong>TTS_ENGINE 기본값 = <code>local</code></strong> (grok은 폴백, 현재 403 상태라 무의미)</li>
+<li><strong>추론 현실:</strong> GPT-SoVITS semantic token prediction on CPU → 1500 iters, ~3s/it, 총 471초(7분51초) for 3.5초 음성. 실시간 대비 135배 느림.</li>
+</ul>
+<h3 id="npugpu-2026-08-07">현재 진행 중 — NPU/GPU 가속 (2026-08-07)</h3>
+<ul>
+<li><strong>CPU-only 한계 확인됨.</strong> ParksyTTS 추론 471초는 실사용 불가.</li>
+<li><strong>GPU (Mali-G78):</strong> <code>/dev/mali0</code> 존재, <code>/vendor/lib64/libOpenCL.so</code> 있음. proot glibc → bionic ABI 충돌로 직통 불가.</li>
+<li><strong>NPU (Exynos NPU):</strong> NCP v24 커널 확인. <code>/sys/class/drm</code> permission 문제.</li>
+<li><strong>핵심 발견 — Termux가 열쇠:</strong> Termux(bionic) → DRM + NPU sysfs 접근 가능. proot ↔ Termux localhost 브릿지 구상.</li>
+<li><strong>단기 전략:</strong> Sherpa-ONNX Kokoro/VITS로 CPU 추론 가속 (GPT-SoVITS보다 10~100배 빠름). NNAPI delegate 포함 Android prebuilt binary 탐색 중.</li>
+</ul>
+<h3 id="_2">이미 해결된 것 — 다시 건드리지 말 것</h3>
+<ul>
+<li>한국어는 BERT 불필요 → 0-vector 처리, 코드 반영 완료</li>
+<li>numba/librosa ARM64 크래시 → soundfile로 의존성 자체 제거</li>
+<li>torchcodec 누락 → 설치 완료 (<code>0.15.0+cu130</code>, <code>--break-system-packages</code>)</li>
+<li>Grok TTS API 403 → SuperGrok 구독에 TTS 미포함, local 전용으로 전환 완료</li>
+</ul>
+<h3 id="2026-08-07">오늘 세션 이슈 (2026-08-07)</h3>
+<ul>
+<li><strong>세션 2회 이상 끊김.</strong> 장시간 추론(ParksyTTS 7분+) 중 타임아웃 가능성.</li>
+<li>장시간 CPU 작업 시 중간 체크포인트 저장하거나 watchdog ping 유지할 것.</li>
+<li>PD Pipeline v2 마이그레이션 코드는 완성 → uncommitted 상태 (아래 &ldquo;이번 세션 TODO&rdquo; 참고).</li>
+</ul>
+<hr>
+<h2 id="_3">작업 원칙</h2>
 <ul>
 <li><strong>커밋 자주, 작게</strong>: 기능 단위로 쪼개서 커밋</li>
 <li><strong>설명 남겨라</strong>: &ldquo;왜&rdquo;를 커밋 메시지에 포함</li>
@@ -92,7 +131,7 @@
 <li><code>git push --force</code>는 원격이 로컬보다 뒤처진 게 확실할 때만. 함부로 쓰지 말 것.</li>
 <li>완료 후 <code>git push</code> 자동 실행</li>
 </ul>
-<h2 id="ai-3-boss-2026-07-26">AI 에이전트 3종 — 직함 (Boss 2026-07-26)</h2>
+<h2 id="ai-4-boss-2026-07-26-2026-08-08">AI 에이전트 4종 — 직함 (Boss 2026-07-26, 확장 2026-08-08)</h2>
 <table>
 <thead>
 <tr>
@@ -122,7 +161,15 @@
 <td>✅</td>
 </tr>
 <tr>
-<td><code>cc</code> (추후)</td>
+<td><code>cc</code> (출판부)</td>
+<td><strong><code>_Claude</code></strong></td>
+<td><strong>출판부 · 번역 수호자</strong></td>
+<td>md→html 변환·커버리지·품질 게이트·CI 검증</td>
+<td>정책에 따름</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>cc</code> (감사)</td>
 <td><strong><code>_Claude</code></strong></td>
 <td><strong>감사</strong></td>
 <td>거리 둔 검증·보안·헌법·통과/보류/반려</td>
@@ -131,8 +178,8 @@
 </tr>
 </tbody>
 </table>
-<p><strong>파이프:</strong> Boss 방향 → <code>_Grok</code> 시안 → <code>_Aider</code> 시공 → <code>_Claude</code> 감사(있을 때) → Boss 최종.<br>
-<strong>상세:</strong> <code>_notebook/31-agent-roles_Grok.md</code> · 마크 규약: <code>30-agent-file-marks.md</code></p>
+<p><strong>파이프:</strong> Boss 방향 → <code>_Grok</code> 시안 → <code>_Aider</code> 시공 → <code>_Claude</code>(출판부) 변환·게이트 → <code>_Claude</code>(감사) 검증(있을 때) → Boss 최종.<br>
+<strong>상세:</strong> <code>_notebook/31-agent-roles_Grok.md</code> · 출판부: <code>_notebook/75-translation-logic-management_Claude.md</code> · 마크 규약: <code>30-agent-file-marks.md</code></p>
 <blockquote>
 <p>Termux: <code>grok</code> / <code>groklogin</code> / <code>grokc</code> / <code>agent</code> · <code>ds</code>는 <code>scripts/ds.sh</code> 래퍼.<br>
 예전 <code>gr</code>/<code>grlogin</code>/<code>grc</code> 호환 유지.</p>
@@ -145,18 +192,18 @@
 <li>Claude가 아직 없으면 감사 간이 게이트는 <strong>Boss</strong></li>
 <li>모든 설정 변경 전후로 기록을 남길 것 (<code>*_Grok</code> / <code>*_Aider</code> / <code>*_Claude</code>)</li>
 </ul>
-<h2 id="_2">텔레그램 보고 의무</h2>
+<h2 id="_4">텔레그램 보고 의무</h2>
 <p>작업 완료 후 보고가 필요하면:</p>
 <pre><code class="language-bash">bash ~/work/tg.sh '✅ 작업명 — 결과'
 </code></pre>
-<h2 id="_3">건강 검진 의무</h2>
+<h2 id="_5">건강 검진 의무</h2>
 <ul>
 <li>세션 시작 시 또는 하드웨어 관련 작업 전후 <code>bash ~/work/phone-health.sh</code> 실행</li>
 <li>결과는 자동으로 <code>_notebook/health/</code>에 타임스탬프 저장</li>
 <li>&ndash;telegram 플래그로 채팅 보고 가능</li>
 <li>등급 A 이하(Grade B/C)면 점검 항목 확인 후 조치</li>
 </ul>
-<h2 id="_4">업무일지</h2>
+<h2 id="_6">업무일지</h2>
 <ul>
 <li>주요 작업, 판단, 전환점은 <code>_notebook/99-devlog.md</code>에 바텀업으로 기록</li>
 <li>AI와의 주요 대화 중 결정적 전환이 있었으면 요지 함께 기록</li>
@@ -184,6 +231,15 @@
 <li>역할 문서: <code>_notebook/33-webpage-coverage_Grok.md</code></li>
 <li>문서 페이지는 공통 <strong>웹앱 UI</strong>(검색·접기·펼치기·본문 복사) — <code>assets/webzine.js</code></li>
 </ul>
+<h2 id="publishing-department-2026-08-08">출판부 (Publishing Department) — 번역 수호자 (2026-08-08~)</h2>
+<ul>
+<li><strong>역할:</strong> 모든 6개 레포의 md→HTML 변환 파이프라인 소유·관리</li>
+<li><strong>측정:</strong> <code>python3 scripts/publishing_metrics.py</code> → <code>assets/publishing-metrics.json</code></li>
+<li><strong>표준:</strong> 페이지 작법 표준 <code>_notebook/76-page-writing-standard_Claude.md</code></li>
+<li><strong>규칙:</strong> 출판부 7규칙 <code>_notebook/75-translation-logic-management_Claude.md</code></li>
+<li><strong>CI 게이트:</strong> <code>gap_count &gt; 0</code> → deploy 차단 (<code>.github/workflows/deploy-pages.yml</code>)</li>
+<li><strong>커밋 규약:</strong> 빌드 결과 커밋 시 <code>translation:</code> 접두어</li>
+</ul>
 <h2 id="paste-pipeline">Paste Pipeline (네이버·티스토리 수동 발행)</h2>
 <ul>
 <li>API 없는 플랫폼은 Paste Pipeline으로 대응:<br>
@@ -191,7 +247,7 @@
 <li>티스토리 = 업무일지 (TG리포트 + git log + 스크린샷)</li>
 <li>네이버 = 웹진·미끼 (Grok 80% 드래프트 → 주간 발행)</li>
 </ul>
-<h2 id="_5">파일 구조</h2>
+<h2 id="_7">파일 구조</h2>
 <pre><code>helena_phone/
 ├── CONSTITUTION.md  ← 헌법 (무엇을, 왜)
 ├── CLAUDE.md        ← 실무 규칙 (어떻게)
@@ -206,7 +262,7 @@
 ├── mcp-servers/     ← dtslib MCP
 └── tistory-naver/   ← dtslib 블로그코드(보존)
 </code></pre>
-<h2 id="_6">현재 인프라</h2>
+<h2 id="_8">현재 인프라</h2>
 <pre><code>📱 S21 (Android + Termux + proot Ubuntu)
 ├── Claude Code (DeepSeek) — 메인 코딩
 ├── Grok CLI (xAI SuperGrok) — 시각·Naver
@@ -235,7 +291,7 @@
           <div class="grid"><a href="constitution.html"><strong>CONSTITUTION.md — S21 Phone 헌법</strong>불변 원칙 · Chain of Command</a><a href="readme.html"><strong>README · 프로젝트 소개</strong>숫자 · 구조 · 빠른 링크</a><a href="guide.html"><strong>5단계 GUIDE</strong>Termux부터 방송까지</a><a href="chronicle.html"><strong>CHRONICLE · 연대기</strong>DAY 1–2 개발 기록</a><a href="gift.html"><strong>GIFT · dtslib 선물</strong>선물 패키지 분석</a><a href="textbook.html"><strong>완결판 교재</strong>판단층 + 실행층</a></div>
         </div>
   <footer class="wz-foot">
-    <div>S21 PHONE · Webzine Vol.01</div>
+    <div>S21 PHONE · Webzine lakme-audio</div>
     <div class="gold">모든 계정은 누나 명의입니다.</div>
     <p style="margin-top:12px"><a href="index.html">← Back to landing</a></p>
   </footer>

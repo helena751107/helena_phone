@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Boss 2026-08-06: 「여기로 버전 확정. 이게 표준. 매번 동일하게 작업되게 저장.」 — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>72 · PD 영상 표준 v2 확정 (LOCK) (_Grok) — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>72 · PD 영상 표준 v2 확정 (LOCK) (_Grok)</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · lakme-audio</div>
+    <h1>72 · PD 영상 표준 v2 확정 (LOCK) (_Grok)</h1>
+    <p class="deck">Boss 2026-08-06: 「여기로 버전 확정. 이게 표준. 매번 동일하게 작업되게 저장.」</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/72-pd-pipeline-standard-v2-lock_Grok.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#_1">정본</a></li>
+<li><a href="#1">매번 같은가? → 예 (엔트리 1개 + 상수 핀)</a><ul>
+<li><a href="#_2">고정 상수 (세션마다 바꾸지 말 것)</a></li>
+<li><a href="#_3">단계 (항상 동일)</a></li>
+</ul>
+</li>
+<li><a href="#_4">스크립트 맵 (손대지 말 것 / 여기만 타라)</a></li>
+<li><a href="#_5">규칙</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <blockquote>
+<p>Boss 2026-08-06: 「여기로 버전 확정. 이게 표준. 매번 동일하게 작업되게 저장.」</p>
+</blockquote>
+<hr>
+<h2 id="_1">정본</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CURRENT</strong></td>
+<td><code>configs/video_pd_pipeline_CURRENT.json</code> → <strong>v2</strong></td>
+</tr>
+<tr>
+<td><strong>스펙</strong></td>
+<td><code>configs/video_pd_pipeline_v2.json</code></td>
+</tr>
+<tr>
+<td><strong>엔트리</strong></td>
+<td><code>bash scripts/produce_pd.sh [ep] [url]</code></td>
+</tr>
+<tr>
+<td><strong>v1</strong></td>
+<td><code>superseded</code> — 신규 작업 금지</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="1">매번 같은가? → <strong>예 (엔트리 1개 + 상수 핀)</strong></h2>
+<p>한 줄만 치면 동일 파이프:</p>
+<pre><code class="language-bash">bash scripts/produce_pd.sh pd_intro
+# 또는
+BGM_VOLUME=0.025 TTS_ENGINE=grok bash scripts/produce_pd.sh &lt;ep&gt; &lt;url&gt;
+</code></pre>
+<h3 id="_2">고정 상수 (세션마다 바꾸지 말 것)</h3>
+<table>
+<thead>
+<tr>
+<th>상수</th>
+<th>값</th>
+<th>어디에 박혀 있나</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BGM 볼륨</td>
+<td><strong>0.025</strong></td>
+<td><code>produce_pd.sh</code> · <code>_render_video.py</code> · <code>_pd_assemble.py</code> · v2 JSON</td>
+</tr>
+<tr>
+<td>성우</td>
+<td><strong>grok / ara</strong></td>
+<td><code>produce_pd.sh</code> 기본값</td>
+</tr>
+<tr>
+<td>해상도</td>
+<td>1080×1920 yuv420p High</td>
+<td><code>_render_video</code> · assemble</td>
+</tr>
+<tr>
+<td>조립</td>
+<td><strong>concat demuxer</strong> (xfade 오프셋 금지)</td>
+<td><code>_render_video.py</code> v2</td>
+</tr>
+<tr>
+<td>폰트</td>
+<td>Noto Sans/Serif <strong>CJK KR</strong></td>
+<td><code>_render_video.py</code></td>
+</tr>
+<tr>
+<td>BGM 소스</td>
+<td>Boss 렌더 <code>bgm_shorts</code> → helena-piano</td>
+<td>우선순위 리스트</td>
+</tr>
+<tr>
+<td>브릿지</td>
+<td>앞·뒤 소수만 · 페이지 재래스터 금지</td>
+<td>역할 표</td>
+</tr>
+<tr>
+<td><strong>SHIP 전</strong></td>
+<td><code>_qa_video_slides.py</code> 통과 필수</td>
+<td><code>_pd_assemble.py</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="_3">단계 (항상 동일)</h3>
+<pre><code>P0 bible → P1 Playwright stills → P2 Grok TTS
+  → P3 bridge(있으면) → P4 render+concat → P5 assemble+BGM
+  → P5b QA gate → P6 TG
+</code></pre>
+<hr>
+<h2 id="_4">스크립트 맵 (손대지 말 것 / 여기만 타라)</h2>
+<table>
+<thead>
+<tr>
+<th>역할</th>
+<th>파일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>엔트리</td>
+<td><code>scripts/produce_pd.sh</code></td>
+</tr>
+<tr>
+<td>클립+concat</td>
+<td><code>scripts/_render_video.py</code></td>
+</tr>
+<tr>
+<td>북엔드+BGM</td>
+<td><code>scripts/_pd_assemble.py</code></td>
+</tr>
+<tr>
+<td>QA</td>
+<td><code>scripts/_qa_video_slides.py</code></td>
+</tr>
+<tr>
+<td>브릿지 FX</td>
+<td><code>scripts/bridge_fx.sh</code></td>
+</tr>
+<tr>
+<td>프롬프트 브릿지</td>
+<td><code>configs/imagine_prompt_standard_v1.json</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="_5">규칙</h2>
+<ol>
+<li><strong>새 세션에서 파이프를 다시 발명하지 말 것.</strong> CURRENT → v2 만.</li>
+<li>QA 실패면 TG 보내지 말 것.</li>
+<li>상수 바꾸려면 v2 → <strong>v3</strong> 로 올리고 CURRENT를 갱신 (슬쩍 수정 금지).</li>
+<li>페이지 본편은 공짜 공장. Grok 토큰은 성우·PD·브릿지.</li>
+</ol>
+<p>— _Grok · LOCK</p>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="71-pd-intro-v2-slide-black-fix_Grok.html">
+          <span class="dir">Previous</span>
+          <span class="title">71 · pd_intro v2 — 슬라이드 블랙 꼬리 수정 (_Grok)</span>
+        </a>
+    <a class="next" href="73-pd-grok-notebook-report_Grok.html">
+          <span class="dir">Next</span>
+          <span class="title">73 pd grok notebook report Grok</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine lakme-audio</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

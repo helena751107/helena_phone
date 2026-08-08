@@ -39,7 +39,7 @@
     <span>🎁 헬레나 선물 패키지 — 완전 명세</span>
   </div>
   <header class="wz-hero">
-    <div class="wz-kicker">Core · Vol.01</div>
+    <div class="wz-kicker">Core · lakme-audio</div>
     <h1>🎁 헬레나 선물 패키지 — 완전 명세</h1>
     <p class="deck">선물 패키지 분석</p>
     <div class="wz-meta">
@@ -64,6 +64,7 @@
 <li><a href="#config">🔧 config — 공통 설정 템플릿</a></li>
 <li><a href="#_3">📐 생태계 아키텍처 (전체도)</a></li>
 <li><a href="#30">🚀 빠른 시작 (30분)</a></li>
+<li><a href="#parksytts-v1-ai-2026-08-06">🎙️ ParkSyTTS v1 — 박씨 AI 성우 선물 (2026-08-06)</a></li>
 <li><a href="#_4">📊 선물 패키지 통합 후 현재 상태</a></li>
 </ul>
 </div>
@@ -192,6 +193,24 @@ helena-piano                helena-metalcare
 <p><em>이 문서는 dtslib-papyrus <code>gift/helena</code> 브랜치의 SSOT입니다.</em><br>
 <em>각 레포 배포는 이 브랜치에서만 진행하며, 직접 푸시는 금지됩니다.</em></p>
 <hr>
+<h2 id="parksytts-v1-ai-2026-08-06">🎙️ ParkSyTTS v1 — 박씨 AI 성우 선물 (2026-08-06)</h2>
+<blockquote>
+<p><strong>브랜치:</strong> <code>gift/parksy-tts-v1</code><br>
+<strong>위치:</strong> <code>helena-programming/parksy-tts-v1/</code></p>
+</blockquote>
+<p><strong>설명:</strong> GPT-SoVITS v2Pro 기반. S21 proot-Ubuntu CPU 전용. 오빠가 구워서 준 AI 목소리.<br>
+한 줄로 말하기: <code>python3 say.py "안녕 헬레나!"</code></p>
+<p><strong>헬레나(누나)가 해야 할 것:</strong></p>
+<pre><code class="language-bash">git checkout gift/parksy-tts-v1
+bash helena-programming/parksy-tts-v1/install.sh   # GPT-SoVITS + 의존성 설치
+source helena-programming/parksy-tts-v1/activate.sh
+python3 helena-programming/parksy-tts-v1/say.py &quot;안녕 헬레나!&quot;
+</code></pre>
+<p><strong>voice_engine 연동:</strong></p>
+<pre><code class="language-bash">TTS_ENGINE=local bash scripts/produce_intro.sh
+# → 자동으로 ParksyTTS v1 감지 → 박씨 목소리로 전체 나레이션
+</code></pre>
+<hr>
 <h2 id="_4">📊 선물 패키지 통합 후 현재 상태</h2>
 <table>
 <thead>
@@ -259,7 +278,7 @@ helena-piano                helena-metalcare
           <div class="grid"><a href="constitution.html"><strong>CONSTITUTION.md — S21 Phone 헌법</strong>불변 원칙 · Chain of Command</a><a href="claude.html"><strong>S21 Phone — 실무 규칙</strong>AI 3종 · Paste Pipeline · 인프라</a><a href="readme.html"><strong>📱 S21 Phone — AI Workstation</strong>숫자 · 구조 · 빠른 링크</a><a href="guide.html"><strong>📖 S21 Phone 최적화 — 전체 가이드</strong>Termux부터 방송까지</a><a href="chronicle.html"><strong>📋 S21 Phone 최적화 연대기</strong>DAY 1–2 개발 기록</a><a href="textbook.html"><strong>완결판 교재</strong>판단층 + 실행층</a></div>
         </div>
   <footer class="wz-foot">
-    <div>S21 PHONE · Webzine Vol.01</div>
+    <div>S21 PHONE · Webzine lakme-audio</div>
     <div class="gold">모든 계정은 누나 명의입니다.</div>
     <p style="margin-top:12px"><a href="index.html">← Back to landing</a></p>
   </footer>

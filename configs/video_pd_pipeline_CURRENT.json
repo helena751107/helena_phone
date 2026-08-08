@@ -1,0 +1,16 @@
+{
+  "canonical": "video_pd_pipeline_v2",
+  "path": "configs/video_pd_pipeline_v2.json",
+  "entry": "bash scripts/produce_pd.sh [ep_id] [page_url]",
+  "locked": "2026-08-06",
+  "locked_by": "Boss + _Grok",
+  "rule": "모든 소개/PD 영상은 이 표준만 사용. 세션마다 파이프를 새로 만들지 말 것.",
+  "defaults": {
+    "BGM_VOLUME": 0.025,
+    "TTS_ENGINE": "local",
+    "GROK_TTS_VOICE": "ara",
+    "RESOLUTION": "1080:1920",
+    "concat": "demuxer",
+    "qa": "scripts/_qa_video_slides.py mandatory before ship"
+  }
+}

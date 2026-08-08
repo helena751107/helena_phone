@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="**결론:** SoVITS는 포기. TTS(NeuTTS Nano 또는 Sherpa-ONNX Kokoro) + RVC ONNX = S21에서 실사용 가능한 성우 더빙 파이프. — S21 Phone Webzine">
+<meta name="theme-color" content="#0a0908">
+<meta name="application-name" content="S21 Phone">
+<title>🎤 경량 TTS + RVC 성우 더빙 솔루션 (2026-08-07, _Claude) — S21 Phone Webzine</title>
+<link rel="icon" href="../icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/webzine.css">
+</head>
+<body>
+<div class="spine" aria-hidden="true"><div class="spine-fill" id="spineFill"></div></div>
+<header class="wz-mast">
+  <a class="brand" href="../index.html">S21 <em>Phone</em></a>
+  <div class="wz-mast-actions">
+    <button type="button" class="wz-burger" data-nav-toggle aria-label="메뉴" aria-expanded="false">☰</button>
+    <nav class="wz-nav">
+      <a href="../index.html">Home</a>
+      <a href="../archive.html">Archive</a>
+      <a href="../index.html#library">Library</a>
+      <a href="../index.html#agents">Agents</a>
+      <button type="button" data-theme-toggle>Theme</button>
+      <a class="pill gold" href="../index.html#install">Install</a>
+    </nav>
+  </div>
+</header>
+<main class="wz-shell">
+  <div class="wz-crumb">
+    <a href="../index.html">Webzine</a><span class="sep">/</span>
+    <span>Notebook</span><span class="sep">/</span>
+    <span>🎤 경량 TTS + RVC 성우 더빙 솔루션 (2026-08-07, _Claude)</span>
+  </div>
+  <header class="wz-hero">
+    <div class="wz-kicker">Notebook · lakme-audio</div>
+    <h1>🎤 경량 TTS + RVC 성우 더빙 솔루션 (2026-08-07, _Claude)</h1>
+    <p class="deck">**결론:** SoVITS는 포기. TTS(NeuTTS Nano 또는 Sherpa-ONNX Kokoro) + RVC ONNX = S21에서 실사용 가능한 성우 더빙 파이프.</p>
+    <div class="wz-meta">
+      <span>Source · _notebook/74-tts-rvc-lightweight-solution_Claude.md</span>
+      <span>Kind · markdown</span>
+      <span>S21 Phone Editorial</span>
+    </div>
+  </header>
+  <nav class="wz-toc" aria-label="목차"><div class="label">Contents</div><div class="toc">
+<ul>
+<li><a href="#_1">문제</a></li>
+<li><a href="#_2">핵심 아키텍처</a></li>
+<li><a href="#rvc-on-arm64">RVC on ARM64 — 완전 가능</a><ul>
+<li><a href="#export">export 경로</a></li>
+<li><a href="#pre-built">기존 pre-built 자산</a></li>
+<li><a href="#onnx-runtime">ONNX Runtime 최적화</a></li>
+<li><a href="#_3">동적 양자화</a></li>
+</ul>
+</li>
+<li><a href="#tts">TTS 엔진 비교</a><ul>
+<li><a href="#1-neutts-nano">1순위: NeuTTS Nano</a></li>
+<li><a href="#sherpa-onnx-kokoro">폴백: Sherpa-ONNX Kokoro</a></li>
+</ul>
+</li>
+<li><a href="#rvc">누나 목소리 RVC 모델 만들기</a><ul>
+<li><a href="#_4">학습</a></li>
+<li><a href="#_5">커뮤니티 레퍼런스</a></li>
+<li><a href="#_6">학습 후 추론</a></li>
+</ul>
+</li>
+<li><a href="#grok-tts">Grok TTS 라이선스</a></li>
+<li><a href="#_7">실행 계획</a></li>
+<li><a href="#_8">예상 효과</a></li>
+<li><a href="#_9">레퍼런스</a></li>
+</ul>
+</div>
+</nav>
+  <div class="wz-appbar" role="toolbar" aria-label="Document tools">
+    <input type="search" id="wzSearch" class="wz-search" placeholder="페이지 내 검색…" autocomplete="off">
+    <button type="button" id="wzFoldAll" data-cursor>접기</button>
+    <button type="button" id="wzExpandAll" data-cursor>펼치기</button>
+    <button type="button" id="wzCopy" data-cursor>본문 복사</button>
+  </div>
+  <article class="wz-prose" id="wzProse" data-app="doc">
+    <h2 id="_1">문제</h2>
+<p>ParksyTTS (GPT-SoVITS) CPU 추론이 471초 for 3.5초 음성으로 실사용 불가.<br>
+SoVITS 모델 포기하고 경량 TTS + RVC 조합으로 전환 결정.</p>
+<h2 id="_2">핵심 아키텍처</h2>
+<pre><code>[대본 텍스트]
+    │
+    ▼
+NeuTTS Nano (GGUF, ARM64 CPU, ~2x 실시간)
+  → 자연스러운 한국어 TTS 음성 (몇 초)
+    │
+    ▼
+RVC ONNX INT8 (~380MB, ARM64 CPU, ~72ms)
+  → 누나 목소리로 변환
+    │
+    ▼
+ffmpeg 후처리 (노멀라이즈, EQ)
+    │
+    ▼
+최종 WAV → 영상 더빙
+</code></pre>
+<p><strong>총 추론 시간 예상:</strong> TTS 수 초 + RVC 0.1초 = <strong>10초 내외</strong> (기존 ParksyTTS 471초 대비 ~50배 단축)</p>
+<h2 id="rvc-on-arm64">RVC on ARM64 — 완전 가능</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>원본 RVC PyTorch</th>
+<th>INT8 ONNX (모바일 최적화)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>모델 크기</td>
+<td>2.3 GB</td>
+<td><strong>380 MB</strong> (83%↓)</td>
+</tr>
+<tr>
+<td>추론 지연</td>
+<td>350 ms</td>
+<td><strong>72 ms</strong> (79%↓)</td>
+</tr>
+<tr>
+<td>메모리</td>
+<td>1.8 GB</td>
+<td><strong>420 MB</strong> (77%↓)</td>
+</tr>
+<tr>
+<td>CPU 사용률</td>
+<td>95%</td>
+<td><strong>45%</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="export">export 경로</h3>
+<ol>
+<li>PyTorch <code>.pth</code> 모델 → <code>export_onnx()</code> → <code>.onnx</code></li>
+<li>ONNX Runtime graph optimize + INT8 양자화</li>
+<li><code>onnxruntime-android</code> / <code>onnxruntime</code> (proot glibc) 로 ARM64 추론</li>
+</ol>
+<h3 id="pre-built">기존 pre-built 자산</h3>
+<ul>
+<li><strong>HuggingFace:</strong> <code>TigreGotico/voiceclonnx-rvc</code> — ContentVec encoder 91MB + RMVPE pitch 94MB (INT8)</li>
+<li><strong>라이브러리:</strong> <code>vconnx</code> — <code>pip install</code> 한 줄로 RVC 추론</li>
+<li><strong>npm:</strong> <code>rvc-onnx-web</code> — TypeScript로 pth→onnx 변환 (Python 불필요)</li>
+</ul>
+<h3 id="onnx-runtime">ONNX Runtime 최적화</h3>
+<pre><code class="language-bash">python -m onnxruntime.tools.optimize_onnx_model \
+  --input model.onnx --output optimized.onnx
+</code></pre>
+<p>→ 20~30% 연산 감소</p>
+<h3 id="_3">동적 양자화</h3>
+<ul>
+<li><code>torch.nn.Linear</code>, <code>Conv1d</code> → qint8</li>
+<li>LSTM 레이어는 별도 qconfig</li>
+<li>결과: <strong>72% 크기 감소, 3.2× 추론 가속, &lt;2% 품질 손실</strong></li>
+</ul>
+<hr>
+<h2 id="tts">TTS 엔진 비교</h2>
+<table>
+<thead>
+<tr>
+<th>모델</th>
+<th>크기</th>
+<th>한국어</th>
+<th>Voice Cloning</th>
+<th>포맷</th>
+<th>CPU 추론</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NeuTTS Nano</strong></td>
+<td>~120M params</td>
+<td>✅</td>
+<td>✅ Instant</td>
+<td>GGUF</td>
+<td>✅ ~2x RTF</td>
+<td>🔥 1순위</td>
+</tr>
+<tr>
+<td><strong>Chatterbox-LiteRT</strong></td>
+<td>~500MB INT8</td>
+<td>✅</td>
+<td>✅ Zero-shot</td>
+<td>TFLite</td>
+<td>✅ ~0.95 RTF</td>
+<td>실험적</td>
+</tr>
+<tr>
+<td>VoxCPM2-LiteRT</td>
+<td>8.7GB FP16</td>
+<td>✅</td>
+<td>✅ Zero-shot</td>
+<td>TFLite</td>
+<td>❌ 무거움</td>
+<td>S21 부적합</td>
+</tr>
+<tr>
+<td>Sherpa-ONNX Kokoro</td>
+<td>~300MB</td>
+<td>⚠️ 확인 필요</td>
+<td>❌ 미지원</td>
+<td>ONNX</td>
+<td>✅</td>
+<td>Voice cloning 안 됨</td>
+</tr>
+<tr>
+<td>GPT-SoVITS</td>
+<td>~2GB+</td>
+<td>✅</td>
+<td>✅ Few-shot</td>
+<td>PyTorch</td>
+<td>❌ 471초</td>
+<td>포기 확정</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1-neutts-nano">1순위: NeuTTS Nano</h3>
+<ul>
+<li>GitHub 6,178 stars, 2026년 7월 기준 트렌딩</li>
+<li>GGUF 포맷 → ARM64 CPU 네이티브, Snapdragon/Exynos 최적화</li>
+<li>9개 언어(한국어 포함), instant voice cloning</li>
+<li>120M active parameters → S21에서 충분히 구동</li>
+</ul>
+<h3 id="sherpa-onnx-kokoro">폴백: Sherpa-ONNX Kokoro</h3>
+<ul>
+<li>이미 S21에 설치·검증 완료</li>
+<li>한국어 모델 실제 지원 여부 확인 필요</li>
+<li>Voice cloning 안 되므로 RVC 변환 필수</li>
+</ul>
+<hr>
+<h2 id="rvc">누나 목소리 RVC 모델 만들기</h2>
+<h3 id="_4">학습</h3>
+<ul>
+<li>필요 데이터: 누나 목소리 10~30분 clean 음성</li>
+<li>GitHub Actions에서 RVC 학습 1회 실행 (로컬 CPU 부담 없음)</li>
+<li>사전 녹음 스크립트: <code>scripts/record_voice_samples.sh</code> 이미 있음</li>
+</ul>
+<h3 id="_5">커뮤니티 레퍼런스</h3>
+<p>voice-models.com에 한국어 여성 RVC 모델 다수:<br>
+- <strong>NELL 시리즈</strong> — 310분 데이터셋, V11까지 실험 완료<br>
+- <strong>Harang (하랑)</strong> — BOOTH 판매, 부드러운 여성 목소리<br>
+- <strong>Jane</strong> — 실시간 보이스 체인저 특화</p>
+<h3 id="_6">학습 후 추론</h3>
+<ol>
+<li><code>.pth</code> → ONNX export</li>
+<li>INT8 양자화 → ~380MB</li>
+<li>S21 proot에 배치</li>
+<li><code>vconnx</code>로 추론</li>
+</ol>
+<hr>
+<h2 id="grok-tts">Grok TTS 라이선스</h2>
+<p>Grok TTS는 현재 SuperGrok 구독에 포함 안 됨 (403). 그러나 추후 사용 가능해질 경우:<br>
+- xAI ToS 상 생성된 음성에 대한 저작권 제한 없음 (오픈소스 출력물로 간주)<br>
+- 상업적 사용 가능<br>
+- 다만 현재는 미사용 — TTS_ENGINE=local 유지</p>
+<hr>
+<h2 id="_7">실행 계획</h2>
+<table>
+<thead>
+<tr>
+<th>순위</th>
+<th>작업</th>
+<th>예상 시간</th>
+<th>난이도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🔴 1</td>
+<td><code>pip install vconnx onnxruntime</code> → RVC ONNX 추론 테스트</td>
+<td>20분</td>
+<td>쉬움</td>
+</tr>
+<tr>
+<td>🔴 2</td>
+<td>Sherpa-ONNX Kokoro 한국어 모델 존재 확인</td>
+<td>10분</td>
+<td>쉬움</td>
+</tr>
+<tr>
+<td>🟡 3</td>
+<td>NeuTTS Nano GGUF 다운로드 → S21에서 TTS 테스트</td>
+<td>30분</td>
+<td>중간</td>
+</tr>
+<tr>
+<td>🟡 4</td>
+<td>TTS 출력 → RVC 변환 파이프 검증</td>
+<td>30분</td>
+<td>중간</td>
+</tr>
+<tr>
+<td>🟢 5</td>
+<td>누나 목소리 샘플 수집 (10~30분)</td>
+<td>수동</td>
+<td>-</td>
+</tr>
+<tr>
+<td>🟢 6</td>
+<td>GitHub Actions RVC 학습 워크플로우</td>
+<td>1시간</td>
+<td>중간</td>
+</tr>
+<tr>
+<td>🟢 7</td>
+<td>voice_engine.py에 <code>tts_rvc</code> 프로바이더 추가</td>
+<td>30분</td>
+<td>쉬움</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="_8">예상 효과</h2>
+<table>
+<thead>
+<tr>
+<th>지표</th>
+<th>현재 (ParksyTTS)</th>
+<th>목표 (NeuTTS+RVC)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3.5초 음성 생성</td>
+<td>471초</td>
+<td>~10초</td>
+</tr>
+<tr>
+<td>실시간 대비</td>
+<td>135배 느림</td>
+<td>~3배</td>
+</tr>
+<tr>
+<td>메모리</td>
+<td>2GB+</td>
+<td>~500MB</td>
+</tr>
+<tr>
+<td>모델 파일 크기</td>
+<td>314MB 체크포인트</td>
+<td>~500MB ONNX 총합</td>
+</tr>
+<tr>
+<td>품질</td>
+<td>ParksyTTS v1 양호</td>
+<td>TTS 자연스러움 + RVC 개성</td>
+</tr>
+<tr>
+<td>확장성</td>
+<td>CPU-only 한계</td>
+<td>ONNX 생태계 (모바일·서버·브라우저)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="_9">레퍼런스</h2>
+<ul>
+<li>RVC ONNX HuggingFace: https://huggingface.co/TigreGotico/voiceclonnx-rvc</li>
+<li>vconnx 라이브러리: <code>pip install vconnx</code></li>
+<li>rvc-onnx-web (npm): https://www.npmjs.com/package/rvc-onnx-web</li>
+<li>NeuTTS Nano: https://www.neuphonic.com/models/neutts-nano</li>
+<li>Chatterbox-LiteRT: https://huggingface.co/soniqo/Chatterbox-LiteRT</li>
+<li>Sherpa-ONNX: https://github.com/k2-fsa/sherpa-onnx</li>
+<li>한국어 RVC 모델: https://voice-models.com (NELL, Jane, Harang 등)</li>
+</ul>
+<hr>
+<blockquote>
+<p><strong>결론:</strong> SoVITS는 포기. TTS(NeuTTS Nano 또는 Sherpa-ONNX Kokoro) + RVC ONNX = S21에서 실사용 가능한 성우 더빙 파이프.<br>
+Grok TTS는 저작권 문제 없으나 현재 403. local 프로바이더에 이 파이프를 추가하는 게 정답.</p>
+</blockquote>
+  </article>
+  <nav class="wz-pager">
+    <a class="" href="73-pd-grok-notebook-report_Grok.html">
+          <span class="dir">Previous</span>
+          <span class="title">📋 PD Grok · 업무 수첩 종합 리포트 (1장)</span>
+        </a>
+    <a class="next" href="75-translation-logic-management_Claude.html">
+          <span class="dir">Next</span>
+          <span class="title">75 translation logic management Claude</span>
+        </a>
+  </nav>
+  <div class="wz-related">
+          <h2>같은 섹션</h2>
+          <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩</strong>구축: 2026-07-23 ~ 2026-07-26</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
+        </div>
+  <footer class="wz-foot">
+    <div>S21 PHONE · Webzine lakme-audio</div>
+    <div class="gold">모든 계정은 누나 명의입니다.</div>
+    <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
+  </footer>
+</main>
+<div class="wz-float">
+  <button type="button" id="wzTop" aria-label="Top">↑</button>
+  <button type="button" data-theme-toggle aria-label="Theme">◐</button>
+</div>
+<script src="../assets/webzine.js"></script>
+</body>
+</html>

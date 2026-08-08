@@ -14,7 +14,7 @@ Usage:
   dur, provider = synthesize("안녕하세요", Path("/tmp/out.mp3"), engine="grok")
 
 Env:
-  TTS_ENGINE=grok|local|openai|edge  (기본: grok)
+  TTS_ENGINE=grok|local|openai|edge  (기본: local)
   LOCAL_VOICE_MODEL=/path/to/voice.onnx  (AI 코어 경로 · 기본: voice_models/my_voice.onnx)
   GROK_TTS_VOICE=ara
   XAI_API_KEY=…  or  ~/.grok/auth.json
@@ -39,9 +39,13 @@ import json
 from pathlib import Path
 
 # ── engine registry ──
-ENGINE_PRIORITY = ["grok", "local", "openai", "edge"]
+ENGINE_PRIORITY = ["local", "grok", "openai", "edge"]
 # local → ParksyTTS(GPT-SoVITS 선물) 우선, Sherpa-ONNX 폴백
 VOICE_DEFAULT = "ko-KR-SunHiNeural"
+
+# Sherpa-ONNX TTS instance cache (avoid 3s model reload per call)
+_sherpa_tts_cache: dict[str, "sherpa_onnx.OfflineTts"] = {}
+_sherpa_cache_lock = __import__("threading").Lock()
 GROK_VOICE_DEFAULT = os.environ.get("GROK_TTS_VOICE", "ara")
 OPENAI_VOICE_DEFAULT = "nova"
 
@@ -258,11 +262,21 @@ def _tts_local_sherpa(text: str, dest: Path,
                        speed: float = 0.95) -> float:
     """Local Sherpa-ONNX TTS — 경량 오프라인 CPU NEON 가속.
 
-    Model path resolution:
-      1) Explicit `model_path` arg
+    Model path resolution (Kokoro multi-lang bundle):
+      1) Explicit `model_path` arg → model_dir 또는 .onnx
       2) LOCAL_VOICE_MODEL env
-      3) voice_models/my_voice.onnx (기본)
-      4) voice_models/ 디렉토리 첫 번째 .onnx 파일
+      3) voice_models/kokoro-* (자동 탐지)
+      4) voice_models/my_voice.onnx (기본 단일파일)
+
+    Kokoro multi-lang bundle 구조:
+      kokoro-fp32-v1_0/
+      ├── model.onnx       (FP32 311MB — INT8은 ARM64 디퀀트 버그로 무음)
+      ├── voices.bin
+      ├── tokens.txt
+      └── espeak-ng-data/
+
+    화자: jf_alpha (sid=37, 일본인 여성) — 한국어 발음에 부드러운 억양
+    "한국어를 배우는 착한 일본인 AI" 캐릭터성 → 차별화 자산 (2026-08-07 확정)
     """
     try:
         import sherpa_onnx
@@ -274,86 +288,158 @@ def _tts_local_sherpa(text: str, dest: Path,
         )
 
     dest.parent.mkdir(parents=True, exist_ok=True)
+    models_dir = Path(os.environ.get("VOICE_MODELS_DIR", "/root/work/voice_models"))
 
-    # Resolve model path
+    # ── Resolve model bundle (dir or single .onnx) ──
+    model_dir = None
+    onnx_path = None
+    tts_lang = os.environ.get("SHERPA_LANG", "ko")
+    tts_sid = int(os.environ.get("SHERPA_SID", "37"))  # jf_alpha — 헬레나폰 AI 성우 기본 화자
+
     if model_path:
-        model = Path(model_path)
-    elif os.environ.get("LOCAL_VOICE_MODEL"):
-        model = Path(os.environ["LOCAL_VOICE_MODEL"])
-    else:
-        models_dir = Path(os.environ.get("VOICE_MODELS_DIR", "/root/work/voice_models"))
-        default_model = models_dir / "my_voice.onnx"
-        if default_model.exists():
-            model = default_model
+        p = Path(model_path)
+        if p.is_dir():
+            model_dir = p
         else:
-            # auto-detect first .onnx
-            candidates = sorted(models_dir.glob("*.onnx")) if models_dir.exists() else []
-            if candidates:
-                model = candidates[0]
+            onnx_path = p
+    elif os.environ.get("LOCAL_VOICE_MODEL"):
+        p = Path(os.environ["LOCAL_VOICE_MODEL"])
+        if p.is_dir():
+            model_dir = p
+        else:
+            onnx_path = p
+    else:
+        # Auto-detect Kokoro bundle first
+        kokoro_dirs = sorted(models_dir.glob("kokoro-*")) if models_dir.exists() else []
+        if kokoro_dirs:
+            model_dir = kokoro_dirs[0]
+        else:
+            # Fallback: single .onnx files
+            onnx_cands = sorted(models_dir.glob("*.onnx")) if models_dir.exists() else []
+            if onnx_cands:
+                onnx_path = onnx_cands[0]
             else:
                 raise RuntimeError(
                     f"No local voice model found.\n"
-                    f"  기본 경로: {default_model}\n"
-                    f"  voice_models/ 디렉토리에 .onnx 모델을 넣거나\n"
-                    f"  LOCAL_VOICE_MODEL 환경변수로 지정하세요.\n"
-                    f"  Boss가 AI 코어를 아직 업로드하지 않았을 수 있습니다."
+                    f"  Kokoro bundle: voice_models/kokoro-*/\n"
+                    f"  Single ONNX: {models_dir}/my_voice.onnx\n"
+                    f"  또는 LOCAL_VOICE_MODEL 환경변수로 지정하세요."
                 )
 
-    if not model.exists():
-        raise RuntimeError(f"Voice model not found: {model}")
+    # ── Build TTS config ──
+    num_threads = min(8, os.cpu_count() or 4)
 
-    # Resolve tokens file
-    tokens = model.with_suffix(".json")
-    if not tokens.exists():
-        tokens = model.parent / "tokens.json"
-    if not tokens.exists():
-        # Kokoro-style: model file embeds tokens, some versions need separate file
-        tokens = None
+    if model_dir:
+        # Kokoro multi-lang bundle
+        bund = model_dir
+        onnx = bund / "model.int8.onnx"
+        if not onnx.exists():
+            onnx = bund / "model.onnx"
+        voices = bund / "voices.bin"
+        tokens = bund / "tokens.txt"
+        data_dir = bund / "espeak-ng-data"
+
+        missing = []
+        for f, n in [(onnx, "model"), (voices, "voices"), (tokens, "tokens"), (data_dir, "data_dir")]:
+            if not f.exists():
+                missing.append(f"{n} ({f})")
+        if missing:
+            raise RuntimeError(f"Kokoro bundle incomplete: {', '.join(missing)}")
+
+        kokoro_cfg = sherpa_onnx.OfflineTtsKokoroModelConfig(
+            model=str(onnx),
+            voices=str(voices),
+            tokens=str(tokens),
+            data_dir=str(data_dir),
+            lang=tts_lang,
+        )
+        model_cfg = sherpa_onnx.OfflineTtsModelConfig(
+            kokoro=kokoro_cfg,
+            num_threads=num_threads,
+            provider="cpu",
+        )
+    elif onnx_path and onnx_path.exists():
+        # Single .onnx (legacy / custom model)
+        tok_path = onnx_path.with_suffix(".json")
+        if not tok_path.exists():
+            tok_path = onnx_path.parent / "tokens.json"
+        tok_str = str(tok_path) if tok_path.exists() else ""
+
+        # Try Kokoro config first, then VITS
+        try:
+            kokoro_cfg = sherpa_onnx.OfflineTtsKokoroModelConfig(
+                model=str(onnx_path),
+                tokens=tok_str,
+                lang=tts_lang,
+            )
+            model_cfg = sherpa_onnx.OfflineTtsModelConfig(
+                kokoro=kokoro_cfg,
+                num_threads=num_threads,
+                provider="cpu",
+            )
+        except Exception:
+            vits_cfg = sherpa_onnx.OfflineTtsVitsModelConfig(
+                model=str(onnx_path),
+                tokens=tok_str,
+            )
+            model_cfg = sherpa_onnx.OfflineTtsModelConfig(
+                vits=vits_cfg,
+                num_threads=num_threads,
+                provider="cpu",
+            )
+    else:
+        raise RuntimeError(f"Voice model not found: {model_path or 'auto-detect failed'}")
 
     # WAV output first, then convert to MP3
     wav = dest.with_suffix(".wav")
 
-    try:
-        # Try Kokoro model config (most common for Korean)
-        tts_config = sherpa_onnx.OfflineTtsConfig(
-            model=sherpa_onnx.OfflineTtsModelConfig(
-                kokoro=sherpa_onnx.OfflineTtsKokoroModelConfig(
-                    model=str(model),
-                    tokens=str(tokens) if tokens else "",
-                ),
-                num_threads=min(8, os.cpu_count() or 4),
-                provider="cpu",
-            ),
-        )
-        tts = sherpa_onnx.OfflineTts(tts_config)
-        audio = tts.generate(text, sid=0, speed=speed)
-        if not audio or not getattr(audio, 'samples', None):
-            raise RuntimeError("Sherpa generated empty audio")
-        audio.save(str(wav))
-    except Exception:
-        # Fallback: try VITS model config
+    # ── Cache key (model path + lang) ──
+    cache_key = f"{model_dir or onnx_path}:{tts_lang}:{tts_sid}"
+
+    cached = None
+    with _sherpa_cache_lock:
+        cached = _sherpa_tts_cache.get(cache_key)
+
+    if cached is not None:
+        tts = cached
+    else:
         try:
-            import sherpa_onnx
-            tts_config2 = sherpa_onnx.OfflineTtsConfig(
-                model=sherpa_onnx.OfflineTtsModelConfig(
-                    vits=sherpa_onnx.OfflineTtsVitsModelConfig(
-                        model=str(model),
-                        tokens=str(tokens) if tokens else "",
-                    ),
-                    num_threads=min(8, os.cpu_count() or 4),
+            tts_config = sherpa_onnx.OfflineTtsConfig(model=model_cfg)
+            tts = sherpa_onnx.OfflineTts(tts_config)
+            with _sherpa_cache_lock:
+                _sherpa_tts_cache[cache_key] = tts
+        except Exception:
+            # Fallback: if Kokoro config failed, try VITS as a last resort
+            if model_dir:
+                raise  # Kokoro bundle failure is real — don't silently VITS
+            try:
+                vits_cfg = sherpa_onnx.OfflineTtsVitsModelConfig(
+                    model=str(onnx_path),
+                    tokens=str(tok_path) if tok_path.exists() else "",
+                )
+                model_cfg2 = sherpa_onnx.OfflineTtsModelConfig(
+                    vits=vits_cfg,
+                    num_threads=num_threads,
                     provider="cpu",
-                ),
-            )
-            tts2 = sherpa_onnx.OfflineTts(tts_config2)
-            audio2 = tts2.generate(text, sid=0, speed=speed)
-            audio2.save(str(wav))
-        except Exception as e2:
-            raise RuntimeError(
-                f"Sherpa-ONNX failed with both Kokoro and VITS configs.\n"
-                f"  Model: {model}\n"
-                f"  Kokoro error: {e}\n"
-                f"  VITS error: {e2}"
-            )
+                )
+                tts_config2 = sherpa_onnx.OfflineTtsConfig(model=model_cfg2)
+                tts = sherpa_onnx.OfflineTts(tts_config2)
+                with _sherpa_cache_lock:
+                    _sherpa_tts_cache[cache_key] = tts
+            except Exception as e2:
+                raise RuntimeError(
+                    f"Sherpa-ONNX failed.\n"
+                    f"  Model: {model_dir or onnx_path}\n"
+                    f"  Primary error: see above\n"
+                    f"  VITS fallback error: {e2}"
+                )
+
+    audio = tts.generate(text, sid=tts_sid, speed=speed)
+    if not audio or not getattr(audio, 'samples', None):
+        raise RuntimeError("Sherpa generated empty audio")
+    import soundfile as sf
+    import numpy as np
+    sf.write(str(wav), np.array(audio.samples), audio.sample_rate)
 
     # WAV → AAC/M4A via FFmpeg
     r = subprocess.run(
@@ -451,34 +537,51 @@ def synthesize(
 
             elif provider == "local":
                 # ParksyTTS 우선 (GPT-SoVITS 선물 코어) → Sherpa-ONNX 폴백
-                try:
-                    dur = _tts_local_parksy(text, raw, speed=speed)
-                    if polish:
-                        _polish(raw, polished, "local")
-                        dur = ffprobe_duration(polished)
-                    else:
-                        shutil.move(str(raw), str(polished))
-                    return dur, "local/parksy-tts-v1"
-                except Exception as pe:
-                    print(f"  ! parksy-tts skipped: {pe}", flush=True)
+                # Fast pre-check: skip ParksyTTS if pytorch_lightning missing or SHERPA_ONLY set
+                _has_parksy = False
+                if not os.environ.get("SHERPA_ONLY"):
                     try:
-                        dur = _tts_local_sherpa(text, raw, speed=speed)
-                        model_name = Path(os.environ.get(
-                            "LOCAL_VOICE_MODEL",
-                            "/root/work/voice_models/my_voice.onnx"
-                        )).stem
+                        from importlib.util import find_spec
+                        if find_spec("pytorch_lightning"):
+                            _has_parksy = True
+                except Exception:
+                    pass
+
+                _parksy_err = None
+                if _has_parksy:
+                    try:
+                        dur = _tts_local_parksy(text, raw, speed=speed)
                         if polish:
                             _polish(raw, polished, "local")
                             dur = ffprobe_duration(polished)
                         else:
                             shutil.move(str(raw), str(polished))
-                        return dur, f"local/{model_name}"
-                    except Exception as se:
-                        raise RuntimeError(
-                            f"Local TTS both failed.\n"
-                            f"  ParksyTTS: {pe}\n"
-                            f"  Sherpa-ONNX: {se}"
-                        )
+                        return dur, "local/parksy-tts-v1"
+                    except Exception as pe:
+                        _parksy_err = pe
+                        print(f"  ! parksy-tts skipped: {pe}", flush=True)
+                else:
+                    _parksy_err = RuntimeError("pytorch_lightning not installed — ParksyTTS unavailable")
+
+                # Sherpa-ONNX fallback (Kokoro / VITS)
+                try:
+                    dur = _tts_local_sherpa(text, raw, speed=speed)
+                    model_name = Path(os.environ.get(
+                        "LOCAL_VOICE_MODEL",
+                        "/root/work/voice_models/my_voice.onnx"
+                    )).stem
+                    if polish:
+                        _polish(raw, polished, "local")
+                        dur = ffprobe_duration(polished)
+                    else:
+                        shutil.move(str(raw), str(polished))
+                    return dur, f"local/{model_name}"
+                except Exception as se:
+                    raise RuntimeError(
+                        f"Local TTS both failed.\n"
+                        f"  ParksyTTS: {_parksy_err}\n"
+                        f"  Sherpa-ONNX: {se}"
+                    )
 
             elif provider == "openai":
                 if not (os.environ.get("OPENAI_API_KEY") or os.environ.get("OPENAI_KEY")):
