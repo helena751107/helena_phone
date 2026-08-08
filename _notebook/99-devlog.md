@@ -1,6 +1,41 @@
 # 📋 S21 Phone — 전체 개발일지
 
 
+### 🎬 pd_magic — 표준 파이프라인 숏폼 제작 (_Claude · 2026-08-08)
+
+**Boss 지적:** "동영상 표준 만들어 놓은 거 써라. 워크 프로세스 업무일지에 다 저장해 놨잖아."
+
+**1차 시도(실패):** 수동 FFmpeg + 수동 Playwright + 수동 TTS. xfade 없고, 더킹 없고, ASS 자막 없고, QA 없고. → Boss: "지금 이렇게 만드는 거 아니야"
+
+**2차 시도(성공):** `bash scripts/produce_pd.sh pd_magic` 정식 실행.
+
+**표준 파이프라인 결과:**
+| 단계 | 내용 | 결과 |
+|------|------|------|
+| P0 | shot_bible 표준 v9 형식 | 5비트 + stinger + interrupt |
+| P1 | Playwright 390×844×3x | 5장 (anchors 자동) |
+| P2 | Edge TTS InJoonNeural | 14~18초/클립 |
+| P3 | Bridge pickup | bridges=[] → skip |
+| P4 | _render_video.py Ken Burns + BGM | 8클립(5+stinger+interrupt+endcard) · xfade 4종 · Gymnopédie · ducking+swell |
+| P5 | Playable encode + QA | 16MB · unique=8/10 · black=0 ✅ |
+| P5b | SRT 자막 | 86.7s · 5 entries |
+| P5c | ASS CNN Breaking News | per-word scale pop · 72pt bold · red banner |
+| P6 | TG 720p + 발송 | 7.1MB · msg 366 ✅ |
+
+**내 수동 버전 vs 표준 파이프라인:**
+| 항목 | 수동 | 표준 |
+|------|------|------|
+| 클립 | 5개 | 8개(+stinger+interrupt+endcard) |
+| 전환 | 단순 concat | xfade 4종(fade·wipeleft·slideright·dissolve) |
+| BGM | whisper 볼륨만 | ducking·swell·풀타임라인 믹스 |
+| 자막 | drawtext 박스 | ASS CNN Breaking News·per-word pop |
+| QA | 없음 | unique frame + black detect |
+| TG | 수동 curl | 스크립트 자동 |
+
+**교훈:** 수동으로 만지지 말 것. `produce_pd.sh` 한 줄이면 모든 게 V8/V9 스펙으로 나온다. 이게 표준이다.
+
+
+
 ### 🎨 보조 페이지 초등학생 비유 재작성 + NOTEBOOK_TITLES 100% (_Claude · 2026-08-08)
 
 **자체 평가 지적사항 전면 보완:**
