@@ -1,9 +1,14 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# care-setup.sh — 트랙 1 돌봄 데몬 설치 스크립트
+# care-setup.sh — 돌봄 인프라 통합 설치 (Tailscale + 데몬 + 게이트웨이)
 # ==============================================================================
 # 실행: bash ~/care/care-setup.sh
-# 이 스크립트는 Termux 네이티브 환경에서 실행 (proot Ubuntu 안에서 실행 금지)
+# ⚠️  Termux 네이티브에서 실행 (proot Ubuntu 안에서 실행 금지)
+#
+# 설치 항목:
+#   1. Tailscale 돌봄 터널 (PC↔S21 항시 연결 백본)
+#   2. care-daemon (배터리/GPS/건강 모니터링, cron 매 15분)
+#   3. proot-gateway (Termux→proot 포트포워드)
 # ==============================================================================
 
 set -euo pipefail
@@ -64,6 +69,24 @@ if ! grep -q "TG_TOKEN=" "$CARE_DIR/care.conf" 2>/dev/null || \
   echo "  편집: nano $CARE_DIR/care.conf"
   echo "  TG_TOKEN=봇토큰"
   echo "  TG_CHAT_HELENA=챗ID"
+fi
+
+# ── Tailscale 설치 ──
+echo ""
+echo "─── Tailscale 돌봄 터널 ───"
+if [ -f "${CARE_DIR}/tailscale-setup.sh" ]; then
+  bash "${CARE_DIR}/tailscale-setup.sh"
+else
+  warn "tailscale-setup.sh 없음 (스킵)"
+fi
+
+# ── proot 게이트웨이 ──
+echo ""
+echo "─── proot 게이트웨이 ───"
+if [ -f "${CARE_DIR}/proot-gateway.sh" ]; then
+  bash "${CARE_DIR}/proot-gateway.sh" start
+else
+  warn "proot-gateway.sh 없음 (스킵)"
 fi
 
 # ── crontab 등록 ──

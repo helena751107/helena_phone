@@ -274,6 +274,13 @@ main() {
     fi
   fi
 
+  # ── Tailscale 상태 ──
+  local ts_ip=""; ts_status="offline"
+  if command -v tailscale >/dev/null 2>&1; then
+    ts_ip=$(tailscale ip -4 2>/dev/null || echo "")
+    [ -n "$ts_ip" ] && ts_status="online"
+  fi
+
   # 정기 보고 (매 시간 정각 ±5분)
   local min
   min=$(date +%M | sed 's/^0//')
@@ -282,6 +289,7 @@ main() {
 🔋 ${BATTERY_PCT}% / ${BATTERY_TEMP}°C / ${BATTERY_STATUS}
 📍 ${LOC_LAT}, ${LOC_LON} (${LOC_PROVIDER})
 📶 ${WIFI_SSID} (${WIFI_RSSI}dBm)
+🔗 Tailscale: ${ts_status} ${ts_ip}
 상태: 정상"
     send_alert "info" "$report" "$TG_CHAT_HELENA"
   fi
