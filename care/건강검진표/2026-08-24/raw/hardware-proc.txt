@@ -1,0 +1,10 @@
+=== 2026-08-24 — /proc 실측 ===
+코어: 8
+MemTotal: 7373748 kB
+MemAvailable: 2382172 kB
+Android: SM-G991N / SDK 35 / release 15
+Storage: 226G (115G used, 111G avail)
+Swap: 3134/4095 MB used (77%)
+Claude Code: 2.1.218
+ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
+ANTHROPIC_MODEL=deepseek-v4-pro

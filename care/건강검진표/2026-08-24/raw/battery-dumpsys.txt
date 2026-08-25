@@ -1,0 +1,17 @@
+=== 2026-08-24 13:24 KST — dumpsys battery (S21) ===
+Current Battery Service state:
+  AC powered: false
+  USB powered: false
+  Wireless powered: false
+  status: 3 (discharging)
+  health: 2
+  level: 95
+  scale: 100
+  voltage: 4249
+  temperature: 298 (29.8°C)
+  technology: Li-ion
+=== sysfs: permission denied (non-root) ===
+=== 충전 이벤트 로그 ===
+10:35 96% status:2 ac:true temp 34.1°C remain 205min
+10:41 100% status:5 (full) ac:true
+10:52 100% status:5 ac:true temp 31.6°C current 346mA

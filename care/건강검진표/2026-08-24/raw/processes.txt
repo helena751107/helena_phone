@@ -1,0 +1,9 @@
+=== 2026-08-24 — ps 상위 ===
+15857 claude 4.5%cpu 4.1%mem RSS304608 (--dangerously-skip-permissions, cwd=/root/work, 2일9시간)
+13414 tailscaled 0.2% RSS22996
+10521 sshd-session 2.4% RSS10852
+10533 sshd-session 1.4% RSS6836
+15853 proot 2.3% RSS3088
+=== free ===
+total 7200MB, used 4900MB, free 141MB, buff/cache 2469MB, available 2300MB
+swap total 4095, used 3134, free 961
