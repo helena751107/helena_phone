@@ -73,7 +73,7 @@
     <span>ecosystem-map.json</span>
   </div>
   <header class="wz-hero">
-    <div class="wz-kicker">Scripts · lakme-audio</div>
+    <div class="wz-kicker">Scripts · 2026-09-28</div>
     <h1>ecosystem-map.json</h1>
     <p class="deck">Source viewer · configs/ecosystem-map.json</p>
     <div class="wz-meta">
@@ -98,6 +98,19 @@
 <pre id="codeBody"><code class="language-json">{
   &quot;_description&quot;: &quot;S21 Phone — 5x5x5 생태계 매트릭스 (Tistory × YouTube × GitHub 1:1:1). 2026-07-25 생성.&quot;,
   &quot;_principle&quot;: &quot;각 채널은 독립된 정체성. 모든 콘텐츠는 Layer A(인간·STT) → Layer B(에이전트·API) 파이프라인으로 발행.&quot;,
+
+  &quot;production_status&quot;: {
+    &quot;_readme&quot;: &quot;S21 실기기(/root/work) ADB 직접 점검 결과 — 지도(설계값)가 아니라 실측값. Boss 5분 투어 기준.&quot;,
+    &quot;checked_at&quot;: &quot;2026-08 (S21 실기기 ADB 점검, ecosystem.json.template의 리그 재정리는 2026-09-28)&quot;,
+    &quot;summary&quot;: &quot;폰·기술·피아노 세 채널만 실제로 발행 중이었고 2026-08-16 이후 전부 멈춤. 신앙·멘탈케어는 블로그만 만들어 둔 채 글 0개.&quot;,
+    &quot;active_but_stalled&quot;: [&quot;phone&quot;, &quot;tech&quot;, &quot;piano&quot;],
+    &quot;blog_only_not_started&quot;: [&quot;faith&quot;, &quot;metalcare&quot;],
+    &quot;youtube_owner_uncertain&quot;: [&quot;@HelenaFaith&quot;, &quot;@HelenaPiano&quot;],
+    &quot;known_issues&quot;: [
+      &quot;faith 채널의 github.repo가 &#x27;helena-faith&#x27;로 오타 — 실제 repo명은 &#x27;helana-faith&#x27;. 링크 404 원인 (2026-09-29 수정)&quot;,
+      &quot;티스토리 5개 블로그 전부 카카오 계정 dimas-40@daum.net(박씨 EAE 계정) 하나로 묶여 있음 — 계정 분리 여부 미확정&quot;
+    ]
+  },
 
   &quot;main_hub&quot;: {
     &quot;youtube_main&quot;: &quot;@HelenaPark-e7c (UCRUuiKCCwIbyvqlxTNpDfKw)&quot;,
@@ -124,7 +137,8 @@
         &quot;title&quot;: &quot;Helena-Phone&quot;,
         &quot;rss&quot;: &quot;https://galaxys21-pwuser.tistory.com/rss&quot;,
         &quot;category&quot;: &quot;S21/Termux/proot/ClaudeCode/MCP/0원풀스택&quot;,
-        &quot;posts&quot;: 0
+        &quot;last_post&quot;: &quot;2026-08-16&quot;,
+        &quot;status&quot;: &quot;stalled_since_2026-08-16&quot;
       },
       &quot;youtube&quot;: {
         &quot;channel&quot;: &quot;@helena_phone ✅&quot;,
@@ -157,10 +171,12 @@
         &quot;title&quot;: &quot;엘레나 다이어리&quot;,
         &quot;rss&quot;: &quot;https://mynote11605.tistory.com/rss&quot;,
         &quot;category&quot;: &quot;APK리버싱/MCP/LLM로그/기술튜토리얼&quot;,
-        &quot;posts&quot;: 0
+        &quot;last_post&quot;: &quot;2026-08-16&quot;,
+        &quot;status&quot;: &quot;stalled_since_2026-08-16&quot;
       },
       &quot;youtube&quot;: {
-        &quot;channel&quot;: &quot;@HelenaTechLog (브랜드 채널 예정)&quot;,
+        &quot;channel&quot;: &quot;@HelenaTechLog&quot;,
+        &quot;channel_status&quot;: &quot;❌ 없음 (예정)&quot;,
         &quot;playlist&quot;: &quot;Helena Tech Log — 박씨캡처 리버싱&quot;,
         &quot;playlist_id&quot;: &quot;PLPeHKuMeuM2k&quot;,
         &quot;content_type&quot;: &quot;리버싱·MCP개발·기술분석·튜토리얼&quot;
@@ -183,18 +199,21 @@
         &quot;title&quot;: &quot;Helana-Christianity&quot;,
         &quot;rss&quot;: &quot;https://helana-christianity.tistory.com/rss&quot;,
         &quot;category&quot;: &quot;가족신앙/비교종교학/말씀묵상/기도&quot;,
-        &quot;posts&quot;: 0
+        &quot;posts&quot;: 0,
+        &quot;status&quot;: &quot;blog_only_not_started&quot;
       },
       &quot;youtube&quot;: {
-        &quot;channel&quot;: &quot;@HelenaFaith (브랜드 채널 예정)&quot;,
+        &quot;channel&quot;: &quot;@HelenaFaith&quot;,
+        &quot;channel_status&quot;: &quot;⚠️ 주인 불확실 (2026-08 S21 실기기 점검)&quot;,
         &quot;playlist&quot;: &quot;Helena Faith — 가족 신앙사&quot;,
         &quot;playlist_id&quot;: &quot;PLVMVhBhx9j5U&quot;,
         &quot;content_type&quot;: &quot;말씀·묵상·신앙고백·찬양&quot;
       },
       &quot;github&quot;: {
-        &quot;repo&quot;: &quot;helena-faith&quot;,
-        &quot;pages&quot;: &quot;https://helena751107.github.io/helena-faith/&quot;,
-        &quot;role&quot;: &quot;신학 문서 + 가족사 아카이브&quot;
+        &quot;repo&quot;: &quot;helana-faith&quot;,
+        &quot;pages&quot;: &quot;https://helena751107.github.io/helana-faith/&quot;,
+        &quot;role&quot;: &quot;신학 문서 + 가족사 아카이브&quot;,
+        &quot;_fix_2026-09-29&quot;: &quot;구 값 &#x27;helena-faith&#x27;는 오타 — 실제 GitHub repo명은 &#x27;helana-faith&#x27;. 이 오타 때문에 지도상 링크가 404였음(S21 실기기 ADB 점검에서 발견).&quot;
       },
       &quot;discord_notify&quot;: &quot;#로비&quot;,
       &quot;telegram_notify&quot;: true
@@ -209,10 +228,12 @@
         &quot;title&quot;: &quot;Helena-Piano&quot;,
         &quot;rss&quot;: &quot;https://helena-piano.tistory.com/rss&quot;,
         &quot;category&quot;: &quot;연주/MIDI/REAPER/AI음원/악보/레슨&quot;,
-        &quot;posts&quot;: 0
+        &quot;last_post&quot;: &quot;2026-08-16&quot;,
+        &quot;status&quot;: &quot;stalled_since_2026-08-16&quot;
       },
       &quot;youtube&quot;: {
-        &quot;channel&quot;: &quot;@HelenaPiano (브랜드 채널 예정)&quot;,
+        &quot;channel&quot;: &quot;@HelenaPiano&quot;,
+        &quot;channel_status&quot;: &quot;⚠️ 주인 불확실 (2026-08 S21 실기기 점검)&quot;,
         &quot;playlist&quot;: &quot;Helena Piano — 피아노 종합&quot;,
         &quot;playlist_id&quot;: &quot;PLQZhcAIkPriA&quot;,
         &quot;content_type&quot;: &quot;연주영상·커버·레슨·MIDI시연&quot;
@@ -235,10 +256,12 @@
         &quot;title&quot;: &quot;Helena Metalcare&quot;,
         &quot;rss&quot;: &quot;https://helena-metalcare.tistory.com/rss&quot;,
         &quot;category&quot;: &quot;정신의학/정신분석/MCP모델/치료기록&quot;,
-        &quot;posts&quot;: 0
+        &quot;posts&quot;: 0,
+        &quot;status&quot;: &quot;blog_only_not_started&quot;
       },
       &quot;youtube&quot;: {
-        &quot;channel&quot;: &quot;@HelenaMetalcare (브랜드 채널 예정)&quot;,
+        &quot;channel&quot;: &quot;@HelenaMetalcare&quot;,
+        &quot;channel_status&quot;: &quot;❌ 없음 (예정)&quot;,
         &quot;playlist&quot;: &quot;Helena Metalcare — 멘탈케어&quot;,
         &quot;playlist_id&quot;: &quot;PLXRhF8OeEWV0&quot;,
         &quot;content_type&quot;: &quot;정신분석·치료이론·MCP모델·사례연구&quot;
@@ -344,7 +367,7 @@
           <div class="grid"><a href="../g/install.html"><strong>install.sh · 고급 설치기</strong>Scripts</a><a href="../g/easy.html"><strong>easy.sh · 초심자 1줄</strong>Scripts</a><a href="../care/care-daemon.html"><strong>care-daemon.sh</strong>Scripts</a><a href="../care/care-setup.html"><strong>care-setup.sh</strong>Scripts</a><a href="../care/care-conf.html"><strong>care.conf</strong>Scripts</a><a href="../phone-health.html"><strong>phone-health.sh</strong>Scripts</a></div>
         </div>
   <footer class="wz-foot">
-    <div>S21 PHONE · Webzine lakme-audio</div>
+    <div>S21 PHONE · Webzine 2026-09-28</div>
     <div class="gold">모든 계정은 누나 명의입니다.</div>
     <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
   </footer>

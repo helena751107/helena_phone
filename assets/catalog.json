@@ -928,6 +928,14 @@
     "deck": "모든 `_notebook/*.md`가 통일된 웹 UI로 번역되기 위해 지켜야 할 최소·권장·프리미엄 규칙."
   },
   {
+    "src": "_notebook/77-dual-lane-publishing_Claude.md",
+    "out": "notebook/77-dual-lane-publishing_Claude.html",
+    "title": "듀얼레인 출판 원칙 — GitHub Pages(영문·PWA 앱) × Tistory(한글·인터랙티브)",
+    "section": "Notebook",
+    "kind": "md",
+    "deck": "**Boss 결정 (2026-09-29)**"
+  },
+  {
     "src": "_notebook/tistory-master-guide_Claude.md",
     "out": "notebook/tistory-master-guide_Claude.html",
     "title": "📝 티스토리 완전 정복 — 5채널 전략·자동화·파이프 총정리",
