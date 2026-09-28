@@ -2,6 +2,19 @@
   "_description": "S21 Phone — 5x5x5 생태계 매트릭스 (Tistory × YouTube × GitHub 1:1:1). 2026-07-25 생성.",
   "_principle": "각 채널은 독립된 정체성. 모든 콘텐츠는 Layer A(인간·STT) → Layer B(에이전트·API) 파이프라인으로 발행.",
 
+  "production_status": {
+    "_readme": "S21 실기기(/root/work) ADB 직접 점검 결과 — 지도(설계값)가 아니라 실측값. Boss 5분 투어 기준.",
+    "checked_at": "2026-08 (S21 실기기 ADB 점검, ecosystem.json.template의 리그 재정리는 2026-09-28)",
+    "summary": "폰·기술·피아노 세 채널만 실제로 발행 중이었고 2026-08-16 이후 전부 멈춤. 신앙·멘탈케어는 블로그만 만들어 둔 채 글 0개.",
+    "active_but_stalled": ["phone", "tech", "piano"],
+    "blog_only_not_started": ["faith", "metalcare"],
+    "youtube_owner_uncertain": ["@HelenaFaith", "@HelenaPiano"],
+    "known_issues": [
+      "faith 채널의 github.repo가 'helena-faith'로 오타 — 실제 repo명은 'helana-faith'. 링크 404 원인 (2026-09-29 수정)",
+      "티스토리 5개 블로그 전부 카카오 계정 dimas-40@daum.net(박씨 EAE 계정) 하나로 묶여 있음 — 계정 분리 여부 미확정"
+    ]
+  },
+
   "main_hub": {
     "youtube_main": "@HelenaPark-e7c (UCRUuiKCCwIbyvqlxTNpDfKw)",
     "youtube_first_brand": "@helena_phone (UC_IPajoyj6_IO8wt9JwVCAQ) ✅ 2026-07-25 생성",
@@ -27,7 +40,8 @@
         "title": "Helena-Phone",
         "rss": "https://galaxys21-pwuser.tistory.com/rss",
         "category": "S21/Termux/proot/ClaudeCode/MCP/0원풀스택",
-        "posts": 0
+        "last_post": "2026-08-16",
+        "status": "stalled_since_2026-08-16"
       },
       "youtube": {
         "channel": "@helena_phone ✅",
@@ -60,10 +74,12 @@
         "title": "엘레나 다이어리",
         "rss": "https://mynote11605.tistory.com/rss",
         "category": "APK리버싱/MCP/LLM로그/기술튜토리얼",
-        "posts": 0
+        "last_post": "2026-08-16",
+        "status": "stalled_since_2026-08-16"
       },
       "youtube": {
-        "channel": "@HelenaTechLog (브랜드 채널 예정)",
+        "channel": "@HelenaTechLog",
+        "channel_status": "❌ 없음 (예정)",
         "playlist": "Helena Tech Log — 박씨캡처 리버싱",
         "playlist_id": "PLPeHKuMeuM2k",
         "content_type": "리버싱·MCP개발·기술분석·튜토리얼"
@@ -86,18 +102,21 @@
         "title": "Helana-Christianity",
         "rss": "https://helana-christianity.tistory.com/rss",
         "category": "가족신앙/비교종교학/말씀묵상/기도",
-        "posts": 0
+        "posts": 0,
+        "status": "blog_only_not_started"
       },
       "youtube": {
-        "channel": "@HelenaFaith (브랜드 채널 예정)",
+        "channel": "@HelenaFaith",
+        "channel_status": "⚠️ 주인 불확실 (2026-08 S21 실기기 점검)",
         "playlist": "Helena Faith — 가족 신앙사",
         "playlist_id": "PLVMVhBhx9j5U",
         "content_type": "말씀·묵상·신앙고백·찬양"
       },
       "github": {
-        "repo": "helena-faith",
-        "pages": "https://helena751107.github.io/helena-faith/",
-        "role": "신학 문서 + 가족사 아카이브"
+        "repo": "helana-faith",
+        "pages": "https://helena751107.github.io/helana-faith/",
+        "role": "신학 문서 + 가족사 아카이브",
+        "_fix_2026-09-29": "구 값 'helena-faith'는 오타 — 실제 GitHub repo명은 'helana-faith'. 이 오타 때문에 지도상 링크가 404였음(S21 실기기 ADB 점검에서 발견)."
       },
       "discord_notify": "#로비",
       "telegram_notify": true
@@ -112,10 +131,12 @@
         "title": "Helena-Piano",
         "rss": "https://helena-piano.tistory.com/rss",
         "category": "연주/MIDI/REAPER/AI음원/악보/레슨",
-        "posts": 0
+        "last_post": "2026-08-16",
+        "status": "stalled_since_2026-08-16"
       },
       "youtube": {
-        "channel": "@HelenaPiano (브랜드 채널 예정)",
+        "channel": "@HelenaPiano",
+        "channel_status": "⚠️ 주인 불확실 (2026-08 S21 실기기 점검)",
         "playlist": "Helena Piano — 피아노 종합",
         "playlist_id": "PLQZhcAIkPriA",
         "content_type": "연주영상·커버·레슨·MIDI시연"
@@ -138,10 +159,12 @@
         "title": "Helena Metalcare",
         "rss": "https://helena-metalcare.tistory.com/rss",
         "category": "정신의학/정신분석/MCP모델/치료기록",
-        "posts": 0
+        "posts": 0,
+        "status": "blog_only_not_started"
       },
       "youtube": {
-        "channel": "@HelenaMetalcare (브랜드 채널 예정)",
+        "channel": "@HelenaMetalcare",
+        "channel_status": "❌ 없음 (예정)",
         "playlist": "Helena Metalcare — 멘탈케어",
         "playlist_id": "PLXRhF8OeEWV0",
         "content_type": "정신분석·치료이론·MCP모델·사례연구"
