@@ -306,6 +306,54 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .marquee span::after { content: '◆'; margin-left: 28px; color: var(--gold); font-size: .55rem; vertical-align: middle; }
 @keyframes marquee { to { transform: translateX(-50%); } }
 
+/* Origin — real photo spread (full-bleed, between marquee and shell) */
+.origin {
+  position: relative; overflow: hidden;
+  border-bottom: 1px solid var(--rule);
+}
+.origin-grid { display: grid; grid-template-columns: 1.15fr 1fr; min-height: 520px; }
+.origin-photo { position: relative; overflow: hidden; background: var(--paper-3); }
+.origin-photo img {
+  width: 100%; height: 100%; object-fit: cover; object-position: 48% 18%;
+  display: block; filter: saturate(1.05) contrast(1.04);
+}
+.origin-photo::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent 62%, var(--paper) 100%);
+}
+.origin-text {
+  display: flex; flex-direction: column; justify-content: center; gap: 18px;
+  padding: clamp(32px, 5vw, 68px); background: var(--paper-2);
+}
+.origin-text .eyebrow {
+  font-size: .68rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--gold); font-weight: 600;
+}
+.origin-text h2 {
+  font-family: var(--serif); font-size: clamp(1.55rem, 3.2vw, 2.25rem);
+  font-weight: 600; line-height: 1.24; letter-spacing: -.01em;
+}
+.origin-text h2 em { font-style: italic; color: var(--gold-bright); font-weight: 400; }
+.origin-text p {
+  color: var(--ink-dim); font-weight: 300; font-size: 1rem; max-width: 42em;
+}
+.origin-badge {
+  display: flex; align-items: center; gap: 14px; margin-top: 4px;
+}
+.origin-badge img {
+  width: 52px; height: 52px; object-fit: cover; border: 1px solid var(--rule-strong);
+  filter: saturate(1.1);
+}
+.origin-badge .cap {
+  font-size: .74rem; color: var(--ink-mute); font-family: var(--mono);
+  letter-spacing: .02em; line-height: 1.5;
+}
+@media (max-width: 900px) {
+  .origin-grid { grid-template-columns: 1fr; }
+  .origin-photo { height: 52vh; min-height: 320px; }
+  .origin-photo::after { background: linear-gradient(180deg, transparent 55%, var(--paper-2) 100%); }
+}
+
 /* Grid helpers */
 .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
@@ -891,6 +939,33 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
     <span>Galaxy S21</span><span>Termux</span><span>proot Ubuntu</span><span>글짓기 로봇</span><span>고치기 로봇</span><span>그림 로봇</span><span>감사 로봇</span><span>무료 전시장</span><span>TV 방송국</span><span>무전기</span><span>모임방</span><span>웹진</span><span>일기장</span><span>수호천사</span>
   </div>
 </div>
+
+<!-- ════ ORIGIN — real photo, not staged ════ -->
+<section class="origin reveal" id="origin">
+  <div class="origin-grid">
+    <div class="origin-photo">
+      <img
+        src="assets/origin-worksite-web.jpg"
+        srcset="assets/origin-worksite-web-900.jpg 900w, assets/origin-worksite-web.jpg 1600w"
+        sizes="(max-width: 900px) 100vw, 55vw"
+        alt="기름때 묻은 작업대 위, 터미널 화면이 켜진 채 놓인 Galaxy S21 한 대 — 실제 작업 현장 사진"
+        loading="lazy" width="1600" height="2133">
+    </div>
+    <div class="origin-text">
+      <div class="eyebrow">연출 아님 · 그날 그 자리에서</div>
+      <h2>몸 쓰는 일이 끝나면,<br><em>여기서 다시 시작</em>해요</h2>
+      <p>
+        <strong>비유:</strong> 공사장 벨트의 만능 공구함 같아요. 하루 종일 몸을 쓰고 나서, 장갑도 벗지 않은 채
+        그 작업대 위에 폰 하나 세워두고 말로 코드를 짭니다. 개발자 책상이 아니라 진짜 현장에서 —
+        이 스튜디오는 그렇게 만들어졌어요.
+      </p>
+      <div class="origin-badge">
+        <img src="assets/social-preview.jpg" alt="" loading="lazy" width="52" height="52">
+        <div class="cap">Galaxy S21 · Termux + proot Ubuntu<br>말로 짠 코드 · 누나를 위해</div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <div class="shell">
 
