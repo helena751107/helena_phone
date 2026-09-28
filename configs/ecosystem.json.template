@@ -45,11 +45,26 @@
     { "key": "phone", "id": "UC_IPajoyj6_IO8wt9JwVCAQ", "handle": "@helena_phone",   "topic": "Tools · Tutorials" }
   ],
 
+  "leagues": {
+    "_readme": "관리자(Boss) 기준 구분 (2026-09-28~). 리그1 = Boss가 누나 폰 사양으로 직접 운영·실험하는 것. 리그2 = Boss가 누나가 되어 만들어주는 누나 명의 프로젝트. 헤드쿼터 = helena_phone(리그1 허브이자 전체 누나 레포지토리군의 본부).",
+    "headquarters": "helena_phone",
+    "league1": {
+      "name": "League 1 — Boss 운영·실험",
+      "description": "S21(누나 폰 사양) 기준 Boss가 직접 돌리는 기술 실험·인프라·로그. 누나 명의 아님.",
+      "repos": ["helena_phone", "helana_log"]
+    },
+    "league2": {
+      "name": "League 2 — 누나 명의 프로젝트",
+      "description": "Boss가 누나가 되어(누나 입장에서) 만들어주는 누나 명의 콘텐츠 프로젝트.",
+      "repos": ["helena-piano", "helena-metalcare", "helana-faith"]
+    }
+  },
+
   "repos": [
-    { "repo": "helena_phone",     "account": "galaxys21", "blog": "galaxys21-pwuser",   "channel": "@helena_phone",   "role": "hub",     "domain": "S21 phone optimization" },
-    { "repo": "helana_log",       "account": "mynote",    "blog": "mynote11605",        "channel": "@helena_phone",   "role": "care",    "domain": "Tech notes" },
-    { "repo": "helena-piano",     "account": "piano",     "blog": "helena-piano",       "channel": "@HelenaPark-e7c", "role": "content", "domain": "Piano" },
-    { "repo": "helena-metalcare", "account": "metalcare", "blog": "helena-metalcare",   "channel": "@HelenaPark-e7c", "role": "content", "domain": "Psychoanalysis" },
-    { "repo": "helana-faith",     "account": "faith",     "blog": "helana-christianity", "channel": "@HelenaPark-e7c", "role": "content", "domain": "Faith history" }
+    { "repo": "helena_phone",     "account": "galaxys21", "blog": "galaxys21-pwuser",   "channel": "@helena_phone",   "role": "hub",     "league": 1, "domain": "S21 phone optimization" },
+    { "repo": "helana_log",       "account": "mynote",    "blog": "mynote11605",        "channel": "@helena_phone",   "role": "care",    "league": 1, "domain": "Tech notes" },
+    { "repo": "helena-piano",     "account": "piano",     "blog": "helena-piano",       "channel": "@HelenaPark-e7c", "role": "content", "league": 2, "domain": "Piano" },
+    { "repo": "helena-metalcare", "account": "metalcare", "blog": "helena-metalcare",   "channel": "@HelenaPark-e7c", "role": "content", "league": 2, "domain": "Psychoanalysis" },
+    { "repo": "helana-faith",     "account": "faith",     "blog": "helana-christianity", "channel": "@HelenaPark-e7c", "role": "content", "league": 2, "domain": "Faith history" }
   ]
 }
