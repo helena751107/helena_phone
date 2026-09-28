@@ -2,8 +2,8 @@
   "id": "/helena_phone/",
   "name": "S21 Phone Webzine",
   "short_name": "S21 Phone",
-  "description": "Galaxy S21 AI Workstation — 돌봄과 소망, 3 Agents, 7 Workcenters. Editorial Webzine Vol.01",
-  "lang": "ko",
+  "description": "Galaxy S21 AI Workstation — Care and Wish, 3 Agents, 7 Workcenters. Editorial Webzine Vol.01",
+  "lang": "en",
   "dir": "ltr",
   "start_url": "/helena_phone/",
   "scope": "/helena_phone/",
@@ -58,7 +58,7 @@
     {
       "name": "Install guide",
       "short_name": "Install",
-      "description": "1줄 설치 섹션",
+      "description": "One-line install section",
       "url": "/helena_phone/#install",
       "icons": [
         {
@@ -84,7 +84,7 @@
     {
       "name": "Library",
       "short_name": "Archive",
-      "description": "문서 아카이브",
+      "description": "Document archive",
       "url": "/helena_phone/#library",
       "icons": [
         {

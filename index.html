@@ -1600,7 +1600,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   if (shell && accChapters.length) {
     const bar = document.createElement('div');
     bar.className = 'acc-toolbar';
-    bar.innerHTML = '<button type="button" id="accExpand">모두 펼치기</button><button type="button" id="accCollapse">모두 접기</button>';
+    bar.innerHTML = '<button type="button" id="accExpand">Expand all</button><button type="button" id="accCollapse">Collapse all</button>';
     const firstCh = accChapters[0];
     firstCh.parentNode.insertBefore(bar, firstCh);
   }
@@ -1819,20 +1819,20 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
   /* —— Workcenters —— */
   const WORKCENTERS = [
-    { idx: '①', name: '빵 공장', meta: '반죽실', plat: 'GitHub', op: '글짓기 로봇', pct: 100, color: '#3db8a8', status: 'go', statusLabel: '가동',
-      desc: '글과 코드가 만들어지는 주방. 로봇 친구들이 여기서 요리해요.' },
-    { idx: '②', name: '전시장', meta: '쇼윈도', plat: 'GitHub Pages', op: '자동', pct: 100, color: '#3db8a8', status: 'go', statusLabel: '가동',
-      desc: '만든 걸 세상에 보여주는 무료 전시장. 이 페이지도 여기 있어요.' },
-    { idx: '③', name: '방송국', meta: 'TV타워', plat: 'YouTube', op: '글짓기 로봇', pct: 80, color: '#8b7cf0', status: 'wait', statusLabel: '준비',
-      desc: '완성된 강의를 TV로 내보내요. 수익도 만들 수 있어요.' },
-    { idx: '④', name: '무전기', meta: '쪽지', plat: 'Telegram', op: 'tg.sh / 봇', pct: 100, color: '#3db8a8', status: 'go', statusLabel: '가동',
-      desc: '로봇이 사람에게 "다 했어요!" 하고 보고하는 통로.' },
-    { idx: '⑤', name: '일기장', meta: '기록창고', plat: 'Tistory', op: '사람', pct: 30, color: '#d4a84b', status: 'hand', statusLabel: '수동',
-      desc: '운영 기록과 생각을 적어두는 곳. 아직은 사람 손이 필요해요.' },
-    { idx: '⑥', name: '웹진', meta: '미끼·티저', plat: 'Naver Blog', op: '사람 + 그림로봇', pct: 25, color: '#e85d4c', status: 'hand', statusLabel: '수동',
-      desc: '그림 로봇이 80% 쓰고 사람이 다듬어요. 구경꾼을 모으는 입구.' },
-    { idx: '⑦', name: '모임방', meta: '응접실', plat: 'Discord', op: 'WidgetBot', pct: 100, color: '#3db8a8', status: 'go', statusLabel: '가동',
-      desc: '실시간으로 사람들과 대화하는 공간. 현관문이에요.' },
+    { idx: '①', name: 'Bread Factory', meta: 'Mixing room', plat: 'GitHub', op: 'Writer Bot', pct: 100, color: '#3db8a8', status: 'go', statusLabel: 'Live',
+      desc: 'The kitchen where writing and code get made. The robot crew cooks here.' },
+    { idx: '②', name: 'Gallery', meta: 'Shop window', plat: 'GitHub Pages', op: 'Automatic', pct: 100, color: '#3db8a8', status: 'go', statusLabel: 'Live',
+      desc: 'The free gallery that shows the world what got built. This page lives here too.' },
+    { idx: '③', name: 'Broadcast', meta: 'TV tower', plat: 'YouTube', op: 'Writer Bot', pct: 80, color: '#8b7cf0', status: 'wait', statusLabel: 'Prep',
+      desc: 'Sends finished courses out over TV. Can also make income.' },
+    { idx: '④', name: 'Walkie-Talkie', meta: 'Notes', plat: 'Telegram', op: 'tg.sh / bot', pct: 100, color: '#3db8a8', status: 'go', statusLabel: 'Live',
+      desc: 'The channel where a robot reports "done!" to a human.' },
+    { idx: '⑤', name: 'Journal', meta: 'Records archive', plat: 'Tistory', op: 'Human', pct: 30, color: '#d4a84b', status: 'hand', statusLabel: 'Manual',
+      desc: 'Where operating notes and thoughts get written down. Still needs a human hand.' },
+    { idx: '⑥', name: 'Webzine', meta: 'Bait · teaser', plat: 'Naver Blog', op: 'Human + Designer Bot', pct: 25, color: '#e85d4c', status: 'hand', statusLabel: 'Manual',
+      desc: 'Designer Bot writes 80%, a human polishes it. The entrance that draws people in.' },
+    { idx: '⑦', name: 'Lounge', meta: 'Living room', plat: 'Discord', op: 'WidgetBot', pct: 100, color: '#3db8a8', status: 'go', statusLabel: 'Live',
+      desc: 'A space for talking with people live. The front door.' },
   ];
   let wcIndex = 0;
   const wcList = $('#wcList');
@@ -1925,9 +1925,9 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
   /* —— Cost pie —— */
   const COSTS = [
-    { name: '글짓기+고치기', desc: 'Claude Code + DeepSeek/Aider (~$20)', amt: 30000, color: '#3db8a8' },
-    { name: '그림·PD 로봇 (선택)', desc: 'Grok · 구도 디자인 + 다큐', amt: 45000, color: '#d4a84b' },
-    { name: '기본 재료', desc: 'Termux · GitHub · 폰', amt: 0, color: '#8b7cf0' },
+    { name: 'Writer + Fixer', desc: 'Claude Code + DeepSeek/Aider (~$20)', amt: 30000, color: '#3db8a8' },
+    { name: 'Designer/PD Bot (optional)', desc: 'Grok · layout design + documentary', amt: 45000, color: '#d4a84b' },
+    { name: 'Base materials', desc: 'Termux · GitHub · phone', amt: 0, color: '#8b7cf0' },
   ];
   function drawCostPie() {
     const canvas = $('#costPie');
@@ -1959,7 +1959,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
     ctx.fillText('₩55k', cx, cx - 8);
     ctx.font = '12px DM Sans, sans-serif';
     ctx.fillStyle = light ? '#8a8074' : '#7a7064';
-    ctx.fillText('/ 월', cx, cx + 16);
+    ctx.fillText('/ mo', cx, cx + 16);
   }
   const legend = $('#costLegend');
   COSTS.forEach(c => {
@@ -2002,8 +2002,8 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
       document.execCommand('copy'); ta.remove();
     }
     const b = $('#copyInstall');
-    b.textContent = '복사 완료 ✓';
-    setTimeout(() => { b.textContent = '주문 복사하기'; }, 1600);
+    b.textContent = 'Copied ✓';
+    setTimeout(() => { b.textContent = 'Copy the spell'; }, 1600);
   };
 
   /* —— Library search —— */
