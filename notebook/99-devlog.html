@@ -73,7 +73,7 @@
     <span>📋 S21 Phone — 전체 개발일지</span>
   </div>
   <header class="wz-hero">
-    <div class="wz-kicker">Notebook · lakme-audio</div>
+    <div class="wz-kicker">Notebook · 2026-09-28</div>
     <h1>📋 S21 Phone — 전체 개발일지</h1>
     <p class="deck">&quot;WS SL 내 PC 환경에 디바이스 추가해서 누나 핸드폰을 브랜치처럼 해가지고 태블릿 내가 갖고 있는 것처럼 누나 핸드폰도 등록을 해버리잖아.&quot;</p>
     <div class="wz-meta">
@@ -497,6 +497,8 @@
 <li><a href="#s21-vs-2-_boss-2026-08-18">🌉 S21 vs 태블릿 &ldquo;안 되는 것&rdquo; 2종류 + 다리(플러그 브릿지) (_Boss · 2026-08-18)</a></li>
 <li><a href="#_claude-2026-08-18_2">🕊️ 마지막 배웅 — 설치·인프라 종료, 이제부터 양산 (_Claude · 2026-08-18)</a></li>
 <li><a href="#ci-_claude-2026-08-18">🩸 포스트모텀 — 삽질 신드롬: 카카오 로그인을 CI에서 시도 (_Claude · 2026-08-18)</a></li>
+<li><a href="#5-_boss-2026-09-28">🏛️ 5레포 리그 구분 + 헤드쿼터 지정 (_Boss · 2026-09-28)</a></li>
+<li><a href="#github-pages-tistory-_boss-2026-09-29">🌐 듀얼레인 출판 원칙 — GitHub Pages 영문×Tistory 한글 (_Boss · 2026-09-29)</a></li>
 </ul>
 </li>
 </ul>
@@ -8789,6 +8791,41 @@ Android(호스트 OS) : proot Ubuntu(리눅스 호환 레이어)
 <p><strong>정답(이미 보일러플레이트에 있음):</strong> <code>xvfb-run -a python3 tistory-naver/renew_sessions.py --headed</code> — 기기(proot) 위에서 headed 로그인, RustDesk로 captcha 1회 수동 → <code>cookies/</code> 저장 → 이후 <code>apply_skin.py</code>/<code>post.py</code> 자동.</p>
 <p><strong>패턴 명명 — &ldquo;삽질 신드롬&rdquo;:</strong> 새 에이전트가 이미 푼 문제를 재발명하고, 엉뚱한 자리(CI)에서 시도하는 것. 보일러플레이트에 정답이 있어도 &ldquo;정답 위치&rdquo;를 모르니 반복된다.</p>
 <p><strong>재발 방지:</strong> SETUP.md &ldquo;수동 하한&rdquo; + README <code>renew_sessions.py --if-needed</code>에 &ldquo;로그인·인증은 CI/헤드리스 금지, 기기 위 headed + 사람 1회&rdquo; 한 줄 명시.</p>
+<hr>
+<h3 id="5-_boss-2026-09-28">🏛️ 5레포 리그 구분 + 헤드쿼터 지정 (_Boss · 2026-09-28)</h3>
+<p><strong>Boss 선언:</strong> &ldquo;관리자 기준으로 2개를 나누자. 폰 그리고 로그는 내가 누나 핸드폰 사양으로 실험하는, 내가 운영하는 거니까 리그1. 나머지는 누나가 좋아하는 것들 — 내가 누나가 돼서 만들어 주는 누나 명의 프로젝트 리그2. 누나 레포지토리 헤드쿼터는 폰으로 정한다.&rdquo;</p>
+<p><strong>구분:</strong></p>
+<table>
+<thead>
+<tr>
+<th>리그</th>
+<th>레포</th>
+<th>정체</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>리그1 — Boss 운영·실험</strong></td>
+<td><code>helena_phone</code>, <code>helana_log</code></td>
+<td>S21(누나 폰 사양) 기준 Boss가 직접 돌리는 기술 실험·인프라·로그. 누나 명의 아님.</td>
+</tr>
+<tr>
+<td><strong>리그2 — 누나 명의 프로젝트</strong></td>
+<td><code>helena-piano</code>, <code>helena-metalcare</code>, <code>helana-faith</code></td>
+<td>Boss가 누나가 되어(누나 입장에서) 만들어주는 누나 명의 콘텐츠 프로젝트.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>헤드쿼터:</strong> <code>helena_phone</code> — 리그1의 허브이자, 리그2를 포함한 누나 관련 전체 레포지토리군의 본부(기존 <code>hub_repo</code> 지정과 동일선상, &ldquo;5레포 전체의 본부&rdquo;로 명문화).</p>
+<p><strong>반영:</strong> <code>configs/ecosystem.json.template</code>에 <code>leagues</code> 블록(headquarters/league1/league2) + 각 <code>repos[]</code> 항목에 <code>league</code> 필드 추가. 기존 <code>role</code>(hub/care/content) 구분과 리그 구분은 별개 축 — role은 기능, league는 소유/운영 주체.</p>
+<p><strong>기존 dtslib-papyrus 허브와 구분 주의:</strong> 이건 helena_phone 자체 생태계 안의 5레포 리그 구분이고, dtslib-papyrus(28레포 그룹 뇌)는 상위의 별개 허브 — 혼동 금지.</p>
+<hr>
+<h3 id="github-pages-tistory-_boss-2026-09-29">🌐 듀얼레인 출판 원칙 — GitHub Pages 영문×Tistory 한글 (_Boss · 2026-09-29)</h3>
+<p><strong>Boss 선언:</strong> &ldquo;GitHub Pages는 영문으로 쓸데없이 글 쓰는 게 아니라 무조건 앱의 형태, 버튼 인터랙티브한 앱으로 만들어야 한다. 한글 인터랙티브 페이지는 Tistory로. 웹페이지 배포·출판할 때 Tistory 한글판 + GitHub Pages 영문판 두 레인 동시 출판을 원칙으로 한다.&rdquo;</p>
+<p><strong>점검 결과 — 지금까지는 정반대였음:</strong> 5레포 GitHub Pages(<code>index.html</code>)는 전부 <code>lang="ko"</code> 한글 아코디언 웹진(webzine.js)이었고, 영문은 README.md(저장소 랜딩, Pages 아님)에만 있었음. Tistory는 사람이 복붙하는 Paste Pipeline 크로스포스트일 뿐 독립 인터랙티브가 아니었음.</p>
+<p><strong>확인 질문 → Boss 답:</strong> &ldquo;예, 영문으로 전환 (원칙 그대로)&rdquo; — 기존 5레포 GitHub Pages 한글→영문 전환까지 승인됨.</p>
+<p><strong>기록:</strong> <code>_notebook/77-dual-lane-publishing_Claude.md</code> 신설(원칙 전문 + 현재상태 대비표 + 실행 스코프). <code>scripts/build_webzine.py</code> CATALOG에 등록(Rule 3 준수).</p>
+<p><strong>실행 우선순위(대형 작업이라 파일럿부터):</strong> ① helena_phone(헤드쿼터) → ② helana_log(리그1) → ③~⑤ piano/metalcare/faith(리그2, 톤 민감이라 각 레포 가드레일 준수 필요). 이번 세션에서는 원칙 문서화까지만 완료 — 실제 5레포 영문 PWA 재작성은 다음 단계.</p>
   </article>
   <nav class="wz-pager">
     <a class="" href="session-2026-07-26_Grok.html">
@@ -8805,7 +8842,7 @@ Android(호스트 OS) : proot Ubuntu(리눅스 호환 레이어)
           <div class="grid"><a href="00-INDEX.html"><strong>📖 S21 Phone 업무 수첩 — 전체 목차</strong>구축: 2026-07-23 ~ 2026-08-14 (23일)</a><a href="01-arch.html"><strong>전체 시스템 아키텍처</strong>Notebook</a><a href="02-discord.html"><strong>디스코드 서버/봇/위젯</strong>Notebook</a><a href="03-telegram.html"><strong>텔레그램 봇/회의실</strong>Notebook</a><a href="04-github-pages.html"><strong>GitHub Pages + Giscus + WidgetBot</strong>Notebook</a><a href="05-tistory.html"><strong>블로그 포트폴리오 + 자동화 전략</strong>Notebook</a></div>
         </div>
   <footer class="wz-foot">
-    <div>S21 PHONE · Webzine lakme-audio</div>
+    <div>S21 PHONE · Webzine 2026-09-28</div>
     <div class="gold">모든 계정은 누나 명의입니다.</div>
     <p style="margin-top:12px"><a href="../index.html">← Back to landing</a></p>
   </footer>
