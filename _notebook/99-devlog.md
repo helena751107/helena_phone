@@ -6594,3 +6594,17 @@ Boss 지시: 역할은 채팅이 아니라 **온디바이스 수첩 + S21 레포
 **반영:** `configs/ecosystem.json.template`에 `leagues` 블록(headquarters/league1/league2) + 각 `repos[]` 항목에 `league` 필드 추가. 기존 `role`(hub/care/content) 구분과 리그 구분은 별개 축 — role은 기능, league는 소유/운영 주체.
 
 **기존 dtslib-papyrus 허브와 구분 주의:** 이건 helena_phone 자체 생태계 안의 5레포 리그 구분이고, dtslib-papyrus(28레포 그룹 뇌)는 상위의 별개 허브 — 혼동 금지.
+
+---
+
+### 🌐 듀얼레인 출판 원칙 — GitHub Pages 영문×Tistory 한글 (_Boss · 2026-09-29)
+
+**Boss 선언:** "GitHub Pages는 영문으로 쓸데없이 글 쓰는 게 아니라 무조건 앱의 형태, 버튼 인터랙티브한 앱으로 만들어야 한다. 한글 인터랙티브 페이지는 Tistory로. 웹페이지 배포·출판할 때 Tistory 한글판 + GitHub Pages 영문판 두 레인 동시 출판을 원칙으로 한다."
+
+**점검 결과 — 지금까지는 정반대였음:** 5레포 GitHub Pages(`index.html`)는 전부 `lang="ko"` 한글 아코디언 웹진(webzine.js)이었고, 영문은 README.md(저장소 랜딩, Pages 아님)에만 있었음. Tistory는 사람이 복붙하는 Paste Pipeline 크로스포스트일 뿐 독립 인터랙티브가 아니었음.
+
+**확인 질문 → Boss 답:** "예, 영문으로 전환 (원칙 그대로)" — 기존 5레포 GitHub Pages 한글→영문 전환까지 승인됨.
+
+**기록:** `_notebook/77-dual-lane-publishing_Claude.md` 신설(원칙 전문 + 현재상태 대비표 + 실행 스코프). `scripts/build_webzine.py` CATALOG에 등록(Rule 3 준수).
+
+**실행 우선순위(대형 작업이라 파일럿부터):** ① helena_phone(헤드쿼터) → ② helana_log(리그1) → ③~⑤ piano/metalcare/faith(리그2, 톤 민감이라 각 레포 가드레일 준수 필요). 이번 세션에서는 원칙 문서화까지만 완료 — 실제 5레포 영문 PWA 재작성은 다음 단계.

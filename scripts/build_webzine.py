@@ -237,6 +237,7 @@ NOTEBOOK_TITLES = {
     "74-tts-rvc-lightweight-solution_Claude.md": "TTS+RVC 경량 솔루션",
     "75-translation-logic-management_Claude.md": "번역 로직 관리 (출판부)",
     "76-page-writing-standard_Claude.md": "페이지 작법 표준 (출판부)",
+    "77-dual-lane-publishing_Claude.md": "듀얼레인 출판 원칙 — GH Pages 영문×Tistory 한글 (출판부)",
     "tistory-master-guide_Claude.md": "티스토리 마스터 가이드",
     "allocation-rate-2026-07-28.md": "할당률 분석 2026-07-28",
     "39-self-platform-justification.md": "자체 플랫폼 정당화",
