@@ -338,3 +338,8 @@ helena_phone/
   - 네이버(남의 루트 + `<script>` 제거) = **텍스트 한정** 푸터 라인.
 - **⚠️ 한계(정직 — 과장 금지):** JSON-LD는 **블록체인/등기 아님**(암호화·위변조방지·분산원장 없음). 법적 저작권도, 실시간 원조 판정도 아님. **정본 화살표 = 확률적 우위.** 진짜 해자는 퍼포먼스·진정성. "노출이 빨라진다"는 지금까지 가설 — **측정 루프**(Bing WMT AI 성과·GSC·AI 질의 스팟체크)로 증명할 것.
 - **상세:** `_notebook/99-devlog.md` GEO 항목 · 메모리 `geo-llm-origin-protection`
+
+## 2026-09-19 미니PC 핸드오프 (딥페이크 클라우드)
+
+- 미니PC 쪽 딥페이크 MCP GitHub Actions 이식 개발 완료, 실제 성공 검증됨.
+- 상세: /root/work/HANDOFF_DEEPFAKE_MCP_CLOUD_2026-09-19.md 참고.

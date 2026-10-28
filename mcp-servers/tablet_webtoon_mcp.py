@@ -24,6 +24,23 @@ tablet-webtoon MCP (구 parksy-gallery 개명) — 태블릿 웹툰: 삼성 그�
      일부러 반자동(박씨가 직접 붙여넣기)으로 남겨뒀던 단계를 대체하는 옵션 —
      강제 아님, 박씨가 "자동으로 해" 라고 할 때만 씀.
 
+★ 작업 조건 (2026-09-15 재확인 — 이 MCP의 정체):
+    지휘 = WSL / 랩탑 (이 MCP가 도는 곳. 여기서 adb로 태블릿을 조종한다)
+    실행 = 태블릿 SM-X716N (100.86.15.50:5900) 삼성 갤러리/그리기 어시스트
+    매개 = ADB (uiautomator dump → bounds → input tap). 루팅 불필요.
+    산출 = 태블릿 컷 → WSL 회수 → 조립 → GitHub Pages + 티스토리 발행
+
+★ 콜드스타트 조건 (이번에 영구 저장, 2026-09-15 박씨 지시):
+    ① 태블릿 기초 IME는 언제나 '삼성 키보드'. ADBKeyboard는 입력 순간에만
+       켜고 finally에서 원복한다 — 태블릿 기초값을 오염시키지 않는다.
+       → webtoon_env_apply()가 이 기초값을 저장, webtoon_env_status()가 검증.
+    ② 프리셋 얼굴 9종(parksy_40s 등)은 parksy-faces canonical이 정본.
+       → preset_faces(sync=True, clean=True)로 대조·동기화·격리.
+    ③ 발행 타깃은 '변수'다 — 박씨가 매번 옮겨 다닌다.
+       → set_publish_target()/get_publish_target(), 호출 인자로도 덮어씀.
+    ④ 발행은 3단계다: #publish-layer-btn → basicSet 공개선택 → #publish-btn.
+       middle 단계를 빼면 발행 버튼이 렌더되지 않는다.
+
 트릴로지 위치: 박씨 티칭(parksy-teaching)·판서튜토리얼(po-tutorial)과 같은
 "태블릿" 워크센터. 코드 위치는 parksy-image(WSL 원본) + 태블릿 로컬 사본
 (/root/work/mcp-servers/) 양쪽 동기화 유지.
@@ -49,6 +66,11 @@ TAB = "100.86.15.50:5900"
 PKG = "com.samsung.android.app.sketchbook"
 ACT = "com.samsung.android.app.sketchbook.application.DrawingActivity"
 ADB_IME = "com.android.adbkeyboard/.AdbIME"
+# ★ 콜드스타트 조건(2026-09-15 박씨 지시): 태블릿의 '기초값' IME는 언제나
+# 삼성 키보드다. ADBKeyboard는 입력하는 그 순간에만 켜고 반드시 되돌린다.
+# (구판은 preflight마다 ADBKeyboard를 기본 IME로 박아놔서, 박씨가 태블릿을
+#  직접 쓸 때마다 ADB 키보드가 튀어나왔다 — "기초값으로 하라" 지시의 원인.)
+SAMSUNG_IME = "com.samsung.android.honeyboard/.service.HoneyBoardService"
 
 # 2026-09-13 실측 확정 — 삼성 그리기 어시스트 프롬프트 입력창 하드 리밋.
 # 한/영 동일 (코드포인트 기준). 이 값 넘으면 삼성 EditText가 조용히 잘라버림.
@@ -105,6 +127,9 @@ DRAWING_DIR = "/sdcard/DCIM/Drawing assist"
 PRESET_DIR = GALLERY_DIR + "/프리셋"
 STAGE_DIR = "/sdcard/Pictures/parksy_stage"
 STAGE_ALBUM_NAME = "parksy_stage"
+# 정본 얼굴이 아닌 파일의 격리소 — ★ DCIM 밖이어야 한다(앨범 안 하위폴더는
+# 삼성 갤러리 피커가 별도 앨범으로 노출하므로 AI 입력 경로에 남는다).
+MISC_QUARANTINE = "/sdcard/Documents/parksy_preset_misc"
 
 _DUMP_REMOTE = "/sdcard/_pw_dump.xml"
 _DUMP_LOCAL = "/tmp/_pw_dump.xml"
@@ -192,18 +217,40 @@ def compress_prompt(prompt: str, max_chars: int = PROMPT_MAX_CHARS) -> str:
     return truncated
 
 
+def _ime_default() -> str:
+    """현재 태블릿의 기본 IME(기초값)를 읽는다."""
+    return _adb("shell", "settings", "get", "secure", "default_input_method").stdout.strip()
+
+
+def _ime_set(ime: str):
+    _adb("shell", "ime", "set", ime)
+
+
 def _input_text_unicode(text: str):
     """한글 포함 유니코드 텍스트를 ADBKeyboard broadcast로 입력한다.
 
     `adb shell input text`는 한글에 NullPointerException(Android 셸 키맵 한계,
     영어는 정상). ADBKeyboard로 IME 전환 후 ADB_INPUT_TEXT 브로드캐스트 사용.
     로컬+원격 이중 따옴표 필수 — 안 하면 공백에서 인자가 쪼개짐(실측 확인).
+
+    ★ 2026-09-15 박씨 지시: 입력 '그 순간에만' ADBKeyboard로 바꾸고 finally에서
+    반드시 원래 기본 IME(삼성 키보드)로 되돌린다. 태블릿의 기초값을 절대
+    오염시키지 않는다 — 박씨가 태블릿을 직접 쓸 때 ADB 키보드가 뜨면 안 됨.
     """
+    prev = _ime_default() or SAMSUNG_IME
+    if prev == ADB_IME:
+        prev = SAMSUNG_IME
     _adb("shell", "ime", "enable", ADB_IME)
-    _adb("shell", "ime", "set", ADB_IME)
-    time.sleep(0.5)
-    escaped = text.replace("'", "'\\''")
-    _adb("shell", f"am broadcast -a ADB_INPUT_TEXT --es msg '{escaped}'")
+    _ime_set(ADB_IME)
+    time.sleep(0.6)
+    try:
+        escaped = text.replace("'", "'\\''")
+        _adb("shell", f"am broadcast -a ADB_INPUT_TEXT --es msg '{escaped}'")
+        time.sleep(1.2)
+    finally:
+        _adb("shell", "ime", "disable", ADB_IME)
+        _ime_set(prev)
+        time.sleep(0.4)
 
 
 def check_token_alive() -> dict:
@@ -235,14 +282,15 @@ def preflight_hard_reset():
 
     세로모드 강제(가로면 좌표 전부 어긋남) → 절전 해제(커버닫힘 등으로
     Dozing 고착 시 WAKEUP 키만으론 안 깨어남, svc power stayon 필수) →
-    ADBKeyboard 전환(한글 입력 사전 준비) → 앱 강제 재시작(잔여 상태 제거).
+    ADBKeyboard 활성화만(기본 IME는 건드리지 않는다 — 입력 순간에 _input_text_unicode가
+    켜고 되돌린다) → 앱 강제 재시작(잔여 상태 제거).
     """
     _adb("shell", "settings", "put", "system", "accelerometer_rotation", "0")
     _adb("shell", "settings", "put", "system", "user_rotation", "0")
     _adb("shell", "svc", "power", "stayon", "true")
     _adb("shell", "input", "keyevent", "KEYCODE_WAKEUP")
+    # IME는 여기서 '기본'으로 박지 않는다 — 입력 순간에만 켜고 원복한다.
     _adb("shell", "ime", "enable", ADB_IME)
-    _adb("shell", "ime", "set", ADB_IME)
     time.sleep(0.5)
     _adb("shell", "am", "force-stop", PKG)
     time.sleep(1)
@@ -650,6 +698,43 @@ def webtoon_generate(cuts: list) -> dict:
     return {"ok": all(x["ok"] for x in results), "n_cuts": len(results), "results": results}
 
 
+# ── 필름 스프로켓홀 (폰 2026-09-13 완성, 변수화) ──
+FILM_STRIP_W = 52
+FILM_HOLE_W = 24
+FILM_HOLE_H = 18
+FILM_HOLE_GAP = 30
+FILM_STRIP_COLOR = (14, 26, 20)
+FILM_HOLE_COLOR = (236, 231, 208)
+
+# ── 식자 말풍선 위치/크기 (변수화) ──
+BUBBLE_LEFT = 60
+BUBBLE_RIGHT = 60
+BUBBLE_BOTTOM = 14
+BUBBLE_FONT = 13
+
+# ── 인터랙티브 (폰 2026-09-14 최종판 — 셀프컨테인드, 모바일 표준) ──
+# 2026-09-13~14 폰(kr-merit-aggro.tistory.com/4) 실측 디버깅 이력:
+#   1) window scroll 이벤트 방식 → #wrap 내부 스크롤(스킨 position:fixed 프레임)
+#      에서 window가 안 스크롤돼 무동작 → IntersectionObserver로 교체
+#   2) PC(/4)는 되는데 모바일(/m/4)에서 재현 안 됨 → 티스토리 /m/ 은 스킨 레벨
+#      전역 CSS/JS를 걷어내는 별개 레거시 렌더링 경로가 원인 → 포스트 본문
+#      안에 직접 셀프컨테인드로 넣으면 /m/ 에서도 그대로 서빙·실행됨(확인)
+#   3) requestAnimationFrame 루프로 뷰포트 중앙까지 거리 기반 스케일(0.95~1.08)
+#      + sway + 클릭시 shake를 한 애니메이션 루프에 통합(개별 CSS keyframe
+#      토글보다 매끄러움) — 최종 완성판
+INTERACTIVE_CSS = """
+.wt-bubble{opacity:0;transition:opacity .4s;will-change:transform}
+.wt-bubble.wt-in{opacity:1}
+.wt-char{display:inline-block;opacity:0}
+.wt-in .wt-char{animation:wttype .4s cubic-bezier(.34,1.56,.64,1) forwards}
+@keyframes wttype{0%{opacity:0;transform:translateY(6px) scale(1.4)}100%{opacity:1;transform:translateY(0) scale(1)}}
+.wt-bubble:hover{box-shadow:0 10px 32px rgba(0,0,0,.72),0 0 0 2px rgba(160,138,76,.55)}
+"""
+INTERACTIVE_JS = """<script>
+(function(){var bs=document.querySelectorAll('.wt-bubble');if(!bs.length)return;for(var i=0;i<bs.length;i++){var b=bs[i];var t=b.textContent;b.innerHTML=t.split('').map(function(c,j){return '<span class="wt-char" style="animation-delay:'+(j*0.04).toFixed(3)+'s">'+(c===' '?'&nbsp;':c)+'</span>';}).join('');}var shakes={};for(var k=0;k<bs.length;k++){(function(el){el.addEventListener('click',function(){shakes[el]=Date.now()+450;});})(bs[k]);}if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){for(var j=0;j<es.length;j++){if(es[j].isIntersecting)es[j].target.classList.add('wt-in');else es[j].target.classList.remove('wt-in');}},{threshold:0.3});for(var l=0;l<bs.length;l++)io.observe(bs[l]);}else{for(var m=0;m<bs.length;m++)bs[m].classList.add('wt-in');}function tick(){var now=Date.now(),vh=innerHeight;for(var j=0;j<bs.length;j++){var b=bs[j];if(!b.classList.contains('wt-in'))continue;var r=b.getBoundingClientRect(),c=r.top+r.height/2,d=Math.abs(c-vh/2);var kk=Math.max(0,1-d/(vh/2)),s=0.95+kk*0.13;var sway=Math.sin(now/800+j*1.3)*5;var sh=0;if(shakes[b]&&now<shakes[b]){var tt=(shakes[b]-now)/450;sh=Math.sin(now/40)*9*tt;}b.style.transform='scale('+s.toFixed(3)+') translateX('+(sway+sh).toFixed(1)+'px)';}requestAnimationFrame(tick);}requestAnimationFrame(tick);})();
+</script>"""
+
+
 def _crop_disclaimer(src, dst):
     try:
         from PIL import Image
@@ -660,12 +745,38 @@ def _crop_disclaimer(src, dst):
         shutil.copy(src, dst)
 
 
+def _add_film_sprocket(path):
+    """필름 스프로켓홀 효과 — 좌우 다크그린 스트립 + 흰색 구멍 (폰 2026-09-13 완성)."""
+    try:
+        from PIL import Image, ImageDraw
+        img = Image.open(path).convert('RGB')
+        w, h = img.size
+        new_w = w + 2 * FILM_STRIP_W
+        out = Image.new('RGB', (new_w, h), FILM_STRIP_COLOR)
+        out.paste(img, (FILM_STRIP_W, 0))
+        d = ImageDraw.Draw(out)
+        y = FILM_HOLE_GAP // 2
+        while y + FILM_HOLE_H < h:
+            cx_l = FILM_STRIP_W // 2; cx_r = new_w - FILM_STRIP_W // 2
+            d.rectangle([cx_l - FILM_HOLE_W // 2, y, cx_l + FILM_HOLE_W // 2, y + FILM_HOLE_H], fill=FILM_HOLE_COLOR)
+            d.rectangle([cx_r - FILM_HOLE_W // 2, y, cx_r + FILM_HOLE_W // 2, y + FILM_HOLE_H], fill=FILM_HOLE_COLOR)
+            y += FILM_HOLE_GAP + FILM_HOLE_H
+        out.save(path, quality=92)
+    except Exception:
+        pass
+
+
 def _compose(title, cut_rel, dialogue):
+    """폰(phone_webtoon_make_mcp.py) 2026-09-14 최종판과 동기화.
+
+    말풍선은 컷 이미지 위에 겹쳐서(absolute, 이미지 하단 중앙 오버레이)
+    배치하고 class="bubble wt-bubble"로 INTERACTIVE_CSS/JS와 연결한다.
+    """
     panels = []
     for i, (cut, text) in enumerate(zip(cut_rel, dialogue), 1):
         safe = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-        panels.append(f'<section class="panel"><div class="cut"><img src="{cut}" alt="컷 {i}"></div>'
-                      f'<div class="bubble"><span class="txt">{safe}</span></div></section>')
+        panels.append(f'<section class="panel"><div class="cut"><img src="{cut}" alt="컷 {i}">'
+                      f'<div class="bubble wt-bubble"><span class="txt">{safe}</span></div></div></section>')
     return f'''<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"><title>{title} — PARKSY 웹툰</title>
 <style>:root{{--paper:#0c1710;--ink:#e9e5cf;--brass:#a08a4c}}*{{box-sizing:border-box;margin:0;padding:0}}
@@ -673,17 +784,24 @@ body{{background:var(--paper);color:var(--ink);font-family:"Nanum Myeongjo",seri
 .wrap{{max-width:720px;margin:0 auto;padding:20px 16px 80px}}
 .mast{{text-align:center;padding:18px 0 26px;border-bottom:1px solid rgba(160,138,76,.3)}}
 .mast h1{{font-family:Georgia,serif;font-weight:900;font-size:26px}}.mast .sub{{font-size:11px;letter-spacing:.3em;color:var(--brass);margin-top:6px}}
-.panel{{margin:26px 0}}.cut img{{width:100%;display:block;border-radius:4px;box-shadow:0 14px 30px rgba(0,0,0,.5)}}
-.bubble{{position:relative;background:var(--ink);color:#1a120c;padding:12px 16px;margin:18px 12px 0;border-radius:14px;font-size:16px;font-weight:700}}
-.bubble::before{{content:"";position:absolute;top:-9px;left:32px;width:18px;height:18px;background:var(--ink);border-radius:0 0 4px 0;transform:rotate(45deg)}}
-footer{{text-align:center;color:var(--brass);font-size:12px;letter-spacing:.2em;padding:30px 0}}</style></head><body>
+.panel{{margin:26px 0}}.cut{{position:relative}}.cut img{{width:100%;display:block;border-radius:4px;box-shadow:0 14px 30px rgba(0,0,0,.5)}}
+.bubble{{position:absolute;left:{BUBBLE_LEFT}px;right:{BUBBLE_RIGHT}px;bottom:{BUBBLE_BOTTOM}px;background:rgba(233,229,207,.96);color:#1a120c;padding:12px 16px;border-radius:14px;font-size:{BUBBLE_FONT}px;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.45);text-align:center}}
+footer{{text-align:center;color:var(--brass);font-size:12px;letter-spacing:.2em;padding:30px 0}}{INTERACTIVE_CSS}</style></head><body>
 <div class="wrap"><div class="mast"><h1>{title}</h1><div class="sub">PARKSY WEBTOON</div></div>
-{''.join(panels)}<footer>PARKSY · 박씨 종합잡지사</footer></div></body></html>'''
+{''.join(panels)}<footer>PARKSY · 박씨 종합잡지사</footer></div>{INTERACTIVE_JS}</body></html>'''
 
 
 @mcp.tool()
 def webtoon_assemble(dialogue: list, title: str = "웹툰") -> dict:
-    """식자·조립 — 갤러리 최신 컷을 읽어 말풍선을 식자하고 세로 웹툰 HTML로 조립한다."""
+    """[태블릿 웹툰 메이크] 식자·조립 — 갤러리 최신 컷을 읽어 말풍선을 식자하고
+    세로 웹툰 HTML로 조립한다.
+
+    2026-09-14: 폰(kr-merit-aggro.tistory.com/4)이 완성한 최종판 —
+    필름 스프로켓홀(좌우 다크그린 필름 프레임) + 인터랙티브 말풍선(타이핑
+    pop-in + 뷰포트 중앙 거리기반 스케일/sway + 탭 shake, PC/모바일 /m/ 둘 다
+    검증됨)이 _compose()/_add_film_sprocket()에 기본 내장됨 — 여기서 조립하는
+    모든 웹툰이 자동으로 이 효과를 갖는다. 별도 옵션/설정 불필요.
+    """
     try:
         if not dialogue or not isinstance(dialogue, list):
             return {"ok": False, "error": "dialogue 필요 (대사 리스트)"}
@@ -697,6 +815,7 @@ def webtoon_assemble(dialogue: list, title: str = "웹툰") -> dict:
             ext = os.path.splitext(pats[i])[1]
             dst = os.path.join(ASSET_DIR, f"cut_{i+1:02d}{ext}")
             _crop_disclaimer(pats[i], dst)
+            _add_film_sprocket(dst)
             cut_rel.append(f"cuts/cut_{i+1:02d}{ext}")
         html = _compose(title, cut_rel, dialogue[:n])
         out = os.path.join(WEBTOON_DIR, "index.html")
@@ -705,6 +824,285 @@ def webtoon_assemble(dialogue: list, title: str = "웹툰") -> dict:
         return {"ok": True, "n_cuts": n, "html": out, "cuts": cut_rel}
     except Exception as e:
         return {"ok": False, "error": f"{type(e).__name__}: {e}"[:300]}
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# 환경 기초값 영구 저장 + 발행 타깃 변수화 (2026-09-15 박씨 지시)
+# ══════════════════════════════════════════════════════════════════════════
+#
+# ★ 작업 조건 (재확인 — 이 MCP의 존재 이유):
+#     지휘 = WSL / 랩탑  (이 MCP가 도는 곳. 여기서 adb로 태블릿을 조종한다)
+#     실행 = 태블릿 SM-X716N (100.86.15.50:5900) — 삼성 갤러리/그리기 어시스트
+#     매개 = ADB (uiautomator dump → bounds → input tap). 루팅·앱데이터 접근 불필요.
+#     산출 = 태블릿 갤러리 컷 → WSL 회수 → 조립(필름+식자) → GitHub Pages + 티스토리
+#
+# ★ 발행 타깃은 변수다 — 박씨가 매번 여기저기 옮겨 다닌다. config에 저장되고
+#   호출 때 인자로 덮어쓸 수 있다. 하드코딩 금지.
+
+CONFIG_PATH = os.path.expanduser("~/parksy-image/mcp-servers/tablet_webtoon.config.json")
+FACES_SRC = os.path.expanduser("~/parksy-faces/canonical")
+CANONICAL_FACES = [
+    "parksy_40s.png", "parksy_30s.png", "parksy_50s.png", "parksy_casual.jpg",
+    "mom.png", "father.png", "elder_sister.png", "2nd_elder_sister.png", "dog.jpg",
+]
+TISTORY_TOOLS = os.path.expanduser("~/dtslib-papyrus/tools/tistory")
+
+PUBLISH_DEFAULTS = {
+    "blog": "kr-merit-aggro",
+    "account": "dtslib2k",
+    "cdp_socket": "chrome_devtools_remote",   # 태블릿 크롬 (본사그룹은 Terrace)
+    "adb_serial": TAB,
+}
+
+
+def _load_config() -> dict:
+    import json
+    if os.path.isfile(CONFIG_PATH):
+        try:
+            return json.load(open(CONFIG_PATH, encoding="utf-8"))
+        except Exception:
+            pass
+    return {"publish": dict(PUBLISH_DEFAULTS)}
+
+
+def _save_config(cfg: dict):
+    import json
+    os.makedirs(os.path.dirname(CONFIG_PATH), exist_ok=True)
+    json.dump(cfg, open(CONFIG_PATH, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+
+
+def _md5_local(p: str) -> str:
+    import hashlib
+    h = hashlib.md5()
+    with open(p, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _md5_remote(p: str) -> str:
+    out = _adb("shell", f"md5sum '{p}' 2>/dev/null").stdout.strip()
+    return out.split()[0] if out else ""
+
+
+@mcp.tool()
+def webtoon_env_apply() -> dict:
+    """[태블릿 웹툰] 태블릿 환경 '기초값'을 지금 이 상태로 확정 저장한다.
+
+    콜드스타트마다 손으로 되돌리던 것들을 한 번에 박는다:
+      ① 기본 IME = 삼성 키보드 (ADBKeyboard는 기본에서 제거 — 입력 순간에만 씀)
+      ② 세로 고정 (user_rotation=0, accelerometer_rotation=0)
+      ③ 절전 해제 (stay_on_while_plugged_in=15, svc power stayon true)
+      ④ 프리셋 얼굴 9종 존재 확인 + parksy_stage 앨범 준비
+    반환값이 곧 '저장된 기초값' — 다음 콜드스타트에 이 값을 기준으로 검증한다.
+    """
+    res = {}
+    # ① IME — 삼성 키보드가 기초값. ADBKeyboard는 기본 후보에서 내린다.
+    prev = _ime_default()
+    _adb("shell", "ime", "enable", SAMSUNG_IME)
+    _ime_set(SAMSUNG_IME)
+    _adb("shell", "ime", "disable", ADB_IME)
+    time.sleep(0.5)
+    res["ime_prev"] = prev
+    res["ime_now"] = _ime_default()
+    res["ime_ok"] = res["ime_now"] == SAMSUNG_IME
+    # ② 세로 고정
+    _adb("shell", "settings", "put", "system", "accelerometer_rotation", "0")
+    _adb("shell", "settings", "put", "system", "user_rotation", "0")
+    res["user_rotation"] = _adb("shell", "settings", "get", "system", "user_rotation").stdout.strip()
+    # ③ 절전 해제
+    _adb("shell", "settings", "put", "global", "stay_on_while_plugged_in", "15")
+    _adb("shell", "svc", "power", "stayon", "true")
+    res["stay_on"] = _adb("shell", "settings", "get", "global", "stay_on_while_plugged_in").stdout.strip()
+    # ④ 스테이지 앨범
+    _adb("shell", f"mkdir -p '{STAGE_DIR}'")
+    _adb("shell", "am", "broadcast", "-a", "android.intent.action.MEDIA_SCANNER_SCAN_FILE",
+         "-d", "file://" + STAGE_DIR)
+    # ⑤ 프리셋 얼굴 현황
+    res["faces"] = preset_faces()["faces"]
+    res["staged_to"] = "settings://tablet (ADB 설정 자체에 영구 저장됨 — 재부팅에도 유지)"
+    return {"ok": res.get("ime_ok", False) and res["user_rotation"] == "0", "applied": res}
+
+
+@mcp.tool()
+def webtoon_env_status() -> dict:
+    """[태블릿 웹툰] 태블릿 기초값을 읽어서 '작업 가능 상태'인지 판정한다.
+
+    webtoon_env_apply()로 저장한 조건과 대조. 하나라도 어긋나면 그 항목이
+    warning으로 뜬다 — 생성 전에 이걸 먼저 본다.
+    """
+    d = _ime_default()
+    rot = _adb("shell", "settings", "get", "system", "user_rotation").stdout.strip()
+    stay = _adb("shell", "settings", "get", "global", "stay_on_while_plugged_in").stdout.strip()
+    adb_default = (d == ADB_IME)
+    warn = []
+    if d != SAMSUNG_IME:
+        warn.append(f"기본 IME가 삼성 키보드가 아님 (now={d})")
+    if adb_default:
+        warn.append("ADBKeyboard가 기본 IME로 남아 있음 — 태블릿 직접 사용 시 튀어나옴")
+    if rot != "0":
+        warn.append(f"세로 고정 아님 (user_rotation={rot})")
+    if stay not in ("15", "7", "1"):
+        warn.append(f"절전 해제 아님 (stay_on={stay})")
+    tk = check_token_alive()
+    if tk.get("checked") and not tk.get("alive"):
+        warn.append("삼성 계정 토큰 만료 — 태블릿 재부팅 필요")
+    return {
+        "ok": not warn,
+        "device": TAB,
+        "role": "실행기 — WSL/랩탑(지휘)이 ADB로 조종하는 삼성 갤러리 자동화",
+        "default_ime": d,
+        "user_rotation": rot,
+        "stay_on_while_plugged_in": stay,
+        "token": tk,
+        "warnings": warn,
+    }
+
+
+@mcp.tool()
+def preset_faces(sync: bool = False, clean: bool = False) -> dict:
+    """[태블릿 웹툰] 프리셋 얼굴 9종을 태블릿과 대조한다 (md5).
+
+    sync=True  → WSL 정본(~/parksy-faces/canonical)에서 빠진/다른 얼굴을 태블릿
+                 PRESET_DIR로 밀어넣고 MediaScanner를 돌린다.
+    clean=True → 정본 9종이 아닌 파일을 '갤러리 앨범 밖'(MISC_QUARANTINE)으로
+                 내보낸다. ★ 앨범 안 하위폴더(_misc)로는 부족하다 — 삼성 갤러리
+                 피커는 하위폴더도 별도 앨범으로 노출하므로 AI 입력 경로에 남는다.
+                 DCIM 밖으로 빼야 피커에서 사라진다. (주민등록증 등 신분증이
+                 프리셋에 섞이면 삼성 클라우드 AI로 새어나갈 수 있다.)
+    """
+    if not os.path.isdir(FACES_SRC):
+        return {"ok": False, "error": f"정본 얼굴 폴더 없음: {FACES_SRC}"}
+    remote_names = set(_adb("shell", f"ls -1 '{PRESET_DIR}' 2>/dev/null").stdout.split())
+    faces, missing, stale = {}, [], []
+    for name in CANONICAL_FACES:
+        lp = os.path.join(FACES_SRC, name)
+        if not os.path.isfile(lp):
+            faces[name] = "정본에 없음"
+            continue
+        lmd5 = _md5_local(lp)
+        if name in remote_names:
+            rmd5 = _md5_remote(f"{PRESET_DIR}/{name}")
+            if rmd5 == lmd5:
+                faces[name] = "OK"
+            else:
+                faces[name] = "다름"
+                stale.append(name)
+        else:
+            faces[name] = "없음"
+            missing.append(name)
+    if sync and (missing or stale):
+        for name in missing + stale:
+            _adb("push", os.path.join(FACES_SRC, name), f"{PRESET_DIR}/{name}")
+            faces[name] = "동기화됨"
+        _adb("shell", "am", "broadcast", "-a", "android.intent.action.MEDIA_SCANNER_SCAN_FILE",
+             "-d", "file://" + PRESET_DIR)
+    extras = sorted(remote_names - set(CANONICAL_FACES))
+    moved = []
+    if clean and extras:
+        _adb("shell", f"mkdir -p '{MISC_QUARANTINE}'")
+        for e in extras:
+            _adb("shell", f"mv '{PRESET_DIR}/{e}' '{MISC_QUARANTINE}/' 2>/dev/null")
+            moved.append(e)
+        _adb("shell", "rmdir", f"{PRESET_DIR}/_misc")
+        _adb("shell", "am", "broadcast", "-a", "android.intent.action.MEDIA_SCANNER_SCAN_FILE",
+             "-d", "file://" + PRESET_DIR)
+        _adb("shell", "am", "broadcast", "-a", "android.intent.action.MEDIA_SCANNER_SCAN_FILE",
+             "-d", "file://" + MISC_QUARANTINE)
+    return {
+        "ok": not missing and not stale,
+        "src": FACES_SRC,
+        "preset_dir": PRESET_DIR,
+        "faces": faces,
+        "missing": missing, "stale": stale,
+        "extras_moved_to_misc": moved if clean else [],
+        "extras_count": 0 if clean else len(extras),
+    }
+
+
+@mcp.tool()
+def set_publish_target(blog: str = "", account: str = "", cdp_socket: str = "",
+                       adb_serial: str = "") -> dict:
+    """[태블릿 웹툰] 티스토리 발행 타깃을 변수로 바꾼다 (박씨가 매번 옮겨 다님).
+
+    blog(블로그 슬러그) / account(계정 id) / cdp_socket(세션을 빌려올 브라우저) /
+    adb_serial(세션을 가진 기기). 빈 값은 기존 유지. config에 영구 저장된다.
+    """
+    cfg = _load_config()
+    pub = {**PUBLISH_DEFAULTS, **cfg.get("publish", {})}
+    if blog:       pub["blog"] = blog
+    if account:    pub["account"] = account
+    if cdp_socket: pub["cdp_socket"] = cdp_socket
+    if adb_serial: pub["adb_serial"] = adb_serial
+    cfg["publish"] = pub
+    _save_config(cfg)
+    return {"ok": True, "publish": pub, "config": CONFIG_PATH}
+
+
+@mcp.tool()
+def get_publish_target() -> dict:
+    """[태블릿 웹툰] 현재 발행 타깃 + config 경로를 반환한다."""
+    cfg = _load_config()
+    return {"publish": {**PUBLISH_DEFAULTS, **cfg.get("publish", {})}, "config": CONFIG_PATH}
+
+
+@mcp.tool()
+def publish_webtoon(title: str, content: str, tags: list = None,
+                    blog: str = "", account: str = "", visibility: str = "public") -> dict:
+    """[태블릿 웹툰] 완성 웹툰을 티스토리에 공개 발행한다 (타깃은 변수).
+
+    2026-09-15 실증 파이프라인을 그대로 쓴다:
+      ① 태블릿 브라우저(기본 크롬, cdp_socket=chrome_devtools_remote)의 살아있는
+         티스토리 세션을 CDP로 대여 → Playwright 프로필에 주입 (캡차 우회)
+         · 세션 토큰은 1회용에 가깝다 — 반드시 '발행 직전에' 뽑아 바로 쓴다.
+      ② post.py 발행 3단계: #publish-layer-btn(완료) → input[name=basicSet]
+         공개선택 → #publish-btn. ★ ②를 빠뜨리면 #publish-btn이 아예 안 뜬다
+         (오랫동안 '발행 버튼 없음'으로 죽던 진짜 원인).
+      ③ WSL엔 X서버가 없어 post.py(창 띄움)가 TargetClosedError → xvfb-run으로 감싼다.
+    """
+    import json
+    cfg = _load_config()
+    pub = {**PUBLISH_DEFAULTS, **cfg.get("publish", {})}
+    blog = blog or pub["blog"]
+    account = account or pub["account"]
+    socket = pub["cdp_socket"]
+    serial = pub["adb_serial"]
+    tags = tags or []
+
+    if not os.path.isdir(TISTORY_TOOLS):
+        return {"ok": False, "error": f"티스토리 툴 없음: {TISTORY_TOOLS}"}
+
+    # ① 세션 대여 (지금 이 순간에 뽑는다)
+    env = {**os.environ, "TISTORY_CDP_SOCKET": socket}
+    lend = subprocess.run(
+        ["python3", "cdp_session_lend.py", "--adb-serial", serial,
+         "--profile", f"cookies/{account}",
+         "--check-url", f"https://{blog}.tistory.com/manage", "--local-port", "9446"],
+        cwd=TISTORY_TOOLS, env=env, capture_output=True, text=True, timeout=180)
+    lend_out = (lend.stdout + lend.stderr).strip().splitlines()[-1:] or [""]
+    if "성공" not in lend_out[-1]:
+        return {"ok": False, "stage": "session_lend", "error": lend_out[-1][:200],
+                "hint": f"태블릿 크롬에 {blog} 로그인 탭이 열려 있는지 확인"}
+
+    # ② 포스트 JSON 작성
+    posts_dir = os.path.join(TISTORY_TOOLS, "posts")
+    os.makedirs(posts_dir, exist_ok=True)
+    slug = blog.replace("/", "-")
+    pf = os.path.join(posts_dir, f"webtoon_{slug}.json")
+    json.dump({"account": account, "blog": blog, "title": title, "content": content,
+               "tags": tags, "category": "", "visibility": visibility},
+              open(pf, "w", encoding="utf-8"), ensure_ascii=False)
+
+    # ③ 발행 (X서버 없음 → xvfb-run)
+    cmd = ["xvfb-run", "-a", "python3", "post.py", "--post", pf]
+    if not shutil.which("xvfb-run"):
+        cmd = ["python3", "post.py", "--post", pf]
+    r = subprocess.run(cmd, cwd=TISTORY_TOOLS, capture_output=True, text=True, timeout=300)
+    out = (r.stdout or "") + (r.stderr or "")
+    ok = "성공: 1개" in out
+    log_tail = [l for l in out.splitlines() if "[kr" in l or "성공:" in l or "실패:" in l][-6:]
+    return {"ok": ok, "blog": blog, "account": account, "url": f"https://{blog}.tistory.com",
+            "post_json": pf, "log": log_tail}
 
 
 if __name__ == "__main__":

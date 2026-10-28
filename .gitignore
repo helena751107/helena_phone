@@ -56,3 +56,6 @@ tistory-naver/reverse_fetch/
 
 # 파싱해서 들여온 참고 자산 (dtslib-apk-lab/cloud-appstore)
 _import/
+
+# 🔐 다른 계정(dimas-40) 레포 중첩 클론 (550MB) — 실수로 워킹트리에 들어옴
+/dimas-40/
