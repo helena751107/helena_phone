@@ -23,6 +23,7 @@
 <meta name="twitter:title" content="Words only · One phone · For my sister — S21 Phone">
 <meta name="twitter:image" content="https://helena751107.github.io/helena_phone/assets/social-preview.jpg">
 <title>Words only · One phone · For my sister — S21 Phone</title>
+<link rel="stylesheet" href="ontoviz/onto.css">
 <link rel="canonical" href="https://helena751107.github.io/helena_phone/">
 <script type="application/ld+json">
 {
@@ -2056,6 +2057,11 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
     }
   });
 })();
+</script>
+<script type="importmap">{"imports":{"three":"./ontoviz/vendor/three/build/three.webgpu.js","three/webgpu":"./ontoviz/vendor/three/build/three.webgpu.js","three/tsl":"./ontoviz/vendor/three/build/three.tsl.js","three/addons/":"./ontoviz/vendor/three/examples/jsm/"}}</script>
+<script type="module">
+  import { initOnto } from './ontoviz/onto.js';
+  initOnto().catch((e) => console.warn('[s21] 3D layer unavailable — the text webzine still works:', e && e.message));
 </script>
 </body>
 </html>

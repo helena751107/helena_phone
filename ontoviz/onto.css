@@ -1,0 +1,74 @@
+/* S21 PHONE 3D — the canvas is the page. No floating HTML dashboard. */
+
+html[data-onto="on"] { scroll-behavior: auto; background: #050403; }
+html[data-onto="on"] body { margin: 0; background: #050403; cursor: default; }
+html[data-onto="on"] canvas { cursor: default; }
+
+/* the walk needs a scrollbar, but it should not be a white pole on black */
+html[data-onto="on"] { scrollbar-width: thin; scrollbar-color: rgba(212,168,75,.34) transparent; }
+html[data-onto="on"]::-webkit-scrollbar { width: 8px; }
+html[data-onto="on"]::-webkit-scrollbar-track { background: rgba(5,4,3,.9); }
+html[data-onto="on"]::-webkit-scrollbar-thumb { background: rgba(212,168,75,.3); border-radius: 8px; }
+html[data-onto="on"]::-webkit-scrollbar-thumb:hover { background: rgba(212,168,75,.5); }
+
+html[data-onto="on"] body > .masthead,
+html[data-onto="on"] .chapter-rail,
+html[data-onto="on"] .spine,
+html[data-onto="on"] .marquee-wrap,
+html[data-onto="on"] .float-tools,
+html[data-onto="on"] .cursor,
+html[data-onto="on"] .cursor-dot,
+html[data-onto="on"] .cover,
+html[data-onto="on"] #origin,
+html[data-onto="on"] main,
+html[data-onto="on"] .shell,
+html[data-onto="on"] .site-foot,
+html[data-onto="on"] .nav-backdrop { display: none !important; }
+
+.onto { position: relative; z-index: 1; }
+
+#ontoGl {
+  position: fixed; inset: 0; z-index: 0;
+  background: #050403;
+}
+#ontoGl canvas {
+  display: block; width: 100% !important; height: 100% !important;
+  background: #050403;
+  touch-action: pan-y;
+}
+.ov-scroll { width: 1px; height: 1000vh; pointer-events: none; }
+
+html[data-onto="off"] .onto { display: none !important; }
+
+/* node hover tooltip from the GPU graph runtime */
+.scene-tooltip {
+  background: rgba(8,7,6,.92);
+  border: 1px solid rgba(212,168,75,.42);
+  padding: 7px 10px;
+  font: 500 10px/1.4 "JetBrains Mono", ui-monospace, monospace;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #f4efe6;
+  box-shadow: 0 18px 44px -22px rgba(0,0,0,.95);
+  backdrop-filter: blur(8px);
+}
+
+/* text-mode skip link: invisible unless focused */
+.ov-sr {
+  position: fixed; left: 12px; top: 12px; z-index: 50;
+  padding: 10px 14px;
+  background: #f4efe6; color: #0a0908;
+  font: 500 12px/1 "JetBrains Mono", ui-monospace, monospace;
+  letter-spacing: .08em; text-transform: uppercase;
+  transform: translateY(-180%);
+  transition: transform .18s ease;
+}
+.ov-sr:focus { transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ov-sr { transition: none; }
+}
+
+/* MCP dock sits above the 3D scene when opened by a tool */
+html[data-onto="on"] .wmcp { left: auto; right: 16px; bottom: 16px; }
+html[data-onto="on"] .wmcp-seal { display: none; }
