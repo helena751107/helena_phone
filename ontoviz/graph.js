@@ -16,13 +16,15 @@ export async function createGraph(container, data, opts = {}) {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const G = {}; // 공개 API 객체(아래에서 채움)
   const forceGL = /[?&]gl=1/.test(location.search) || sessionStorage.getItem("hmc_gl") === "1";
+  // ?hq=1 — 적응형 하향을 끄고 항상 기기 픽셀(최대 2배)로 그린다(수동 화질 고정)
+  const HQ = /[?&]hq=1/.test(location.search);
   const renderer = new THREE.WebGPURenderer({ antialias: true, alpha: false, forceWebGL: forceGL });
   await renderer.init();
   const GPU = !!renderer.backend.isWebGPUBackend;
   // GPU 장치 상실(드라이버 리셋 · 과부하) → 이 세션은 WebGL2 경로로 다시 시작
   if (GPU && renderer.backend.device?.lost) renderer.backend.device.lost.then((info) => { if (info.reason === "destroyed") return; sessionStorage.setItem("hmc_gl", "1"); location.reload(); });
   // 기기 픽셀 그대로(최대 2배) — 이전에는 1배로 그려 브라우저가 늘려 붙여서 글자가 흐릿했다
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  renderer.setPixelRatio(HQ ? 2 : Math.min(devicePixelRatio || 1, 2));
   renderer.setClearColor(0x000000, 1);
   container.append(renderer.domElement);
   const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(42, 1, 1, 8000);
@@ -190,7 +192,7 @@ export async function createGraph(container, data, opts = {}) {
     mirror(now);
     post ? post.render() : renderer.render(scene, camera);
     frames++; if (now - ft > 1000) { fps = Math.round((frames * 1000) / (now - ft)); frames = 0; ft = now;
-      if (now - bootAt > 8000) { fails = fps < 34 ? fails + 1 : 0; if (fails >= 3) { fails = 0; qStep(); } } }
+      if (!HQ && now - bootAt > 8000) { fails = fps < 34 ? fails + 1 : 0; if (fails >= 3) { fails = 0; qStep(); } } }
   }
   const size = () => { renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth / innerHeight; camera.fov = camera.aspect < 0.85 ? 56 : 42; camera.updateProjectionMatrix(); G._offset && G._offset(); };
   addEventListener("resize", size); size();
