@@ -299,15 +299,39 @@ export async function initOnto(opts = {}) {
     try { history.replaceState(null, '', location.pathname + location.search + '#' + SECTIONS[i]); } catch (e) {}
   }
 
-  /* Programmatic walking (dots, keys, hash, deep link). The scrollbar is moved
-     to the station so the reader's scroll position and the camera agree; the
-     echo of that scroll is ignored for a beat so a stale event can never
-     yank the camera back. */
-  let scrollMute = 0;
+  /* ── scroll ⇄ camera agreement ───────────────────────────────────
+     The scrollbar is moved to the station so the reader's scroll position and
+     the camera agree. While that write (or a settle) is in flight we ignore
+     the echo scroll events — but any real input (wheel, touch, key, pointer)
+     breaks the guard immediately, so no gesture is ever swallowed. */
+  let settling = false, settleTo = 0, settleT = 0, idleT = 0;
+
+  /* The snap runs on our own rAF clock: native `behavior:'smooth'` is dropped
+     by some browsers/GPU states, and a drop here would leave the scrollbar and
+     the camera on different stations. */
+  function settleToStation(i, smooth = true) {
+    const y = stationY(i);
+    if (i !== current) go(i);
+    if (Math.abs(scrollY - y) < 1) { settling = false; return; }
+    settleTo = y; settling = true;
+    clearTimeout(settleT);
+    if (!smooth) { window.scrollTo(0, y); settleT = setTimeout(() => { settling = false; }, 90); return; }
+    const from = scrollY, d = y - from, t0 = performance.now();
+    const tick = () => {
+      if (!settling) return;
+      const k = Math.min(1, (performance.now() - t0) / 420);
+      const e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+      window.scrollTo(0, Math.round(from + d * e));
+      if (k < 1) requestAnimationFrame(tick); else settling = false;
+    };
+    requestAnimationFrame(tick);
+    settleT = setTimeout(() => { settling = false; }, 900);
+  }
+
+  const breakSettle = () => { settling = false; clearTimeout(settleT); };
   function jumpTo(i) {
-    window.scrollTo(0, stationY(i));
-    scrollMute = performance.now() + 260;
-    go(i);
+    clearTimeout(idleT);
+    settleToStation(i, false);
   }
 
   function dismissIntro(keepScroll) {
@@ -393,7 +417,8 @@ export async function initOnto(opts = {}) {
       const m = h.object, d = m.userData;
       if (!h.uv || !d.tex) continue;
       const px = h.uv.x * d.tex.w, py = (1 - h.uv.y) * d.tex.h;
-      const spot = (d.hotspots || []).find((s) => px >= s.x && px <= s.x + s.w && py >= s.y && py <= s.y + s.h);
+      const pad = touch ? 10 : 5;   /* a fingertip / a jittery hand still lands */
+      const spot = (d.hotspots || []).find((s) => px >= s.x - pad && px <= s.x + s.w + pad && py >= s.y - pad && py <= s.y + s.h + pad);
       if (spot) return { mesh: m, spot };
       return { mesh: m, spot: null };
     }
@@ -434,7 +459,7 @@ export async function initOnto(opts = {}) {
     if (!down) return;
     const dx = e.clientX - down[0], dy = e.clientY - down[1];
     down = null;
-    if (Math.hypot(dx, dy) > 8) {
+    if (Math.hypot(dx, dy) > (touch ? 16 : 10)) {
       if (touch && Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.6) {
         const i = clamp((current < 0 ? 0 : current) + (dx < 0 ? 1 : -1), 0, SECTIONS.length - 1);
         jumpTo(i);
@@ -444,7 +469,7 @@ export async function initOnto(opts = {}) {
     hideHighlight();
     const hit = hitPanel(e.clientX, e.clientY);
     if (hit) { if (hit.spot) doAction(hit.spot.action); return; }
-    const n = pickNode(e.clientX, e.clientY, 18);
+    const n = pickNode(e.clientX, e.clientY, touch ? 30 : 20);
     if (n) select(n); else deselect();
   }, { capture: true });
 
@@ -461,9 +486,11 @@ export async function initOnto(opts = {}) {
   canvas.addEventListener('pointerleave', hideHighlight);
 
   /* ── scroll · keys · resize ───────────────────────────────────── */
-  /* Scroll is the only authority. We read it and cut; we never write scrollY. */
+  /* Scroll is the authority. We read it and cut; a write only happens on an
+     explicit station request or once the reader has stopped moving. */
   addEventListener('scroll', () => {
-    if (paused || performance.now() < scrollMute) return;
+    if (paused) return;
+    if (settling) { if (Math.abs(scrollY - settleTo) <= 2) settling = false; return; }
     if (introOn) {
       if (scrollY <= 24) return;
       introOn = false;
@@ -475,15 +502,49 @@ export async function initOnto(opts = {}) {
       reframe(0);
     }
     /* Cut only when the reader has actually crossed into the next station.
-       The 3% past the midpoint keeps the boundary from flickering when a
+       The 2% past the midpoint keeps the boundary from flickering when a
        trackpad coasts to a stop right on the line. */
     const s = scrollY / stepPx();
     const cur = current < 0 ? 0 : current;
-    if (s - cur > 0.53 || s - cur < -0.53) {
+    if (s - cur > 0.52 || s - cur < -0.52) {
       const i = clamp(Math.round(s), 0, SECTIONS.length - 1);
       if (i !== cur) go(i);
     }
+    /* the walk is made of stations, so when the hand stops, land on one */
+    clearTimeout(idleT);
+    idleT = setTimeout(snapIdle, 150);
   }, { passive: true });
+
+  function snapIdle() {
+    if (paused || introOn || settling || down) return;
+    const s = scrollY / stepPx();
+    const i = clamp(Math.round(s), 0, SECTIONS.length - 1);
+    if (Math.abs(scrollY - stationY(i)) <= 2) { if (i !== current) go(i); return; }
+    settleToStation(i, true);
+  }
+
+  /* A real wheel notch moves exactly one station. Trackpads send many tiny
+     deltas — those keep native scrolling (the cut above follows them, the
+     idle snap lands them), so a flick never fights the page. */
+  let stepT = 0;
+  addEventListener('wheel', (e) => {
+    if (paused || e.ctrlKey || e.metaKey) return;
+    const notch = e.deltaMode === 1 || Math.abs(e.deltaY) >= 50;
+    if (!notch) return;
+    e.preventDefault();
+    const now = performance.now();
+    if (now - stepT < 90) return;
+    stepT = now;
+    clearTimeout(idleT);
+    if (introOn) { dismissIntro(false); return; }
+    jumpTo(clamp((current < 0 ? 0 : current) + (e.deltaY > 0 ? 1 : -1), 0, SECTIONS.length - 1));
+  }, { passive: false });
+
+  /* any gesture cancels a settle that is still in flight */
+  addEventListener('wheel', breakSettle, { passive: true, capture: true });
+  addEventListener('touchstart', breakSettle, { passive: true, capture: true });
+  addEventListener('pointerdown', breakSettle, { passive: true, capture: true });
+  addEventListener('keydown', breakSettle, { capture: true });
 
   addEventListener('keydown', (e) => {
     const tag = (e.target && e.target.tagName) || '';

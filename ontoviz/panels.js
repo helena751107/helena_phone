@@ -20,6 +20,25 @@ export async function loadFonts() {
   await Promise.race([Promise.all(jobs), new Promise((r) => setTimeout(r, 2500))]);
 }
 
+/* ── 화질: 패널은 화면 기기 픽셀에 맞춰 S배 크게 그리고, 좌표는 전부 논리 px로
+ * 둔다(핫스팟·지오메트리·레이아웃 불변). 예전에는 760/1200px 텍스처를 고해상도
+ * 화면에 그대로 늘려 붙여서 글자가 뭉개졌다. */
+const DPR = Math.max(1, Math.min(2, (typeof devicePixelRatio === 'number' && devicePixelRatio) || 1));
+/* 좁은(폰) 레이아웃은 화면에서 차지하는 폭이 작아 1.7배면 충분하다 — 텍스처
+   메모리도 같이 줄어든다. */
+const ssOf = (W, H, budget = 2.4e6) => {
+  const cap = W <= 800 ? Math.min(DPR, 1.7) : DPR;
+  return Math.max(1, Math.min(cap, Math.sqrt(budget / Math.max(1, W * H))));
+};
+function surface(W, H, s = ssOf(W, H)) {
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.round(W * s);
+  canvas.height = Math.round(H * s);
+  const ctx = canvas.getContext('2d');
+  ctx.scale(s, s);
+  return { canvas, ctx, s };
+}
+
 export const rr = (ctx, x, y, w, h, r) => {
   const k = Math.min(r, w / 2, h / 2);
   ctx.beginPath();
@@ -162,9 +181,9 @@ function chip(ctx, x, y, w, h, label, color, size = 19) {
 export function chapterTexture(sec, nodes, narrow = false) {
   const W = narrow ? 760 : 1200, P = narrow ? 56 : 74;
   const FS = narrow ? 84 : 104, FD = narrow ? 27 : 30;
-  const raw = document.createElement('canvas');
-  raw.width = W; raw.height = 2100;
-  const x = raw.getContext('2d');
+  const S = ssOf(W, 980);
+  const scratch = surface(W, 2100, S);
+  const raw = scratch.canvas, x = scratch.ctx;
   const hotspots = [];
 
   kicker(x, `${sec.num || ''} · ${sec.label}`, P, narrow ? 104 : 118, { size: narrow ? 24 : 27 });
@@ -205,9 +224,8 @@ export function chapterTexture(sec, nodes, narrow = false) {
   if ('letterSpacing' in x) x.letterSpacing = '0px';
 
   const H = Math.max(Math.ceil(sourceY + (narrow ? 92 : 110)), narrow ? 900 : 980);
-  const out = document.createElement('canvas');
-  out.width = W; out.height = H;
-  const o = out.getContext('2d');
+  const out = surface(W, H, S);
+  const o = out.ctx;
   shell(o, W, H);
   o.save();
   o.font = `600 ${narrow ? 360 : 430}px ${SERIF}`;
@@ -215,17 +233,16 @@ export function chapterTexture(sec, nodes, narrow = false) {
   o.textAlign = 'right';
   o.fillText(String(sec.num || ''), W - P + 10, H - (narrow ? 150 : 170));
   o.restore();
-  o.drawImage(raw, 0, 0, W, H, 0, 0, W, H);
+  o.drawImage(raw, 0, 0, W * S, H * S, 0, 0, W, H);
 
-  return { canvas: out, hotspots, w: W, h: H };
+  return { canvas: out.canvas, hotspots, w: W, h: H };
 }
 
 /* ── dashboard panel (station 0) ────────────────────────────────── */
 export function dashboardTexture({ stats, legend, modes, mode, narrow = false }) {
   const W = narrow ? 760 : 1300, H = narrow ? 1400 : 1360, P = narrow ? 56 : 76;
-  const c = document.createElement('canvas');
-  c.width = W; c.height = H;
-  const x = c.getContext('2d');
+  const sheet = surface(W, H);
+  const c = sheet.canvas, x = sheet.ctx;
   const hotspots = [];
   shell(x, W, H, { fill: '#0a0908' });
 
@@ -325,9 +342,8 @@ export function dashboardTexture({ stats, legend, modes, mode, narrow = false })
 /* ── intro panel ────────────────────────────────────────────────── */
 export function introTexture(narrow = false) {
   const W = narrow ? 760 : 1280, H = narrow ? 1000 : 840, P = narrow ? 56 : 86;
-  const c = document.createElement('canvas');
-  c.width = W; c.height = H;
-  const x = c.getContext('2d');
+  const sheet = surface(W, H);
+  const c = sheet.canvas, x = sheet.ctx;
   const hotspots = [];
   x.clearRect(0, 0, W, H);
   rr(x, 2, 2, W - 4, H - 4, 26);
@@ -365,9 +381,9 @@ export function introTexture(narrow = false) {
 /* ── inspector panel ────────────────────────────────────────────── */
 export function inspectorTexture(node, rels, narrow = false) {
   const W = narrow ? 760 : 980, P = narrow ? 48 : 62;
-  const raw = document.createElement('canvas');
-  raw.width = W; raw.height = 1600;
-  const x = raw.getContext('2d');
+  const S = ssOf(W, 720);
+  const scratch = surface(W, 1600, S);
+  const raw = scratch.canvas, x = scratch.ctx;
   const hotspots = [];
 
   x.beginPath(); x.arc(P + 5, 80, 6, 0, Math.PI * 2); x.fillStyle = COL[node.s]; x.fill();
@@ -426,21 +442,19 @@ export function inspectorTexture(node, rels, narrow = false) {
   }
 
   const H = Math.max(by + bh + (narrow ? 66 : 70), narrow ? 720 : 600);
-  const out = document.createElement('canvas');
-  out.width = W; out.height = H;
-  const o = out.getContext('2d');
+  const out = surface(W, H, S);
+  const o = out.ctx;
   shell(o, W, H, { fill: '#0a0908' });
-  o.drawImage(raw, 0, 0, W, H, 0, 0, W, H);
+  o.drawImage(raw, 0, 0, W * S, H * S, 0, 0, W, H);
 
-  return { canvas: out, hotspots, w: W, h: H };
+  return { canvas: out.canvas, hotspots, w: W, h: H };
 }
 
 /* ── station bar: 3D navigation under each chapter ─────────────── */
 export function barTexture({ current, label, narrow = false }) {
   const W = narrow ? 760 : 1500, H = narrow ? 280 : 270;
-  const c = document.createElement('canvas');
-  c.width = W; c.height = H;
-  const x = c.getContext('2d');
+  const sheet = surface(W, H);
+  const c = sheet.canvas, x = sheet.ctx;
   const hotspots = [];
   x.clearRect(0, 0, W, H);
   rr(x, 2, 2, W - 4, H - 4, 10);
