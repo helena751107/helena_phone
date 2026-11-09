@@ -172,13 +172,14 @@ export async function createGraph(container, data, opts = {}) {
 
   // ── 루프
   let last = performance.now(), frames = 0, fps = 0, ft = last, simT = 0;
-  /* 적응형 품질: 5초 워밍업 뒤에도 34fps를 못 넘기면 픽셀비를 0.5씩 내리고,
-     1배에서도 못 버티면 블룸을 끈다. 화질은 기본값이 최고, 느린 기기만 양보. */
+  /* 적응형 품질: 8초 워밍업 뒤에도 34fps를 못 넘기면 2배 → 1.5배 → 블룸 끔 →
+     1배 순서로만 양보한다. 화질이 기본값이고, 느린 기기만 한 단계씩 내려간다. */
   const bootAt = last; let fails = 0;
   function qStep() {
     const pr = renderer.getPixelRatio();
-    if (pr > 1.01) { renderer.setPixelRatio(Math.max(1, pr - 0.5)); size(); }
+    if (pr > 1.51) { renderer.setPixelRatio(1.5); size(); }
     else if (post) post = null;
+    else if (pr > 1.01) { renderer.setPixelRatio(1); size(); }
   }
   function frame() {
     const now = performance.now(), dt = Math.min(0.05, (now - last) / 1000); last = now;
@@ -189,7 +190,7 @@ export async function createGraph(container, data, opts = {}) {
     mirror(now);
     post ? post.render() : renderer.render(scene, camera);
     frames++; if (now - ft > 1000) { fps = Math.round((frames * 1000) / (now - ft)); frames = 0; ft = now;
-      if (now - bootAt > 5000) { fails = fps < 34 ? fails + 1 : 0; if (fails >= 2) { fails = 0; qStep(); } } }
+      if (now - bootAt > 8000) { fails = fps < 34 ? fails + 1 : 0; if (fails >= 3) { fails = 0; qStep(); } } }
   }
   const size = () => { renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth / innerHeight; camera.fov = camera.aspect < 0.85 ? 56 : 42; camera.updateProjectionMatrix(); G._offset && G._offset(); };
   addEventListener("resize", size); size();
